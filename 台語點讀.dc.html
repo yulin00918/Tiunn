@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+</helmet>
+<div style="font-family:'Noto Sans TC',sans-serif;background:linear-gradient(135deg, #ffd9a0 0%, #ffc2b0 20%, #f3b6d3 40%, #d6b8ec 60%, #b9d3f0 80%, #a9e3ec 100%);min-height:100vh;padding:40px;">
+  <div style="max-width:1000px;margin:0 auto;">
+    <a href="首頁.dc.html" style="display:inline-block;margin-bottom:20px;color:#8f2035;font-weight:700;text-decoration:none;">← 回首頁</a>
+    <h1 style="font-size:32px;font-weight:900;color:#8f2035;margin-bottom:8px;">📖 台語點讀</h1>
+    <p style="font-size:15px;color:#4a4540;margin-bottom:24px;">課文結合點讀功能,點擊文字即可聽真人或 AI 發音,隨點隨聽。</p>
+
+    <div style="display:flex;gap:10px;margin-bottom:20px;">
+      <sc-for list="{{tabs}}" as="tab" hint-placeholder-count="2">
+        <button style="{{tab.btnStyle}}" onClick="{{tab.onClick}}">{{tab.label}}</button>
+      </sc-for>
+    </div>
+
+    <sc-for list="{{tabs}}" as="tab" hint-placeholder-count="2">
+      <sc-if value="{{tab.active}}">
+        <div style="background:#ffffffcc;border-radius:16px;padding:28px;box-shadow:0 4px 14px rgba(0,0,0,0.08);">
+          <h3 style="font-size:18px;font-weight:700;color:#8f2035;margin-bottom:14px;">{{tab.label}}</h3>
+          <div style="border:2px dashed #8f203555;border-radius:12px;padding:40px;text-align:center;background:repeating-linear-gradient(45deg, #fbdbe055, #fbdbe055 10px, #fff0 10px, #fff0 20px);">
+            <p style="font-family:monospace;font-size:13px;color:#8a4a52;">{{tab.placeholder}}</p>
+          </div>
+        </div>
+      </sc-if>
+    </sc-for>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { activeTab: 0 };
+  renderVals() {
+    const data = [
+      { label: '課文一', placeholder: '在此貼上課文一點讀內容與音檔' },
+      { label: '課文二', placeholder: '在此貼上課文二點讀內容與音檔' },
+    ];
+    const tabs = data.map((d, i) => {
+      const active = i === this.state.activeTab;
+      return {
+        ...d,
+        active,
+        onClick: () => this.setState({ activeTab: i }),
+        btnStyle: `padding:10px 20px;border-radius:12px;border:none;font-weight:700;font-size:14px;cursor:pointer;background:${active ? '#8f2035' : '#ffffffaa'};color:${active ? '#fff' : '#8f2035'};`,
+      };
+    });
+    return { tabs };
+  }
+}
+
+</script>
+</body>
+</html>

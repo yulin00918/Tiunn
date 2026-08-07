@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  @keyframes ct-pulse { from{transform:scale(1);} to{transform:scale(1.03);} }
+  .ct-time-red{animation:ct-pulse .8s infinite alternate;}
+  .ct-toast.show{opacity:1 !important;transform:translateX(-50%) translateY(0) !important;}
+  .ct-input{box-sizing:border-box;}
+</style>
+</helmet>
+<div style="font-family:'Noto Sans TC',sans-serif;color:#26304a;min-height:100vh;padding:20px;transition:background .35s ease;background:{{bodyBg}};">
+  <div style="width:min(1180px,100%);margin:0 auto;">
+
+    <sc-if value="{{!isFullscreen}}">
+      <header style="text-align:center;margin-bottom:18px;">
+        <h1 style="margin:0 0 6px;font-size:clamp(30px,5vw,48px);">⏳ 自由設定倒數計時器</h1>
+        <p style="margin:0;color:#6f7890;">自訂倒數時間與顏色提醒門檻,適合課堂投影使用。</p>
+      </header>
+    </sc-if>
+
+    <div style="display:{{layoutDisplay}};grid-template-columns:360px 1fr;gap:18px;align-items:start;">
+
+      <sc-if value="{{!isFullscreen}}">
+        <aside style="background:rgba(255,255,255,.94);border:1px solid rgba(255,255,255,.9);border-radius:24px;box-shadow:0 18px 45px rgba(66,77,140,.16);backdrop-filter:blur(12px);padding:18px;">
+          <label style="display:block;font-weight:800;margin:14px 0 7px;">活動名稱</label>
+          <input class="ct-input" value="{{activityName}}" onChange="{{onActivityNameChange}}" placeholder="例如：個人思考、小組討論" style="width:100%;padding:11px 12px;border:1px solid #dfe4f2;border-radius:12px;background:#fff;font:inherit;color:#26304a;outline:none;">
+
+          <label style="display:block;font-weight:800;margin:14px 0 7px;">快速設定</label>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px;">
+            <sc-for list="{{quickMinutes}}" as="q" hint-placeholder-count="8">
+              <button style="border:0;border-radius:12px;padding:11px 12px;font:inherit;font-weight:800;cursor:pointer;background:#eef0ff;color:#4650cc;" onClick="{{q.onClick}}">{{q.label}}</button>
+            </sc-for>
+          </div>
+
+          <label style="display:block;font-weight:800;margin:14px 0 7px;">自由設定時間</label>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <input class="ct-input" type="number" min="0" max="999" value="{{minutes}}" onChange="{{onMinutesChange}}" placeholder="分鐘" style="width:100%;padding:11px 12px;border:1px solid #dfe4f2;border-radius:12px;background:#fff;font:inherit;color:#26304a;outline:none;">
+            <input class="ct-input" type="number" min="0" max="59" value="{{seconds}}" onChange="{{onSecondsChange}}" placeholder="秒數" style="width:100%;padding:11px 12px;border:1px solid #dfe4f2;border-radius:12px;background:#fff;font:inherit;color:#26304a;outline:none;">
+          </div>
+
+          <label style="display:block;font-weight:800;margin:14px 0 7px;">顏色提醒門檻(剩餘分鐘)</label>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <div>
+              <input class="ct-input" type="number" min="0" value="{{yellowAt}}" onChange="{{onYellowAtChange}}" style="width:100%;padding:11px 12px;border:1px solid #dfe4f2;border-radius:12px;background:#fff;font:inherit;color:#26304a;outline:none;">
+              <small style="color:#6f7890;">黃色提醒</small>
+            </div>
+            <div>
+              <input class="ct-input" type="number" min="0" value="{{orangeAt}}" onChange="{{onOrangeAtChange}}" style="width:100%;padding:11px 12px;border:1px solid #dfe4f2;border-radius:12px;background:#fff;font:inherit;color:#26304a;outline:none;">
+              <small style="color:#6f7890;">橘色提醒</small>
+            </div>
+            <div>
+              <input class="ct-input" type="number" min="0" value="{{redAt}}" onChange="{{onRedAtChange}}" style="width:100%;padding:11px 12px;border:1px solid #dfe4f2;border-radius:12px;background:#fff;font:inherit;color:#26304a;outline:none;">
+              <small style="color:#6f7890;">紅色提醒</small>
+            </div>
+            <div>
+              <input class="ct-input" type="number" min="0" max="59" value="{{finalSeconds}}" onChange="{{onFinalSecondsChange}}" style="width:100%;padding:11px 12px;border:1px solid #dfe4f2;border-radius:12px;background:#fff;font:inherit;color:#26304a;outline:none;">
+              <small style="color:#6f7890;">最後幾秒跳動</small>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px;">
+            <button style="grid-column:1 / -1;border:0;border-radius:12px;padding:11px 12px;font:inherit;font-weight:800;cursor:pointer;background:linear-gradient(135deg, #5b67f1, #7f86ff);color:#fff;" onClick="{{startTimer}}">▶ 開始</button>
+            <button style="border:0;border-radius:12px;padding:11px 12px;font:inherit;font-weight:800;cursor:pointer;background:#fff0df;color:#b36b18;" onClick="{{pauseTimer}}">⏸ 暫停</button>
+            <button style="border:0;border-radius:12px;padding:11px 12px;font:inherit;font-weight:800;cursor:pointer;background:#ffe8eb;color:#eb5757;" onClick="{{resetTimer}}">↺ 重設</button>
+            <button style="border:0;border-radius:12px;padding:11px 12px;font:inherit;font-weight:800;cursor:pointer;background:#eef0ff;color:#4650cc;" onClick="{{plus30}}">＋30 秒</button>
+            <button style="border:0;border-radius:12px;padding:11px 12px;font:inherit;font-weight:800;cursor:pointer;background:#eef0ff;color:#4650cc;" onClick="{{minus30}}">－30 秒</button>
+            <button style="grid-column:1 / -1;border:0;border-radius:12px;padding:11px 12px;font:inherit;font-weight:800;cursor:pointer;background:#eef0ff;color:#4650cc;" onClick="{{toggleFullscreen}}">⛶ 全螢幕投影</button>
+          </div>
+
+          <p style="margin-top:12px;color:#6f7890;font-size:13px;line-height:1.7;">顏色會依序變成黃色、橘色、紅色;「最後幾秒跳動」可自行設定。時間到會播放提示音。</p>
+        </aside>
+      </sc-if>
+
+      <section style="background:{{isFullscreen ? '#fff' : 'rgba(255,255,255,.94)'}};border:1px solid rgba(255,255,255,.9);border-radius:{{isFullscreen ? '0' : '24px'}};box-shadow:{{isFullscreen ? 'none' : '0 18px 45px rgba(66,77,140,.16)'}};backdrop-filter:blur(12px);min-height:{{displayMinHeight}};padding:24px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative;overflow:hidden;">
+        <div style="font-size:clamp(24px,4vw,42px);font-weight:900;margin-bottom:10px;">{{activityDisplay}}</div>
+        <div style="font-size:18px;font-weight:800;color:#6f7890;min-height:26px;">{{statusText}}</div>
+        <div class="{{timeClass}}" style="font-size:clamp(96px,18vw,220px);line-height:.95;font-weight:1000;letter-spacing:-.05em;margin:22px 0 28px;color:{{timeColor}};font-variant-numeric:tabular-nums;transition:color .3s, transform .3s;">{{timeText}}</div>
+        <div style="width:min(820px,90%);height:18px;background:#edf0f7;border-radius:999px;overflow:hidden;border:1px solid #dfe4f2;">
+          <div style="height:100%;width:{{percent}}%;background:{{barBg}};transition:width .3s linear, background .3s;"></div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:18px;">
+          <span style="background:#f7f8fc;border:1px solid #dfe4f2;border-radius:999px;padding:8px 12px;color:#6f7890;font-size:14px;">{{stateChipText}}</span>
+          <span style="background:#f7f8fc;border:1px solid #dfe4f2;border-radius:999px;padding:8px 12px;color:#6f7890;font-size:14px;">剩餘 {{percentDisplay}}%</span>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <div class="ct-toast" style="{{toastStyle}}">{{toastMessage}}</div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+function formatTime(seconds) {
+  const minutes = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+}
+const QUICK_MINUTES = [1, 3, 5, 10, 15, 20, 30, 60];
+const BODY_BG = {
+  normal: 'linear-gradient(135deg, #f2ecff, #faf5ff)',
+  yellow: 'linear-gradient(135deg, #fff9db, #fff1bd)',
+  orange: 'linear-gradient(135deg, #ffe7cf, #ffd3a7)',
+  red: 'linear-gradient(135deg, #ffe2e2, #ffc7c7)',
+};
+
+class Component extends DCLogic {
+  state = {
+    activityName: '小組討論', minutes: 10, seconds: 0,
+    yellowAt: 5, orangeAt: 2, redAt: 1, finalSeconds: 10,
+    totalSeconds: 600, remainingSeconds: 600, running: false, status: '準備開始',
+    isFullscreen: false, toastMessage: '', toastVisible: false,
+  };
+  intervalId = null;
+  toastTimer = null;
+
+  componentWillUnmount() { clearInterval(this.intervalId); }
+
+  showToast(msg) {
+    clearTimeout(this.toastTimer);
+    this.setState({ toastMessage: msg, toastVisible: true });
+    this.toastTimer = setTimeout(() => this.setState({ toastVisible: false }), 1700);
+  }
+
+  syncFromInputs(overrides = {}) {
+    const mins = Math.max(0, Number(overrides.minutes ?? this.state.minutes) || 0);
+    const secs = Math.max(0, Math.min(59, Number(overrides.seconds ?? this.state.seconds) || 0));
+    const total = mins * 60 + secs;
+    clearInterval(this.intervalId);
+    this.setState({ ...overrides, totalSeconds: total, remainingSeconds: total, running: false, status: '準備開始' });
+  }
+
+  setMinutes(value) { this.syncFromInputs({ minutes: value, seconds: 0 }); }
+
+  getColorState() {
+    const { remainingSeconds, yellowAt, orangeAt, redAt, finalSeconds } = this.state;
+    const yellowSeconds = Math.max(0, Number(yellowAt) || 0) * 60;
+    const orangeSeconds = Math.max(0, Number(orangeAt) || 0) * 60;
+    const redSeconds = Math.max(0, Number(redAt) || 0) * 60;
+    const final = Math.max(0, Number(finalSeconds) || 0);
+    if (remainingSeconds <= redSeconds) return remainingSeconds <= final ? 'red-final' : 'red';
+    if (remainingSeconds <= orangeSeconds) return 'orange';
+    if (remainingSeconds <= yellowSeconds) return 'yellow';
+    return 'normal';
+  }
+
+  startTimer() {
+    if (this.state.running) return;
+    if (this.state.remainingSeconds <= 0) this.syncFromInputs();
+    if (this.state.remainingSeconds <= 0) { this.showToast('請先設定倒數時間'); return; }
+    this.setState({ running: true, status: '倒數中' });
+    this.intervalId = setInterval(() => {
+      const remaining = this.state.remainingSeconds - 1;
+      if (remaining <= 0) {
+        clearInterval(this.intervalId);
+        this.setState({ remainingSeconds: 0, running: false, status: '時間到！' });
+        this.playSound();
+        this.showToast('時間到！');
+      } else {
+        this.setState({ remainingSeconds: remaining });
+      }
+    }, 1000);
+  }
+
+  pauseTimer() { clearInterval(this.intervalId); this.setState({ running: false, status: '已暫停' }); }
+  resetTimer() { clearInterval(this.intervalId); this.syncFromInputs(); }
+  changeTime(amount) {
+    const remaining = Math.max(0, this.state.remainingSeconds + amount);
+    this.setState({ remainingSeconds: remaining, totalSeconds: Math.max(this.state.totalSeconds, remaining) });
+  }
+
+  playSound() {
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = ctx.createOscillator(), gain = ctx.createGain();
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.frequency.setValueAtTime(880, ctx.currentTime);
+      osc.frequency.setValueAtTime(660, ctx.currentTime + 0.25);
+      osc.frequency.setValueAtTime(880, ctx.currentTime + 0.5);
+      gain.gain.setValueAtTime(0.22, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1);
+      osc.start(); osc.stop(ctx.currentTime + 1);
+    } catch (e) {}
+  }
+
+  toggleFullscreen() {
+    const next = !this.state.isFullscreen;
+    this.setState({ isFullscreen: next });
+    if (next && document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(() => {});
+    else if (!next && document.fullscreenElement) document.exitFullscreen().catch(() => {});
+  }
+
+  renderVals() {
+    const s = this.state;
+    const colorState = this.getColorState();
+    const bgKey = colorState === 'red-final' ? 'red' : colorState;
+    const percent = s.totalSeconds > 0 ? Math.max(0, Math.min(100, s.remainingSeconds / s.totalSeconds * 100)) : 0;
+
+    let timeColor = '#5b67f1', barBg = 'linear-gradient(90deg, #5b67f1, #7f86ff)', timeClass = '', stateChipText = '一般倒數';
+    if (colorState === 'yellow') { timeColor = '#c89500'; barBg = 'linear-gradient(90deg, #f2c94c, #e5b800)'; stateChipText = '黃色提醒'; }
+    else if (colorState === 'orange') { timeColor = '#dc7415'; barBg = 'linear-gradient(90deg, #f2994a, #dc7415)'; stateChipText = '橘色提醒'; }
+    else if (colorState === 'red' || colorState === 'red-final') { timeColor = '#eb5757'; barBg = 'linear-gradient(90deg, #eb5757, #c93d3d)'; timeClass = 'ct-time-red'; stateChipText = colorState === 'red-final' ? '最後倒數' : '紅色提醒'; }
+    if (s.status === '時間到！') stateChipText = '時間到';
+
+    return {
+      bodyBg: BODY_BG[bgKey] || BODY_BG.normal,
+      isFullscreen: s.isFullscreen, layoutDisplay: s.isFullscreen ? 'block' : 'grid',
+      activityName: s.activityName, onActivityNameChange: (e) => this.setState({ activityName: e.target.value }),
+      quickMinutes: QUICK_MINUTES.map(m => ({ label: `${m} 分`, onClick: () => this.setMinutes(m) })),
+      minutes: s.minutes, onMinutesChange: (e) => this.syncFromInputs({ minutes: e.target.value }),
+      seconds: s.seconds, onSecondsChange: (e) => this.syncFromInputs({ seconds: e.target.value }),
+      yellowAt: s.yellowAt, onYellowAtChange: (e) => this.setState({ yellowAt: e.target.value }),
+      orangeAt: s.orangeAt, onOrangeAtChange: (e) => this.setState({ orangeAt: e.target.value }),
+      redAt: s.redAt, onRedAtChange: (e) => this.setState({ redAt: e.target.value }),
+      finalSeconds: s.finalSeconds, onFinalSecondsChange: (e) => this.setState({ finalSeconds: e.target.value }),
+      startTimer: () => this.startTimer(), pauseTimer: () => this.pauseTimer(), resetTimer: () => this.resetTimer(),
+      plus30: () => this.changeTime(30), minus30: () => this.changeTime(-30),
+      toggleFullscreen: () => this.toggleFullscreen(),
+      displayMinHeight: s.isFullscreen ? 'calc(100vh - 40px)' : '600px',
+      activityDisplay: s.activityName.trim() || '課堂活動',
+      statusText: s.status, timeText: formatTime(Math.max(0, s.remainingSeconds)),
+      timeClass, timeColor, barBg, percent, percentDisplay: Math.ceil(percent), stateChipText,
+      toastMessage: s.toastMessage,
+      toastStyle: `position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(${s.toastVisible ? '0' : '20px'});background:#232a3f;color:#fff;padding:10px 16px;border-radius:999px;opacity:${s.toastVisible ? 1 : 0};pointer-events:none;transition:.25s;z-index:20;`,
+    };
+  }
+}
+
+</script>
+</body>
+</html>

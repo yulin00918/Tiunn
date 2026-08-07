@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  .sg-toast.show{opacity:1 !important;transform:translateX(-50%) translateY(0) !important;}
+  .sg-input{box-sizing:border-box;}
+  .sg-seat{cursor:grab;user-select:none;}
+  .sg-seat:active{cursor:grabbing;}
+  .sg-group-head{cursor:grab;}
+  .sg-group-head:active{cursor:grabbing;}
+</style>
+</helmet>
+<div style="font-family:'Noto Sans TC',sans-serif;color:#26304a;background:radial-gradient(circle at 10% 10%, rgba(255,255,255,.95), transparent 28%),radial-gradient(circle at 90% 15%, rgba(255,222,190,.85), transparent 30%),linear-gradient(135deg, #eef2ff, #fff4e8);min-height:100vh;padding:20px;">
+  <div style="width:min(1500px,100%);margin:0 auto;">
+
+    <header style="text-align:center;margin-bottom:18px;">
+      <h1 style="margin:0 0 6px;font-size:clamp(30px,5vw,48px);">🪑 分組座位圖產生器</h1>
+      <p style="margin:0;color:#6f7890;">自動安排各組位置,學生與整組都可以拖曳調整。</p>
+    </header>
+
+    <div style="display:flex;flex-direction:column;gap:18px;">
+
+      <aside style="background:rgba(255,255,255,.95);border:1px solid rgba(255,255,255,.9);border-radius:24px;box-shadow:0 18px 45px rgba(66,77,140,.16);backdrop-filter:blur(12px);padding:18px;">
+        <label style="display:block;font-weight:800;margin:14px 0 7px;">班級名稱</label>
+        <input class="sg-input" value="{{className}}" onChange="{{onClassNameChange}}" placeholder="例如：九年一班" style="width:100%;padding:11px 12px;border:1px solid #dfe4f2;border-radius:12px;background:#fff;font:inherit;color:#26304a;outline:none;">
+
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
+          <div>
+            <label style="display:block;font-weight:800;margin:14px 0 7px;">小組數量</label>
+            <input class="sg-input" type="number" min="1" max="12" value="{{groupCount}}" onChange="{{onGroupCountChange}}" style="width:100%;padding:11px 12px;border:1px solid #dfe4f2;border-radius:12px;background:#fff;font:inherit;color:#26304a;outline:none;">
+          </div>
+          <div>
+            <label style="display:block;font-weight:800;margin:14px 0 7px;">每組人數</label>
+            <input class="sg-input" type="number" min="1" max="10" value="{{groupSize}}" onChange="{{onGroupSizeChange}}" style="width:100%;padding:11px 12px;border:1px solid #dfe4f2;border-radius:12px;background:#fff;font:inherit;color:#26304a;outline:none;">
+          </div>
+          <div>
+            <label style="display:block;font-weight:800;margin:14px 0 7px;">每列幾組</label>
+            <input class="sg-input" type="number" min="1" max="6" value="{{columns}}" onChange="{{onColumnsChange}}" style="width:100%;padding:11px 12px;border:1px solid #dfe4f2;border-radius:12px;background:#fff;font:inherit;color:#26304a;outline:none;">
+          </div>
+          <div>
+            <label style="display:block;font-weight:800;margin:14px 0 7px;">組內座位欄數</label>
+            <input class="sg-input" type="number" min="1" max="4" value="{{seatColumns}}" onChange="{{onSeatColumnsChange}}" style="width:100%;padding:11px 12px;border:1px solid #dfe4f2;border-radius:12px;background:#fff;font:inherit;color:#26304a;outline:none;">
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <div>
+            <label style="display:block;font-weight:800;margin:14px 0 7px;">學生名單</label>
+            <textarea class="sg-input" placeholder="請一行輸入一個座號，例如：&#10;1&#10;2&#10;3" value="{{namesText}}" onChange="{{onNamesTextChange}}" style="width:100%;min-height:90px;resize:vertical;line-height:1.7;padding:11px 12px;border:1px solid #dfe4f2;border-radius:12px;background:#fff;font:inherit;color:#26304a;outline:none;"></textarea>
+          </div>
+          <div>
+            <label style="display:block;font-weight:800;margin:14px 0 7px;">組別名稱(可選)</label>
+            <textarea class="sg-input" placeholder="一行一個組名，例如：&#10;第一組&#10;第二組" value="{{groupNamesText}}" onChange="{{onGroupNamesTextChange}}" style="width:100%;min-height:90px;resize:vertical;line-height:1.7;padding:11px 12px;border:1px solid #dfe4f2;border-radius:12px;background:#fff;font:inherit;color:#26304a;outline:none;"></textarea>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px;">
+          <button style="grid-column:1 / -1;border:0;border-radius:12px;padding:11px 12px;font:inherit;font-weight:800;cursor:pointer;background:linear-gradient(135deg, #5b67f1, #7f86ff);color:#fff;" onClick="{{generateBoard}}">✨ 產生座位圖</button>
+          <button style="border:0;border-radius:12px;padding:11px 12px;font:inherit;font-weight:800;cursor:pointer;background:#eef0ff;color:#4650cc;" onClick="{{shuffleStudents}}">🔀 打亂學生</button>
+          <button style="border:0;border-radius:12px;padding:11px 12px;font:inherit;font-weight:800;cursor:pointer;background:#e6f7ef;color:#2da66f;" onClick="{{saveConfig}}">💾 儲存配置</button>
+          <button style="border:0;border-radius:12px;padding:11px 12px;font:inherit;font-weight:800;cursor:pointer;background:#eef0ff;color:#4650cc;" onClick="{{loadConfig}}">📂 載入配置</button>
+          <button style="grid-column:1 / -1;border:0;border-radius:12px;padding:11px 12px;font:inherit;font-weight:800;cursor:pointer;background:#ffe8eb;color:#e45d68;" onClick="{{clearAll}}">🗑️ 清除</button>
+        </div>
+
+        <p style="margin-top:10px;color:#6f7890;font-size:13px;line-height:1.7;">可拖曳學生交換位置,也可以拖曳組別標題來交換整組位置。名單不足時會顯示空位。</p>
+      </aside>
+
+      <section style="background:rgba(255,255,255,.95);border:1px solid rgba(255,255,255,.9);border-radius:24px;box-shadow:0 18px 45px rgba(66,77,140,.16);backdrop-filter:blur(12px);padding:18px;min-height:700px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px;">
+          <h2 style="margin:0;">{{boardTitle}}</h2>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <span style="background:#f7f8fc;border:1px solid #dfe4f2;border-radius:999px;padding:7px 11px;color:#6f7890;font-size:14px;">共 <strong>{{groupTotal}}</strong> 組</span>
+            <span style="background:#f7f8fc;border:1px solid #dfe4f2;border-radius:999px;padding:7px 11px;color:#6f7890;font-size:14px;">共 <strong>{{studentTotal}}</strong> 人</span>
+          </div>
+        </div>
+
+        <div style="background:#fbfcff;border:2px dashed #cfd5e8;border-radius:20px;padding:20px;min-height:620px;overflow:auto;">
+          <div style="width:min(520px,85%);margin:0 auto 28px;text-align:center;background:#2f3858;color:#fff;padding:12px 18px;border-radius:12px;font-weight:900;letter-spacing:.08em;">黑板／講台</div>
+
+          <sc-if value="{{hasGroups}}">
+            <div style="display:grid;gap:18px;align-items:start;grid-template-columns:repeat({{columns}},minmax(180px,1fr));">
+              <sc-for list="{{groups}}" as="g" hint-placeholder-count="0">
+                <article draggable="true" onDragStart="{{g.onGroupDragStart}}" onDragEnd="{{g.onGroupDragEnd}}" onDragOver="{{g.onGroupDragOver}}" onDrop="{{g.onGroupDrop}}" style="border-radius:18px;padding:12px;background:#fff;border:2px solid {{g.color}};box-shadow:0 10px 24px rgba(70,80,140,.08);min-width:210px;opacity:{{g.opacity}};">
+                  <div class="sg-group-head" style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+                    <span style="font-size:20px;color:#6f7890;">⠿</span>
+                    <input class="sg-input" value="{{g.name}}" onChange="{{g.onNameChange}}" style="font-weight:900;font-size:17px;background:#f8f9ff;flex:1;padding:8px 10px;border:1px solid #dfe4f2;border-radius:10px;font-family:inherit;color:#26304a;outline:none;">
+                  </div>
+                  <div style="display:grid;gap:8px;grid-template-columns:repeat({{seatColumns}},minmax(82px,1fr));">
+                    <sc-for list="{{g.seats}}" as="seat" hint-placeholder-count="4">
+                      <div class="sg-seat" draggable="true" onDragStart="{{seat.onDragStart}}" onDragEnd="{{seat.onDragEnd}}" onDragOver="{{seat.onDragOver}}" onDrop="{{seat.onDrop}}" style="min-height:58px;background:#f9fbff;border:1px solid #e5e9f5;border-radius:12px;padding:8px;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:800;opacity:{{seat.opacity}};outline:{{seat.outline}};color:{{seat.color}};">{{seat.label}}</div>
+                    </sc-for>
+                  </div>
+                </article>
+              </sc-for>
+            </div>
+          </sc-if>
+          <sc-if value="{{!hasGroups}}">
+            <div style="text-align:center;color:#8a92a5;padding:80px 20px;">請先輸入設定並產生座位圖。</div>
+          </sc-if>
+
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;justify-content:center;">
+            <sc-for list="{{legendItems}}" as="l" hint-placeholder-count="0">
+              <div style="display:flex;align-items:center;gap:6px;font-size:13px;color:#6f7890;">
+                <span style="width:12px;height:12px;border-radius:50%;background:{{l.color}};display:inline-block;"></span>
+                <span>{{l.name}}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <div class="sg-toast" style="{{toastStyle}}">{{toastMessage}}</div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const COLORS = ['#5b67f1','#f2994a','#2da66f','#d881d8','#55b5d9','#f06f8a','#9b70e8','#7cc76c','#ffb84d','#4db6ac','#6e7ff3','#e27d60'];
+function parseLines(value) { return (value || '').split(/\n|,|，/).map(v => v.trim()).filter(Boolean); }
+function shuffle(arr) {
+  const copy = [...arr];
+  for (let i = copy.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [copy[i], copy[j]] = [copy[j], copy[i]]; }
+  return copy;
+}
+
+class Component extends DCLogic {
+  state = {
+    className: '九年一班', groupCount: 6, groupSize: 4, columns: 3, seatColumns: 2,
+    namesText: '', groupNamesText: '', groups: [],
+    draggedSeat: null, draggedGroup: null,
+    toastMessage: '', toastVisible: false,
+  };
+  toastTimer = null;
+
+  componentDidMount() { this.loadConfig(true); }
+
+  showToast(msg) {
+    clearTimeout(this.toastTimer);
+    this.setState({ toastMessage: msg, toastVisible: true });
+    this.toastTimer = setTimeout(() => this.setState({ toastVisible: false }), 1700);
+  }
+
+  generateBoard(useShuffle) {
+    const groupCount = Math.max(1, Math.min(12, Number(this.state.groupCount) || 1));
+    const groupSize = Math.max(1, Math.min(10, Number(this.state.groupSize) || 1));
+    let students = parseLines(this.state.namesText);
+    if (useShuffle) students = shuffle(students);
+    const customNames = parseLines(this.state.groupNamesText);
+    const groups = Array.from({ length: groupCount }, (_, i) => ({
+      name: customNames[i] || `第 ${i + 1} 組`,
+      color: COLORS[i % COLORS.length],
+      seats: Array.from({ length: groupSize }, (_, si) => students[i * groupSize + si] || ''),
+    }));
+    this.setState({ groups }, () => { this.autoSave(); this.showToast('座位圖已產生'); });
+  }
+
+  updateGroupName(index, value) {
+    const groups = [...this.state.groups];
+    groups[index] = { ...groups[index], name: value.trim() || `第 ${index + 1} 組` };
+    this.setState({ groups }, () => this.autoSave());
+  }
+
+  onSeatDragStart(gIndex, sIndex) { this.setState({ draggedSeat: { group: gIndex, seat: sIndex } }); }
+  onSeatDrop(gIndex, sIndex) {
+    const { draggedSeat } = this.state;
+    if (!draggedSeat) return;
+    const groups = this.state.groups.map(g => ({ ...g, seats: [...g.seats] }));
+    const a = groups[draggedSeat.group].seats[draggedSeat.seat];
+    const b = groups[gIndex].seats[sIndex];
+    groups[draggedSeat.group].seats[draggedSeat.seat] = b;
+    groups[gIndex].seats[sIndex] = a;
+    this.setState({ groups, draggedSeat: null }, () => this.autoSave());
+  }
+
+  onGroupDragStart(index) { this.setState({ draggedGroup: index }); }
+  onGroupDrop(index) {
+    const { draggedGroup, draggedSeat } = this.state;
+    if (draggedSeat !== null) return;
+    if (draggedGroup === null || draggedGroup === index) return;
+    const groups = [...this.state.groups];
+    [groups[draggedGroup], groups[index]] = [groups[index], groups[draggedGroup]];
+    this.setState({ groups, draggedGroup: null }, () => this.autoSave());
+  }
+
+  shuffleStudents() {
+    if (!this.state.groups.length) { this.generateBoard(true); return; }
+    const all = shuffle(this.state.groups.flatMap(g => g.seats).filter(Boolean));
+    let cursor = 0;
+    const groups = this.state.groups.map(g => ({ ...g, seats: g.seats.map(() => all[cursor++] || '') }));
+    this.setState({ groups }, () => { this.autoSave(); this.showToast('學生座位已重新打亂'); });
+  }
+
+  saveConfig() { this.autoSave(); this.showToast('配置已儲存'); }
+  autoSave() {
+    const { className, groupCount, groupSize, columns, seatColumns, namesText, groupNamesText, groups } = this.state;
+    localStorage.setItem('groupSeatingChart', JSON.stringify({ className, groupCount, groupSize, columns, seatColumns, namesText, groupNamesText, groups }));
+  }
+  loadConfig(silent) {
+    try {
+      const raw = localStorage.getItem('groupSeatingChart');
+      if (!raw) { if (!silent) this.showToast('目前沒有已儲存的配置'); return; }
+      const data = JSON.parse(raw);
+      this.setState({
+        className: data.className || '', groupCount: data.groupCount || 6, groupSize: data.groupSize || 4,
+        columns: data.columns || 3, seatColumns: data.seatColumns || 2,
+        namesText: data.namesText || '', groupNamesText: data.groupNamesText || '', groups: data.groups || [],
+      }, () => { if (!silent) this.showToast('配置已載入'); });
+    } catch { if (!silent) this.showToast('載入配置失敗'); }
+  }
+  clearAll() { this.setState({ groups: [], namesText: '', groupNamesText: '' }, () => { this.autoSave(); this.showToast('畫面已清除'); }); }
+
+  renderVals() {
+    const s = this.state;
+    const groups = s.groups.map((g, gi) => ({
+      name: g.name, color: g.color,
+      opacity: s.draggedGroup === gi ? 0.45 : 1,
+      onNameChange: (e) => this.updateGroupName(gi, e.target.value),
+      onGroupDragStart: (e) => { if (e.target.classList.contains('sg-seat')) { e.stopPropagation(); return; } this.onGroupDragStart(gi); },
+      onGroupDragEnd: () => this.setState({ draggedGroup: null }),
+      onGroupDragOver: (e) => { if (s.draggedSeat !== null) return; e.preventDefault(); },
+      onGroupDrop: (e) => { if (s.draggedSeat !== null) return; e.preventDefault(); this.onGroupDrop(gi); },
+      seats: g.seats.map((student, si) => ({
+        label: student || '空位',
+        color: student ? '#26304a' : '#b7bdcc',
+        opacity: (s.draggedSeat && s.draggedSeat.group === gi && s.draggedSeat.seat === si) ? 0.4 : 1,
+        outline: 'none',
+        onDragStart: (e) => { e.stopPropagation(); this.onSeatDragStart(gi, si); },
+        onDragEnd: () => this.setState({ draggedSeat: null }),
+        onDragOver: (e) => { e.preventDefault(); e.stopPropagation(); },
+        onDrop: (e) => { e.preventDefault(); e.stopPropagation(); this.onSeatDrop(gi, si); },
+      })),
+    }));
+    const studentTotal = s.groups.flatMap(g => g.seats).filter(Boolean).length;
+
+    return {
+      className: s.className, onClassNameChange: (e) => this.setState({ className: e.target.value }, () => this.autoSave()),
+      groupCount: s.groupCount, onGroupCountChange: (e) => this.setState({ groupCount: e.target.value }),
+      groupSize: s.groupSize, onGroupSizeChange: (e) => this.setState({ groupSize: e.target.value }),
+      columns: s.columns, onColumnsChange: (e) => this.setState({ columns: e.target.value }),
+      seatColumns: s.seatColumns, onSeatColumnsChange: (e) => this.setState({ seatColumns: e.target.value }),
+      namesText: s.namesText, onNamesTextChange: (e) => this.setState({ namesText: e.target.value }),
+      groupNamesText: s.groupNamesText, onGroupNamesTextChange: (e) => this.setState({ groupNamesText: e.target.value }),
+      generateBoard: () => this.generateBoard(false), shuffleStudents: () => this.shuffleStudents(),
+      saveConfig: () => this.saveConfig(), loadConfig: () => this.loadConfig(false), clearAll: () => this.clearAll(),
+      boardTitle: `${s.className.trim() || '班級'}｜分組座位圖`,
+      groupTotal: s.groups.length, studentTotal,
+      hasGroups: groups.length > 0, groups,
+      legendItems: s.groups.map(g => ({ name: g.name, color: g.color })),
+      toastMessage: s.toastMessage,
+      toastStyle: `position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(${s.toastVisible ? '0' : '20px'});background:#232a3f;color:#fff;padding:10px 16px;border-radius:999px;opacity:${s.toastVisible ? 1 : 0};pointer-events:none;transition:.25s;z-index:20;`,
+    };
+  }
+}
+
+</script>
+</body>
+</html>

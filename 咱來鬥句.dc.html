@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+</helmet>
+<div style="font-family:'Noto Sans TC',sans-serif;background:linear-gradient(135deg, #ffd9a0 0%, #ffc2b0 20%, #f3b6d3 40%, #d6b8ec 60%, #b9d3f0 80%, #a9e3ec 100%);min-height:100vh;padding:40px;">
+  <div style="max-width:1000px;margin:0 auto;">
+    <a href="首頁.dc.html" style="display:inline-block;margin-bottom:20px;color:#7a3fc4;font-weight:700;text-decoration:none;">← 回首頁</a>
+    <h1 style="font-size:32px;font-weight:900;color:#7a3fc4;margin-bottom:8px;">🧩 咱來鬥句</h1>
+    <p style="font-size:15px;color:#4a4540;margin-bottom:24px;">將打散的例句重新排列,組成正確完整的句子,熟悉句型結構。</p>
+
+    <div style="display:flex;gap:10px;margin-bottom:20px;">
+      <sc-for list="{{tabs}}" as="tab" hint-placeholder-count="2">
+        <button style="{{tab.btnStyle}}" onClick="{{tab.onClick}}">{{tab.label}}</button>
+      </sc-for>
+    </div>
+
+    <sc-for list="{{tabs}}" as="tab" hint-placeholder-count="2">
+      <sc-if value="{{tab.active}}">
+        <div style="background:#ffffffcc;border-radius:16px;padding:28px;box-shadow:0 4px 14px rgba(0,0,0,0.08);">
+          <h3 style="font-size:18px;font-weight:700;color:#7a3fc4;margin-bottom:14px;">{{tab.label}}</h3>
+          <div style="border:2px dashed #7a3fc455;border-radius:12px;padding:40px;text-align:center;background:repeating-linear-gradient(45deg, #e9e2f755, #e9e2f755 10px, #fff0 10px, #fff0 20px);">
+            <p style="font-family:monospace;font-size:13px;color:#5a4a7a;">{{tab.placeholder}}</p>
+          </div>
+        </div>
+      </sc-if>
+    </sc-for>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { activeTab: 0 };
+  renderVals() {
+    const data = [
+      { label: '練習一', placeholder: '在此貼上鬥句練習一內容' },
+      { label: '練習二', placeholder: '在此貼上鬥句練習二內容' },
+    ];
+    const tabs = data.map((d, i) => {
+      const active = i === this.state.activeTab;
+      return {
+        ...d,
+        active,
+        onClick: () => this.setState({ activeTab: i }),
+        btnStyle: `padding:10px 20px;border-radius:12px;border:none;font-weight:700;font-size:14px;cursor:pointer;background:${active ? '#7a3fc4' : '#ffffffaa'};color:${active ? '#fff' : '#7a3fc4'};`,
+      };
+    });
+    return { tabs };
+  }
+}
+
+</script>
+</body>
+</html>

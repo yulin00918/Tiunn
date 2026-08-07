@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style> .shj-btn:disabled{cursor:not-allowed;} </style>
+</helmet>
+<div style="font-family:'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif;">
+
+  <sc-if value="{{screenSetup}}">
+    <div style="background:#fdf6ec;border-radius:24px;padding:32px 30px;box-shadow:0 16px 40px rgba(140,80,40,0.18);max-width:640px;margin:0 auto;">
+      <h2 style="text-align:center;font-size:1.2rem;color:#1f2d5c;margin:0 0 4px;">咱來讀生份字</h2>
+      <p style="text-align:center;font-size:0.85rem;font-weight:700;color:#1f2d5c;margin-bottom:20px;">{{subtitle}}</p>
+
+      <div style="text-align:center;color:#1f2d5c;font-weight:700;margin:18px 0 10px;">選擇聆聽方式</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <sc-for list="{{modes}}" as="m" hint-placeholder-count="4">
+          <button style="{{m.style}}" onClick="{{m.onClick}}">{{m.label}}</button>
+        </sc-for>
+      </div>
+
+      <div style="text-align:center;color:#1f2d5c;font-weight:700;margin:18px 0 10px;">選擇測驗題目數量</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
+        <sc-for list="{{counts}}" as="c" hint-placeholder-count="4">
+          <button style="{{c.style}}" disabled="{{c.disabled}}" onClick="{{c.onClick}}">{{c.label}}</button>
+        </sc-for>
+      </div>
+
+      <button style="{{startBtnStyle}}" disabled="{{startDisabled}}" onClick="{{startQuiz}}">開始挑戰 🚀</button>
+      <div style="text-align:center;font-size:0.72rem;color:#5c6690;margin-top:14px;">{{loadingNote}}</div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{screenQuiz}}">
+    <div style="display:flex;gap:24px;flex-wrap:wrap;border:4px solid #e58fc0;border-radius:32px;padding:24px;max-width:920px;margin:0 auto;">
+      <div style="background:linear-gradient(160deg, #7fdcc0 0%, #3f9e7a 100%);border-radius:24px;padding:26px 22px;color:#fff;width:220px;min-width:200px;flex-shrink:0;display:flex;flex-direction:column;box-shadow:0 16px 40px rgba(30,100,70,0.25);">
+        <div style="background:rgba(255,255,255,0.94);border-radius:16px;padding:16px;margin-bottom:18px;color:#1f2d5c;">
+          <div style="font-weight:700;font-size:0.85rem;text-align:center;margin-bottom:10px;">題目資訊</div>
+          <div style="display:flex;justify-content:space-between;font-size:0.8rem;margin-bottom:6px;"><span style="color:#5c6690;">項次：</span><span style="font-weight:700;">{{infoNum}}</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:0.8rem;margin-bottom:6px;"><span style="color:#5c6690;">頁數：</span><span style="font-weight:700;">{{infoPage}}</span></div>
+          <div style="font-weight:700;font-size:0.75rem;color:#d9637a;margin:10px 0 6px;text-align:center;">華語解說</div>
+          <div style="border-radius:10px;padding:8px 10px;font-size:0.8rem;text-align:center;font-weight:600;line-height:1.4;background:{{infoMeaningBg}};color:{{infoMeaningColor}};">{{infoMeaning}}</div>
+        </div>
+        <div style="text-align:center;font-size:0.9rem;font-weight:700;margin-bottom:12px;">{{progressText}}</div>
+        <div style="background:rgba(255,255,255,0.3);border-radius:999px;height:8px;overflow:hidden;margin-bottom:18px;"><div style="background:#fff;height:100%;width:{{progressPct}};"></div></div>
+        <div style="display:flex;gap:6px;margin-top:auto;">
+          <button style="{{prevBtnStyle}}" disabled="{{prevDisabled}}" onClick="{{prevQuestion}}">← 上一題</button>
+          <button style="flex:1;font-family:inherit;background:rgba(255,255,255,0.22);border:none;border-radius:999px;color:#fff;padding:10px 6px;font-size:0.8rem;font-weight:700;cursor:pointer;" onClick="{{nextQuestion}}">{{nextLabel}}</button>
+        </div>
+        <button style="margin-top:10px;font-family:inherit;background:rgba(0,0,0,0.15);border:none;border-radius:999px;color:#fff;padding:9px 6px;font-size:0.75rem;font-weight:700;cursor:pointer;" onClick="{{backToSetup}}">↩ 返回設定</button>
+      </div>
+
+      <div style="background:#fdf6ec;border-radius:24px;padding:30px 32px;flex:1;min-width:260px;box-shadow:0 16px 40px rgba(140,80,40,0.18);">
+        <h2 style="font-size:1.05rem;margin:0 0 4px;color:#1f2d5c;">咱來讀生份字</h2>
+        <p style="font-size:0.75rem;font-weight:700;color:#1f2d5c;margin-bottom:10px;">{{subtitle}}</p>
+        <div style="text-align:center;font-size:1.15rem;font-weight:700;color:#1f2d5c;margin:16px 0;line-height:1.5;">{{questionLabel}}</div>
+
+        <div style="text-align:center;margin-bottom:20px;">
+          <sc-if value="{{isListenMode}}">
+            <button style="display:block;margin:0 auto;background:#1f2d5c;color:#fff;border:none;border-radius:999px;padding:10px 20px;font-size:0.9rem;font-weight:700;cursor:pointer;" onClick="{{replayAudio}}">🔁 重播音檔</button>
+          </sc-if>
+          <sc-if value="{{showHanjiQuestion}}">
+            <div style="font-size:2.2rem;font-weight:700;">{{questionHanji}}</div>
+          </sc-if>
+          <sc-if value="{{showTailoQuestion}}">
+            <div style="font-size:1.6rem;font-weight:700;">{{questionTailo}}</div>
+          </sc-if>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+          <sc-for list="{{options}}" as="opt" hint-placeholder-count="4">
+            <button class="shj-btn" style="{{opt.style}}" disabled="{{opt.disabled}}" onClick="{{opt.onClick}}">
+              <span style="width:30px;height:30px;border-radius:50%;background:{{opt.badgeBg}};color:#fff;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem;flex-shrink:0;margin-right:10px;">{{opt.letter}}</span>
+              <span style="font-size:{{opt.fontSize}};">{{opt.text}}</span>
+            </button>
+          </sc-for>
+        </div>
+        <div style="text-align:center;margin-top:16px;font-size:0.9rem;font-weight:700;min-height:22px;color:{{feedbackColor}};">{{feedbackText}}</div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{screenResult}}">
+    <div style="background:#fdf6ec;border-radius:24px;padding:32px 30px;box-shadow:0 16px 40px rgba(140,80,40,0.18);max-width:560px;margin:0 auto;text-align:center;">
+      <h2 style="font-size:1.2rem;color:#1f2d5c;margin:0 0 8px;">挑戰結束！</h2>
+      <div style="font-size:2.6rem;font-weight:700;color:#1f2d5c;margin:8px 0;">{{resultScore}}</div>
+      <div style="color:#5c6690;margin-bottom:16px;">{{resultSub}}</div>
+      <sc-if value="{{hasWrong}}">
+        <div style="background:#faf8ff;border-radius:14px;padding:12px 16px;margin-bottom:18px;text-align:left;">
+          <h3 style="font-size:0.8rem;color:#5c6690;margin:0 0 8px;">答錯的題目</h3>
+          <sc-for list="{{wrongList}}" as="w" hint-placeholder-count="0">
+            <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:0.9rem;border-bottom:1px solid #eee7fb;">
+              <span>{{w.hanji}}</span><span>{{w.tailo}}</span>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+      <button style="display:block;width:100%;background:#1f2d5c;color:#fff;border:none;border-radius:999px;padding:14px;font-size:1rem;font-weight:700;cursor:pointer;" onClick="{{retry}}">再玩一次</button>
+    </div>
+  </sc-if>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;words&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;Array&quot;},&quot;subtitle&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;basePath&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;string&quot;}}">
+const MODES_DEF = [
+  { id: 'listen-hanji', label: '🎧 聽音檔選台語' },
+  { id: 'listen-tailo', label: '🎧 聽音檔選台羅' },
+  { id: 'see-hanji', label: '📖 看台語選台羅' },
+  { id: 'see-tailo', label: '📖 看台羅選台語' },
+];
+const LETTERS = ['A', 'B', 'C', 'D'];
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+  return a;
+}
+function questionLabelFor(mode) {
+  switch (mode) {
+    case 'listen-hanji': return '請聽音檔，選擇正確的台語';
+    case 'listen-tailo': return '請聽音檔，選擇正確的台羅';
+    case 'see-hanji': return '請選出正確的台羅拼音';
+    case 'see-tailo': return '請選出正確的台語漢字';
+  }
+  return '';
+}
+
+class Component extends DCLogic {
+  state = { screen: 'setup', mode: null, count: null, quiz: [], answers: [], current: 0 };
+
+  startQuiz() {
+    const words = this.props.words || [];
+    const isListenMode = this.state.mode === 'listen-hanji' || this.state.mode === 'listen-tailo';
+    const pool = words;
+    const targets = shuffle(pool).slice(0, this.state.count);
+    const quiz = targets.map(target => {
+      const distractorPool = pool.filter(w => w.num !== target.num);
+      const distractors = shuffle(distractorPool).slice(0, 3);
+      const options = shuffle([target, ...distractors]);
+      return { target, options };
+    });
+    this.setState({ quiz, answers: quiz.map(() => null), current: 0, screen: 'quiz' }, () => {
+      if (isListenMode) new Audio(this.props.basePath ? this.props.basePath + quiz[0].target.audio : quiz[0].target.audio).play().catch(() => {});
+    });
+  }
+
+  handleAnswer(opt) {
+    const q = this.state.quiz[this.state.current];
+    const correct = opt.num === q.target.num;
+    const answers = [...this.state.answers];
+    answers[this.state.current] = { selectedNum: opt.num, correct };
+    this.setState({ answers });
+  }
+
+  goToQuestion(idx) {
+    const isListenMode = this.state.mode === 'listen-hanji' || this.state.mode === 'listen-tailo';
+    this.setState({ current: idx }, () => {
+      const savedAnswer = this.state.answers[idx];
+      if (isListenMode && !savedAnswer) {
+        const q = this.state.quiz[idx];
+        new Audio(this.audioUrl(q.target.audio)).play().catch(() => {});
+      }
+    });
+  }
+  audioUrl(path) { return (this.props.basePath || '') + path; }
+
+  nextQuestion() {
+    if (this.state.current < this.state.quiz.length - 1) this.goToQuestion(this.state.current + 1);
+    else this.setState({ screen: 'result' });
+  }
+  prevQuestion() { if (this.state.current > 0) this.goToQuestion(this.state.current - 1); }
+  backToSetup() { this.setState({ screen: 'setup' }); }
+  retry() { this.setState({ screen: 'setup', mode: null, count: null }); }
+  replayAudio() {
+    const q = this.state.quiz[this.state.current];
+    new Audio(this.audioUrl(q.target.audio)).play().catch(() => {});
+  }
+
+  renderVals() {
+    const words = this.props.words || [];
+    const s = this.state;
+    const eligiblePool = words.length;
+    const isListenMode = s.mode === 'listen-hanji' || s.mode === 'listen-tailo';
+
+    const modes = MODES_DEF.map(m => {
+      const selected = s.mode === m.id;
+      return {
+        label: m.label,
+        onClick: () => this.setState({ mode: m.id }),
+        style: `font-family:inherit;background:${selected ? '#fff' : '#fdf1e2'};border:2px solid ${selected ? '#4a9f6e' : '#f0dcc4'};border-radius:16px;padding:14px 10px;font-size:0.95rem;font-weight:700;color:${selected ? '#4a9f6e' : '#1f2d5c'};cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;`,
+      };
+    });
+
+    const countOptions = [5, 7, 9, 11].filter(n => n <= Math.max(eligiblePool, 4));
+    if (eligiblePool > 0 && !countOptions.includes(eligiblePool) && eligiblePool < 12) countOptions.push(eligiblePool);
+    countOptions.sort((a, b) => a - b);
+    const counts = countOptions.map(n => {
+      const selected = s.count === n;
+      const disabled = n > eligiblePool || eligiblePool < 4;
+      return {
+        label: n + '題', disabled,
+        onClick: disabled ? null : () => this.setState({ count: n }),
+        style: `font-family:inherit;background:${selected ? '#fff' : '#fdf1e2'};border:2px solid ${selected ? '#4a9f6e' : '#f0dcc4'};border-radius:999px;padding:12px 6px;font-size:0.9rem;font-weight:700;color:${selected ? '#4a9f6e' : '#1f2d5c'};cursor:${disabled ? 'not-allowed' : 'pointer'};opacity:${disabled ? 0.35 : 1};`,
+      };
+    });
+
+    const startDisabled = !(s.mode && s.count);
+    let questionLabel = '', options = [], questionHanji = '', questionTailo = '', showHanjiQuestion = false, showTailoQuestion = false;
+    let infoNum = '', infoPage = '', infoMeaning = '', infoMeaningBg = 'transparent', infoMeaningColor = '#3a5bc7';
+    let progressText = '', progressPct = '0%', feedbackText = '', feedbackColor = '#1f2d5c', hasWrong = false, wrongList = [], resultScore = '', resultSub = '';
+    let prevDisabled = true, nextLabel = '下一題 →';
+
+    if (s.screen === 'quiz' && s.quiz.length) {
+      const q = s.quiz[s.current];
+      const savedAnswer = s.answers[s.current];
+      questionLabel = questionLabelFor(s.mode);
+      infoNum = q.target.num;
+      infoPage = /^\d+$/.test(String(q.target.page)) ? `第 ${q.target.page} 頁` : q.target.page;
+      infoMeaning = `${q.target.meaning}(${q.target.num})`;
+      infoMeaningBg = isListenMode ? '#fce3ea' : 'transparent';
+      infoMeaningColor = isListenMode ? '#a8425c' : '#3a5bc7';
+      progressText = `第 ${s.current + 1} 題 / 共 ${s.quiz.length} 題`;
+      progressPct = `${((s.current + 1) / s.quiz.length) * 100}%`;
+      prevDisabled = s.current === 0;
+      nextLabel = s.current === s.quiz.length - 1 ? '完成測驗 ✓' : '下一題 →';
+
+      if (s.mode === 'see-hanji') { showHanjiQuestion = true; questionHanji = q.target.hanji; }
+      else if (!isListenMode) { showTailoQuestion = true; questionTailo = q.target.tailo; }
+
+      options = q.options.map((opt, i) => {
+        const showHanji = (s.mode === 'listen-hanji' || s.mode === 'see-tailo');
+        const optText = showHanji ? opt.hanji : opt.tailo;
+        let fontSize = '1.1rem';
+        if (optText.length > 14) fontSize = '0.7rem'; else if (optText.length > 10) fontSize = '0.85rem'; else if (optText.length > 7) fontSize = '1rem';
+        let bg = '#f3effc', border = '#e2d9f7', color = '#1f2d5c', badgeBg = '#6f5fd1', disabled = false;
+        if (savedAnswer) {
+          disabled = true;
+          if (opt.num === q.target.num) { bg = '#4a9f6e'; border = '#4a9f6e'; color = '#fff'; badgeBg = 'rgba(255,255,255,0.35)'; }
+          else if (opt.num === savedAnswer.selectedNum) { bg = '#d9637a'; border = '#d9637a'; color = '#fff'; badgeBg = 'rgba(255,255,255,0.35)'; }
+        }
+        return {
+          letter: LETTERS[i], text: optText, fontSize, disabled, badgeBg,
+          style: `display:flex;align-items:center;font-family:inherit;background:${bg};border:2px solid ${border};border-radius:16px;padding:14px 16px;font-weight:600;color:${color};cursor:${disabled ? 'default' : 'pointer'};text-align:left;min-width:0;`,
+          onClick: disabled ? null : () => { if (!isListenMode) new Audio(this.audioUrl(opt.audio)).play().catch(() => {}); this.handleAnswer(opt); },
+        };
+      });
+
+      if (savedAnswer) {
+        if (savedAnswer.correct) { feedbackText = '答對了！'; feedbackColor = '#4a9f6e'; }
+        else {
+          const correctText = (s.mode === 'listen-hanji' || s.mode === 'see-tailo') ? q.target.hanji : q.target.tailo;
+          feedbackText = `答錯了，正確答案是「${correctText}」`; feedbackColor = '#d9637a';
+        }
+      }
+    }
+
+    if (s.screen === 'result') {
+      const score = s.answers.filter(a => a && a.correct).length;
+      const wrongWords = s.quiz.filter((q, i) => s.answers[i] && !s.answers[i].correct).map(q => q.target);
+      resultScore = `${score} / ${s.quiz.length}`;
+      resultSub = score === s.quiz.length ? '全部答對，真勢！' : '繼續加油！';
+      hasWrong = wrongWords.length > 0;
+      wrongList = wrongWords;
+    }
+
+    return {
+      subtitle: this.props.subtitle || '',
+      screenSetup: s.screen === 'setup', screenQuiz: s.screen === 'quiz', screenResult: s.screen === 'result',
+      modes, counts, startDisabled,
+      startBtnStyle: `display:block;width:100%;margin-top:22px;background:#1f2d5c;color:#fff;border:none;border-radius:999px;padding:14px;font-size:1rem;font-weight:700;cursor:${startDisabled ? 'not-allowed' : 'pointer'};opacity:${startDisabled ? 0.4 : 1};letter-spacing:0.1em;`,
+      startQuiz: () => this.startQuiz(),
+      loadingNote: `共 ${eligiblePool} 個字`,
+      infoNum, infoPage, infoMeaning, infoMeaningBg, infoMeaningColor,
+      progressText, progressPct, prevDisabled, nextLabel,
+      prevBtnStyle: `flex:1;font-family:inherit;background:rgba(255,255,255,0.22);border:none;border-radius:999px;color:#fff;padding:10px 6px;font-size:0.8rem;font-weight:700;cursor:${prevDisabled ? 'not-allowed' : 'pointer'};opacity:${prevDisabled ? 0.35 : 1};`,
+      prevQuestion: () => this.prevQuestion(), nextQuestion: () => this.nextQuestion(), backToSetup: () => this.backToSetup(),
+      questionLabel, isListenMode, showHanjiQuestion, showTailoQuestion, questionHanji, questionTailo,
+      replayAudio: () => this.replayAudio(), options,
+      feedbackText, feedbackColor,
+      resultScore, resultSub, hasWrong, wrongList, retry: () => this.retry(),
+    };
+  }
+}
+
+</script>
+</body>
+</html>

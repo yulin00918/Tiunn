@@ -1,0 +1,1457 @@
+
+<!-- saved from url=(0263)https://1071805389-atari-embeds.googleusercontent.com/embeds/8ba78a5061a5008d7a0bac8cfaf5dc0c/inner-frame-minified.html?jsh=m%3B%2F_%2Fscs%2Fabc-static%2F_%2Fjs%2Fk%3Dgapi.lb.zh_TW.NV__SrV5EGw.O%2Fd%3D1%2Frs%3DAHpOoo_5BGeCgBxG7m4fFCkHhQCljOt4Ng%2Fm%3D__features__ -->
+<html lang="zh-TW"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><!--<base href="https://1071805389-atari-embeds.googleusercontent.com/embeds/8ba78a5061a5008d7a0bac8cfaf5dc0c/inner-frame-minified.html?jsh=m%3B%2F_%2Fscs%2Fabc-static%2F_%2Fjs%2Fk%3Dgapi.lb.zh_TW.NV__SrV5EGw.O%2Fd%3D1%2Frs%3DAHpOoo_5BGeCgBxG7m4fFCkHhQCljOt4Ng%2Fm%3D__features__" target="_blank">--><base href="." target="_blank">
+
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>羅馬字拼音互動遊戲</title>
+<link href="./tauhu-oo.css" rel="stylesheet">
+<script src="./snd.js.下載"></script>
+<style>
+    :root {
+        --bg-start: #235390;
+        --bg-end: #58cc02;
+        --text-color: #4b4b4b;
+        
+        --primary-blue: #1cb0f6;
+        
+        --initial-color: #ff9600;
+        --initial-bg: #fff5e6;
+        
+        --final-color: #a460ed;
+        --final-bg: #f3e6ff;
+        
+        --tone-color: #ff4b4b;
+        --tone-bg: #ffe5e5;
+        
+        --macaron-bg: #fff9c4;
+        --macaron-display: #ffffff;
+        --macaron-border: #b3e5fc;
+        --macaron-btn-submit: #c8e6c9;
+        --macaron-btn-clear: #ffcdd2;
+        --macaron-btn-replay: #b2dfdb;
+        
+        --font-family: 'tauhu-oo', sans-serif;
+    }
+
+    * {
+        box-sizing: border-box;
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        width: 100vw;
+        height: 100vh;
+        background: linear-gradient(135deg, #1cb0f6 0%, #1799d6 100%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: var(--font-family);
+        overflow: hidden;
+    }
+
+    #game-container {
+        width: 98vw;
+        height: 42.875vw; /* Desktop Ratio */
+        max-height: 95vh;
+        max-width: 224vh;
+        background-color: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 0 rgba(0,0,0,0.2);
+        display: flex;
+        flex-direction: column;
+        padding: 5px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Layout Sections */
+    .game-area {
+        flex: 1;
+        display: flex;
+        gap: 4px;
+        height: 78%;
+        overflow: hidden;
+    }
+
+    .section {
+        border-radius: 8px;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        border: 2px solid #e5e5e5;
+        overflow: hidden;
+        height: 100%;
+    }
+
+    .section-label {
+        width: 100%;
+        writing-mode: horizontal-tb;
+        font-weight: 900;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 4px 0;
+        color: white;
+        font-size: 2.5vmin;
+        flex-shrink: 0;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        z-index: 2;
+        line-height: 1.2;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    }
+
+    .section-initial .section-label { background-color: var(--initial-color); }
+    .section-final .section-label   { background-color: var(--final-color); }
+    .section-tone .section-label    { background-color: var(--tone-color); }
+
+    .section-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        height: 100%;
+        overflow-y: auto;
+        padding: 0;
+        background: #fff;
+    }
+
+    .section-content::-webkit-scrollbar { width: 4px; }
+    .section-content::-webkit-scrollbar-track { background: transparent; }
+    .section-content::-webkit-scrollbar-thumb { background: #ddd; border-radius: 2px; }
+
+    .row {
+        display: flex;
+        align-items: stretch;
+        gap: 0;
+        min-height: 0;
+        flex-shrink: 0;
+        flex-grow: 1;
+        border-bottom: 1px solid #eee;
+    }
+
+    .section-final .row {
+        flex-grow: 0;
+        height: 52px;
+    }
+
+    .category-label {
+        writing-mode: vertical-lr;
+        text-orientation: upright;
+        font-size: 1.4vmin;
+        color: #777;
+        width: 1.8em;
+        text-align: center;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f9f9f9;
+        border-right: 1px solid #eee;
+        padding: 2px 0;
+        letter-spacing: 2px;
+    }
+
+    .tile {
+        background: white;
+        border: 1px solid #f0f0f0;
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        margin: 0;
+        cursor: pointer;
+        transition: background 0.1s;
+        position: relative;
+        min-width: 0;
+    }
+
+    .tile:hover {
+        background-color: #fbfbfb;
+        z-index: 1;
+        border-color: #ddd;
+    }
+
+    .tile.selected {
+        z-index: 2;
+        border-width: 2px !important;
+    }
+
+    .section-initial .tile.selected { background-color: var(--initial-bg); border-color: var(--initial-color) !important; }
+    .section-final .tile.selected   { background-color: var(--final-bg);   border-color: var(--final-color) !important; }
+    .section-tone .tile.selected    { background-color: var(--tone-bg);    border-color: var(--tone-color) !important; }
+
+    .tile-text {
+        text-align: center;
+        font-weight: 900;
+        font-size: 3.5vmin;
+        color: #4b4b4b;
+        width: 100%;
+        padding-left: 0;
+        line-height: 1;
+    }
+    
+    .section-tone .tile-text { font-size: 4.5vmin; }
+
+    .tone-example-tile {
+        flex-direction: column !important;
+        justify-content: center !important;
+        gap: 2px;
+        background-color: #fdfdfd;
+        border-bottom: 2px solid #eee;
+    }
+    .tone-ex-top {
+        font-size: 2.5vmin;
+        font-weight: bold;
+        color: #555;
+        line-height: 1;
+    }
+    .tone-ex-emoji {
+        font-size: 3.5vmin;
+        line-height: 1;
+        cursor: pointer;
+        transition: transform 0.1s;
+    }
+    .tone-ex-emoji:active { transform: scale(0.9); }
+
+    .play-btn {
+        position: absolute;
+        left: 2px;
+        top: 2px;
+        width: 18px;
+        height: 18px;
+        font-size: 1vmin;
+        cursor: pointer;
+        background: rgba(0,0,0,0.05);
+        border-radius: 50%;
+        border: none;
+        color: #666;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+        padding: 0;
+    }
+    .play-btn:hover { background: var(--primary-blue); color: white; }
+
+    .tile-empty-box {
+        border: 2px dashed #ccc !important;
+        background: #fafafa;
+    }
+    .tile-empty-box .tile-text {
+        font-size: 1.8vmin;
+        color: #999;
+    }
+    .tile-empty-box.selected {
+        border: 2px solid var(--initial-color) !important;
+        background: var(--initial-bg);
+    }
+    .tile-empty-box.selected .tile-text {
+        color: var(--initial-color);
+    }
+
+
+    /* --- Footer --- */
+    #footer-area {
+        height: 20%;
+        margin-top: 5px;
+        padding: 8px;
+        display: flex;
+        align-items: center;
+        background: var(--macaron-bg);
+        border-radius: 12px;
+        gap: 8px;
+        border: 4px solid #fff;
+        box-shadow: 0 4px 0 rgba(0,0,0,0.05);
+        z-index: 100;
+    }
+
+    .combo-display {
+        flex: 2;
+        background: var(--macaron-display);
+        border: 3px solid var(--macaron-border);
+        border-radius: 10px;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        padding: 0;
+        box-shadow: inset 0 2px 5px rgba(0,0,0,0.03);
+        overflow: hidden;
+    }
+    
+    /* Left 50% */
+    .combo-parts-wrapper {
+        flex: 1;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        background-color: #fafafa;
+        border-right: 2px solid #eee;
+    }
+    
+    .combo-part-group {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
+    }
+
+    .combo-label {
+        font-size: 1.2vmin;
+        background: #eee;
+        padding: 1px 6px;
+        border-radius: 4px;
+        color: #888;
+        white-space: nowrap;
+    }
+
+    .combo-val {
+        font-size: 2.8vmin;
+        color: #333;
+        font-weight: bold;
+        min-width: 1.2em;
+        text-align: center;
+        border-bottom: 2px solid #ddd;
+        min-height: 1.2em;
+    }
+    
+    /* Right 50% */
+    #display-result-container {
+        flex: 1;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #fff;
+        padding: 0 5px;
+    }
+
+    #display-result {
+        text-align: center;
+        font-size: 7vmin; /* PC: Big Size */
+        color: #555;
+        font-weight: 900;
+        white-space: pre-wrap;
+        line-height: 1.1;
+        width: 100%;
+    }
+
+    #display-result span {
+        font-size: 2.5vmin !important; /* PC: Keep hints small */
+        display: block;
+        line-height: 1.5;
+        margin-top: 5px;
+    }
+
+    .action-group {
+        flex: 1.5;
+        display: flex;
+        gap: 6px;
+        height: 100%;
+    }
+
+    .action-btn {
+        flex: 1;
+        height: 100%;
+        border-radius: 10px;
+        border: none;
+        font-size: 2.5vmin; 
+        font-weight: 900;
+        color: #555;
+        cursor: pointer;
+        font-family: var(--font-family);
+        border-bottom: 4px solid rgba(0,0,0,0.1);
+        transition: all 0.1s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 2px;
+    }
+    .action-btn:active { transform: translateY(2px); border-bottom-width: 2px; }
+
+    .btn-submit { background-color: var(--macaron-btn-submit); color: #2e7d32; }
+    .btn-clear { background-color: var(--macaron-btn-clear); color: #c62828; }
+    .btn-replay { background-color: var(--macaron-btn-replay); color: #00695c; opacity: 0.7; pointer-events: none; }
+    .btn-replay.active { opacity: 1; pointer-events: auto; cursor: pointer; }
+
+    .spacer { visibility: hidden; pointer-events: none; flex: 1; }
+
+    /* --- Modal Styles --- */
+    .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+        backdrop-filter: blur(2px);
+    }
+    
+    .modal-content {
+        background: white;
+        padding: 15px;
+        border-radius: 20px;
+        width: 90%;
+        max-width: 380px;
+        text-align: center;
+        position: relative;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        border: 5px solid var(--macaron-border);
+        animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    @keyframes popIn {
+        from { transform: scale(0.8); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+    }
+
+    .close-btn {
+        position: absolute;
+        top: 5px; right: 15px;
+        font-size: 30px;
+        cursor: pointer;
+        color: #aaa;
+        line-height: 1;
+        transition: color 0.2s;
+        z-index: 20;
+    }
+    .close-btn:hover { color: #ff4b4b; }
+
+    /* Navigation Arrows */
+    .modal-nav-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 40px;
+        color: #ddd;
+        cursor: pointer;
+        padding: 10px;
+        user-select: none;
+        transition: color 0.2s;
+        z-index: 10;
+    }
+    .modal-nav-btn:hover { color: var(--primary-blue); }
+    .nav-prev { left: 5px; }
+    .nav-next { right: 5px; }
+
+    .modal-emoji-display {
+        font-size: 60px;
+        display: inline-block;
+        margin: 5px auto 10px auto;
+        line-height: 1;
+        animation: float 2s ease-in-out infinite;
+        cursor: pointer;
+    }
+
+    @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0px); }
+    }
+
+    /* --- Voice Change Section (Sandhi HTML Chart) --- */
+    .sandhi-section {
+        width: 100%;
+        margin-top: 15px; 
+        border: 2px solid #eee;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .sandhi-header {
+        background: #f0f0f0;
+        color: #666;
+        font-weight: 900;
+        font-size: 1.2em;
+        padding: 5px;
+        border-bottom: 1px solid #ddd;
+        font-family: var(--font-family);
+    }
+
+    .sandhi-container {
+        position: relative;
+        width: 100%;
+        height: 250px; /* Fixed height for the chart */
+        background: #fff;
+        font-family: var(--font-family);
+        font-weight: 900;
+    }
+
+    /* Sandhi Items (Numbers, Arrows, Text) */
+    .s-item {
+        position: absolute;
+        transform: translate(-50%, -50%);
+        line-height: 1;
+        text-align: center;
+        pointer-events: none;
+        font-family: var(--font-family);
+        font-weight: 900;
+    }
+
+    .s-item.base {
+        color: #333;
+    }
+    
+    .s-item.overlay {
+        color: red;
+        display: none;
+        z-index: 5;
+    }
+
+    .s-item.overlay.active {
+        display: block;
+    }
+
+    /* Specific Styles */
+    .s-item.number {
+        font-size: 2.2em;
+    }
+
+    .s-item.arrow {
+        font-size: 1.8em;
+    }
+    
+    .s-item.label {
+        font-size: 1em; /* Increased slightly for readability */
+        color: #4b4b4b; /* Darker to match bold style */
+    }
+
+    /* Animation Keyframes (Applied to clip-path of text) */
+    @keyframes wipe-down { 
+        0% { clip-path: inset(0 0 100% 0); } 
+        100% { clip-path: inset(0 0 0 0); } 
+    }
+
+    /* Animation Assignment - All use wipe-down now because arrows are rotated */
+    #arrow-1-7.active { animation: wipe-down 1.2s infinite; }
+    #arrow-5-7.active { animation: wipe-down 1.2s infinite; }
+    #arrow-3-2.active { animation: wipe-down 1.2s infinite; }
+    #arrow-8-4.active { animation: wipe-down 1.2s infinite; }
+    #arrow-2-1.active { animation: wipe-down 1.2s infinite; }
+    #arrow-4-2.active { animation: wipe-down 1.2s infinite; }
+    #arrow-7-3.active { animation: wipe-down 1.2s infinite; }
+
+
+    /* Table */
+    .modal-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 5px;
+        background-color: #fafafa;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .modal-table th {
+        background: #eee;
+        padding: 5px;
+        border: 1px solid #ddd;
+        font-size: 1.1em;
+        color: #666;
+        font-weight: 900;
+        text-align: center;
+    }
+
+    .modal-table td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        font-size: 1.8em;
+        font-weight: 900;
+        color: #444;
+        background: white;
+        text-align: center;
+    }
+
+    /* Mobile Optimization */
+    @media (max-width: 768px) {
+        #game-container {
+            width: 100vw;
+            height: 100vh;
+            max-height: none;
+            max-width: none;
+            border-radius: 0;
+            padding: 0;
+            box-shadow: none;
+        }
+
+        .game-area {
+            flex-direction: column;
+            overflow-y: auto;
+            height: auto;
+            flex: 1;
+            padding: 5px;
+            gap: 10px;
+        }
+
+        .section {
+            flex: 0 0 auto !important;
+            width: 100%;
+            height: auto;
+            margin-bottom: 5px;
+        }
+
+        .section-content {
+            height: auto;
+            overflow-y: visible;
+            padding: 5px;
+        }
+
+        .row {
+            height: 50px !important;
+            margin-bottom: 2px;
+        }
+        
+        .section-final .row {
+            height: 50px !important;
+            flex-grow: 0;
+        }
+
+        .section-label {
+            padding: 8px 0;
+            font-size: 4vmin;
+        }
+        
+        .category-label {
+            width: 1.5em;
+            font-size: 2.5vmin;
+        }
+
+        .tile-text {
+            font-size: 5vmin;
+        }
+        
+        .section-tone .tile-text {
+            font-size: 6vmin;
+        }
+
+        .tile-empty-box .tile-text {
+            font-size: 3.5vmin;
+        }
+
+        .play-btn {
+            width: 20px;
+            height: 20px;
+            font-size: 2.5vmin;
+        }
+
+        #footer-area {
+            flex: 0 0 auto;
+            height: 22vh;
+            border-radius: 15px 15px 0 0;
+            border-bottom: none;
+            padding: 5px;
+        }
+
+        .combo-display {
+            flex-direction: column;
+        }
+
+        .combo-parts-wrapper {
+            width: 100%;
+            border-right: none;
+            border-bottom: 1px solid #eee;
+            padding: 2px 0;
+        }
+
+        #display-result-container {
+            width: 100%;
+            padding: 2px 0;
+        }
+
+        .combo-val { font-size: 3.5vmin; }
+        .combo-label { font-size: 2.5vmin; }
+        
+        #display-result { 
+            font-size: 10vmin; 
+            line-height: 1;
+        }
+        
+        #display-result span {
+            font-size: 3.5vmin !important;
+            margin-top: 5px;
+            line-height: 1.2;
+        }
+
+        .action-btn { font-size: 3.5vmin; }
+        
+        .tone-ex-top { font-size: 3.5vmin; }
+        .tone-ex-emoji { font-size: 5.5vmin; }
+
+        /* Mobile Arrow Adjustment */
+        .modal-nav-btn { font-size: 30px; padding: 5px; }
+        .nav-prev { left: 0; }
+        .nav-next { right: 0; }
+        
+        .modal-content {
+            width: 95%;
+            padding: 10px;
+        }
+    }
+
+</style>
+</head>
+<body oncontextmenu="return false;">
+
+<div id="game-container">
+    
+    <div class="game-area">
+        
+        <div class="section section-initial" style="flex: 2.2;">
+            <div class="section-label">聲母</div>
+            <div class="section-content">
+                <div class="row">
+                    <div class="category-label">合唇音</div>
+                    <div id="initial-row-1" style="display:contents"><div class="tile" data-type="initial" data-value="p"><button class="play-btn">🔊</button><span class="tile-text">p</span></div><div class="tile" data-type="initial" data-value="ph"><button class="play-btn">🔊</button><span class="tile-text">ph</span></div><div class="tile" data-type="initial" data-value="m"><button class="play-btn">🔊</button><span class="tile-text">m</span></div><div class="tile" data-type="initial" data-value="b"><button class="play-btn">🔊</button><span class="tile-text">b</span></div></div>
+                </div>
+                <div class="row">
+                    <div class="category-label">舌尖音</div>
+                    <div id="initial-row-2" style="display:contents"><div class="tile" data-type="initial" data-value="t"><button class="play-btn">🔊</button><span class="tile-text">t</span></div><div class="tile" data-type="initial" data-value="th"><button class="play-btn">🔊</button><span class="tile-text">th</span></div><div class="tile" data-type="initial" data-value="n"><button class="play-btn">🔊</button><span class="tile-text">n</span></div><div class="tile" data-type="initial" data-value="l"><button class="play-btn">🔊</button><span class="tile-text">l</span></div></div>
+                </div>
+                <div class="row">
+                    <div class="category-label">舌根音</div>
+                    <div id="initial-row-3" style="display:contents"><div class="tile" data-type="initial" data-value="k"><button class="play-btn">🔊</button><span class="tile-text">k</span></div><div class="tile" data-type="initial" data-value="kh"><button class="play-btn">🔊</button><span class="tile-text">kh</span></div><div class="tile" data-type="initial" data-value="ng"><button class="play-btn">🔊</button><span class="tile-text">ng</span></div><div class="tile" data-type="initial" data-value="g"><button class="play-btn">🔊</button><span class="tile-text">g</span></div></div>
+                </div>
+                <div class="row">
+                    <div class="category-label">舌齒音</div>
+                    <div id="initial-row-4" style="display:contents"><div class="tile" data-type="initial" data-value="ts"><button class="play-btn">🔊</button><span class="tile-text">ts</span></div><div class="tile" data-type="initial" data-value="tsh"><button class="play-btn">🔊</button><span class="tile-text">tsh</span></div><div class="tile" data-type="initial" data-value="s"><button class="play-btn">🔊</button><span class="tile-text">s</span></div><div class="tile" data-type="initial" data-value="j"><button class="play-btn">🔊</button><span class="tile-text">j</span></div></div>
+                </div>
+                <div class="row">
+                    <div class="category-label">喉音</div>
+                    <div id="initial-row-5" style="display:contents"><div class="tile" data-type="initial" data-value="h"><button class="play-btn">🔊</button><span class="tile-text">h</span></div><div class="tile tile-empty-box" data-type="initial" data-value=" "><span class="tile-text">無聲母</span></div></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section section-final" style="flex: 4;">
+            <div class="section-label">韻母</div>
+            <div class="section-content">
+                <div class="row">
+                    <div class="category-label">元音</div>
+                    <div id="final-row-1" style="display:contents"><div class="tile" data-type="final" data-value="a"><button class="play-btn">🔊</button><span class="tile-text">a</span></div><div class="tile" data-type="final" data-value="i"><button class="play-btn">🔊</button><span class="tile-text">i</span></div><div class="tile" data-type="final" data-value="u"><button class="play-btn">🔊</button><span class="tile-text">u</span></div><div class="tile" data-type="final" data-value="e"><button class="play-btn">🔊</button><span class="tile-text">e</span></div><div class="tile" data-type="final" data-value="oo"><button class="play-btn">🔊</button><span class="tile-text">oo</span></div><div class="tile" data-type="final" data-value="o"><button class="play-btn">🔊</button><span class="tile-text">o</span></div><div class="tile" data-type="final" data-value="m"><button class="play-btn">🔊</button><span class="tile-text">m</span></div><div class="tile" data-type="final" data-value="ng"><button class="play-btn">🔊</button><span class="tile-text">ng</span></div></div>
+                </div>
+                <div class="row">
+                    <div class="category-label">複元</div>
+                    <div id="final-row-1b" style="display:contents"><div class="tile" data-type="final" data-value="ai"><button class="play-btn">🔊</button><span class="tile-text">ai</span></div><div class="tile" data-type="final" data-value="au"><button class="play-btn">🔊</button><span class="tile-text">au</span></div><div class="tile" data-type="final" data-value="ia"><button class="play-btn">🔊</button><span class="tile-text">ia</span></div><div class="tile" data-type="final" data-value="iu"><button class="play-btn">🔊</button><span class="tile-text">iu</span></div><div class="tile" data-type="final" data-value="io"><button class="play-btn">🔊</button><span class="tile-text">io</span></div><div class="tile" data-type="final" data-value="ua"><button class="play-btn">🔊</button><span class="tile-text">ua</span></div><div class="tile" data-type="final" data-value="ue"><button class="play-btn">🔊</button><span class="tile-text">ue</span></div><div class="tile" data-type="final" data-value="iau"><button class="play-btn">🔊</button><span class="tile-text">iau</span></div><div class="tile" data-type="final" data-value="ui"><button class="play-btn">🔊</button><span class="tile-text">ui</span></div><div class="tile" data-type="final" data-value="uai"><button class="play-btn">🔊</button><span class="tile-text">uai</span></div></div>
+                </div>
+                <div class="row">
+                    <div class="category-label">鼻化</div>
+                    <div id="final-row-2" style="display:contents"><div class="tile" data-type="final" data-value="ann"><button class="play-btn">🔊</button><span class="tile-text">ann</span></div><div class="tile" data-type="final" data-value="inn"><button class="play-btn">🔊</button><span class="tile-text">inn</span></div><div class="tile" data-type="final" data-value="enn"><button class="play-btn">🔊</button><span class="tile-text">enn</span></div><div class="tile" data-type="final" data-value="onn"><button class="play-btn">🔊</button><span class="tile-text">onn</span></div></div>
+                </div>
+                <div class="row">
+                    <div class="category-label"></div>
+                    <div id="final-row-3" style="display:contents"><div class="tile" data-type="final" data-value="ainn"><button class="play-btn">🔊</button><span class="tile-text">ainn</span></div><div class="tile" data-type="final" data-value="aunn"><button class="play-btn">🔊</button><span class="tile-text">aunn</span></div><div class="tile" data-type="final" data-value="iann"><button class="play-btn">🔊</button><span class="tile-text">iann</span></div><div class="tile" data-type="final" data-value="iunn"><button class="play-btn">🔊</button><span class="tile-text">iunn</span></div></div>
+                </div>
+                <div class="row">
+                    <div class="category-label"></div>
+                    <div id="final-row-3b" style="display:contents"><div class="tile" data-type="final" data-value="uinn"><button class="play-btn">🔊</button><span class="tile-text">uinn</span></div><div class="tile" data-type="final" data-value="iaunn"><button class="play-btn">🔊</button><span class="tile-text">iaunn</span></div><div class="tile" data-type="final" data-value="uann"><button class="play-btn">🔊</button><span class="tile-text">uann</span></div><div class="tile" data-type="final" data-value="uainn"><button class="play-btn">🔊</button><span class="tile-text">uainn</span></div></div>
+                </div>
+                <div class="row">
+                    <div class="category-label">鼻音</div>
+                    <div id="final-row-4" style="display:contents"><div class="tile" data-type="final" data-value="am"><button class="play-btn">🔊</button><span class="tile-text">am</span></div><div class="tile" data-type="final" data-value="im"><button class="play-btn">🔊</button><span class="tile-text">im</span></div><div class="tile" data-type="final" data-value="om"><button class="play-btn">🔊</button><span class="tile-text">om</span></div><div class="tile" data-type="final" data-value="iam"><button class="play-btn">🔊</button><span class="tile-text">iam</span></div></div>
+                </div>
+                <div class="row">
+                    <div class="category-label"></div>
+                    <div id="final-row-5" style="display:contents"><div class="tile" data-type="final" data-value="an"><button class="play-btn">🔊</button><span class="tile-text">an</span></div><div class="tile" data-type="final" data-value="in"><button class="play-btn">🔊</button><span class="tile-text">in</span></div><div class="tile" data-type="final" data-value="un"><button class="play-btn">🔊</button><span class="tile-text">un</span></div><div class="tile" data-type="final" data-value="ian"><button class="play-btn">🔊</button><span class="tile-text">ian</span></div><div class="tile" data-type="final" data-value="uan"><button class="play-btn">🔊</button><span class="tile-text">uan</span></div></div>
+                </div>
+                <div class="row">
+                    <div class="category-label"></div>
+                    <div id="final-row-6" style="display:contents"><div class="tile" data-type="final" data-value="ang"><button class="play-btn">🔊</button><span class="tile-text">ang</span></div><div class="tile" data-type="final" data-value="ing"><button class="play-btn">🔊</button><span class="tile-text">ing</span></div><div class="tile" data-type="final" data-value="ong"><button class="play-btn">🔊</button><span class="tile-text">ong</span></div><div class="tile" data-type="final" data-value="iang"><button class="play-btn">🔊</button><span class="tile-text">iang</span></div><div class="tile" data-type="final" data-value="iong"><button class="play-btn">🔊</button><span class="tile-text">iong</span></div><div class="tile" data-type="final" data-value="uang"><button class="play-btn">🔊</button><span class="tile-text">uang</span></div></div>
+                </div>
+                <div class="row">
+                    <div class="category-label">入聲</div>
+                    <div id="final-row-7" style="display:contents"><div class="tile" data-type="final" data-value="ah"><button class="play-btn">🔊</button><span class="tile-text">ah</span></div><div class="tile" data-type="final" data-value="ih"><button class="play-btn">🔊</button><span class="tile-text">ih</span></div><div class="tile" data-type="final" data-value="uh"><button class="play-btn">🔊</button><span class="tile-text">uh</span></div><div class="tile" data-type="final" data-value="eh"><button class="play-btn">🔊</button><span class="tile-text">eh</span></div><div class="tile" data-type="final" data-value="oh"><button class="play-btn">🔊</button><span class="tile-text">oh</span></div></div>
+                </div>
+                <div class="row">
+                    <div class="category-label"></div>
+                    <div id="final-row-8" style="display:contents"><div class="tile" data-type="final" data-value="auh"><button class="play-btn">🔊</button><span class="tile-text">auh</span></div><div class="tile" data-type="final" data-value="iah"><button class="play-btn">🔊</button><span class="tile-text">iah</span></div><div class="tile" data-type="final" data-value="iuh"><button class="play-btn">🔊</button><span class="tile-text">iuh</span></div><div class="tile" data-type="final" data-value="ioh"><button class="play-btn">🔊</button><span class="tile-text">ioh</span></div></div>
+                </div>
+                <div class="row">
+                    <div class="category-label"></div>
+                    <div id="final-row-9" style="display:contents"><div class="tile" data-type="final" data-value="uah"><button class="play-btn">🔊</button><span class="tile-text">uah</span></div><div class="tile" data-type="final" data-value="uih"><button class="play-btn">🔊</button><span class="tile-text">uih</span></div><div class="tile" data-type="final" data-value="ueh"><button class="play-btn">🔊</button><span class="tile-text">ueh</span></div><div class="tile" data-type="final" data-value="iauh"><button class="play-btn">🔊</button><span class="tile-text">iauh</span></div></div>
+                </div>
+                <div class="row">
+                    <div class="category-label"></div>
+                    <div id="final-row-9b" style="display:contents"><div class="tile" data-type="final" data-value="annh"><button class="play-btn">🔊</button><span class="tile-text">annh</span></div><div class="tile" data-type="final" data-value="ennh"><button class="play-btn">🔊</button><span class="tile-text">ennh</span></div><div class="tile" data-type="final" data-value="innh"><button class="play-btn">🔊</button><span class="tile-text">innh</span></div><div class="tile" data-type="final" data-value="onnh"><button class="play-btn">🔊</button><span class="tile-text">onnh</span></div></div>
+                </div>
+                <div class="row">
+                    <div class="category-label"></div>
+                    <div id="final-row-10" style="display:contents"><div class="tile" data-type="final" data-value="ap"><button class="play-btn">🔊</button><span class="tile-text">ap</span></div><div class="tile" data-type="final" data-value="ip"><button class="play-btn">🔊</button><span class="tile-text">ip</span></div><div class="tile" data-type="final" data-value="op"><button class="play-btn">🔊</button><span class="tile-text">op</span></div><div class="tile" data-type="final" data-value="iap"><button class="play-btn">🔊</button><span class="tile-text">iap</span></div></div>
+                </div>
+                <div class="row">
+                    <div class="category-label"></div>
+                    <div id="final-row-11" style="display:contents"><div class="tile" data-type="final" data-value="at"><button class="play-btn">🔊</button><span class="tile-text">at</span></div><div class="tile" data-type="final" data-value="it"><button class="play-btn">🔊</button><span class="tile-text">it</span></div><div class="tile" data-type="final" data-value="ut"><button class="play-btn">🔊</button><span class="tile-text">ut</span></div><div class="tile" data-type="final" data-value="iat"><button class="play-btn">🔊</button><span class="tile-text">iat</span></div><div class="tile" data-type="final" data-value="uat"><button class="play-btn">🔊</button><span class="tile-text">uat</span></div></div>
+                </div>
+                <div class="row">
+                    <div class="category-label"></div>
+                    <div id="final-row-12" style="display:contents"><div class="tile" data-type="final" data-value="ak"><button class="play-btn">🔊</button><span class="tile-text">ak</span></div><div class="tile" data-type="final" data-value="ik"><button class="play-btn">🔊</button><span class="tile-text">ik</span></div><div class="tile" data-type="final" data-value="ok"><button class="play-btn">🔊</button><span class="tile-text">ok</span></div><div class="tile" data-type="final" data-value="iak"><button class="play-btn">🔊</button><span class="tile-text">iak</span></div><div class="tile" data-type="final" data-value="iok"><button class="play-btn">🔊</button><span class="tile-text">iok</span></div></div>
+                </div>
+                <div style="height: 5px; flex-shrink:0;"></div>
+            </div>
+        </div>
+
+        <div class="section section-tone" style="flex: 1.2;">
+            <div class="section-label">聲調</div>
+            <div class="section-content">
+                <div class="row" id="tone-number-row">
+                    <div class="tile" data-type="tone" data-value="1"><span class="tile-text">1</span></div><div class="tile" data-type="tone" data-value="2"><span class="tile-text">2</span></div><div class="tile" data-type="tone" data-value="3"><span class="tile-text">3</span></div><div class="tile" data-type="tone" data-value="4"><span class="tile-text">4</span></div><div class="tile" data-type="tone" data-value="5"><span class="tile-text">5</span></div><div class="tile" data-type="tone" data-value="7"><span class="tile-text">7</span></div><div class="tile" data-type="tone" data-value="8"><span class="tile-text">8</span></div></div>
+                <div class="row" id="tone-example-row">
+                    <div class="tile tone-example-tile"><div class="tone-ex-top">a</div><div class="tone-ex-emoji">🦁</div></div><div class="tile tone-example-tile"><div class="tone-ex-top">á</div><div class="tone-ex-emoji">🐯</div></div><div class="tile tone-example-tile"><div class="tone-ex-top">à</div><div class="tone-ex-emoji">🐆</div></div><div class="tile tone-example-tile"><div class="tone-ex-top">ah</div><div class="tone-ex-emoji">🐢</div></div><div class="tile tone-example-tile"><div class="tone-ex-top">â</div><div class="tone-ex-emoji">🐵</div></div><div class="tile tone-example-tile"><div class="tone-ex-top">ā</div><div class="tone-ex-emoji">🐘</div></div><div class="tile tone-example-tile"><div class="tone-ex-top">a̍h</div><div class="tone-ex-emoji">🦌</div></div></div>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="footer-area">
+        <div class="combo-display">
+            <div class="combo-parts-wrapper">
+                <div class="combo-part-group">
+                    <span class="combo-label">聲母</span>
+                    <span id="display-initial" class="combo-val"></span>
+                </div>
+                <div class="combo-part-group">
+                    <span class="combo-label">韻母</span>
+                    <span id="display-final" class="combo-val"></span>
+                </div>
+                <div class="combo-part-group">
+                    <span class="combo-label">聲調</span>
+                    <span id="display-tone" class="combo-val"></span>
+                </div>
+            </div>
+            
+            <div id="display-result-container">
+                <div id="display-result">_____</div>
+            </div>
+        </div>
+        
+        <div class="action-group">
+            <button class="action-btn btn-replay" id="btn-replay" onclick="replaySound()">重播</button>
+            <button class="action-btn btn-clear" onclick="resetGame()">清除</button>
+            <button class="action-btn btn-submit" onclick="submitAnswer()">送出</button>
+        </div>
+    </div>
+
+</div>
+
+<div id="tone-modal" class="modal-overlay" onclick="closeModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <span class="close-btn" onclick="closeModal()">×</span>
+        <div class="modal-nav-btn nav-prev" onclick="prevTone()">❮</div>
+        <div class="modal-nav-btn nav-next" onclick="nextTone()">❯</div>
+        
+        <div id="modal-emoji" class="modal-emoji-display"></div>
+
+        <table class="modal-table">
+            <thead>
+                <tr>
+                    <th>聲母</th>
+                    <th>韻母</th>
+                    <th>聲調</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td id="modal-init"></td>
+                    <td id="modal-final"></td>
+                    <td id="modal-tone"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="sandhi-section">
+            <div class="sandhi-header">變調規則</div>
+            <div class="sandhi-container">
+                <div class="s-item base number" style="top:15%; left:20%">1</div>
+                <div id="num-1" class="s-item overlay number" style="top:15%; left:20%">1</div>
+
+                <div class="s-item base number" style="top:15%; left:50%">2</div>
+                <div id="num-2" class="s-item overlay number" style="top:15%; left:50%">2</div>
+
+                <div class="s-item base number" style="top:15%; left:80%">4</div>
+                <div id="num-4" class="s-item overlay number" style="top:15%; left:80%">4</div>
+
+                <div class="s-item base number" style="top:50%; left:35%">5</div>
+                <div id="num-5" class="s-item overlay number" style="top:50%; left:35%">5</div>
+
+                <div class="s-item base number" style="top:85%; left:20%">7</div>
+                <div id="num-7" class="s-item overlay number" style="top:85%; left:20%">7</div>
+
+                <div class="s-item base number" style="top:85%; left:50%">3</div>
+                <div id="num-3" class="s-item overlay number" style="top:85%; left:50%">3</div>
+
+                <div class="s-item base number" style="top:85%; left:80%">8</div>
+                <div id="num-8" class="s-item overlay number" style="top:85%; left:80%">8</div>
+
+
+                <div class="s-item base arrow" style="top:15%; left:35%; transform: translate(-50%, -50%) rotate(90deg)">↓</div>
+                <div id="arrow-2-1" class="s-item overlay arrow" style="top:15%; left:35%; transform: translate(-50%, -50%) rotate(90deg)">↓</div>
+
+                <div class="s-item base arrow" style="top:15%; left:65%; transform: translate(-50%, -50%) rotate(90deg)">↓</div>
+                <div class="s-item base label" style="top:8%; left:65%">h</div>
+                <div id="arrow-4-2" class="s-item overlay arrow" style="top:15%; left:65%; transform: translate(-50%, -50%) rotate(90deg)">↓</div>
+
+                <div class="s-item base arrow" style="top:50%; left:20%">↓</div>
+                <div id="arrow-1-7" class="s-item overlay arrow" style="top:50%; left:20%">↓</div>
+
+                <div class="s-item base arrow" style="top:50%; left:50%; transform: translate(-50%, -50%) rotate(180deg)">↓</div>
+                <div id="arrow-3-2" class="s-item overlay arrow" style="top:50%; left:50%; transform: translate(-50%, -50%) rotate(180deg)">↓</div>
+
+                <div class="s-item base arrow" style="top:67%; left:28%; transform: translate(-50%, -50%) rotate(45deg)">↓</div>
+                <div id="arrow-5-7" class="s-item overlay arrow" style="top:67%; left:28%; transform: translate(-50%, -50%) rotate(45deg)">↓</div>
+
+                <div class="s-item base arrow" style="top:85%; left:35%; transform: translate(-50%, -50%) rotate(-90deg)">↓</div>
+                <div id="arrow-7-3" class="s-item overlay arrow" style="top:85%; left:35%; transform: translate(-50%, -50%) rotate(-90deg)">↓</div>
+
+                <div class="s-item base arrow" style="top:85%; left:65%; transform: translate(-50%, -50%) rotate(90deg)">↓</div>
+                <div class="s-item base label" style="top:78%; left:65%">h</div>
+
+                <div class="s-item base arrow" style="top:44%; left:76%; transform: translate(-50%, -50%) rotate(180deg)">↓</div>
+                <div class="s-item base arrow" style="top:56%; left:76%">↓</div>
+                
+                <div class="s-item base label" style="top:50%; left:84%; line-height:1.2; text-align:center;">p<br>t<br>k</div>
+                
+                <div id="arrow-8-4" class="s-item overlay arrow" style="top:44%; left:76%; transform: translate(-50%, -50%) rotate(180deg)">↓</div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<audio id="single-player" src="https://tailo.moe.edu.tw/ium/ium4/3-4mp4/oh.mp4"></audio>
+
+<script>
+    // --- Data Configuration ---
+    const initialsData = [
+        { row: 1, items: [
+            {t:'p', u:'https://tailo.moe.edu.tw/sam/sam1/2-1mp4/p.mp4'},
+            {t:'ph', u:'https://tailo.moe.edu.tw/sam/sam1/2-1mp4/ph.mp4'},
+            {t:'m', u:'https://tailo.moe.edu.tw/sam/sam1/2-1mp4/m.mp4'},
+            {t:'b', u:'https://tailo.moe.edu.tw/sam/sam1/2-1mp4/b.mp4'}
+        ]},
+        { row: 2, items: [
+            {t:'t', u:'https://tailo.moe.edu.tw/sam/sam2/2-2mp4/t.mp4'},
+            {t:'th', u:'https://tailo.moe.edu.tw/sam/sam2/2-2mp4/th.mp4'},
+            {t:'n', u:'https://tailo.moe.edu.tw/sam/sam2/2-2mp4/n.mp4'},
+            {t:'l', u:'https://tailo.moe.edu.tw/sam/sam2/2-2mp4/l.mp4'}
+        ]},
+        { row: 3, items: [
+            {t:'k', u:'https://tailo.moe.edu.tw/sam/sam3/2-3mp4/k.mp4'},
+            {t:'kh', u:'https://tailo.moe.edu.tw/sam/sam3/2-3mp4/kh.mp4'},
+            {t:'ng', u:'https://tailo.moe.edu.tw/sam/sam3/2-3mp4/ng.mp4'},
+            {t:'g', u:'https://tailo.moe.edu.tw/sam/sam3/2-3mp4/g.mp4'}
+        ]},
+        { row: 4, items: [
+            {t:'ts', u:'https://tailo.moe.edu.tw/sam/sam5/2-5mp4/ts.mp4'},
+            {t:'tsh', u:'https://tailo.moe.edu.tw/sam/sam5/2-5mp4/tsh.mp4'},
+            {t:'s', u:'https://tailo.moe.edu.tw/sam/sam5/2-5mp4/s.mp4'},
+            {t:'j', u:'https://tailo.moe.edu.tw/sam/sam5/2-5mp4/j.mp4'}
+        ]},
+        { row: 5, items: [
+            {t:'h', u:'https://tailo.moe.edu.tw/sam/sam4/2-4mp4/h.mp4'},
+            {t:' ', u:null, isZero: true}
+        ]}
+    ];
+
+    const finalsData = [
+        { row: 1, items: [
+            {t:'a', u:'https://tailo.moe.edu.tw/ium/ium1/3-1mp4/a.mp4'},
+            {t:'i', u:'https://tailo.moe.edu.tw/ium/ium1/3-1mp4/i.mp4'},
+            {t:'u', u:'https://tailo.moe.edu.tw/ium/ium1/3-1mp4/u.mp4'},
+            {t:'e', u:'https://tailo.moe.edu.tw/ium/ium1/3-1mp4/e.mp4'},
+            {t:'oo', u:'https://tailo.moe.edu.tw/ium/ium1/3-1mp4/oo.mp4'},
+            {t:'o', u:'https://tailo.moe.edu.tw/ium/ium1/3-1mp4/o.mp4'},
+            {t:'m', u:'https://tailo.moe.edu.tw/ium/ium5/3-5mp4/m.mp4'},
+            {t:'ng', u:'https://tailo.moe.edu.tw/ium/ium5/3-5mp4/ng2.mp4'}
+        ]},
+        { row: '1b', items: [
+            {t:'ai', u:'https://sutian.moe.edu.tw/media/senn/mp3/imtong/subak/4/4778.mp3'},
+            {t:'au', u:'https://sutian.moe.edu.tw/media/senn/mp3/imtong/subak/10/10607.mp3'},
+            {t:'ia', u:''},
+            {t:'iu', u:'https://sutian.moe.edu.tw/media/senn/mp3/imtong/subak/11/11051.mp3'},
+            {t:'io', u:'https://sutian.moe.edu.tw/media/senn/mp3/imtong/subak/0/174.mp3'},
+            {t:'ua', u:''},
+            {t:'ue', u:'https://sutian.moe.edu.tw/media/senn/mp3/imtong/subak/8/8517.mp3'},
+            {t:'iau', u:'https://sutian.moe.edu.tw/media/senn/mp3/imtong/subak/3/3048.mp3'},
+            {t:'ui', u:'https://sutian.moe.edu.tw/media/senn/mp3/imtong/subak/2/2830.mp3'},
+            {t:'uai', u:'https://sutian.moe.edu.tw/media/senn/mp3/imtong/subak/5/5119.mp3'}
+        ]},
+        { row: 2, items: [
+            {t:'ann', u:'https://tailo.moe.edu.tw/ium/ium2/3-2mp4/ann.mp4'},
+            {t:'inn', u:'https://tailo.moe.edu.tw/ium/ium2/3-2mp4/inn.mp4'},
+            {t:'enn', u:'https://tailo.moe.edu.tw/ium/ium2/3-2mp4/enn.mp4'},
+            {t:'onn', u:'https://tailo.moe.edu.tw/ium/ium2/3-2mp4/onn.mp4'}
+        ]},
+        { row: 3, items: [
+            {t:'ainn', u:'https://tailo.moe.edu.tw/ium/ium2/3-2mp4/ainn.mp4'},
+            {t:'aunn', u:'https://tailo.moe.edu.tw/ium/ium2/3-2mp4/aunn.mp4'},
+            {t:'iann', u:'https://tailo.moe.edu.tw/ium/ium2/3-2mp4/iann.mp4'},
+            {t:'iunn', u:'https://tailo.moe.edu.tw/ium/ium2/3-2mp4/iunn.mp4'}
+        ]},
+        { row: '3b', items: [
+            {t:'uinn', u:'https://tailo.moe.edu.tw/ium/ium2/3-2mp4/uinn.mp4'},
+            {t:'iaunn', u:'https://tailo.moe.edu.tw/ium/ium2/3-2mp4/iaunn.mp4'},
+            {t:'uann', u:'https://tailo.moe.edu.tw/ium/ium2/3-2mp4/uann.mp4'},
+            {t:'uainn', u:'https://tailo.moe.edu.tw/ium/ium2/3-2mp4/uainn.mp4'}
+        ]},
+        { row: 4, items: [
+            {t:'am', u:'https://tailo.moe.edu.tw/ium/ium3/3-3mp4/am.mp4'},
+            {t:'im', u:'https://tailo.moe.edu.tw/ium/ium3/3-3mp4/im.mp4'},
+            {t:'om', u:'https://tailo.moe.edu.tw/ium/ium3/3-3mp4/om.mp4'},
+            {t:'iam', u:'https://tailo.moe.edu.tw/ium/ium3/3-3mp4/iam.mp4'}
+        ]},
+        { row: 5, items: [
+            {t:'an', u:'https://tailo.moe.edu.tw/ium/ium3/3-3mp4/an.mp4'},
+            {t:'in', u:'https://tailo.moe.edu.tw/ium/ium3/3-3mp4/in.mp4'},
+            {t:'un', u:'https://tailo.moe.edu.tw/ium/ium3/3-3mp4/un.mp4'},
+            {t:'ian', u:'https://tailo.moe.edu.tw/ium/ium3/3-3mp4/ian.mp4'},
+            {t:'uan', u:'https://tailo.moe.edu.tw/ium/ium3/3-3mp4/uan.mp4'}
+        ]},
+        { row: 6, items: [
+            {t:'ang', u:'https://tailo.moe.edu.tw/ium/ium3/3-3mp4/ang.mp4'},
+            {t:'ing', u:'https://tailo.moe.edu.tw/ium/ium3/3-3mp4/ing.mp4'},
+            {t:'ong', u:'https://tailo.moe.edu.tw/ium/ium3/3-3mp4/ong.mp4'},
+            {t:'iang', u:'https://tailo.moe.edu.tw/ium/ium3/3-3mp4/iang.mp4'},
+            {t:'iong', u:'https://tailo.moe.edu.tw/ium/ium3/3-3mp4/iong.mp4'},
+            {t:'uang', u:'https://tailo.moe.edu.tw/ium/ium3/3-3mp4/uang.mp4'}
+        ]},
+        { row: 7, items: [
+            {t:'ah', u:'https://tailo.moe.edu.tw/ium/ium4/3-4mp4/ah.mp4'},
+            {t:'ih', u:'https://tailo.moe.edu.tw/ium/ium4/3-4mp4/ih.mp4'},
+            {t:'uh', u:'https://tailo.moe.edu.tw/ium/ium4/3-4mp4/uh.mp4'},
+            {t:'eh', u:'https://tailo.moe.edu.tw/ium/ium4/3-4mp4/eh.mp4'},
+            {t:'oh', u:'https://tailo.moe.edu.tw/ium/ium4/3-4mp4/oh.mp4'}
+        ]},
+        { row: 8, items: [
+            {t:'auh', u:'https://tailo.moe.edu.tw/ium/ium4/3-4mp4/auh.mp4'},
+            {t:'iah', u:'https://tailo.moe.edu.tw/ium/ium4/3-4mp4/iah.mp4'},
+            {t:'iuh', u:'https://tailo.moe.edu.tw/ium/ium4/3-4mp4/iuh.mp4'},
+            {t:'ioh', u:'https://tailo.moe.edu.tw/ium/ium4/3-4mp4/ioh.mp4'}
+        ]},
+        { row: 9, items: [
+            {t:'uah', u:'https://tailo.moe.edu.tw/ium/ium4/3-4mp4/uah.mp4'},
+            {t:'uih', u:'https://tailo.moe.edu.tw/ium/ium4/3-4mp4/uih.mp4'},
+            {t:'ueh', u:'https://tailo.moe.edu.tw/ium/ium4/3-4mp4/ueh.mp4'},
+            {t:'iauh', u:'https://tailo.moe.edu.tw/ium/ium4/3-4mp4/iauh.mp4'}
+        ]},
+        { row: '9b', items: [
+            {t:'annh', u:''},
+            {t:'ennh', u:''},
+            {t:'innh', u:''},
+            {t:'onnh', u:''}
+        ]},
+        { row: 10, items: [
+            {t:'ap', u:'https://tailo.moe.edu.tw/ium/ium4/3-4mp4/ap.mp4'},
+            {t:'ip', u:'https://tailo.moe.edu.tw/ium/ium4/3-4mp4/ip.mp4'},
+            {t:'op', u:'https://tailo.moe.edu.tw/ium/ium4/3-4mp4/op.mp4'},
+            {t:'iap', u:'https://tailo.moe.edu.tw/ium/ium4/3-4mp4/iap.mp4'}
+        ]},
+        { row: 11, items: [
+            {t:'at', u:'https://tailo.moe.edu.tw/ium/ium4/3-4mp4/at.mp4'},
+            {t:'it', u:'https://tailo.moe.edu.tw/ium/ium4/3-4mp4/it.mp4'},
+            {t:'ut', u:'https://tailo.moe.edu.tw/ium/ium4/3-4mp4/ut.mp4'},
+            {t:'iat', u:'https://tailo.moe.edu.tw/ium/ium4/3-4mp4/iat.mp4'},
+            {t:'uat', u:'https://tailo.moe.edu.tw/ium/ium4/3-4mp4/uat.mp4'}
+        ]},
+        { row: 12, items: [
+            {t:'ak', u:'https://tailo.moe.edu.tw/ium/ium4/3-4mp4/ak.mp4'},
+            {t:'ik', u:'https://tailo.moe.edu.tw/ium/ium4/3-4mp4/ik.mp4'},
+            {t:'ok', u:'https://tailo.moe.edu.tw/ium/ium4/3-4mp4/ok.mp4'},
+            {t:'iak', u:'https://tailo.moe.edu.tw/ium/ium4/3-4mp4/iak.mp4'},
+            {t:'iok', u:'https://tailo.moe.edu.tw/ium/ium4/3-4mp4/iok.mp4'}
+        ]}
+    ];
+
+    const tonesData = [
+        { t: '1', ex: 'a', em: '🦁', u: 'https://sutian.moe.edu.tw/media/senn/mp3/imtong/subak/9/9721.mp3', detail: {i:'s', f:'ai', n:'1'} },
+        { t: '2', ex: 'á', em: '🐯', u: 'https://sutian.moe.edu.tw/media/senn/mp3/imtong/subak/4/4482.mp3', detail: {i:'h', f:'óo', n:'2'} },
+        { t: '3', ex: 'à', em: '🐆', u: 'https://sutian.moe.edu.tw/media/senn/mp3/imtong/subak/6/6669.mp3', detail: {i:'p', f:'à', n:'3'} },
+        { t: '4', ex: 'ah', em: '🐢', u: 'https://sutian.moe.edu.tw/media/senn/mp3/imtong/subak/13/13254.mp3', detail: {i:'p', f:'ih', n:'4'} },
+        { t: '5', ex: 'â', em: '🐵', u: 'https://sutian.moe.edu.tw/media/senn/mp3/imtong/subak/8/8571.mp3', detail: {i:'k', f:'âu', n:'5'} },
+        { t: '7', ex: 'ā', em: '🐘', u: 'https://sutian.moe.edu.tw/media/senn/mp3/imtong/subak/9/9033.mp3', detail: {i:'tsh', f:'iūnn', n:'7'} },
+        { t: '8', ex: 'a̍h', em: '🦌', u: 'https://sutian.moe.edu.tw/media/senn/mp3/imtong/subak/8/8086.mp3', detail: {i:'l', f:'o̍k', n:'8'} }
+    ];
+
+    // --- State Management ---
+    let currentState = {
+        initial: null, 
+        final: '',
+        tone: ''
+    };
+    
+    let lastGeneratedSound = '';
+    let lastGeneratedAudioName = ''; 
+    let currentToneIndex = -1; // For modal navigation
+
+    // --- DOM Elements ---
+    const audioPlayer = document.getElementById('single-player');
+    const displayInitial = document.getElementById('display-initial');
+    const displayFinal = document.getElementById('display-final');
+    const displayTone = document.getElementById('display-tone');
+    const displayResult = document.getElementById('display-result');
+    const replayBtn = document.getElementById('btn-replay');
+
+    // --- Initialization ---
+    function init() {
+        renderGrid('initial', initialsData);
+        renderGrid('final', finalsData);
+        renderTones();
+    }
+
+    // --- Rendering Helpers ---
+    function renderGrid(type, data) {
+        data.forEach(row => {
+            const container = document.getElementById(`${type}-row-${row.row}`);
+            if(!container) return;
+            
+            row.items.forEach(item => {
+                if (item.t === '' && !item.isZero) {
+                    const div = document.createElement('div');
+                    div.className = 'tile spacer';
+                    container.appendChild(div);
+                } else {
+                    const tile = document.createElement('div');
+                    tile.className = 'tile';
+                    tile.dataset.type = type;
+                    tile.dataset.value = item.t;
+                    
+                    if(item.isZero) {
+                        tile.classList.add('tile-empty-box');
+                        const textSpan = document.createElement('span');
+                        textSpan.className = 'tile-text';
+                        textSpan.textContent = "無聲母";
+                        tile.appendChild(textSpan);
+                        tile.onclick = () => selectTile(type, '', tile); 
+                    } else {
+                        const playBtn = document.createElement('button');
+                        playBtn.innerHTML = '🔊';
+                        playBtn.className = 'play-btn';
+                        playBtn.onclick = (e) => {
+                            e.stopPropagation();
+                            playSound(item.u);
+                        };
+
+                        const textSpan = document.createElement('span');
+                        textSpan.className = 'tile-text';
+                        textSpan.textContent = item.t;
+
+                        tile.appendChild(playBtn);
+                        tile.appendChild(textSpan);
+
+                        tile.onclick = () => selectTile(type, item.t, tile);
+                    }
+                    container.appendChild(tile);
+                }
+            });
+        });
+    }
+
+    function renderTones() {
+        const numRow = document.getElementById('tone-number-row');
+        const exRow = document.getElementById('tone-example-row');
+        
+        tonesData.forEach(item => {
+            const numTile = document.createElement('div');
+            numTile.className = 'tile';
+            numTile.dataset.type = 'tone';
+            numTile.dataset.value = item.t;
+            
+            const numText = document.createElement('span');
+            numText.className = 'tile-text';
+            numText.textContent = item.t;
+            numTile.appendChild(numText);
+            
+            numTile.onclick = () => selectTile('tone', item.t, numTile);
+            numRow.appendChild(numTile);
+
+            const exTile = document.createElement('div');
+            exTile.className = 'tile tone-example-tile';
+            
+            const topSpan = document.createElement('div');
+            topSpan.textContent = item.ex;
+            topSpan.className = 'tone-ex-top';
+            
+            const botSpan = document.createElement('div');
+            botSpan.textContent = item.em;
+            botSpan.className = 'tone-ex-emoji';
+            
+            exTile.onclick = () => {
+                playSound(item.u);
+                openModal(item);
+            };
+            
+            exTile.appendChild(topSpan);
+            exTile.appendChild(botSpan);
+            exRow.appendChild(exTile);
+        });
+    }
+
+    // --- Interaction Logic ---
+    function playSound(url) {
+        if (!url) return;
+        audioPlayer.src = url;
+        audioPlayer.play().catch(e => console.log("Audio play error", e));
+    }
+
+    function selectTile(type, value, element) {
+        document.querySelectorAll(`.tile[data-type="${type}"]`).forEach(el => el.classList.remove('selected'));
+        element.classList.add('selected');
+        
+        currentState[type] = value;
+        
+        if (type === 'initial') displayInitial.textContent = (value === '' ? '∅' : value);
+        if (type === 'final') displayFinal.textContent = value;
+        if (type === 'tone') displayTone.textContent = value;
+        
+        displayResult.textContent = "_____";
+        displayResult.style.color = "#555";
+        replayBtn.classList.remove('active');
+        lastGeneratedSound = '';
+        lastGeneratedAudioName = '';
+    }
+
+    function resetGame() {
+        currentState = { initial: null, final: '', tone: '' };
+        displayInitial.textContent = '';
+        displayFinal.textContent = '';
+        displayTone.textContent = '';
+        displayResult.textContent = "_____";
+        displayResult.style.color = "#555";
+        document.querySelectorAll('.tile.selected').forEach(el => el.classList.remove('selected'));
+        replayBtn.classList.remove('active');
+        lastGeneratedSound = '';
+        lastGeneratedAudioName = '';
+    }
+
+    // --- Modal Logic ---
+    function openModal(item) {
+        currentToneIndex = tonesData.indexOf(item);
+        updateModalView();
+        document.getElementById('tone-modal').style.display = 'flex';
+    }
+
+    function updateModalView() {
+        const item = tonesData[currentToneIndex];
+        const emojiDisplay = document.getElementById('modal-emoji');
+        emojiDisplay.textContent = item.em;
+        emojiDisplay.onclick = () => playSound(item.u);
+
+        document.getElementById('modal-init').textContent = item.detail.i;
+        document.getElementById('modal-final').textContent = item.detail.f;
+        document.getElementById('modal-tone').textContent = item.detail.n;
+        
+        // --- Logic for Voice Change Overlays ---
+        // 1. Reset all overlays
+        document.querySelectorAll('.s-item.overlay').forEach(el => el.classList.remove('active'));
+        
+        // 2. Activate based on tone
+        const tone = item.t;
+        
+        // Activate Number
+        const numEl = document.getElementById(`num-${tone}`);
+        if(numEl) numEl.classList.add('active');
+        
+        // Activate Arrow
+        let arrowId = '';
+        switch(tone) {
+            case '1': arrowId = 'arrow-1-7'; break; // Lion
+            case '2': arrowId = 'arrow-2-1'; break; // Tiger
+            case '3': arrowId = 'arrow-3-2'; break; // Leopard
+            case '4': arrowId = 'arrow-4-2'; break; // Turtle
+            case '5': arrowId = 'arrow-5-7'; break; // Monkey
+            case '7': arrowId = 'arrow-7-3'; break; // Elephant
+            case '8': arrowId = 'arrow-8-4'; break; // Deer
+        }
+        
+        if(arrowId) {
+            const arrEl = document.getElementById(arrowId);
+            if(arrEl) arrEl.classList.add('active');
+        }
+    }
+
+    function closeModal(event) {
+        if (!event || event.target.id === 'tone-modal' || event.target.className === 'close-btn') {
+            document.getElementById('tone-modal').style.display = 'none';
+        }
+    }
+
+    function prevTone() {
+        if(currentToneIndex === -1) return;
+        currentToneIndex = (currentToneIndex - 1 + tonesData.length) % tonesData.length;
+        updateModalView();
+        playSound(tonesData[currentToneIndex].u);
+    }
+
+    function nextTone() {
+        if(currentToneIndex === -1) return;
+        currentToneIndex = (currentToneIndex + 1) % tonesData.length;
+        updateModalView();
+        playSound(tonesData[currentToneIndex].u);
+    }
+
+    // --- Logic ---
+    function submitAnswer() {
+        // Auto-fill Zero Initial
+        if (currentState.initial === null) {
+            currentState.initial = '';
+            document.getElementById('display-initial').textContent = '∅';
+            const zeroTile = document.querySelector('.tile-empty-box');
+            if(zeroTile) zeroTile.classList.add('selected');
+        }
+
+        // Auto-fill Tone 1
+        if (!currentState.tone) {
+            currentState.tone = '1';
+            document.getElementById('display-tone').textContent = '1';
+            const tone1Tile = document.querySelector('.tile[data-type="tone"][data-value="1"]');
+            if(tone1Tile) tone1Tile.classList.add('selected');
+        }
+
+        if (!currentState.final) {
+            displayResult.textContent = "_____"; 
+            displayResult.style.color = "#555";
+            replayBtn.classList.remove('active');
+            return;
+        }
+
+        const initial = currentState.initial;
+        const final = currentState.final;
+        const tone = currentState.tone || '1'; 
+
+        const combined = applyTone(initial, final, tone);
+        const cleanInit = (initial === ' ') ? '' : initial;
+        const audioName = cleanInit + final + tone;
+
+        // --- Rules Check ---
+        
+        // 1. Initial-Final Constraint Rules
+        
+        if (['m', 'n', 'ng'].includes(initial) && final.endsWith('nn')) {
+            displayError(combined, "m-n-ng-袂接-nn");
+            return;
+        }
+
+        if (['m', 'n', 'ng'].includes(initial) && final === 'o') {
+            displayError(combined, "無mo、no、ngo的組合");
+            return;
+        }
+
+        if (initial === 'm' && (final.endsWith('m') || final.endsWith('p'))) {
+            displayError(combined, "m-袂接-m/p");
+            return;
+        }
+
+        if (initial === 'n' && (final.endsWith('n') || final.endsWith('t'))) {
+            displayError(combined, "n-袂接-n/t");
+            return;
+        }
+
+        if (initial === 'ng' && (final.endsWith('ng') || final.endsWith('k'))) {
+            displayError(combined, "ng-袂接-ng/k");
+            return;
+        }
+
+        if (['b', 'l', 'g'].includes(initial) && final.endsWith('nn')) {
+            displayError(combined, "b-l-g-袂接-nn");
+            return;
+        }
+
+        // 2. Tone 4/8 Logic Rule (Checked AFTER Initial-Final Constraints)
+        const isStopped = final.endsWith('p') || final.endsWith('t') || final.endsWith('k') || final.endsWith('h');
+        const isTone48 = (tone === '4' || tone === '8');
+
+        if ( (isTone48 && !isStopped) || (!isTone48 && isStopped) ) {
+            displayError(combined, "48調是hptk結尾");
+            return;
+        }
+        
+        // Valid (Green Result with Search Link)
+        const searchKeyword = encodeURIComponent(combined.normalize('NFC'));
+        // Updated URL format with search parameters
+        const searchUrl = `https://sutian.moe.edu.tw/zh-hant/tshiau/?lui=tai_su&tsha=${searchKeyword}`;
+        
+        // Updated hint text
+        displayResult.innerHTML = `<a href="${searchUrl}" target="_blank" style="color:inherit; text-decoration:none; cursor:pointer;" title="點擊查辭典">${combined}</a><br><span style="font-size:0.5em; color:#999; font-weight:normal;">揤青字看台語辭典的搜揣結果</span>`;
+        displayResult.style.color = "#4caf50";
+        
+        lastGeneratedSound = combined;
+        lastGeneratedAudioName = audioName; 
+        replayBtn.classList.add('active');
+        
+        // Play
+        const tempBtn = document.createElement('button');
+        if (typeof holo === 'function') {
+            holo(tempBtn, audioName);
+        }
+    }
+
+    function displayError(text, msg) {
+        displayResult.innerHTML = `${text}<br><span style="font-size:0.6em">${msg}</span>`;
+        displayResult.style.color = "#ff4b4b";
+        replayBtn.classList.remove('active');
+    }
+
+    function replaySound() {
+        if (!lastGeneratedAudioName) return;
+        const tempBtn = document.createElement('button');
+        if (typeof holo === 'function') {
+            holo(tempBtn, lastGeneratedAudioName);
+        }
+    }
+
+    function applyTone(init, fin, toneNum) {
+        if (toneNum === '1' || toneNum === '4') {
+             return init + fin; 
+        }
+
+        let toneMark = '';
+        if (toneNum === '2') toneMark = '\u0301';
+        if (toneNum === '3') toneMark = '\u0300';
+        if (toneNum === '5') toneMark = '\u0302';
+        if (toneNum === '7') toneMark = '\u0304';
+        if (toneNum === '8') toneMark = '\u030d';
+
+        let target = '';
+        if (fin.includes('a')) target = 'a';
+        else if (fin.includes('oo')) target = 'o'; 
+        else if (fin.includes('e')) target = 'e';
+        else if (fin.includes('o')) target = 'o';
+        else if (fin.includes('iu') || fin.includes('ui')) {
+            if(fin.includes('iu')) target = 'u';
+            else target = 'i';
+        }
+        else if (fin.includes('i')) target = 'i';
+        else if (fin.includes('u')) target = 'u';
+        else if (fin.includes('m') && fin.length === 1) target = 'm'; 
+        else if (fin.includes('ng') && fin.length === 2) target = 'n'; 
+
+        if (target && toneMark) {
+            if (fin.includes('oo') && target === 'o') {
+                 return init + fin.replace('o', 'o' + toneMark);
+            }
+            return init + fin.replace(target, target + toneMark);
+        }
+
+        return init + fin;
+    }
+
+    init();
+
+</script>
+
+</body></html>

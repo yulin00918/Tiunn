@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+  .rn-card:hover{border-color:#4a9f6e;}
+</style>
+</helmet>
+<div style="margin:0;min-height:100vh;font-family:'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif;background:linear-gradient(135deg, #ffe3c2 0%, #ffb98f 55%, #ff9f7a 100%);color:#1f2d5c;padding:24px 14px 60px;">
+  <div style="max-width:920px;margin:0 auto;">
+    <a href="首頁.dc.html" style="display:inline-block;margin-bottom:14px;color:#1f2d5c;font-weight:700;text-decoration:none;">← 回首頁</a>
+    <h1 style="text-align:center;font-size:1.5rem;margin-bottom:4px;">聲母・韻母・聲調複習</h1>
+    <p style="text-align:center;opacity:0.75;margin-bottom:22px;font-size:0.9rem;">點擊有例字的卡片可以聽發音</p>
+
+    <div style="display:flex;justify-content:center;gap:8px;margin-bottom:20px;flex-wrap:wrap;">
+      <sc-for list="{{tabs}}" as="tab" hint-placeholder-count="6">
+        <button style="{{tab.style}}" onClick="{{tab.onClick}}">{{tab.label}}</button>
+      </sc-for>
+    </div>
+
+    <sc-if value="{{introActive}}">
+    <div style="background:#fdf6ec;border-radius:24px;padding:26px 24px;box-shadow:0 16px 40px rgba(140,80,40,0.18);">
+      <p>台語羅馬字(台羅拼音)的每一個音節,都是由三個部分組成:</p>
+      <div style="display:flex;justify-content:center;align-items:center;gap:10px;margin:20px 0;font-size:1.3rem;font-weight:700;flex-wrap:wrap;">
+        <div style="background:#fff;border:2px dashed #6f9fd8;color:#3a6ea8;border-radius:12px;padding:10px 20px;">聲母</div><div>+</div>
+        <div style="background:#fff;border:2px dashed #e5a15c;color:#b5701f;border-radius:12px;padding:10px 20px;">韻母</div><div>+</div>
+        <div style="background:#fff;border:2px dashed #d9637a;color:#a8425c;border-radius:12px;padding:10px 20px;">聲調</div><div>=</div>
+        <div style="background:#fff;border:2px dashed #e2d9f7;border-radius:12px;padding:10px 20px;">一个音節</div>
+      </div>
+      <p>「聲母」是音節開頭的子音(也有可能沒有,叫做零聲母);「韻母」是母音為主的部分;「聲調」是音節唸起來的高低升降。</p>
+      <p>用一個真實名字來看看:<b>張鈺聆</b> 這个名,臺羅拼音寫做 <b>Tiunn Gio̍k-lîng</b>,拆開來看:</p>
+      <div style="display:flex;justify-content:center;gap:18px;margin:20px 0;flex-wrap:wrap;">
+        <div style="background:#fff;border:2px solid #e2d9f7;border-radius:16px;padding:16px 18px;text-align:center;min-width:110px;">
+          <div style="font-size:1.3rem;margin-bottom:4px;">張</div>
+          <div style="font-size:1.6rem;font-weight:700;color:#1f2d5c;">Tiunn</div>
+          <div style="font-size:0.75rem;color:#8a7d9c;margin-top:6px;line-height:1.5;">聲母:t<br>韻母:iunn<br>聲調:第1調</div>
+        </div>
+        <div style="background:#fff;border:2px solid #e2d9f7;border-radius:16px;padding:16px 18px;text-align:center;min-width:110px;">
+          <div style="font-size:1.3rem;margin-bottom:4px;">鈺</div>
+          <div style="font-size:1.6rem;font-weight:700;color:#1f2d5c;">Gio̍k</div>
+          <div style="font-size:0.75rem;color:#8a7d9c;margin-top:6px;line-height:1.5;">聲母:g<br>韻母:iok<br>聲調:第8調(入聲)</div>
+        </div>
+        <div style="background:#fff;border:2px solid #e2d9f7;border-radius:16px;padding:16px 18px;text-align:center;min-width:110px;">
+          <div style="font-size:1.3rem;margin-bottom:4px;">聆</div>
+          <div style="font-size:1.6rem;font-weight:700;color:#1f2d5c;">Lîng</div>
+          <div style="font-size:0.75rem;color:#8a7d9c;margin-top:6px;line-height:1.5;">聲母:l<br>韻母:ing<br>聲調:第5調</div>
+        </div>
+      </div>
+      <p style="font-size:0.8rem;color:#8a7d9c;margin-top:16px;line-height:1.6;">這个例子剛好示範了三種不同的聲調類型:平調(張)、入聲短促調(鈺)、升調(聆)。你也可以試試看,把自己的名字拆成「聲母＋韻母＋聲調」,去教育部臺灣台語常用詞辭典的「姓名唸法查詢」附錄查詢正式的臺羅拼寫。</p>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{siannActive}}">
+    <div style="background:#fdf6ec;border-radius:24px;padding:26px 24px;box-shadow:0 16px 40px rgba(140,80,40,0.18);">
+      <p>台語總共有 17 個聲母,加上「零聲母」(無聲母,字直接以母音開頭)。下面依發音部位分組:</p>
+      <sc-for list="{{siannGroups}}" as="grp" hint-placeholder-count="5">
+        <div style="font-weight:700;color:#e58fc0;margin:18px 0 10px;font-size:1rem;">{{grp.label}}</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(150px,1fr));gap:10px;">
+          <sc-for list="{{grp.items}}" as="it" hint-placeholder-count="4">
+            <div class="rn-card" style="{{it.style}}" onClick="{{it.onClick}}">
+              <sc-if value="{{it.hasCustomAudio}}">
+                <span style="position:absolute;top:-8px;right:-8px;font-size:0.7rem;background:#4a9f6e;color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;cursor:pointer;" onClick="{{it.onCustomClick}}">🔊</span>
+              </sc-if>
+              <div style="font-size:1.3rem;font-weight:700;">{{it.roman}}</div>
+              <div style="font-size:0.8rem;color:#8a7d9c;margin-top:4px;">{{it.example}}</div>
+            </div>
+          </sc-for>
+        </div>
+      </sc-for>
+      <p style="font-size:0.8rem;color:#8a7d9c;margin-top:16px;line-height:1.6;">「j」在現代台語較少獨立使用,部分腔口會併入「l」或「g」,所以辭典裡幾乎找不到以「j」起首、有收錄音檔的單字。</p>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{unActive}}">
+    <div style="background:#fdf6ec;border-radius:24px;padding:26px 24px;box-shadow:0 16px 40px rgba(140,80,40,0.18);">
+      <p>韻母是音節裡聲母以外的部分,依語言學上的性質分做六大類:</p>
+      <ol style="padding-left:20px;line-height:1.9;">
+        <li><b>單母音</b>:發音時口形固定不變,共 6 個基本口部元音</li>
+        <li><b>複母音</b>:由兩三個單母音組合而成,發音時口形會滑動</li>
+        <li><b>鼻化元音</b>:氣流同時從口腔佮鼻腔出來,台羅拼音在母音後加 -nn 表示</li>
+        <li><b>聲化韻母</b>:由輔音單獨充當韻母,台語主要有 m 佮 ng 兩個</li>
+        <li><b>鼻音韻尾</b>:以鼻音 -m、-n、-ng 收尾</li>
+        <li><b>入聲韻尾</b>:以短促的閉口或喉塞音 -p、-t、-k、-h 收尾</li>
+      </ol>
+      <sc-for list="{{unGroups}}" as="grp" hint-placeholder-count="14">
+        <div style="font-weight:700;color:#e58fc0;margin:18px 0 10px;font-size:1rem;">{{grp.label}}</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(70px,1fr));gap:8px;">
+          <sc-for list="{{grp.items}}" as="u" hint-placeholder-count="6">
+            <div style="background:#fff;border:2px solid #e2d9f7;border-radius:10px;padding:8px 6px;text-align:center;font-size:0.95rem;font-weight:600;">{{u}}</div>
+          </sc-for>
+        </div>
+      </sc-for>
+      <p style="font-size:0.8rem;color:#8a7d9c;margin-top:16px;line-height:1.6;">「聲化韻母(入聲)」佮「入聲韻尾 -h(鼻化入聲)」是比較特殊的組合:mh/ngh 是聲化韻母加短促喉塞音;annh/ennh 等是鼻化元音加短促喉塞音。</p>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{tiauActive}}">
+    <div style="background:#fdf6ec;border-radius:24px;padding:26px 24px;box-shadow:0 16px 40px rgba(140,80,40,0.18);">
+      <p>台語傳統上算有 8 個聲調,但現代台語第 2 調佮第 6 調發音仝款,所以臺羅拼音實際上只標 7 個調號(1、2、3、4、5、7、8)。傳統教學常用「8調」的方式來排列例字,方便對照:</p>
+      <sc-for list="{{toneSets}}" as="set" hint-placeholder-count="3">
+        <div style="font-weight:700;color:#e58fc0;margin:18px 0 10px;font-size:1rem;">{{set.name}}</div>
+        <table style="width:100%;border-collapse:collapse;margin-top:4px;">
+          <tr><th style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;color:#e58fc0;font-size:0.85rem;">調號</th><th style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;color:#e58fc0;font-size:0.85rem;">例字</th><th style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;color:#e58fc0;font-size:0.85rem;">台羅</th><th style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;color:#e58fc0;font-size:0.85rem;">調型</th><th style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;color:#e58fc0;font-size:0.85rem;">播放</th></tr>
+          <sc-for list="{{set.tones}}" as="t" hint-placeholder-count="8">
+            <tr>
+              <td style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;">第{{t.num}}調</td>
+              <td style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;font-size:1.3rem;font-weight:700;">{{t.hanji}}</td>
+              <td style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;">{{t.tailo}}</td>
+              <td style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;">{{t.desc}}</td>
+              <td style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;">
+                <sc-if value="{{t.hasAudio}}"><span style="cursor:pointer;font-weight:700;font-size:1.2rem;" onClick="{{t.onClick}}">▶</span></sc-if>
+                <sc-if value="{{t.noAudio}}"><span style="color:#8a7d9c;font-size:0.75rem;">(辭典查無音檔)</span></sc-if>
+              </td>
+            </tr>
+          </sc-for>
+        </table>
+      </sc-for>
+      <p style="font-size:0.8rem;color:#8a7d9c;margin-top:16px;line-height:1.6;">調型括號裡的數字是五度標調法(1最低、5最高),例如「55」表示從高到高的平調,「51」表示從高降到低。第4、8調結尾是 p/t/k/h,發音短促,叫做入聲。現代台羅拼音不會另外標第6調,因為它跟第2調唸法相同。</p>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{piantiauActive}}">
+    <div style="background:#fdf6ec;border-radius:24px;padding:26px 24px;box-shadow:0 16px 40px rgba(140,80,40,0.18);">
+      <p>台語的詞,除了「詞的最後一個字」以外,前面的每一個字大部分都要「變調」(唸成另一個調),這是台語很重要的特色。</p>
+      <div style="font-weight:700;color:#e58fc0;margin:18px 0 10px;font-size:1rem;">非入聲調的變調循環</div>
+      <div style="text-align:center;margin:10px 0 16px;">
+        <svg viewBox="0 0 440 340" style="width:100%;max-width:420px;height:auto;background:transparent;border:3px solid #f3a72e;border-radius:20px;">
+          <defs>
+            <marker id="rn-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#1a1a1a"></path>
+            </marker>
+          </defs>
+          <text x="325" y="45" text-anchor="middle" font-size="17" fill="#1a1a1a" font-weight="900">h</text>
+          <line x1="345" y1="60" x2="255" y2="60" stroke="#1a1a1a" stroke-width="4" marker-end="url(#rn-arrow)"></line>
+          <line x1="195" y1="60" x2="105" y2="60" stroke="#1a1a1a" stroke-width="4" marker-end="url(#rn-arrow)"></line>
+
+          <line x1="70" y1="95" x2="70" y2="265" stroke="#1a1a1a" stroke-width="4" marker-end="url(#rn-arrow)"></line>
+          <line x1="220" y1="95" x2="220" y2="265" stroke="#1a1a1a" stroke-width="4" marker-end="url(#rn-arrow)"></line>
+          <line x1="370" y1="95" x2="370" y2="265" stroke="#1a1a1a" stroke-width="4" marker-end="url(#rn-arrow)" marker-start="url(#rn-arrow)"></line>
+          <text x="300" y="185" text-anchor="middle" font-size="18" fill="#1a1a1a" font-weight="900">p, t, k</text>
+
+          <text x="150" y="180" text-anchor="middle" font-size="26" fill="#1a1a1a" font-weight="900">5</text>
+          <line x1="140" y1="200" x2="90" y2="270" stroke="#1a1a1a" stroke-width="3.5" marker-end="url(#rn-arrow)"></line>
+          <text x="95" y="230" text-anchor="middle" font-size="17" fill="#1a1a1a" font-weight="900">南</text>
+          <line x1="165" y1="200" x2="205" y2="270" stroke="#1a1a1a" stroke-width="3.5" marker-end="url(#rn-arrow)"></line>
+          <text x="205" y="230" text-anchor="middle" font-size="17" fill="#1a1a1a" font-weight="900">北</text>
+
+          <line x1="100" y1="300" x2="190" y2="300" stroke="#1a1a1a" stroke-width="4" marker-end="url(#rn-arrow)"></line>
+          <text x="325" y="330" text-anchor="middle" font-size="17" fill="#1a1a1a" font-weight="900">h</text>
+          <line x1="345" y1="300" x2="255" y2="300" stroke="#1a1a1a" stroke-width="4" marker-end="url(#rn-arrow)"></line>
+
+          <text x="70" y="72" text-anchor="middle" font-size="40" font-weight="900" fill="#1a1a1a">1</text>
+          <text x="220" y="72" text-anchor="middle" font-size="40" font-weight="900" fill="#1a1a1a">2</text>
+          <text x="370" y="72" text-anchor="middle" font-size="40" font-weight="900" fill="#1a1a1a">4</text>
+          <text x="70" y="322" text-anchor="middle" font-size="40" font-weight="900" fill="#1a1a1a">7</text>
+          <text x="220" y="322" text-anchor="middle" font-size="40" font-weight="900" fill="#1a1a1a">3</text>
+          <text x="370" y="322" text-anchor="middle" font-size="40" font-weight="900" fill="#1a1a1a">8</text>
+
+        </svg>
+      </div>
+      <p style="font-size:0.8rem;color:#8a7d9c;text-align:center;margin-top:-8px;">粉紅箭頭＝非入聲調變調循環(1→7→3→2→1);綠色箭頭＝入聲對應(4↔8,依p/t/k或h結尾走不同規則,詳見下表);灰色箭頭＝第5調依腔口分做「南」(變第7調)佮「北」(變第3調)兩種變化。</p>
+      <p>意思是:如果一个字後面還有字(毋是詞的上尾字),它的調就會照這个循環變過去。例如「花」(hue)本調是第1調,若是講「花矸」(hue-kan,花瓶),前字「花」就會變調唸做第7調的調值。</p>
+      <div style="font-weight:700;color:#e58fc0;margin:18px 0 10px;font-size:1rem;">入聲調(第4調佮第8調)的變調</div>
+      <table style="width:100%;border-collapse:collapse;margin-top:4px;">
+        <tr><th style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;color:#e58fc0;font-size:0.85rem;">結尾</th><th style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;color:#e58fc0;font-size:0.85rem;">第4調變做</th><th style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;color:#e58fc0;font-size:0.85rem;">第8調變做</th></tr>
+        <tr><td style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;">-p / -t / -k 結尾</td><td style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;">第8調</td><td style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;">第4調</td></tr>
+        <tr><td style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;">-h 結尾</td><td style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;">第2調</td><td style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;">第3調</td></tr>
+      </table>
+      <p style="font-size:0.8rem;color:#8a7d9c;margin-top:16px;line-height:1.6;">入聲調(4、8調)結尾一定是 p、t、k、h 其中一个子音,發音短促。變調規則比較特別:p/t/k結尾的4調佮8調會互相對調;h結尾的則是分別變做2調佮3調。</p>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{specialActive}}">
+    <div style="background:#fdf6ec;border-radius:24px;padding:26px 24px;box-shadow:0 16px 40px rgba(140,80,40,0.18);">
+      <p>除了上面講的規律變調之外,台語閣有一寡特殊的「固定輕聲」佮「仔(á)前變調」規則。</p>
+      <div style="font-weight:700;color:#e58fc0;margin:18px 0 10px;font-size:1rem;">固定輕聲(毋管前字本調是啥物,攏唸做較輕較短的調)</div>
+      <table style="width:100%;border-collapse:collapse;margin-top:4px;">
+        <tr><th style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;color:#e58fc0;font-size:0.85rem;">語法類型</th><th style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;color:#e58fc0;font-size:0.85rem;">範例</th></tr>
+        <tr><td style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;">稱謂詞尾</td><td style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;">阿姨仔 a-î--á、頭家--ê</td></tr>
+        <tr><td style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;">時間詞尾</td><td style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;">透早--á、下晡--á</td></tr>
+        <tr><td style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;">動詞後補語</td><td style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;">食飽--矣、講煞--矣</td></tr>
+        <tr><td style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;">代名詞做受詞</td><td style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;">共--伊、予--你</td></tr>
+        <tr><td style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;">句尾語氣詞</td><td style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;">好--啦、莫按呢--啦</td></tr>
+      </table>
+      <p style="font-size:0.8rem;color:#8a7d9c;margin-top:16px;line-height:1.6;">上面「--」後壁的字就是固定唸輕聲的部分,無論前面接啥物字,攏唸做較輕較短,毋免照變調規則走。</p>
+      <div style="font-weight:700;color:#e58fc0;margin:18px 0 10px;font-size:1rem;">「仔」(á)前變調</div>
+      <p>詞的後壁若接「仔」(á,表示小、可愛或者是名詞化),仔前面彼字的調嘛有一套固定的變化規則:</p>
+      <table style="width:100%;border-collapse:collapse;margin-top:4px;">
+        <tr><th style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;color:#e58fc0;font-size:0.85rem;">本調</th><th style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;color:#e58fc0;font-size:0.85rem;">仔前變調</th><th style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;color:#e58fc0;font-size:0.85rem;">範例</th></tr>
+        <tr><td style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;">第1調</td><td style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;">變第7調</td><td style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;">芎蕉仔(king-tsio-á,香蕉)</td></tr>
+        <tr><td style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;">第2調／第3調</td><td style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;">變第1調</td><td style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;">椅仔(í-á,椅子)</td></tr>
+        <tr><td style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;">第5調</td><td style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;">變第7調</td><td style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;">牛仔(gû-á,小牛)</td></tr>
+        <tr><td style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;">第7調</td><td style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;">調值不變</td><td style="padding:10px 8px;text-align:center;border-bottom:1px solid #eee0f5;">樹仔(tshiū-á,小樹)</td></tr>
+      </table>
+      <p style="font-size:0.8rem;color:#8a7d9c;margin-top:16px;line-height:1.6;">這張表跟一般連字變調(前一張表)的規則不完全一樣,是「仔」這個字專屬的特殊變調模式。</p>
+    </div>
+    </sc-if>
+
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const SIANN_GROUPS_DEF = [["雙唇音", [["p","八","pat",48],["ph","皮","phî",1852],["m","毋","m̄",809],["b","文","bûn",796]]], ["舌尖音", [["t","刀","to",50],["th","天","thinn",784],["n","年","nî",2288],["l","人","lâng",46]]], ["舌根音", [["k","工","kang",199],["kh","口","kháu",183],["ng","黃","n̂g",9224],["g","牛","gû",1218]]], ["舌尖前音", [["ts","子","tsú",192],["tsh","千","tshian",180],["s","三","sann",163]]], ["喉音／零聲母", [["h","下","hā",168],["j",null,null,null],["（無）","伊","i",2047]]]];
+const UN_GROUPS_DEF = [["1. 單母音", ["a","e","i","o","oo","u"]], ["2. 複母音", ["ai","au","ia","iu","io","iau","ua","ue","ui","uai"]], ["3. 鼻化元音(單元音)", ["ann","enn","inn","onn"]], ["3. 鼻化元音(複元音)", ["ainn","aunn","iann","iaunn","iunn","uann","uainn","uinn"]], ["4. 聲化韻母", ["m","ng"]], ["4. 聲化韻母(入聲)", ["mh","ngh"]], ["5. 鼻音韻尾 -m", ["am","im","om","iam"]], ["5. 鼻音韻尾 -n", ["an","in","un","ian","uan"]], ["5. 鼻音韻尾 -ng", ["ang","ing","ong","iang","uang","iong"]], ["6. 入聲韻尾 -p", ["ap","ip","op","iap"]], ["6. 入聲韻尾 -t", ["at","it","ut","iat","uat"]], ["6. 入聲韻尾 -k", ["ak","ik","ok","iak","iok"]], ["6. 入聲韻尾 -h", ["ah","eh","ih","oh","ooh","uh","iah","ioh","iuh","uah","ueh","aih","auh","iauh","uih"]], ["6. 入聲韻尾 -h(鼻化入聲)", ["annh","ennh","onnh","aunnh","iannh","uainnh"]]];
+const TONE_SETS_DEF = [
+  { name: "君滾棍骨群滾郡滑", tones: [
+    {num:1,hanji:"君",tailo:"kun",id:2954},{num:2,hanji:"滾",tailo:"kún",id:10567},{num:3,hanji:"棍",tailo:"kùn",id:null},
+    {num:4,hanji:"骨",tailo:"kut",id:6800},{num:5,hanji:"群",tailo:"kûn",id:9815},{num:6,hanji:"滾",tailo:"kún",id:10567},
+    {num:7,hanji:"郡",tailo:"kūn",id:null},{num:8,hanji:"滑",tailo:"ku̍t",id:9684},
+  ]},
+  { name: "衫短褲闊人矮鼻直", tones: [
+    {num:1,hanji:"衫",tailo:"sann",id:5490},{num:2,hanji:"短",tailo:"té",id:8765},{num:3,hanji:"褲",tailo:"khòo",id:11886},
+    {num:4,hanji:"闊",tailo:"khuah",id:12430},{num:5,hanji:"人",tailo:"lâng",id:46},{num:6,hanji:"矮",tailo:"é",id:9739},
+    {num:7,hanji:"鼻",tailo:"phīnn",id:10938},{num:8,hanji:"直",tailo:"ti̍t",id:4373},
+  ]},
+  { name: "獅虎豹鴨熊馬象鹿", tones: [
+    {num:1,hanji:"獅",tailo:"sai",id:9721},{num:2,hanji:"虎",tailo:"hóo",id:4482},{num:3,hanji:"豹",tailo:"pà",id:6669},
+    {num:4,hanji:"鴨",tailo:"ah",id:12089},{num:5,hanji:"熊",tailo:"hîm",id:10645},{num:6,hanji:"馬",tailo:"bé",id:6798},
+    {num:7,hanji:"象",tailo:"tshiūnn",id:9033},{num:8,hanji:"鹿",tailo:"lo̍k",id:8086},
+  ]},
+];
+const TONE_DESC = {1:"高、平(55)",2:"高降(51)",3:"中降(31)",4:"短促、高(32,入聲)",5:"低升(24)",6:"同第2調",7:"中平(33)",8:"短促、低(4,入聲)"};
+const TAB_DEFS = [
+  { key: 'intro', label: '簡介' }, { key: 'siann', label: '聲母' }, { key: 'un', label: '韻母' },
+  { key: 'tiau', label: '聲調' }, { key: 'piantiau', label: '變調規則' }, { key: 'special', label: '特殊變調' },
+];
+function playId(id) { new Audio(`audio/${id}.mp3`).play().catch(()=>{}); }
+function playUrl(url) { new Audio(url).play().catch(()=>{}); }
+const CUSTOM_SIANN_AUDIO = { 'p':'audio/siann_p.mp3', 'ph':'audio/siann_ph.mp3', 'm':'audio/siann_m.mp3', 'b':'audio/siann_b.mp3', 't':'audio/siann_t.mp3', 'th':'audio/siann_th.mp3', 'g':'audio/siann_g.mp3', 'h':'audio/siann_h.mp3', 'ng':'audio/siann_ng.mp3', 'kh':'audio/siann_kh.mp3', 'k':'audio/siann_k.mp3', 'l':'audio/siann_l.mp3', 'n':'audio/siann_n.mp3', 'j':'audio/siann_j.mp3', 's':'audio/siann_s.mp3', 'tsh':'audio/siann_tsh.mp3', 'ts':'audio/siann_ts.mp3' };
+
+class Component extends DCLogic {
+  state = { activeTab: 0 };
+  renderVals() {
+    const active = this.state.activeTab;
+    const tabs = TAB_DEFS.map((d, i) => ({
+      label: d.label,
+      onClick: () => this.setState({ activeTab: i }),
+      style: `font-family:inherit;background:${i===active?'#1f2d5c':'#fff'};color:${i===active?'#fff':'#1f2d5c'};border:2px solid ${i===active?'#1f2d5c':'#e2d9f7'};border-radius:999px;padding:9px 18px;font-size:0.9rem;font-weight:700;cursor:pointer;`,
+    }));
+
+    const siannGroups = SIANN_GROUPS_DEF.map(([label, items]) => ({
+      label,
+      items: items.map(([roman, hanji, tailo, id]) => {
+        const customUrl = CUSTOM_SIANN_AUDIO[roman];
+        return {
+          roman,
+          example: id ? `例:${hanji}(${tailo})` : '(無單字範例)',
+          onClick: id ? () => playId(id) : null,
+          hasCustomAudio: !!customUrl,
+          onCustomClick: customUrl ? (e) => { e.stopPropagation(); playUrl(customUrl); } : null,
+          style: `position:relative;background:#fff;border:2px solid #e2d9f7;border-radius:14px;padding:10px 12px;text-align:center;cursor:${id?'pointer':'default'};opacity:${id?1:0.6};`,
+        };
+      }),
+    }));
+
+    const unGroups = UN_GROUPS_DEF.map(([label, list]) => ({ label, items: list }));
+
+    const toneSets = TONE_SETS_DEF.map(set => ({
+      name: set.name,
+      tones: set.tones.map(t => ({
+        num: t.num, hanji: t.hanji, tailo: t.tailo, desc: TONE_DESC[t.num],
+        hasAudio: !!t.id, noAudio: !t.id,
+        onClick: t.id ? () => playId(t.id) : null,
+      })),
+    }));
+
+    return {
+      tabs,
+      introActive: active === 0, siannActive: active === 1, unActive: active === 2,
+      tiauActive: active === 3, piantiauActive: active === 4, specialActive: active === 5,
+      siannGroups, unGroups, toneSets,
+    };
+  }
+}
+
+</script>
+</body>
+</html>

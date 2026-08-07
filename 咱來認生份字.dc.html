@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+</helmet>
+<div style="font-family:'Noto Sans TC',sans-serif;background:linear-gradient(135deg, #ffe3c2 0%, #ffb98f 55%, #ff9f7a 100%);min-height:100vh;">
+
+  <sc-if value="{{screenSelect}}">
+    <div style="background:#1f2d5c;padding:20px 30px;text-align:center;">
+      <div style="font-size:1.3rem;font-weight:900;color:#fff;letter-spacing:0.1em;">咱來讀生份字</div>
+      <div style="font-size:0.8rem;color:rgba(255,255,255,0.7);margin-top:4px;">選擇版本、冊次及課別開始測驗</div>
+    </div>
+    <div style="max-width:1200px;margin:0 auto;padding:24px 30px 60px;">
+      <a href="首頁.dc.html" style="display:inline-block;margin-bottom:20px;color:#1f2d5c;font-weight:700;text-decoration:none;white-space:nowrap;">← 回首頁</a>
+
+      <sc-for list="{{groups}}" as="grp" hint-placeholder-count="3">
+        <div style="display:flex;align-items:center;gap:8px;margin:20px 0 12px;">
+          <span style="width:5px;height:20px;background:#1f2d5c;border-radius:3px;display:inline-block;"></span>
+          <span style="font-weight:800;color:#1f2d5c;font-size:1rem;white-space:nowrap;">{{grp.label}}</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(280px,1fr));gap:16px;">
+          <sc-for list="{{grp.cards}}" as="card" hint-placeholder-count="4">
+            <div style="background:{{card.bg}};border-radius:20px;padding:18px 16px;box-shadow:0 8px 20px rgba(140,80,40,0.12);">
+              <div style="text-align:center;font-weight:800;color:#1f2d5c;font-size:0.95rem;">{{card.title}}</div>
+              <div style="text-align:center;font-size:0.72rem;color:#8a7d6d;margin-bottom:12px;">{{card.subtitle}}</div>
+              <sc-for list="{{card.rows}}" as="row" hint-placeholder-count="3">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 0;border-top:1px solid rgba(0,0,0,0.06);">
+                  <span style="font-size:0.78rem;color:#1f2d5c;font-weight:600;line-height:1.4;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;">{{row.label}}</span>
+                  <button style="{{row.btnStyle}}" disabled="{{row.disabled}}" onClick="{{row.onClick}}">{{row.btnLabel}}</button>
+                </div>
+              </sc-for>
+            </div>
+          </sc-for>
+        </div>
+      </sc-for>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{screenQuiz}}">
+    <div style="max-width:1000px;margin:0 auto;padding:30px;">
+      <button onClick="{{backToSelect}}" style="display:inline-block;margin-bottom:20px;background:none;border:none;color:#1f2d5c;font-weight:700;font-size:15px;cursor:pointer;padding:0;">← 返回選單</button>
+      <dc-import name="生份字測驗" words="{{activeWords}}" subtitle="{{activeSubtitle}}" hint-size="100%,700px"></dc-import>
+    </div>
+  </sc-if>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const WORDS_B1L1 = [{"num":"1","hanji":"傱","tailo":"tsông","audio":"audio/tsong.mp3","meaning":"為某種目的四處奔走","page":6},{"num":"2","hanji":"聊聊仔","tailo":"liâu-liâu-á","audio":"audio/liau-liau-a.mp3","meaning":"慢慢地、謹慎小心地","page":6},{"num":"3","hanji":"數念","tailo":"siàu-liām","audio":"audio/siau-liam.mp3","meaning":"想念、掛念、懷念","page":6},{"num":"4","hanji":"勻勻仔","tailo":"ûn-ûn-á","audio":"audio/un-un-a.mp3","meaning":"慢慢地、謹慎小心地","page":6},{"num":"5","hanji":"烰","tailo":"phû","audio":"audio/phu.mp3","meaning":"油炸，特別指食材會浮在油鍋上","page":6},{"num":"6","hanji":"滒","tailo":"kō","audio":"audio/ko.mp3","meaning":"沾、蘸","page":6},{"num":"7","hanji":"沿","tailo":"iân","audio":"audio/ian.mp3","meaning":"計算重疊、累積物的單位","page":6},{"num":"8","hanji":"仝款","tailo":"kāng-khuán","audio":"audio/kang-khuan.mp3","meaning":"同樣、相像","page":6},{"num":"9","hanji":"七娘媽","tailo":"tshit-niû-má","audio":"audio/tshit-niu-ma.mp3","meaning":"註生娘娘或是織女","page":7},{"num":"10","hanji":"硩","tailo":"teh","audio":"audio/teh.mp3","meaning":"壓","page":7},{"num":"11","hanji":"揤","tailo":"tshi̍h","audio":"audio/tshih.mp3","meaning":"按，用手向下壓","page":7},{"num":"12","hanji":"凹","tailo":"nah","audio":"audio/nah.mp3","meaning":"低陷之處","page":7},{"num":"13","hanji":"貯","tailo":"té/tué","audio":"audio/te.mp3","meaning":"裝、盛","page":7},{"num":"14","hanji":"秫米","tailo":"tsu̍t-bí","audio":"audio/tsut-bi.mp3","meaning":"糯米","page":8},{"num":"15","hanji":"浸","tailo":"tsìm","audio":"audio/tsim.mp3","meaning":"把東西放在水中泡著","page":8},{"num":"16","hanji":"挨米","tailo":"e-bí","audio":"audio/e-bi.mp3","meaning":"磨米","page":8},{"num":"17","hanji":"粿粞","tailo":"kué-tshè/ké-tshuè","audio":"audio/kue-tshe.mp3","meaning":"糯米團","page":8},{"num":"18","hanji":"搙","tailo":"jio̍k/lio̍k","audio":"audio/jiok.mp3","meaning":"用手搓揉物品","page":8},{"num":"19","hanji":"捻","tailo":"liàm","audio":"audio/liam.mp3","meaning":"用手指頭將東西捏取下來","page":8},{"num":"20","hanji":"糋","tailo":"tsìnn","audio":"audio/tsinn.mp3","meaning":"炸","page":8}];
+const WORDS_B3L1 = [{"num":"1","hanji":"閃爍","tailo":"siám-sih","audio":"audio/siam-sih.mp3","meaning":"光線不穩定，明明滅滅的樣子","page":6},{"num":"2","hanji":"莫","tailo":"mài","audio":"audio/mai.mp3","meaning":"不要。表示禁止或勸阻之意","page":6},{"num":"3","hanji":"盤撋","tailo":"puânn-nuá","audio":"audio/puann-nua.mp3","meaning":"交際應酬，指人與人之間互相交往","page":6},{"num":"★","hanji":"la-jí-ooh","tailo":"la-jí-ooh","audio":"audio/la-ji-ooh.mp3","meaning":"日語外來詞，收音機","page":6},{"num":"4","hanji":"愛人仔","tailo":"ài-jîn-á","audio":"audio/ai-jin-a.mp3","meaning":"情人","page":7},{"num":"5","hanji":"哪會","tailo":"ná ē","audio":"audio/na-e.mp3","meaning":"怎麼會","page":7},{"num":"7","hanji":"著賊偷","tailo":"tio̍h-tsha̍t-thau","audio":"audio/tioh-tshat-thau.mp3","meaning":"失竊、遭小偷","page":7},{"num":"8","hanji":"崁","tailo":"khàm","audio":"audio/kham.mp3","meaning":"覆蓋","page":7},{"num":"9","hanji":"囥","tailo":"khǹg","audio":"audio/khng.mp3","meaning":"擱下、放下","page":7},{"num":"10","hanji":"緣投","tailo":"iân-tâu","audio":"audio/ian-tau.mp3","meaning":"英俊，形容男子長相好看","page":9},{"num":"12","hanji":"紮","tailo":"tsah","audio":"audio/tsah.mp3","meaning":"攜帶","page":"補充"},{"num":"13","hanji":"礙虐","tailo":"gāi-gio̍h","audio":"audio/gai-gioh.mp3","meaning":"彆扭、不順，令人覺得不舒服","page":"補充"},{"num":"14","hanji":"攑頭","tailo":"gia̍h-thâu","audio":"audio/giah-thau.mp3","meaning":"舉頭、抬頭","page":"補充"},{"num":"15","hanji":"四箍輾轉","tailo":"sì-khoo-liàn-tńg","audio":"audio/si-khoo-lian-tng.mp3","meaning":"四周、周遭","page":"補充"},{"num":"16","hanji":"鼻芳","tailo":"phīnn-phang","audio":"audio/phinn-phang.mp3","meaning":"聞其香味，卻不能吃","page":"補充"},{"num":"17","hanji":"踅街","tailo":"se̍h-ke","audio":"audio/seh-ke.mp3","meaning":"逛街，在街頭散步閒遊","page":"補充"},{"num":"18","hanji":"電火","tailo":"tiān-hué","audio":"audio/tian-hue.mp3","meaning":"電燈","page":"補充"},{"num":"20","hanji":"斟酌","tailo":"tsim-tsiok","audio":"audio/tsim-tsiok.mp3","meaning":"形容做事小心謹慎，詳細考慮","page":"補充"}];
+const WORDS_B3L2 = [{"num":"1","hanji":"北管","tailo":"pak-kuán","audio":"audio/pak-kuan.mp3","meaning":"流行在中國閩南及臺灣的傳統音樂","page":24},{"num":"3","hanji":"雨幔","tailo":"hōo-mua","audio":"audio/hoo-mua.mp3","meaning":"雨衣","page":24},{"num":"4","hanji":"靴管","tailo":"hia-kóng","audio":"audio/hia-kong.mp3","meaning":"雨鞋","page":24},{"num":"5","hanji":"霆水螺","tailo":"tân-tsuí-lê","audio":"audio/tan-tsui-le.mp3","meaning":"指拉警報，過去亦有報時、通知之意","page":24},{"num":"6","hanji":"澹","tailo":"tâm","audio":"audio/tam.mp3","meaning":"意即溼","page":25},{"num":"7","hanji":"霎霎仔雨","tailo":"sap-sap-á-hōo","audio":"audio/sap-sap-a-hoo.mp3","meaning":"細雨、小雨、毛毛雨","page":25},{"num":"10","hanji":"軟絲仔","tailo":"nńg-si-á","audio":"audio/nng-si-a.mp3","meaning":"萊氏擬烏賊的俗稱","page":25},{"num":"11","hanji":"紅目鰱","tailo":"âng-ba̍k-liân","audio":"audio/ang-bak-lian.mp3","meaning":"大眼鯛，魚身呈卵圓形、紅色","page":25},{"num":"12","hanji":"布袋","tailo":"pòo-tē","audio":"audio/poo-te.mp3","meaning":"用棉布製成的袋子，與嘉義布袋鎮地名之意","page":26},{"num":"13","hanji":"貯","tailo":"té/tué","audio":"audio/te.mp3","meaning":"裝、盛","page":26},{"num":"16","hanji":"相拄","tailo":"sio-tú","audio":"audio/sio-tu.mp3","meaning":"意指相逢、相遇","page":27},{"num":"18","hanji":"電火球仔","tailo":"tiān-hué-kiû-á","audio":"audio/tian-hue-kiu-a.mp3","meaning":"電燈泡、燈泡","page":"補充"},{"num":"23","hanji":"𨑨迌","tailo":"tshit-thô","audio":"audio/tshit-tho.mp3","meaning":"遊玩","page":"補充"}];
+
+const GROUPS_DEF = [
+  { key: 'zhenping', label: '真平版(國中)', cards: [
+    { title: '第1冊', subtitle: '共 0 課', rows: [ { label: '第1課', words: null }, { label: '第2課', words: null }, { label: '第3課', words: null } ] },
+    { title: '第2冊', subtitle: '共 0 課', rows: [ { label: '第1課', words: null }, { label: '第2課', words: null } ] },
+    { title: '第3冊', subtitle: '共 0 課', rows: [ { label: '第1課', words: null }, { label: '第2課', words: null } ] },
+    { title: '第4冊', subtitle: '共 0 課', rows: [ { label: '第1課', words: null }, { label: '第2課', words: null } ] },
+  ]},
+  { key: 'kangxuan', label: '康軒版(國中)', cards: [
+    { title: '第1冊', subtitle: '共 0 課', rows: [ { label: '第1課', words: null }, { label: '第2課', words: null } ] },
+    { title: '第2冊', subtitle: '共 0 課', rows: [ { label: '第1課', words: null }, { label: '第2課', words: null } ] },
+    { title: '第3冊', subtitle: '共 0 課', rows: [ { label: '第1課', words: null }, { label: '第2課', words: null } ] },
+  ]},
+  { key: 'yuda', label: '育達版(國中)', cards: [
+    { title: '第1冊', subtitle: '共 20 字', rows: [
+      { label: '第1課 白糖粿', words: WORDS_B1L1, subtitle: '育達版國中第1冊 第1課 白糖粿' },
+      { label: '第2課', words: null },
+    ]},
+    { title: '第3冊', subtitle: '共 2 課', rows: [
+      { label: '第1課 手機仔', words: WORDS_B3L1, subtitle: '育達版國中第3冊 第1課 手機仔' },
+      { label: '第2課 雨港基隆，魚鹽規布袋', words: WORDS_B3L2, subtitle: '育達版國中第3冊 第2課 雨港基隆，魚鹽規布袋' },
+      { label: '第3課', words: null },
+    ]},
+  ]},
+];
+
+class Component extends DCLogic {
+  state = { screen: 'select', activeWords: null, activeSubtitle: '' };
+
+  openLesson(row) {
+    this.setState({ screen: 'quiz', activeWords: row.words, activeSubtitle: row.subtitle });
+  }
+
+  renderVals() {
+    const groups = GROUPS_DEF.map(g => ({
+      label: g.label,
+      cards: g.cards.map(card => ({
+        title: card.title,
+        subtitle: card.subtitle,
+        bg: '#fdf1e2',
+        rows: card.rows.map(row => {
+          const available = !!row.words;
+          return {
+            label: row.label,
+            disabled: !available,
+            btnLabel: available ? '開始' : '尚未建立',
+            btnStyle: `font-family:inherit;border:none;border-radius:999px;padding:6px 14px;font-size:0.72rem;font-weight:700;cursor:${available ? 'pointer' : 'not-allowed'};background:${available ? '#4a9f6e' : '#e5ddd0'};color:${available ? '#fff' : '#9a8f80'};white-space:nowrap;`,
+            onClick: available ? () => this.openLesson(row) : null,
+          };
+        }),
+      })),
+    }));
+    return {
+      screenSelect: this.state.screen === 'select',
+      screenQuiz: this.state.screen === 'quiz',
+      groups,
+      activeWords: this.state.activeWords,
+      activeSubtitle: this.state.activeSubtitle,
+      backToSelect: () => this.setState({ screen: 'select' }),
+    };
+  }
+}
+
+</script>
+</body>
+</html>

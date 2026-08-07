@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+  @keyframes pulse { 0%{opacity:1;} 50%{opacity:0.5;} 100%{opacity:1;} }
+</style>
+</helmet>
+<div style="font-family:'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif;background:#fdfaf4;color:#2b2320;padding:24px 16px 60px;min-height:100vh;">
+  <h1 style="text-align:center;font-size:1.5rem;letter-spacing:0.08em;margin-bottom:4px;">台語拼音練習</h1>
+  <p style="text-align:center;color:#8a7d6d;font-size:0.85rem;margin-bottom:24px;">選聲母 + 韻母 + 聲調,組成音節,聽聽看怎麼唸</p>
+
+  <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:14px;max-width:1000px;margin:0 auto;">
+
+    <div style="border-radius:14px;padding:14px;border:2px solid #f5a623;background:#fff4e0;">
+      <h2 style="font-size:0.95rem;margin:0 0 10px;text-align:center;letter-spacing:0.15em;color:#f5a623;">聲母</h2>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;">
+        <sc-for list="{{siannButtons}}" as="btn" hint-placeholder-count="18">
+          <button style="{{btn.style}}" onClick="{{btn.onClick}}">
+            {{btn.label}}
+            <sc-if value="{{btn.hasAudio}}">
+              <span style="position:absolute;top:-6px;right:-6px;font-size:0.65rem;background:#fff;border:1px solid #ddd0bd;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;line-height:1;cursor:pointer;z-index:2;" onClick="{{btn.playAudio}}">🔊</span>
+            </sc-if>
+          </button>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="border-radius:14px;padding:14px;border:2px solid #8b5fbf;background:#f2e9fa;">
+      <h2 style="font-size:0.95rem;margin:0 0 10px;text-align:center;letter-spacing:0.15em;color:#8b5fbf;">韻母</h2>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;max-height:340px;overflow-y:auto;padding-right:4px;">
+        <sc-for list="{{unGroups}}" as="grp" hint-placeholder-count="14">
+          <div style="grid-column:1 / -1;font-size:0.7rem;color:#8a7d6d;margin-top:6px;margin-bottom:-2px;">{{grp.label}}</div>
+          <sc-for list="{{grp.items}}" as="btn" hint-placeholder-count="6">
+            <button style="{{btn.style}}" onClick="{{btn.onClick}}">
+              {{btn.label}}
+              <sc-if value="{{btn.hasAudio}}">
+                <span style="position:absolute;top:-6px;right:-6px;font-size:0.65rem;background:#fff;border:1px solid #ddd0bd;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;line-height:1;cursor:pointer;z-index:2;" onClick="{{btn.playAudio}}">🔊</span>
+              </sc-if>
+            </button>
+          </sc-for>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="border-radius:14px;padding:14px;border:2px solid #e0507a;background:#fde6ec;">
+      <h2 style="font-size:0.95rem;margin:0 0 10px;text-align:center;letter-spacing:0.15em;color:#e0507a;">聲調</h2>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;">
+        <sc-for list="{{tiauButtons}}" as="btn" hint-placeholder-count="8">
+          <button style="{{btn.style}}" onClick="{{btn.onClick}}" disabled="{{btn.disabled}}">{{btn.label}}</button>
+        </sc-for>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="max-width:1000px;margin:18px auto 0;background:#fff;border:2px solid #e4dccf;border-radius:14px;padding:18px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+    <div>
+      <div style="font-size:2.4rem;font-weight:700;letter-spacing:0.03em;min-width:140px;">{{previewSyll}}</div>
+      <div style="font-size:0.8rem;color:#8a7d6d;">{{previewParts}}</div>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <button style="font-family:inherit;font-size:0.95rem;padding:10px 20px;border-radius:999px;border:none;cursor:pointer;font-weight:600;background:#f3e6e6;color:#a14c4c;" onClick="{{clearAll}}">清除</button>
+      <button style="font-family:inherit;font-size:0.95rem;padding:10px 20px;border-radius:999px;border:none;cursor:pointer;font-weight:600;background:#e6ecf3;color:#3c5a7a;" onClick="{{goBack}}">返回</button>
+      <button style="{{submitStyle}}" onClick="{{submit}}" disabled="{{submitDisabled}}">送出</button>
+    </div>
+  </div>
+
+  <sc-if value="{{resultShow}}">
+    <div style="max-width:1000px;margin:16px auto 0;background:#fff;border-radius:14px;border:2px solid #e4dccf;padding:16px 18px;">
+      <sc-if value="{{hasMatches}}">
+        <h3 style="margin:0 0 10px;font-size:0.95rem;color:#8a7d6d;">找到 {{matchCount}} 個字,點擊播放</h3>
+        <sc-for list="{{matches}}" as="m" hint-placeholder-count="2">
+          <div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid #f0e9dd;">
+            <div style="font-size:1.5rem;font-weight:700;">{{m.hanji}}</div>
+            <div style="color:#8a7d6d;font-size:0.95rem;">{{m.lomaji}}</div>
+            <button style="margin-left:auto;background:#4caf7d;color:#fff;border:none;border-radius:999px;width:38px;height:38px;font-size:1rem;cursor:pointer;" onClick="{{m.play}}">▶</button>
+          </div>
+        </sc-for>
+      </sc-if>
+      <sc-if value="{{noMatch}}">
+        <div style="text-align:center;padding:10px 0;">
+          本站沒有「{{noMatchKey}}」的音檔,幫你連到教育部臺灣台語常用詞辭典查詢:
+          <br>
+          <a href="{{dictUrl}}" target="_blank" rel="noopener" style="display:inline-block;margin-top:8px;background:#e0507a;color:#fff;text-decoration:none;padding:10px 22px;border-radius:999px;font-weight:600;">前往辭典查詢 →</a>
+        </div>
+      </sc-if>
+    </div>
+  </sc-if>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const SIANN_LIST = ['p','ph','m','b','t','th','n','l','k','kh','ng','g','ts','tsh','s','j','h'];
+const UN_GROUPS_DEF = [
+  ['1.單母音', ['a','e','i','o','oo','u']],
+  ['2.複母音', ['ai','au','ia','iu','io','iau','ua','ue','ui','uai']],
+  ['3.鼻化(單)', ['ann','enn','inn','onn']],
+  ['3.鼻化(複)', ['ainn','aunn','iann','iaunn','iunn','uann','uainn','uinn']],
+  ['4.聲化韻母', ['m','ng']],
+  ['4.聲化(入聲)', ['mh','ngh']],
+  ['5.鼻尾-m', ['am','im','om','iam']],
+  ['5.鼻尾-n', ['an','in','un','ian','uan']],
+  ['5.鼻尾-ng', ['ang','ing','ong','iang','uang','iong']],
+  ['6.入聲-p', ['ap','ip','op','iap']],
+  ['6.入聲-t', ['at','it','ut','iat','uat']],
+  ['6.入聲-k', ['ak','ik','ok','iak','iok']],
+  ['6.入聲-h', ['ah','eh','ih','oh','ooh','uh','iah','ioh','iuh','uah','ueh','aih','auh','iauh','uih']],
+  ['6.入聲-h(鼻化)', ['annh','ennh','onnh','aunnh','iannh','uainnh']],
+];
+const TIAU_LIST = [1,2,3,4,5,6,7,8];
+const SIANN_EXAMPLES = {
+  'p': [48,'八'], 'ph': [1852,'皮'], 'm': [809,'毋'],
+  't': [50,'刀'], 'th': [784,'天'], 'n': [2288,'年'], 'l': [46,'人'],
+  'k': [199,'工'], 'kh': [183,'口'],
+  'ts': [192,'子'], 'tsh': [180,'千'], 's': [163,'三'],
+  'h': [168,'下'],
+};
+const CUSTOM_SIANN_AUDIO = {
+  'g': 'audio/siann_g.mp3',
+};
+const MOE_SIANN_AUDIO = {
+  'p': 'https://www.mdnkids.com/BoPoMo/audio/01.mp3', 'ph': 'https://www.mdnkids.com/BoPoMo/audio/02.mp3',
+  'm': 'https://www.mdnkids.com/BoPoMo/audio/03.mp3', 't': 'https://www.mdnkids.com/BoPoMo/audio/05.mp3',
+  'th': 'https://www.mdnkids.com/BoPoMo/audio/06.mp3', 'n': 'https://www.mdnkids.com/BoPoMo/audio/07.mp3',
+  'l': 'https://www.mdnkids.com/BoPoMo/audio/08.mp3', 'k': 'https://www.mdnkids.com/BoPoMo/audio/09.mp3',
+  'kh': 'https://www.mdnkids.com/BoPoMo/audio/10.mp3', 'h': 'https://www.mdnkids.com/BoPoMo/audio/11.mp3',
+  'j': 'https://www.mdnkids.com/BoPoMo/audio/18.mp3', 'ts': 'https://www.mdnkids.com/BoPoMo/audio/19.mp3',
+  'tsh': 'https://www.mdnkids.com/BoPoMo/audio/20.mp3', 's': 'https://www.mdnkids.com/BoPoMo/audio/21.mp3',
+};
+const UN_EXAMPLES = {
+  'a':[4496,'阿'],'e':[5959,'挨'],'i':[2047,'伊'],'o':[7814,'蚵'],'oo':[6227,'烏'],'u':[4498,'雨'],
+  'ai':[4778,'哀'],'au':[10607,'漚'],'ia':[8003,'野'],'iu':[11051,'憂'],'io':[174,'么'],'iau':[3048,'妖'],
+  'ua':[5709,'倚'],'ue':[8517,'椏'],'ui':[2830,'衣'],'uai':[5119,'歪'],
+  'ann':[2120,'向'],'inn':[11812,'穎'],'onn':[5804,'唔'],'iann':[11017,'影'],'iaunn':[8171,'喓'],
+  'iunn':[6532,'舀'],'uann':[11532,'鞍'],'uainn':[13479,'𨂿'],
+  'm':[3762,'姆'],'ng':[6426,'秧'],
+  'am':[7311,'掩'],'im':[5565,'音'],'om':[7314,'掩'],'iam':[11991,'閹'],
+  'an':[2281,'安'],'in':[2127,'因'],'un':[5953,'恩'],'ian':[9690,'煙'],'uan':[5716,'冤'],
+  'ang':[3055,'尪'],'ing':[3753,'坱'],'ong':[3878,'往'],'iang':[1411,'央'],'uang':[13084,'嚾'],'iong':[4700,'勇'],
+  'ap':[7637,'盒'],'iap':[8407,'揜'],'at':[10150,'遏'],'it':[2,'一'],'ut':[11189,'熨'],
+  'iat':[11653,'擛'],'uat':[10532,'斡'],'ak':[3281,'沃'],'ik':[9641,'溢'],'ok':[8341,'惡'],'iak':[10499,'摔'],'iok':[5364,'約'],
+  'ah':[3943,'押'],'eh':[778,'厄'],'oh':[10375,'僫'],'iah':[9483,'搤'],'ioh':[12296,'臆'],
+  'uah':[5166,'活'],'aih':[11604,'噯'],
+};
+function placeTone(syll, tone) {
+  const markMap = {2:'\u0301', 3:'\u0300', 5:'\u0302', 7:'\u0304', 8:'\u030d'};
+  if (!markMap[tone]) return syll;
+  const mark = markMap[tone];
+  let idx = -1;
+  if (syll.includes('oo')) idx = syll.indexOf('oo');
+  else if (syll.includes('a')) idx = syll.indexOf('a');
+  else if (syll.includes('o')) idx = syll.indexOf('o');
+  else if (syll.includes('e')) idx = syll.indexOf('e');
+  else {
+    for (let i = syll.length - 1; i >= 0; i--) { if (syll[i]==='i'||syll[i]==='u') { idx = i; break; } }
+    if (idx === -1) { if (syll.includes('ng')) idx = syll.indexOf('ng'); else if (syll.includes('m')) idx = syll.indexOf('m'); }
+  }
+  if (idx === -1) return syll + mark;
+  return (syll.slice(0, idx+1) + mark + syll.slice(idx+1)).normalize('NFC');
+}
+function playFile(id) { new Audio(`audio/${id}.mp3`).play().catch(()=>{}); }
+function playUrl(url) { new Audio(url).play().catch(()=>{}); }
+
+class Component extends DCLogic {
+  state = { siann: null, un: null, tiau: null, result: null, lookup: null };
+  componentDidMount() {
+    import('./lookup-data.js').then(m => this.setState({ lookup: m.default }));
+  }
+  select(kind, value) {
+    this.setState({ [kind]: value, result: null });
+  }
+  clearAll() { this.setState({ siann: null, un: null, tiau: null, result: null }); }
+  goBack() {
+    if (this.state.tiau !== null) this.setState({ tiau: null, result: null });
+    else if (this.state.un !== null) this.setState({ un: null, result: null });
+    else if (this.state.siann !== null) this.setState({ siann: null, result: null });
+  }
+  submit() {
+    const { siann, un, tiau, lookup } = this.state;
+    const key = (siann || '') + un + tiau;
+    const matches = lookup ? lookup[key] : null;
+    this.setState({ result: { key, matches: matches || null } });
+  }
+  renderVals() {
+    const { siann, un, tiau, result } = this.state;
+
+    const siannButtons = [{ label: '（無聲母）', style: `grid-column:1 / -1;font-size:0.8rem;position:relative;font-family:inherit;padding:8px 4px;border-radius:8px;border:1.5px solid #ddd0bd;background:${siann===''?'#f5a623':'#fff'};color:${siann===''?'#fff':'#2b2320'};cursor:pointer;`, onClick: () => this.select('siann',''), hasAudio: false, playAudio: null }]
+      .concat(SIANN_LIST.map(s => {
+        const selected = siann === s;
+        const customUrl = CUSTOM_SIANN_AUDIO[s];
+        const moeUrl = MOE_SIANN_AUDIO[s];
+        const ex = SIANN_EXAMPLES[s];
+        const hasAudio = !!(customUrl || moeUrl || ex);
+        return {
+          label: s,
+          style: `position:relative;font-family:inherit;font-size:0.95rem;padding:8px 4px;border-radius:8px;border:1.5px solid #ddd0bd;background:${selected?'#f5a623':'#fff'};color:${selected?'#fff':'#2b2320'};cursor:pointer;`,
+          onClick: () => this.select('siann', s),
+          hasAudio,
+          playAudio: (e) => { e.stopPropagation(); if (customUrl) playUrl(customUrl); else if (moeUrl) playUrl(moeUrl); else if (ex) playFile(ex[0]); },
+        };
+      }));
+
+    const unGroups = UN_GROUPS_DEF.map(([label, list]) => ({
+      label,
+      items: list.map(u => {
+        const selected = un === u;
+        const ex = UN_EXAMPLES[u];
+        return {
+          label: u,
+          style: `position:relative;font-family:inherit;font-size:0.95rem;padding:8px 4px;border-radius:8px;border:1.5px solid #ddd0bd;background:${selected?'#8b5fbf':'#fff'};color:${selected?'#fff':'#2b2320'};cursor:pointer;`,
+          onClick: () => this.select('un', u),
+          hasAudio: !!ex,
+          playAudio: ex ? (e) => { e.stopPropagation(); playFile(ex[0]); } : null,
+        };
+      }),
+    }));
+
+    const tiauButtons = TIAU_LIST.map(t => {
+      const selected = tiau === t;
+      const disabled = t === 6;
+      return {
+        label: String(t),
+        disabled,
+        style: `font-family:inherit;font-size:0.95rem;padding:8px 4px;border-radius:8px;border:1.5px solid #ddd0bd;background:${selected?'#e0507a':'#fff'};color:${selected?'#fff':'#2b2320'};cursor:${disabled?'not-allowed':'pointer'};opacity:${disabled?0.35:1};`,
+        onClick: disabled ? null : () => this.select('tiau', t),
+      };
+    });
+
+    const base = (siann || '') + (un || '');
+    const previewSyll = (un === null || tiau === null) ? '--' : placeTone(base, tiau);
+    const previewParts = (un === null || tiau === null) ? '請選擇聲母、韻母、聲調' : `聲母:${siann || '（無）'}　韻母:${un}　聲調:第${tiau}調　查詢碼:${base}${tiau}`;
+    const submitDisabled = un === null || tiau === null;
+
+    const matches = result && result.matches ? result.matches.map(m => ({ hanji: m.hanji, lomaji: m.lomaji, play: () => playFile(m.id) })) : [];
+
+    return {
+      siannButtons, unGroups, tiauButtons, previewSyll, previewParts, submitDisabled,
+      submitStyle: `font-family:inherit;font-size:0.95rem;padding:10px 20px;border-radius:999px;border:none;font-weight:600;background:#4caf7d;color:#fff;cursor:${submitDisabled?'not-allowed':'pointer'};opacity:${submitDisabled?0.4:1};`,
+      clearAll: () => this.clearAll(),
+      goBack: () => this.goBack(),
+      submit: () => this.submit(),
+      resultShow: !!result,
+      hasMatches: matches.length > 0,
+      matches,
+      matchCount: matches.length,
+      noMatch: !!result && matches.length === 0,
+      noMatchKey: result ? result.key : '',
+      dictUrl: result ? `https://sutian.moe.edu.tw/zh-hant/tshiau/?lui=tai_su&tsha=${encodeURIComponent(result.key)}` : '',
+    };
+  }
+}
+
+</script>
+</body>
+</html>

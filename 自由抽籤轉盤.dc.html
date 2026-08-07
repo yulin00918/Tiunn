@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  .wh-toast.show{opacity:1 !important;transform:translateX(-50%) translateY(0) !important;}
+  .wh-input{box-sizing:border-box;}
+  .wh-spin-btn:disabled{opacity:.65;cursor:not-allowed;}
+</style>
+</helmet>
+<div style="font-family:'Noto Sans TC',sans-serif;color:#26304a;background:radial-gradient(circle at 10% 10%, rgba(255,255,255,.95), transparent 28%),radial-gradient(circle at 90% 20%, rgba(255,190,210,.8), transparent 30%),linear-gradient(135deg, #ffe0ec, #fff0f5);min-height:100vh;padding:20px;">
+  <div style="width:min(1320px,100%);margin:0 auto;">
+
+    <header style="text-align:center;margin-bottom:18px;">
+      <h1 style="margin:0 0 6px;font-size:clamp(30px,5vw,48px);">🎡 自由抽籤轉盤</h1>
+      <p style="margin:0;color:#6f7890;">抽組別、抽事件卡、抽任務、抽座號,想抽什麼都可以。</p>
+    </header>
+
+    <div style="display:grid;grid-template-columns:390px 1fr;gap:18px;align-items:start;">
+
+      <aside style="background:rgba(255,255,255,.94);border:1px solid rgba(255,255,255,.9);border-radius:24px;box-shadow:0 18px 45px rgba(66,77,140,.16);backdrop-filter:blur(12px);padding:18px;">
+        <label style="display:block;font-weight:800;margin:14px 0 7px;">轉盤名稱</label>
+        <input class="wh-input" value="{{title}}" onChange="{{onTitleChange}}" placeholder="例如：抽組別、事件卡、任務抽籤" style="width:100%;padding:11px 12px;border:1px solid #dfe4f2;border-radius:12px;background:#fff;font:inherit;color:#26304a;outline:none;">
+
+        <label style="display:block;font-weight:800;margin:14px 0 7px;">轉盤內容</label>
+        <textarea class="wh-input" placeholder="請一行輸入一個項目，例如：&#10;第一組&#10;第二組" value="{{itemsText}}" onChange="{{onItemsTextChange}}" style="width:100%;min-height:220px;resize:vertical;line-height:1.7;padding:11px 12px;border:1px solid #dfe4f2;border-radius:12px;background:#fff;font:inherit;color:#26304a;outline:none;"></textarea>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <div>
+            <label style="display:block;font-weight:800;margin:14px 0 7px;">清單名稱</label>
+            <input class="wh-input" value="{{presetName}}" onChange="{{onPresetNameChange}}" placeholder="例如：六組抽籤" style="width:100%;padding:11px 12px;border:1px solid #dfe4f2;border-radius:12px;background:#fff;font:inherit;color:#26304a;outline:none;">
+          </div>
+          <div>
+            <label style="display:block;font-weight:800;margin:14px 0 7px;">載入清單</label>
+            <select value="{{selectedPreset}}" onChange="{{onLoadPreset}}" style="width:100%;padding:11px 12px;border:1px solid #dfe4f2;border-radius:12px;background:#fff;font:inherit;color:#26304a;outline:none;">
+              <option value="">選擇已儲存清單</option>
+              <sc-for list="{{presetNames}}" as="name" hint-placeholder-count="0">
+                <option value="{{name}}">{{name}}</option>
+              </sc-for>
+            </select>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:10px;margin-top:12px;background:#f8f9fc;border:1px solid #dfe4f2;border-radius:14px;padding:10px 12px;">
+          <input type="checkbox" checked="{{removeAfterDraw}}" onChange="{{onRemoveAfterDrawChange}}" style="width:auto;transform:scale(1.2);">
+          <label style="margin:0;font-weight:800;">抽中後自動移除</label>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;margin-top:12px;background:#f8f9fc;border:1px solid #dfe4f2;border-radius:14px;padding:10px 12px;">
+          <input type="checkbox" checked="{{showPopup}}" onChange="{{onShowPopupChange}}" style="width:auto;transform:scale(1.2);">
+          <label style="margin:0;font-weight:800;">抽中後顯示大型結果</label>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;margin-top:12px;background:#f8f9fc;border:1px solid #dfe4f2;border-radius:14px;padding:10px 12px;">
+          <input type="checkbox" checked="{{soundOn}}" onChange="{{onSoundOnChange}}" style="width:auto;transform:scale(1.2);">
+          <label style="margin:0;font-weight:800;">播放轉動與結果提示音</label>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px;">
+          <button style="grid-column:1 / -1;border:0;border-radius:12px;padding:11px 12px;font:inherit;font-weight:800;cursor:pointer;background:linear-gradient(135deg, #5b67f1, #7f86ff);color:#fff;" onClick="{{updateWheel}}">更新轉盤內容</button>
+          <button style="border:0;border-radius:12px;padding:11px 12px;font:inherit;font-weight:800;cursor:pointer;background:#e6f7ef;color:#2da66f;" onClick="{{savePreset}}">💾 儲存清單</button>
+          <button style="border:0;border-radius:12px;padding:11px 12px;font:inherit;font-weight:800;cursor:pointer;background:#ffe8eb;color:#e45d68;" onClick="{{deletePreset}}">🗑️ 刪除清單</button>
+          <button style="border:0;border-radius:12px;padding:11px 12px;font:inherit;font-weight:800;cursor:pointer;background:#eef0ff;color:#4650cc;" onClick="{{shuffleItems}}">🔀 打亂順序</button>
+          <button style="border:0;border-radius:12px;padding:11px 12px;font:inherit;font-weight:800;cursor:pointer;background:#fff0df;color:#b36b18;" onClick="{{clearHistory}}">清除紀錄</button>
+        </div>
+
+        <p style="color:#6f7890;font-size:13px;line-height:1.7;margin-top:10px;">可貼上任意文字,一行一個項目。抽中後移除適合不重複抽籤;未勾選則可重複抽取。</p>
+      </aside>
+
+      <section style="background:rgba(255,255,255,.94);border:1px solid rgba(255,255,255,.9);border-radius:24px;box-shadow:0 18px 45px rgba(66,77,140,.16);backdrop-filter:blur(12px);padding:20px;min-height:650px;display:grid;grid-template-columns:repeat(auto-fit, minmax(280px,1fr));gap:18px;align-items:center;overflow:hidden;">
+        <div style="display:flex;justify-content:center;align-items:center;position:relative;min-height:570px;min-width:0;">
+          <div style="position:relative;width:min(560px,100%);max-width:100%;aspect-ratio:1;">
+            <canvas ref="{{canvasRef}}" width="800" height="800" style="width:100%;height:100%;display:block;filter:drop-shadow(0 18px 30px rgba(62,70,120,.18));"></canvas>
+            <div style="position:absolute;top:50%;right:-18px;transform:translateY(-50%);z-index:4;filter:drop-shadow(0 4px 8px rgba(60,40,80,.25));">
+              <svg width="54" height="48" viewBox="0 0 54 48">
+                <path d="M50 24 C50 30 40 30 28 24 C16 18 4 18 4 24 C4 30 16 30 28 24 C40 18 50 18 50 24 Z" fill="none"></path>
+                <path d="M48 24 C48 16 32 6 18 6 C9 6 4 14 4 24 C4 34 9 42 18 42 C32 42 48 32 48 24 Z" fill="none"></path>
+                <path d="M6 24 C6 12 16 8 24 8 C36 8 48 16 48 24 C48 32 36 40 24 40 C16 40 6 36 6 24 Z" fill="none"></path>
+                <polygon points="4,10 48,24 4,38" fill="#ff6f91" stroke="#fff" stroke-width="4" stroke-linejoin="round"></polygon>
+                <circle cx="12" cy="24" r="4.5" fill="#fff"></circle>
+              </svg>
+            </div>
+            <button class="wh-spin-btn" disabled="{{spinning}}" onClick="{{spin}}" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:116px;height:116px;border-radius:50%;background:linear-gradient(135deg, #5b67f1, #7f86ff);color:#fff;font-size:22px;font-family:inherit;font-weight:800;box-shadow:0 10px 25px rgba(65,75,180,.3);border:8px solid #fff;z-index:3;cursor:pointer;">開始抽籤</button>
+          </div>
+        </div>
+
+        <aside style="align-self:stretch;display:flex;flex-direction:column;justify-content:center;">
+          <div style="text-align:center;color:#6f7890;font-weight:800;margin-bottom:10px;">{{titleDisplay}}</div>
+          <div style="min-height:150px;background:#fff;border:2px dashed #dfe4f2;border-radius:20px;display:grid;place-items:center;text-align:center;padding:20px;font-size:clamp(28px,4vw,48px);font-weight:1000;color:#5b67f1;word-break:break-word;">{{resultText}}</div>
+
+          <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:14px 0;">
+            <span style="background:#f7f8fc;border:1px solid #dfe4f2;border-radius:999px;padding:7px 11px;color:#6f7890;font-size:14px;">剩餘 <strong>{{itemCount}}</strong> 項</span>
+            <span style="background:#f7f8fc;border:1px solid #dfe4f2;border-radius:999px;padding:7px 11px;color:#6f7890;font-size:14px;">已抽 <strong>{{drawCount}}</strong> 次</span>
+          </div>
+
+          <div style="margin-top:10px;background:#fff;border:1px solid #dfe4f2;border-radius:16px;overflow:hidden;">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:11px 12px;border-bottom:1px solid #dfe4f2;font-weight:800;">
+              <span>📝 抽籤紀錄</span>
+              <button style="padding:7px 10px;border:0;border-radius:12px;font:inherit;font-weight:800;cursor:pointer;background:#eef0ff;color:#4650cc;" onClick="{{copyHistory}}">複製</button>
+            </div>
+            <div style="max-height:250px;overflow:auto;">
+              <sc-if value="{{hasHistory}}">
+                <sc-for list="{{historyItems}}" as="h" hint-placeholder-count="0">
+                  <div style="display:grid;grid-template-columns:34px 1fr 70px;gap:8px;padding:10px 12px;border-bottom:1px solid #edf0f8;align-items:center;">
+                    <strong>{{h.num}}</strong>
+                    <span>{{h.text}}</span>
+                    <span style="color:#6f7890;font-size:12px;text-align:right;">{{h.time}}</span>
+                  </div>
+                </sc-for>
+              </sc-if>
+              <sc-if value="{{!hasHistory}}">
+                <div style="color:#6f7890;text-align:center;padding:26px 12px;">尚無抽籤紀錄</div>
+              </sc-if>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+    </div>
+  </div>
+
+  <sc-if value="{{modalShow}}">
+    <div style="position:fixed;inset:0;background:rgba(24,29,50,.48);display:flex;align-items:center;justify-content:center;padding:18px;z-index:50;">
+      <div style="width:min(540px,100%);background:#fff;border-radius:22px;box-shadow:0 24px 70px rgba(20,25,50,.3);padding:22px;text-align:center;">
+        <h2 style="margin:0 0 10px;">🎉 抽中結果</h2>
+        <div style="font-size:clamp(32px,6vw,58px);font-weight:1000;color:#5b67f1;margin:24px 0;word-break:break-word;">{{modalResult}}</div>
+        <button style="border:0;border-radius:12px;padding:11px 12px;font:inherit;font-weight:800;cursor:pointer;background:linear-gradient(135deg, #5b67f1, #7f86ff);color:#fff;width:100%;" onClick="{{closeModal}}">確定</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <div class="wh-toast" style="{{toastStyle}}">{{toastMessage}}</div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const COLORS = ['#5b67f1','#ff9f6e','#2fb17d','#f2c94c','#9b70e8','#55b5d9','#f06f8a','#7cc76c','#ffb84d','#6e7ff3','#d881d8','#4db6ac'];
+function shorten(text, max) { return text.length > max ? text.slice(0, max - 1) + '…' : text; }
+function escapeHtml(t) { return t; }
+
+class Component extends DCLogic {
+  state = {
+    title: '課堂任務轉盤', itemsText: '第一組\n第二組\n第三組\n第四組\n第五組\n第六組',
+    removeAfterDraw: false, showPopup: true, soundOn: true,
+    items: [], history: [], spinning: false, currentRotation: 0,
+    presetName: '', selectedPreset: '', presets: {},
+    modalShow: false, modalResult: '', toastMessage: '', toastVisible: false,
+  };
+  canvasRef = React.createRef();
+  animationFrame = null;
+  toastTimer = null;
+
+  componentDidMount() {
+    this.loadCurrentState();
+    this.setState({ presets: this.getPresets() }, () => this.drawWheel());
+  }
+
+  showToast(msg) {
+    clearTimeout(this.toastTimer);
+    this.setState({ toastMessage: msg, toastVisible: true });
+    this.toastTimer = setTimeout(() => this.setState({ toastVisible: false }), 1700);
+  }
+
+  parseItems(text) { return (text ?? this.state.itemsText).split(/\n|,|，/).map(s => s.trim()).filter(Boolean); }
+
+  updateWheel() {
+    if (this.state.spinning) return;
+    const items = this.parseItems();
+    if (items.length < 2) { this.showToast('請至少輸入兩個抽籤項目'); return; }
+    this.setState({ items, currentRotation: 0 }, () => { this.drawWheel(); this.saveCurrentState(); });
+  }
+
+  drawWheel(rotation) {
+    const canvas = this.canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const r = rotation ?? this.state.currentRotation;
+    const items = this.state.items;
+    const width = canvas.width, height = canvas.height, cx = width / 2, cy = height / 2, radius = width * 0.46;
+    ctx.clearRect(0, 0, width, height);
+    if (!items.length) {
+      ctx.fillStyle = '#eef0ff'; ctx.beginPath(); ctx.arc(cx, cy, radius, 0, Math.PI * 2); ctx.fill();
+      return;
+    }
+    const slice = Math.PI * 2 / items.length;
+    ctx.save(); ctx.translate(cx, cy); ctx.rotate(r);
+    items.forEach((item, i) => {
+      const start = i * slice, end = start + slice;
+      ctx.beginPath(); ctx.moveTo(0, 0); ctx.arc(0, 0, radius, start, end); ctx.closePath();
+      ctx.fillStyle = COLORS[i % COLORS.length]; ctx.fill();
+      ctx.strokeStyle = 'rgba(255,255,255,.9)'; ctx.lineWidth = 4; ctx.stroke();
+      ctx.save(); ctx.rotate(start + slice / 2); ctx.textAlign = 'right'; ctx.textBaseline = 'middle'; ctx.fillStyle = '#fff';
+      let fontSize = Math.max(20, Math.min(34, 250 / Math.max(1, items.length / 4)));
+      if (item.length > 12) fontSize -= 4;
+      if (item.length > 20) fontSize -= 4;
+      ctx.font = `900 ${fontSize}px "Microsoft JhengHei", sans-serif`;
+      ctx.fillText(shorten(item, 22), radius - 28, 0, radius * 0.64);
+      ctx.restore();
+    });
+    ctx.restore();
+    ctx.beginPath(); ctx.arc(cx, cy, radius, 0, Math.PI * 2); ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 10; ctx.stroke();
+    ctx.beginPath(); ctx.arc(cx, cy, 62, 0, Math.PI * 2); ctx.fillStyle = '#fff'; ctx.fill();
+    ctx.strokeStyle = '#dfe4f2'; ctx.lineWidth = 4; ctx.stroke();
+  }
+
+  spin() {
+    if (this.state.spinning) return;
+    if (this.state.items.length < 2) { this.showToast('請先更新至少兩個項目'); return; }
+    this.setState({ spinning: true });
+    if (this.state.soundOn) this.playSpinTone();
+    const startRotation = this.state.currentRotation;
+    const extraTurns = 5 + Math.random() * 3;
+    const randomOffset = Math.random() * Math.PI * 2;
+    const targetRotation = startRotation + extraTurns * Math.PI * 2 + randomOffset;
+    const duration = 4500, startTime = performance.now();
+    const animate = (now) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(1, elapsed / duration);
+      const eased = 1 - Math.pow(1 - progress, 4);
+      const rotation = startRotation + (targetRotation - startRotation) * eased;
+      this.drawWheel(rotation);
+      if (progress < 1) this.animationFrame = requestAnimationFrame(animate);
+      else {
+        const finalRotation = rotation % (Math.PI * 2);
+        this.drawWheel(finalRotation);
+        this.setState({ spinning: false, currentRotation: finalRotation }, () => this.finishSpin());
+      }
+    };
+    this.animationFrame = requestAnimationFrame(animate);
+  }
+
+  finishSpin() {
+    const items = this.state.items;
+    const slice = Math.PI * 2 / items.length;
+    let normalized = (0 - this.state.currentRotation) % (Math.PI * 2);
+    if (normalized < 0) normalized += Math.PI * 2;
+    const selectedIndex = Math.floor(normalized / slice) % items.length;
+    const selected = items[selectedIndex];
+    const time = new Date().toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    const history = [...this.state.history, { text: selected, time }];
+    if (this.state.soundOn) this.playResultTone();
+    let newItems = items;
+    if (this.state.removeAfterDraw) {
+      newItems = items.filter((_, i) => i !== selectedIndex);
+    }
+    this.setState({
+      history, items: newItems,
+      itemsText: this.state.removeAfterDraw ? newItems.join('\n') : this.state.itemsText,
+      currentRotation: this.state.removeAfterDraw ? 0 : this.state.currentRotation,
+      modalShow: this.state.showPopup, modalResult: selected,
+    }, () => { this.drawWheel(); this.saveCurrentState(); });
+  }
+
+  playSpinTone() {
+    try {
+      const audio = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = audio.createOscillator(), gain = audio.createGain();
+      osc.connect(gain); gain.connect(audio.destination);
+      osc.frequency.setValueAtTime(220, audio.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(520, audio.currentTime + 1.1);
+      gain.gain.setValueAtTime(.08, audio.currentTime);
+      gain.gain.exponentialRampToValueAtTime(.001, audio.currentTime + 1.2);
+      osc.start(); osc.stop(audio.currentTime + 1.2);
+    } catch (e) {}
+  }
+  playResultTone() {
+    try {
+      const audio = new (window.AudioContext || window.webkitAudioContext)();
+      [660, 880, 1040].forEach((freq, index) => {
+        const osc = audio.createOscillator(), gain = audio.createGain();
+        osc.connect(gain); gain.connect(audio.destination);
+        const start = audio.currentTime + index * .16;
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(.16, start);
+        gain.gain.exponentialRampToValueAtTime(.001, start + .45);
+        osc.start(start); osc.stop(start + .45);
+      });
+    } catch (e) {}
+  }
+
+  closeModal() { this.setState({ modalShow: false }); }
+
+  shuffleItems() {
+    const arr = this.parseItems();
+    for (let i = arr.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [arr[i], arr[j]] = [arr[j], arr[i]]; }
+    this.setState({ itemsText: arr.join('\n') }, () => { this.updateWheel(); this.showToast('順序已打亂'); });
+  }
+
+  clearHistory() { this.setState({ history: [] }, () => { this.saveCurrentState(); this.showToast('抽籤紀錄已清除'); }); }
+
+  async copyHistory() {
+    const { history, title } = this.state;
+    if (!history.length) { this.showToast('目前沒有可複製的紀錄'); return; }
+    const text = [title.trim() || '抽籤紀錄', '', ...history.map((h, i) => `${i + 1}. ${h.text}（${h.time}）`)].join('\n');
+    try { await navigator.clipboard.writeText(text); }
+    catch { const t = document.createElement('textarea'); t.value = text; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); }
+    this.showToast('抽籤紀錄已複製');
+  }
+
+  getPresets() { try { return JSON.parse(localStorage.getItem('wheelPresets') || '{}'); } catch { return {}; } }
+
+  savePreset() {
+    const name = this.state.presetName.trim();
+    const currentItems = this.parseItems();
+    if (!name) { this.showToast('請先輸入清單名稱'); return; }
+    if (currentItems.length < 2) { this.showToast('清單至少需要兩個項目'); return; }
+    const presets = this.getPresets();
+    presets[name] = { title: this.state.title.trim(), items: currentItems };
+    localStorage.setItem('wheelPresets', JSON.stringify(presets));
+    this.setState({ presets, selectedPreset: name }, () => this.showToast('清單已儲存'));
+  }
+
+  loadPreset(name) {
+    if (!name) { this.setState({ selectedPreset: '' }); return; }
+    const preset = this.state.presets[name];
+    if (!preset) return;
+    this.setState({
+      selectedPreset: name, presetName: name, title: preset.title || name,
+      itemsText: preset.items.join('\n'), history: [],
+    }, () => { this.updateWheel(); this.showToast('清單已載入'); });
+  }
+
+  deletePreset() {
+    const name = this.state.selectedPreset;
+    if (!name) { this.showToast('請先選擇要刪除的清單'); return; }
+    const presets = this.getPresets();
+    delete presets[name];
+    localStorage.setItem('wheelPresets', JSON.stringify(presets));
+    this.setState({ presets, presetName: '', selectedPreset: '' }, () => this.showToast('清單已刪除'));
+  }
+
+  saveCurrentState() {
+    const { title, items, history, removeAfterDraw, showPopup, soundOn } = this.state;
+    localStorage.setItem('wheelCurrentState', JSON.stringify({ title, items, history, removeAfterDraw, showPopup, soundOn }));
+  }
+
+  loadCurrentState() {
+    try {
+      const raw = localStorage.getItem('wheelCurrentState');
+      if (!raw) { this.setState({ items: this.parseItems() }); return; }
+      const data = JSON.parse(raw);
+      const items = Array.isArray(data.items) && data.items.length ? data.items : this.parseItems();
+      this.setState({
+        title: data.title || '課堂任務轉盤', items, itemsText: items.join('\n'),
+        history: Array.isArray(data.history) ? data.history : [],
+        removeAfterDraw: !!data.removeAfterDraw, showPopup: data.showPopup !== false, soundOn: data.soundOn !== false,
+      });
+    } catch { this.setState({ items: this.parseItems() }); }
+  }
+
+  renderVals() {
+    const s = this.state;
+    const historyItems = [...s.history].reverse().map((h, i) => ({ num: s.history.length - i, text: h.text, time: h.time }));
+    return {
+      title: s.title, onTitleChange: (e) => this.setState({ title: e.target.value }, () => this.saveCurrentState()),
+      itemsText: s.itemsText, onItemsTextChange: (e) => this.setState({ itemsText: e.target.value }),
+      presetName: s.presetName, onPresetNameChange: (e) => this.setState({ presetName: e.target.value }),
+      selectedPreset: s.selectedPreset, presetNames: Object.keys(s.presets),
+      onLoadPreset: (e) => this.loadPreset(e.target.value),
+      removeAfterDraw: s.removeAfterDraw, onRemoveAfterDrawChange: (e) => this.setState({ removeAfterDraw: e.target.checked }, () => this.saveCurrentState()),
+      showPopup: s.showPopup, onShowPopupChange: (e) => this.setState({ showPopup: e.target.checked }, () => this.saveCurrentState()),
+      soundOn: s.soundOn, onSoundOnChange: (e) => this.setState({ soundOn: e.target.checked }, () => this.saveCurrentState()),
+      updateWheel: () => this.updateWheel(), savePreset: () => this.savePreset(), deletePreset: () => this.deletePreset(),
+      shuffleItems: () => this.shuffleItems(), clearHistory: () => this.clearHistory(),
+      canvasRef: this.canvasRef, spinning: s.spinning, spin: () => this.spin(),
+      titleDisplay: s.title.trim() || '自由抽籤轉盤',
+      resultText: s.spinning ? '轉動中…' : (s.history.length ? s.history[s.history.length - 1].text : '準備開始'),
+      itemCount: s.items.length, drawCount: s.history.length,
+      hasHistory: historyItems.length > 0, historyItems,
+      copyHistory: () => this.copyHistory(),
+      modalShow: s.modalShow, modalResult: s.modalResult, closeModal: () => this.closeModal(),
+      toastMessage: s.toastMessage,
+      toastStyle: `position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(${s.toastVisible ? '0' : '20px'});background:#232a3f;color:#fff;padding:10px 16px;border-radius:999px;opacity:${s.toastVisible ? 1 : 0};pointer-events:none;transition:.25s;z-index:60;`,
+    };
+  }
+}
+
+</script>
+</body>
+</html>

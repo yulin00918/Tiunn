@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  .sb-toast.show{opacity:1 !important;transform:translateX(-50%) translateY(0) !important;}
+  .sb-input{box-sizing:border-box;}
+</style>
+</helmet>
+<div style="font-family:'Noto Sans TC',sans-serif;color:#26304a;background:radial-gradient(circle at 10% 10%, rgba(255,255,255,.95), transparent 28%),radial-gradient(circle at 90% 15%, rgba(180,235,205,.8), transparent 30%),linear-gradient(135deg, #dcf5e6, #eefaf1);min-height:100vh;padding:20px;">
+  <div style="width:min(1400px,100%);margin:0 auto;">
+
+    <header style="text-align:center;margin-bottom:18px;">
+      <h1 style="margin:0 0 6px;font-size:clamp(30px,5vw,48px);">🏆 小組競賽計分板</h1>
+      <p style="margin:0;color:#6f7890;">快速加分、扣分、即時排名,適合課堂投影與小組活動。</p>
+    </header>
+
+    <section style="background:rgba(255,255,255,.94);border:1px solid rgba(255,255,255,.9);border-radius:22px;box-shadow:0 18px 45px rgba(66,77,140,.16);backdrop-filter:blur(12px);padding:16px;display:grid;grid-template-columns:repeat(6,minmax(120px,1fr));gap:10px;align-items:end;margin-bottom:18px;">
+      <div>
+        <label style="display:block;font-weight:800;margin-bottom:6px;">課程／班級</label>
+        <input class="sb-input" placeholder="例如：九年一班家政課" value="{{className}}" onChange="{{onClassNameChange}}" style="width:100%;padding:11px 12px;border:1px solid #dfe4f2;border-radius:12px;background:#fff;font:inherit;color:#26304a;outline:none;">
+      </div>
+      <div>
+        <label style="display:block;font-weight:800;margin-bottom:6px;">小組數量</label>
+        <input class="sb-input" type="number" min="1" max="20" value="{{teamCount}}" onChange="{{onTeamCountChange}}" style="width:100%;padding:11px 12px;border:1px solid #dfe4f2;border-radius:12px;background:#fff;font:inherit;color:#26304a;outline:none;">
+      </div>
+      <div>
+        <label style="display:block;font-weight:800;margin-bottom:6px;">起始分數</label>
+        <input class="sb-input" type="number" value="{{startScore}}" onChange="{{onStartScoreChange}}" style="width:100%;padding:11px 12px;border:1px solid #dfe4f2;border-radius:12px;background:#fff;font:inherit;color:#26304a;outline:none;">
+      </div>
+      <button style="border:0;border-radius:12px;padding:11px 13px;font:inherit;font-weight:800;cursor:pointer;background:linear-gradient(135deg, #5b67f1, #7f86ff);color:#fff;" onClick="{{createBoard}}">建立計分板</button>
+      <button style="border:0;border-radius:12px;padding:11px 13px;font:inherit;font-weight:800;cursor:pointer;background:#eef0ff;color:#4650cc;" onClick="{{save}}">💾 儲存</button>
+      <button style="border:0;border-radius:12px;padding:11px 13px;font:inherit;font-weight:800;cursor:pointer;background:#ffe8eb;color:#e45d68;" onClick="{{resetScores}}">🗑️ 全部歸零</button>
+    </section>
+
+    <section style="background:rgba(255,255,255,.94);border:1px solid rgba(255,255,255,.9);border-radius:22px;box-shadow:0 18px 45px rgba(66,77,140,.16);backdrop-filter:blur(12px);padding:18px;min-height:430px;">
+      <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:14px;">
+        <h2 style="margin:0;">{{boardTitle}}</h2>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <span style="background:#f7f8fc;border:1px solid #dfe4f2;border-radius:999px;padding:7px 11px;color:#6f7890;font-size:14px;">共 <strong>{{teamTotal}}</strong> 組</span>
+          <span style="background:#f7f8fc;border:1px solid #dfe4f2;border-radius:999px;padding:7px 11px;color:#6f7890;font-size:14px;">最高分：<strong>{{highScore}}</strong></span>
+        </div>
+      </div>
+
+      <sc-if value="{{hasTeams}}">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(250px,1fr));gap:16px;">
+          <sc-for list="{{teams}}" as="t" hint-placeholder-count="0">
+            <article style="position:relative;background:#fff;border:1px solid #dfe4f2;border-radius:18px;padding:16px;box-shadow:0 10px 25px rgba(78,87,140,.08);overflow:hidden;">
+              <sc-if value="{{t.leading}}">
+                <span style="position:absolute;top:10px;right:12px;font-size:28px;">👑</span>
+              </sc-if>
+              <input class="sb-input" value="{{t.name}}" onChange="{{t.onNameChange}}" style="width:100%;font-size:19px;font-weight:900;background:#f8f9ff;margin-bottom:12px;padding:10px 12px;border:1px solid #dfe4f2;border-radius:12px;font-family:inherit;color:#26304a;outline:none;">
+              <div style="text-align:center;color:#6f7890;font-weight:800;margin-bottom:12px;">目前第 {{t.rank}} 名</div>
+              <div style="text-align:center;font-size:clamp(54px,8vw,82px);line-height:1;font-weight:1000;margin:16px 0;color:#5b67f1;">{{t.score}}</div>
+              <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
+                <button style="border:0;border-radius:12px;padding:11px 13px;font:inherit;font-weight:800;cursor:pointer;background:#e6f7ef;color:#2da66f;" onClick="{{t.plus1}}">＋1</button>
+                <button style="border:0;border-radius:12px;padding:11px 13px;font:inherit;font-weight:800;cursor:pointer;background:#e6f7ef;color:#2da66f;" onClick="{{t.plus5}}">＋5</button>
+                <button style="border:0;border-radius:12px;padding:11px 13px;font:inherit;font-weight:800;cursor:pointer;background:#ffe8eb;color:#e45d68;" onClick="{{t.minus1}}">－1</button>
+                <button style="border:0;border-radius:12px;padding:11px 13px;font:inherit;font-weight:800;cursor:pointer;background:#ffe8eb;color:#e45d68;" onClick="{{t.minus5}}">－5</button>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;">
+                <input class="sb-input" type="number" placeholder="自訂分數" value="{{t.customValue}}" onChange="{{t.onCustomChange}}" style="width:100%;padding:11px 12px;border:1px solid #dfe4f2;border-radius:12px;background:#fff;font:inherit;color:#26304a;outline:none;">
+                <button style="border:0;border-radius:12px;padding:11px 13px;font:inherit;font-weight:800;cursor:pointer;background:#eef0ff;color:#4650cc;" onClick="{{t.applyCustom}}">套用</button>
+              </div>
+            </article>
+          </sc-for>
+        </div>
+      </sc-if>
+      <sc-if value="{{!hasTeams}}">
+        <div style="text-align:center;color:#6f7890;padding:60px 20px;">請先設定小組數量,再按「建立計分板」。</div>
+      </sc-if>
+    </section>
+
+    <section style="background:rgba(255,255,255,.94);border:1px solid rgba(255,255,255,.9);border-radius:22px;box-shadow:0 18px 45px rgba(66,77,140,.16);backdrop-filter:blur(12px);margin-top:18px;padding:16px;">
+      <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:10px;">
+        <h3 style="margin:0;">📝 加扣分紀錄</h3>
+        <button style="border:0;border-radius:12px;padding:11px 13px;font:inherit;font-weight:800;cursor:pointer;background:#fff0df;color:#b56319;" onClick="{{undo}}">↩ 復原上一步</button>
+      </div>
+      <div style="max-height:220px;overflow:auto;border-top:1px solid #dfe4f2;">
+        <sc-if value="{{hasHistory}}">
+          <sc-for list="{{historyItems}}" as="h" hint-placeholder-count="0">
+            <div style="display:grid;grid-template-columns:90px 1fr auto;gap:10px;padding:10px 4px;border-bottom:1px solid #edf0f8;align-items:center;">
+              <span style="color:#6f7890;font-size:13px;">{{h.time}}</span>
+              <span>{{h.teamName}}</span>
+              <span style="font-weight:900;color:{{h.color}};">{{h.text}}</span>
+            </div>
+          </sc-for>
+        </sc-if>
+        <sc-if value="{{!hasHistory}}">
+          <div style="text-align:center;color:#6f7890;padding:24px;">尚無紀錄</div>
+        </sc-if>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="sb-toast" style="{{toastStyle}}">{{toastMessage}}</div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+function fmtTime() {
+  return new Date().toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+}
+
+class Component extends DCLogic {
+  state = {
+    className: '', teamCount: 6, startScore: 0,
+    teams: [], history: [], customInputs: {},
+    toastMessage: '', toastVisible: false,
+  };
+  toastTimer = null;
+
+  componentDidMount() { this.load(); }
+
+  showToast(msg) {
+    clearTimeout(this.toastTimer);
+    this.setState({ toastMessage: msg, toastVisible: true });
+    this.toastTimer = setTimeout(() => this.setState({ toastVisible: false }), 1700);
+  }
+
+  createBoard() {
+    const count = Math.max(1, Math.min(20, Number(this.state.teamCount) || 1));
+    const start = Number(this.state.startScore) || 0;
+    const teams = Array.from({ length: count }, (_, i) => ({ name: `第 ${i + 1} 組`, score: start }));
+    this.setState({ teams, history: [], customInputs: {} }, () => { this.showToast('計分板已建立'); this.autoSave(); });
+  }
+
+  changeScore(index, amount) {
+    const teams = [...this.state.teams];
+    if (!teams[index]) return;
+    teams[index] = { ...teams[index], score: teams[index].score + amount };
+    const history = [...this.state.history, { index, teamName: teams[index].name, amount, time: fmtTime() }];
+    this.setState({ teams, history }, () => this.autoSave());
+  }
+
+  setCustomScore(index) {
+    const raw = this.state.customInputs[index];
+    const amount = Number(raw);
+    if (!amount) { this.showToast('請輸入加扣分數'); return; }
+    this.changeScore(index, amount);
+    this.setState({ customInputs: { ...this.state.customInputs, [index]: '' } });
+  }
+
+  updateName(index, value) {
+    const teams = [...this.state.teams];
+    teams[index] = { ...teams[index], name: value.trim() || `第 ${index + 1} 組` };
+    this.setState({ teams }, () => this.autoSave());
+  }
+
+  undo() {
+    if (!this.state.history.length) { this.showToast('目前沒有可復原的操作'); return; }
+    const history = [...this.state.history];
+    const last = history.pop();
+    const teams = [...this.state.teams];
+    if (teams[last.index]) teams[last.index] = { ...teams[last.index], score: teams[last.index].score - last.amount };
+    this.setState({ teams, history }, () => { this.showToast('已復原上一步'); this.autoSave(); });
+  }
+
+  resetScores() {
+    if (!this.state.teams.length) return;
+    const teams = this.state.teams.map(t => ({ ...t, score: 0 }));
+    this.setState({ teams, history: [] }, () => { this.showToast('所有分數已歸零'); this.autoSave(); });
+  }
+
+  save() { this.autoSave(); this.showToast('計分板已儲存'); }
+  autoSave() {
+    localStorage.setItem('classScoreboard', JSON.stringify({ className: this.state.className, teams: this.state.teams, history: this.state.history }));
+  }
+  load() {
+    try {
+      const raw = localStorage.getItem('classScoreboard');
+      if (!raw) return;
+      const data = JSON.parse(raw);
+      this.setState({ className: data.className || '', teams: Array.isArray(data.teams) ? data.teams : [], history: Array.isArray(data.history) ? data.history : [] });
+    } catch (e) {}
+  }
+
+  renderVals() {
+    const s = this.state;
+    const scores = s.teams.map(t => t.score);
+    const sortedUnique = [...new Set(scores)].sort((a, b) => b - a);
+    const ranks = scores.map(score => sortedUnique.indexOf(score) + 1);
+    const max = s.teams.length ? Math.max(...scores) : 0;
+    const className = s.className.trim();
+
+    const teams = s.teams.map((t, i) => ({
+      name: t.name, score: t.score, rank: ranks[i], leading: t.score === max,
+      onNameChange: (e) => this.updateName(i, e.target.value),
+      plus1: () => this.changeScore(i, 1), plus5: () => this.changeScore(i, 5),
+      minus1: () => this.changeScore(i, -1), minus5: () => this.changeScore(i, -5),
+      customValue: s.customInputs[i] || '',
+      onCustomChange: (e) => this.setState({ customInputs: { ...s.customInputs, [i]: e.target.value } }),
+      applyCustom: () => this.setCustomScore(i),
+    }));
+
+    const historyItems = [...s.history].reverse().map(h => ({
+      time: h.time, teamName: h.teamName,
+      text: (h.amount >= 0 ? '+' : '') + h.amount,
+      color: h.amount >= 0 ? '#2da66f' : '#e45d68',
+    }));
+
+    return {
+      className: s.className, onClassNameChange: (e) => this.setState({ className: e.target.value }, () => this.autoSave()),
+      teamCount: s.teamCount, onTeamCountChange: (e) => this.setState({ teamCount: e.target.value }),
+      startScore: s.startScore, onStartScoreChange: (e) => this.setState({ startScore: e.target.value }),
+      createBoard: () => this.createBoard(), save: () => this.save(), resetScores: () => this.resetScores(),
+      boardTitle: className ? `${className}｜小組得分` : '小組得分',
+      teamTotal: s.teams.length, highScore: max,
+      hasTeams: teams.length > 0, teams,
+      undo: () => this.undo(), hasHistory: historyItems.length > 0, historyItems,
+      toastMessage: s.toastMessage,
+      toastStyle: `position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(${s.toastVisible ? '0' : '20px'});background:#232a3f;color:#fff;padding:10px 16px;border-radius:999px;opacity:${s.toastVisible ? 1 : 0};pointer-events:none;transition:.25s;z-index:20;`,
+    };
+  }
+}
+
+</script>
+</body>
+</html>

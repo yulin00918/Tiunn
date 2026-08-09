@@ -9,51 +9,227 @@
 <x-dc>
 <helmet>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  .dj-category{transition:.18s ease;}
+  .dj-category:hover{transform:translateY(-2px);border-color:#cbb7db !important;}
+  .dj-input{box-sizing:border-box;}
+</style>
 </helmet>
-<div style="font-family:'Noto Sans TC',sans-serif;background:linear-gradient(135deg, #ffd9a0 0%, #ffc2b0 20%, #f3b6d3 40%, #d6b8ec 60%, #b9d3f0 80%, #a9e3ec 100%);min-height:100vh;padding:40px;">
-  <div style="max-width:1000px;margin:0 auto;">
-    <a href="首頁.dc.html" style="display:inline-block;margin-bottom:20px;color:#7a3fc4;font-weight:700;text-decoration:none;">← 回首頁</a>
-    <h1 style="font-size:32px;font-weight:900;color:#7a3fc4;margin-bottom:8px;">🧩 咱來鬥句</h1>
-    <p style="font-size:15px;color:#4a4540;margin-bottom:24px;">將打散的例句重新排列,組成正確完整的句子,熟悉句型結構。</p>
+<div style="font-family:'Noto Sans TC',sans-serif;color:#3d3a45;min-height:100vh;background:radial-gradient(circle at 10% 0%, rgba(182,159,222,.24), transparent 26%),radial-gradient(circle at 88% 12%, rgba(243,183,215,.22), transparent 26%),linear-gradient(135deg,#f7f4ff,#fff6fb 52%,#eef8ff);">
+  <div style="width:min(1180px,94%);margin:auto;padding:34px 0 64px;">
 
-    <div style="display:flex;gap:10px;margin-bottom:20px;">
-      <sc-for list="{{tabs}}" as="tab" hint-placeholder-count="2">
-        <button style="{{tab.btnStyle}}" onClick="{{tab.onClick}}">{{tab.label}}</button>
-      </sc-for>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:24px;flex-wrap:wrap;">
+      <a href="首頁.dc.html" style="color:#6f5391;font-weight:800;letter-spacing:.08em;text-decoration:none;white-space:nowrap;">← 回首頁　鈺聆上台語課</a>
+      <span style="font-size:13px;color:#765b94;background:#fff;border:1px solid #e5d9ef;padding:7px 12px;border-radius:999px;">互動學習工具</span>
     </div>
 
-    <sc-for list="{{tabs}}" as="tab" hint-placeholder-count="2">
-      <sc-if value="{{tab.active}}">
-        <div style="background:#ffffffcc;border-radius:16px;padding:28px;box-shadow:0 4px 14px rgba(0,0,0,0.08);">
-          <h3 style="font-size:18px;font-weight:700;color:#7a3fc4;margin-bottom:14px;">{{tab.label}}</h3>
-          <div style="border:2px dashed #7a3fc455;border-radius:12px;padding:40px;text-align:center;background:repeating-linear-gradient(45deg, #e9e2f755, #e9e2f755 10px, #fff0 10px, #fff0 20px);">
-            <p style="font-family:monospace;font-size:13px;color:#5a4a7a;">{{tab.placeholder}}</p>
+    <header style="text-align:center;margin:20px 0 26px;">
+      <div style="font-size:14px;color:#8b729f;letter-spacing:.12em;margin-bottom:8px;">TAIGI SENTENCE LAB</div>
+      <h1 style="margin:0;font-size:clamp(38px,5vw,62px);color:#684988;letter-spacing:.08em;">咱來鬥句</h1>
+      <p style="margin:12px auto 0;max-width:720px;color:#7d7886;font-size:17px;line-height:1.8;">揀欲練的詞類，予系統隨機抽詞。抽著的詞愛攏用著，順序會使家己調整，嘛會使加入其他需要的詞。</p>
+    </header>
+
+    <section style="background:#ffffffee;backdrop-filter:blur(8px);border:1px solid rgba(117,86,151,.10);border-radius:26px;padding:24px;box-shadow:0 10px 30px rgba(72,57,92,.08);margin-bottom:22px;">
+      <div style="display:flex;align-items:center;gap:10px;font-size:20px;font-weight:800;margin-bottom:8px;">
+        <span style="width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#ede4f5;color:#725191;font-size:14px;">1</span>揀欲抽的詞類
+      </div>
+      <div style="color:#7d7886;font-size:14px;margin-bottom:18px;">點選類別後，可設定每一類欲抽 1–5 張。</div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px;">
+        <sc-for list="{{categories}}" as="cat" hint-placeholder-count="7">
+          <div class="dj-category" style="{{cat.style}}" onClick="{{cat.onToggle}}">
+            <div style="font-size:28px;">{{cat.icon}}</div>
+            <div style="font-size:17px;font-weight:800;margin-top:4px;">{{cat.name}}</div>
+            <sc-if value="{{cat.active}}">
+              <div style="display:flex;align-items:center;justify-content:center;gap:9px;margin-top:10px;">
+                <button onClick="{{cat.onMinus}}" style="width:31px;height:31px;border-radius:50%;border:1px solid #d8c9e3;background:#fff;color:#745593;cursor:pointer;font-size:18px;">−</button>
+                <span style="min-width:24px;font-weight:800;text-align:center;">{{cat.count}}</span>
+                <button onClick="{{cat.onPlus}}" style="width:31px;height:31px;border-radius:50%;border:1px solid #d8c9e3;background:#fff;color:#745593;cursor:pointer;font-size:18px;">＋</button>
+              </div>
+            </sc-if>
           </div>
+        </sc-for>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:18px;">
+        <sc-for list="{{presets}}" as="p" hint-placeholder-count="3">
+          <button onClick="{{p.onClick}}" style="border:1px solid #ded4e7;background:#fff;color:#6f5789;border-radius:999px;padding:9px 14px;cursor:pointer;font-family:inherit;">{{p.label}}</button>
+        </sc-for>
+      </div>
+
+      <div style="text-align:center;margin-top:20px;">
+        <button onClick="{{drawAll}}" style="border:0;background:linear-gradient(135deg,#76549a,#9a6cb0);color:#fff;padding:14px 30px;border-radius:999px;font-size:19px;font-weight:800;cursor:pointer;box-shadow:0 8px 20px rgba(117,82,153,.22);font-family:inherit;">🎲 開始抽詞</button>
+        <div style="min-height:24px;margin-top:10px;color:#a34d5b;font-weight:700;">{{status}}</div>
+      </div>
+    </section>
+
+    <sc-if value="{{showResult}}">
+      <section style="background:#ffffffee;backdrop-filter:blur(8px);border:1px solid rgba(117,86,151,.10);border-radius:26px;padding:24px;box-shadow:0 10px 30px rgba(72,57,92,.08);margin-bottom:22px;">
+        <div style="display:flex;align-items:center;gap:10px;font-size:20px;font-weight:800;margin-bottom:8px;">
+          <span style="width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#ede4f5;color:#725191;font-size:14px;">2</span>抽著的詞
         </div>
-      </sc-if>
-    </sc-for>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px;margin-top:14px;">
+          <sc-for list="{{drawnCards}}" as="card" hint-placeholder-count="0">
+            <div style="border:3px solid {{card.color}};border-radius:22px;background:#fff;min-height:222px;padding:14px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:{{card.lockShadow}};">
+              <div style="align-self:flex-start;border-radius:999px;padding:5px 10px;background:#f7f5f8;color:{{card.color}};font-size:12px;font-weight:800;">{{card.typeLabel}}</div>
+              <div style="text-align:center;padding:10px 0;">
+                <div style="font-size:36px;font-weight:900;line-height:1.25;">{{card.word}}</div>
+                <div style="margin-top:8px;font-size:18px;color:#b65e68;font-weight:700;">{{card.romanization}}</div>
+                <div style="margin-top:6px;color:#7d7886;font-size:14px;line-height:1.5;">{{card.meaning}}</div>
+              </div>
+              <div style="display:flex;gap:7px;">
+                <button onClick="{{card.onToggleLock}}" style="flex:1;border:1px solid {{card.lockBorder}};background:{{card.lockBg}};color:{{card.lockColor}};border-radius:11px;padding:8px;cursor:pointer;font-family:inherit;">{{card.lockLabel}}</button>
+                <button onClick="{{card.onRedraw}}" style="flex:1;border:1px solid #ddd5e2;background:#faf9fb;border-radius:11px;padding:8px;cursor:pointer;font-family:inherit;">↻ 換一張</button>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+
+      <section style="background:#ffffffee;backdrop-filter:blur(8px);border:1px solid rgba(117,86,151,.10);border-radius:26px;padding:24px;box-shadow:0 10px 30px rgba(72,57,92,.08);margin-bottom:22px;">
+        <div style="display:flex;align-items:center;gap:10px;font-size:20px;font-weight:800;margin-bottom:8px;">
+          <span style="width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#ede4f5;color:#725191;font-size:14px;">3</span>你會按怎鬥？
+        </div>
+        <textarea class="dj-input" value="{{sentence}}" onChange="{{onSentenceChange}}" placeholder="請用抽著的詞鬥一句完整的台語……" style="width:100%;min-height:118px;border:2px solid #e6ddec;border-radius:16px;padding:15px;font-family:inherit;font-size:18px;resize:vertical;outline:none;background:#fff;margin-top:14px;"></textarea>
+        <div style="margin-top:12px;background:#fff8df;border:1px solid #f0e4aa;border-radius:14px;padding:12px 14px;color:#6f633d;font-size:14px;line-height:1.7;">💡 規則:抽著的詞愛攏用著;毋免照抽卡順序;會使加入其他詞,予句仔較自然。</div>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:18px;">
+          <button onClick="{{redrawUnlocked}}" style="border:1px solid #ddd4e5;background:#fff;border-radius:999px;padding:10px 16px;cursor:pointer;font-family:inherit;">🎲 未鎖定的閣抽</button>
+          <button onClick="{{clearSentence}}" style="border:1px solid #ddd4e5;background:#fff;border-radius:999px;padding:10px 16px;cursor:pointer;font-family:inherit;">🧹 清除造句</button>
+          <button onClick="{{resetAll}}" style="border:1px solid #ddd4e5;background:#fff;border-radius:999px;padding:10px 16px;cursor:pointer;font-family:inherit;">🔄 重新開始</button>
+        </div>
+      </section>
+    </sc-if>
+
+    <div style="text-align:center;color:#918b98;font-size:12px;margin-top:18px;">詞庫依原始牌卡整理,共 236 張。</div>
   </div>
 </div>
 
 </x-dc>
 <script type="text/x-dc" data-dc-script>
+const WORD_BANK = {
+  person: [["你","lí","你"],["我","guá","我"],["伊","i","他、她、牠、它"],["𪜶","in","他們"],["恁","lín","你們"],["咱","lán","我們"],["小弟","sió-tī","弟弟"],["小妹","sió-muē","妹妹"],["同學","tông-o̍h","同學"],["老師","lāu-su","老師"],["別人","pa̍t-lâng","別人"],["彼","he","那個"],["朋友","pîng-iú","朋友"],["阿公","a-kong","爺爺、外公"],["阿兄","a-hiann","哥哥"],["阿母","a-bú","媽媽"],["阿妗","a-kīm","舅媽"],["阿姊","a-tsí","姊姊"],["阿姑","a-koo","姑姑"],["阿爸","a-pah","爸爸"],["阿姨","a-î","阿姨"],["阿媽","a-má","奶奶、外婆"],["阿舅","a-kū","舅舅"],["查某囡仔","tsa-bóo-gín-á","女孩"],["查埔囡仔","tsa-poo-gín-á","男孩"],["家己","ka-kī","自己、本身"],["逐家","ta̍k-ke","大家"]],
+  noun: [["公園","kong-hn̂g","公園"],["冊局","tsheh-kio̍k","書局"],["市場","tshī-tiûnn","市場"],["車頭","tshia-thâu","車站"],["便所","piān-sóo","廁所"],["客廳","kheh-thiann","客廳"],["厝","tshù","房屋"],["浴間仔","ik-king-á","浴室"],["病院","pēnn-īnn","醫院"],["兜","tau","家"],["教室","kàu-sik","教室"],["運動埕","ūn-tōng-tiânn","運動場、操場"],["遐","hia","那裡"],["遮","tsia","這、這裡"],["學校","ha̍k-hāu","學校"],["餐廳","tshan-thiann","餐廳"],["弓蕉","king-tsio","香蕉"],["中晝頓","tiong-tàu-tǹg","午餐"],["王梨","ông-lâi","鳳梨"],["四秀仔","sì-siù-á","零食"],["早頓","tsá-tǹg","早餐"],["油炸粿","iû-tsia̍h-kué","油條"],["柑仔蜜","kam-á-bi̍t","番茄"],["珍珠奶茶","tsin-tsu-ling-tê","珍珠奶茶"],["臭豆腐","tshàu-tāu-hū","臭豆腐"],["蚵仔煎","ô-á-tsian","蚵仔煎"],["菜頭粿","tshài-thâu-kué","蘿蔔糕"],["飯丸","pn̄g-uân","飯糰"],["塗豆","thôo-tāu","花生"],["暗頓","àm-tǹg","晚餐"],["滷肉飯","lóo-bah-pn̄g","滷肉飯"],["磅米芳","pōng-bí-phang","爆米花"],["豬跤","ti-kha","豬腳"],["樹奶糖","tshiū-ling-thn̂g","口香糖"],["雞卵糕","ke-nn̄g-ko","蛋糕"],["鹹酥雞","kiâm-soo-ke","鹹酥雞"],["工課","khang-khuè","工作、事情"],["代誌","tāi-tsì","事情"],["功課","kong-khò","功課"],["成績","sîng-tsik","成績"],["車票","tshia-phiò","車票"],["信心","sìn-sim","信心"],["勇敢","ióng-kám","勇敢"],["耐心","nāi-sim","耐心、耐性"],["計畫","kè-uē","計畫"],["啥物","siánn-mih","什麼"],["電視","tiān-sī","電視"],["頭路","thâu-lōo","職業、工作"]],
+  verb: [["上班","siōng-pan","上班"],["上課","siōng-khò","上學、授課"],["毋是","m̄-sī","不是"],["考試","khó-tshì","考試"],["哭","háu","哭泣"],["走標","tsáu-pio","跑步、賽跑"],["佩服","puē-hók","敬佩"],["合意","kah-ì","喜歡、滿意"],["來去","lâi-khì","離開、前往"],["受氣","siū-khì","生氣"],["拍拚","phah-piànn","努力"],["拍球","phah-kiû","打球"],["拍算","phah-sǹg","打算"],["肯","khíng","願意"],["𨑨迌","tshit-thô","遊玩"],["是","sī","是"],["洗碗","sé-uánn","洗碗"],["看","khuànn","看"],["要緊","iàu-kín","重視、在乎"],["食物件","tsia̍h-mi̍h-kiānn","吃東西"],["哭","khàu","哭"],["捌","bat","知道、認識"],["烘肉","hang-bah","烤肉"],["破病","phuà-pēnn/pīnn","生病"],["笑","tshiò","笑"],["參加","tsham-ka","參與、加入"],["開講","khai-káng","閒談聊天"],["掃塗跤","sàu-thôo-kha","掃地"],["理解","lí-kái","了解"],["無愛","bô-ài","不要"],["等","tán","等"],["買","bé/bué","買"],["愛","ài","喜歡、想、期望"],["會失禮","huē/hē-sit-lé","賠不是"],["會曉","ē-hiáu","知道、懂得"],["歇假","hioh-ká","放假"],["歇寒","hioh-kuânn","放寒假"],["歇睏","hioh-khùn","休息、放假"],["歇熱","hioh-jua̍h","放暑假"],["慣勢","kuàn-sì","習慣"],["寫","siá","寫字"],["講","kóng","說"],["講白賊","kóng-pe̍h-tsha̍t","說謊"],["離開","lī-khui","分散走開"],["騎車","khiâ-tshia","騎車"],["攢","tshuân","張羅、準備"],["歡喜","huann-hí","高興"],["讀冊","tha̍k-tsheh","念書、上學"]],
+  adjective: [["一寡","tsi̍t-kuá","一些"],["一點仔","tsi̍t-tiám-á","一點點"],["心適","sim-sik","有趣"],["毋好","m̄-hó","不好、糟糕"],["古意","kóo-ì","忠厚、老實"],["古錐","kóo-tsui","可愛"],["四序","sù-sī","舒適"],["白蔥蔥","pe̍h-tshang-tshang","非常潔白"],["好","hó","好、優秀"],["好佳哉","hó-ka-tsài","幸虧、還好"],["好膽","hó-tánn","大膽、有勇氣"],["好額","hó-gia̍h","富裕"],["垃圾","lah-sap","骯髒"],["忝","thiám","疲累、慘重"],["要緊","iàu-kín","重要"],["重要","tiōng-iàu","重要"],["清彩","tshìn-tshái","隨便、不講究"],["烏趖趖","oo-sô-sô","烏黑、髒兮兮"],["袂爽","bē/buē-sóng","不喜歡"],["骨力","kut-la̍t","勤勞"],["淡薄仔","tān-po̍h-á","一點點"],["爽快","sóng-khuài","愉快、心情好"],["甜粅粅","tinn-but-but","甜滋滋"],["貧惰","pîn-tuānn","懶惰"],["媠","suí","漂亮的"],["暗摸摸","àm-bong-bong","黑漆漆"],["認真","jīn-tsin","認真"],["緣投","iân-tâu","英俊"],["䆀","bái","醜陋"],["艱苦","kan-khóo","辛苦"],["礙虐","gāi-gio̍h","彆扭"],["歡喜","huann-hí","感到高興"],["齷齪","ak-tsak","煩躁"],["癮","siān","厭倦"]],
+  adverb: [["三不五時","sam-put-gōo-sî","不時、經常"],["上蓋","siōng-kài","非常、最"],["下早仔","e-tsái-á","今天早上"],["下晡","ē-poo","下午"],["下暗","e-àm","晚上、今晚"],["今仔日","kin-á-jit/lit","今天"],["毋","m̄","否定、強調、臆測、不然"],["毋但","m̄-nā","不只、不但"],["以前","í-tsá","以前、從前"],["只好","tsí-hó","只能"],["可能","khó-lîng","或許、也許"],["同齊","tâng-tsê","同時、一起"],["有時陣","ū-sî-tsūn","有時候、偶爾"],["足","tsiok","很、非常"],["拄仔","tú-á","剛剛"],["明仔日","bîn-á-jit/lit","明天"],["後日","āu-jit/lit","日後、以後"],["後日仔","āu-jit/lit-á","以後、將來"],["後擺","āu-pái","下次、下回"],["昨昏","tsa-hng","昨天"],["若是","nā-sī","如果、要是"],["原底","guân-té/tué","原本、原先"],["捌","bat","曾經"],["真","tsin","很、非常"],["袂使","bē/buē-sái","不可以、使不得"],["做伙","tsò-hué/hé","一起、一塊兒"],["欲暗仔","beh/bueh-àm-á","傍晚"],["現此時","hiān-tshú-sî","現在、目前"],["這馬","tsit-má","現在"],["這擺","tsit-pái","這次"],["連鞭","liâm-mi","馬上、立刻"],["頂擺","tíng-pái","上次、前回"],["就","tō","馬上、早已"],["無定著","bô-tiānn-tio̍h","也許、說不定"],["無張持","bô-tiunn-tî","突然、不小心"],["猶原","iu-guân","仍然"],["愛","ài","要、必須"],["落尾","lo̍h-bué/bé","後來、最後"],["誠","tsiânn","很、非常"],["嘛","mā","也、都、不耐煩"],["盡量","tsīn-liōng","盡量"],["閣","koh","又、出乎意料"],["隨時","suî-sî","任何時候、馬上"],["頭起先","thâu-khí-sing","起初、剛開始"],["攏總","lóng-tsóng","全部、總共"]],
+  preposition: [["予","hōo","被……、任由、讓"],["共","kā","給、跟、將"],["自","tsū","從某時開始"],["佇","tī","在某地、某時"],["按照","àn-tsiàu","依照"],["為著","uī-tio̍h","為了"],["將","tsiong","把、用"],["從","tsiông","自從"],["就","tsiū","就、以、對於"],["當","tng","面對、面向"],["對","uì","朝向某物"]],
+  conjunction: [["才會","tsiah ē","才會"],["毋過","m̄ koh","不過、但是"],["毋管","m̄ kuán","不論、無論"],["亦","ik","也"],["因為","in uī","因為"],["而且","jî / lî tshiánn","而且"],["但是","tán sī","不過、可是"],["抑是","iah sī","或者、或是"],["那","nā","一邊……一邊……"],["佮","kah","和、及、與、跟"],["和","hām","與、跟"],["所以","sóo í","所以"],["卻","khiok","反而"],["既然","kì jiân / liân","既然"],["甚至","sīm tsì","甚至"],["若","nā","如果"],["假使","ká sú","假如、如果"],["紲落去","suà loh khì","接下來"],["就按呢","tsū àn ne","因此、所以"],["無論","bô lūn","不論、不管"],["猶是","iáu sī","還是"],["總是","tsóng sī","無論如何、但是"],["雖然","sui jiân / liân","雖然"]],
+};
+const CATEGORIES = {
+  person:{name:"人物",icon:"👤",color:"#a9668f"}, noun:{name:"名詞",icon:"📦",color:"#4f83b6"},
+  verb:{name:"動詞",icon:"🏃",color:"#775ba8"}, adjective:{name:"形容詞",icon:"✨",color:"#d38b4c"},
+  adverb:{name:"副詞",icon:"⏰",color:"#4f9271"}, preposition:{name:"介詞",icon:"🔗",color:"#ba6170"},
+  conjunction:{name:"連接詞",icon:"🧩",color:"#6f6f77"},
+};
+const PRESETS = [
+  { key: 'basic', label: '基本：人物＋動詞＋名詞', types: ['person','verb','noun'] },
+  { key: 'rich', label: '加料：人物＋動詞＋名詞＋副詞', types: ['person','verb','noun','adverb'] },
+  { key: 'challenge', label: '挑戰：人物＋名詞＋動詞＋形容詞＋副詞', types: ['person','noun','verb','adjective','adverb'] },
+];
+function sampleWithoutReplacement(arr, count) {
+  const copy = [...arr];
+  for (let i = copy.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [copy[i], copy[j]] = [copy[j], copy[i]]; }
+  return copy.slice(0, Math.min(count, copy.length));
+}
+let uidCounter = 0;
+function uid() { return 'c' + (uidCounter++) + '_' + Math.random().toString(36).slice(2); }
+
 class Component extends DCLogic {
-  state = { activeTab: 0 };
+  state = { selected: Object.fromEntries(Object.keys(CATEGORIES).map(k => [k, { active: false, count: 1 }])), drawnCards: [], sentence: '', status: '' };
+
+  toggleCategory(key) {
+    const selected = { ...this.state.selected, [key]: { ...this.state.selected[key], active: !this.state.selected[key].active } };
+    this.setState({ selected });
+  }
+  changeCount(key, delta) {
+    const max = Math.min(5, WORD_BANK[key].length);
+    const current = this.state.selected[key].count;
+    const next = Math.max(1, Math.min(max, current + delta));
+    const selected = { ...this.state.selected, [key]: { ...this.state.selected[key], count: next } };
+    this.setState({ selected });
+  }
+  applyPreset(types) {
+    const selected = Object.fromEntries(Object.keys(CATEGORIES).map(k => [k, { active: types.includes(k), count: 1 }]));
+    this.setState({ selected });
+  }
+
+  drawAll() {
+    const activeTypes = Object.keys(this.state.selected).filter(k => this.state.selected[k].active);
+    if (activeTypes.length === 0) { this.setState({ status: '請先揀至少一个詞類。' }); return; }
+    const drawnCards = [];
+    activeTypes.forEach(type => {
+      const amount = this.state.selected[type].count;
+      const words = sampleWithoutReplacement(WORD_BANK[type], amount);
+      words.forEach(word => drawnCards.push({ id: uid(), type, word, locked: false }));
+    });
+    this.setState({ drawnCards, status: '' });
+  }
+
+  toggleLock(id) {
+    const drawnCards = this.state.drawnCards.map(c => c.id === id ? { ...c, locked: !c.locked } : c);
+    this.setState({ drawnCards });
+  }
+
+  redrawSingle(id) {
+    const card = this.state.drawnCards.find(c => c.id === id);
+    if (!card) return;
+    const sameTypeUsed = new Set(this.state.drawnCards.filter(c => c.type === card.type && c.id !== id).map(c => c.word[0]));
+    const available = WORD_BANK[card.type].filter(w => !sameTypeUsed.has(w[0]));
+    if (available.length === 0) return;
+    const newWord = available[Math.floor(Math.random() * available.length)];
+    const drawnCards = this.state.drawnCards.map(c => c.id === id ? { ...c, word: newWord, locked: false } : c);
+    this.setState({ drawnCards });
+  }
+
+  redrawUnlocked() {
+    const drawnCards = this.state.drawnCards.map(card => {
+      if (card.locked) return card;
+      const sameTypeUsed = new Set(this.state.drawnCards.filter(c => c.type === card.type && c.id !== card.id).map(c => c.word[0]));
+      const available = WORD_BANK[card.type].filter(w => !sameTypeUsed.has(w[0]));
+      return available.length > 0 ? { ...card, word: available[Math.floor(Math.random() * available.length)] } : card;
+    });
+    this.setState({ drawnCards });
+  }
+
+  resetAll() {
+    this.setState({ selected: Object.fromEntries(Object.keys(CATEGORIES).map(k => [k, { active: false, count: 1 }])), drawnCards: [], sentence: '', status: '' });
+  }
+
   renderVals() {
-    const data = [
-      { label: '練習一', placeholder: '在此貼上鬥句練習一內容' },
-      { label: '練習二', placeholder: '在此貼上鬥句練習二內容' },
-    ];
-    const tabs = data.map((d, i) => {
-      const active = i === this.state.activeTab;
+    const s = this.state;
+    const categories = Object.entries(CATEGORIES).map(([key, data]) => {
+      const active = s.selected[key].active;
       return {
-        ...d,
-        active,
-        onClick: () => this.setState({ activeTab: i }),
-        btnStyle: `padding:10px 20px;border-radius:12px;border:none;font-weight:700;font-size:14px;cursor:pointer;background:${active ? '#7a3fc4' : '#ffffffaa'};color:${active ? '#fff' : '#7a3fc4'};`,
+        name: data.name, icon: data.icon, active, count: s.selected[key].count,
+        onToggle: () => this.toggleCategory(key),
+        onMinus: (e) => { e.stopPropagation(); this.changeCount(key, -1); },
+        onPlus: (e) => { e.stopPropagation(); this.changeCount(key, 1); },
+        style: `border:2px solid ${active ? '#8060a5' : '#ebe5ef'};border-radius:18px;background:${active ? '#f6f0fb' : '#fff'};padding:15px 12px;text-align:center;cursor:pointer;user-select:none;`,
       };
     });
-    return { tabs };
+
+    const presets = PRESETS.map(p => ({ label: p.label, onClick: () => this.applyPreset(p.types) }));
+
+    const drawnCards = s.drawnCards.map(card => {
+      const config = CATEGORIES[card.type];
+      return {
+        color: config.color, typeLabel: `${config.icon} ${config.name}`,
+        word: card.word[0], romanization: card.word[1], meaning: card.word[2],
+        lockShadow: card.locked ? '0 0 0 4px rgba(123,90,166,.10)' : 'none',
+        lockLabel: card.locked ? '🔒 已鎖定' : '🔓 鎖定',
+        lockBg: card.locked ? '#efe7f6' : '#faf9fb', lockBorder: card.locked ? '#b9a0cd' : '#ddd5e2', lockColor: card.locked ? '#6c4b8f' : '#333',
+        onToggleLock: () => this.toggleLock(card.id), onRedraw: () => this.redrawSingle(card.id),
+      };
+    });
+
+    return {
+      categories, presets, drawAll: () => this.drawAll(), status: s.status,
+      showResult: s.drawnCards.length > 0, drawnCards,
+      sentence: s.sentence, onSentenceChange: (e) => this.setState({ sentence: e.target.value }),
+      redrawUnlocked: () => this.redrawUnlocked(),
+      clearSentence: () => this.setState({ sentence: '' }),
+      resetAll: () => this.resetAll(),
+    };
   }
 }
 

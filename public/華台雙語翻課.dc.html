@@ -12,8 +12,8 @@
 </helmet>
 <div style="font-family:'Noto Sans TC',sans-serif;background:linear-gradient(135deg, #ffd9a0 0%, #ffc2b0 20%, #f3b6d3 40%, #d6b8ec 60%, #b9d3f0 80%, #a9e3ec 100%);min-height:100vh;padding:40px;">
   <div style="max-width:1000px;margin:0 auto;">
-    <a href="首頁.dc.html" style="display:inline-block;margin-bottom:20px;color:#c0264a;font-weight:700;text-decoration:none;">← 回首頁</a>
-    <h1 style="font-size:32px;font-weight:900;color:#c0264a;margin-bottom:8px;">🗣️ 華台雙語翻課</h1>
+    <a href="首頁.dc.html" style="display:inline-block;margin-bottom:20px;color:#c0264a;font-weight:700;text-decoration:none;white-space:nowrap;">← 回首頁</a>
+    <h1 style="font-size:32px;font-weight:900;color:#c0264a;margin-bottom:8px;">🗣️ 華台雙語翻譯</h1>
     <p style="font-size:15px;color:#4a4540;margin-bottom:24px;">提供華語、台語雙向對照課文,搭配語音示範,幫助口語表達與台語用詞練習。</p>
 
     <div style="display:flex;gap:10px;margin-bottom:20px;">
@@ -23,7 +23,21 @@
     </div>
 
     <sc-for list="{{tabs}}" as="tab" hint-placeholder-count="2">
-      <sc-if value="{{tab.active}}">
+      <sc-if value="{{tab.activeLink}}">
+        <div style="background:#ffffffcc;border-radius:16px;padding:16px;box-shadow:0 4px 14px rgba(0,0,0,0.08);">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px;flex-wrap:wrap;">
+            <h3 style="font-size:16px;font-weight:700;color:#c0264a;margin:0;white-space:nowrap;">{{tab.label}}</h3>
+            <a href="{{tab.url}}" target="_blank" rel="noopener" style="white-space:nowrap;padding:9px 16px;border-radius:10px;font-weight:700;font-size:13px;text-decoration:none;color:#fff;background:#c0264a;">🔗 開新分頁</a>
+          </div>
+          <sc-if value="{{tab.embeddable}}">
+            <iframe src="{{tab.url}}" style="width:100%;height:640px;border:1px solid #e5c9cf;border-radius:12px;background:#fff;"></iframe>
+          </sc-if>
+          <sc-if value="{{!tab.embeddable}}">
+            <div style="padding:60px 20px;text-align:center;color:#8a5a5a;font-size:14px;border:1px dashed #e5c9cf;border-radius:12px;background:#fff8f8;">此網站不允許在頁面內嵌入,請點上方「開新分頁」按鈕使用。</div>
+          </sc-if>
+        </div>
+      </sc-if>
+      <sc-if value="{{tab.activePlaceholder}}">
         <div style="background:#ffffffcc;border-radius:16px;padding:28px;box-shadow:0 4px 14px rgba(0,0,0,0.08);">
           <h3 style="font-size:18px;font-weight:700;color:#c0264a;margin-bottom:14px;">{{tab.label}}</h3>
           <div style="border:2px dashed #c0264a55;border-radius:12px;padding:40px;text-align:center;background:repeating-linear-gradient(45deg, #fbdbe055, #fbdbe055 10px, #fff0 10px, #fff0 20px);">
@@ -32,6 +46,29 @@
         </div>
       </sc-if>
     </sc-for>
+
+    <div style="background:#ffffffcc;border-radius:16px;padding:18px 24px;box-shadow:0 4px 14px rgba(0,0,0,0.08);margin-top:20px;">
+      <div style="font-weight:700;font-size:14px;color:#4a4540;margin-bottom:14px;">📖 使用流程指南</div>
+      <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;">
+        <sc-for list="{{stepChips}}" as="step" hint-placeholder-count="5">
+          <span style="display:flex;align-items:center;gap:8px;">
+            <span style="display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:#fce9ec;color:#c0264a;font-size:13px;font-weight:700;white-space:nowrap;">
+              <span style="width:20px;height:20px;border-radius:50%;background:#c0264a;color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center;">{{step.n}}</span>{{step.text}}
+            </span>
+            <sc-if value="{{step.hasArrow}}"><span style="color:#c0264a;">→</span></sc-if>
+          </span>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="background:#ffffffcc;border-radius:16px;padding:18px 24px;box-shadow:0 4px 14px rgba(0,0,0,0.08);margin-top:16px;">
+      <div style="font-weight:700;font-size:14px;color:#4a4540;margin-bottom:14px;">🔗 相關資源</div>
+      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:10px;">
+        <sc-for list="{{relatedLinks}}" as="rl" hint-placeholder-count="5">
+          <a href="{{rl.url}}" target="_blank" rel="noopener" style="padding:10px 18px;border-radius:10px;background:#c0264a;color:#fff;text-decoration:none;font-size:13px;font-weight:700;white-space:nowrap;">{{rl.label}}</a>
+        </sc-for>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -41,19 +78,37 @@ class Component extends DCLogic {
   state = { activeTab: 0 };
   renderVals() {
     const data = [
-      { label: '華語課文', placeholder: '在此貼上華語課文內容' },
-      { label: '台語課文', placeholder: '在此貼上台語課文內容與語音連結' },
+      { label: '華語轉台語翻譯工具', url: 'https://gnisew.github.io/tools/turn/g2m2.html', isLink: true, embeddable: true },
+      { label: '合成台語語音及羅馬字', url: 'https://suisiann.ithuan.tw/', isLink: true, embeddable: true },
     ];
     const tabs = data.map((d, i) => {
       const active = i === this.state.activeTab;
       return {
         ...d,
         active,
+        activeLink: active && d.isLink,
+        activePlaceholder: active && !d.isLink,
         onClick: () => this.setState({ activeTab: i }),
         btnStyle: `padding:10px 20px;border-radius:12px;border:none;font-weight:700;font-size:14px;cursor:pointer;background:${active ? '#c0264a' : '#ffffffaa'};color:${active ? '#fff' : '#c0264a'};`,
       };
     });
-    return { tabs };
+    return {
+      tabs,
+      stepChips: [
+        { n: 1, text: '輸入華語', hasArrow: true },
+        { n: 2, text: '按「華翻閩」鈕', hasArrow: true },
+        { n: 3, text: '按「複製+刪空格」鈕', hasArrow: true },
+        { n: 4, text: '貼到右側輸入框', hasArrow: true },
+        { n: 5, text: '按「查」鈕聽發音', hasArrow: false },
+      ],
+      relatedLinks: [
+        { label: '陽明交大語音合成', url: 'http://tts001.ivoice.tw:8804/' },
+        { label: '長問翻譯器', url: 'https://translate.bronci.com.tw/#' },
+        { label: '教育部台語辭典', url: 'https://sutian.moe.edu.tw/zh-hant/' },
+        { label: 'iTaigi 愛台語', url: 'https://itaigi.tw/k/%E5%8F%B0%E8%AA%9E/' },
+        { label: '公視台語新詞', url: 'https://www.taigitv.org.tw/taigi-words' },
+      ],
+    };
   }
 }
 

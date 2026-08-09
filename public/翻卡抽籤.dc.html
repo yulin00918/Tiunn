@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  .fc-inner{transition:transform .72s cubic-bezier(.2,.7,.3,1);transform-style:preserve-3d;}
+  .fc-card.flipped .fc-inner{transform:rotateY(180deg);}
+  .fc-count-btn.active{background:#76674f !important;border-color:#76674f !important;color:#fff !important;}
+  @keyframes fc-spin{from{transform:rotateY(0);}to{transform:rotateY(360deg);}}
+</style>
+</helmet>
+<div style="font-family:'Noto Sans TC',sans-serif;color:#403b34;background:radial-gradient(circle at 10% 10%, rgba(255,255,255,.95), transparent 28%),radial-gradient(circle at 90% 15%, rgba(230,210,175,.8), transparent 30%),linear-gradient(135deg, #f3ecdd, #fbf7ee);min-height:100vh;padding:20px;">
+  <div style="width:min(1200px,100%);margin:0 auto;">
+
+    <header style="display:flex;align-items:center;gap:14px;margin-bottom:20px;">
+      <div style="width:42px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:13px;background:#eee5d5;color:#75644a;font-size:21px;">♠</div>
+      <div>
+        <h1 style="margin:0 0 4px;font-size:26px;font-weight:800;letter-spacing:.05em;">翻卡抽籤</h1>
+        <p style="margin:0;color:#847b6d;font-size:14px;">輸入卡片內容,洗牌後隨機抽出任務、事件或題目。</p>
+      </div>
+    </header>
+
+    <div style="display:grid;grid-template-columns:330px 1fr;gap:20px;align-items:start;">
+
+      <aside style="padding:20px;border:1px solid rgba(137,116,84,.18);border-radius:20px;background:rgba(255,255,255,.7);">
+        <label style="display:block;margin-bottom:6px;font-size:15px;font-weight:700;">卡片內容(一行一張)</label>
+        <textarea value="{{cardsText}}" onChange="{{onCardsTextChange}}" placeholder="例如：&#10;朋友生日，花費 300 元&#10;手機突然故障&#10;獲得額外零用錢 500 元" style="width:100%;min-height:220px;box-sizing:border-box;resize:vertical;padding:12px;border:1px solid #d8cebd;border-radius:14px;background:rgba(255,255,255,.8);color:#423d36;font:inherit;font-size:14px;line-height:1.7;outline:none;"></textarea>
+        <div style="margin-top:8px;text-align:right;color:#928676;font-size:12px;">已輸入 <strong>{{inputCount}}</strong> 張卡片</div>
+
+        <label style="display:block;margin:16px 0 6px;font-size:15px;font-weight:700;">一次抽幾張？</label>
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:7px;">
+          <sc-for list="{{countOptions}}" as="c" hint-placeholder-count="5">
+            <button class="fc-count-btn" style="{{c.style}}" onClick="{{c.onClick}}">{{c.label}}</button>
+          </sc-for>
+        </div>
+
+        <div style="margin-top:16px;background:#f8f4ea;border-radius:14px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px;">
+          <div>
+            <div style="font-size:14px;font-weight:700;">抽過的卡片不再出現</div>
+            <div style="color:#978c7c;font-size:11px;line-height:1.5;">適合事件卡、任務卡及不重複抽籤</div>
+          </div>
+          <input type="checkbox" checked="{{removeDrawn}}" onChange="{{onRemoveDrawnChange}}" style="width:20px;height:20px;accent-color:#76674f;flex-shrink:0;">
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:16px;">
+          <button onClick="{{loadSample}}" style="padding:10px 12px;border:1px solid #d4c9b8;border-radius:11px;background:rgba(255,255,255,.6);color:#6d6254;font:inherit;font-weight:700;cursor:pointer;">載入範例</button>
+          <button onClick="{{clearCards}}" style="padding:10px 12px;border:1px solid #d4c9b8;border-radius:11px;background:rgba(255,255,255,.6);color:#6d6254;font:inherit;font-weight:700;cursor:pointer;">清空</button>
+        </div>
+      </aside>
+
+      <main style="min-height:550px;padding:22px;border:1px solid rgba(137,116,84,.15);border-radius:20px;background:rgba(255,255,255,.55);">
+        <div style="display:flex;justify-content:center;gap:45px;padding-bottom:20px;border-bottom:1px solid rgba(135,115,82,.15);flex-wrap:wrap;">
+          <div style="text-align:center;"><span style="display:block;margin-bottom:4px;color:#998c7a;font-size:11px;">卡片總數</span><strong style="font-size:20px;font-weight:700;">{{totalCards}}</strong></div>
+          <div style="text-align:center;"><span style="display:block;margin-bottom:4px;color:#998c7a;font-size:11px;">剩餘卡片</span><strong style="font-size:20px;font-weight:700;">{{remainingDisplay}}</strong></div>
+          <div style="text-align:center;"><span style="display:block;margin-bottom:4px;color:#998c7a;font-size:11px;">已抽出</span><strong style="font-size:20px;font-weight:700;">{{drawnTotal}}</strong></div>
+        </div>
+
+        <div style="min-height:360px;display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap;padding:32px 0;">
+          <sc-if value="{{shuffling}}">
+            <div style="text-align:center;color:#887d6d;">
+              <div style="width:105px;height:145px;margin:0 auto 18px;border-radius:15px;border:1px solid #a99474;background:repeating-linear-gradient(45deg,#796b55,#796b55 7px,#86765d 7px,#86765d 14px);animation:fc-spin 0.9s linear infinite;"></div>
+              <p style="margin:0;color:#a09584;font-size:13px;">洗牌抽卡中…</p>
+            </div>
+          </sc-if>
+          <sc-if value="{{showEmpty}}">
+            <div style="text-align:center;color:#887d6d;">
+              <div style="width:105px;height:145px;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;border-radius:15px;border:1px solid #a99474;background:repeating-linear-gradient(45deg,#796b55,#796b55 7px,#86765d 7px,#86765d 14px);color:rgba(255,255,255,.85);font-size:34px;">?</div>
+              <h2 style="margin:0 0 7px;font-size:17px;font-weight:700;">{{emptyTitle}}</h2>
+              <p style="margin:0;color:#a09584;font-size:13px;line-height:1.7;">{{emptyText}}</p>
+            </div>
+          </sc-if>
+          <sc-if value="{{!showEmpty}}">
+            <sc-for list="{{displayedCards}}" as="card" hint-placeholder-count="0">
+              <div class="fc-card {{card.flipClass}}" style="width:165px;height:225px;perspective:1000px;">
+                <div class="fc-inner" style="position:relative;width:100%;height:100%;">
+                  <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;box-sizing:border-box;border-radius:17px;backface-visibility:hidden;border:3px solid #fff;outline:1px solid #b6a387;background:repeating-linear-gradient(45deg,#75664e,#75664e 8px,#826f55 8px,#826f55 16px);color:#fff;font-size:31px;box-shadow:0 8px 18px rgba(80,62,39,.12);">✦</div>
+                  <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;box-sizing:border-box;border-radius:17px;backface-visibility:hidden;padding:18px;border:1px solid #d5c8b5;background:#fffdf8;transform:rotateY(180deg);box-shadow:0 8px 20px rgba(80,62,39,.09);">
+                    <div style="width:100%;text-align:center;color:#493f34;font-size:20px;font-weight:800;line-height:1.5;overflow-wrap:anywhere;">{{card.text}}</div>
+                  </div>
+                </div>
+              </div>
+            </sc-for>
+          </sc-if>
+        </div>
+
+        <div style="display:flex;align-items:center;justify-content:center;gap:11px;flex-wrap:wrap;">
+          <button onClick="{{drawCards}}" style="min-width:180px;padding:13px 23px;border:none;border-radius:13px;background:#494137;color:#fff;font:inherit;font-size:15px;font-weight:700;cursor:pointer;">✦ 開始抽卡</button>
+          <button onClick="{{resetDeck}}" style="padding:12px 18px;border:1px solid #d1c4b0;border-radius:13px;background:transparent;color:#786b5b;font:inherit;font-weight:700;cursor:pointer;">↻ 重新洗牌</button>
+        </div>
+        <p style="min-height:21px;margin:13px 0 0;text-align:center;color:#9b775f;font-size:12px;">{{message}}</p>
+      </main>
+
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const SAMPLE_TEXT = `朋友生日，需要準備一份禮物
+手機突然故障，需要支付維修費
+獲得額外零用錢 500 元
+看到限時優惠商品，你會購買嗎？
+朋友推薦一項高報酬投資
+收到「帳戶異常」的陌生簡訊
+投資市場突然大幅下跌
+本月比預期多存下 300 元
+家中臨時需要一筆支出
+發現自己想買的商品正在特價`;
+function parseCards(text) { return text.split('\n').map(c => c.trim()).filter(Boolean); }
+function shuffle(array) {
+  const copy = [...array];
+  for (let i = copy.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [copy[i], copy[j]] = [copy[j], copy[i]]; }
+  return copy;
+}
+
+class Component extends DCLogic {
+  state = {
+    cardsText: '', drawCount: 1, removeDrawn: true,
+    originalCards: [], remainingCards: [], drawnTotal: 0,
+    displayed: [], flippedIndexes: [], emptyTitle: '準備開始抽卡', emptyText: '在左側輸入卡片內容，再按下「開始抽卡」。',
+    message: '', shuffling: false,
+  };
+  flipTimers = [];
+
+  componentWillUnmount() { this.flipTimers.forEach(clearTimeout); }
+
+  initialiseDeck() {
+    const cards = parseCards(this.state.cardsText);
+    this.setState({ originalCards: cards, remainingCards: [...cards], drawnTotal: 0 });
+  }
+
+  drawCards() {
+    const currentInput = parseCards(this.state.cardsText);
+    let originalCards = this.state.originalCards, remainingCards = this.state.remainingCards, drawnTotal = this.state.drawnTotal;
+    if (JSON.stringify(currentInput) !== JSON.stringify(originalCards)) {
+      originalCards = currentInput; remainingCards = [...currentInput]; drawnTotal = 0;
+    }
+    if (originalCards.length === 0) { this.setState({ message: '請先輸入至少一張卡片內容。' }); return; }
+
+    const requested = Number(this.state.drawCount) || 1;
+    const sourceDeck = this.state.removeDrawn ? remainingCards : originalCards;
+    if (sourceDeck.length === 0) { this.setState({ originalCards, remainingCards, drawnTotal, message: '所有卡片都已抽完，請按「重新洗牌」。' }); return; }
+
+    const actualCount = Math.min(requested, sourceDeck.length);
+    const selected = shuffle(sourceDeck).slice(0, actualCount);
+    if (this.state.removeDrawn) {
+      selected.forEach(card => { const idx = remainingCards.indexOf(card); if (idx > -1) remainingCards.splice(idx, 1); });
+    }
+    drawnTotal += selected.length;
+
+    this.flipTimers.forEach(clearTimeout); this.flipTimers = [];
+    this.setState({
+      originalCards, remainingCards, drawnTotal: this.state.drawnTotal,
+      displayed: [], flippedIndexes: [], shuffling: true,
+      message: '正在洗牌抽卡…',
+    }, () => {
+      const timer = setTimeout(() => {
+        this.setState({
+          drawnTotal, shuffling: false,
+          displayed: selected.map(text => ({ text })), flippedIndexes: [],
+          message: actualCount < requested ? `剩餘卡片不足，本次抽出 ${actualCount} 張。` : `本次抽出 ${actualCount} 張卡片。`,
+        }, () => {
+          selected.forEach((_, index) => {
+            const t = setTimeout(() => { this.setState({ flippedIndexes: [...this.state.flippedIndexes, index] }); }, 350 + index * 180);
+            this.flipTimers.push(t);
+          });
+        });
+      }, 800);
+      this.flipTimers.push(timer);
+    });
+  }
+
+  resetDeck() {
+    this.flipTimers.forEach(clearTimeout); this.flipTimers = [];
+    this.initialiseDeck();
+    this.setState({ displayed: [], flippedIndexes: [], emptyTitle: '已重新洗牌', emptyText: '卡片已全部放回牌庫，可以重新開始抽卡。', message: '牌庫已重置。' });
+  }
+
+  loadSample() {
+    this.setState({ cardsText: SAMPLE_TEXT }, () => { this.initialiseDeck(); this.setState({ message: '已載入 10 張示範卡片。' }); });
+  }
+
+  clearCards() {
+    this.flipTimers.forEach(clearTimeout); this.flipTimers = [];
+    this.setState({ cardsText: '', originalCards: [], remainingCards: [], drawnTotal: 0, displayed: [], flippedIndexes: [], emptyTitle: '準備開始抽卡', emptyText: '在左側輸入卡片內容，再按下「開始抽卡」。', message: '' });
+  }
+
+  renderVals() {
+    const s = this.state;
+    const countOptions = [1, 2, 3, 4, 5].map(n => {
+      const active = Number(s.drawCount) === n;
+      return { label: String(n), onClick: () => this.setState({ drawCount: n }), style: `padding:10px 0;border:1px solid ${active ? '#76674f' : '#d8cebc'};border-radius:10px;background:${active ? '#76674f' : 'rgba(255,255,255,.6)'};color:${active ? '#fff' : '#6c6256'};font:inherit;cursor:pointer;` };
+    });
+    return {
+      cardsText: s.cardsText,
+      onCardsTextChange: (e) => { const text = e.target.value; this.setState({ cardsText: text }, () => { if (s.originalCards.length === 0) this.initialiseDeck(); }); },
+      inputCount: parseCards(s.cardsText).length,
+      countOptions,
+      removeDrawn: s.removeDrawn,
+      onRemoveDrawnChange: (e) => { const checked = e.target.checked; this.setState({ removeDrawn: checked }, () => { this.initialiseDeck(); this.setState({ message: checked ? '已開啟不重複抽卡。' : '已開啟可重複抽卡。' }); }); },
+      loadSample: () => this.loadSample(), clearCards: () => this.clearCards(),
+      totalCards: s.originalCards.length,
+      remainingDisplay: s.removeDrawn ? s.remainingCards.length : s.originalCards.length,
+      drawnTotal: s.drawnTotal,
+      shuffling: s.shuffling,
+      showEmpty: !s.shuffling && s.displayed.length === 0, emptyTitle: s.emptyTitle, emptyText: s.emptyText,
+      displayedCards: s.displayed.map((c, i) => ({ text: c.text, flipClass: s.flippedIndexes.includes(i) ? 'flipped' : '' })),
+      drawCards: () => this.drawCards(), resetDeck: () => this.resetDeck(),
+      message: s.message,
+    };
+  }
+}
+
+</script>
+</body>
+</html>

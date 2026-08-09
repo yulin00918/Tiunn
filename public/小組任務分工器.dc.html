@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  .rt-input{box-sizing:border-box;}
+</style>
+</helmet>
+<div style="font-family:'Noto Sans TC',sans-serif;color:#2d3340;background:linear-gradient(135deg,#f7f4ff,#eef7ff 50%,#fff8ee);min-height:100vh;padding:0 0 40px;">
+  <header style="text-align:center;padding:26px 20px 14px;">
+    <h1 style="margin:0;font-size:30px;">👥 小組任務分工器</h1>
+    <p style="color:#667085;margin:8px 0 0;">隨機分組 × 角色範本 × 清楚分工</p>
+  </header>
+
+  <div style="width:min(1200px,94%);margin:auto;">
+
+    <div style="background:rgba(255,255,255,.94);border-radius:22px;padding:22px;margin-bottom:18px;box-shadow:0 12px 35px rgba(48,54,79,.1);">
+      <div style="font-size:19px;font-weight:800;margin-bottom:12px;">① 輸入學生名單</div>
+      <textarea class="rt-input" value="{{studentInput}}" onChange="{{onStudentInputChange}}" placeholder="每行一位學生，例如：&#10;王小明&#10;陳小華&#10;林小美" style="width:100%;min-height:150px;resize:vertical;line-height:1.6;padding:12px 14px;border:1px solid #d7dce5;border-radius:12px;background:#fff;font:inherit;font-size:15px;outline:none;"></textarea>
+      <div style="color:#667085;font-size:14px;margin-top:9px;">目前 {{studentCount}} 位學生</div>
+    </div>
+
+    <div style="background:rgba(255,255,255,.94);border-radius:22px;padding:22px;margin-bottom:18px;box-shadow:0 12px 35px rgba(48,54,79,.1);">
+      <div style="font-size:19px;font-weight:800;margin-bottom:12px;">② 分組設定</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
+        <div>
+          <label style="display:block;margin-bottom:7px;color:#667085;font-size:14px;">每組人數</label>
+          <select value="{{groupSize}}" onChange="{{onGroupSizeChange}}" style="width:100%;padding:12px 14px;border:1px solid #d7dce5;border-radius:12px;background:#fff;font:inherit;font-size:15px;outline:none;">
+            <sc-for list="{{groupSizeOptions}}" as="n" hint-placeholder-count="5">
+              <option value="{{n}}">{{n}} 人</option>
+            </sc-for>
+          </select>
+        </div>
+        <div>
+          <label style="display:block;margin-bottom:7px;color:#667085;font-size:14px;">角色分配</label>
+          <select value="{{roleMode}}" onChange="{{onRoleModeChange}}" style="width:100%;padding:12px 14px;border:1px solid #d7dce5;border-radius:12px;background:#fff;font:inherit;font-size:15px;outline:none;">
+            <option value="random">隨機分派</option>
+            <option value="order">依順序分派</option>
+          </select>
+        </div>
+        <div>
+          <label style="display:block;margin-bottom:7px;color:#667085;font-size:14px;">組別名稱</label>
+          <select value="{{groupNameMode}}" onChange="{{onGroupNameModeChange}}" style="width:100%;padding:12px 14px;border:1px solid #d7dce5;border-radius:12px;background:#fff;font:inherit;font-size:15px;outline:none;">
+            <option value="number">第一組、第二組……</option>
+            <option value="letter">A組、B組……</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:rgba(255,255,255,.94);border-radius:22px;padding:22px;margin-bottom:18px;box-shadow:0 12px 35px rgba(48,54,79,.1);">
+      <div style="font-size:19px;font-weight:800;margin-bottom:12px;">③ 選擇角色範本</div>
+      <div style="color:#667085;font-size:14px;margin-bottom:12px;">依課堂活動選擇適合的分工,也可以選完後自行修改。</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;">
+        <sc-for list="{{templates}}" as="t" hint-placeholder-count="6">
+          <div style="{{t.style}}" onClick="{{t.onClick}}">
+            <div style="font-weight:800;font-size:16px;">{{t.name}}</div>
+            <div style="color:#667085;font-size:13px;line-height:1.5;margin-top:5px;">{{t.desc}}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="background:rgba(255,255,255,.94);border-radius:22px;padding:22px;margin-bottom:18px;box-shadow:0 12px 35px rgba(48,54,79,.1);">
+      <div style="font-size:19px;font-weight:800;margin-bottom:12px;">④ 查看／修改角色</div>
+      <div style="display:grid;gap:10px;">
+        <sc-for list="{{roles}}" as="role" hint-placeholder-count="6">
+          <div style="display:grid;grid-template-columns:190px 1fr 45px;gap:10px;align-items:center;">
+            <div style="display:grid;grid-template-columns:48px 1fr;gap:8px;">
+              <input class="rt-input" value="{{role.icon}}" maxlength="4" onChange="{{role.onIconChange}}" style="text-align:center;padding:12px 4px;border:1px solid #d7dce5;border-radius:12px;background:#fff;font:inherit;font-size:16px;outline:none;">
+              <input class="rt-input" value="{{role.name}}" placeholder="角色名稱" onChange="{{role.onNameChange}}" style="padding:12px 14px;border:1px solid #d7dce5;border-radius:12px;background:#fff;font:inherit;font-size:15px;outline:none;">
+            </div>
+            <input class="rt-input" value="{{role.job}}" placeholder="工作內容" onChange="{{role.onJobChange}}" style="padding:12px 14px;border:1px solid #d7dce5;border-radius:12px;background:#fff;font:inherit;font-size:15px;outline:none;">
+            <button onClick="{{role.onRemove}}" style="border:0;border-radius:12px;padding:11px 0;font-size:17px;font-weight:700;cursor:pointer;background:#fff0f0;color:#c84040;">×</button>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;">
+        <button onClick="{{addRole}}" style="border:0;border-radius:12px;padding:11px 17px;font-size:15px;font-weight:700;cursor:pointer;background:#eef0ff;color:#4c59d7;">＋新增角色</button>
+        <button onClick="{{saveCustomTemplate}}" style="border:0;border-radius:12px;padding:11px 17px;font-size:15px;font-weight:700;cursor:pointer;background:#f2f4f7;color:#344054;">💾 儲存為我的範本</button>
+        <button onClick="{{loadCustomTemplate}}" style="border:0;border-radius:12px;padding:11px 17px;font-size:15px;font-weight:700;cursor:pointer;background:#f2f4f7;color:#344054;">📂 載入我的範本</button>
+      </div>
+    </div>
+
+    <div style="background:rgba(255,255,255,.94);border-radius:22px;padding:22px;margin-bottom:18px;box-shadow:0 12px 35px rgba(48,54,79,.1);">
+      <div style="font-size:19px;font-weight:800;margin-bottom:12px;">⑤ 開始分組</div>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;">
+        <button onClick="{{makeGroups}}" style="border:0;border-radius:12px;padding:11px 17px;font-size:15px;font-weight:700;cursor:pointer;background:#5f6fff;color:#fff;">🎲 隨機分組＋分工</button>
+        <button onClick="{{rerollRoles}}" style="border:0;border-radius:12px;padding:11px 17px;font-size:15px;font-weight:700;cursor:pointer;background:#eef0ff;color:#4c59d7;">🔄 保留組別,只換角色</button>
+        <button onClick="{{reshuffleGroups}}" style="border:0;border-radius:12px;padding:11px 17px;font-size:15px;font-weight:700;cursor:pointer;background:#eef0ff;color:#4c59d7;">🔀 重新分組</button>
+      </div>
+      <div style="color:#c84040;font-size:13px;margin-top:10px;min-height:18px;">{{errorMessage}}</div>
+    </div>
+
+    <div style="background:rgba(255,255,255,.94);border-radius:22px;padding:22px;box-shadow:0 12px 35px rgba(48,54,79,.1);">
+      <div style="font-size:19px;font-weight:800;margin-bottom:12px;">分組與角色結果</div>
+      <sc-if value="{{hasGroups}}">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;">
+          <sc-for list="{{displayGroups}}" as="g" hint-placeholder-count="0">
+            <div style="background:#fff;overflow:hidden;border-radius:20px;border:1px solid rgba(0,0,0,.05);box-shadow:0 10px 28px rgba(45,51,64,.1);">
+              <div style="padding:14px 18px;font-size:20px;font-weight:800;background:#f1f3ff;">{{g.title}}</div>
+              <sc-for list="{{g.members}}" as="m" hint-placeholder-count="0">
+                <div style="padding:15px 18px;border-top:1px solid #edf0f5;">
+                  <div style="display:flex;align-items:center;gap:9px;">
+                    <span style="font-size:24px;">{{m.icon}}</span>
+                    <span style="font-size:18px;font-weight:800;">{{m.student}}</span>
+                    <span style="margin-left:auto;padding:5px 10px;background:#f3f5f7;border-radius:18px;font-size:14px;font-weight:700;">{{m.roleName}}</span>
+                  </div>
+                  <div style="margin-top:7px;color:#667085;font-size:14px;line-height:1.6;">{{m.job}}</div>
+                </div>
+              </sc-for>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+      <sc-if value="{{!hasGroups}}">
+        <div style="text-align:center;color:#98a2b3;padding:40px;">輸入名單並選擇角色範本後,按下「隨機分組＋分工」</div>
+      </sc-if>
+    </div>
+
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const ROLE_TEMPLATES = {
+  general: { name: '👥 一般討論', desc: '各科討論、學習單、共同解題', roles: [
+    { icon: '📋', name: '任務召集員', job: '確認任務內容，邀請每位組員參與，整合小組意見。' },
+    { icon: '🔍', name: '討論分析員', job: '找出重點、分析問題，提出理由與解決方法。' },
+    { icon: '📝', name: '紀錄整理員', job: '記錄討論內容、答案與重要決定，整理小組成果。' },
+    { icon: '🗣️', name: '成果報告員', job: '代表小組說明答案、成果及小組做出決定的理由。' },
+    { icon: '⏱️', name: '時間進度員', job: '掌握時間與活動進度，提醒小組依時完成任務。' },
+    { icon: '📦', name: '器材材料員', job: '管理學習單、教材、平板或活動所需物品。' },
+  ]},
+  inquiry: { name: '🔎 探究學習', desc: '資料閱讀、議題探究、自然與社會科', roles: [
+    { icon: '📋', name: '任務召集員', job: '確認探究問題、安排討論順序並整合組員工作。' },
+    { icon: '🔎', name: '資料查找員', job: '搜尋、閱讀及整理與探究問題相關的資料。' },
+    { icon: '🧠', name: '證據分析員', job: '比較資料與證據，判斷資訊是否足以支持結論。' },
+    { icon: '📝', name: '研究紀錄員', job: '記錄探究歷程、證據、推論以及小組結論。' },
+    { icon: '🗣️', name: '研究發表員', job: '說明探究結果、使用的證據及推論過程。' },
+    { icon: '✅', name: '資料檢核員', job: '確認資料來源、答案及成果是否完整合理。' },
+  ]},
+  practice: { name: '🛠️ 實作任務', desc: '家政、自然實驗、科技、藝術實作', roles: [
+    { icon: '📋', name: '任務召集員', job: '確認操作流程、分配工作並協調組員完成任務。' },
+    { icon: '🧰', name: '器材材料員', job: '領取、管理、整理及歸還活動所需器材與材料。' },
+    { icon: '🛡️', name: '安全檢查員', job: '提醒操作安全、衛生與活動規範，降低操作風險。' },
+    { icon: '📝', name: '過程紀錄員', job: '記錄操作過程、數據、步驟及發現。' },
+    { icon: '⏱️', name: '時間進度員', job: '掌握操作時間，提醒小組依序完成各階段。' },
+    { icon: '🗣️', name: '成果報告員', job: '展示作品或實驗成果，說明過程與結果。' },
+  ]},
+  project: { name: '📚 專題製作', desc: 'PBL、跨領域專題、長期報告', roles: [
+    { icon: '📋', name: '專題召集員', job: '掌握專題目標、工作進度及組員任務。' },
+    { icon: '🔎', name: '資料研究員', job: '搜尋、閱讀、篩選及整理專題所需資料。' },
+    { icon: '💡', name: '內容企劃員', job: '整理想法、規劃內容架構及專題呈現方式。' },
+    { icon: '📝', name: '文字整理員', job: '整理資料、撰寫內容及統整小組成果。' },
+    { icon: '🎨', name: '視覺製作員', job: '負責版面、圖像、簡報或作品的視覺呈現。' },
+    { icon: '🎤', name: '成果發表員', job: '規劃並完成專題成果的口頭或公開發表。' },
+  ]},
+  finance: { name: '💰 金融決策', desc: '理財、投資、風險與《財富之道》', roles: [
+    { icon: '📋', name: '任務召集員', job: '確認每回合任務，讓組員充分討論並形成共同決策。' },
+    { icon: '📊', name: '市場分析員', job: '分析市場事件及可能受到影響的資產。' },
+    { icon: '🧠', name: '決策分析員', job: '比較不同方案的風險與可能結果，提出投資建議。' },
+    { icon: '💰', name: '財務紀錄員', job: '記錄資產配置、計算資產變化並留下決策理由。' },
+    { icon: '⏱️', name: '時間進度員', job: '掌握每回合討論與決策時間。' },
+    { icon: '🗣️', name: '決策報告員', job: '說明小組的配置、決策理由及反思。' },
+  ]},
+  creative: { name: '🎭 創作展演', desc: '語文、藝術、戲劇、影片、角色扮演', roles: [
+    { icon: '🎬', name: '活動統籌員', job: '掌握任務內容、協調分工並整合小組創作。' },
+    { icon: '💡', name: '創意企劃員', job: '提出創意點子、設計情節或規劃呈現方式。' },
+    { icon: '✍️', name: '內容編寫員', job: '撰寫腳本、台詞、文字或作品內容。' },
+    { icon: '🎨', name: '視覺製作員', job: '負責道具、圖像、版面、場景或視覺設計。' },
+    { icon: '🎤', name: '表演發表員', job: '負責演出、口頭發表或主要成果呈現。' },
+    { icon: '⏱️', name: '流程管理員', job: '掌握排練、製作與正式發表的時間及流程。' },
+  ]},
+};
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+  return a;
+}
+
+class Component extends DCLogic {
+  state = {
+    studentInput: '', groupSize: 4, roleMode: 'random', groupNameMode: 'number',
+    currentTemplate: 'general', roles: JSON.parse(JSON.stringify(ROLE_TEMPLATES.general.roles)),
+    currentGroups: [], displayGroups: [], errorMessage: '',
+  };
+
+  componentDidMount() {
+    const saved = localStorage.getItem('groupToolStudents');
+    if (saved) this.setState({ studentInput: saved });
+  }
+
+  getStudents() {
+    return [...new Set(this.state.studentInput.split(/\n|,|，/).map(x => x.trim()).filter(Boolean))];
+  }
+
+  selectTemplate(key) {
+    this.setState({ currentTemplate: key, roles: JSON.parse(JSON.stringify(ROLE_TEMPLATES[key].roles)) });
+  }
+
+  updateRole(index, key, value) {
+    const roles = [...this.state.roles];
+    roles[index] = { ...roles[index], [key]: value };
+    this.setState({ roles });
+  }
+
+  addRole() { this.setState({ roles: [...this.state.roles, { icon: '⭐', name: '自訂角色', job: '請輸入這個角色的主要工作。' }] }); }
+  removeRole(index) {
+    if (this.state.roles.length <= 1) { this.setState({ errorMessage: '至少要保留一個角色。' }); return; }
+    this.setState({ roles: this.state.roles.filter((_, i) => i !== index), errorMessage: '' });
+  }
+
+  saveCustomTemplate() { localStorage.setItem('myGroupRoleTemplate', JSON.stringify(this.state.roles)); this.setState({ errorMessage: '已儲存為「我的範本」。' }); }
+  loadCustomTemplate() {
+    const saved = localStorage.getItem('myGroupRoleTemplate');
+    if (!saved) { this.setState({ errorMessage: '目前還沒有儲存自訂範本。' }); return; }
+    try { this.setState({ roles: JSON.parse(saved), currentTemplate: 'custom', errorMessage: '' }); }
+    catch { this.setState({ errorMessage: '自訂範本讀取失敗。' }); }
+  }
+
+  makeGroups() {
+    const students = this.getStudents();
+    if (students.length < 2) { this.setState({ errorMessage: '請至少輸入兩位學生。' }); return; }
+    const groupSize = Number(this.state.groupSize);
+    const shuffled = shuffle(students);
+    const groupCount = Math.ceil(students.length / groupSize);
+    const currentGroups = Array.from({ length: groupCount }, () => []);
+    shuffled.forEach((student, index) => { currentGroups[index % groupCount].push(student); });
+    this.setState({ currentGroups, errorMessage: '' }, () => this.renderGroups(true));
+  }
+
+  reshuffleGroups() {
+    if (!this.getStudents().length) { this.setState({ errorMessage: '請先輸入學生名單。' }); return; }
+    this.makeGroups();
+  }
+
+  rerollRoles() {
+    if (!this.state.currentGroups.length) { this.setState({ errorMessage: '請先完成分組。' }); return; }
+    this.renderGroups(true);
+  }
+
+  renderGroups(forceRandom) {
+    if (!this.state.roles.length) { this.setState({ errorMessage: '請至少設定一個角色。' }); return; }
+    const displayGroups = this.state.currentGroups.map((group, gIndex) => {
+      const title = this.state.groupNameMode === 'letter' ? `${String.fromCharCode(65 + gIndex)} 組` : `第 ${gIndex + 1} 組`;
+      let groupRoles = [...this.state.roles];
+      while (groupRoles.length < group.length) groupRoles = groupRoles.concat(this.state.roles);
+      groupRoles = groupRoles.slice(0, group.length);
+      if (this.state.roleMode === 'random' || forceRandom) groupRoles = shuffle(groupRoles);
+      return { title, members: group.map((student, index) => ({ student, icon: groupRoles[index].icon, roleName: groupRoles[index].name, job: groupRoles[index].job })) };
+    });
+    this.setState({ displayGroups, errorMessage: '' });
+  }
+
+  renderVals() {
+    const s = this.state;
+    localStorage.setItem('groupToolStudents', s.studentInput);
+    const templates = Object.entries(ROLE_TEMPLATES).map(([key, data]) => {
+      const active = s.currentTemplate === key;
+      return {
+        name: data.name, desc: data.desc, onClick: () => this.selectTemplate(key),
+        style: `padding:14px;border:2px solid ${active ? '#6979ff' : 'transparent'};border-radius:15px;background:${active ? '#eef0ff' : '#f8f9fc'};cursor:pointer;`,
+      };
+    });
+    const roles = s.roles.map((role, i) => ({
+      icon: role.icon, name: role.name, job: role.job,
+      onIconChange: (e) => this.updateRole(i, 'icon', e.target.value),
+      onNameChange: (e) => this.updateRole(i, 'name', e.target.value),
+      onJobChange: (e) => this.updateRole(i, 'job', e.target.value),
+      onRemove: () => this.removeRole(i),
+    }));
+    return {
+      studentInput: s.studentInput, onStudentInputChange: (e) => this.setState({ studentInput: e.target.value }),
+      studentCount: this.getStudents().length,
+      groupSize: s.groupSize, onGroupSizeChange: (e) => this.setState({ groupSize: e.target.value }),
+      groupSizeOptions: [2, 3, 4, 5, 6],
+      roleMode: s.roleMode, onRoleModeChange: (e) => this.setState({ roleMode: e.target.value }),
+      groupNameMode: s.groupNameMode, onGroupNameModeChange: (e) => this.setState({ groupNameMode: e.target.value }),
+      templates, roles,
+      addRole: () => this.addRole(), saveCustomTemplate: () => this.saveCustomTemplate(), loadCustomTemplate: () => this.loadCustomTemplate(),
+      makeGroups: () => this.makeGroups(), rerollRoles: () => this.rerollRoles(), reshuffleGroups: () => this.reshuffleGroups(),
+      errorMessage: s.errorMessage,
+      hasGroups: s.displayGroups.length > 0, displayGroups: s.displayGroups,
+    };
+  }
+}
+
+</script>
+</body>
+</html>

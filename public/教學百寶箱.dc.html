@@ -41,6 +41,12 @@
       <sc-if value="{{tab.activeSeating}}">
         <dc-import name="分組座位圖產生器" hint-size="100%,700px"></dc-import>
       </sc-if>
+      <sc-if value="{{tab.activeCardDraw}}">
+        <dc-import name="翻卡抽籤" hint-size="100%,700px"></dc-import>
+      </sc-if>
+      <sc-if value="{{tab.activeRoles}}">
+        <dc-import name="小組任務分工器" hint-size="100%,700px"></dc-import>
+      </sc-if>
       <sc-if value="{{tab.activePlaceholder}}">
         <div style="background:#ffffffcc;border-radius:16px;padding:28px;box-shadow:0 4px 14px rgba(0,0,0,0.08);">
           <h3 style="font-size:18px;font-weight:700;color:#8f2035;margin-bottom:14px;">{{tab.label}}</h3>
@@ -65,6 +71,8 @@ class Component extends DCLogic {
       { label: '自由設定倒數計時器', isTimer: true },
       { label: '自由抽籤轉盤', isWheel: true },
       { label: '分組座位圖產生器', isSeating: true },
+      { label: '翻卡抽籤', isCardDraw: true },
+      { label: '組內角色分工', isRoles: true },
     ];
     const tabs = data.map((d, i) => {
       const active = i === this.state.activeTab;
@@ -77,7 +85,9 @@ class Component extends DCLogic {
         activeTimer: active && d.isTimer,
         activeWheel: active && d.isWheel,
         activeSeating: active && d.isSeating,
-        activePlaceholder: active && !d.isLottery && !d.isGrouping && !d.isScoreboard && !d.isTimer && !d.isWheel && !d.isSeating,
+        activeCardDraw: active && d.isCardDraw,
+        activeRoles: active && d.isRoles,
+        activePlaceholder: active && !d.isLottery && !d.isGrouping && !d.isScoreboard && !d.isTimer && !d.isWheel && !d.isSeating && !d.isCardDraw && !d.isRoles,
         onClick: () => this.setState({ activeTab: i }),
         btnStyle: `padding:10px 20px;border-radius:12px;border:none;font-weight:700;font-size:14px;cursor:pointer;background:${active ? '#8f2035' : '#ffffffaa'};color:${active ? '#fff' : '#8f2035'};`,
       };

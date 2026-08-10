@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>阿媽的目屎｜自學點讀</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;background:linear-gradient(135deg,#fbf4e7,#eef3df);color:#413b34}
+main{max-width:980px;margin:auto;padding:34px 18px 70px}
+.tag{display:inline-block;background:#e4edcf;color:#60763d;padding:7px 13px;border-radius:99px}
+h1{margin:12px 0 5px}
+header p{color:#81776a}
+nav{display:flex;gap:8px;margin:22px 0}
+nav button,.ctl button{border:0;border-radius:11px;padding:10px 14px;cursor:pointer}
+nav button.on{background:#6f8150;color:white}
+section{display:none}
+section.on{display:block}
+.ctl{background:#ffffffbd;border:1px solid #e5d9c6;border-radius:18px;padding:14px;display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.ctl .main{background:#4d493f;color:#fff}
+#read{background:#fffdf8cc;border:1px solid #e5d9c6;border-radius:18px;padding:16px 18px 24px}
+.p{padding:18px 8px;margin:0;line-height:2;font-size:18px;cursor:pointer;white-space:pre-line;border:0;background:transparent;border-radius:0}
+.p + .p{border-top:1px solid rgba(126,145,82,.12)}
+.p:hover{background:rgba(232,239,215,.35)}
+.p.play{background:#eef3df;color:#3f4730}
+em{font-style:normal;background:#edf1df;color:#718548;border-radius:50%;display:inline-flex;width:27px;height:27px;align-items:center;justify-content:center;margin-right:9px;font-size:12px}
+.grid{display:block}
+.vc{text-align:left;background:transparent;border:0;border-bottom:1px solid rgba(126,145,82,.15);padding:15px 6px;cursor:pointer;color:#413b34;width:100%}
+.vc:hover{background:rgba(232,239,215,.35)}
+.vc b,.vc i,.vc span{display:block}
+.vc b{font-size:18px}
+.vc i{color:#6c8650;margin:5px 0}
+.vc span{color:#746b60;line-height:1.5}
+#stat{width:100%;color:#81776a;font-size:12px}
+@media(max-width:650px){.grid{grid-template-columns:1fr}.p{font-size:16px}}
+</style>
+</head>
+<body>
+<main>
+<header>
+<span class="tag">🎧 育達版・第二冊</span>
+<h1>第三課｜阿媽的目屎</h1>
+<p>作者：向陽 Hiòng-iông　｜　點選課文段落或語詞即可聆聽</p>
+</header>
+
+<nav>
+<button class="on" data-s="read">📖 課文點讀</button>
+<button data-s="words">🗣️ 語詞點讀</button>
+</nav>
+
+<section id="read" class="on">
+<div class="ctl">
+<button class="main" id="all">▶ 全文連播</button>
+<button id="pause">⏸ 暫停</button>
+<button id="reset">↺ 重新開始</button>
+<button data-sp=".75">0.75×</button>
+<button data-sp="1">1×</button>
+<button data-sp="1.25">1.25×</button>
+<div id="stat">尚未播放</div>
+</div>
+
+<div class="p" data-a="audio/lesson-001.mp3"><em>1</em>阿媽上愛流目屎
+歡喜也流艱苦也流
+看著細漢的阮跋倒
+伊也流</div>
+
+<div class="p" data-a="audio/lesson-002.mp3"><em>2</em>阿媽的目屎
+是早起時葉仔頂的露水
+照顧著暗時的阮
+疼痛著青葉的孫</div>
+
+<div class="p" data-a="audio/lesson-003.mp3"><em>3</em>等到日頭𬦰上山
+風微微吹著阮，阮歡歡喜喜
+拍散露水輾入地，煞也拍散
+阿媽的目屎</div>
+
+<div class="p" data-a="audio/lesson-004.mp3"><em>4</em>後來就無閣看著阿媽
+無閣看著阿媽的目屎
+彼年大漢去培墓，才閣看著
+阿媽的目屎：掛—墓—牌</div>
+</section>
+
+<section id="words" style="background:#fffdf8cc;border:1px solid #e5d9c6;border-radius:18px;padding:8px 18px 18px;">
+<div class="grid">
+<button class="vc" data-a="audio/vocab-01.mp3"><b>🔊 跋倒</b><i>pua̍h-tó</i><span>跌倒、摔跤。</span></button>
+<button class="vc" data-a="audio/vocab-02.mp3"><b>🔊 早起時</b><i>tsá-khí-sî</i><span>早上。</span></button>
+<button class="vc" data-a="audio/vocab-03.mp3"><b>🔊 青葉</b><i>tshinn-hio̍h / tshenn-hio̍h</i><span>嫩芽綠葉，文中比喻晚輩。</span></button>
+<button class="vc" data-a="audio/vocab-04.mp3"><b>🔊 𬦰</b><i>peh</i><span>爬、攀爬、爬升。</span></button>
+<button class="vc" data-a="audio/vocab-05.mp3"><b>🔊 輾</b><i>liàn</i><span>滾動。</span></button>
+<button class="vc" data-a="audio/vocab-06.mp3"><b>🔊 培墓</b><i>puē-bōng / puē-bōo</i><span>掃墓。</span></button>
+<button class="vc" data-a="audio/vocab-07.mp3"><b>🔊 墓牌</b><i>bōng-pâi / bōo-pâi</i><span>墓碑，墓前的石碑。</span></button>
+</div>
+</section>
+</main>
+
+<audio id="au"></audio>
+<script>
+const au=document.querySelector('#au'),
+      P=[...document.querySelectorAll('.p')],
+      stat=document.querySelector('#stat');
+let i=0,chain=false,sp=1;
+
+function play(n){
+  i=n;
+  P.forEach(x=>x.classList.remove('play'));
+  P[n].classList.add('play');
+  au.src=P[n].dataset.a;
+  au.playbackRate=sp;
+  au.play();
+  stat.textContent='正在播放：第 '+(n+1)+' 段';
+}
+P.forEach((x,n)=>x.onclick=()=>{chain=false;play(n)});
+all.onclick=()=>{chain=true;play(0)};
+pause.onclick=()=>au.paused?au.play():au.pause();
+reset.onclick=()=>{chain=false;play(0)};
+au.onended=()=>{
+  if(chain&&i<P.length-1) play(i+1);
+  else{chain=false;stat.textContent='播放完成'}
+};
+document.querySelectorAll('[data-sp]').forEach(b=>b.onclick=()=>{
+  sp=+b.dataset.sp;
+  au.playbackRate=sp
+});
+document.querySelectorAll('.vc').forEach(b=>b.onclick=()=>{
+  chain=false;
+  au.src=b.dataset.a;
+  au.playbackRate=sp;
+  au.play()
+});
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('nav button,section').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on');
+  document.querySelector('#'+b.dataset.s).classList.add('on')
+});
+</script>
+</body>
+</html>

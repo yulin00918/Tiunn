@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  .rd-segment{transition:.2s;}
+  .rd-segment:hover{background:#faf0df;}
+  .rd-speak.playing{background:#b78652 !important;}
+</style>
+</helmet>
+<div style="font-family:'Noto Sans TC',sans-serif;color:#4d4438;background:linear-gradient(180deg,#f8f0df 0%,#fbf7ef 100%);min-height:100vh;">
+  <div style="max-width:980px;margin:auto;padding:34px 20px 70px;">
+
+    <div style="display:flex;justify-content:space-between;gap:24px;align-items:flex-end;margin-bottom:22px;flex-wrap:wrap;">
+      <div>
+        <span style="display:inline-flex;gap:8px;align-items:center;padding:7px 12px;border-radius:999px;background:#ead9bd;color:#765c3c;font-size:13px;">🎧 育達版・自學點讀</span>
+        <h1 style="margin:10px 0 6px;font-size:34px;letter-spacing:.08em;font-weight:650;">第三課｜四秀仔錢</h1>
+        <div style="color:#877a69;font-size:14px;">點選課文段落即可播放；播放中的段落會自動反白。</div>
+      </div>
+      <div style="font-size:14px;color:#877a69;white-space:nowrap;">作者：王秀容 Ông Siù-iông</div>
+    </div>
+
+    <div style="display:flex;gap:8px;margin:18px 0;">
+      <button style="{{readingTabStyle}}" onClick="{{selectReading}}">📖 課文點讀</button>
+      <button style="{{vocabTabStyle}}" onClick="{{selectVocab}}">🗣️ 語詞點讀</button>
+    </div>
+
+    <sc-if value="{{showReading}}">
+      <div style="position:sticky;top:10px;z-index:10;display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:rgba(255,250,241,.94);backdrop-filter:blur(8px);border:1px solid #e8dac2;border-radius:16px;padding:12px;box-shadow:0 12px 34px rgba(88,67,42,.08);margin-bottom:16px;">
+        <button style="border:1px solid #4d4438;background:#4d4438;color:#fff;padding:9px 12px;border-radius:10px;cursor:pointer;font-family:inherit;" onClick="{{playAll}}">▶ 全文連續播放</button>
+        <button style="border:1px solid #e8dac2;background:#fffaf3;color:#4d4438;padding:9px 12px;border-radius:10px;cursor:pointer;font-family:inherit;" onClick="{{togglePause}}">⏸ 暫停</button>
+        <button style="border:1px solid #e8dac2;background:#fffaf3;color:#4d4438;padding:9px 12px;border-radius:10px;cursor:pointer;font-family:inherit;" onClick="{{restart}}">↺ 重新開始</button>
+        <label style="font-size:13px;">速度
+          <select value="{{speed}}" onChange="{{onSpeedChange}}" style="border:1px solid #e8dac2;background:#fffaf3;color:#4d4438;padding:9px 12px;border-radius:10px;font-family:inherit;">
+            <option value="0.75">0.75×</option>
+            <option value="1">1×</option>
+            <option value="1.25">1.25×</option>
+          </select>
+        </label>
+        <div style="height:6px;background:#efe4d2;border-radius:999px;overflow:hidden;flex:1;min-width:140px;"><span style="display:block;height:100%;background:#b78652;width:{{progressPct}}%;"></span></div>
+        <div style="margin-left:auto;color:#877a69;font-size:13px;">{{status}}</div>
+      </div>
+
+      <div style="background:rgba(255,255,255,.68);border:1px solid #e8dac2;border-radius:22px;padding:22px;box-shadow:0 12px 34px rgba(88,67,42,.08);">
+        <sc-for list="{{segments}}" as="seg" hint-placeholder-count="7">
+          <article class="rd-segment" style="{{seg.style}}" onClick="{{seg.onClick}}">
+            <div style="width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:700;background:{{seg.numBg}};color:{{seg.numColor}};">{{seg.num}}</div>
+            <div>
+              <div style="font-size:18px;line-height:2.05;letter-spacing:.02em;">
+                <sc-for list="{{seg.tokens}}" as="tok" hint-placeholder-count="0">
+                  <sc-if value="{{tok.isVocab}}">
+                    <span style="{{tok.style}}" onClick="{{tok.onClick}}">{{tok.text}}</span>
+                  </sc-if>
+                  <sc-if value="{{!tok.isVocab}}">
+                    <span>{{tok.text}}</span>
+                  </sc-if>
+                </sc-for>
+              </div>
+              <div style="font-size:12px;color:#877a69;margin-top:5px;">點段落播放；點彩色詞語看解釋</div>
+            </div>
+          </article>
+        </sc-for>
+      </div>
+      <div style="margin-top:16px;padding:14px 16px;background:#f4ead9;border-radius:14px;color:#746654;font-size:13px;line-height:1.7;">💡 使用方式:點任一段即可播放。按「全文連續播放」會從目前段落開始,自動接著播放下一段。點課文中彩色的詞語會跳出解釋卡片。</div>
+    </sc-if>
+
+    <sc-if value="{{popupShow}}">
+      <div style="position:fixed;inset:0;background:rgba(60,45,25,.4);display:flex;align-items:center;justify-content:center;z-index:50;padding:16px;" onClick="{{closePopup}}">
+        <article onClick="{{stopPropagation}}" style="background:#fffaf3;border:1px solid #e8dac2;border-radius:20px;padding:22px;max-width:360px;width:100%;box-shadow:0 20px 50px rgba(60,45,25,.25);display:grid;grid-template-columns:44px 1fr auto;gap:14px;align-items:start;">
+          <div style="width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#f3e3c7;color:#845f36;font-weight:700;">{{popupWord.num}}</div>
+          <div>
+            <div style="font-size:22px;font-weight:650;">{{popupWord.word}}</div>
+            <div style="font-size:15px;color:#936f4b;margin-top:2px;">{{popupWord.roman}}</div>
+            <div style="font-size:14px;color:#877a69;margin-top:8px;line-height:1.65;">{{popupWord.gloss}}</div>
+          </div>
+          <button class="rd-speak" style="{{popupWord.btnStyle}}" onClick="{{popupWord.onPlay}}">🔊</button>
+        </article>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{showVocab}}">
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;">
+        <sc-for list="{{vocabCards}}" as="v" hint-placeholder-count="20">
+          <article style="background:rgba(255,255,255,.72);border:1px solid #e8dac2;border-radius:18px;padding:16px;display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:start;">
+            <div style="width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#f3e3c7;color:#845f36;font-weight:700;">{{v.num}}</div>
+            <div>
+              <div style="font-size:20px;font-weight:650;">{{v.word}}</div>
+              <div style="font-size:14px;color:#936f4b;margin-top:2px;">{{v.roman}}</div>
+              <div style="font-size:14px;color:#877a69;margin-top:6px;line-height:1.65;">{{v.gloss}}</div>
+            </div>
+            <button class="rd-speak" style="{{v.btnStyle}}" onClick="{{v.onPlay}}">🔊</button>
+          </article>
+        </sc-for>
+      </div>
+      <div style="margin-top:16px;padding:14px 16px;background:#f4ead9;border-radius:14px;color:#746654;font-size:13px;line-height:1.7;">💡 點右側喇叭即可播放出版社提供的語詞音檔。</div>
+    </sc-if>
+
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const AUDIO_BASE = 'audio/read-sisiua/';
+const SEGMENTS_DEF = [
+  '四秀仔就是華語講的「零食、零嘴」，可能是對「四獸仔」這三字來的。早前的時代，買物、食食攏無像這馬有便利商店誠利便，就發明一種糕仔，共米磨做粉，攪糖、撋油了後閣櫼入去模仔內底，才敲出來炊予熟，出門紮咧就免驚枵著。',
+  '模仔頂懸定定有刻「虎、豹、獅、象」四種野獸，「四獸仔」可能就是按呢來。因為糕仔是早前做啖糝、食𨑨迌的點心，閣換一下仔字，加上「錢」字，四秀仔錢就是「所費」的意思！',
+  '我細漢的時，厝裡散赤，看著別人有辭典，就按算欲趁錢買一本。歇熱去擘蝦仔；歇寒擘蒜頭、紩手橐仔，才買著我這世人的第一本辭典。',
+  '伊對小學陪我到今，毋管是離鄉去外地讀冊、去山頂做老師，抑是嫁人買厝蹛臺北，搬幾若擺厝矣，我攏毋甘共伊擲掉。',
+  '因為伊是我用家己的氣力、精神來達成囥佇心內足深、足久、足平凡的願望，是伊陪我度過散赤人、尾仔囝的孤單，是伊恬恬無分暝日教我捌字，予我的文學世界閣較開闊。',
+  '佇阮囝讀小學的時，我就予伊一本數簿，一禮拜予伊十箍，伊攏會儉一冬，和硩年的紅包錢，央我儉入去銀行，講𪜶大漢欲家己買厝。',
+  '𪜶嘛會撥寡仔家己的財產，去買家己愛看的冊，可能有共我細漢用四秀仔錢買辭典的故事囥佇心肝底。想著嘛好耍，感恩我彼本四秀仔錢買來的辭典，一直咧照顧我。',
+];
+const SEGMENT_AUDIO = ['lesson-001.mp3','lesson-002.mp3','lesson-003.mp3','lesson-004.mp3','lesson-005.mp3','lesson-006.mp3','lesson-007.mp3'];
+const VOCAB_DEF = [
+  [1,'四秀仔','sì-siù-á','零食、零嘴。','vocab-01.mp3'],
+  [2,'買物','bé-mi̍h / bué-mi̍h','買東西、物品。','vocab-02.mp3'],
+  [3,'食食','tsia̍h-si̍t','飲食。','vocab-03.mp3'],
+  [4,'撋','nuá','以手用力推揉、搓揉。','vocab-04.mp3'],
+  [5,'櫼','tsinn','塞、擠。','vocab-05.mp3'],
+  [6,'頂懸','tíng-kuân','上面、上頭。','vocab-06.mp3'],
+  [7,'啖糝','tām-sám','解饞、淺嚐。','vocab-07.mp3'],
+  [8,'𨑨迌','tshit-thô','好玩的。','vocab-08.mp3'],
+  [9,'散赤','sàn-tshiah','貧窮、窮困。','vocab-09.mp3'],
+  [10,'按算','àn-sǹg','打算、預算。','vocab-10.mp3'],
+  [11,'趁錢','thàn-tsînn','賺錢。','vocab-11.mp3'],
+  [12,'紩','thīnn','縫紉、縫合。','vocab-12.mp3'],
+  [13,'手橐仔','tshiú-lok-á','手套。','vocab-13.mp3'],
+  [14,'蹛','tuà','居住。','vocab-14.mp3'],
+  [15,'尾仔囝','bué-á-kiánn / bé-á-kiánn','排行最小的孩子。','vocab-15.mp3'],
+  [16,'暝日','mê-ji̍t / mî-li̍t','日夜、晝夜，整天之意。','vocab-16.mp3'],
+  [17,'數簿','siàu-phōo','帳本、帳簿。','vocab-17.mp3'],
+  [18,'儉','khiām','存錢。','vocab-18.mp3'],
+  [19,'央','iang','請求、懇求。','vocab-19.mp3'],
+  [20,'寡','kuá','一些、若干。','vocab-20.mp3'],
+];
+
+const VOCAB_WORDS_SORTED = VOCAB_DEF.map((v, idx) => ({ word: v[1], idx })).sort((a, b) => b.word.length - a.word.length);
+function tokenizeSegment(text) {
+  const tokens = [];
+  let i = 0;
+  while (i < text.length) {
+    let matched = null;
+    for (const v of VOCAB_WORDS_SORTED) {
+      if (text.startsWith(v.word, i)) { matched = v; break; }
+    }
+    if (matched) { tokens.push({ text: matched.word, vocabIdx: matched.idx }); i += matched.word.length; }
+    else { tokens.push({ text: text[i], vocabIdx: null }); i += 1; }
+  }
+  const merged = [];
+  for (const t of tokens) {
+    const last = merged[merged.length - 1];
+    if (last && last.vocabIdx === null && t.vocabIdx === null) last.text += t.text;
+    else merged.push({ ...t });
+  }
+  return merged;
+}
+
+class Component extends DCLogic {
+  state = { tab: 'reading', current: 0, playing: false, continuous: false, progressPct: 0, status: '尚未播放', speed: 1, playingVocabIdx: null, popupIdx: null };
+  audioEl = new Audio();
+
+  componentDidMount() {
+    this.audioEl.addEventListener('timeupdate', () => {
+      const pct = this.audioEl.duration ? (this.audioEl.currentTime / this.audioEl.duration * 100) : 0;
+      this.setState({ progressPct: pct });
+    });
+    this.audioEl.addEventListener('ended', () => {
+      this.setState({ progressPct: 0, playing: false, playingVocabIdx: null });
+      if (this.state.continuous && this.state.current < SEGMENTS_DEF.length - 1) {
+        this.playSegment(this.state.current + 1, true);
+      } else {
+        this.setState({ continuous: false, status: '播放完成' });
+      }
+    });
+  }
+  componentWillUnmount() { this.audioEl.pause(); }
+
+  playSegment(index, keepContinuous) {
+    this.setState({ current: index, continuous: keepContinuous, playing: true, playingVocabIdx: null, status: `正在播放：第 ${index + 1} 段` });
+    this.audioEl.src = AUDIO_BASE + SEGMENT_AUDIO[index];
+    this.audioEl.playbackRate = Number(this.state.speed);
+    this.audioEl.play().catch(() => {});
+  }
+  togglePause() {
+    if (this.audioEl.paused) { this.audioEl.play().catch(() => {}); this.setState({ playing: true, status: `繼續播放：第 ${this.state.current + 1} 段` }); }
+    else { this.audioEl.pause(); this.setState({ playing: false, status: `已暫停：第 ${this.state.current + 1} 段` }); }
+  }
+  restart() { this.playSegment(0, false); }
+  playVocab(idx) {
+    this.setState({ playingVocabIdx: idx, continuous: false });
+    this.audioEl.src = AUDIO_BASE + VOCAB_DEF[idx][4];
+    this.audioEl.playbackRate = Number(this.state.speed);
+    this.audioEl.play().catch(() => {});
+  }
+  openPopup(idx) { this.setState({ popupIdx: idx }); }
+  closePopup() { this.setState({ popupIdx: null }); }
+
+  renderVals() {
+    const s = this.state;
+    const segments = SEGMENTS_DEF.map((text, i) => {
+      const active = i === s.current && s.playing;
+      const tokens = tokenizeSegment(text).map(tok => ({
+        text: tok.text, isVocab: tok.vocabIdx !== null,
+        style: tok.vocabIdx !== null ? 'color:#b7642e;font-weight:700;text-decoration:underline;text-decoration-style:dotted;cursor:pointer;' : '',
+        onClick: tok.vocabIdx !== null ? (e) => { e.stopPropagation(); this.openPopup(tok.vocabIdx); } : null,
+      }));
+      return {
+        num: i + 1, tokens,
+        numBg: active ? '#b78652' : '#f3e4cd', numColor: active ? '#fff' : '#7d5b37',
+        style: `display:grid;grid-template-columns:42px 1fr;gap:12px;padding:17px 14px;border-radius:15px;cursor:pointer;margin-bottom:6px;border:1px solid ${active ? '#e8c88c' : 'transparent'};background:${active ? '#fff1cf' : 'transparent'};`,
+        onClick: () => this.playSegment(i, false),
+      };
+    });
+    const vocabCards = VOCAB_DEF.map(([num, word, roman, gloss], idx) => ({
+      num, word, roman, gloss,
+      btnStyle: `border:none;background:${s.playingVocabIdx === idx ? '#b78652' : '#4d4438'};color:#fff;border-radius:12px;width:40px;height:40px;cursor:pointer;`,
+      onPlay: () => this.playVocab(idx),
+    }));
+    const popupIdx = s.popupIdx;
+    const popupWord = popupIdx !== null ? (() => {
+      const [num, word, roman, gloss] = VOCAB_DEF[popupIdx];
+      return { num, word, roman, gloss, btnStyle: `border:none;background:${s.playingVocabIdx === popupIdx ? '#b78652' : '#4d4438'};color:#fff;border-radius:12px;width:40px;height:40px;cursor:pointer;`, onPlay: () => this.playVocab(popupIdx) };
+    })() : {};
+    return {
+      readingTabStyle: `border:1px solid #e8dac2;background:${s.tab === 'reading' ? '#4d4438' : 'rgba(255,255,255,.45)'};color:${s.tab === 'reading' ? '#fff' : '#4d4438'};padding:10px 15px;border-radius:12px;cursor:pointer;font-family:inherit;`,
+      vocabTabStyle: `border:1px solid #e8dac2;background:${s.tab === 'vocab' ? '#4d4438' : 'rgba(255,255,255,.45)'};color:${s.tab === 'vocab' ? '#fff' : '#4d4438'};padding:10px 15px;border-radius:12px;cursor:pointer;font-family:inherit;`,
+      selectReading: () => this.setState({ tab: 'reading' }), selectVocab: () => this.setState({ tab: 'vocab' }),
+      showReading: s.tab === 'reading', showVocab: s.tab === 'vocab',
+      playAll: () => this.playSegment(s.current, true), togglePause: () => this.togglePause(), restart: () => this.restart(),
+      speed: s.speed, onSpeedChange: (e) => { this.setState({ speed: e.target.value }); this.audioEl.playbackRate = Number(e.target.value); },
+      progressPct: s.progressPct, status: s.status, segments, vocabCards,
+      popupShow: popupIdx !== null, popupWord, closePopup: () => this.closePopup(), stopPropagation: (e) => e.stopPropagation(),
+    };
+  }
+}
+
+</script>
+</body>
+</html>

@@ -60,9 +60,12 @@
           <div style="margin-bottom:6px;">
             <label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:4px;color:rgba(38,48,74,0.75);">貼上號碼及姓名資料(最多300筆)</label>
             <textarea placeholder="01 方大同&#10;02 王曉明&#10;03 李小花" value="{{nameDataText}}" onChange="{{onNameDataChange}}" style="width:100%;height:80px;padding:10px;border:2px solid #dfe4f2;background:#fff;color:#26304a;border-radius:12px;font-family:inherit;font-size:0.9rem;resize:none;outline:none;"></textarea>
-            <div style="font-size:0.8rem;color:rgba(38,48,74,0.75);margin-top:4px;display:flex;justify-content:space-between;align-items:center;">
+            <div style="font-size:0.8rem;color:rgba(38,48,74,0.75);margin-top:4px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;">
               <span>已輸入:{{participantCount}} / 300 筆</span>
-              <button onClick="{{toggleExample}}" style="padding:4px 12px;background:rgba(251,146,60,0.25);border:1px solid rgba(251,146,60,0.5);border-radius:6px;color:#b56319;cursor:pointer;font-size:0.8rem;font-weight:600;">{{exampleLabel}}</button>
+              <div style="display:flex;gap:6px;">
+                <button onClick="{{loadFromRoster}}" style="padding:4px 12px;background:rgba(94,110,231,0.15);border:1px solid rgba(94,110,231,0.4);border-radius:6px;color:#4650cc;cursor:pointer;font-size:0.8rem;font-weight:600;">📥 從學生名單載入</button>
+                <button onClick="{{toggleExample}}" style="padding:4px 12px;background:rgba(251,146,60,0.25);border:1px solid rgba(251,146,60,0.5);border-radius:6px;color:#b56319;cursor:pointer;font-size:0.8rem;font-weight:600;">{{exampleLabel}}</button>
+              </div>
             </div>
           </div>
         </sc-if>
@@ -132,6 +135,19 @@ class Component extends DCLogic {
   componentWillUnmount() { this.stopFloatingAnimation(); }
 
   preventContext(e) { e.preventDefault(); return false; }
+
+  loadFromRoster() {
+    try {
+      const raw = localStorage.getItem('teacherToolboxClassData');
+      if (!raw) { this.showModal('提示', '目前教學百寶箱裡沒有學生名單，請先到「學生名單」分頁建立。'); return; }
+      const data = JSON.parse(raw);
+      const cls = data.classes && data.currentClassId ? data.classes[data.currentClassId] : data;
+      const students = cls && cls.students ? cls.students : [];
+      if (!students.length) { this.showModal('提示', '目前班級的學生名單是空的。'); return; }
+      const text = students.map(s => `${s.seatNumber || ''}\t${s.name}`).join('\n');
+      this.setState({ mode: 'name', nameDataText: text, participants: this.parseNameData(text) }, () => this.generateBalls());
+    } catch (e) { this.showModal('提示', '讀取學生名單失敗。'); }
+  }
 
   parseNameData(text) {
     const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
@@ -339,6 +355,7 @@ class Component extends DCLogic {
       closeModal: () => this.closeModal(),
       rootRef: this.rootRef, poolRef: this.poolRef, confettiRef: this.confettiRef,
       preventContext: (e) => this.preventContext(e),
+      loadFromRoster: () => this.loadFromRoster(),
     };
   }
 }

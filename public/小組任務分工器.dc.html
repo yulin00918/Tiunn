@@ -24,7 +24,10 @@
     <div style="background:rgba(255,255,255,.94);border-radius:22px;padding:22px;margin-bottom:18px;box-shadow:0 12px 35px rgba(48,54,79,.1);">
       <div style="font-size:19px;font-weight:800;margin-bottom:12px;">① 輸入學生名單</div>
       <textarea class="rt-input" value="{{studentInput}}" onChange="{{onStudentInputChange}}" placeholder="每行一位學生，例如：&#10;王小明&#10;陳小華&#10;林小美" style="width:100%;min-height:150px;resize:vertical;line-height:1.6;padding:12px 14px;border:1px solid #d7dce5;border-radius:12px;background:#fff;font:inherit;font-size:15px;outline:none;"></textarea>
-      <div style="color:#667085;font-size:14px;margin-top:9px;">目前 {{studentCount}} 位學生</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:9px;flex-wrap:wrap;gap:8px;">
+        <div style="color:#667085;font-size:14px;">目前 {{studentCount}} 位學生</div>
+        <button onClick="{{loadFromRoster}}" style="border:0;border-radius:12px;padding:9px 16px;font-size:14px;font-weight:700;cursor:pointer;background:#e6f7ef;color:#2da66f;">📥 從學生名單載入</button>
+      </div>
     </div>
 
     <div style="background:rgba(255,255,255,.94);border-radius:22px;padding:22px;margin-bottom:18px;box-shadow:0 12px 35px rgba(48,54,79,.1);">
@@ -202,6 +205,18 @@ class Component extends DCLogic {
     return [...new Set(this.state.studentInput.split(/\n|,|，/).map(x => x.trim()).filter(Boolean))];
   }
 
+  loadFromRoster() {
+    try {
+      const raw = localStorage.getItem('teacherToolboxClassData');
+      if (!raw) { this.setState({ errorMessage: '目前教學百寶箱裡沒有學生名單。' }); return; }
+      const data = JSON.parse(raw);
+      const cls = data.classes && data.currentClassId ? data.classes[data.currentClassId] : data;
+      const students = cls && cls.students ? cls.students : [];
+      if (!students.length) { this.setState({ errorMessage: '目前班級的學生名單是空的。' }); return; }
+      this.setState({ studentInput: students.map(s => s.name).join('\n'), errorMessage: '' });
+    } catch (e) { this.setState({ errorMessage: '讀取學生名單失敗。' }); }
+  }
+
   selectTemplate(key) {
     this.setState({ currentTemplate: key, roles: JSON.parse(JSON.stringify(ROLE_TEMPLATES[key].roles)) });
   }
@@ -286,6 +301,7 @@ class Component extends DCLogic {
       groupNameMode: s.groupNameMode, onGroupNameModeChange: (e) => this.setState({ groupNameMode: e.target.value }),
       templates, roles,
       addRole: () => this.addRole(), saveCustomTemplate: () => this.saveCustomTemplate(), loadCustomTemplate: () => this.loadCustomTemplate(),
+      loadFromRoster: () => this.loadFromRoster(),
       makeGroups: () => this.makeGroups(), rerollRoles: () => this.rerollRoles(), reshuffleGroups: () => this.reshuffleGroups(),
       errorMessage: s.errorMessage,
       hasGroups: s.displayGroups.length > 0, displayGroups: s.displayGroups,

@@ -16,30 +16,40 @@
     <h1 style="font-size:32px;font-weight:900;color:#7a3fc4;margin-bottom:8px;">🎲 主題互動學習</h1>
     <p style="font-size:15px;color:#4a4540;margin-bottom:24px;">依不同主題設計互動教材、遊戲及任務活動,提高學習動機與理解程度。</p>
 
-    <div style="display:flex;gap:10px;margin-bottom:20px;">
-      <sc-for list="{{tabs}}" as="tab" hint-placeholder-count="3">
-        <button style="{{tab.btnStyle}}" onClick="{{tab.onClick}}">{{tab.label}}</button>
-      </sc-for>
-    </div>
-
-    <sc-for list="{{tabs}}" as="tab" hint-placeholder-count="3">
-      <sc-if value="{{tab.active}}">
-        <div style="background:#ffffffcc;border-radius:16px;padding:28px;box-shadow:0 4px 14px rgba(0,0,0,0.08);">
-          <h3 style="font-size:18px;font-weight:700;color:#7a3fc4;margin-bottom:14px;">{{tab.label}}</h3>
-          <div style="border:2px dashed #7a3fc455;border-radius:12px;padding:40px;text-align:center;background:repeating-linear-gradient(45deg, #e9e2f755, #e9e2f755 10px, #fff0 10px, #fff0 20px);">
-            <p style="font-family:monospace;font-size:13px;color:#5a4a7a;">{{tab.placeholder}}</p>
+    <div style="margin-top:0;">
+      <h3 style="font-size:18px;font-weight:700;color:#7a3fc4;margin-bottom:14px;">🎮 外部互動遊戲平台</h3>
+      <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:16px;">
+        <sc-for list="{{gamePlatforms}}" as="game" hint-placeholder-count="3">
+          <div style="background:#f2e6d8;border-radius:16px;padding:20px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+              <span style="font-size:20px;">{{game.icon}}</span>
+              <span style="font-weight:800;font-size:16px;color:#3a3530;">{{game.name}}</span>
+            </div>
+            <p style="font-size:12px;color:#7a7266;margin:0 0 12px;">{{game.desc}}</p>
+            <input type="text" placeholder="{{game.placeholder}}" value="{{game.code}}" onChange="{{game.onCodeChange}}" style="width:100%;box-sizing:border-box;padding:9px 12px;border:1px solid #d9cdb8;border-radius:10px;font-family:inherit;font-size:13px;margin-bottom:10px;outline:none;">
+            <a href="{{game.url}}" target="_blank" rel="noopener" style="display:block;text-align:center;padding:10px;border-radius:10px;background:#a06a3f;color:#fff;text-decoration:none;font-weight:700;font-size:13px;">開始遊戲</a>
           </div>
-        </div>
-      </sc-if>
-    </sc-for>
+        </sc-for>
+      </div>
+    </div>
   </div>
 </div>
 
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
-  state = { activeTab: 0 };
+  state = { activeTab: 0, codes: {} };
   renderVals() {
+    const GAME_PLATFORMS = [
+      { key: 'blooket', icon: '🚀', name: 'Blooket', desc: '遊戲化問答教學', placeholder: '輸入 Room ID 或前往網站', url: 'https://www.blooket.com/play' },
+      { key: 'gimkit', icon: '🎯', name: 'Gimkit', desc: '即時、多人小遊戲', placeholder: '輸入 Game Code 或前往網站', url: 'https://www.gimkit.com/join' },
+      { key: 'wayground', icon: '🌟', name: 'Wayground', desc: '互動問答與任務活動', placeholder: '輸入 Join Code 或前往網站', url: 'https://wayground.com/join' },
+    ];
+    const gamePlatforms = GAME_PLATFORMS.map(g => ({
+      ...g,
+      code: this.state.codes[g.key] || '',
+      onCodeChange: (e) => this.setState({ codes: { ...this.state.codes, [g.key]: e.target.value } }),
+    }));
     const data = [
       { label: '主題一', placeholder: '在此貼上主題一互動教材內容' },
       { label: '主題二', placeholder: '在此貼上主題二互動教材內容' },
@@ -54,7 +64,7 @@ class Component extends DCLogic {
         btnStyle: `padding:10px 20px;border-radius:12px;border:none;font-weight:700;font-size:14px;cursor:pointer;background:${active ? '#7a3fc4' : '#ffffffaa'};color:${active ? '#fff' : '#7a3fc4'};`,
       };
     });
-    return { tabs };
+    return { tabs, gamePlatforms };
   }
 }
 

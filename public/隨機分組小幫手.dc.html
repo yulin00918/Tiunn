@@ -56,6 +56,7 @@
 
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;">
           <button style="grid-column:1 / -1;border:0;border-radius:14px;padding:12px 14px;font:inherit;font-weight:800;cursor:pointer;background:linear-gradient(135deg, #5b67f1, #7f86ff);color:#fff;" onClick="{{createGroups}}">✨ 開始隨機分組</button>
+          <button style="grid-column:1 / -1;border:0;border-radius:14px;padding:12px 14px;font:inherit;font-weight:800;cursor:pointer;background:#e6f7ef;color:#2da66f;" onClick="{{loadFromRoster}}">📥 從學生名單載入</button>
           <button style="border:0;border-radius:14px;padding:12px 14px;font:inherit;font-weight:800;cursor:pointer;background:#eef0ff;color:#414bd0;" onClick="{{saveList}}">💾 儲存名單</button>
           <button style="border:0;border-radius:14px;padding:12px 14px;font:inherit;font-weight:800;cursor:pointer;background:#fff0df;color:#b56319;" onClick="{{loadList}}">📂 載入名單</button>
           <button style="grid-column:1 / -1;border:0;border-radius:14px;padding:12px 14px;font:inherit;font-weight:800;cursor:pointer;background:#ffe8eb;color:#e45d68;" onClick="{{clearAll}}">🗑️ 清除</button>
@@ -177,6 +178,19 @@ class Component extends DCLogic {
     this.showToast('畫面已清除');
   }
 
+  loadFromRoster() {
+    try {
+      const raw = localStorage.getItem('teacherToolboxClassData');
+      if (!raw) { this.showToast('目前教學百寶箱裡沒有學生名單'); return; }
+      const data = JSON.parse(raw);
+      const cls = data.classes && data.currentClassId ? data.classes[data.currentClassId] : data;
+      const students = cls && cls.students ? cls.students : [];
+      if (!students.length) { this.showToast('目前班級的學生名單是空的'); return; }
+      this.setState({ namesText: students.map(s => s.name).join('\n'), className: cls.className || '' });
+      this.showToast('已從學生名單載入');
+    } catch (e) { this.showToast('讀取學生名單失敗'); }
+  }
+
   async copyResult() {
     const { groups, groupNames, className } = this.state;
     if (groups.length === 0) { this.showToast('目前沒有可複製的分組結果'); return; }
@@ -214,6 +228,7 @@ class Component extends DCLogic {
       groupCount: s.groupCount, onGroupCountChange: (e) => this.setState({ groupCount: e.target.value }),
       groupSize: s.groupSize, onGroupSizeChange: (e) => this.setState({ groupSize: e.target.value }),
       createGroups: () => this.createGroups(), saveList: () => this.saveList(), loadList: () => this.loadList(), clearAll: () => this.clearAll(),
+      loadFromRoster: () => this.loadFromRoster(),
       resultTitle: className ? `${className}｜分組結果` : '分組結果',
       hasGroups: groups.length > 0, groupsCount: groups.length, totalPeople, groups,
       copyResult: () => this.copyResult(),

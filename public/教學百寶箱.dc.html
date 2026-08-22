@@ -177,6 +177,10 @@
       <sc-if value="{{isCardDraw}}">
         <dc-import name="翻卡抽籤" hint-size="100%,760px"></dc-import>
       </sc-if>
+      <sc-if value="{{isBingo}}">
+        <dc-import name="賓果生成器" hint-size="100%,760px"></dc-import>
+      </sc-if>
+
     </div>
   </div>
 </div>
@@ -378,7 +382,8 @@ class Component extends DCLogic {
       { id: 'wheel', label: '🎡 自由抽籤轉盤', enabled: true },
       { id: 'seating', label: '🪑 分組座位圖產生器', enabled: true },
       { id: 'groupTask', label: '🧩 組內分工', enabled: true },
-      { id: 'cardDraw', label: '♠ 翻卡抽籤', enabled: true }
+      { id: 'cardDraw', label: '♠ 翻卡抽籤', enabled: true },
+      { id: 'bingo', label: '🎯 賓果生成器', enabled: true }
     ];
     const tabs = raw.map(t => {
       const isActive = t.id === active;
@@ -462,6 +467,7 @@ class Component extends DCLogic {
       isSeating: active === 'seating',
       isGroupTask: active === 'groupTask',
       isCardDraw: active === 'cardDraw',
+      isBingo: active === 'bingo',
       isRoster: active === 'roster'
     };
   }

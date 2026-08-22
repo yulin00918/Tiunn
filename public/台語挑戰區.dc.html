@@ -28,6 +28,8 @@
           <h3 style="font-size:18px;font-weight:700;color:#2461b0;margin-bottom:14px;">{{tab.label}}</h3>
           <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;">
             <button style="border:none;border-radius:14px;padding:20px;background:#e9f8ee;color:#205c3f;font-weight:800;font-size:15px;cursor:pointer;font-family:inherit;text-align:left;" onClick="{{goToVeggieGame}}">🥬🍉 菜蔬果子大挑戰<br><span style="font-size:12px;font-weight:500;color:#4d6f5d;">看圖選出台羅</span></button>
+            <button style="border:none;border-radius:14px;padding:20px;background:#f4ecfb;color:#5c3a86;font-weight:800;font-size:15px;cursor:pointer;font-family:inherit;text-align:left;" onClick="{{goToColorGame}}">🎨👕 色水大挑戰<br><span style="font-size:12px;font-weight:500;color:#7d6b93;">看色水選出台羅</span></button>
+            <button style="border:none;border-radius:14px;padding:20px;background:#e6f4ec;color:#1f6b4f;font-weight:800;font-size:15px;cursor:pointer;font-family:inherit;text-align:left;" onClick="{{goToColorRoulette}}">🎡👕 色水走馬燈<br><span style="font-size:12px;font-weight:500;color:#4d7a64;">停格看台羅唸出色水</span></button>
           </div>
         </div>
       </sc-if>
@@ -42,6 +44,12 @@
       <sc-if value="{{tab.activeVeggieGame}}">
         <dc-import name="菜蔬果子大挑戰" hint-size="100%,900px"></dc-import>
       </sc-if>
+      <sc-if value="{{tab.activeColorGame}}">
+        <dc-import name="色水大挑戰" hint-size="100%,900px"></dc-import>
+      </sc-if>
+      <sc-if value="{{tab.activeColorRoulette}}">
+        <dc-import name="色水走馬燈" hint-size="100%,900px"></dc-import>
+      </sc-if>
     </sc-for>
   </div>
 </div>
@@ -49,7 +57,7 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
-  state = { activeTab: 0, showVeggieGame: false };
+  state = { activeTab: 0, activeGame: null };
   renderVals() {
     const data = [
       { label: '基礎挑戰', isBasic: true },
@@ -62,14 +70,21 @@ class Component extends DCLogic {
       return {
         ...d,
         active,
-        activeBasic: isBasicTab && !this.state.showVeggieGame,
-        activeVeggieGame: isBasicTab && this.state.showVeggieGame,
+        activeBasic: isBasicTab && !this.state.activeGame,
+        activeVeggieGame: isBasicTab && this.state.activeGame === 'veggie',
+        activeColorGame: isBasicTab && this.state.activeGame === 'color',
+        activeColorRoulette: isBasicTab && this.state.activeGame === 'roulette',
         activePlaceholder: active && !d.isBasic,
-        onClick: () => this.setState({ activeTab: i, showVeggieGame: false }),
+        onClick: () => this.setState({ activeTab: i, activeGame: null }),
         btnStyle: `padding:10px 20px;border-radius:12px;border:none;font-weight:700;font-size:14px;cursor:pointer;background:${active ? '#2461b0' : '#ffffffaa'};color:${active ? '#fff' : '#2461b0'};`,
       };
     });
-    return { tabs, goToVeggieGame: () => this.setState({ showVeggieGame: true }) };
+    return {
+      tabs,
+      goToVeggieGame: () => this.setState({ activeGame: 'veggie' }),
+      goToColorGame: () => this.setState({ activeGame: 'color' }),
+      goToColorRoulette: () => this.setState({ activeGame: 'roulette' }),
+    };
   }
 }
 

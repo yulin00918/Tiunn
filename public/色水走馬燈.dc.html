@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+</helmet>
+<div style="font-family:'Noto Sans TC',sans-serif;color:#25303a;background:#f6f8fa;min-height:100vh;padding:20px;">
+  <div style="width:min(1240px,98%);margin:auto;">
+
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:14px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-size:26px;">🎡👕</span>
+        <span style="font-size:22px;font-weight:900;color:#1f6b4f;">色水走馬燈</span>
+      </div>
+      <span style="background:#1f6b4f;color:#fff;border-radius:999px;padding:6px 14px;font-weight:900;font-size:13px;">{{statusLabel}}</span>
+    </div>
+
+    <div style="position:relative;width:100%;aspect-ratio:1665/952;border:1px solid #dfe5e9;border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 10px 26px rgba(40,60,80,0.1);">
+      <img src="images/tone-template.png" alt="聲母韻母聲調對照表" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block;">
+
+      <div style="position:absolute;left:2%;top:6%;width:56%;height:76%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2%;">
+        <div style="width:72%;max-width:400px;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+          <sc-if value="{{hasImage}}">
+            <img src="{{displayImage}}" alt="" style="max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block;">
+          </sc-if>
+          <sc-if value="{{!hasImage}}">
+            <div style="width:100%;height:100%;border:2px dashed #cfdad2;border-radius:16px;display:flex;align-items:center;justify-content:center;color:#9fb0a6;font-size:14px;font-weight:700;text-align:center;padding:10px;">按「開始」開始走馬燈</div>
+          </sc-if>
+
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:center;margin-top:16px;">
+      <button style="{{mainBtnStyle}}" onClick="{{toggleRun}}">{{mainBtnLabel}}</button>
+      <button style="border:2px solid #b7c9bf;border-radius:16px;padding:13px 20px;font-weight:900;background:#fff;color:#1f6b4f;cursor:pointer;font-family:inherit;" onClick="{{reveal}}">👀 看華語佮台文</button>
+      <button style="border:2px solid #b7c9bf;border-radius:16px;padding:13px 20px;font-weight:900;background:#fff;color:#1f6b4f;cursor:pointer;font-family:inherit;" onClick="{{resetAll}}">↻ 重設</button>
+      <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;color:#4a5a62;">
+        速度
+        <select value="{{speed}}" onChange="{{onSpeedChange}}" style="border:1px solid #d3dde2;border-radius:10px;padding:9px 12px;font-family:inherit;">
+          <option value="25">超快</option>
+          <option value="50">快</option>
+          <option value="90">中</option>
+          <option value="160">慢</option>
+        </select>
+      </label>
+    </div>
+
+    <sc-if value="{{showAnswer}}">
+      <div style="max-width:520px;margin:16px auto 0;border:1px solid #dfe5e9;border-radius:18px;overflow:hidden;">
+        <div style="background:#1f6b4f;color:#fff;padding:12px;text-align:center;font-weight:900;">✅ 對照</div>
+        <div style="padding:16px;background:#fff;">
+          <div style="font-size:12px;color:#5f7d6a;font-weight:800;margin-bottom:4px;">華語</div>
+          <div style="border:2px solid #4a9b73;border-radius:10px;padding:10px 12px;font-weight:800;font-size:17px;margin-bottom:12px;">{{answerZh}}</div>
+          <div style="font-size:12px;color:#a64242;font-weight:800;margin-bottom:4px;">台文</div>
+          <div style="border:2px solid #c65b5b;border-radius:10px;padding:10px 12px;font-weight:800;font-size:17px;margin-bottom:12px;">{{answerWord}}</div>
+          <div style="font-size:12px;color:#3a5bc7;font-weight:800;margin-bottom:4px;">台羅</div>
+          <div style="border:2px solid #4a5fd9;border-radius:10px;padding:10px 12px;font-weight:800;font-size:17px;">{{answerRoman}}</div>
+        </div>
+      </div>
+    </sc-if>
+
+    <div style="max-width:760px;margin:16px auto 0;background:#fff8df;border:1px solid #f0e4aa;border-radius:14px;padding:14px 16px;font-size:13px;color:#6f633d;line-height:1.8;">
+      <strong>💡 玩法</strong>：按「開始」，衫仔佮台羅會做伙隨機走馬燈；閣按一擺（停止）就定落來，予學生看台羅、參考右側的聲母、韻母佮聲調表，唸出這个色水。欲對照華語佮台文，就按「看華語佮台文」。
+    </div>
+
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const COLORS = [
+  { zh:'黑色', word:'烏色', roman:'oo-sik', image:'images/color-roman-01.png' },
+  { zh:'白色', word:'白色', roman:'pe̍h-sik', image:'images/color-roman-02.png' },
+  { zh:'紅色', word:'紅色', roman:'âng-sik', image:'images/color-roman-03.png' },
+  { zh:'黃色', word:'黃色', roman:'n̂g-sik', image:'images/color-roman-04.png' },
+  { zh:'藍色', word:'藍色', roman:'nâ-sik', image:'images/color-roman-05.png' },
+  { zh:'綠色', word:'青色', roman:'tshenn-sik / tshinn-sik', image:'images/color-roman-06.png' },
+  { zh:'橘色', word:'柑仔色', roman:'kam-á-sik', image:'images/color-roman-07.png' },
+  { zh:'紫色', word:'紫色', roman:'tsí-sik', image:'images/color-roman-08.png' },
+  { zh:'咖啡色', word:'咖啡色', roman:'ka-pi-sik', image:'images/color-roman-09.png' },
+  { zh:'粉紅色', word:'粉紅仔色', roman:'hún-âng-á-sik', image:'images/color-roman-10.png' },
+  { zh:'灰色', word:'鉛色', roman:'iân-sik', image:'images/color-roman-11.png' },
+  { zh:'水藍色', word:'水色', roman:'tsuí-sik', image:'images/color-roman-12.png' },
+  { zh:'淺綠色', word:'草仔色', roman:'tsháu-á-sik', image:'images/color-roman-13.png' },
+  { zh:'深紫色', word:'茄仔色', roman:'kiô-á-sik', image:'images/color-roman-14.png' },
+  { zh:'膚色／肉色', word:'肉色', roman:'bah-sik', image:'images/color-roman-15.png' },
+  { zh:'米色', word:'米色', roman:'bí-sik', image:'images/color-roman-16.png' },
+  { zh:'卡其色', word:'卡其色', roman:'khah-khih-sik', image:'images/color-roman-17.png' },
+  { zh:'靛色／深藍色', word:'靛色', roman:'tīnn-sik', image:'images/color-roman-18.png' },
+  { zh:'豬肝色', word:'豬肝色', roman:'ti-kuann-sik', image:'images/color-roman-19.png' },
+  { zh:'鵝黃色', word:'鵝仔黃', roman:'gô-á-n̂g', image:'images/color-roman-20.png' },
+];
+
+class Component extends DCLogic {
+  state = { running: false, index: null, speed: 50, showAnswer: false };
+  timerId = null;
+
+  componentWillUnmount() { clearInterval(this.timerId); }
+
+  start() {
+    clearInterval(this.timerId);
+    this.setState({ running: true, showAnswer: false });
+    this.timerId = setInterval(() => {
+      let next;
+      do { next = Math.floor(Math.random() * COLORS.length); } while (COLORS.length > 1 && next === this.state.index);
+      this.setState({ index: next });
+    }, Number(this.state.speed));
+  }
+  stop() { clearInterval(this.timerId); this.timerId = null; this.setState({ running: false }); }
+  toggleRun() { if (this.state.running) this.stop(); else this.start(); }
+  reveal() { if (this.state.index !== null) { this.stop(); this.setState({ showAnswer: true }); } }
+  resetAll() { clearInterval(this.timerId); this.timerId = null; this.setState({ running: false, index: null, showAnswer: false }); }
+
+  renderVals() {
+    const s = this.state;
+    const cur = s.index !== null ? COLORS[s.index] : null;
+    return {
+      statusLabel: s.running ? '走馬燈進行中…' : (cur ? '已停落來，請學生唸出來' : '準備開始'),
+      hasImage: !!cur, displayImage: cur ? cur.image : '',
+      displayRoman: cur ? cur.roman : '',
+      mainBtnLabel: s.running ? '⏹ 停止' : '▶ 開始',
+      mainBtnStyle: `border:0;border-radius:16px;padding:13px 26px;font-weight:900;font-size:16px;cursor:pointer;font-family:inherit;background:${s.running ? '#c65b5b' : '#1f6b4f'};color:#fff;`,
+      toggleRun: () => this.toggleRun(), reveal: () => this.reveal(), resetAll: () => this.resetAll(),
+      speed: s.speed, onSpeedChange: (e) => { this.setState({ speed: e.target.value }, () => { if (this.state.running) this.start(); }); },
+      showAnswer: s.showAnswer && !!cur,
+      answerZh: cur ? cur.zh : '', answerWord: cur ? cur.word : '', answerRoman: cur ? cur.roman : '',
+    };
+  }
+}
+
+</script>
+</body>
+</html>

@@ -25,14 +25,13 @@
       <img src="images/tone-template.png" alt="聲母韻母聲調對照表" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block;">
 
       <div style="position:absolute;left:2%;top:6%;width:56%;height:76%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2%;">
-        <div style="width:72%;max-width:400px;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;overflow:hidden;">
-          <sc-if value="{{hasImage}}">
-            <img src="{{displayImage}}" alt="" style="max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block;">
-          </sc-if>
+        <div style="position:relative;width:72%;max-width:400px;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+          <sc-for list="{{allSlides}}" as="slide" hint-placeholder-count="20">
+            <img src="{{slide.src}}" alt="" style="{{slide.style}}">
+          </sc-for>
           <sc-if value="{{!hasImage}}">
             <div style="width:100%;height:100%;border:2px dashed #cfdad2;border-radius:16px;display:flex;align-items:center;justify-content:center;color:#9fb0a6;font-size:14px;font-weight:700;text-align:center;padding:10px;">按「開始」開始走馬燈</div>
           </sc-if>
-
         </div>
       </div>
     </div>
@@ -102,29 +101,44 @@ class Component extends DCLogic {
   state = { running: false, index: null, speed: 50, showAnswer: false };
   timerId = null;
 
-  componentWillUnmount() { clearInterval(this.timerId); }
+  rafId = null;
+  isRunning = false;
+  componentWillUnmount() { this.isRunning = false; cancelAnimationFrame(this.rafId); }
 
   start() {
-    clearInterval(this.timerId);
-    this.setState({ running: true, showAnswer: false });
-    this.timerId = setInterval(() => {
-      let next;
-      do { next = Math.floor(Math.random() * COLORS.length); } while (COLORS.length > 1 && next === this.state.index);
-      this.setState({ index: next });
-    }, Number(this.state.speed));
+    cancelAnimationFrame(this.rafId);
+    this.isRunning = true;
+    const interval = Number(this.state.speed);
+    let last = 0;
+    this.setState({ running: true, showAnswer: false, index: Math.floor(Math.random() * COLORS.length) }, () => {
+      const tick = (now) => {
+        if (!this.isRunning) return;
+        if (now - last >= interval) {
+          last = now;
+          let next;
+          do { next = Math.floor(Math.random() * COLORS.length); } while (COLORS.length > 1 && next === this.state.index);
+          this.setState({ index: next });
+        }
+        this.rafId = requestAnimationFrame(tick);
+      };
+      this.rafId = requestAnimationFrame(tick);
+    });
   }
-  stop() { clearInterval(this.timerId); this.timerId = null; this.setState({ running: false }); }
+  stop() { this.isRunning = false; cancelAnimationFrame(this.rafId); this.setState({ running: false }); }
   toggleRun() { if (this.state.running) this.stop(); else this.start(); }
   reveal() { if (this.state.index !== null) { this.stop(); this.setState({ showAnswer: true }); } }
-  resetAll() { clearInterval(this.timerId); this.timerId = null; this.setState({ running: false, index: null, showAnswer: false }); }
+  resetAll() { this.isRunning = false; cancelAnimationFrame(this.rafId); this.setState({ running: false, index: null, showAnswer: false }); }
 
   renderVals() {
     const s = this.state;
     const cur = s.index !== null ? COLORS[s.index] : null;
     return {
       statusLabel: s.running ? '走馬燈進行中…' : (cur ? '已停落來，請學生唸出來' : '準備開始'),
-      hasImage: !!cur, displayImage: cur ? cur.image : '',
-      displayRoman: cur ? cur.roman : '',
+      hasImage: !!cur,
+      allSlides: COLORS.map((c, i) => ({
+        src: c.image,
+        style: `position:absolute;inset:0;margin:auto;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;opacity:${i === s.index ? 1 : 0};`,
+      })),
       mainBtnLabel: s.running ? '⏹ 停止' : '▶ 開始',
       mainBtnStyle: `border:0;border-radius:16px;padding:13px 26px;font-weight:900;font-size:16px;cursor:pointer;font-family:inherit;background:${s.running ? '#c65b5b' : '#1f6b4f'};color:#fff;`,
       toggleRun: () => this.toggleRun(), reveal: () => this.reveal(), resetAll: () => this.resetAll(),

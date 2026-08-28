@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>互動教室</title>
+<style>
+:root{
+  --ink:#2f3340;--muted:#6b6f7e;--accent:#5b7fb0;--accent2:#846fa7;
+  --line:rgba(100,110,145,.18);--card:rgba(255,255,255,.91);
+  --shadow:0 10px 32px rgba(66,68,104,.10);--danger:#c17676;--ok:#5e8b72
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;color:var(--ink);
+  background:linear-gradient(180deg,#a9cbea 0%,#c9d5ef 24%,#e0cbe6 50%,#f0c9d8 75%,#ddc6e6 100%);min-height:100vh}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.wrap{max-width:1120px;margin:0 auto;padding:22px 18px 70px}
+.card{background:var(--card);border:1px solid rgba(255,255,255,.92);border-radius:22px;padding:22px;
+  box-shadow:var(--shadow);backdrop-filter:blur(7px);margin-bottom:16px}
+.hero{display:flex;gap:20px;justify-content:space-between;align-items:flex-start;flex-wrap:wrap}
+h1{margin:0;font-size:34px;font-weight:900}.sub{font-size:16px;font-weight:800;opacity:.82;margin-top:7px}
+.muted{color:var(--muted);font-size:14px;line-height:1.7}
+.roomsetup{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+input,textarea,select{border:1px solid var(--line);border-radius:12px;padding:11px 13px;background:#fff;color:var(--ink)}
+input{min-width:190px;flex:1}.btn{border:1px solid var(--line);border-radius:999px;padding:11px 18px;background:#fff;color:#46506a;font-weight:800}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:white}.btn.danger{background:var(--danger);color:white;border-color:var(--danger)}
+.btn.ok{background:var(--ok);color:white;border-color:var(--ok)}
+.roomlive{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;align-items:center}
+.roomcode{font-size:34px;font-weight:900;letter-spacing:5px;color:var(--accent);margin:4px 0}
+.stats{display:flex;gap:8px;flex-wrap:wrap}.pill{padding:7px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:13px;font-weight:800}
+.qr img{width:132px;height:132px;border-radius:14px;background:white;padding:6px}
+.section-title{display:flex;justify-content:space-between;align-items:end;gap:16px;margin-bottom:14px}
+.section-title h2{margin:0;font-size:22px}.section-title span{font-size:13px;color:var(--muted)}
+.quickgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.mode{border:2px solid transparent;background:rgba(255,255,255,.72);border-radius:18px;padding:18px 12px;text-align:center;color:var(--ink);min-height:118px}
+.mode:hover{border-color:var(--accent);background:#fff}.mode .icon{font-size:29px;display:block}.mode b{display:block;margin-top:7px;font-size:16px}.mode small{display:block;color:var(--muted);margin-top:4px}
+.layergrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+.toolcard{border:1px solid var(--line);background:#fff;border-radius:15px;padding:13px 11px;font-weight:800;color:#4a5064;text-align:left}
+.toolcard span{font-size:20px;margin-right:5px}.toolcard:hover{box-shadow:0 7px 18px rgba(70,70,100,.09)}
+.boardentry{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.boardmode{border:1px solid var(--line);border-radius:17px;padding:17px;background:#fff;text-align:left}
+.boardmode b{display:block;font-size:17px}.boardmode span{display:block;font-size:13px;color:var(--muted);margin-top:4px}
+.editor{display:none;margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}.editor.open{display:block}
+.editor h3{margin:0 0 10px}.field{margin:9px 0}.field label{display:block;font-size:13px;font-weight:800;color:var(--muted);margin-bottom:5px}
+textarea{width:100%;min-height:76px;resize:vertical}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.statusline{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.results{margin-top:14px}.empty{padding:22px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:14px}
+.wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:10px}.sticky{padding:13px;border-radius:15px;background:#fff6c9;border:1px solid #e6d68e}.who{font-size:11px;font-weight:800;opacity:.55;margin-bottom:4px}
+.poll{margin:11px 0}.polltop{display:flex;justify-content:space-between;font-weight:800;font-size:14px}.track{height:20px;border-radius:999px;background:#eef0f6;overflow:hidden;margin-top:5px}.fill{height:100%;background:linear-gradient(90deg,#7ea6d6,#b39ad0)}
+.hidden{display:none!important}
+@media(max-width:850px){.quickgrid,.layergrid{grid-template-columns:repeat(2,minmax(0,1fr))}.roomlive{grid-template-columns:1fr}}
+@media(max-width:520px){h1{font-size:28px}.quickgrid,.layergrid,.boardentry{grid-template-columns:1fr}.qr{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="card hero">
+    <div style="flex:1;min-width:280px">
+      <h1>🏫 互動教室</h1>
+      <div class="sub">開一間教室，學生掃 QR，就能隨時回答、投票、操作與共編。</div>
+      <div class="roomsetup" id="createArea">
+        <input id="sessionTitle" value="今天的互動活動" aria-label="課堂名稱">
+        <select id="joinMode">
+          <option value="nickname">暱稱加入</option>
+          <option value="name">姓名加入</option>
+          <option value="number">編號／座號</option>
+          <option value="anonymous">匿名代號</option>
+        </select>
+        <button class="btn primary" id="createRoom">建立教室</button>
+      </div>
+      <div class="hidden" id="roomInfo">
+        <div class="roomlive">
+          <div>
+            <div class="muted">教室代碼</div>
+            <div class="roomcode" id="roomCode">------</div>
+            <div class="stats">
+              <span class="pill">👥 <b id="participantCount">0</b> 人在線</span>
+              <span class="pill">📨 <b id="responseCount">0</b> 人已作答</span>
+              <span class="pill" id="activityState">尚未發布互動</span>
+            </div>
+            <div class="muted" id="joinUrl" style="margin-top:8px"></div>
+          </div>
+          <div class="qr" id="qrBox"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="section-title">
+      <div><h2>⚡ 快速互動</h2><span>最常用的四種，一點就能開始。</span></div>
+    </div>
+    <div class="quickgrid">
+      <button class="mode" data-quick="wall"><span class="icon">📝</span><b>想法牆</b><small>全班貼想法、腦力激盪</small></button>
+      <button class="mode" data-quick="poll"><span class="icon">📊</span><b>即時投票</b><small>快速看全班分布</small></button>
+      <button class="mode" data-quick="quiz"><span class="icon">✅</span><b>快問快答</b><small>立即檢核理解</small></button>
+      <button class="mode" data-quick="check"><span class="icon">🚦</span><b>理解確認</b><small>懂了／不確定／再講一次</small></button>
+    </div>
+
+    <div class="editor" id="quickEditor">
+      <h3 id="quickTitle">快速互動</h3>
+      <div class="field"><label>題目</label><textarea id="quickQuestion"></textarea></div>
+      <div class="field" id="optionsField"><label>選項（每行一個）</label><textarea id="quickOptions"></textarea></div>
+      <div class="row">
+        <button class="btn primary" id="publishQuick">🚀 發布給全班</button>
+        <button class="btn" id="lockActivity">🔒 停止作答</button>
+        <button class="btn ok" id="reopenActivity">🔓 重新開放</button>
+        <button class="btn" id="closeQuick">收起</button>
+      </div>
+      <div class="results" id="quickResults"></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="section-title">
+      <div><h2>🧩 活動工具</h2><span>需要進階操作時再進入。</span></div>
+    </div>
+    <div class="layergrid">
+      <button class="toolcard" data-advanced="decision"><span>⚖️</span>選擇決策</button>
+      <button class="toolcard" data-advanced="sort"><span>↕️</span>排序</button>
+      <button class="toolcard" data-advanced="classify"><span>🗂️</span>分類</button>
+      <button class="toolcard" data-advanced="quad"><span>▦</span>四象限</button>
+      <button class="toolcard" data-advanced="task"><span>📋</span>任務</button>
+      <button class="toolcard" data-advanced="image"><span>🖼️</span>圖片標註</button>
+      <button class="toolcard" data-advanced="match"><span>🔗</span>配對</button>
+      <button class="toolcard" data-advanced="flow"><span>🪜</span>流程</button>
+    </div>
+    <p class="muted" style="margin-bottom:0">點選後會進入「進階活動工作室」，沿用同一個房間，不必讓學生重新掃碼。</p>
+  </section>
+
+  <section class="card">
+    <div class="section-title">
+      <div><h2>🖥️ 互動白板</h2><span>講解或讓全班一起操作。</span></div>
+    </div>
+    <div class="boardentry">
+      <button class="boardmode" data-board="teacher"><b>👩‍🏫 教師示範</b><span>學生觀看，教師操作完整白板。</span></button>
+      <button class="boardmode" data-board="fullclass"><b>👥 全班共編</b><span>全班使用同一張白板共同操作。</span></button>
+    </div>
+    <p class="muted" style="margin-bottom:0">分組共編、個人白板保留為下一階段；目前白板核心沿用已驗收穩定版。</p>
+  </section>
+</div>
+
+<script>
+let roomCode='',ws=null,participants=[],responses={},currentActivity=null,currentQuick='wall';
+const $=id=>document.getElementById(id);
+const quickMeta={
+  wall:{name:'📝 想法牆',q:'你想分享什麼？',opts:[]},
+  poll:{name:'📊 即時投票',q:'你會選哪一個？',opts:['選項 A','選項 B','選項 C']},
+  quiz:{name:'✅ 快問快答',q:'這一題的答案是？',opts:['A','B','C','D']},
+  check:{name:'🚦 理解確認',q:'目前這個概念你理解到哪裡？',opts:['我懂了','還有點不確定','需要再講一次']}
+};
+function esc(s){return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function ensureRoom(){if(!roomCode){alert('請先建立教室');return false}return true}
+function wsUrl(code){const p=location.protocol==='https:'?'wss:':'ws:';return `${p}//${location.host}/api/rooms/${code}/ws?role=host`}
+async function restore(){
+  const code=new URLSearchParams(location.search).get('room');
+  if(!/^\d{6}$/.test(code||''))return;
+  try{
+    const r=await fetch(`/api/rooms/${code}/state`);const d=await r.json();
+    if(!d.room)return;
+    roomCode=code;activateRoom(d.room);connect();
+  }catch{}
+}
+function activateRoom(room){
+  $('createArea').classList.add('hidden');$('roomInfo').classList.remove('hidden');
+  $('roomCode').textContent=roomCode.slice(0,3)+' '+roomCode.slice(3);
+  const url=`${location.origin}/join?room=${roomCode}`;
+  $('joinUrl').textContent='學生加入：'+url;
+  $('qrBox').innerHTML=`<img alt="加入教室 QR Code" src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(url)}">`;
+}
+$('createRoom').onclick=async()=>{
+  const r=await fetch('/api/rooms',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({
+    title:$('sessionTitle').value.trim()||'今天的互動活動',joinMode:$('joinMode').value
+  })});
+  const d=await r.json();if(!d.ok){alert(d.error||'建立失敗');return}
+  roomCode=d.code;activateRoom(d);history.replaceState(null,'',`/host?room=${roomCode}`);connect();
+};
+function connect(){
+  if(ws&&ws.readyState<=1)return;
+  ws=new WebSocket(wsUrl(roomCode));
+  ws.onmessage=e=>{
+    const m=JSON.parse(e.data);
+    if(m.type==='state'){
+      participants=m.payload.participants||[];responses=m.payload.responses||{};currentActivity=m.payload.activity||null;renderStatus();renderResults();
+    }
+    if(m.type==='participants'){participants=m.payload||[];renderStatus()}
+    if(m.type==='response'){responses[m.payload.participantId]=m.payload;renderStatus();renderResults()}
+    if(m.type==='activity'){currentActivity=m.payload;responses={};renderStatus();renderResults()}
+    if(m.type==='activity_status'&&currentActivity){currentActivity.status=m.payload.status;renderStatus()}
+    if(m.type==='error')alert(m.payload)
+  };
+}
+function renderStatus(){
+  $('participantCount').textContent=participants.length;
+  $('responseCount').textContent=Object.keys(responses).length;
+  $('activityState').textContent=!currentActivity?'尚未發布互動':currentActivity.status==='open'?'🟢 作答中':'🔒 已停止';
+}
+document.querySelectorAll('[data-quick]').forEach(btn=>btn.onclick=()=>{
+  currentQuick=btn.dataset.quick;const m=quickMeta[currentQuick];
+  $('quickTitle').textContent=m.name;$('quickQuestion').value=m.q;$('quickOptions').value=m.opts.join('\n');
+  $('optionsField').classList.toggle('hidden',currentQuick==='wall');
+  if(currentQuick==='check')$('quickOptions').disabled=true;else $('quickOptions').disabled=false;
+  $('quickEditor').classList.add('open');renderResults();$('quickEditor').scrollIntoView({behavior:'smooth',block:'nearest'});
+});
+$('closeQuick').onclick=()=>$('quickEditor').classList.remove('open');
+$('publishQuick').onclick=()=>{
+  if(!ensureRoom()||!ws||ws.readyState!==1)return;
+  const q=$('quickQuestion').value.trim();if(!q){alert('請輸入題目');return}
+  let opts=currentQuick==='wall'?[]:$('quickOptions').value.split(/\n+/).map(x=>x.trim()).filter(Boolean);
+  if(currentQuick==='check')opts=quickMeta.check.opts;
+  if(currentQuick!=='wall'&&opts.length<2){alert('至少需要兩個選項');return}
+  ws.send(JSON.stringify({type:'publish',payload:{type:currentQuick,question:q,settings:{options:opts}}}));
+};
+$('lockActivity').onclick=()=>{if(ws?.readyState===1)ws.send(JSON.stringify({type:'lock'}))};
+$('reopenActivity').onclick=()=>{if(ws?.readyState===1)ws.send(JSON.stringify({type:'reopen'}))};
+function renderResults(){
+  const box=$('quickResults');if(!box)return;
+  if(!currentActivity||!['wall','poll','quiz','check'].includes(currentActivity.type)){box.innerHTML='<div class="empty">發布快速互動後，結果會即時出現在這裡。</div>';return}
+  const rs=Object.values(responses);
+  if(!rs.length){box.innerHTML='<div class="empty">等待學生回應…</div>';return}
+  if(currentActivity.type==='wall'){
+    box.innerHTML=`<div class="wall">${rs.map(r=>`<div class="sticky"><div class="who">${esc(r.displayName||'匿名')}</div>${esc(r.answer?.text||'')}</div>`).join('')}</div>`;
+    return;
+  }
+  const opts=currentActivity.settings.options||[];const count={};opts.forEach(o=>count[o]=0);
+  rs.forEach(r=>{const c=r.answer?.choice;if(c in count)count[c]++});
+  const total=rs.length;
+  box.innerHTML=opts.map(o=>{const n=count[o]||0,p=Math.round(n/total*100);return `<div class="poll"><div class="polltop"><span>${esc(o)}</span><span>${n} 人｜${p}%</span></div><div class="track"><div class="fill" style="width:${p}%"></div></div></div>`}).join('');
+}
+document.querySelectorAll('[data-advanced]').forEach(btn=>btn.onclick=()=>{
+  if(!ensureRoom())return;
+  location.href=`/advanced?room=${encodeURIComponent(roomCode)}&section=activity`;
+});
+document.querySelectorAll('[data-board]').forEach(btn=>btn.onclick=()=>{
+  if(!ensureRoom())return;
+  if(!ws||ws.readyState!==1){alert('教室連線尚未完成');return}
+  const mode=btn.dataset.board;
+  ws.send(JSON.stringify({type:'board_open',payload:{mode}}));
+  const u=`/board?room=${encodeURIComponent(roomCode)}&role=host&mode=${encodeURIComponent(mode)}&from=host`;
+  window.open(u,'interactive_board_'+roomCode);
+});
+restore();
+</script>
+</body>
+</html>

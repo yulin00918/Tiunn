@@ -1,0 +1,882 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>互動教室｜主持端</title>
+<style>
+:root{
+  --bg:#f6f2ed;--panel:#fffdf9;--line:#ddd6cf;--text:#2f3437;--muted:#6d7377;
+  --accent:#8f6f61;--soft:#efe5df;--ok:#6f8f7a;--danger:#b85c5c;--shadow:0 10px 28px rgba(70,55,45,.08)
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;background:var(--panel);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+.brand{font-weight:900;font-size:20px}
+.badge{font-size:12px;padding:5px 9px;border-radius:999px;background:var(--soft);color:#604d43}
+.main{max-width:1180px;margin:0 auto;padding:18px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:18px;margin-bottom:16px}
+.panel h2{margin:0 0 6px;font-size:22px}
+.sub{color:var(--muted);font-size:14px;margin-bottom:14px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
+.field input,.field select,.field textarea,input,select{border:1px solid var(--line);border-radius:10px;padding:10px;background:white}
+.btn{border:1px solid var(--line);background:white;border-radius:10px;padding:10px 13px}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:white;font-weight:800}
+.btn.success{background:var(--ok);border-color:var(--ok);color:white}
+.btn.danger{color:var(--danger)}
+.room{display:grid;grid-template-columns:220px 1fr;gap:18px}
+.room-code{font-size:42px;font-weight:900;letter-spacing:6px}
+.qr{height:200px;border:1px solid var(--line);background:#fff;display:grid;place-items:center;border-radius:12px;padding:10px}
+.qr img{max-width:100%;max-height:100%}
+.people,.answers{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.person,.answer{border:1px solid var(--line);background:#faf8f5;border-radius:10px;padding:10px;font-size:13px}
+.answer{min-height:110px}
+.statusbar{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+.stat{background:#f5f1ec;border-radius:12px;padding:10px 14px;font-size:14px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.tab{border:1px solid var(--line);background:white;border-radius:999px;padding:8px 12px;font-weight:700}
+.tab.active{background:var(--accent);color:white;border-color:var(--accent)}
+.hidden{display:none}
+.answerText{margin-top:8px;line-height:1.5;word-break:break-word}
+.match-editor{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+.match-edit-row{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:start;border:1px solid var(--line);border-radius:12px;padding:10px;background:#faf8f5}
+.match-side{display:flex;flex-direction:column;gap:6px}
+.match-side img{max-width:160px;max-height:110px;border-radius:8px;border:1px solid var(--line);object-fit:contain;background:#fff}
+.match-preview{min-height:22px}
+@media(max-width:760px){.match-edit-row{grid-template-columns:1fr}}.answer img{max-width:100%;max-height:180px;border-radius:8px;margin-top:8px;cursor:pointer}.image-modal{position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:9999;display:grid;place-items:center;padding:20px}.image-modal img{max-width:95vw;max-height:90vh;border-radius:10px;background:#fff}
+.toolgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.toolcard{border:1px solid var(--line);border-radius:14px;background:#fff;padding:14px}.toolcard h3{margin:0 0 8px}.big{font-size:40px;font-weight:900;text-align:center;padding:8px 0}.score-row{display:grid;grid-template-columns:1fr auto;gap:8px;padding:8px 0;border-bottom:1px dashed var(--line)}.score-actions{display:flex;gap:4px;flex-wrap:wrap}.score-actions button{padding:6px 8px}.timer-display{font-size:40px;font-weight:900;text-align:center;letter-spacing:2px}.winner{font-size:32px;font-weight:900;text-align:center;padding:10px 0}
+@media(max-width:860px){
+  .room{grid-template-columns:1fr}
+  .people,.answers{grid-template-columns:repeat(2,1fr)}
+}
+.mainnav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}.mainnav button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 13px;font-weight:800}.mainnav button.active{background:var(--accent);color:#fff;border-color:var(--accent)}.section-hidden{display:none!important}.modegrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.modecard{border:1px solid var(--line);background:#fff;border-radius:14px;padding:16px;text-align:left}.modecard b{display:block;font-size:18px;margin-bottom:5px}.modecard:hover{background:#faf7f3}@media(max-width:720px){.modegrid{grid-template-columns:1fr}}</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">🧩 進階活動工作室</div>
+  <div class="badge">進階活動工作室｜V4.0</div><a href="/host" style="margin-left:auto;color:inherit;font-weight:800;text-decoration:none">← 回互動教室</a>
+</header>
+
+<main class="main">
+  <div class="mainnav">
+    <button class="active" data-mainnav="room">① 房間</button>
+    <button data-mainnav="activity">② 發布活動</button>
+    <button data-mainnav="results">③ 查看結果</button>
+    <button data-mainnav="tools">④ 教室工具</button>
+    <button data-mainnav="board">⑤ 互動白板</button>
+  </div>
+  <section class="panel" id="createPanel" data-navgroup="room">
+    <h2>建立互動房間</h2>
+    <div class="sub">適合課堂、研習與分享活動。</div>
+    <div class="row">
+      <input id="sessionTitle" value="今天的互動活動" style="min-width:260px">
+      <select id="joinMode">
+        <option value="nickname">暱稱加入</option>
+        <option value="name">姓名加入</option>
+        <option value="number">編號／座號</option>
+        <option value="anonymous">匿名代號</option>
+      </select>
+      <button class="btn primary" id="createRoom">建立房間</button>
+    </div>
+  </section>
+
+  <section class="panel hidden" id="roomPanel" data-navgroup="room">
+    <h2>房間已建立</h2>
+    <div class="room">
+      <div class="qr" id="qrBox">QR Code</div>
+      <div>
+        <div class="sub">房間碼</div>
+        <div class="room-code" id="roomCode"></div>
+        <div class="sub" id="joinUrl" style="margin-top:8px"></div>
+        <div class="statusbar">
+          <div class="stat">已加入：<b id="joinedCount">0</b> 人</div>
+          <div class="stat">已送出：<b id="submittedCount">0</b> 份</div>
+        </div>
+      </div>
+    </div>
+    <h3>參與者</h3>
+    <div class="people" id="peopleList"></div>
+  </section>
+
+  <section class="panel hidden section-hidden" id="publishPanel" data-navgroup="activity">
+    <h2>📣 快速提問</h2>
+    <div class="sub">主持人發布後，所有參與者會即時收到。</div>
+    <div class="statusbar">
+      <div class="stat">目前狀態：<b id="activityStatus">尚未發布</b></div>
+      <div class="stat">目前題目：<b id="currentQuestion">—</b></div>
+    </div>
+    <div class="row">
+      <select id="activityType">
+        <option value="decision">⚖️ 選擇決策</option>
+        <option value="match">🔗 配對板</option>
+        <option value="flow">🪜 流程排序</option>
+        <option value="task">📋 任務板</option>
+        <option value="image">🖼️ 圖片標註</option>
+        <option value="sort">↕️ 排序板</option>
+        <option value="classify">🗂️ 分類</option>
+        <option value="quad">▦ 四象限</option>
+      </select>
+      <input id="question" value="如果預算有限，你會優先選哪一個方案？" style="flex:1;min-width:320px">
+    </div>
+    <div style="margin-top:8px">
+      <input id="options" value="方案 A｜方案 B｜方案 C" style="width:100%">
+      <div class="sub" style="margin-top:6px">以「｜」分隔。排序＝卡片；分類＝類別；四象限＝卡片。</div>
+    </div>
+    <div id="classifyCardsWrap" class="hidden" style="margin-top:8px">
+      <input id="classifyCards" value="午餐｜交通費｜演唱會門票｜新手機｜課本" style="width:100%">
+      <div class="sub" style="margin-top:6px">分類板卡片，以「｜」分隔。</div>
+    </div>
+    <div id="quadConfigWrap" class="hidden" style="margin-top:10px">
+      <div class="sub" style="margin-bottom:6px">四象限名稱（可自由修改）</div>
+      <div class="grid2">
+        <input id="quadTL" value="左上" placeholder="左上名稱">
+        <input id="quadTR" value="右上" placeholder="右上名稱">
+        <input id="quadBL" value="左下" placeholder="左下名稱">
+        <input id="quadBR" value="右下" placeholder="右下名稱">
+      </div>
+      <label style="display:flex;gap:8px;align-items:center;margin-top:8px">
+        <input type="checkbox" id="hideQuadLabels"> 不顯示象限名稱
+      </label>
+    </div>
+    <div id="taskConfigWrap" class="hidden" style="margin-top:10px">
+      <div class="sub" style="margin-bottom:6px">任務設定</div>
+      <textarea id="taskPrompt" rows="3" style="width:100%" placeholder="補充任務說明">請寫下你的想法或理由。</textarea>
+    </div>
+
+    <div id="imageConfigWrap" class="hidden" style="margin-top:10px">
+      <div class="sub" style="margin-bottom:6px">圖片標註設定</div>
+      <input type="file" id="imageFile" accept="image/*">
+      <div class="sub" style="margin-top:6px">圖片會自動縮小壓縮後發布，適合手機／平板作答。</div>
+      <div id="imagePreview" style="margin-top:8px"></div>
+    </div>
+    <div id="matchConfigWrap" class="hidden" style="margin-top:10px">
+      <div class="sub" style="margin-bottom:6px">配對設定｜每一組左右都可使用文字或圖片</div>
+      <div class="match-editor" id="matchEditor"></div>
+      <button type="button" class="btn" id="addMatchPairBtn" style="margin-top:8px">＋ 新增一組配對</button>
+      <div class="sub" style="margin-top:6px">圖片會自動縮小壓縮；圖片名稱只用於主持端答案辨識，不一定顯示給參與者。</div>
+    </div>
+
+    <div id="flowConfigWrap" class="hidden" style="margin-top:10px">
+      <div class="sub" style="margin-bottom:6px">流程步驟</div>
+      <input id="flowItems" value="準備材料｜開始操作｜完成檢查｜收拾整理" style="width:100%" placeholder="步驟，以｜分隔">
+    </div>
+    <div class="row" style="margin-top:10px">
+      <button class="btn primary" id="publishBtn">🚀 發布給參與者</button>
+      <button class="btn" id="lockBtn">🔒 停止作答</button>
+      <button class="btn success" id="reopenBtn">🟢 重新開放</button>
+    </div>
+  </section>
+
+  
+  <section class="panel hidden section-hidden" id="toolsPanel" data-navgroup="tools">
+    <h2>🎓 教室工具</h2>
+    <div class="sub">抽人、記分、計時都只在主持端操作。</div>
+    <div class="toolgrid">
+      <div class="toolcard">
+        <h3>🎲 抽人</h3>
+        <div class="sub">可直接從目前房間參與者抽選。</div>
+        <div class="winner" id="pickedPerson">—</div>
+        <label><input type="checkbox" id="noRepeatPick" checked> 抽過不重複</label>
+        <div class="row" style="margin-top:8px">
+          <button class="btn primary" id="pickPersonBtn">開始抽</button>
+          <button class="btn" id="resetPickBtn">重新開始</button>
+        </div>
+        <div class="sub" id="pickStatus" style="margin-top:8px">尚無參與者</div>
+      </div>
+
+      <div class="toolcard">
+        <h3>🏆 記分板</h3>
+        <div id="scoreList"></div>
+        <div class="row" style="margin-top:8px">
+          <button class="btn" id="addTeamBtn">＋ 新增隊伍</button>
+          <button class="btn" id="resetScoresBtn">全部歸零</button>
+        </div>
+      </div>
+
+      <div class="toolcard">
+        <h3>⏱️ 計時器</h3>
+        <div class="timer-display" id="timerDisplay">03:00</div>
+        <div class="row">
+          <button class="btn" data-time="30">30秒</button>
+          <button class="btn" data-time="60">1分鐘</button>
+          <button class="btn" data-time="180">3分鐘</button>
+          <button class="btn" data-time="300">5分鐘</button>
+        </div>
+        <div class="row" style="margin-top:8px">
+          <input id="customMinutes" type="number" min="1" max="120" placeholder="分鐘" style="width:82px">
+          <button class="btn" id="setCustomTime">自訂</button>
+        </div>
+        <div class="row" style="margin-top:8px">
+          <button class="btn primary" id="timerStart">▶ 開始</button>
+          <button class="btn" id="timerPause">⏸ 暫停</button>
+          <button class="btn" id="timerReset">↺ 重設</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<section class="panel hidden section-hidden" id="resultPanel" data-navgroup="results">
+    <h2>即時結果</h2>
+    <div class="tabs">
+      <button class="tab active" data-tab="wall">🧱 答案牆</button>
+      <button class="tab" data-tab="status">📋 作答狀態</button>
+    </div>
+
+    <div id="wallView">
+      <label><input type="checkbox" id="hideNames"> 投影時隱藏名稱</label>
+      <div class="answers" id="answers" style="margin-top:10px"></div>
+    </div>
+
+    <div id="statusView" class="hidden">
+      <div class="people" id="statusPeople"></div>
+    </div>
+  </section>
+
+<section class="panel hidden section-hidden" id="boardPanel" data-navgroup="board">
+  <h2>⑤ 🖥️ 互動白板</h2>
+  <div class="sub">沿用目前房間，不需要建立第二個白板房號。第一階段先開放「教師白板」與「全班共編」。</div>
+  <div class="softnote" id="boardStatusHint" style="margin-bottom:10px">目前尚未開啟白板</div>
+  <div class="modegrid">
+    <button class="modecard" data-board-mode="teacher"><b>👩‍🏫 教師白板</b><span>主持人操作；參與者目前僅觀看。適合講解與示範。</span></button>
+    <button class="modecard" data-board-mode="fullclass"><b>👥 全班共編</b><span>全班使用同一張白板。V3.1 第一階段同步便利貼新增、移動、修改與刪除。</span></button>
+    <button class="modecard" disabled><b>🧑‍🤝‍🧑 分組共編</b><span>下一階段加入分組白板。</span></button>
+    <button class="modecard" disabled><b>👤 個人白板</b><span>下一階段加入個人作品白板。</span></button>
+  </div>
+</section>
+</main>
+
+<script>
+let ws=null, roomCode='', participants=[], responses={}, currentActivity=null, pickedIds=new Set(), hostImageData='', matchPairs=[];
+
+function switchMainNav(name){
+  document.querySelectorAll('[data-mainnav]').forEach(b=>b.classList.toggle('active',b.dataset.mainnav===name));
+  document.querySelectorAll('[data-navgroup]').forEach(sec=>sec.classList.toggle('section-hidden',sec.dataset.navgroup!==name));
+}
+document.querySelectorAll('[data-mainnav]').forEach(btn=>btn.onclick=()=>{
+  if(btn.dataset.mainnav!=='room'&&!roomCode){ alert('請先建立房間'); return; }
+  switchMainNav(btn.dataset.mainnav);
+});
+
+let scores=[{name:'第一組',score:0},{name:'第二組',score:0},{name:'第三組',score:0},{name:'第四組',score:0}];
+let timerSecs=180,timerInitial=180,timerId=null;
+const $=id=>document.getElementById(id);
+
+function esc(s){
+  return String(s??'').replace(/[&<>"']/g,c=>({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[c]));
+}
+
+
+async function restoreHostRoomFromUrl(){
+  const params=new URLSearchParams(location.search);
+  const code=params.get('room');
+  if(!/^\d{6}$/.test(code||''))return;
+
+  try{
+    const r=await fetch(`/api/rooms/${code}/state`);
+    const d=await r.json();
+    if(!d?.room)return;
+
+    roomCode=code;
+    $('roomCode').textContent=code.slice(0,3)+' '+code.slice(3);
+
+    const joinUrl=`${location.origin}/join?room=${code}`;
+    $('joinUrl').textContent='參與者網址：'+joinUrl;
+    $('qrBox').innerHTML=
+      `<img alt="加入活動 QR Code" src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(joinUrl)}">`;
+
+    if(d.room.title && $('sessionTitle'))$('sessionTitle').value=d.room.title;
+    ['roomPanel','publishPanel','toolsPanel','resultPanel','boardPanel'].forEach(id=>$(id).classList.remove('hidden'));
+    const requested=new URLSearchParams(location.search).get('section');
+    switchMainNav(['activity','results','tools','board'].includes(requested)?requested:'room');
+    connect();
+  }catch(err){
+    console.error('restore room failed',err);
+  }
+}
+
+function wsUrl(code){
+  const proto=location.protocol==='https:'?'wss:':'ws:';
+  return `${proto}//${location.host}/api/rooms/${code}/ws?role=host`;
+}
+
+$('createRoom').onclick=async()=>{
+  const r=await fetch('/api/rooms',{
+    method:'POST',
+    headers:{'content-type':'application/json'},
+    body:JSON.stringify({
+      title:$('sessionTitle').value,
+      joinMode:$('joinMode').value
+    })
+  });
+
+  const d=await r.json();
+  if(!d.ok){
+    alert(d.error||'建立房間失敗');
+    return;
+  }
+
+  roomCode=d.code;
+  $('roomCode').textContent=d.code.slice(0,3)+' '+d.code.slice(3);
+
+  const joinUrl=`${location.origin}/join?room=${d.code}`;
+  $('joinUrl').textContent='參與者網址：'+joinUrl;
+
+  $('qrBox').innerHTML=
+    `<img alt="加入活動 QR Code" src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(joinUrl)}">`;
+
+  ['roomPanel','publishPanel','toolsPanel','resultPanel','boardPanel'].forEach(id=>$(id).classList.remove('hidden'));
+  switchMainNav('room');
+  connect();
+};
+
+function connect(){
+  ws=new WebSocket(wsUrl(roomCode));
+
+  ws.onmessage=e=>{
+    const m=JSON.parse(e.data);
+
+    if(m.type==='state'){
+      participants=m.payload.participants||[];
+      responses=m.payload.responses||{};
+      currentActivity=m.payload.activity||null;
+      render();
+    }
+    if(m.type==='participants'){
+      participants=m.payload||[];
+      render();
+    }
+    if(m.type==='response'){
+      responses[m.payload.participantId]=m.payload;
+      render();
+    }
+    if(m.type==='activity'){
+      currentActivity=m.payload;
+      render();
+    }
+    if(m.type==='activity_status'){
+      if(currentActivity) currentActivity.status=m.payload.status;
+      render();
+    }
+    if(m.type==='board_status'){
+      const open=m.payload?.status==='open';
+      const mode=m.payload?.mode==='fullclass'?'全班共編':'教師白板';
+      const hint=$('boardStatusHint');
+      if(hint)hint.textContent=open?`🟢 白板已開啟｜${mode}`:'目前尚未開啟白板';
+    }
+  };
+}
+
+function render(){
+  $('joinedCount').textContent=participants.length;
+  $('submittedCount').textContent=Object.keys(responses).length;
+  $('activityStatus').textContent=!currentActivity?'尚未發布':(currentActivity.status==='open'?'🟢 作答中':'🔴 已停止作答');
+  $('currentQuestion').textContent=currentActivity?.question||'—';
+
+  $('peopleList').innerHTML=
+    participants.map(p=>`<div class="person">${esc(p.displayName)}</div>`).join('');
+
+  const hide=$('hideNames').checked;
+  const list=Object.values(responses);
+
+  $('answers').innerHTML=list.map((r,i)=>`
+    <div class="answer">
+      <b>${hide?'匿名答案 '+(i+1):esc(r.displayName)}</b>
+      <div class="answerText">${prettyAnswer(r.answer)}</div>
+    </div>
+  `).join('');
+
+  $('statusPeople').innerHTML=participants.map(p=>`
+    <div class="person">
+      ${esc(p.displayName)} ${responses[p.participantId]?'✅':'✏️'}
+    </div>
+  `).join('');
+
+  renderPickStatus();
+  renderScores();
+}
+
+function prettyAnswer(a){
+  if(!a)return '';
+  if(a.text){
+    return esc(a.text).replace(/\n/g,'<br>');
+  }
+  if(a.matches){
+    const left=currentActivity?.settings?.left||[];
+    const right=currentActivity?.settings?.right||[];
+    const itemName=x=>x.kind==='text'?x.text:(x.label||'圖片');
+    const lm=Object.fromEntries(left.map(x=>[x.id,itemName(x)]));
+    const rm=Object.fromEntries(right.map(x=>[x.id,itemName(x)]));
+    return Object.entries(a.matches).map(([l,r])=>`${esc(lm[l]||l)} ↔ ${esc(rm[r]||r)}`).join('<br>');
+  }
+  if(a.flowOrder){
+    return a.flowOrder.map((x,i)=>`${i+1}. ${esc(x)}`).join('<br>');
+  }
+  if(a.imageData){
+    return `<img src="${a.imageData}" alt="標註作品" data-enlarge>`;
+  }
+  if(a.choice){
+    return `<b>${esc(a.choice)}</b>${a.reason?'<br>'+esc(a.reason):''}`;
+  }
+  if(a.order){
+    return a.order.map((x,i)=>`${i+1}. ${esc(x)}`).join('<br>');
+  }
+  if(a.placements){
+    const cards=currentActivity?.settings?.cards||[];
+    const labels=Object.fromEntries(cards.map(c=>[c.id,c.label]));
+    return Object.entries(a.placements)
+      .map(([k,v])=>`${esc(labels[k]||k)} → ${esc(v)}`).join('<br>');
+  }
+  if(a.items){
+    return a.items.map(x=>`${esc(x.id)} → ${esc(x.quadrant||'未分類')}`).join('<br>');
+  }
+  return esc(JSON.stringify(a));
+}
+
+$('hideNames').onchange=render;
+document.addEventListener('click',e=>{
+  const img=e.target.closest?.('[data-enlarge]');
+  if(!img)return;
+  const modal=document.createElement('div');
+  modal.className='image-modal';
+  modal.innerHTML=`<img src="${img.src}" alt="放大作品">`;
+  modal.onclick=()=>modal.remove();
+  document.body.appendChild(modal);
+});
+
+
+
+function createEmptyMatchSide(){
+  return {kind:'text',text:'',label:'',imageData:''};
+}
+function createMatchPair(){
+  return {left:createEmptyMatchSide(),right:createEmptyMatchSide()};
+}
+
+function renderMatchEditor(){
+  const box=$('matchEditor');
+  box.innerHTML='';
+
+  matchPairs.forEach((pair,index)=>{
+    const row=document.createElement('div');
+    row.className='match-edit-row';
+    row.innerHTML=`
+      <div class="match-side" data-side="left">
+        <b>左側 ${index+1}</b>
+        <select data-kind="left">
+          <option value="text" ${pair.left.kind==='text'?'selected':''}>文字</option>
+          <option value="image" ${pair.left.kind==='image'?'selected':''}>圖片</option>
+        </select>
+        <input data-text="left" value="${esc(pair.left.text||'')}" placeholder="文字內容" ${pair.left.kind==='image'?'class="hidden"':''}>
+        <div data-image-wrap="left" ${pair.left.kind==='text'?'class="hidden"':''}>
+          <input type="file" accept="image/*" data-image="left">
+          <input data-label="left" value="${esc(pair.left.label||'')}" placeholder="圖片名稱（主持端辨識）" style="width:100%;margin-top:6px">
+          <div class="match-preview">${pair.left.imageData?`<img src="${pair.left.imageData}">`:''}</div>
+        </div>
+      </div>
+
+      <div class="match-side" data-side="right">
+        <b>右側 ${index+1}</b>
+        <select data-kind="right">
+          <option value="text" ${pair.right.kind==='text'?'selected':''}>文字</option>
+          <option value="image" ${pair.right.kind==='image'?'selected':''}>圖片</option>
+        </select>
+        <input data-text="right" value="${esc(pair.right.text||'')}" placeholder="文字內容" ${pair.right.kind==='image'?'class="hidden"':''}>
+        <div data-image-wrap="right" ${pair.right.kind==='text'?'class="hidden"':''}>
+          <input type="file" accept="image/*" data-image="right">
+          <input data-label="right" value="${esc(pair.right.label||'')}" placeholder="圖片名稱（主持端辨識）" style="width:100%;margin-top:6px">
+          <div class="match-preview">${pair.right.imageData?`<img src="${pair.right.imageData}">`:''}</div>
+        </div>
+      </div>
+
+      <button type="button" class="btn danger" data-remove-pair="${index}">刪除</button>
+    `;
+    box.appendChild(row);
+
+    ['left','right'].forEach(side=>{
+      const kind=row.querySelector(`[data-kind="${side}"]`);
+      const text=row.querySelector(`[data-text="${side}"]`);
+      const wrap=row.querySelector(`[data-image-wrap="${side}"]`);
+      const label=row.querySelector(`[data-label="${side}"]`);
+      const file=row.querySelector(`[data-image="${side}"]`);
+
+      kind.onchange=()=>{
+        pair[side].kind=kind.value;
+        text.classList.toggle('hidden',kind.value!=='text');
+        wrap.classList.toggle('hidden',kind.value!=='image');
+      };
+
+      text.oninput=()=>pair[side].text=text.value;
+      label.oninput=()=>pair[side].label=label.value;
+
+      file.onchange=async()=>{
+        const f=file.files?.[0];
+        if(!f)return;
+        try{
+          pair[side].imageData=await compressImageFile(f,700,.72);
+          if(!pair[side].label)pair[side].label=`圖片 ${index+1}`;
+          renderMatchEditor();
+        }catch{
+          alert('圖片讀取失敗');
+        }
+      };
+    });
+  });
+
+  box.querySelectorAll('[data-remove-pair]').forEach(btn=>btn.onclick=()=>{
+    matchPairs.splice(+btn.dataset.removePair,1);
+    renderMatchEditor();
+  });
+}
+
+$('addMatchPairBtn').onclick=()=>{
+  matchPairs.push(createMatchPair());
+  renderMatchEditor();
+};
+
+matchPairs=[
+  {left:{kind:'text',text:'洗衣標示 A',label:'',imageData:''},right:{kind:'text',text:'不可漂白',label:'',imageData:''}},
+  {left:{kind:'text',text:'洗衣標示 B',label:'',imageData:''},right:{kind:'text',text:'可熨燙',label:'',imageData:''}},
+  {left:{kind:'text',text:'洗衣標示 C',label:'',imageData:''},right:{kind:'text',text:'可機洗',label:'',imageData:''}}
+];
+renderMatchEditor();
+
+function compressImageFile(file,maxSide=900,quality=.72){
+  return new Promise((resolve,reject)=>{
+    const reader=new FileReader();
+    reader.onerror=reject;
+    reader.onload=()=>{
+      const img=new Image();
+      img.onerror=reject;
+      img.onload=()=>{
+        const scale=Math.min(1,maxSide/Math.max(img.naturalWidth,img.naturalHeight));
+        const c=document.createElement('canvas');
+        c.width=Math.max(1,Math.round(img.naturalWidth*scale));
+        c.height=Math.max(1,Math.round(img.naturalHeight*scale));
+        const x=c.getContext('2d');
+        x.drawImage(img,0,0,c.width,c.height);
+        resolve(c.toDataURL('image/jpeg',quality));
+      };
+      img.src=reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+$('imageFile').onchange=async e=>{
+  const file=e.target.files?.[0];
+  if(!file){hostImageData='';$('imagePreview').innerHTML='';return;}
+  try{
+    hostImageData=await compressImageFile(file);
+    $('imagePreview').innerHTML=`<img src="${hostImageData}" style="max-width:240px;max-height:160px;border-radius:8px;border:1px solid var(--line)">`;
+  }catch(err){
+    hostImageData='';
+    alert('圖片讀取失敗');
+  }
+};
+
+$('publishBtn').onclick=()=>{
+  if(!ws||ws.readyState!==1){
+    alert('尚未連線');
+    return;
+  }
+
+  responses={};
+  render();
+
+  const type=$('activityType').value;
+  const opts=$('options').value.split('｜').map(s=>s.trim()).filter(Boolean);
+
+  let settings={options:opts};
+
+  if(type==='sort'){
+    settings={items:opts};
+  }
+
+  if(type==='classify'){
+    const cards=$('classifyCards').value.split('｜').map(s=>s.trim()).filter(Boolean);
+    settings={
+      zones:opts,
+      cards:cards.map((label,i)=>({id:'c'+(i+1),label}))
+    };
+  }
+
+  if(type==='quad'){
+    settings={
+      labels:[
+        $('quadTL').value.trim()||'左上',
+        $('quadTR').value.trim()||'右上',
+        $('quadBL').value.trim()||'左下',
+        $('quadBR').value.trim()||'右下'
+      ],
+      items:opts,
+      hideQuadrantLabels:$('hideQuadLabels').checked
+    };
+  }
+
+  if(type==='task'){
+    settings={prompt:$('taskPrompt').value.trim()};
+  }
+
+  if(type==='image'){
+    if(!hostImageData){
+      alert('請先選擇一張圖片');
+      return;
+    }
+    settings={imageData:hostImageData};
+  }
+
+  if(type==='match'){
+    if(!matchPairs.length){
+      alert('請至少建立一組配對');
+      return;
+    }
+
+    const normalized=[];
+    for(let i=0;i<matchPairs.length;i++){
+      const p=matchPairs[i];
+      for(const sideName of ['left','right']){
+        const s=p[sideName];
+        if(s.kind==='text' && !s.text.trim()){
+          alert(`第 ${i+1} 組${sideName==='left'?'左':'右'}側文字尚未填寫`);
+          return;
+        }
+        if(s.kind==='image' && !s.imageData){
+          alert(`第 ${i+1} 組${sideName==='left'?'左':'右'}側尚未選擇圖片`);
+          return;
+        }
+      }
+      normalized.push({
+        left:{
+          id:'L'+(i+1),
+          kind:p.left.kind,
+          text:p.left.text.trim(),
+          label:p.left.label.trim()||`左側圖片 ${i+1}`,
+          imageData:p.left.imageData
+        },
+        right:{
+          id:'R'+(i+1),
+          kind:p.right.kind,
+          text:p.right.text.trim(),
+          label:p.right.label.trim()||`右側圖片 ${i+1}`,
+          imageData:p.right.imageData
+        }
+      });
+    }
+
+    settings={
+      left:normalized.map(p=>p.left),
+      right:normalized.map(p=>p.right),
+      pairs:Object.fromEntries(normalized.map(p=>[p.left.id,p.right.id]))
+    };
+  }
+
+  if(type==='flow'){
+    const steps=$('flowItems').value.split('｜').map(s=>s.trim()).filter(Boolean);
+    if(steps.length<2){
+      alert('流程至少需要 2 個步驟');
+      return;
+    }
+    settings={steps};
+  }
+
+  currentActivity={type,question:$('question').value,settings,status:'open'};
+  render();
+  ws.send(JSON.stringify({
+    type:'publish',
+    payload:{
+      type,
+      question:$('question').value,
+      settings
+    }
+  }));
+};
+
+$('lockBtn').onclick=()=>ws?.send(JSON.stringify({type:'lock'}));
+$('reopenBtn').onclick=()=>ws?.send(JSON.stringify({type:'reopen'}));
+
+$('activityType').onchange=()=>{
+  const type=$('activityType').value;
+  $('classifyCardsWrap').classList.toggle('hidden',type!=='classify');
+  $('quadConfigWrap').classList.toggle('hidden',type!=='quad');
+  $('taskConfigWrap').classList.toggle('hidden',type!=='task');
+  $('imageConfigWrap').classList.toggle('hidden',type!=='image');
+  $('matchConfigWrap').classList.toggle('hidden',type!=='match');
+  $('flowConfigWrap').classList.toggle('hidden',type!=='flow');
+};
+document.querySelectorAll('[data-tab]').forEach(btn=>{
+  btn.onclick=()=>{
+    document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('active',b===btn));
+    $('wallView').classList.toggle('hidden',btn.dataset.tab!=='wall');
+    $('statusView').classList.toggle('hidden',btn.dataset.tab!=='status');
+  };
+});
+
+function renderPickStatus(){
+  const total=participants.length;
+  const remaining=participants.filter(p=>!pickedIds.has(p.participantId)).length;
+  $('pickStatus').textContent=total===0?'尚無參與者':`目前 ${total} 人，尚未抽過 ${remaining} 人`;
+}
+
+$('pickPersonBtn').onclick=()=>{
+  if(!participants.length){
+    alert('目前沒有參與者');
+    return;
+  }
+  const noRepeat=$('noRepeatPick').checked;
+  let pool=noRepeat?participants.filter(p=>!pickedIds.has(p.participantId)):participants.slice();
+
+  if(!pool.length){
+    alert('所有參與者都抽過了');
+    return;
+  }
+
+  let ticks=0;
+  const anim=setInterval(()=>{
+    const p=pool[Math.floor(Math.random()*pool.length)];
+    $('pickedPerson').textContent=p.displayName;
+    ticks++;
+    if(ticks>=10){
+      clearInterval(anim);
+      const picked=pool[Math.floor(Math.random()*pool.length)];
+      $('pickedPerson').textContent=picked.displayName;
+      if(noRepeat)pickedIds.add(picked.participantId);
+      renderPickStatus();
+    }
+  },90);
+};
+
+$('resetPickBtn').onclick=()=>{
+  pickedIds.clear();
+  $('pickedPerson').textContent='—';
+  renderPickStatus();
+};
+
+function renderScores(){
+  const box=$('scoreList');
+  box.innerHTML='';
+  scores.forEach((s,i)=>{
+    const row=document.createElement('div');
+    row.className='score-row';
+    row.innerHTML=`
+      <div>
+        <div contenteditable="true" data-score-name="${i}" style="font-weight:800">${esc(s.name)}</div>
+        <div style="font-size:28px;font-weight:900">${s.score}</div>
+      </div>
+      <div class="score-actions">
+        <button class="btn" data-score-delta="-1" data-index="${i}">−1</button>
+        <button class="btn" data-score-delta="1" data-index="${i}">+1</button>
+        <button class="btn" data-score-delta="2" data-index="${i}">+2</button>
+        <button class="btn" data-score-delta="5" data-index="${i}">+5</button>
+        <button class="btn" data-score-delete="${i}">✕</button>
+      </div>
+    `;
+    box.appendChild(row);
+  });
+
+  box.querySelectorAll('[data-score-delta]').forEach(btn=>btn.onclick=()=>{
+    const i=+btn.dataset.index;
+    scores[i].score+=+btn.dataset.scoreDelta;
+    renderScores();
+  });
+
+  box.querySelectorAll('[data-score-delete]').forEach(btn=>btn.onclick=()=>{
+    scores.splice(+btn.dataset.scoreDelete,1);
+    renderScores();
+  });
+
+  box.querySelectorAll('[data-score-name]').forEach(el=>el.oninput=()=>{
+    const i=+el.dataset.scoreName;
+    scores[i].name=el.textContent.trim()||`第${i+1}組`;
+  });
+}
+
+$('addTeamBtn').onclick=()=>{
+  scores.push({name:`第${scores.length+1}組`,score:0});
+  renderScores();
+};
+
+$('resetScoresBtn').onclick=()=>{
+  scores.forEach(s=>s.score=0);
+  renderScores();
+};
+
+function fmt(sec){
+  sec=Math.max(0,sec);
+  return String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0');
+}
+
+function renderTimer(){
+  $('timerDisplay').textContent=fmt(timerSecs);
+  $('timerDisplay').style.color=(timerSecs<=10&&timerSecs>0)?'#b85c5c':'';
+}
+
+document.querySelectorAll('[data-time]').forEach(btn=>btn.onclick=()=>{
+  timerInitial=timerSecs=+btn.dataset.time;
+  renderTimer();
+});
+
+$('setCustomTime').onclick=()=>{
+  const m=Math.max(1,Math.min(120,+$('customMinutes').value||1));
+  timerInitial=timerSecs=m*60;
+  renderTimer();
+};
+
+$('timerStart').onclick=()=>{
+  if(timerId||timerSecs<=0)return;
+  timerId=setInterval(()=>{
+    timerSecs--;
+    renderTimer();
+    if(timerSecs<=0){
+      clearInterval(timerId);
+      timerId=null;
+      alert('⏰ 時間到！');
+    }
+  },1000);
+};
+
+$('timerPause').onclick=()=>{
+  clearInterval(timerId);
+  timerId=null;
+};
+
+$('timerReset').onclick=()=>{
+  clearInterval(timerId);
+  timerId=null;
+  timerSecs=timerInitial;
+  renderTimer();
+};
+
+renderScores();
+renderTimer();
+restoreHostRoomFromUrl();
+
+
+document.querySelectorAll('[data-board-mode]').forEach(btn=>btn.onclick=()=>{
+  if(!roomCode)return;
+  if(!ws || ws.readyState!==WebSocket.OPEN){
+    alert('房間連線尚未完成，請稍候 1 秒再試。');
+    return;
+  }
+
+  const mode=btn.dataset.boardMode;
+
+  // 先由仍在線的主持端發布白板狀態，確保所有學生立即收到。
+  ws.send(JSON.stringify({type:'board_open',payload:{mode}}));
+
+  const u=`/board?room=${encodeURIComponent(roomCode)}&role=host&mode=${encodeURIComponent(mode)}&from=host`;
+
+  // 白板另開分頁：原本互動教室主持端保持在線，不會因切頁斷線。
+  const boardWindow=window.open(u,'interactive_board_'+roomCode);
+  if(!boardWindow){
+    // 瀏覽器若阻擋新分頁，仍先發布成功，再於同頁開啟。
+    setTimeout(()=>location.href=u,180);
+  }
+});
+</script>
+</body>
+</html>

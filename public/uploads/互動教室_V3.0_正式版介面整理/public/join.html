@@ -1,0 +1,830 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>互動教室｜參與者端</title>
+<style>
+:root{
+  --bg:#f6f2ed;--panel:#fffdf9;--line:#ddd6cf;--text:#2f3437;--muted:#6d7377;
+  --accent:#8f6f61;--soft:#efe5df;--ok:#6f8f7a;--shadow:0 10px 28px rgba(70,55,45,.08)
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 14px;background:var(--panel);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+.brand{font-weight:900;font-size:18px}
+.main{max-width:760px;margin:0 auto;padding:14px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:16px;margin-bottom:14px}
+.panel h2{margin:0 0 6px;font-size:21px}
+.sub{font-size:14px;color:var(--muted);margin-bottom:12px}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
+.field input,.field textarea,.field select{border:1px solid var(--line);border-radius:10px;padding:11px;background:white;font-size:16px}
+.btn{border:1px solid var(--line);background:white;border-radius:10px;padding:11px 14px;min-height:44px}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:white;font-weight:800}
+.hidden{display:none}
+.question{font-size:22px;font-weight:900;line-height:1.4;margin-bottom:12px}
+.activity-tag{display:inline-block;font-size:12px;font-weight:800;padding:5px 9px;border-radius:999px;background:var(--soft);margin-bottom:10px}
+.option{display:block;border:1px solid var(--line);border-radius:12px;background:white;padding:12px;margin:8px 0}
+.waiting{text-align:center;padding:28px 12px}
+.waiting .icon{font-size:52px}
+.success{padding:14px;border-radius:14px;background:#e7f0e9;border:1px solid #b8cfbd}.annotate-wrap{position:relative;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}.annotate-canvas{display:block;width:100%;height:auto;touch-action:none}.annotate-tools{display:flex;gap:7px;flex-wrap:wrap;margin:8px 0}.annotate-tools .active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.color-tools,.width-tools{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin:7px 0}
+.color-swatch{width:36px;height:36px;border-radius:50%;border:3px solid #fff;outline:1px solid #aaa;padding:0}
+.color-swatch.active{outline:3px solid #333}
+.width-btn{min-width:52px;min-height:40px}
+.width-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.sort-list{display:flex;flex-direction:column;gap:8px;margin:10px 0}
+.sort-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;border:1px solid var(--line);border-radius:12px;background:#fff;padding:10px}
+.sort-actions{display:flex;gap:6px}
+.sort-actions button{min-width:44px;min-height:44px;border:1px solid var(--line);background:#faf8f5;border-radius:9px}
+.card-pool{display:flex;flex-wrap:wrap;gap:8px;padding:10px;border:1px dashed var(--line);border-radius:12px;background:#faf8f5;margin:10px 0;min-height:64px}
+.pick-card{border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px 12px;font-weight:800;cursor:pointer;min-height:44px}
+.pick-card.selected{outline:3px solid var(--accent);background:var(--soft)}
+.zone-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:10px 0}
+.drop-zone{min-height:130px;border:2px dashed #cbbfb6;border-radius:14px;padding:10px;background:#faf8f5;cursor:pointer}
+.drop-zone h3{margin:0 0 8px;font-size:16px;text-align:center}
+.drop-zone.active-target{border-style:solid;background:#f0e8e2}
+.zone-items{display:flex;flex-wrap:wrap;gap:6px}
+.zone-chip{border:1px solid var(--line);border-radius:9px;background:#fff;padding:8px 10px;font-weight:700}
+.quad-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.quad{min-height:150px;border:2px dashed #cbbfb6;border-radius:14px;padding:10px;background:#faf8f5;cursor:pointer}
+.quad h3{margin:0 0 8px;text-align:center;font-size:15px}
+.helper{font-size:13px;color:var(--muted);margin:6px 0 10px}
+.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0}
+.match-col{display:flex;flex-direction:column;gap:8px}
+.match-card{border:1px solid var(--line);background:#fff;border-radius:11px;padding:11px;font-weight:800;min-height:44px;text-align:left}
+.match-card.image-card{text-align:center;padding:8px}
+.match-card.image-card img{display:block;width:100%;max-height:150px;object-fit:contain;border-radius:8px;background:#fff}
+.match-card.selected{outline:3px solid var(--accent);background:var(--soft)}
+.match-card.matched{background:#e7f0e9;border-color:#b8cfbd}
+.match-pair{font-size:13px;color:var(--muted);margin-top:3px}
+@media(max-width:560px){.zone-grid{grid-template-columns:1fr}.quad{min-height:130px}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">🏠 互動教室｜參與者端</div>
+</header>
+
+<main class="main">
+  <section class="panel" id="joinPanel">
+    <h2>加入互動活動</h2>
+    <div class="sub">輸入主持人提供的房間碼。</div>
+    <div class="field">
+      <label>房間碼</label>
+      <input id="room" maxlength="6" inputmode="numeric" placeholder="6 位房間碼">
+    </div>
+    <div class="field">
+      <label>顯示名稱</label>
+      <input id="name" placeholder="暱稱／姓名／座號">
+    </div>
+    <button class="btn primary" id="joinBtn">加入活動</button>
+  </section>
+
+  <section class="panel hidden" id="waitingPanel">
+    <h2>已加入活動</h2>
+    <div id="who"></div>
+    <div class="waiting">
+      <div class="icon">📡</div>
+      <h3>等待主持人發布題目</h3>
+    </div>
+  </section>
+
+  <section class="panel hidden" id="questionPanel">
+    <div class="activity-tag" id="activityTag"></div>
+    <div id="lockNotice" class="hidden" style="padding:10px 12px;border-radius:12px;background:#f5e7e4;border:1px solid #dfbdb6;margin-bottom:10px;font-weight:800">🔒 主持人已停止作答</div>
+    <div class="question" id="questionText"></div>
+    <div id="answerArea"></div>
+    <button class="btn primary" id="submitBtn">送出答案</button>
+  </section>
+
+  <section class="panel hidden" id="submittedPanel">
+    <div class="success">
+      <h2 style="margin-top:0">✅ 已送出</h2>
+      <div>答案已提交給主持人。若主持人重新開放同一題，你可以修改答案後再次送出。</div>
+    </div>
+    <div class="waiting">
+      <div class="icon">⏳</div>
+      <h3>等待下一題</h3>
+    </div>
+  </section>
+</main>
+
+<script>
+let ws=null,current=null;
+let participantId=localStorage.getItem('interactive_pid')||crypto.randomUUID();
+localStorage.setItem('interactive_pid',participantId);
+
+const $=id=>document.getElementById(id);
+
+const params=new URLSearchParams(location.search);
+if(params.get('room'))$('room').value=params.get('room');
+
+function show(id){
+  ['joinPanel','waitingPanel','questionPanel','submittedPanel']
+    .forEach(x=>$(x).classList.toggle('hidden',x!==id));
+}
+
+function wsUrl(code,name){
+  const proto=location.protocol==='https:'?'wss:':'ws:';
+  return `${proto}//${location.host}/api/rooms/${code}/ws?role=participant&participantId=${encodeURIComponent(participantId)}&name=${encodeURIComponent(name)}`;
+}
+
+$('joinBtn').onclick=()=>{
+  const code=$('room').value.trim();
+  const name=$('name').value.trim()||'匿名參與者';
+
+  if(!/^\d{6}$/.test(code)){
+    alert('請輸入 6 位房間碼');
+    return;
+  }
+
+  ws=new WebSocket(wsUrl(code,name));
+  $('who').textContent=`房間 ${code}｜${name}`;
+  show('waitingPanel');
+
+  ws.onmessage=e=>{
+    const m=JSON.parse(e.data);
+
+    if(m.type==='state'&&m.payload.activity){
+      current=m.payload.activity;
+      renderQuestion();
+    }
+
+    if(m.type==='activity'){
+      current=m.payload;
+      renderQuestion();
+    }
+
+    if(m.type==='activity_status'&&current){
+      current.status=m.payload.status;
+      if(current.status==='open'){
+        renderQuestion();
+      }else{
+        show('questionPanel');
+        $('lockNotice').classList.remove('hidden');
+        $('submitBtn').disabled=true;
+        $('submitBtn').textContent='🔒 已停止作答';
+      }
+    }
+
+    if(m.type==='submitted'){
+      show('submittedPanel');
+    }
+
+    if(m.type==='error'){
+      alert(m.payload);
+    }
+  };
+};
+
+function renderQuestion(){
+  if(!current)return;
+
+  show('questionPanel');
+  $('questionText').textContent=current.question;
+
+  const type=current.type;
+  $('activityTag').textContent=
+    type==='decision'?'⚖️ 選擇決策':
+    type==='match'?'🔗 配對板':
+    type==='flow'?'🪜 流程排序':
+    type==='task'?'📋 任務板':
+    type==='image'?'🖼️ 圖片標註':
+    type==='sort'?'↕️ 排序板':
+    type==='classify'?'🗂️ 分類':'▦ 四象限';
+
+  const a=$('answerArea');
+  a.innerHTML='';
+
+  if(type==='decision'){
+    (current.settings.options||[]).forEach(o=>{
+      const l=document.createElement('label');
+      l.className='option';
+      l.innerHTML=`<input type="radio" name="choice" value="${escapeHtml(o)}"> ${escapeHtml(o)}`;
+      a.appendChild(l);
+    });
+
+    const t=document.createElement('textarea');
+    t.id='reason';
+    t.rows=4;
+    t.placeholder='可以簡單寫下你的理由';
+    t.style.width='100%';
+    t.style.margin='8px 0';
+    a.appendChild(t);
+  }
+
+  if(type==='match'){
+    a.innerHTML=`
+      <div class="helper">先點左側題目，再點右側答案完成配對。</div>
+      <div class="match-grid">
+        <div class="match-col" id="matchLeftCol"></div>
+        <div class="match-col" id="matchRightCol"></div>
+      </div>`;
+    const leftCol=$('matchLeftCol'),rightCol=$('matchRightCol');
+
+    const renderMatchCard=(item,side)=>{
+      const b=document.createElement('button');
+      b.type='button';
+      b.className='match-card'+(item.kind==='image'?' image-card':'');
+      b.dataset[side]=item.id;
+      b.dataset.display=item.kind==='text'?item.text:(item.label||'圖片');
+
+      if(item.kind==='image'){
+        const img=document.createElement('img');
+        img.src=item.imageData;
+        img.alt=item.label||'配對圖片';
+        b.appendChild(img);
+      }else{
+        b.textContent=item.text;
+      }
+      return b;
+    };
+
+    (current.settings.left||[]).forEach(item=>{
+      leftCol.appendChild(renderMatchCard(item,'left'));
+    });
+
+    const shuffled=[...(current.settings.right||[])].sort(()=>Math.random()-.5);
+    shuffled.forEach(item=>{
+      rightCol.appendChild(renderMatchCard(item,'right'));
+    });
+
+    bindMatching();
+  }
+
+  if(type==='flow'){
+    const list=document.createElement('div');
+    list.className='sort-list';
+    list.id='flowList';
+    (current.settings.steps||[]).forEach((label,i)=>{
+      const row=document.createElement('div');
+      row.className='sort-row';
+      row.dataset.label=label;
+      row.innerHTML=`
+        <div><b>${i+1}.</b> ${escapeHtml(label)}</div>
+        <div class="sort-actions">
+          <button type="button" data-up>↑</button>
+          <button type="button" data-down>↓</button>
+        </div>`;
+      list.appendChild(row);
+    });
+    a.appendChild(list);
+    bindGenericSort(list);
+  }
+
+  if(type==='task'){
+    a.innerHTML=`
+      ${current.settings.prompt?`<div class="sub">${escapeHtml(current.settings.prompt)}</div>`:''}
+      <div class="field">
+        <label>我的回答</label>
+        <textarea id="taskAnswer" rows="6" placeholder="輸入你的回答"></textarea>
+      </div>`;
+  }
+
+  if(type==='image'){
+    a.innerHTML=`
+      <div class="annotate-tools">
+        <button type="button" class="btn active" data-ann-tool="pen">✏️ 畫筆</button>
+        <button type="button" class="btn" data-ann-tool="arrow">➜ 箭頭</button>
+        <button type="button" class="btn" data-ann-tool="circle">⭕ 圈選</button>
+        <button type="button" class="btn" data-ann-tool="eraser">🧽 橡皮擦</button>
+        <button type="button" class="btn" id="undoAnnotation">↶ 復原</button>
+        <button type="button" class="btn" id="clearAnnotations">🗑️ 全部清除</button>
+      </div>
+      <div class="color-tools" aria-label="畫筆顏色">
+        <span class="sub">顏色：</span>
+        <button type="button" class="color-swatch active" data-ann-color="#e53935" style="background:#e53935" title="紅"></button>
+        <button type="button" class="color-swatch" data-ann-color="#fb8c00" style="background:#fb8c00" title="橘"></button>
+        <button type="button" class="color-swatch" data-ann-color="#fdd835" style="background:#fdd835" title="黃"></button>
+        <button type="button" class="color-swatch" data-ann-color="#43a047" style="background:#43a047" title="綠"></button>
+        <button type="button" class="color-swatch" data-ann-color="#1e88e5" style="background:#1e88e5" title="藍"></button>
+        <button type="button" class="color-swatch" data-ann-color="#8e24aa" style="background:#8e24aa" title="紫"></button>
+        <button type="button" class="color-swatch" data-ann-color="#212121" style="background:#212121" title="黑"></button>
+        <button type="button" class="color-swatch" data-ann-color="#ffffff" style="background:#fff" title="白"></button>
+      </div>
+      <div class="width-tools">
+        <span class="sub">粗細：</span>
+        <button type="button" class="btn width-btn" data-ann-width="3">細</button>
+        <button type="button" class="btn width-btn active" data-ann-width="7">中</button>
+        <button type="button" class="btn width-btn" data-ann-width="14">粗</button>
+      </div>
+      <div class="annotate-wrap">
+        <canvas class="annotate-canvas" id="annotateCanvas"></canvas>
+      </div>`;
+    setupAnnotation(current.settings.imageData);
+  }
+
+  if(type==='sort'){
+    const items=current.settings.items||[];
+    const list=document.createElement('div');
+    list.className='sort-list';
+    list.id='sortList';
+    items.forEach((label,i)=>{
+      const row=document.createElement('div');
+      row.className='sort-row';
+      row.dataset.label=label;
+      row.innerHTML=`
+        <div><b>${i+1}.</b> ${escapeHtml(label)}</div>
+        <div class="sort-actions">
+          <button type="button" data-up>↑</button>
+          <button type="button" data-down>↓</button>
+        </div>`;
+      list.appendChild(row);
+    });
+    a.appendChild(list);
+    bindSortButtons();
+  }
+
+  if(type==='classify'){
+    const zones=current.settings.zones||[];
+    const cards=current.settings.cards||[];
+    a.innerHTML=`
+      <div class="helper">先點一張卡片，再點下面的分類區。</div>
+      <div class="card-pool" id="classifyPool"></div>
+      <div class="zone-grid" id="classifyZones"></div>
+    `;
+    const pool=$('classifyPool');
+    cards.forEach(c=>{
+      const btn=document.createElement('button');
+      btn.type='button';
+      btn.className='pick-card';
+      btn.dataset.id=c.id;
+      btn.dataset.label=c.label;
+      btn.textContent=c.label;
+      pool.appendChild(btn);
+    });
+    const grid=$('classifyZones');
+    zones.forEach(z=>{
+      const zone=document.createElement('div');
+      zone.className='drop-zone';
+      zone.dataset.zone=z;
+      zone.innerHTML=`<h3>${escapeHtml(z)}</h3><div class="zone-items"></div>`;
+      grid.appendChild(zone);
+    });
+    bindPickAndPlace('#classifyPool .pick-card','#classifyZones .drop-zone');
+  }
+
+  if(type==='quad'){
+    const items=current.settings.items||[];
+    a.innerHTML=`
+      <div class="helper">先點一張卡片，再點你要放入的象限。</div>
+      <div class="card-pool" id="quadPool"></div>
+      <div class="quad-grid" id="quadGrid"></div>
+    `;
+    const pool=$('quadPool');
+    items.forEach(i=>{
+      const btn=document.createElement('button');
+      btn.type='button';
+      btn.className='pick-card';
+      btn.dataset.id=i;
+      btn.dataset.label=i;
+      btn.textContent=i;
+      pool.appendChild(btn);
+    });
+    const labels=(current.settings.labels&&current.settings.labels.length===4)
+      ? current.settings.labels : ['左上','右上','左下','右下'];
+    const hideLabels=!!current.settings.hideQuadrantLabels;
+    const grid=$('quadGrid');
+    labels.forEach((label,index)=>{
+      const q=document.createElement('div');
+      q.className='quad drop-zone';
+      q.dataset.zone=label;
+      q.dataset.position=['左上','右上','左下','右下'][index];
+      q.innerHTML=`<h3>${hideLabels?'&nbsp;':escapeHtml(label)}</h3><div class="zone-items"></div>`;
+      grid.appendChild(q);
+    });
+    bindPickAndPlace('#quadPool .pick-card','#quadGrid .drop-zone');
+  }
+
+  const locked=current.status!=='open';
+  $('lockNotice').classList.toggle('hidden',!locked);
+  $('submitBtn').disabled=locked;
+  $('submitBtn').textContent=locked?'🔒 已停止作答':'送出答案';
+}
+
+$('submitBtn').onclick=()=>{
+  if(!current||!ws||ws.readyState!==1)return;
+
+  let answer=null;
+
+  if(current.type==='decision'){
+    const c=document.querySelector('input[name="choice"]:checked');
+    if(!c){
+      alert('請先選擇一個方案');
+      return;
+    }
+    answer={
+      choice:c.value,
+      reason:$('reason').value
+    };
+  }
+
+  if(current.type==='match'){
+    const matches={};
+    document.querySelectorAll('[data-left][data-match]').forEach(el=>{
+      matches[el.dataset.left]=el.dataset.match;
+    });
+    if(Object.keys(matches).length<(current.settings.left||[]).length){
+      alert('請先完成所有配對');
+      return;
+    }
+    answer={matches};
+  }
+
+  if(current.type==='flow'){
+    const flowOrder=[...document.querySelectorAll('#flowList .sort-row')].map(r=>r.dataset.label);
+    answer={flowOrder};
+  }
+
+  if(current.type==='task'){
+    const text=$('taskAnswer')?.value.trim()||'';
+    if(!text){alert('請先輸入回答');return;}
+    answer={text};
+  }
+
+  if(current.type==='image'){
+    const c=$('annotateCanvas');
+    if(!c){alert('圖片尚未載入');return;}
+    answer={imageData:c.toDataURL('image/jpeg',.72)};
+  }
+
+  if(current.type==='sort'){
+    const order=[...document.querySelectorAll('#sortList .sort-row')].map(r=>r.dataset.label);
+    answer={order};
+  }
+
+  if(current.type==='classify'){
+    const placements={};
+    document.querySelectorAll('#classifyZones .drop-zone').forEach(zone=>{
+      zone.querySelectorAll('.zone-chip').forEach(chip=>{
+        placements[chip.dataset.id]=zone.dataset.zone;
+      });
+    });
+    const total=(current.settings.cards||[]).length;
+    if(Object.keys(placements).length<total){
+      alert('請先把所有卡片都完成分類');
+      return;
+    }
+    answer={placements};
+  }
+
+  if(current.type==='quad'){
+    const items=[];
+    document.querySelectorAll('#quadGrid .drop-zone').forEach(zone=>{
+      zone.querySelectorAll('.zone-chip').forEach(chip=>{
+        items.push({id:chip.dataset.label,quadrant:zone.dataset.zone});
+      });
+    });
+    if(items.length<(current.settings.items||[]).length){
+      alert('請先把所有卡片放入四象限');
+      return;
+    }
+    answer={items};
+  }
+
+  ws.send(JSON.stringify({
+    type:'submit',
+    payload:{answer}
+  }));
+};
+
+
+
+let annotationTool='pen';
+let annotationColor='#e53935';
+let annotationWidth=7;
+
+function setupAnnotation(imageData){
+  const c=$('annotateCanvas');
+  if(!c)return;
+
+  const viewCtx=c.getContext('2d');
+  const bg=new Image();
+
+  // 標註使用獨立離屏畫布：橡皮擦只擦標註，不傷原圖
+  const ann=document.createElement('canvas');
+  const annCtx=ann.getContext('2d');
+
+  let drawing=false;
+  let startX=0,startY=0,lastX=0,lastY=0;
+  let strokeStartSnapshot=null;
+  const history=[];
+
+  const render=()=>{
+    if(!c.width||!c.height)return;
+    viewCtx.clearRect(0,0,c.width,c.height);
+    viewCtx.drawImage(bg,0,0,c.width,c.height);
+    viewCtx.drawImage(ann,0,0,c.width,c.height);
+  };
+
+  const saveHistory=()=>{
+    if(!ann.width||!ann.height)return;
+    history.push(annCtx.getImageData(0,0,ann.width,ann.height));
+    if(history.length>20)history.shift();
+  };
+
+  const clearAnnotationLayer=()=>{
+    annCtx.clearRect(0,0,ann.width,ann.height);
+    render();
+  };
+
+  bg.onload=()=>{
+    c.width=bg.naturalWidth;
+    c.height=bg.naturalHeight;
+    ann.width=c.width;
+    ann.height=c.height;
+    clearAnnotationLayer();
+    history.length=0;
+  };
+  bg.src=imageData;
+
+  document.querySelectorAll('[data-ann-tool]').forEach(btn=>btn.onclick=()=>{
+    annotationTool=btn.dataset.annTool;
+    document.querySelectorAll('[data-ann-tool]').forEach(x=>x.classList.toggle('active',x===btn));
+  });
+
+  document.querySelectorAll('[data-ann-color]').forEach(btn=>btn.onclick=()=>{
+    annotationColor=btn.dataset.annColor;
+    document.querySelectorAll('[data-ann-color]').forEach(x=>x.classList.toggle('active',x===btn));
+  });
+
+  document.querySelectorAll('[data-ann-width]').forEach(btn=>btn.onclick=()=>{
+    annotationWidth=+btn.dataset.annWidth;
+    document.querySelectorAll('[data-ann-width]').forEach(x=>x.classList.toggle('active',x===btn));
+  });
+
+  const point=e=>{
+    const r=c.getBoundingClientRect();
+    return {
+      x:(e.clientX-r.left)*(c.width/r.width),
+      y:(e.clientY-r.top)*(c.height/r.height)
+    };
+  };
+
+  const scaledWidth=()=>Math.max(2,annotationWidth*c.width/700);
+
+  const restoreStrokeStart=()=>{
+    if(strokeStartSnapshot){
+      annCtx.putImageData(strokeStartSnapshot,0,0);
+    }
+  };
+
+  c.onpointerdown=e=>{
+    e.preventDefault();
+    if(!ann.width||!ann.height)return;
+
+    const p=point(e);
+    startX=lastX=p.x;
+    startY=lastY=p.y;
+
+    saveHistory();
+    strokeStartSnapshot=annCtx.getImageData(0,0,ann.width,ann.height);
+    drawing=true;
+    c.setPointerCapture?.(e.pointerId);
+  };
+
+  c.onpointermove=e=>{
+    if(!drawing)return;
+    e.preventDefault();
+
+    const p=point(e);
+    annCtx.lineCap='round';
+    annCtx.lineJoin='round';
+
+    if(annotationTool==='arrow'||annotationTool==='circle'){
+      restoreStrokeStart();
+
+      annCtx.globalCompositeOperation='source-over';
+      annCtx.strokeStyle=annotationColor;
+      annCtx.fillStyle=annotationColor;
+      annCtx.lineWidth=scaledWidth();
+
+      if(annotationTool==='arrow'){
+        annCtx.beginPath();
+        annCtx.moveTo(startX,startY);
+        annCtx.lineTo(p.x,p.y);
+        annCtx.stroke();
+
+        const a=Math.atan2(p.y-startY,p.x-startX);
+        const len=Math.max(18,c.width/28);
+
+        annCtx.beginPath();
+        annCtx.moveTo(p.x,p.y);
+        annCtx.lineTo(
+          p.x-len*Math.cos(a-Math.PI/6),
+          p.y-len*Math.sin(a-Math.PI/6)
+        );
+        annCtx.lineTo(
+          p.x-len*Math.cos(a+Math.PI/6),
+          p.y-len*Math.sin(a+Math.PI/6)
+        );
+        annCtx.closePath();
+        annCtx.fill();
+      }else{
+        const cx=(startX+p.x)/2;
+        const cy=(startY+p.y)/2;
+        const rx=Math.abs(p.x-startX)/2;
+        const ry=Math.abs(p.y-startY)/2;
+
+        annCtx.beginPath();
+        annCtx.ellipse(
+          cx,cy,
+          Math.max(1,rx),
+          Math.max(1,ry),
+          0,0,Math.PI*2
+        );
+        annCtx.stroke();
+      }
+    }else if(annotationTool==='eraser'){
+      // destination-out 只會擦掉標註層，底圖完全不受影響
+      annCtx.globalCompositeOperation='destination-out';
+      annCtx.lineWidth=Math.max(18,scaledWidth()*3);
+      annCtx.beginPath();
+      annCtx.moveTo(lastX,lastY);
+      annCtx.lineTo(p.x,p.y);
+      annCtx.stroke();
+      lastX=p.x;
+      lastY=p.y;
+      annCtx.globalCompositeOperation='source-over';
+    }else{
+      annCtx.globalCompositeOperation='source-over';
+      annCtx.strokeStyle=annotationColor;
+      annCtx.lineWidth=scaledWidth();
+
+      annCtx.beginPath();
+      annCtx.moveTo(lastX,lastY);
+      annCtx.lineTo(p.x,p.y);
+      annCtx.stroke();
+
+      lastX=p.x;
+      lastY=p.y;
+    }
+
+    render();
+  };
+
+  c.onpointerup=()=>{
+    drawing=false;
+    strokeStartSnapshot=null;
+    annCtx.globalCompositeOperation='source-over';
+    render();
+  };
+
+  c.onpointercancel=()=>{
+    if(drawing&&strokeStartSnapshot){
+      annCtx.putImageData(strokeStartSnapshot,0,0);
+    }
+    drawing=false;
+    strokeStartSnapshot=null;
+    annCtx.globalCompositeOperation='source-over';
+    render();
+  };
+
+  $('undoAnnotation').onclick=()=>{
+    const prev=history.pop();
+    if(prev){
+      annCtx.putImageData(prev,0,0);
+      render();
+    }
+  };
+
+  $('clearAnnotations').onclick=()=>{
+    saveHistory();
+    clearAnnotationLayer();
+  };
+}
+
+
+function bindMatching(){
+  let selectedLeft=null;
+
+  const leftCards=[...document.querySelectorAll('[data-left]')];
+  const rightCards=[...document.querySelectorAll('[data-right]')];
+
+  leftCards.forEach(card=>card.onclick=()=>{
+    selectedLeft=card;
+    leftCards.forEach(x=>x.classList.toggle('selected',x===card));
+  });
+
+  rightCards.forEach(card=>card.onclick=()=>{
+    if(!selectedLeft)return;
+
+    // 若右側答案先前已被配對，先解除舊配對
+    leftCards.forEach(l=>{
+      if(l.dataset.match===card.dataset.right){
+        delete l.dataset.match;
+        l.classList.remove('matched');
+        l.querySelector('.match-pair')?.remove();
+      }
+    });
+
+    selectedLeft.dataset.match=card.dataset.right;
+    selectedLeft.classList.add('matched');
+    selectedLeft.classList.remove('selected');
+
+    selectedLeft.querySelector('.match-pair')?.remove();
+    const info=document.createElement('div');
+    info.className='match-pair';
+    info.textContent='↔ '+(card.dataset.display||card.textContent||'圖片');
+    selectedLeft.appendChild(info);
+
+    selectedLeft=null;
+  });
+}
+
+function bindGenericSort(list){
+  const renumber=()=>{
+    [...list.querySelectorAll('.sort-row')].forEach((row,i)=>{
+      row.firstElementChild.innerHTML=`<b>${i+1}.</b> ${escapeHtml(row.dataset.label)}`;
+    });
+  };
+
+  list.querySelectorAll('[data-up]').forEach(btn=>btn.onclick=()=>{
+    const row=btn.closest('.sort-row');
+    const prev=row.previousElementSibling;
+    if(prev)list.insertBefore(row,prev);
+    renumber();
+  });
+
+  list.querySelectorAll('[data-down]').forEach(btn=>btn.onclick=()=>{
+    const row=btn.closest('.sort-row');
+    const next=row.nextElementSibling;
+    if(next)list.insertBefore(next,row);
+    renumber();
+  });
+}
+
+function bindSortButtons(){
+  const list=$('sortList');
+  const renumber=()=>{
+    [...list.querySelectorAll('.sort-row')].forEach((row,i)=>{
+      row.firstElementChild.innerHTML=`<b>${i+1}.</b> ${escapeHtml(row.dataset.label)}`;
+    });
+  };
+  list.querySelectorAll('[data-up]').forEach(btn=>btn.onclick=()=>{
+    const row=btn.closest('.sort-row');
+    const prev=row.previousElementSibling;
+    if(prev) list.insertBefore(row,prev);
+    renumber();
+  });
+  list.querySelectorAll('[data-down]').forEach(btn=>btn.onclick=()=>{
+    const row=btn.closest('.sort-row');
+    const next=row.nextElementSibling;
+    if(next) list.insertBefore(next,row);
+    renumber();
+  });
+}
+
+function bindPickAndPlace(cardSelector,zoneSelector){
+  let selected=null;
+  const cards=[...document.querySelectorAll(cardSelector)];
+  const zones=[...document.querySelectorAll(zoneSelector)];
+
+  const clearSelection=()=>{
+    cards.forEach(c=>c.classList.remove('selected'));
+    zones.forEach(z=>z.classList.remove('active-target'));
+  };
+
+  cards.forEach(card=>card.onclick=()=>{
+    selected=card;
+    clearSelection();
+    card.classList.add('selected');
+    zones.forEach(z=>z.classList.add('active-target'));
+  });
+
+  zones.forEach(zone=>zone.onclick=e=>{
+    if(!selected) return;
+    if(e.target.closest('.zone-chip')) return;
+
+    const chip=document.createElement('button');
+    chip.type='button';
+    chip.className='zone-chip';
+    chip.dataset.id=selected.dataset.id;
+    chip.dataset.label=selected.dataset.label;
+    chip.textContent=selected.dataset.label;
+
+    chip.onclick=ev=>{
+      ev.stopPropagation();
+      const original=document.querySelector(`${cardSelector}[data-id="${CSS.escape(chip.dataset.id)}"]`);
+      if(original) original.hidden=false;
+      chip.remove();
+    };
+
+    zone.querySelector('.zone-items').appendChild(chip);
+    selected.hidden=true;
+    selected=null;
+    clearSelection();
+  });
+}
+
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g,c=>({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[c]));
+}
+</script>
+</body>
+</html>

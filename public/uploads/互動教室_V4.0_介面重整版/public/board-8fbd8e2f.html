@@ -1,0 +1,1922 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>互動教室｜互動白板</title>
+<style>
+:root{
+  --bg:#f5f2ec;
+  --panel:#fffdf9;
+  --line:#ddd7ce;
+  --text:#2f3437;
+  --muted:#6c7478;
+  --accent:#8f6f61;
+  --accent2:#d9c6ba;
+  --soft:#f2ebe6;
+  --success:#6f8f7a;
+  --danger:#b85c5c;
+  --shadow:0 8px 24px rgba(70,55,45,.08);
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.app{min-height:100vh;display:grid;grid-template-rows:auto 1fr auto}
+.topbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 14px;background:var(--panel);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.brand{font-weight:800;font-size:18px;margin-right:4px}
+.topbar input{min-width:180px;border:1px solid var(--line);border-radius:10px;padding:9px 11px;background:white}
+.btn{border:1px solid var(--line);background:white;border-radius:10px;padding:9px 12px;color:var(--text)}
+.btn:hover{background:#f7f3ef}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:white;font-weight:700}
+.btn.danger{color:var(--danger)}
+.main{display:grid;grid-template-columns:88px minmax(0,1fr) 300px;min-height:0}
+.leftbar,.rightbar{background:var(--panel)}
+.leftbar{border-right:1px solid var(--line);padding:10px 8px;display:flex;flex-direction:column;gap:8px}
+.tool{min-height:58px;border:1px solid transparent;background:transparent;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:var(--text)}
+.tool span:first-child{font-size:21px}
+.tool small{font-size:12px;font-weight:700}
+.tool.active{background:#efe5df;border-color:#d8c2b5;color:#5f4438}
+.canvas-wrap{position:relative;overflow:hidden;background:#e9e5df;min-height:620px}
+#board{position:absolute;inset:0;width:100%;height:100%;touch-action:none;background:transparent;transform-origin:0 0}
+#overlay{position:absolute;inset:0;pointer-events:none;transform-origin:0 0}
+.object{pointer-events:auto;will-change:left,top}
+#board{will-change:transform}
+#overlay{will-change:transform}
+.rightbar{border-left:1px solid var(--line);padding:12px;overflow:auto}
+.section{margin-bottom:16px}
+.section h3{font-size:14px;margin:0 0 8px;color:#554b46}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sidebtn{border:1px solid var(--line);background:white;border-radius:12px;padding:12px 8px;min-height:68px;font-weight:700;line-height:1.35}
+.sidebtn:hover{background:#f7f3ef}
+.panel{display:none;background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px;margin-top:10px;box-shadow:var(--shadow)}
+.focusbar{display:flex;gap:6px;justify-content:flex-end;margin-bottom:8px}
+.focusbar button{border:1px solid var(--line);background:#faf8f5;border-radius:8px;padding:6px 9px}
+.panel.focus{position:absolute;right:18px;top:18px;width:min(520px,calc(100% - 36px));max-height:calc(100% - 36px);overflow:auto;z-index:50;box-shadow:0 18px 45px rgba(0,0,0,.18)}
+.editable-label{display:inline-block;min-width:80px;border-bottom:1px dashed #aaa;padding:2px 4px;outline:none}
+.class-list{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:8px}
+.config-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.config-grid label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--muted)}
+.config-grid input,.config-grid select,.config-grid textarea{border:1px solid var(--line);border-radius:9px;padding:8px;background:white;color:var(--text);width:100%}
+.activity-btn.active-activity{background:#efe5df;border-color:#d8c2b5;color:#5f4438}
+.seat-chip{border:1px solid var(--line);background:#faf8f5;border-radius:8px;padding:7px 4px;text-align:center;font-size:13px}
+
+.panel.open{display:block}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.row input,.row select{border:1px solid var(--line);border-radius:9px;padding:8px;background:white;min-width:0}
+.big-number{font-size:46px;font-weight:800;text-align:center;padding:10px 0;color:#594b44}
+.timer-display{font-size:42px;font-weight:800;text-align:center;letter-spacing:2px;padding:8px 0}
+.score-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;padding:8px 0;border-bottom:1px dashed var(--line)}
+.score-actions{display:flex;gap:4px;flex-wrap:wrap}
+.score-actions button{border:1px solid var(--line);background:#faf8f5;border-radius:8px;padding:5px 8px}
+.score-name{font-weight:700}
+.ranking{margin-top:8px;font-size:13px;color:var(--muted)}
+.dice{display:flex;justify-content:center;gap:14px;padding:12px 0}
+.die{width:64px;height:64px;border:2px solid #4f4f4f;border-radius:14px;display:grid;place-items:center;font-size:34px;background:white}
+.bottom{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:8px 12px;background:var(--panel);border-top:1px solid var(--line)}
+.zoomval{min-width:52px;text-align:center;font-weight:700}
+.note{position:absolute;min-width:160px;max-width:260px;min-height:100px;background:#fff1a8;border:1px solid #e6d170;border-radius:10px;padding:10px;box-shadow:0 6px 18px rgba(0,0,0,.12);cursor:move;user-select:none}
+.note textarea{width:100%;min-height:72px;border:0;background:transparent;resize:vertical;outline:none;cursor:text}
+.textbox{position:absolute;min-width:120px;padding:4px 6px;border:1px dashed #aaa;background:rgba(255,255,255,.9);cursor:move}
+.textbox input{border:0;background:transparent;outline:none;width:180px}
+.object.selected{outline:2px solid #7f9f9a;outline-offset:2px}
+.image-object{position:absolute;max-width:320px;max-height:260px;cursor:move;border-radius:8px}
+.hidden-file{display:none}
+.toast{position:absolute;left:50%;top:18px;transform:translateX(-50%);background:#30363a;color:#fff;padding:9px 13px;border-radius:10px;opacity:0;transition:.2s;pointer-events:none;z-index:30}
+.toast.show{opacity:1}
+@media (max-width:900px){
+  .main{grid-template-columns:72px minmax(0,1fr)}
+  .rightbar{grid-column:1/-1;border-left:0;border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr;gap:12px}
+}
+@media (max-width:620px){
+  .main{grid-template-columns:60px minmax(0,1fr)}
+  .leftbar{padding:6px 4px}
+  .tool{min-height:52px}
+  .tool small{font-size:10px}
+  .rightbar{display:block}
+  .canvas-wrap{min-height:520px}
+}
+.boardbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:8px 12px;background:#f8f4ef;border-bottom:1px solid var(--line);font-size:13px}.boardpill{padding:6px 9px;border-radius:999px;background:#fff;border:1px solid var(--line)}.syncnote{font-size:11px;color:var(--muted)}body.participant .rightbar{display:none}body.participant .main{grid-template-columns:72px minmax(0,1fr)}body.participant .teacher-only{display:none!important}body.participant .tool{display:none}body.participant .tool.participant-tool{display:flex}body.participant .bottom label,body.participant #clearBtn{display:none}@media(max-width:900px){body.participant .main{grid-template-columns:72px minmax(0,1fr)}}
+</style>
+
+<style>
+body.participant .leftbar .participant-tool{
+  display:flex !important;
+}
+@media (max-width:620px){
+  body.participant .leftbar{
+    gap:6px;
+  }
+  body.participant .participant-tool{
+    min-height:54px;
+  }
+}
+</style>
+
+<style>
+#mobileDeleteBtn{
+  display:none;
+  position:fixed;
+  right:16px;
+  bottom:18px;
+  z-index:120;
+  border:0;
+  border-radius:999px;
+  padding:12px 16px;
+  background:#fff;
+  box-shadow:0 4px 18px rgba(0,0,0,.18);
+  font-weight:800;
+  cursor:pointer;
+}
+body.participant #mobileDeleteBtn.show{
+  display:flex !important;
+  align-items:center;
+  gap:6px;
+}
+</style>
+
+<style>
+body.participant .object.selected{
+  outline:3px solid currentColor;
+  outline-offset:3px;
+}
+body.participant #mobileDeleteBtn.show{
+  display:flex !important;
+}
+</style>
+
+<style>
+/* V3.3.9：三端白板初始化與尺寸統一 */
+html,body{
+  height:100%;
+  margin:0;
+}
+body{
+  min-height:100vh;
+}
+.app{
+  min-height:100vh;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+.topbar,
+.boardbar,
+.bottom{
+  flex:0 0 auto;
+}
+.main{
+  flex:1 1 auto;
+  min-height:0;
+  height:auto;
+}
+.canvas-wrap{
+  position:relative;
+  min-height:0 !important;
+  height:100%;
+  background:#ffffff !important;
+}
+#board,
+#overlay{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+}
+body.participant .main{
+  min-height:0;
+}
+body.participant .canvas-wrap{
+  min-height:0 !important;
+  height:100%;
+}
+
+/* 明確顯示工作區已開啟 */
+.canvas-wrap::after{
+  content:"白板工作區";
+  position:absolute;
+  right:14px;
+  bottom:12px;
+  font-size:11px;
+  color:rgba(80,70,65,.35);
+  pointer-events:none;
+  z-index:0;
+}
+</style>
+
+<style>
+body.participant .leftbar{
+  overflow-y:auto;
+  min-height:0;
+}
+body.participant .tool.participant-tool{
+  flex:0 0 auto;
+}
+@media(max-width:900px){
+  body.participant .main{
+    grid-template-columns:72px minmax(0,1fr);
+    height:100%;
+  }
+}
+@media(max-width:620px){
+  body.participant .main{
+    grid-template-columns:60px minmax(0,1fr);
+  }
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand">🖥️ 互動白板</div>
+    <input id="boardTitle" value="今天的互動白板" aria-label="白板名稱">
+    <button type="button" class="btn teacher-only" id="saveBtn">💾 儲存白板</button>
+    <button type="button" class="btn teacher-only" id="loadBtn">📂 載入白板</button>
+    <button type="button" class="btn primary teacher-only" id="exportBtn">📷 匯出圖片</button>
+  <button type="button" class="btn" id="backClassroom">← 回互動教室</button>
+  </header>
+  <div class="boardbar">
+    <span class="boardpill" id="roomPill">房間 —</span>
+    <span class="boardpill" id="modePill">模式 —</span>
+    <span class="boardpill" id="onlinePill">👥 0 人在線</span>
+    <button class="btn teacher-only" id="toggleBoardLock">🔓 開放操作</button>
+    <button class="btn danger teacher-only" id="closeBoard">結束白板</button>
+    <span class="syncnote" id="syncStatus">連線中…</span>
+    <span class="syncnote" id="diagPill">診斷：等待伺服器</span>
+    <span class="syncnote" id="boardReadyPill">白板初始化中…</span>
+  </div>
+
+  <main class="main">
+    <aside class="leftbar" aria-label="白板工具">
+      <button type="button" class="tool active participant-tool" data-tool="select"><span>🖱️</span><small>選取</small></button>
+      <button type="button" class="tool" data-tool="pen"><span>✏️</span><small>畫筆</small></button>
+      <button type="button" class="tool" data-tool="highlight"><span>🖍️</span><small>螢光筆</small></button>
+      <button type="button" class="tool" data-tool="eraser"><span>🧽</span><small>橡皮擦</small></button>
+      <button type="button" class="tool participant-tool" data-tool="text"><span>🔤</span><small>文字</small></button>
+      <button type="button" class="tool participant-tool" data-tool="note"><span>📝</span><small>便利貼</small></button>
+      <button type="button" class="tool participant-tool" id="imageBtn"><span>🖼️</span><small>圖片</small></button>
+      <button type="button" class="tool" data-tool="line"><span>／</span><small>直線</small></button>
+      <button type="button" class="tool" data-tool="arrow"><span>➜</span><small>箭頭</small></button>
+      <button type="button" class="tool" data-tool="rect"><span>▭</span><small>矩形</small></button>
+      <button type="button" class="tool" data-tool="circle"><span>◯</span><small>圓形</small></button>
+      <button type="button" class="tool" id="undoBtn"><span>↶</span><small>復原</small></button>
+      <button type="button" class="tool" id="redoBtn"><span>↷</span><small>重做</small></button>
+    </aside>
+
+    <section class="canvas-wrap" id="canvasWrap">
+      <canvas id="board"></canvas>
+      <div id="overlay"></div>
+      <div class="toast" id="toast"></div>
+    </section>
+
+    <aside class="rightbar">
+      <section class="section">
+  <h3>🧩 活動板</h3><div style="font-size:12px;color:var(--muted);margin:-2px 0 8px">選一種活動板，再依課程內容設定</div>
+  <div class="grid2">
+    <button type="button" class="sidebtn activity-btn" data-activity="classify">🗂️<br>分類</button>
+    <button type="button" class="sidebtn activity-btn" data-activity="match">🔗<br>配對</button>
+    <button type="button" class="sidebtn activity-btn" data-activity="sort">↕️<br>排序</button>
+    <button type="button" class="sidebtn activity-btn" data-activity="flow">🪜<br>流程</button>
+    <button type="button" class="sidebtn activity-btn" data-activity="quad">▦<br>四象限</button>
+    <button type="button" class="sidebtn activity-btn" data-activity="imageMark">🖼️<br>圖片標註</button>
+    <button type="button" class="sidebtn activity-btn" data-activity="decision">⚖️<br>選擇決策</button>
+    <button type="button" class="sidebtn activity-btn" data-activity="task">📋<br>任務</button>
+  </div>
+
+  <div class="panel" id="activityConfigPanel">
+    <div class="focusbar">
+      <button type="button" id="closeActivityConfig">✕ 關閉</button>
+    </div>
+    <strong id="activityConfigTitle">活動設定</strong>
+    <div id="activityConfigBody" style="margin-top:10px"></div>
+    <div class="row" style="margin-top:10px">
+      <button type="button" class="btn primary" id="createActivityBtn">建立活動板</button>
+    </div>
+  </div>
+</section>
+
+    </aside>
+  </main>
+
+  <footer class="bottom">
+    <button type="button" class="btn" id="zoomOut">−</button>
+    <span class="zoomval" id="zoomVal">100%</span>
+    <button type="button" class="btn" id="zoomIn">＋</button>
+    <button type="button" class="btn" id="resetView">⊙ 回到原位</button>
+    <label>背景
+      <select id="bgSelect">
+        <option value="white">白板</option>
+        <option value="grid">方格</option>
+        <option value="lines">橫線</option>
+        <option value="dark">黑板</option>
+      </select>
+    </label>
+    <label>筆色 <input id="colorPicker" type="color" value="#333333"></label>
+    <label>粗細 <input id="sizePicker" type="range" min="2" max="28" value="4"></label>
+    <button type="button" class="btn danger" id="clearBtn">🗑 清空白板</button>
+  <span style="margin-left:auto;font-size:12px;color:var(--muted)">提示：可用 Ctrl/⌘ + Z 復原，Delete 刪除選取物件</span></footer>
+</div>
+
+<button type="button" id="mobileDeleteBtn" aria-label="刪除選取物件">🗑️ 刪除</button>
+<input class="hidden-file" id="imageInput" type="file" accept="image/*">
+
+
+<script>
+(() => {
+  const canvas = document.getElementById('board');
+  const wrap = document.getElementById('canvasWrap');
+  const overlay = document.getElementById('overlay');
+  const ctx = canvas.getContext('2d');
+  const toast = document.getElementById('toast');
+  const params=new URLSearchParams(location.search);
+  const roomCode=params.get('room')||'';
+  const boardRole=params.get('role')==='participant'?'participant':'host';
+  const boardMode=params.get('mode')||'fullclass';
+  const participantId=boardRole==='participant'?(localStorage.getItem('interactive_pid')||crypto.randomUUID()):'host';
+  if(boardRole==='participant')localStorage.setItem('interactive_pid',participantId);
+  const displayName=boardRole==='participant'?(params.get('name')||'匿名參與者'):'主持人';
+
+  window.addEventListener('error',e=>{
+    const el=document.getElementById('diagPill');
+    if(el)el.textContent=`JS錯誤：${e.message||'未知錯誤'} @ ${e.lineno||'?'}:${e.colno||'?'}`;
+    const s=document.getElementById('syncStatus');
+    if(s && s.textContent.includes('連線中'))s.textContent='⚠️ 白板程式錯誤';
+  });
+  window.addEventListener('unhandledrejection',e=>{
+    const el=document.getElementById('diagPill');
+    if(el)el.textContent=`Promise錯誤：${String(e.reason?.message||e.reason||'未知錯誤')}`;
+  });
+  let boardWs=null, boardLocked=true, serverBoardMode=boardMode, applyingRemote=false;
+  let currentServerTemplate=null;
+  document.body.classList.toggle('participant',boardRole==='participant');
+  document.getElementById('roomPill').textContent='房間 '+(roomCode||'—');
+  document.getElementById('modePill').textContent='模式 '+(boardMode==='teacher'?'教師白板':'全班共編');
+
+  function canBoardEdit(){ return boardRole==='host' || (serverBoardMode==='fullclass'&&!boardLocked); }
+  function sendBoard(type,payload={}){ if(boardWs?.readyState===1)boardWs.send(JSON.stringify({type,payload})); }
+  function boardObjectById(id){
+    return [...overlay.children].find(el=>el.dataset.boardId===id);
+  }
+
+  function bindSyncedTextInput(el,input){
+    input.addEventListener('change',()=>{
+      if(applyingRemote||!canBoardEdit())return;
+      if(boardRole==='participant' && el.dataset.authorId!==participantId)return;
+      sendBoard('board_object_update',{
+        id:el.dataset.boardId,
+        text:input.value
+      });
+    });
+  }
+
+  function ensureBoardObject(obj){
+    if(!obj?.id)return null;
+
+    let el=boardObjectById(obj.id);
+
+    if(!el){
+      if(obj.type==='text'){
+        el=document.createElement('div');
+        el.className='textbox';
+        el.innerHTML='<input value="">';
+        overlay.appendChild(el);
+        makeDraggable(el);
+        bindSyncedTextInput(el,el.querySelector('input'));
+      }else if(obj.type==='image'){
+        el=document.createElement('img');
+        el.className='image-object';
+        el.alt='共編圖片';
+        overlay.appendChild(el);
+        makeDraggable(el);
+      }else{
+        el=document.createElement('div');
+        el.className='note';
+        el.innerHTML='<textarea placeholder="輸入便利貼內容…"></textarea><div class="note-author"></div>';
+        overlay.appendChild(el);
+        makeDraggable(el);
+        bindSyncedTextInput(el,el.querySelector('textarea'));
+      }
+    }
+
+    el.dataset.boardId=obj.id;
+    el.dataset.authorId=obj.authorId||'';
+    el.dataset.authorName=obj.authorName||'';
+    el.dataset.boardType=obj.type||'note';
+    el.style.left=(Number(obj.left)||0)+'px';
+    el.style.top=(Number(obj.top)||0)+'px';
+
+    if(obj.type==='text'){
+      const input=el.querySelector('input');
+      if(input)input.value=obj.text||'';
+    }else if(obj.type==='image'){
+      if(obj.src && el.src!==obj.src)el.src=obj.src;
+      if(obj.width)el.style.width=Math.max(60,Number(obj.width)||220)+'px';
+      if(obj.height)el.style.height=Math.max(40,Number(obj.height)||0)+'px';
+    }else{
+      const ta=el.querySelector('textarea');
+      if(ta)ta.value=obj.text||'';
+      const author=el.querySelector('.note-author');
+      if(author)author.textContent=obj.authorName||'';
+    }
+
+    applyBoardPermission();
+    return el;
+  }
+
+  function applyBoardPermission(){
+    const editable=canBoardEdit();
+    overlay.querySelectorAll('[data-board-id]').forEach(el=>{
+      const own=boardRole==='host'||el.dataset.authorId===participantId;
+      const input=el.querySelector('textarea,input');
+      if(input)input.readOnly=!(editable&&own);
+      el.style.opacity=editable?1:.92;
+    });
+    const lockBtn=document.getElementById('toggleBoardLock');
+    if(lockBtn)lockBtn.textContent=boardLocked?'🔒 目前鎖定（點擊開放）':'🔓 已開放操作（點擊鎖定）';
+
+    updateMobileDeleteButton();
+  }
+  function applyServerTemplate(tpl){
+    if(!tpl)return;
+    currentServerTemplate=tpl;
+
+    requestAnimationFrame(()=>{
+      if(tpl.type==='classify'){
+        renderClassifyTemplate(tpl);
+      }else if(tpl.type==='sort'){
+        renderSortTemplate(tpl);
+      }else if(tpl.type==='quad'){
+        renderQuadTemplate(tpl);
+      }else if(tpl.type==='match'){
+        renderMatchTemplate(tpl);
+      }else if(tpl.type==='flow'){
+        renderFlowTemplate(tpl);
+      }else if(tpl.type==='imageMark'){
+        renderImageMarkTemplate(tpl);
+      }else if(tpl.type==='decision'){
+        renderDecisionTemplate(tpl);
+      }else if(tpl.type==='task'){
+        renderTaskTemplate(tpl);
+      }
+    });
+  }
+
+  function connectBoard(){
+    const statusEl=document.getElementById('syncStatus');
+    const diagEl=document.getElementById('diagPill');
+    if(!roomCode){statusEl.textContent='缺少房間碼';diagEl.textContent='診斷：網址沒有 room';return;}
+    const proto=location.protocol==='https:'?'wss:':'ws:';
+    const url=`${proto}//${location.host}/api/rooms/${roomCode}/ws?role=${boardRole}&participantId=${encodeURIComponent(participantId)}&name=${encodeURIComponent(displayName)}&surface=board`;
+    statusEl.textContent='🟡 正在連線…';
+    diagEl.textContent=`診斷：準備 WebSocket｜${boardRole}｜room=${roomCode}`;
+    try{
+      boardWs=new WebSocket(url);
+    }catch(err){
+      statusEl.textContent='⚠️ 建立連線失敗';
+      diagEl.textContent='WebSocket 建立錯誤：'+(err?.message||err);
+      return;
+    }
+    boardWs.onopen=()=>{
+      statusEl.textContent='🟢 已連線';
+      diagEl.textContent=`診斷：WebSocket 已開啟｜${boardRole}｜room=${roomCode}`;
+      if(boardRole==='host')sendBoard('board_open',{mode:boardMode});
+    };
+    boardWs.onerror=()=>{
+      statusEl.textContent='⚠️ 白板連線錯誤';
+      diagEl.textContent=`診斷：WebSocket error｜${boardRole}｜room=${roomCode}`;
+    };
+    boardWs.onclose=e=>{
+      statusEl.textContent='🔴 已離線';
+      diagEl.textContent=`診斷：WebSocket close code=${e.code} reason=${e.reason||'無'}`;
+    };
+    boardWs.onmessage=e=>{
+      const m=JSON.parse(e.data);
+      if(m.type==='state'){
+        const bd=m.payload.board||{};serverBoardMode=bd.mode||serverBoardMode;boardLocked=!!bd.locked;
+        const members=m.payload.boardMembers||[];
+        const participantMembers=members.filter(x=>x.role==='participant');
+        document.getElementById('onlinePill').textContent=`👥 ${participantMembers.length} 人在線`;
+        const rr=wrap.getBoundingClientRect();
+        document.getElementById('diagPill').textContent=
+          `診斷：${boardRole==='host'?'教師':'參與者'}｜server=${serverBoardMode}｜${boardLocked?'鎖定':'開放'}｜board=${participantMembers.length}｜surface=${Math.round(rr.width)}×${Math.round(rr.height)}`;
+        applyingRemote=true; Object.values(bd.objects||{}).forEach(ensureBoardObject); applyingRemote=false; applyBoardPermission();
+        applyServerTemplate(bd.template);
+        if(boardRole==='participant' && serverBoardMode==='fullclass' && !boardLocked){
+          showToast('🔓 全班共編已開放');
+        }
+      }
+      if(m.type==='board_presence'){
+        const members=(m.payload||[]).filter(x=>x.role==='participant');
+        document.getElementById('onlinePill').textContent=`👥 ${members.length} 人在線`;
+        document.getElementById('diagPill').textContent=
+          `診斷：${boardRole==='host'?'教師':'參與者'}｜server=${serverBoardMode}｜${boardLocked?'鎖定':'開放'}｜board=${members.length}`;
+      }
+      if(m.type==='board_template_set'){
+        applyServerTemplate(m.payload);
+        if(boardRole==='participant'){
+          let label='🗂️ 分類板已更新';
+          if(m.payload?.type==='sort')label='↕️ 排序板已更新';
+          if(m.payload?.type==='quad')label='▦ 四象限已更新';
+          if(m.payload?.type==='match')label='🔗 配對板已更新';
+          if(m.payload?.type==='flow')label='🪜 流程板已更新';
+          if(m.payload?.type==='imageMark')label='🖼️ 圖片標註板已更新';
+          if(m.payload?.type==='decision')label='⚖️ 選擇決策板已更新';
+          if(m.payload?.type==='task')label='📋 任務板已更新';
+          showToast(label);
+        }
+      }
+      if(m.type==='board_status'){
+        serverBoardMode=m.payload.mode||serverBoardMode;
+        boardLocked=!!m.payload.locked;
+        document.getElementById('modePill').textContent='模式 '+(serverBoardMode==='teacher'?'教師白板':'全班共編');
+        applyBoardPermission();
+        const num=document.getElementById('onlinePill').textContent.match(/\d+/)?.[0]||'0';
+        document.getElementById('diagPill').textContent=
+          `診斷：${boardRole==='host'?'教師':'參與者'}｜server=${serverBoardMode}｜${boardLocked?'鎖定':'開放'}｜board=${num}`;
+        if(boardRole==='participant' && serverBoardMode==='fullclass' && !boardLocked){
+          showToast('🔓 全班共編已開放');
+        }
+      }
+      if(m.type==='board_object_add'){
+        applyingRemote=true;
+        ensureBoardObject(m.payload);
+        applyingRemote=false;
+      }
+      if(m.type==='board_object_move'){
+        const el=boardObjectById(m.payload.id);
+        if(el){
+          el.style.left=m.payload.left+'px';
+          el.style.top=m.payload.top+'px';
+        }
+      }
+      if(m.type==='board_object_update'){
+        const el=boardObjectById(m.payload.id);
+        if(el){
+          applyingRemote=true;
+          const input=el.querySelector('textarea,input');
+          if(input)input.value=m.payload.text||'';
+          applyingRemote=false;
+        }
+      }
+      if(m.type==='board_object_delete'){
+        const el=boardObjectById(m.payload.id);
+        if(el){
+          el.remove();
+          if(selectedObject===el)selectedObject=null;
+          updateMobileDeleteButton();
+        }
+      }
+      if(m.type==='board_clear'){ overlay.innerHTML=''; }
+    };
+  }
+
+  // 先連多人白板，再初始化舊白板工具。
+  // 即使後續舊功能發生錯誤，WebSocket 仍可先建立。
+  connectBoard();
+
+  let currentTool='select', drawing=false, startX=0, startY=0, snapshot=null;
+  let zoom=1, bg='white';
+  const undoStack=[], redoStack=[];
+  let selectedObject=null;
+  let scores=[{name:'第一組',score:0},{name:'第二組',score:0},{name:'第三組',score:0},{name:'第四組',score:0}];
+  let seatUsed=new Set();
+
+  function showToast(msg){
+    toast.textContent=msg; toast.classList.add('show');
+    setTimeout(()=>toast.classList.remove('show'),1400);
+  }
+
+  function applyBackground(){
+    wrap.style.backgroundColor = bg==='dark' ? '#26362f' : '#ffffff';
+    wrap.style.backgroundImage = 'none';
+    wrap.style.backgroundSize = '';
+    if(bg==='grid'){
+      wrap.style.backgroundImage =
+        'linear-gradient(#e5e7eb 1px, transparent 1px),linear-gradient(90deg,#e5e7eb 1px, transparent 1px)';
+      wrap.style.backgroundSize='32px 32px';
+    } else if(bg==='lines'){
+      wrap.style.backgroundImage='linear-gradient(#e2e8f0 1px, transparent 1px)';
+      wrap.style.backgroundSize='100% 32px';
+    }
+  }
+
+  function resizeCanvas(){
+    const rect=wrap.getBoundingClientRect();
+    const targetW=Math.max(700,Math.floor(rect.width||wrap.clientWidth||900));
+    const targetH=Math.max(520,Math.floor(rect.height||wrap.clientHeight||620));
+
+    if(canvas.width===targetW && canvas.height===targetH){
+      applyBackground();
+      return;
+    }
+
+    const old=document.createElement('canvas');
+    old.width=canvas.width;
+    old.height=canvas.height;
+
+    if(canvas.width>0 && canvas.height>0){
+      old.getContext('2d').drawImage(canvas,0,0);
+    }
+
+    canvas.width=targetW;
+    canvas.height=targetH;
+
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    if(old.width>0 && old.height>0){
+      ctx.drawImage(old,0,0);
+    }
+
+    applyBackground();
+
+    if(currentServerTemplate){
+      requestAnimationFrame(()=>applyServerTemplate(currentServerTemplate));
+    }
+
+    const ready=document.getElementById('boardReadyPill');
+    if(ready){
+      ready.textContent=`✅ 白板已就緒｜${targetW}×${targetH}`;
+    }
+  }
+  window.addEventListener('resize', resizeCanvas);
+  if('ResizeObserver' in window){
+    let resizeTimer=0;
+    const ro=new ResizeObserver(()=>{
+      clearTimeout(resizeTimer);
+      resizeTimer=setTimeout(()=>resizeCanvas(),60);
+    });
+    ro.observe(wrap);
+  }
+
+  function serializeObjects(){
+    return [...overlay.children].map(el=>({
+      type: el.classList.contains('note')?'note':el.classList.contains('textbox')?'text':el.tagName==='IMG'?'image':'unknown',
+      left:el.style.left, top:el.style.top,
+      width:el.style.width || '',
+      height:el.style.height || '',
+      text:el.querySelector('textarea,input')?.value||'',
+      src:el.tagName==='IMG'?el.src:''
+    }));
+  }
+
+  function snapshotState(){
+    return {
+      pixels: ctx.getImageData(0,0,canvas.width,canvas.height),
+      objects: serializeObjects(),
+      bg
+    };
+  }
+  function saveState(){
+    try{
+      undoStack.push(snapshotState());
+      if(undoStack.length>15) undoStack.shift();
+      redoStack.length=0;
+    }catch(_){}
+  }
+  function restoreState(state){
+    if(!state)return;
+    bg=state.bg||'white';
+    document.getElementById('bgSelect').value=bg;
+    applyBackground();
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    if(state.pixels) ctx.putImageData(state.pixels,0,0);
+    restoreObjects(state.objects||[]);
+  }
+  function undo(){
+    if(!undoStack.length)return;
+    redoStack.push(snapshotState());
+    restoreState(undoStack.pop());
+  }
+  function redo(){
+    if(!redoStack.length)return;
+    undoStack.push(snapshotState());
+    restoreState(redoStack.pop());
+  }
+
+  function pos(e){
+    const r=canvas.getBoundingClientRect();
+    return {x:(e.clientX-r.left)/zoom,y:(e.clientY-r.top)/zoom};
+  }
+  function applyPenStyle(tool){
+    const color=document.getElementById('colorPicker').value;
+    const size=+document.getElementById('sizePicker').value;
+    ctx.lineCap='round';ctx.lineJoin='round';
+    ctx.globalAlpha=1;
+    ctx.globalCompositeOperation='source-over';
+    if(tool==='highlight'){
+      ctx.strokeStyle=color;
+      ctx.globalAlpha=.35;
+      ctx.lineWidth=Math.max(12,size*3);
+    } else if(tool==='eraser'){
+      ctx.globalCompositeOperation='destination-out';
+      ctx.strokeStyle='rgba(0,0,0,1)';
+      ctx.lineWidth=Math.max(18,size*3);
+    } else {
+      ctx.strokeStyle=color;
+      ctx.fillStyle=color;
+      ctx.lineWidth=size;
+    }
+  }
+  function resetContext(){
+    ctx.globalAlpha=1;
+    ctx.globalCompositeOperation='source-over';
+  }
+
+  canvas.addEventListener('pointerdown', e=>{
+    if(boardRole==='participant')return;
+    if(!['pen','highlight','eraser','line','arrow','rect','circle'].includes(currentTool)) return;
+    canvas.setPointerCapture(e.pointerId);
+    const p=pos(e); startX=p.x; startY=p.y; drawing=true;
+    saveState(); snapshot=ctx.getImageData(0,0,canvas.width,canvas.height);
+    if(['pen','highlight','eraser'].includes(currentTool)){
+      applyPenStyle(currentTool);ctx.beginPath();ctx.moveTo(p.x,p.y);
+    }
+  });
+  let drawRAF=0, pendingPointer=null;
+  function handlePointerMove(e){
+    if(!drawing)return;
+    const p=pos(e);
+    if(['pen','highlight','eraser'].includes(currentTool)){
+      ctx.lineTo(p.x,p.y);ctx.stroke();return;
+    }
+    resetContext();
+    ctx.putImageData(snapshot,0,0);
+    applyPenStyle(currentTool);
+    const dx=p.x-startX,dy=p.y-startY;
+    if(currentTool==='line'||currentTool==='arrow'){
+      ctx.beginPath();ctx.moveTo(startX,startY);ctx.lineTo(p.x,p.y);ctx.stroke();
+      if(currentTool==='arrow'){
+        const a=Math.atan2(dy,dx),len=14;
+        ctx.beginPath();ctx.moveTo(p.x,p.y);
+        ctx.lineTo(p.x-len*Math.cos(a-Math.PI/6),p.y-len*Math.sin(a-Math.PI/6));
+        ctx.lineTo(p.x-len*Math.cos(a+Math.PI/6),p.y-len*Math.sin(a+Math.PI/6));
+        ctx.closePath();ctx.fill();
+      }
+    } else if(currentTool==='rect'){
+      ctx.strokeRect(startX,startY,dx,dy);
+    } else if(currentTool==='circle'){
+      ctx.beginPath();ctx.ellipse(startX+dx/2,startY+dy/2,Math.abs(dx/2),Math.abs(dy/2),0,0,Math.PI*2);ctx.stroke();
+    }
+  }
+  canvas.addEventListener('pointermove', e=>{
+    if(!drawing)return;
+    pendingPointer=e;
+    if(drawRAF)return;
+    drawRAF=requestAnimationFrame(()=>{
+      drawRAF=0;
+      const ev=pendingPointer;
+      pendingPointer=null;
+      if(ev) handlePointerMove(ev);
+    });
+  });
+  canvas.addEventListener('pointerup',()=>{drawing=false;resetContext();});
+
+  function setTool(t){
+    currentTool=t;
+    document.querySelectorAll('.tool[data-tool]').forEach(b=>b.classList.toggle('active',b.dataset.tool===t));
+  }
+  document.querySelectorAll('.tool[data-tool]').forEach(b=>b.addEventListener('click',()=>setTool(b.dataset.tool)));
+
+
+  function updateMobileDeleteButton(){
+    const btn=document.getElementById('mobileDeleteBtn');
+    if(!btn)return;
+    const own=selectedObject && (
+      boardRole==='host' ||
+      selectedObject.dataset.authorId===participantId
+    );
+    const synced=!!selectedObject?.dataset?.boardId;
+    btn.classList.toggle('show',boardRole==='participant' && canBoardEdit() && own && synced);
+  }
+
+  function deleteBoardObject(el){
+    if(!el)return;
+    if(!canBoardEdit())return;
+    if(boardRole==='participant' && el.dataset.authorId!==participantId){
+      showToast('只能刪除自己的便利貼');
+      return;
+    }
+
+    saveState();
+    if(el.dataset.boardId && !applyingRemote){
+      sendBoard('board_object_delete',{id:el.dataset.boardId});
+    }
+    el.remove();
+    if(selectedObject===el)selectedObject=null;
+    updateMobileDeleteButton();
+  }
+
+  function selectBoardObject(el){
+    selectedObject=el;
+    overlay.querySelectorAll('.object').forEach(o=>o.classList.remove('selected'));
+    el.classList.add('selected');
+    updateMobileDeleteButton();
+  }
+
+  function makeDraggable(el){
+    el.classList.add('object');
+    let drag=false,ox=0,oy=0,dragSaved=false;
+    el.addEventListener('pointerdown',e=>{
+      if(!canBoardEdit())return;
+      if(boardRole==='participant' && el.dataset.authorId && el.dataset.authorId!==participantId)return;
+      if(['TEXTAREA','INPUT'].includes(e.target.tagName))return;
+      drag=true;dragSaved=false;selectedObject?.classList.remove('selected');selectedObject=el;el.classList.add('selected');
+      const r=el.getBoundingClientRect();ox=e.clientX-r.left;oy=e.clientY-r.top;
+      el.setPointerCapture(e.pointerId);
+      e.stopPropagation();
+    });
+    el.addEventListener('pointermove',e=>{
+      if(!drag)return;
+      if(!dragSaved){saveState();dragSaved=true;}
+      const r=overlay.getBoundingClientRect();
+      el.style.left=((e.clientX-r.left)/zoom-(ox/zoom))+'px';
+      el.style.top=((e.clientY-r.top)/zoom-(oy/zoom))+'px';
+    });
+    el.addEventListener('pointerup',()=>{
+      const moved=dragSaved;drag=false;dragSaved=false;
+      if(moved&&el.dataset.boardId&&!applyingRemote)sendBoard('board_object_move',{id:el.dataset.boardId,left:parseFloat(el.style.left)||0,top:parseFloat(el.style.top)||0});
+    });
+    el.addEventListener('click',e=>{
+      if(e.target.closest('textarea,input'))return;
+      selectBoardObject(el);
+    });
+    el.addEventListener('touchend',e=>{
+      if(e.target.closest('textarea,input'))return;
+      selectBoardObject(el);
+    },{passive:true});
+
+    el.addEventListener('dblclick',()=>{
+      deleteBoardObject(el);
+    });
+  }
+
+  wrap.addEventListener('click',e=>{
+    if(!['note','text'].includes(currentTool))return;
+    if(e.target!==canvas && e.target!==wrap)return;
+    saveState();
+    const r=wrap.getBoundingClientRect();
+    const x=(e.clientX-r.left)/zoom, y=(e.clientY-r.top)/zoom;
+    if(!canBoardEdit()){showToast('目前白板為僅觀看模式');return;}
+
+    if(currentTool==='note'){
+      const el=document.createElement('div');
+      el.className='note';
+      el.style.left=x+'px';
+      el.style.top=y+'px';
+      el.innerHTML='<textarea placeholder="輸入便利貼內容…"></textarea><div class="note-author"></div>';
+      el.dataset.boardId=crypto.randomUUID();
+      el.dataset.authorId=participantId;
+      el.dataset.authorName=displayName;
+      el.dataset.boardType='note';
+      el.querySelector('.note-author').textContent=displayName;
+      overlay.appendChild(el);
+      makeDraggable(el);
+      bindSyncedTextInput(el,el.querySelector('textarea'));
+      sendBoard('board_object_add',{
+        id:el.dataset.boardId,
+        type:'note',
+        left:x,
+        top:y,
+        text:''
+      });
+      setTool('select');
+    } else {
+      const el=document.createElement('div');
+      el.className='textbox';
+      el.style.left=x+'px';
+      el.style.top=y+'px';
+      el.innerHTML='<input value="輸入文字">';
+      el.dataset.boardId=crypto.randomUUID();
+      el.dataset.authorId=participantId;
+      el.dataset.authorName=displayName;
+      el.dataset.boardType='text';
+      overlay.appendChild(el);
+      makeDraggable(el);
+      bindSyncedTextInput(el,el.querySelector('input'));
+      sendBoard('board_object_add',{
+        id:el.dataset.boardId,
+        type:'text',
+        left:x,
+        top:y,
+        text:'輸入文字'
+      });
+      setTool('select');
+    }
+  });
+
+  document.addEventListener('keydown',e=>{
+    if((e.key==='Delete'||e.key==='Backspace') && selectedObject && !['INPUT','TEXTAREA'].includes(document.activeElement.tagName)){
+      e.preventDefault();
+      deleteBoardObject(selectedObject);
+    }
+    if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){e.preventDefault();undo();}
+    if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='y'){e.preventDefault();redo();}
+  });
+
+  document.getElementById('mobileDeleteBtn').addEventListener('click',()=>{
+    if(selectedObject)deleteBoardObject(selectedObject);
+  });
+
+  document.getElementById('imageBtn').addEventListener('click',()=>{
+    if(!canBoardEdit()){showToast('目前白板為僅觀看模式');return;}
+    document.getElementById('imageInput').click();
+  });
+  function compressBoardImage(file,maxSide=700,quality=.72){
+    return new Promise((resolve,reject)=>{
+      const reader=new FileReader();
+      reader.onerror=reject;
+      reader.onload=()=>{
+        const img=new Image();
+        img.onerror=reject;
+        img.onload=()=>{
+          const scale=Math.min(1,maxSide/Math.max(img.naturalWidth,img.naturalHeight));
+          const out=document.createElement('canvas');
+          out.width=Math.max(1,Math.round(img.naturalWidth*scale));
+          out.height=Math.max(1,Math.round(img.naturalHeight*scale));
+          const ox=out.getContext('2d');
+          ox.drawImage(img,0,0,out.width,out.height);
+          resolve({
+            src:out.toDataURL('image/jpeg',quality),
+            width:out.width,
+            height:out.height
+          });
+        };
+        img.src=reader.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  document.getElementById('imageInput').addEventListener('change',async e=>{
+    const f=e.target.files[0];
+    e.target.value='';
+    if(!f)return;
+    if(!canBoardEdit()){showToast('目前白板為僅觀看模式');return;}
+
+    try{
+      showToast('圖片處理中…');
+      const data=await compressBoardImage(f);
+      saveState();
+
+      const displayW=Math.min(280,data.width);
+      const ratio=data.height/data.width;
+      const displayH=Math.round(displayW*ratio);
+
+      const img=document.createElement('img');
+      img.src=data.src;
+      img.className='image-object';
+      img.style.left='80px';
+      img.style.top='80px';
+      img.style.width=displayW+'px';
+      img.style.height=displayH+'px';
+      img.dataset.boardId=crypto.randomUUID();
+      img.dataset.authorId=participantId;
+      img.dataset.authorName=displayName;
+      img.dataset.boardType='image';
+
+      overlay.appendChild(img);
+      makeDraggable(img);
+
+      sendBoard('board_object_add',{
+        id:img.dataset.boardId,
+        type:'image',
+        left:80,
+        top:80,
+        src:data.src,
+        width:displayW,
+        height:displayH
+      });
+
+      setTool('select');
+      showToast('圖片已加入共編白板');
+    }catch(err){
+      showToast('圖片處理失敗');
+    }
+  });
+
+  document.getElementById('undoBtn').onclick=undo;
+  document.getElementById('redoBtn').onclick=redo;
+
+  document.getElementById('bgSelect').addEventListener('change',e=>{
+    saveState();bg=e.target.value;applyBackground();
+  });
+
+  function setZoom(v){
+    zoom=Math.min(1.6,Math.max(.6,v));
+    canvas.style.transform=`scale(${zoom})`;
+    overlay.style.transform=`scale(${zoom})`;
+    document.getElementById('zoomVal').textContent=Math.round(zoom*100)+'%';
+  }
+  document.getElementById('zoomIn').onclick=()=>setZoom(zoom+.1);
+  document.getElementById('zoomOut').onclick=()=>setZoom(zoom-.1);
+  document.getElementById('resetView').onclick=()=>setZoom(1);
+
+  document.getElementById('clearBtn').onclick=()=>{
+    if(!confirm('確定清除整張白板？'))return;
+    saveState();ctx.clearRect(0,0,canvas.width,canvas.height);overlay.innerHTML='';showToast('白板已清空');
+  };
+
+  function drawExportBackground(o,w,h){
+    o.fillStyle=bg==='dark'?'#26362f':'#ffffff';
+    o.fillRect(0,0,w,h);
+    if(bg==='grid'){
+      o.strokeStyle='#e5e7eb';o.lineWidth=1;
+      for(let x=0;x<w;x+=32){o.beginPath();o.moveTo(x,0);o.lineTo(x,h);o.stroke();}
+      for(let y=0;y<h;y+=32){o.beginPath();o.moveTo(0,y);o.lineTo(w,y);o.stroke();}
+    } else if(bg==='lines'){
+      o.strokeStyle='#e2e8f0';o.lineWidth=1;
+      for(let y=32;y<h;y+=32){o.beginPath();o.moveTo(0,y);o.lineTo(w,y);o.stroke();}
+    }
+  }
+  function wrapText(o,text,x,y,maxWidth,lineHeight){
+    const words=[...String(text)];
+    let line='';
+    for(const ch of words){
+      const test=line+ch;
+      if(o.measureText(test).width>maxWidth && line){
+        o.fillText(line,x,y);line=ch;y+=lineHeight;
+      } else line=test;
+    }
+    if(line)o.fillText(line,x,y);
+  }
+  async function drawObjectsForExport(o){
+    for(const el of [...overlay.children]){
+      const x=parseFloat(el.style.left)||0, y=parseFloat(el.style.top)||0;
+      if(el.classList.contains('note')){
+        const w=el.offsetWidth||180,h=el.offsetHeight||110;
+        o.fillStyle='#fff1a8';o.strokeStyle='#e6d170';o.lineWidth=1;
+        o.fillRect(x,y,w,h);o.strokeRect(x,y,w,h);
+        o.fillStyle='#333';o.font='16px sans-serif';
+        wrapText(o,el.querySelector('textarea')?.value||'',x+10,y+24,w-20,22);
+      } else if(el.classList.contains('textbox')){
+        o.fillStyle=bg==='dark'?'#fff':'#222';o.font='20px sans-serif';
+        o.fillText(el.querySelector('input')?.value||'',x+4,y+22);
+      } else if(el.tagName==='IMG'){
+        const img=el;
+        if(!img.complete) await new Promise(res=>{img.onload=res;img.onerror=res;});
+        const w=img.offsetWidth||img.naturalWidth||200,h=img.offsetHeight||img.naturalHeight||150;
+        try{o.drawImage(img,x,y,w,h);}catch(_){}
+      }
+    }
+  }
+  document.getElementById('exportBtn').onclick=async()=>{
+    const out=document.createElement('canvas');out.width=canvas.width;out.height=canvas.height;
+    const o=out.getContext('2d');drawExportBackground(o,out.width,out.height);o.drawImage(canvas,0,0);
+    await drawObjectsForExport(o);
+    const title=document.getElementById('boardTitle').value||'家政互動白板';
+    const a=document.createElement('a');a.download=title+'.png';a.href=out.toDataURL('image/png');a.click();
+    showToast('已匯出完整白板 PNG');
+  };
+
+  function restoreObjects(arr){
+    overlay.innerHTML='';
+    arr.forEach(o=>{
+      let el;
+      if(o.type==='note'){
+        el=document.createElement('div');el.className='note';el.innerHTML='<textarea></textarea>';
+        el.querySelector('textarea').value=o.text;
+      } else if(o.type==='text'){
+        el=document.createElement('div');el.className='textbox';el.innerHTML='<input>';
+        el.querySelector('input').value=o.text;
+      } else if(o.type==='image'){
+        el=document.createElement('img');el.className='image-object';el.src=o.src;
+      }
+      if(!el)return;
+      el.style.left=o.left;el.style.top=o.top;
+      if(o.width)el.style.width=o.width;if(o.height)el.style.height=o.height;
+      overlay.appendChild(el);makeDraggable(el);
+    });
+  }
+
+  document.getElementById('saveBtn').onclick=()=>{
+    const data={
+      title:document.getElementById('boardTitle').value,bg,
+      canvas:canvas.toDataURL(),objects:serializeObjects(),
+      scores,seatUsed:[...seatUsed]
+    };
+    try{
+      localStorage.setItem('homeEcWhiteboardV1',JSON.stringify(data));
+      showToast('白板已儲存在這台裝置');
+    }catch(err){
+      showToast('儲存空間不足，請先移除部分大型圖片再試一次');
+    }
+  };
+  document.getElementById('loadBtn').onclick=()=>{
+    const raw=localStorage.getItem('homeEcWhiteboardV1');
+    if(!raw){showToast('這台裝置目前沒有已儲存的白板');return;}
+    const d=JSON.parse(raw);
+    document.getElementById('boardTitle').value=d.title||'我的家政白板';
+    bg=d.bg||'white';document.getElementById('bgSelect').value=bg;applyBackground();
+    restoreCanvas(d.canvas);restoreObjects(d.objects||[]);
+    scores=Array.isArray(d.scores)?d.scores:scores;seatUsed=new Set(d.seatUsed||[]);
+    renderScores();updateSeatStatus();showToast('白板已載入');
+  };
+
+  document.querySelectorAll('.sidebtn[data-panel]').forEach(b=>b.addEventListener('click',()=>{
+    const id=b.dataset.panel;
+    const target=document.getElementById(id);
+    const wasOpen=target.classList.contains('open');
+    document.querySelectorAll('.panel.open').forEach(p=>{ if(p!==target) p.classList.remove('open'); });
+    if(!wasOpen)target.classList.add('open');
+  }));
+
+  const pickedSeat=document.getElementById('pickedSeat'),seatStatus=document.getElementById('seatStatus');
+  function updateSeatStatus(){
+    const max=Math.max(1,+document.getElementById('seatMax').value||30);
+    const validUsed=[...seatUsed].filter(n=>n<=max).length;
+    seatStatus.textContent=`剩餘 ${Math.max(0,max-validUsed)} 人`;
+  }
+  document.getElementById('pickSeatBtn').onclick=()=>{
+    const max=Math.min(100,Math.max(1,+document.getElementById('seatMax').value||30));
+    const noRepeat=document.getElementById('noRepeat').checked;
+    const pool=Array.from({length:max},(_,i)=>i+1).filter(n=>!noRepeat||!seatUsed.has(n));
+    if(!pool.length){showToast('所有座號都抽過了');return;}
+    let ticks=0;
+    const timer=setInterval(()=>{
+      pickedSeat.textContent=pool[Math.floor(Math.random()*pool.length)]+' 號';
+      if(++ticks>9){
+        clearInterval(timer);
+        const n=pool[Math.floor(Math.random()*pool.length)];
+        pickedSeat.textContent=n+' 號';if(noRepeat)seatUsed.add(n);updateSeatStatus();
+      }
+    },90);
+  };
+  document.getElementById('resetSeatBtn').onclick=()=>{seatUsed.clear();pickedSeat.textContent='—';updateSeatStatus();};
+  document.getElementById('seatMax').oninput=()=>{seatUsed.clear();updateSeatStatus();};
+
+  function renderScores(){
+    const list=document.getElementById('scoreList');list.innerHTML='';
+    scores.forEach((s,i)=>{
+      const row=document.createElement('div');row.className='score-row';
+      row.innerHTML=`<div><div class="score-name" contenteditable="true"></div><div style="font-size:26px;font-weight:800">${s.score}</div></div>
+      <div class="score-actions"><button data-d="-1">−1</button><button data-d="1">+1</button><button data-d="2">+2</button><button data-d="5">+5</button><button data-del="1">✕</button></div>`;
+      row.querySelector('.score-name').textContent=s.name;
+      row.querySelector('.score-name').addEventListener('input',e=>{scores[i].name=e.target.textContent.trim()||`第${i+1}組`;renderRanking();});
+      row.querySelectorAll('[data-d]').forEach(btn=>btn.onclick=()=>{scores[i].score+=+btn.dataset.d;renderScores();});
+      row.querySelector('[data-del]').onclick=()=>{scores.splice(i,1);renderScores();};
+      list.appendChild(row);
+    });renderRanking();
+  }
+  function renderRanking(){
+    const rank=[...scores].sort((a,b)=>b.score-a.score);
+    document.getElementById('ranking').innerHTML='<b>目前排行</b><br>'+rank.map((s,i)=>`${i+1}. ${s.name}　${s.score} 分`).join('<br>');
+  }
+  document.getElementById('addTeamBtn').onclick=()=>{scores.push({name:`第${scores.length+1}組`,score:0});renderScores();};
+  document.getElementById('resetScoresBtn').onclick=()=>{scores.forEach(s=>s.score=0);renderScores();};
+  renderScores();
+
+  let timerSecs=180,timerInitial=180,timerId=null;
+  function fmt(sec){sec=Math.max(0,sec);return String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0');}
+  function renderTimer(){
+    const el=document.getElementById('timerDisplay');
+    el.textContent=fmt(timerSecs);
+    el.style.color=timerSecs<=10 && timerSecs>0 ? '#b85c5c' : '';
+  }
+  document.querySelectorAll('[data-time]').forEach(b=>b.onclick=()=>{timerInitial=timerSecs=+b.dataset.time;renderTimer();});
+  document.getElementById('setCustomTime').onclick=()=>{
+    const m=Math.max(1,Math.min(120,+document.getElementById('customMinutes').value||1));
+    timerInitial=timerSecs=m*60;renderTimer();
+  };
+  document.getElementById('timerStart').onclick=()=>{
+    if(timerId||timerSecs<=0)return;
+    timerId=setInterval(()=>{
+      timerSecs--;renderTimer();
+      if(timerSecs<=0){clearInterval(timerId);timerId=null;showToast('⏰ 時間到！可以進行下一個步驟了。');}
+    },1000);
+  };
+  document.getElementById('timerPause').onclick=()=>{clearInterval(timerId);timerId=null;};
+  document.getElementById('timerReset').onclick=()=>{clearInterval(timerId);timerId=null;timerSecs=timerInitial;renderTimer();};
+
+  let sw=0,swId=null;
+  function renderSW(){document.getElementById('stopwatchDisplay').textContent=fmt(sw);}
+  document.getElementById('swStart').onclick=()=>{if(swId)return;swId=setInterval(()=>{sw++;renderSW();},1000);};
+  document.getElementById('swPause').onclick=()=>{clearInterval(swId);swId=null;};
+  document.getElementById('swReset').onclick=()=>{clearInterval(swId);swId=null;sw=0;renderSW();};
+
+  const faces=['⚀','⚁','⚂','⚃','⚄','⚅'];
+  document.getElementById('rollDice').onclick=()=>{
+    const count=+document.querySelector('input[name="diceCount"]:checked').value;
+    const a=Math.floor(Math.random()*6)+1,b=Math.floor(Math.random()*6)+1;
+    document.getElementById('die1').textContent=faces[a-1];
+    document.getElementById('die2').style.display=count===2?'grid':'none';
+    if(count===2){
+      document.getElementById('die2').textContent=faces[b-1];
+      document.getElementById('diceTotal').textContent=`${a} + ${b} = ${a+b}`;
+    } else document.getElementById('diceTotal').textContent=`${a}`;
+  };
+  document.querySelectorAll('input[name="diceCount"]').forEach(r=>r.onchange=()=>document.getElementById('rollDice').click());
+
+  function boardHasContent(){
+    if(overlay.children.length) return true;
+    try{
+      const data=ctx.getImageData(0,0,canvas.width,canvas.height).data;
+      for(let i=3;i<data.length;i+=4){ if(data[i]!==0) return true; }
+    }catch(_){}
+    return false;
+  }
+
+  function templateBase(title){
+    if(boardHasContent()){
+      const ok=confirm('目前白板已有內容。建立新的活動板會取代現有內容，確定要繼續嗎？');
+      if(!ok) return false;
+    }
+    saveState();
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    overlay.innerHTML='';
+    resetContext();
+    ctx.fillStyle=bg==='dark'?'#fff':'#2f3437';
+    ctx.font='700 28px sans-serif';
+    ctx.fillText(title,50,60);
+    return true;
+  }
+
+
+  // 課堂大畫面
+  document.querySelectorAll('[data-focus]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const panel=document.getElementById(btn.dataset.focus);
+      const active=panel.classList.toggle('focus');
+      btn.textContent=active?'✕ 還原':'⛶ 大畫面';
+    });
+  });
+
+  // 抽座號：快速模式 / 班級名單抽人模式
+  let classSeats=[];
+  function currentSeatMode(){
+    return document.querySelector('input[name="seatMode"]:checked')?.value || 'quick';
+  }
+  function parseClassSeats(){
+    const lines=document.getElementById('classSeatInput').value.split(/\n+/).map(s=>s.trim()).filter(Boolean);
+    classSeats=lines.map((line,i)=>{
+      const m=line.match(/^(\d+)\s*(.*)$/);
+      if(m) return {id:+m[1],name:m[2]||('座號 '+m[1])};
+      return {id:i+1,name:line};
+    }).slice(0,100);
+    seatUsed.clear();
+    renderClassSeatList();
+    updateSeatStatus();
+  }
+  function renderClassSeatList(){
+    const box=document.getElementById('classSeatList');
+    box.innerHTML='';
+    classSeats.forEach(s=>{
+      const d=document.createElement('div');
+      d.className='seat-chip';
+      d.textContent=`${s.id} ${s.name}`;
+      box.appendChild(d);
+    });
+  }
+  document.querySelectorAll('input[name="seatMode"]').forEach(r=>r.addEventListener('change',()=>{
+    const mode=currentSeatMode();
+    document.getElementById('quickSeatBox').style.display=mode==='quick'?'block':'none';
+    document.getElementById('classSeatBox').style.display=mode==='class'?'block':'none';
+    seatUsed.clear();
+    document.getElementById('pickedSeat').textContent='—';
+    updateSeatStatus();
+  }));
+  document.getElementById('applyClassSeats').addEventListener('click',parseClassSeats);
+
+  const oldUpdateSeatStatus=updateSeatStatus;
+  updateSeatStatus=function(){
+    if(currentSeatMode()==='class'){
+      const total=classSeats.length;
+      const validUsed=[...seatUsed].filter(id=>classSeats.some(s=>s.id===id)).length;
+      seatStatus.textContent=`剩餘 ${Math.max(0,total-validUsed)} 人`;
+    }else{
+      oldUpdateSeatStatus();
+    }
+  };
+
+  const oldPickHandler=document.getElementById('pickSeatBtn').onclick;
+  document.getElementById('pickSeatBtn').onclick=()=>{
+    if(currentSeatMode()==='quick'){ oldPickHandler(); return; }
+    if(!classSeats.length){ showToast('請先貼上並套用班級名單抽人'); return; }
+    const noRepeat=document.getElementById('noRepeat').checked;
+    const pool=classSeats.filter(s=>!noRepeat||!seatUsed.has(s.id));
+    if(!pool.length){showToast('所有學生都抽過了');return;}
+    let ticks=0;
+    const timer=setInterval(()=>{
+      const s=pool[Math.floor(Math.random()*pool.length)];
+      pickedSeat.textContent=`${s.id} 號 ${s.name}`;
+      if(++ticks>9){
+        clearInterval(timer);
+        const s=pool[Math.floor(Math.random()*pool.length)];
+        pickedSeat.textContent=`${s.id} 號 ${s.name}`;
+        if(noRepeat)seatUsed.add(s.id);
+        updateSeatStatus();
+      }
+    },90);
+  };
+
+
+
+  // 8 種活動板
+  let currentActivity = 'classify';
+
+  const activitySchemas = {
+    classify: {
+      title: '🗂️ 分類板設定',
+      html: `<div class="config-grid">
+        <label style="grid-column:1/-1">活動標題<input id="cfgTitle" value="請完成分類"></label>
+        <label>分類數量<select id="cfgCount"><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></label>
+        <label>分類名稱<input id="cfgLabels" value="需要｜想要" placeholder="用｜分隔"></label>
+      </div>`
+    },
+    match: {
+      title: '🔗 配對板設定',
+      html: `<div class="config-grid">
+        <label style="grid-column:1/-1">活動標題<input id="cfgTitle" value="請完成配對"></label>
+        <label>左欄標題<input id="cfgLeft" value="題目"></label>
+        <label>右欄標題<input id="cfgRight" value="答案"></label>
+        <label style="grid-column:1/-1">配對組數<select id="cfgCount"><option value="3">3</option><option value="4" selected>4</option><option value="5">5</option><option value="6">6</option></select></label>
+      </div>`
+    },
+    sort: {
+      title: '↕️ 排序板設定',
+      html: `<div class="config-grid">
+        <label style="grid-column:1/-1">活動標題<input id="cfgTitle" value="請排出順序"></label>
+        <label>排序格數<select id="cfgCount"><option value="3">3</option><option value="4">4</option><option value="5" selected>5</option><option value="6">6</option></select></label>
+        <label>方向<select id="cfgDirection"><option value="down">由上到下</option><option value="right">由左到右</option></select></label>
+      </div>`
+    },
+    flow: {
+      title: '🪜 流程板設定',
+      html: `<div class="config-grid">
+        <label style="grid-column:1/-1">活動標題<input id="cfgTitle" value="請完成流程"></label>
+        <label>步驟數<select id="cfgCount"><option value="3">3</option><option value="4" selected>4</option><option value="5">5</option><option value="6">6</option></select></label>
+        <label>起點文字<input id="cfgStart" value="開始"></label>
+        <label>終點文字<input id="cfgEnd" value="完成"></label>
+      </div>`
+    },
+    quad: {
+      title: '▦ 四象限設定',
+      html: `<div class="config-grid">
+        <label style="grid-column:1/-1">活動標題<input id="cfgTitle" value="請放到適合的位置"></label>
+        <label>X軸左<input id="cfgX1" value="低"></label>
+        <label>X軸右<input id="cfgX2" value="高"></label>
+        <label>Y軸下<input id="cfgY1" value="低"></label>
+        <label>Y軸上<input id="cfgY2" value="高"></label>
+        <label>左上象限<input id="cfgQ1"></label>
+        <label>右上象限<input id="cfgQ2"></label>
+        <label>左下象限<input id="cfgQ3"></label>
+        <label>右下象限<input id="cfgQ4"></label>
+      </div>`
+    },
+    imageMark: {
+      title: '🖼️ 圖片標註板設定',
+      html: `<div class="config-grid">
+        <label style="grid-column:1/-1">活動標題<input id="cfgTitle" value="看圖找一找"></label>
+        <label style="grid-column:1/-1">提示文字<input id="cfgPrompt" value="請圈出重點、畫箭頭，或貼便利貼說明你的發現。"></label>
+      </div>
+      <div style="font-size:13px;color:var(--muted);margin-top:8px">建立後，再用左側「圖片」上傳教材圖。</div>`
+    },
+    decision: {
+      title: '⚖️ 選擇決策板設定',
+      html: `<div class="config-grid">
+        <label style="grid-column:1/-1">活動標題<input id="cfgTitle" value="你會怎麼選？"></label>
+        <label>方案數<select id="cfgCount"><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option></select></label>
+        <label>評估面向<input id="cfgCriteria" value="價格｜需求｜耐用｜喜好"></label>
+      </div>`
+    },
+    task: {
+      title: '📋 任務板設定',
+      html: `<div class="config-grid">
+        <label style="grid-column:1/-1">活動標題<input id="cfgTitle" value="今天的任務"></label>
+        <label style="grid-column:1/-1">任務內容<textarea id="cfgTask" rows="4">請在這裡輸入任務內容……</textarea></label>
+      </div>`
+    }
+  };
+
+  function openActivityConfig(type){
+    currentActivity = type;
+    document.querySelectorAll('.activity-btn').forEach(b => b.classList.toggle('active-activity', b.dataset.activity === type));
+    const schema = activitySchemas[type];
+    document.getElementById('activityConfigTitle').textContent = schema.title;
+    document.getElementById('activityConfigBody').innerHTML = schema.html;
+    document.getElementById('activityConfigPanel').classList.add('open');
+  }
+
+  document.querySelectorAll('.activity-btn').forEach(b => {
+    b.addEventListener('click', () => openActivityConfig(b.dataset.activity));
+  });
+
+  document.getElementById('closeActivityConfig').addEventListener('click', () => {
+    document.getElementById('activityConfigPanel').classList.remove('open');
+    document.querySelectorAll('.activity-btn').forEach(b => b.classList.remove('active-activity'));
+  });
+
+  function cfg(id, fallback=''){
+    const el = document.getElementById(id);
+    if(!el) return fallback;
+    const value = typeof el.value === 'string' ? el.value.trim() : el.value;
+    return value || fallback;
+  }
+
+  function drawTitle(title){
+    if(!templateBase(title)) return false;
+    resetContext();
+    ctx.fillStyle = bg === 'dark' ? '#fff' : '#333';
+    ctx.strokeStyle = bg === 'dark' ? '#fff' : '#666';
+    ctx.lineWidth = 2;
+    return true;
+  }
+
+  function renderClassifyTemplate(data){
+    const title=String(data?.title||'分類活動');
+    const count=Math.max(2,Math.min(5,Number(data?.count)||2));
+    let labels=Array.isArray(data?.labels)?data.labels.map(s=>String(s).trim()).filter(Boolean):[];
+    while(labels.length<count)labels.push(`分類 ${labels.length+1}`);
+    if(!drawTitle(title))return false;
+    const x=40,y=110,w=canvas.width-80,h=400,col=w/count,headH=58;
+    ctx.lineWidth=2;
+    ctx.strokeRect(x,y,w,h);
+    ctx.fillStyle=bg==='dark'?'rgba(255,255,255,.08)':'rgba(143,111,97,.08)';
+    ctx.fillRect(x,y,w,headH);
+    ctx.fillStyle=bg==='dark'?'#fff':'#333';
+    ctx.font='700 20px sans-serif';
+    for(let i=0;i<count;i++){
+      if(i>0){ctx.beginPath();ctx.moveTo(x+i*col,y);ctx.lineTo(x+i*col,y+h);ctx.stroke();}
+      const label=labels[i];
+      const tw=ctx.measureText(label).width;
+      ctx.fillText(label,x+i*col+Math.max(12,(col-tw)/2),y+36);
+    }
+    return true;
+  }
+
+  function createClassify(){
+    const data={
+      type:'classify',
+      title:cfg('cfgTitle','分類活動'),
+      count:Math.max(2,Math.min(5,Number(cfg('cfgCount','2')))),
+      labels:cfg('cfgLabels','需要｜想要').split('｜').map(s=>s.trim()).filter(Boolean)
+    };
+    const ok=renderClassifyTemplate(data);
+    if(ok && boardRole==='host')sendBoard('board_template_set',data);
+    return ok;
+  }
+
+  function renderMatchTemplate(data){
+    const title=String(data?.title||'配對活動');
+    const left=String(data?.left||'題目');
+    const right=String(data?.right||'答案');
+    const count=Math.max(3,Math.min(6,Number(data?.count)||4));
+
+    if(!drawTitle(title))return false;
+
+    const mid=canvas.width/2;
+    const top=132;
+    const boxW=Math.min(300,canvas.width*0.34);
+    const boxH=54;
+    const gap=18;
+
+    ctx.font='700 19px sans-serif';
+    ctx.textAlign='center';
+    ctx.fillText(left,60+boxW/2,104);
+    ctx.fillText(right,mid+40+boxW/2,104);
+    ctx.textAlign='left';
+
+    for(let i=0;i<count;i++){
+      const y=top+i*(boxH+gap);
+      ctx.strokeRect(60,y,boxW,boxH);
+      ctx.strokeRect(mid+40,y,boxW,boxH);
+
+      ctx.beginPath();
+      ctx.arc(60+boxW+12,y+boxH/2,4,0,Math.PI*2);
+      ctx.arc(mid+28,y+boxH/2,4,0,Math.PI*2);
+      ctx.fill();
+    }
+
+    ctx.font='500 15px sans-serif';
+    ctx.fillStyle=bg==='dark'?'#ddd':'#777';
+    ctx.fillText('可拖曳文字、便利貼或圖片進行配對',60,top+count*(boxH+gap)+12);
+
+    return true;
+  }
+
+  function createMatch(){
+    const data={
+      type:'match',
+      title:cfg('cfgTitle','配對活動'),
+      left:cfg('cfgLeft','題目'),
+      right:cfg('cfgRight','答案'),
+      count:Math.max(3,Math.min(6,Number(cfg('cfgCount','4'))))
+    };
+
+    const ok=renderMatchTemplate(data);
+
+    if(ok && boardRole==='host'){
+      sendBoard('board_template_set',data);
+    }
+
+    return ok;
+  }
+
+  function renderSortTemplate(data){
+    const title=String(data?.title||'排序活動');
+    const count=Math.max(3,Math.min(6,Number(data?.count)||5));
+    const dir=data?.direction==='right'?'right':'down';
+
+    if(!drawTitle(title))return false;
+
+    ctx.font='600 18px sans-serif';
+
+    if(dir==='down'){
+      ctx.fillStyle=bg==='dark'?'#ddd':'#777';
+      ctx.fillText('最優先／最高',90,105);
+
+      for(let i=0;i<count;i++){
+        const y=125+i*72;
+        ctx.strokeRect(100,y,canvas.width-190,52);
+        ctx.beginPath();
+        ctx.arc(68,y+26,20,0,Math.PI*2);
+        ctx.stroke();
+
+        ctx.fillStyle=bg==='dark'?'#fff':'#333';
+        ctx.textAlign='center';
+        ctx.fillText(`${i+1}`,68,y+32);
+        ctx.textAlign='left';
+      }
+
+      ctx.fillStyle=bg==='dark'?'#ddd':'#777';
+      ctx.fillText('較後／較低',90,125+count*72+8);
+
+    }else{
+      const gap=14;
+      const x=40;
+      const y=180;
+      const ww=(canvas.width-80-gap*(count-1))/count;
+      const hh=180;
+
+      for(let i=0;i<count;i++){
+        const xx=x+i*(ww+gap);
+        ctx.strokeRect(xx,y,ww,hh);
+
+        ctx.fillStyle=bg==='dark'?'#fff':'#333';
+        ctx.textAlign='center';
+        ctx.fillText(`${i+1}`,xx+ww/2,y-14);
+        ctx.textAlign='left';
+      }
+    }
+
+    return true;
+  }
+
+  function createSort(){
+    const data={
+      type:'sort',
+      title:cfg('cfgTitle','排序活動'),
+      count:Math.max(3,Math.min(6,Number(cfg('cfgCount','5')))),
+      direction:cfg('cfgDirection','down')==='right'?'right':'down'
+    };
+
+    const ok=renderSortTemplate(data);
+
+    if(ok && boardRole==='host'){
+      sendBoard('board_template_set',data);
+    }
+
+    return ok;
+  }
+
+  function renderFlowTemplate(data){
+    const title=String(data?.title||'流程活動');
+    const count=Math.max(3,Math.min(7,Number(data?.count)||5));
+
+    if(!drawTitle(title))return false;
+
+    const left=70;
+    const right=canvas.width-70;
+    const y=220;
+    const gap=18;
+    const totalW=right-left;
+    const boxW=Math.max(92,Math.min(155,(totalW-gap*(count-1))/count));
+    const boxH=78;
+    const usedW=boxW*count+gap*(count-1);
+    const startX=(canvas.width-usedW)/2;
+
+    ctx.lineWidth=2;
+    ctx.font='700 18px sans-serif';
+
+    for(let i=0;i<count;i++){
+      const x=startX+i*(boxW+gap);
+
+      ctx.strokeRect(x,y,boxW,boxH);
+
+      ctx.fillStyle=bg==='dark'?'#fff':'#333';
+      ctx.textAlign='center';
+      ctx.fillText(`步驟 ${i+1}`,x+boxW/2,y+31);
+
+      if(i<count-1){
+        const ax=x+boxW+4;
+        const bx=x+boxW+gap-4;
+        const ay=y+boxH/2;
+
+        ctx.beginPath();
+        ctx.moveTo(ax,ay);
+        ctx.lineTo(bx,ay);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(bx-7,ay-5);
+        ctx.lineTo(bx,ay);
+        ctx.lineTo(bx-7,ay+5);
+        ctx.stroke();
+      }
+    }
+
+    ctx.textAlign='left';
+    ctx.font='500 15px sans-serif';
+    ctx.fillStyle=bg==='dark'?'#ddd':'#777';
+    ctx.fillText('可將便利貼、文字或圖片拖到各步驟中排列流程。',startX,y+boxH+38);
+
+    return true;
+  }
+
+  function createFlow(){
+    const data={
+      type:'flow',
+      title:cfg('cfgTitle','流程活動'),
+      count:Math.max(3,Math.min(7,Number(cfg('cfgCount','5'))))
+    };
+
+    const ok=renderFlowTemplate(data);
+
+    if(ok && boardRole==='host'){
+      sendBoard('board_template_set',data);
+    }
+
+    return ok;
+  }
+
+  function renderQuadTemplate(data){
+    const title=String(data?.title||'四象限活動');
+    const x1=String(data?.x1||'低');
+    const x2=String(data?.x2||'高');
+    const y1=String(data?.y1||'低');
+    const y2=String(data?.y2||'高');
+    const q=[
+      String(data?.q1||''),
+      String(data?.q2||''),
+      String(data?.q3||''),
+      String(data?.q4||'')
+    ];
+
+    if(!drawTitle(title))return false;
+
+    const left=90;
+    const top=125;
+    const right=canvas.width-80;
+    const bottom=canvas.height-120;
+    const cx=(left+right)/2;
+    const cy=(top+bottom)/2;
+
+    ctx.strokeStyle=bg==='dark'?'#fff':'#666';
+    ctx.lineWidth=2;
+
+    ctx.strokeRect(left,top,right-left,bottom-top);
+
+    ctx.beginPath();
+    ctx.moveTo(cx,top);
+    ctx.lineTo(cx,bottom);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(left,cy);
+    ctx.lineTo(right,cy);
+    ctx.stroke();
+
+    ctx.fillStyle=bg==='dark'?'#fff':'#333';
+    ctx.font='600 17px sans-serif';
+
+    ctx.fillText(x1,left,cy+28);
+    ctx.fillText(x2,right-ctx.measureText(x2).width,cy+28);
+    ctx.fillText(y2,cx+12,top+20);
+    ctx.fillText(y1,cx+12,bottom-10);
+
+    ctx.font='700 18px sans-serif';
+
+    if(q[0])ctx.fillText(q[0],left+20,top+34);
+    if(q[1])ctx.fillText(q[1],cx+20,top+34);
+    if(q[2])ctx.fillText(q[2],left+20,cy+34);
+    if(q[3])ctx.fillText(q[3],cx+20,cy+34);
+
+    ctx.font='500 14px sans-serif';
+    ctx.fillStyle=bg==='dark'?'#ddd':'#777';
+    ctx.fillText('可拖曳便利貼、文字或圖片到不同象限。',left,bottom+28);
+
+    return true;
+  }
+
+  function createQuad(){
+    const data={
+      type:'quad',
+      title:cfg('cfgTitle','四象限活動'),
+      x1:cfg('cfgX1','低'),
+      x2:cfg('cfgX2','高'),
+      y1:cfg('cfgY1','低'),
+      y2:cfg('cfgY2','高'),
+      q1:cfg('cfgQ1',''),
+      q2:cfg('cfgQ2',''),
+      q3:cfg('cfgQ3',''),
+      q4:cfg('cfgQ4','')
+    };
+
+    const ok=renderQuadTemplate(data);
+
+    if(ok && boardRole==='host'){
+      sendBoard('board_template_set',data);
+    }
+
+    return ok;
+  }
+
+  function renderImageMarkTemplate(data){
+    const title=String(data?.title||'圖片標註活動');
+    const prompt=String(data?.prompt||'請圈出重點、畫箭頭，或貼便利貼說明你的發現。');
+    if(!drawTitle(title))return false;
+    ctx.font='500 18px sans-serif';
+    ctx.fillStyle=bg==='dark'?'#fff':'#333';
+    ctx.fillText(prompt,50,96);
+    const x=70,y=135,w=canvas.width-140,h=canvas.height-245;
+    ctx.setLineDash([8,6]);
+    ctx.strokeStyle=bg==='dark'?'#aaa':'#aaa';
+    ctx.strokeRect(x,y,w,h);
+    ctx.setLineDash([]);
+    ctx.font='600 18px sans-serif';
+    ctx.fillStyle=bg==='dark'?'#ddd':'#666';
+    ctx.textAlign='center';
+    ctx.fillText('⬆ 可加入圖片，再用文字／便利貼進行標註',x+w/2,y+h/2-8);
+    ctx.font='500 15px sans-serif';
+    ctx.fillText('適合：找危險、食品標示判讀、服裝觀察、洗標辨識',x+w/2,y+h/2+22);
+    ctx.textAlign='left';
+    return true;
+  }
+
+  function createImageMark(){
+    const data={
+      type:'imageMark',
+      title:cfg('cfgTitle','圖片標註活動'),
+      prompt:cfg('cfgPrompt','請圈出重點、畫箭頭，或貼便利貼說明你的發現。')
+    };
+    const ok=renderImageMarkTemplate(data);
+    if(ok && boardRole==='host')sendBoard('board_template_set',data);
+    return ok;
+  }
+
+  function renderDecisionTemplate(data){
+    const title=String(data?.title||'選擇決策');
+    const count=Math.max(2,Math.min(4,Number(data?.count)||3));
+    const criteria=Array.isArray(data?.criteria)?data.criteria.map(s=>String(s)).filter(Boolean).slice(0,6):['價格','需求','耐用','喜好'];
+    if(!drawTitle(title))return false;
+    const x=45,y=125,w=canvas.width-90,labelW=145,col=(w-labelW)/count,rowH=58;
+    const rows=criteria.length+2;
+    ctx.strokeStyle=bg==='dark'?'#fff':'#666';
+    ctx.fillStyle=bg==='dark'?'rgba(255,255,255,.06)':'rgba(143,111,97,.07)';
+    ctx.fillRect(x,y,w,rowH);
+    ctx.fillStyle=bg==='dark'?'#fff':'#333';
+    ctx.font='700 17px sans-serif';
+    for(let i=0;i<=rows;i++){const yy=y+i*rowH;ctx.beginPath();ctx.moveTo(x,yy);ctx.lineTo(x+w,yy);ctx.stroke();}
+    [x,x+labelW,...Array.from({length:count},(_,i)=>x+labelW+(i+1)*col)].forEach(xx=>{
+      ctx.beginPath();ctx.moveTo(xx,y);ctx.lineTo(xx,y+rows*rowH);ctx.stroke();
+    });
+    ctx.fillText('評估面向',x+18,y+36);
+    for(let i=0;i<count;i++)ctx.fillText(`方案 ${i+1}`,x+labelW+i*col+14,y+36);
+    criteria.forEach((c,i)=>ctx.fillText(c,x+12,y+(i+1)*rowH+36));
+    ctx.fillText('我的選擇',x+12,y+(criteria.length+1)*rowH+36);
+    ctx.font='500 14px sans-serif';
+    ctx.fillStyle=bg==='dark'?'#ddd':'#777';
+    ctx.fillText('可在表格中加入文字或便利貼，最後記錄決定。',x,y+rows*rowH+28);
+    return true;
+  }
+
+  function createDecision(){
+    const data={
+      type:'decision',
+      title:cfg('cfgTitle','選擇決策'),
+      count:Math.max(2,Math.min(4,Number(cfg('cfgCount','3')))),
+      criteria:cfg('cfgCriteria','價格｜需求｜耐用｜喜好').split('｜').map(s=>s.trim()).filter(Boolean).slice(0,6)
+    };
+    const ok=renderDecisionTemplate(data);
+    if(ok && boardRole==='host')sendBoard('board_template_set',data);
+    return ok;
+  }
+
+  function renderTaskTemplate(data){
+    const title=String(data?.title||'今日任務');
+    const task=String(data?.task||'請完成今天的任務。');
+    if(!drawTitle(title))return false;
+    const x=70,y=130,w=canvas.width-140,h=Math.min(300,canvas.height-220);
+    ctx.strokeStyle=bg==='dark'?'#ddd':'#8f6f61';
+    ctx.lineWidth=2;
+    ctx.strokeRect(x,y,w,h);
+    ctx.fillStyle=bg==='dark'?'rgba(255,255,255,.05)':'rgba(255,253,249,.85)';
+    ctx.fillRect(x,y,w,h);
+    ctx.fillStyle=bg==='dark'?'#fff':'#333';
+    ctx.font='800 20px sans-serif';
+    ctx.fillText('📋 任務內容',x+24,y+42);
+    ctx.font='500 18px sans-serif';
+    const maxW=w-48;
+    const chars=[...task];
+    let line='', yy=y+82;
+    for(const ch of chars){
+      const test=line+ch;
+      if(ctx.measureText(test).width>maxW && line){
+        ctx.fillText(line,x+24,yy); line=ch; yy+=30;
+      }else line=test;
+    }
+    if(line)ctx.fillText(line,x+24,yy);
+    ctx.font='500 14px sans-serif';
+    ctx.fillStyle=bg==='dark'?'#ddd':'#777';
+    ctx.fillText('可使用便利貼、文字或圖片共同完成任務。',x+24,y+h-24);
+    return true;
+  }
+
+  function createTask(){
+    const data={
+      type:'task',
+      title:cfg('cfgTitle','今日任務'),
+      task:cfg('cfgTask','請在這裡輸入任務內容……')
+    };
+    const ok=renderTaskTemplate(data);
+    if(ok && boardRole==='host')sendBoard('board_template_set',data);
+    return ok;
+  }
+
+  document.getElementById('createActivityBtn').addEventListener('click',()=>{
+    const creators={
+      classify:createClassify, match:createMatch, sort:createSort, flow:createFlow,
+      quad:createQuad, imageMark:createImageMark, decision:createDecision, task:createTask
+    };
+    const fn=creators[currentActivity];
+    if(fn){
+      const ok=fn();
+      if(ok!==false){
+        showToast('活動板已建立完成');
+        document.getElementById('activityConfigPanel').classList.remove('open');
+        document.querySelectorAll('.activity-btn').forEach(b=>b.classList.remove('active-activity'));
+      }
+    }
+  });
+
+  document.getElementById('backClassroom').onclick=()=>{
+    if(boardRole==='participant'){
+      sessionStorage.setItem('board_auto_suppress_until',String(Date.now()+15000));
+      location.href=`/join?room=${encodeURIComponent(roomCode)}&name=${encodeURIComponent(displayName)}`;
+      return;
+    }
+
+    // 正常情況：主持端白板是從互動教室另開的分頁，直接關閉即可回到仍在線的互動教室。
+    if(window.opener && !window.opener.closed){
+      try{ window.opener.focus(); }catch{}
+      window.close();
+      return;
+    }
+
+    // 若瀏覽器阻擋新分頁而使用同頁開啟，則帶著房號回主持端。
+    location.href=`/host?room=${encodeURIComponent(roomCode)}`;
+  };
+  document.getElementById('toggleBoardLock').onclick=()=>{ boardLocked=!boardLocked;sendBoard('board_lock',{locked:boardLocked});applyBoardPermission(); };
+  document.getElementById('closeBoard').onclick=()=>{
+    if(!confirm('要結束目前互動白板嗎？'))return;
+    sendBoard('board_close');
+    setTimeout(()=>{
+      if(window.opener && !window.opener.closed){
+        try{window.opener.focus();}catch{}
+        window.close();
+      }else{
+        location.href=`/host?room=${encodeURIComponent(roomCode)}`;
+      }
+    },220);
+  };
+  if(boardRole==='participant'){
+    document.querySelectorAll('.teacher-only').forEach(x=>x.style.display='none');
+  }
+  applyBackground();
+  renderTimer();
+  renderSW();
+  updateSeatStatus();
+
+  function initializeBoardSurface(){
+    const ready=document.getElementById('boardReadyPill');
+    if(ready)ready.textContent='白板初始化中…';
+
+    requestAnimationFrame(()=>{
+      resizeCanvas();
+
+      // 桌機版 grid / flex 完成後再量一次，避免第一次取得 0 或錯誤高度。
+      setTimeout(()=>{
+        resizeCanvas();
+        const rect=wrap.getBoundingClientRect();
+        if(ready){
+          ready.textContent=`✅ 白板已就緒｜${Math.round(rect.width)}×${Math.round(rect.height)}`;
+        }
+      },120);
+    });
+  }
+
+  initializeBoardSurface();
+})();
+</script>
+
+</body>
+</html>

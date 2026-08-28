@@ -9,51 +9,208 @@
 <x-dc>
 <helmet>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  .lc-click{transition:.18s ease;}
+  .lc-click:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(45,60,53,.12);}
+  .lc-lesson:hover{transform:translateY(-2px);border-color:#c9d8d0 !important;}
+</style>
 </helmet>
-<div style="font-family:'Noto Sans TC',sans-serif;background:linear-gradient(135deg, #ffd9a0 0%, #ffc2b0 20%, #f3b6d3 40%, #d6b8ec 60%, #b9d3f0 80%, #a9e3ec 100%);min-height:100vh;padding:40px;">
-  <div style="max-width:1000px;margin:0 auto;">
-    <a href="首頁.dc.html" style="display:inline-block;margin-bottom:20px;color:#2c2c2c;font-weight:700;text-decoration:none;">← 回首頁</a>
-    <h1 style="font-size:32px;font-weight:900;color:#2c2c2c;margin-bottom:8px;">✏️ 語境填空</h1>
-    <p style="font-size:15px;color:#4a4540;margin-bottom:24px;">依文章情境選擇適當詞語,完成句子內容,提升閱讀理解與語感。</p>
+<div style="font-family:'Noto Sans TC',sans-serif;color:#33423d;background:linear-gradient(180deg,#fbfbf8,#f1f4ef);min-height:100vh;">
+  <div style="max-width:1160px;margin:auto;padding:28px 22px 64px;">
 
-    <div style="display:flex;gap:10px;margin-bottom:20px;">
-      <sc-for list="{{tabs}}" as="tab" hint-placeholder-count="2">
-        <button style="{{tab.btnStyle}}" onClick="{{tab.onClick}}">{{tab.label}}</button>
-      </sc-for>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:24px;">
+      <button style="{{backBtnStyle}}" onClick="{{goBack}}">← 返回</button>
+      <a href="首頁.dc.html" style="border:0;background:#fff;color:#33423d;padding:10px 16px;border-radius:999px;box-shadow:0 10px 28px rgba(45,60,53,.08);text-decoration:none;font-weight:700;white-space:nowrap;">🏠 回首頁</a>
     </div>
 
-    <sc-for list="{{tabs}}" as="tab" hint-placeholder-count="2">
-      <sc-if value="{{tab.active}}">
-        <div style="background:#ffffffcc;border-radius:16px;padding:28px;box-shadow:0 4px 14px rgba(0,0,0,0.08);">
-          <h3 style="font-size:18px;font-weight:700;color:#2c2c2c;margin-bottom:14px;">{{tab.label}}</h3>
-          <div style="border:2px dashed #2c2c2c55;border-radius:12px;padding:40px;text-align:center;background:repeating-linear-gradient(45deg, #dcefe055, #dcefe055 10px, #fff0 10px, #fff0 20px);">
-            <p style="font-family:monospace;font-size:13px;color:#3a4a3a;">{{tab.placeholder}}</p>
-          </div>
-        </div>
-      </sc-if>
-    </sc-for>
+    <sc-if value="{{isHome}}" hint-placeholder-val="{{true}}">
+      <div style="text-align:center;margin:16px 0 34px;">
+        <h1 style="font-size:clamp(36px,5vw,52px);margin:0 0 8px;">📖 語境挑戰</h1>
+        <p style="margin:6px;font-weight:800;color:#586860;">看情境・揣線索・真正會曉用</p>
+        <p style="margin:6px;color:#738078;">從生活情境與課文內容中，練習理解語詞、判斷語意與實際運用。</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;">
+        <article class="lc-click" style="background:linear-gradient(145deg,#fff,#f2faf6);border:1px solid #e3e7e2;border-radius:24px;padding:28px;box-shadow:0 10px 28px rgba(45,60,53,.08);min-height:260px;cursor:pointer;" onClick="{{goLife}}">
+          <div style="font-size:54px;">🌿</div>
+          <h2 style="font-size:30px;margin:10px 0 8px;">生活語境</h2>
+          <p style="color:#738078;line-height:1.7;">校園、飲食、家庭、交通、節慶等日常情境。</p>
+          <div style="font-weight:900;margin-top:16px;color:#6e8d7f;">開始挑戰 →</div>
+        </article>
+        <article class="lc-click" style="background:linear-gradient(145deg,#fff,#fff7ef);border:1px solid #e3e7e2;border-radius:24px;padding:28px;box-shadow:0 10px 28px rgba(45,60,53,.08);min-height:260px;cursor:pointer;" onClick="{{goTextbook}}">
+          <div style="font-size:54px;">📚</div>
+          <h2 style="font-size:30px;margin:10px 0 8px;">課文挑戰</h2>
+          <p style="color:#738078;line-height:1.7;">直接從當冊課文擷取句子、段落或情節做填空與理解挑戰。</p>
+          <div style="font-weight:900;margin-top:16px;color:#c89062;">選擇課本 →</div>
+        </article>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{isLife}}">
+      <div style="text-align:center;margin:8px 0 26px;">
+        <h2 style="font-size:34px;margin:0 0 7px;">🌿 生活語境</h2>
+        <p style="color:#738078;margin:0;">先選擇一個日常情境主題。</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;">
+        <sc-for list="{{lifeTopics}}" as="t" hint-placeholder-count="6">
+          <article style="{{t.style}}">
+            <div style="font-size:42px;">{{t.icon}}</div>
+            <h3 style="margin:9px 0 6px;">{{t.name}}</h3>
+            <p style="color:#738078;line-height:1.55;">{{t.desc}}</p>
+            <span style="display:inline-block;background:#f2f3ef;border-radius:999px;padding:7px 11px;color:#738078;font-size:13px;">{{t.badge}}</span>
+          </article>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{isTextbook}}">
+      <div style="text-align:center;margin:8px 0 26px;">
+        <h2 style="font-size:34px;margin:0 0 7px;">📚 課文挑戰</h2>
+        <p style="color:#738078;margin:0;">先選擇出版社版本。</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;">
+        <sc-for list="{{publishers}}" as="p" hint-placeholder-count="3">
+          <article class="lc-click" style="background:#fff;border:1px solid #e3e7e2;border-radius:24px;padding:28px;box-shadow:0 10px 28px rgba(45,60,53,.08);text-align:center;cursor:pointer;" onClick="{{p.onClick}}">
+            <div style="font-size:42px;">{{p.icon}}</div>
+            <h3 style="margin:9px 0 6px;">{{p.name}}</h3>
+            <p style="color:#738078;line-height:1.55;">{{p.desc}}</p>
+            <div style="font-weight:900;margin-top:14px;color:#c89062;">進入 →</div>
+          </article>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{isPublisher}}">
+      <div style="text-align:center;margin:8px 0 26px;">
+        <h2 style="font-size:34px;margin:0 0 7px;">{{pubTitle}}</h2>
+        <p style="color:#738078;margin:0;">選擇冊次，再進入課文。</p>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:0 0 26px;">
+        <sc-for list="{{bookPills}}" as="b" hint-placeholder-count="6">
+          <button style="{{b.style}}" onClick="{{b.onClick}}">{{b.label}}</button>
+        </sc-for>
+      </div>
+      <div style="display:grid;gap:14px;">
+        <sc-for list="{{lessons}}" as="ls" hint-placeholder-count="3">
+          <sc-if value="{{ls.hasLink}}">
+            <a class="lc-lesson" href="{{ls.href}}" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:18px;padding:20px 22px;background:#fff;border:1px solid #e3e7e2;border-radius:24px;box-shadow:0 10px 28px rgba(45,60,53,.08);transition:.16s ease;">
+              <div style="width:54px;height:54px;border-radius:16px;display:grid;place-items:center;background:#f4f4f0;font-size:22px;font-weight:900;color:#9b9e98;flex-shrink:0;">{{ls.no}}</div>
+              <div style="flex:1;min-width:0;">
+                <h3 style="margin:0 0 5px;font-size:22px;">{{ls.title}}</h3>
+                <p style="margin:0;color:#738078;">{{ls.desc}}</p>
+              </div>
+              <span style="border-radius:999px;padding:8px 12px;font-size:13px;background:#edf5f1;color:#4f7567;font-weight:800;white-space:nowrap;">已完成</span>
+            </a>
+          </sc-if>
+          <sc-if value="{{!ls.hasLink}}">
+            <article style="display:flex;align-items:center;gap:18px;padding:20px 22px;border:1px dashed #cdd6d0;background:rgba(255,255,255,.55);border-radius:24px;color:#738078;">
+              <div style="width:54px;height:54px;border-radius:16px;display:grid;place-items:center;background:#f4f4f0;font-size:22px;font-weight:900;color:#9b9e98;flex-shrink:0;">{{ls.no}}</div>
+              <div style="flex:1;min-width:0;">
+                <h3 style="margin:0 0 5px;font-size:22px;">{{ls.title}}</h3>
+                <p style="margin:0;">{{ls.desc}}</p>
+              </div>
+            </article>
+          </sc-if>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <div style="margin-top:26px;padding:16px 18px;border-radius:16px;background:#fff;border:1px dashed #cdd6d0;color:#738078;line-height:1.65;">框架已將「生活語境」與「課文挑戰」完全分流；課文挑戰再依出版社 → 冊次 → 課次管理。</div>
   </div>
 </div>
 
 </x-dc>
 <script type="text/x-dc" data-dc-script>
+const BASE = '語境挑戰/';
+const LIFE_TOPICS = [
+  ['🏫','校園生活','上課、落課、同學、考試、活動','題庫待加入'],
+  ['🍜','飲食生活','食物、味道、用餐、料理','題庫待加入'],
+  ['🏠','家庭生活','家人、家事、日常互動','題庫待加入'],
+  ['🚌','交通出行','行路、坐車、方向、出門','題庫待加入'],
+  ['🧧','節慶文化','過年、節日、習俗、拜拜','題庫待加入'],
+  ['＋','更多生活主題','未來可繼續新增',''],
+];
+const PUBLISHERS = {
+  kangxuan: { icon: '📘', name: '康軒', desc: '目前已建立第三冊課程', title: '📘 康軒', defaultBook: 3, books: {
+    1: [{ no: '02', title: '第二課｜待加入', desc: '位置已保留，尚未建立互動題庫' }],
+    2: [{ no: '＋', title: '第二冊', desc: '尚未建立課文' }],
+    3: [
+      { no: '01', title: '🏊 第一課｜泅過日月潭', desc: '課文語詞・語境選詞・讀文理解・綜合挑戰', file: '康軒_第三冊_第一課_泅過日月潭.html' },
+      { no: '02', title: '🌪️ 第二課｜一片天', desc: '課文語詞・語境選詞・讀文理解・綜合挑戰', file: '康軒_第三冊_第二課_一片天.html' },
+      { no: '03', title: '🎵 第三課｜拌拌咧', desc: '課文語詞・語境選詞・讀文理解・綜合挑戰', file: '康軒_第三冊_第三課_拌拌咧.html' },
+    ],
+    4: [{ no: '＋', title: '第四冊', desc: '尚未建立課文' }],
+    5: [{ no: '＋', title: '第五冊', desc: '尚未建立課文' }],
+    6: [{ no: '＋', title: '第六冊', desc: '尚未建立課文' }],
+  }},
+  zhenping: { icon: '📗', name: '真平', desc: '目前已建立第一冊課程', title: '📗 真平', defaultBook: 1, books: {
+    1: [{ no: '02', title: '🔥 第二課｜啥？閩南語嘛有「火星文」！', desc: '課文語詞・語境選詞・讀文理解・綜合挑戰', file: '真平_第一冊_第二課_火星文.html' }],
+    2: [{ no: '＋', title: '第二冊', desc: '尚未建立課文' }],
+    3: [{ no: '＋', title: '第三冊', desc: '尚未建立課文' }],
+    4: [{ no: '＋', title: '第四冊', desc: '尚未建立課文' }],
+    5: [{ no: '＋', title: '第五冊', desc: '尚未建立課文' }],
+    6: [{ no: '＋', title: '第六冊', desc: '尚未建立課文' }],
+  }},
+  yuda: { icon: '📕', name: '育達', desc: '目前已建立第一冊、第三冊課程', title: '📕 育達', defaultBook: 1, books: {
+    1: [{ no: '01', title: '🍡 第一課｜白糖粿', desc: '課文語詞・語境選詞・讀文理解・綜合挑戰', file: '育達_第一冊_第一課_白糖粿.html' }],
+    2: [{ no: '＋', title: '第二冊', desc: '尚未建立課文' }],
+    3: [
+      { no: '01', title: '📱 第一課｜手機仔', desc: '課文語詞・語境選詞・讀文理解・綜合挑戰', file: '育達_第三冊_第一課_手機仔.html' },
+      { no: '02', title: '🌧️ 第二課｜雨港基隆，魚鹽規布袋', desc: '現代詩・語詞・在地文化・故鄉詩', file: '育達_第三冊_第二課_雨港基隆_魚鹽規布袋.html' },
+      { no: '03', title: '🍰 第三課｜雞卵糕', desc: '課文語詞・家庭情感・記持的滋味', file: '育達_第三冊_第三課_雞卵糕.html' },
+      { no: '04', title: '🔥 第四課｜炕窯', desc: '課文語詞・閱讀理解・炕窯流程', file: '育達_第三冊_第四課_炕窯.html' },
+    ],
+    4: [{ no: '＋', title: '第四冊', desc: '尚未建立課文' }],
+    5: [{ no: '＋', title: '第五冊', desc: '尚未建立課文' }],
+    6: [{ no: '＋', title: '第六冊', desc: '尚未建立課文' }],
+  }},
+};
+
 class Component extends DCLogic {
-  state = { activeTab: 0 };
+  state = { view: 'home', publisher: null, book: 1, stack: ['home'] };
+
+  go(view, extra = {}) {
+    this.setState({ view, ...extra, stack: [...this.state.stack, view] });
+  }
+  goBack() {
+    const stack = [...this.state.stack];
+    if (stack.length > 1) stack.pop();
+    this.setState({ view: stack[stack.length - 1], stack });
+  }
+  openPublisher(key) {
+    this.go('publisher', { publisher: key, book: PUBLISHERS[key].defaultBook });
+  }
+
   renderVals() {
-    const data = [
-      { label: '基礎練習', placeholder: '在此貼上基礎語境填空題目' },
-      { label: '進階練習', placeholder: '在此貼上進階語境填空題目' },
-    ];
-    const tabs = data.map((d, i) => {
-      const active = i === this.state.activeTab;
-      return {
-        ...d,
-        active,
-        onClick: () => this.setState({ activeTab: i }),
-        btnStyle: `padding:10px 20px;border-radius:12px;border:none;font-weight:700;font-size:14px;cursor:pointer;background:${active ? '#2c2c2c' : '#ffffffaa'};color:${active ? '#fff' : '#2c2c2c'};`,
-      };
-    });
-    return { tabs };
+    const s = this.state;
+    const pub = s.publisher ? PUBLISHERS[s.publisher] : null;
+    const lessonRows = pub ? (pub.books[s.book] || []) : [];
+
+    return {
+      isHome: s.view === 'home', isLife: s.view === 'life', isTextbook: s.view === 'textbook', isPublisher: s.view === 'publisher',
+      backBtnStyle: `border:0;background:#fff;color:#33423d;padding:10px 16px;border-radius:999px;box-shadow:0 10px 28px rgba(45,60,53,.08);cursor:pointer;font-family:inherit;font-size:16px;font-weight:700;visibility:${s.view === 'home' ? 'hidden' : 'visible'};`,
+      goBack: () => this.goBack(),
+      goLife: () => this.go('life'), goTextbook: () => this.go('textbook'),
+      lifeTopics: LIFE_TOPICS.map(([icon, name, desc, badge]) => ({
+        icon, name, desc, badge,
+        style: `background:${badge ? '#fff' : 'rgba(255,255,255,.55)'};border:1px ${badge ? 'solid' : 'dashed'} ${badge ? '#e3e7e2' : '#cdd6d0'};border-radius:24px;padding:28px;box-shadow:0 10px 28px rgba(45,60,53,.08);text-align:center;`,
+      })),
+      publishers: Object.entries(PUBLISHERS).map(([key, p]) => ({
+        icon: p.icon, name: p.name, desc: p.desc, onClick: () => this.openPublisher(key),
+      })),
+      pubTitle: pub ? pub.title : '',
+      bookPills: pub ? [1, 2, 3, 4, 5, 6].map(n => {
+        const active = n === s.book;
+        return {
+          label: `第${['一','二','三','四','五','六'][n - 1]}冊`,
+          onClick: () => this.setState({ book: n }),
+          style: `border:1px solid ${active ? '#c8d9d0' : '#e3e7e2'};background:${active ? '#edf5f1' : '#fff'};border-radius:999px;padding:10px 18px;cursor:pointer;font-family:inherit;font-size:16px;font-weight:${active ? 800 : 500};color:#33423d;`,
+        };
+      }) : [],
+      lessons: lessonRows.map(l => ({
+        no: l.no, title: l.title, desc: l.desc,
+        hasLink: !!l.file, href: l.file ? BASE + l.file : '',
+      })),
+    };
   }
 }
 

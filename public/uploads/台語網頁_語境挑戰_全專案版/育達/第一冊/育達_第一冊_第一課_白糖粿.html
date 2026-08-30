@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>語境挑戰｜白糖粿</title>
+<style>
+:root{--bg:#fbfaf7;--card:#fff;--text:#2f3a36;--muted:#6d7b75;--line:#e7e4dc;--green:#5f8f7b;--green2:#eaf4ef;--orange:#c88957;--orange2:#fbefe5;--blue:#6f8fa8;--shadow:0 10px 28px rgba(40,50,45,.08);--radius:24px}
+*{box-sizing:border-box} body{margin:0;font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;background:linear-gradient(180deg,#fbfaf7,#f4f6f2);color:var(--text)}
+button,input,textarea{font:inherit} .app{max-width:1180px;margin:auto;padding:28px 22px 60px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:24px}
+.back,.teacher{border:0;background:#fff;border-radius:999px;padding:10px 16px;box-shadow:var(--shadow);cursor:pointer;color:var(--text)}
+.hero,.section-title{text-align:center} .hero{margin:18px auto 34px} .hero h1{font-size:clamp(34px,5vw,54px);margin:0 0 8px}
+.hero p,.section-title p{color:var(--muted)} .tagline{font-weight:700;color:#56665f!important}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px} .grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.card{border:1px solid var(--line);background:var(--card);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);transition:.18s ease}
+.clickable{cursor:pointer} .clickable:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(40,50,45,.12)}
+.icon{font-size:44px} .card h2,.card h3{margin:10px 0 8px} .card p{color:var(--muted);line-height:1.65} .go{font-weight:800}
+.life{background:linear-gradient(145deg,#fff,#f2faf6)} .life .go{color:var(--green)} .textbook{background:linear-gradient(145deg,#fff,#fff7ef)} .textbook .go{color:var(--orange)}
+.section-title{margin:10px 0 26px} .section-title h2{font-size:34px;margin:0 0 8px}
+.topic-card{text-align:center;min-height:190px} .topic-card small{color:var(--muted)}
+.pill-row{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:20px 0 28px} .pill{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 16px;cursor:pointer}
+.pill.active{background:#eef5f1;border-color:#c6dcd1;font-weight:700}
+.course-card{display:flex;justify-content:space-between;align-items:center;gap:16px} .course-no{font-size:34px;font-weight:900;color:#d3a17a;min-width:64px}
+.course-meta{flex:1} .course-meta h3{font-size:25px;margin:0 0 6px} .course-meta p{margin:0;color:var(--muted)} .badge{background:#f4f2ed;border-radius:999px;padding:8px 12px;white-space:nowrap}
+.level-wrap{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px} .level-card{text-align:center} .num{font-weight:900;color:#b9b4aa}
+.btn{width:100%;border:0;border-radius:14px;padding:12px 16px;font-weight:800;cursor:pointer;background:#31443c;color:white} .btn.secondary{background:#eef1ee;color:#34463e}
+.hidden{display:none!important} .footer-note{text-align:center;color:var(--muted);margin-top:30px;font-size:14px}
+.random{margin:26px auto 0;display:block;border:1px dashed #b9c9c1;background:#fff;border-radius:18px;padding:14px 22px;font-weight:800;cursor:pointer}
+.add-card{border-style:dashed;background:rgba(255,255,255,.65)}
+.teacher-panel{position:fixed;inset:0;background:rgba(32,39,36,.36);display:flex;justify-content:flex-end;z-index:10} .panel{width:min(420px,92vw);height:100%;background:#fff;padding:24px;box-shadow:-8px 0 26px rgba(0,0,0,.12)}
+.panel button{width:100%;margin:7px 0;padding:12px;border:1px solid var(--line);border-radius:12px;background:#fafafa;cursor:pointer} .close{float:right;border:0!important;background:transparent!important;width:auto!important;font-size:24px}
+/* quiz */
+.quiz-shell{max-width:850px;margin:0 auto} .progress-wrap{height:12px;background:#e9ece8;border-radius:999px;overflow:hidden;margin:14px 0 8px} .progress{height:100%;width:0;background:#6f8f7b;transition:.2s}
+.quiz-meta{display:flex;justify-content:space-between;color:var(--muted);font-size:14px;margin-bottom:14px}
+.question-card{padding:34px} .question-kicker{font-weight:800;color:#9b7657;margin-bottom:8px} .question-text{font-size:clamp(23px,3.2vw,34px);line-height:1.55;font-weight:800;margin:6px 0 24px}
+.options{display:grid;gap:12px} .option{text-align:left;border:1px solid #dde3de;border-radius:16px;background:#fff;padding:16px 18px;cursor:pointer;font-weight:700;transition:.15s}
+.option:hover{border-color:#9ab2a6;transform:translateY(-1px)} .option.correct{background:#edf8f1;border-color:#9bc4a9} .option.wrong{background:#fff0ef;border-color:#d9a09a}
+.feedback{margin-top:18px;border-radius:16px;padding:16px 18px;line-height:1.6} .feedback.hint{background:#fff8e9} .feedback.ok{background:#edf8f1} .feedback.bad{background:#fff0ef}
+.quiz-actions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap} .quiz-actions .btn{width:auto;min-width:150px}
+.sequence-list{display:grid;gap:10px;margin:18px 0} .seq-item{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #dde3de;border-radius:14px;padding:12px}
+.seq-item span{flex:1;font-weight:800} .seq-item button{border:0;background:#eef1ee;border-radius:10px;padding:8px 10px;cursor:pointer}
+textarea{width:100%;min-height:120px;border:1px solid #dcded9;border-radius:16px;padding:14px;resize:vertical;background:#fff}
+.result-card{max-width:780px;margin:0 auto;text-align:center} .score-big{font-size:64px;font-weight:900;color:#5f8f7b;margin:10px 0}
+.skill-list{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;text-align:left;margin-top:22px} .skill{background:#f7f7f4;border-radius:14px;padding:14px}
+@media(max-width:850px){.grid2,.grid3,.level-wrap{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.grid2,.grid3,.level-wrap,.skill-list{grid-template-columns:1fr} .course-card{align-items:flex-start;flex-wrap:wrap}}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="topbar"><button class="back" id="backBtn">← 返回</button><button class="teacher" id="teacherBtn">⚙️ 教師設定</button></div>
+
+<section id="home">
+  <div class="hero"><h1>📖 語境挑戰</h1><p class="tagline">看情境・揣線索・真正會曉用</p><p>從生活情境與課文內容中理解語詞、判斷語意，完成多元互動挑戰。</p></div>
+  <div class="grid2">
+    <article class="card life clickable" data-go="life"><div class="icon">🌍</div><h2>生活語境</h2><p>校園、飲食、家庭、交通、節慶等日常情境。</p><div class="go">開始練習 →</div></article>
+    <article class="card textbook clickable" data-go="textbook"><div class="icon">📚</div><h2>課文挑戰</h2><p>配合教材內容，進行語詞、情節、閱讀理解與生活應用。</p><div class="go">選擇課文 →</div></article>
+  </div>
+</section>
+
+<section id="life" class="hidden"><div class="section-title"><h2>🌍 生活語境</h2><p>你今仔日想欲挑戰啥物？</p></div><div class="grid3" id="lifeGrid"></div><button class="random">🎲 隨機挑戰</button></section>
+
+<section id="lifeLevel" class="hidden"><div class="section-title"><h2 id="lifeTitle">🏫 校園生活</h2><p id="lifeDesc">上課、落課、考試、同學、校園活動</p></div>
+<div class="grid3">
+<article class="card topic-card"><div class="icon">🌱</div><h3>基礎</h3><p>一句一格・3選1</p><small>約 3 分鐘</small><br><br><button class="btn" disabled>題庫待加入</button></article>
+<article class="card topic-card"><div class="icon">🌿</div><h3>進階</h3><p>短篇情境・看前後文</p><small>約 5 分鐘</small><br><br><button class="btn" disabled>題庫待加入</button></article>
+<article class="card topic-card"><div class="icon">🌳</div><h3>挑戰</h3><p>多格語境・詞語配對</p><small>約 8 分鐘</small><br><br><button class="btn" disabled>題庫待加入</button></article>
+</div></section>
+
+<section id="textbook" class="hidden"><div class="section-title"><h2>📚 課文挑戰</h2><p>選擇你這馬咧使用的教材</p></div><div class="grid3">
+<article class="card topic-card clickable" data-go="publisher"><div class="icon">📕</div><h3>育達文化</h3><p>目前已建立《白糖粿》課文題庫</p><div class="go">進入 →</div></article>
+<article class="card topic-card"><div class="icon">📗</div><h3>其他版本</h3><p>之後可持續增加教材版本</p><div class="go">尚未建立</div></article>
+<article class="card topic-card add-card"><div class="icon">＋</div><h3>自訂教材</h3><p>預留教師自行新增課文與題庫</p><div class="go">教師功能預留</div></article>
+</div></section>
+
+<section id="publisher" class="hidden"><div class="section-title"><h2>📕 育達文化</h2><p>選擇年級、學期與課文</p></div>
+<div class="pill-row"><button class="pill active">七年級</button><button class="pill">八年級</button><button class="pill">九年級</button><button class="pill active">上學期</button><button class="pill">下學期</button></div>
+<article class="card course-card clickable" data-go="baitang"><div class="course-no">01</div><div class="course-meta"><h3>🍡 白糖粿</h3><p>語詞・語境・閱讀・生活應用</p></div><div class="badge">正式題庫</div><div class="go">進入 →</div></article>
+</section>
+
+<section id="baitang" class="hidden"><div class="section-title"><h2>🍡 第一課｜白糖粿</h2><p>對課文語詞開始，一路挑戰到生活應用</p></div>
+<div class="level-wrap">
+<article class="card level-card"><div class="num">01</div><div class="icon">🔤</div><h3>課文語詞</h3><p>認捌本課重要詞</p><small id="stat-vocab">未挑戰</small><br><br><button class="btn start-quiz" data-bank="vocab">開始 →</button></article>
+<article class="card level-card"><div class="num">02</div><div class="icon">💭</div><h3>語境選詞</h3><p>看情境真正會用</p><small id="stat-context">未挑戰</small><br><br><button class="btn start-quiz" data-bank="context">開始 →</button></article>
+<article class="card level-card"><div class="num">03</div><div class="icon">📖</div><h3>讀文理解</h3><p>揣線索讀懂文章</p><small id="stat-reading">未挑戰</small><br><br><button class="btn start-quiz" data-bank="reading">開始 →</button></article>
+<article class="card level-card"><div class="num">04</div><div class="icon">🏆</div><h3>綜合挑戰</h3><p>課文 × 生活應用</p><small id="stat-comprehensive">未挑戰</small><br><br><button class="btn start-quiz" data-bank="comprehensive">開始 →</button></article>
+</div></section>
+
+<section id="quiz" class="hidden"><div class="quiz-shell">
+  <div class="section-title"><h2 id="quizTitle">挑戰</h2><p id="quizSub">每回合隨機抽 5 題</p></div>
+  <div class="progress-wrap"><div class="progress" id="progress"></div></div>
+  <div class="quiz-meta"><span id="qCount">第 1 / 5 題</span><span id="scoreNow">目前 0 分</span></div>
+  <article class="card question-card" id="questionCard"></article>
+</div></section>
+
+<section id="result" class="hidden"><article class="card result-card">
+<div class="icon">🎉</div><h2 id="resultTitle">完成！</h2><div class="score-big" id="finalScore">5 / 5</div><p id="resultMsg"></p>
+<div id="weakWords"></div>
+<div class="quiz-actions" style="justify-content:center"><button class="btn" id="retryBtn">🔄 閣挑戰一擺</button><button class="btn secondary" id="backLessonBtn">📘 轉去白糖粿</button></div>
+</article></section>
+
+<div class="footer-note">固定母版｜課文題庫可持續增加</div>
+</div>
+
+<div id="teacherPanel" class="teacher-panel hidden"><div class="panel"><button class="close" id="closeTeacher">×</button><h3>⚙️ 教師設定</h3><p style="color:var(--muted)">管理功能先預留，學生介面保持簡單。</p><button>＋ 新增生活主題</button><button>＋ 新增教材版本</button><button>＋ 新增課文</button><button>＋ 新增題目</button><button>📥 匯入題庫</button><button>📤 匯出題庫</button></div></div>
+
+<script>
+const BANKS = {"vocab": [{"word": "傱", "q": "「傱」上接近下面佗一个意思？", "opts": ["為著一件代誌趕緊四界走", "慢慢仔等待", "共物件囥佇容器內"], "ans": 0, "hint": "想看覓課文內底作者轉來臺南的時，是按怎去買白糖粿。", "explain": "教材解釋「傱」是為某種目的四處奔走。"}, {"word": "聊聊仔", "q": "「聊聊仔」是啥物意思？", "opts": ["真緊", "慢慢仔、細膩仔", "真大聲"], "ans": 1, "hint": "這个詞佮等待、行動的速度有關。", "explain": "教材解釋為慢慢地、謹慎小心地。"}, {"word": "數念", "q": "一個人離開故鄉真久，定定想起厝裡的人，會當講伊真＿＿＿＿故鄉。", "opts": ["數念", "滒", "烰"], "ans": 0, "hint": "離開故鄉真久，心內定定會想起厝裡。", "explain": "「數念」是想念、掛念、懷念。"}, {"word": "烰", "q": "「烰」佮下面佗一項上有關係？", "opts": ["食材佇油鼎內底油炸、浮起來", "食材囥佇水內底浸", "用手共物件壓落去"], "ans": 0, "hint": "課文內底白糖粿佇油鼎內底會浮起來。", "explain": "教材特別說明「烰」是油炸，尤其指食材會浮在油鍋上。"}, {"word": "滒", "q": "食物表面欲沾一層粉，會使用佗一个詞？", "opts": ["傱", "滒", "貯"], "ans": 1, "hint": "想看覓白糖粿完成進前，會沾一層塗豆糖粉。", "explain": "「滒」是沾、蘸。"}, {"word": "沿", "q": "「一沿」主要是咧講啥物？", "opts": ["一種料理方式", "重疊、累積物的計量單位", "一種味道"], "ans": 1, "hint": "課文用「一沿」來講白糖粿表面的糖粉。", "explain": "「沿」是計算重疊、累積物的單位。"}, {"word": "仝款", "q": "「仝款」是啥物意思？", "opts": ["無仝", "相像、同樣", "真媠"], "ans": 1, "hint": "兩項物件若是看起來差不多，會用這个詞。", "explain": "「仝款」就是同樣、相像。"}, {"word": "硩", "q": "欲共一个物件用力「壓」落去，會當用佗一个詞？", "opts": ["硩", "滒", "傱"], "ans": 0, "hint": "七娘媽的傳說內底有共圓仔壓予平。", "explain": "教材將「硩」解釋為壓。"}, {"word": "揤", "q": "用手指頭向下「按」一下，是：", "opts": ["揤", "烰", "貯"], "ans": 0, "hint": "課文講著用大頭拇做這个動作。", "explain": "「揤」是按、用手向下壓。"}, {"word": "凹", "q": "塗跤中央較低落去的所在，會當叫做：", "opts": ["沿", "凹", "粿粞"], "ans": 1, "hint": "就是表面低陷落去的所在。", "explain": "「凹」是低陷之處。"}, {"word": "貯", "q": "「提一个罐仔來＿＿＿＿水。」", "opts": ["貯", "傱", "糋"], "ans": 0, "hint": "這个詞的意思是裝、盛。", "explain": "「貯」就是裝、盛。"}, {"word": "秫米", "q": "做傳統白糖粿使用的「秫米」是：", "opts": ["糯米", "白米", "小米"], "ans": 0, "hint": "白糖粿是糯米製品。", "explain": "教材解釋「秫米」就是糯米。"}, {"word": "浸", "q": "「浸」是共物件：", "opts": ["囥佇水內底泡", "囥佇油內底炸", "用手捏"], "ans": 0, "hint": "古早做白糖粿，秫米先經過這一步。", "explain": "「浸」就是把東西放在水中泡著。"}, {"word": "搙", "q": "做粿的時，用手共粿粞搓揉，這个動作叫做：", "opts": ["搙", "傱", "貯"], "ans": 0, "hint": "這个詞和「揉」的動作有關。", "explain": "「搙」是用手搓揉物品。"}, {"word": "捻", "q": "共一大團麵糰用手指頭取一細塊落來，會當講：", "opts": ["捻", "烰", "浸"], "ans": 0, "hint": "做白糖粿時，會把粿粞分成一塊一塊。", "explain": "「捻」是用手指頭將東西捏取下來。"}], "context": [{"word": "數念", "q": "阿英去臺北讀冊三年矣，逐擺食著阿媽寄來的粿，就會＿＿＿＿故鄉。", "opts": ["數念", "烰", "滒"], "ans": 0, "hint": "離開故鄉真久，閣食著熟似的滋味。", "explain": "「數念」用來表示想念、掛念。"}, {"word": "傱", "q": "上課鐘已經響矣，阿明猶閣佇操場，伊驚會慢到，隨＿＿＿＿轉去教室。", "opts": ["貯", "傱", "搙"], "ans": 1, "hint": "伊驚會慢到，所以動作一定真緊。", "explain": "這个情境符合「傱」為著目的趕緊奔走的意思。"}, {"word": "聊聊仔", "q": "阿公跤較無力，落樓梯的時攏愛＿＿＿＿行，才袂跋倒。", "opts": ["聊聊仔", "傱", "糋"], "ans": 0, "hint": "跤較無力，落樓梯愛細膩。", "explain": "「聊聊仔」有慢慢、謹慎小心的意思。"}, {"word": "勻勻仔", "q": "油鼎內底的圓仔開始＿＿＿＿烰起來，毋通急急仔共伊撈起來。", "opts": ["勻勻仔", "數念", "仝款"], "ans": 0, "hint": "這裡是在描寫圓仔慢慢浮起來。", "explain": "課文描寫白糖粿在油鼎內底勻勻仔烰起來。"}, {"word": "滒", "q": "食薯條的時，弟弟上愛共薯條＿＿＿＿一寡番茄醬。", "opts": ["滒", "貯", "傱"], "ans": 0, "hint": "薯條碰番茄醬，是沾的動作。", "explain": "「滒」是沾、蘸。"}, {"word": "仝款", "q": "姊姊共我買兩領＿＿＿＿的衫，毋過伊的是紅色，我的是藍色。", "opts": ["仝款", "數念", "凹"], "ans": 0, "hint": "款式相同，色水無一定仝款。", "explain": "「仝款」可以指款式相同、相像。"}, {"word": "硩", "q": "紙仔予風吹甲翹起來，老師提一本冊共伊＿＿＿＿牢咧。", "opts": ["硩", "滒", "傱"], "ans": 0, "hint": "拿冊壓住紙。", "explain": "「硩」是壓。"}, {"word": "揤", "q": "欲過馬路進前，愛先＿＿＿＿行人號誌的按鈕。", "opts": ["揤", "烰", "搙"], "ans": 0, "hint": "按鈕就是愛用手按。", "explain": "「揤」是按、用手向下壓。"}, {"word": "凹", "q": "這粒球予人坐著，中央＿＿＿＿落去矣。", "opts": ["貯", "凹", "沿"], "ans": 1, "hint": "中央變較低。", "explain": "「凹」就是低陷之處。"}, {"word": "貯", "q": "阿母煮好一大鼎湯，提一个保溫罐來＿＿＿＿。", "opts": ["貯", "傱", "捻"], "ans": 0, "hint": "保溫罐是欲用來裝湯。", "explain": "「貯」是裝、盛。"}, {"word": "浸", "q": "明仔載欲煮紅豆湯，阿媽暗時就先共紅豆＿＿＿＿佇水內底。", "opts": ["浸", "糋", "揤"], "ans": 0, "hint": "紅豆先泡水。", "explain": "「浸」就是放在水中泡著。"}, {"word": "搙", "q": "做麵包進前，愛共麵糰＿＿＿＿予齊勻。", "opts": ["搙", "數念", "貯"], "ans": 0, "hint": "麵糰需要用手揉。", "explain": "「搙」是用手搓揉。"}, {"word": "捻", "q": "阿嬤共粿粞＿＿＿＿做一細塊一細塊，準備欲落去糋。", "opts": ["捻", "傱", "滒"], "ans": 0, "hint": "把一大團分成一細塊一細塊。", "explain": "「捻」是用手指頭捏取。"}, {"word": "糋", "q": "油鼎已經燒矣，阿爸共甜粿切一切，準備落去＿＿＿＿。", "opts": ["糋", "浸", "貯"], "ans": 0, "hint": "油鼎燒好，下一步就是炸。", "explain": "「糋」是炸。"}, {"word": "烰", "q": "蝦仔滒粉了後，落去油鼎內底＿＿＿＿，無偌久就浮起來。", "opts": ["烰", "貯", "硩"], "ans": 0, "hint": "食材浮在油裡炸。", "explain": "「烰」是油炸，特別指食材會浮起來。"}, {"word": "數念", "q": "阿公少年時定定食這間店的肉圓，搬去外縣市了後，猶原真＿＿＿＿彼个滋味。", "opts": ["數念", "揤", "浸"], "ans": 0, "hint": "離開以後，猶原想彼个滋味。", "explain": "「數念」表示想念、懷念。"}, {"word": "傱", "q": "阿華聽著公車欲開矣，隨＿＿＿＿去車頭，驚會赴袂著。", "opts": ["傱", "滒", "貯"], "ans": 0, "hint": "欲趕公車。", "explain": "「傱」符合為著趕車而急忙奔走的情境。"}, {"word": "滒", "q": "阿媽共炸好的麻糬＿＿＿＿一層塗豆粉，看起來閣較好食。", "opts": ["滒", "傱", "貯"], "ans": 0, "hint": "表面沾上一層粉。", "explain": "「滒」是沾、蘸。"}, {"word": "沿", "q": "師傅共白糖粿表面滒一＿＿＿＿塗豆糖粉。", "opts": ["沿", "凹", "站"], "ans": 0, "hint": "這是在算表面裹著的一層。", "explain": "「沿」可用來計算重疊、累積物。"}, {"word": "揤", "q": "做造型餅乾的時，老師叫大家用大頭拇佇中央輕輕仔＿＿＿＿一下。", "opts": ["揤", "貯", "烰"], "ans": 0, "hint": "用大拇指向下按。", "explain": "「揤」就是按、用手向下壓。"}], "reading": [{"type": "choice", "title": "七娘媽的傳說", "q": "根據課文，白糖粿當做祭品的時，中央揤一个凹，是為著啥物？", "opts": ["欲予造型較好看", "欲共肉包佇內底", "欲予口感閣較好", "欲貯織女的目屎"], "ans": 3, "hint": "想看覓牛郎、織女一年見一擺的傳說。", "explain": "課文寫著中央的凹是聽講欲貯織女的目屎。"}, {"type": "choice", "title": "文章主旨", "q": "這篇文章除了講白糖粿好食，閣主要欲予咱了解啥物？", "opts": ["臺南交通", "白糖粿的歷史佮文化", "作者的學校生活"], "ans": 1, "hint": "文章除了滋味，閣有講由來、祭品、製作過程。", "explain": "教材總結希望透過文章予逐家了解白糖粿的歷史佮文化。"}, {"type": "choice", "title": "故鄉滋味", "q": "作者等袂赴轉到厝就先咬一喙白糖粿，較適合說明伊按怎？", "opts": ["真數念這个故鄉滋味", "真驚白糖粿", "毋愛轉去臺南"], "ans": 0, "hint": "注意課文結尾作者提著數想足久的白糖粿。", "explain": "結尾強調作者對故鄉滋味的思念。"}, {"type": "choice", "title": "段落功能", "q": "課文寫白糖粿原底是拜七娘媽的祭品，這段主要咧介紹啥物？", "opts": ["製作工具", "文化由來", "作者學校生活"], "ans": 1, "hint": "七娘媽、牛郎織女攏是文化背景。", "explain": "這一段主要介紹白糖粿的文化由來。"}, {"type": "choice", "title": "製作知識", "q": "古早做白糖粿，秫米浸一站仔了後，較早愛做佗一步？", "opts": ["挨米", "滒塗豆糖粉", "直接食"], "ans": 0, "hint": "先處理米，才有法度做粿粞。", "explain": "課文流程是浸秫米後接紲挨米。"}, {"type": "sequence", "title": "製作流程", "q": "請共下面四个步驟排做正確的順序。", "items": ["挨米", "做粿粞", "捻做一塊一塊", "落去糋"], "answer": ["挨米", "做粿粞", "捻做一塊一塊", "落去糋"], "hint": "米愛先處理做粿粞，才有法度分做一塊一塊。", "explain": "教材的閱讀理解題也以這个順序做判斷。"}, {"type": "sequence", "title": "從祭品到點心", "q": "請照課文內容排出較合理的敘事順序。", "items": ["介紹七娘媽傳說", "說明古早製作方法", "作者回臺南買白糖粿", "結尾再咬一喙故鄉滋味"], "answer": ["作者回臺南買白糖粿", "介紹七娘媽傳說", "說明古早製作方法", "結尾再咬一喙故鄉滋味"], "hint": "想想文章是先從作者自己的經驗出發。", "explain": "教材分析指出作者先從自身經驗出發，再介紹由來與製作過程。"}, {"type": "choice", "title": "白糖粿的變化", "q": "白糖粿落尾成做臺灣南部特殊的啥物？", "opts": ["喙食物仔", "交通工具", "樂器"], "ans": 0, "hint": "課文講的是食物文化。", "explain": "課文說白糖粿後來成為臺灣南部特殊的點心。"}, {"type": "choice", "title": "描寫白糖粿", "q": "課文用「白phau-phau、幼麵麵」主要是在描寫白糖粿的啥物？", "opts": ["外觀佮質感", "價錢", "店的位置"], "ans": 0, "hint": "這兩个詞攏是在講看起來、食起來的感覺。", "explain": "這是在描寫白糖粿白白、嫩嫩的外觀與質感。"}, {"type": "choice", "title": "作者寫法", "q": "作者用姑娘仔穿新衫來比喻滒著塗豆糖粉的白糖粿，主要欲表現啥物？", "opts": ["白糖粿真媠、予人意愛", "白糖粿真貴", "白糖粿真鹹"], "ans": 0, "hint": "課文寫「幼秀的姑娘仔，穿一領媠噹噹的新衫仝款」。", "explain": "這个比喻是欲表現白糖粿裹粉後的美感與可愛。"}], "comprehensive": [{"type": "choice", "title": "料理動詞", "q": "「阿爸定定講＿＿魚仔的時，火若傷猛會臭火焦。」空格上適合啥物？", "opts": ["煎", "炊", "貯", "浸"], "ans": 0, "hint": "這是用少量的油乾煮食物。", "explain": "教材解釋「煎」是用少量的油乾煮食物。"}, {"type": "choice", "title": "料理動詞", "q": "「自細漢，阮阿媽攏會講豬跤著愛＿＿予爛爛才好食。」上適合啥物？", "opts": ["炒", "乍", "𤉙", "煏"], "ans": 2, "hint": "豬跤欲煮予爛，需要佇水內底長時間熬煮。", "explain": "教材題目以「𤉙」作為長時間熬煮的適合動詞。"}, {"type": "choice", "title": "烹調方式", "q": "用隔水加熱的方法共食物蒸熟，台語教材內底用佗一个動詞？", "opts": ["炊", "煎", "滷", "乍"], "ans": 0, "hint": "教材例子有炊包仔、炊便當、炊菜頭粿。", "explain": "「炊」是以隔水加熱的方法把食物蒸熟。"}, {"type": "choice", "title": "烹調方式", "q": "用少量的油為底，共食物佇鍋仔內底翻攪到熟，是：", "opts": ["炒", "浸", "貯", "揤"], "ans": 0, "hint": "教材例子有炒米粉、炒飯。", "explain": "「炒」是以少量的油翻攪到熟。"}, {"type": "choice", "title": "烹調方式", "q": "把食物放入滾水、無加其他佐料來煮，教材用佗一个動詞？", "opts": ["煠", "煎", "滒", "搙"], "ans": 0, "hint": "教材例子有煠麵、煠青菜。", "explain": "「煠」是以白水煮，把食物放入滾水煮熟。"}, {"type": "choice", "title": "俗語理解", "q": "「食少有滋味，食濟無趣味」主要欲提醒咱啥物？", "opts": ["食物愈濟愈好", "任何代誌愛適量，避免過與不及", "毋通食粿"], "ans": 1, "hint": "教材解釋有提著「恰到好處」。", "explain": "教材說明享受美食要適量，也引申事情要恰到好處。"}, {"type": "choice", "title": "俗語理解", "q": "「頂港有名聲，下港上出名」是咧形容：", "opts": ["聲名遠播、遠近馳名", "天氣真熱", "物件真便宜"], "ans": 0, "hint": "教材內底是用來講名氣。", "explain": "教材解釋為形容聲名遠播、遠近馳名。"}, {"type": "choice", "title": "生活應用", "q": "蝦仔滒粉落去油鼎，閣會浮起來，這个烹調動詞上適合是：", "opts": ["烰", "炊", "煠", "浸"], "ans": 0, "hint": "教材有「蝦仔滒粉落去烰」的例句。", "explain": "「烰」是油炸，特別指食材會浮在油鍋上。"}, {"type": "choice", "title": "生活應用", "q": "媽媽欲共一層糖粉裹佇粿的表面，較適合用啥物動詞？", "opts": ["滒", "傱", "硩", "貯"], "ans": 0, "hint": "白糖粿完成進前會裹塗豆糖粉。", "explain": "「滒」是沾、蘸。"}, {"type": "choice", "title": "文化理解", "q": "白糖粿對課文來講，除了是一項點心，閣代表啥物？", "opts": ["故鄉記憶佮在地文化", "一種交通方式", "一項運動"], "ans": 0, "hint": "課文同時講作者回憶、七娘媽與歷史文化。", "explain": "全文把白糖粿連結到作者故鄉記憶與臺灣南部飲食文化。"}, {"type": "reflection", "title": "最後一題", "q": "作者講「這就是故鄉的滋味」。你感覺這个「滋味」干焦是白糖粿的味素無？請用一句話講看覓。", "hint": "你會當想作者的童年、老爸、臺南、排隊買白糖粿。"}]};
+const views=["home","life","lifeLevel","textbook","publisher","baitang","quiz","result"];
+let historyStack=["home"];
+let currentBank=null, currentSet=[], idx=0, score=0, firstTryCorrect=0, attempts=0, weak=[], lastBank=null;
+const titles={vocab:"🔤 課文語詞",context:"💭 語境選詞",reading:"📖 讀文理解",comprehensive:"🏆 綜合挑戰"};
+
+function show(id,push=true){
+  views.forEach(v=>document.getElementById(v).classList.add("hidden"));
+  document.getElementById(id).classList.remove("hidden");
+  if(push && historyStack[historyStack.length-1]!==id) historyStack.push(id);
+  document.getElementById("backBtn").style.visibility=id==="home"?"hidden":"visible";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+document.querySelectorAll("[data-go]").forEach(el=>el.onclick=()=>show(el.dataset.go));
+document.getElementById("backBtn").onclick=()=>{if(historyStack.length>1)historyStack.pop();show(historyStack[historyStack.length-1],false)};
+
+const topics=[["🏫","校園生活","上課、落課、考試、同學、校園活動"],["🍚","食食啉啉","食物、味道、用餐、料理"],["🏠","家庭生活","家人、家事、日常生活"],["🚌","交通出門","行路、坐車、方向、出門"],["🎉","節日文化","過年、節慶、習俗、拜拜"],["☀️","天氣生活","落雨、寒、熱、風"],["🛒","買物件","市場、價錢、購物、選擇"],["🎮","休閒活動","運動、𨑨迌、出遊、興趣"]];
+const lifeGrid=document.getElementById("lifeGrid");
+topics.forEach(([icon,name,desc])=>{const el=document.createElement("article");el.className="card topic-card clickable";el.innerHTML=`<div class="icon">${icon}</div><h3>${name}</h3><p>${desc}</p><small>題庫可持續增加</small>`;el.onclick=()=>{lifeTitle.textContent=`${icon} ${name}`;lifeDesc.textContent=desc;show("lifeLevel")};lifeGrid.appendChild(el)});
+
+document.querySelectorAll(".start-quiz").forEach(b=>b.onclick=()=>startQuiz(b.dataset.bank));
+function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
+function startQuiz(bank){
+  currentBank=bank; lastBank=bank; idx=0;score=0;firstTryCorrect=0;weak=[];attempts=0;
+  let source=shuffle(BANKS[bank]);
+  if(bank==="comprehensive"){
+    const refl=source.find(q=>q.type==="reflection");
+    const non=source.filter(q=>q.type!=="reflection").slice(0,4);
+    currentSet=[...non,refl];
+  } else currentSet=source.slice(0,5);
+  document.getElementById("quizTitle").textContent=titles[bank];
+  document.getElementById("quizSub").textContent="每回合隨機抽 5 題";
+  show("quiz"); renderQuestion();
+}
+function updateMeta(){
+  qCount.textContent=`第 ${idx+1} / ${currentSet.length} 題`;
+  scoreNow.textContent=`目前 ${score} 分`;
+  progress.style.width=`${(idx/currentSet.length)*100}%`;
+}
+function renderQuestion(){
+  attempts=0; updateMeta(); const q=currentSet[idx]; const card=questionCard;
+  let kicker=q.title || (q.word?`本課語詞｜${q.word}`:"");
+  let html=`<div class="question-kicker">${kicker}</div><div class="question-text">${q.q}</div>`;
+  if(q.type==="sequence"){
+    const arr=shuffle(q.items);
+    html+=`<div class="sequence-list" id="seqList">${arr.map((x,i)=>`<div class="seq-item"><span>${x}</span><button onclick="moveSeq(${i},-1)">↑</button><button onclick="moveSeq(${i},1)">↓</button></div>`).join("")}</div><div class="quiz-actions"><button class="btn" onclick="checkSequence()">✓ 檢查順序</button></div>`;
+  } else if(q.type==="reflection"){
+    html+=`<textarea id="reflectionText" placeholder="請用一句話寫看覓……"></textarea><div class="quiz-actions"><button class="btn" onclick="submitReflection()">送出</button></div>`;
+  } else {
+    html+=`<div class="options">${q.opts.map((o,i)=>`<button class="option" onclick="chooseOption(${i},this)">${String.fromCharCode(65+i)}｜${o}</button>`).join("")}</div>`;
+  }
+  html+=`<div id="feedbackBox"></div>`;
+  card.innerHTML=html;
+}
+function feedback(type,text,showNext=false){
+  feedbackBox.innerHTML=`<div class="feedback ${type}">${text}</div>${showNext?'<div class="quiz-actions"><button class="btn" onclick="nextQ()">下一題 →</button></div>':""}`;
+}
+function chooseOption(i,btn){
+  const q=currentSet[idx]; if(document.querySelector(".option.correct")) return;
+  attempts++;
+  if(i===q.ans){
+    btn.classList.add("correct"); score++; if(attempts===1) firstTryCorrect++; 
+    feedback("ok",`✅ 著矣！<br>${q.explain}`,true);
+  } else {
+    btn.classList.add("wrong"); 
+    if(attempts===1){ if(q.word) weak.push(q.word); feedback("hint",`🤔 閣想看覓！<br>${q.hint}`) }
+    else {
+      document.querySelectorAll(".option")[q.ans].classList.add("correct");
+      feedback("bad",`答案是：<b>${q.opts[q.ans]}</b><br>${q.explain}`,true);
+    }
+  }
+}
+function moveSeq(i,dir){
+  const list=seqList; const items=[...list.children]; const j=i+dir;if(j<0||j>=items.length)return;
+  if(dir<0)list.insertBefore(items[i],items[j]);else list.insertBefore(items[j],items[i]);
+  [...list.children].forEach((el,k)=>{el.querySelectorAll("button")[0].setAttribute("onclick",`moveSeq(${k},-1)`);el.querySelectorAll("button")[1].setAttribute("onclick",`moveSeq(${k},1)`)})
+}
+function checkSequence(){
+  const q=currentSet[idx]; attempts++;
+  const arr=[...seqList.children].map(x=>x.querySelector("span").textContent);
+  const ok=JSON.stringify(arr)===JSON.stringify(q.answer);
+  if(ok){score++; if(attempts===1)firstTryCorrect++; feedback("ok",`✅ 順序著矣！<br>${q.explain}`,true)}
+  else if(attempts===1) feedback("hint",`🤔 閣排看覓！<br>${q.hint}`);
+  else feedback("bad",`正確順序：<b>${q.answer.join(" → ")}</b><br>${q.explain}`,true);
+}
+function submitReflection(){
+  const txt=(reflectionText.value||"").trim(); if(!txt){feedback("hint","請先寫一句你的想法。");return}
+  score++; firstTryCorrect++; feedback("ok","💬 收著你的想法矣！這一題無標準答案，重點是共課文佮自己的理解連起來。",true);
+}
+function nextQ(){
+  idx++; if(idx>=currentSet.length) finishQuiz(); else renderQuestion();
+}
+function finishQuiz(){
+  progress.style.width="100%";
+  document.getElementById(`stat-${currentBank}`).textContent=`上擺 ${score} / ${currentSet.length}`;
+  finalScore.textContent=`${score} / ${currentSet.length}`;
+  resultTitle.textContent=`${titles[currentBank]}完成！`;
+  let msg=score===5?"🏆 語境高手！":score>=4?"🌟 語感真𠢕！":score>=3?"👍 愈來愈會曉！":"🌱 閣試一擺，會愈來愈熟。";
+  resultMsg.textContent=msg;
+  const uniq=[...new Set(weak)];
+  weakWords.innerHTML=uniq.length?`<div class="skill"><b>🌱 建議閣練習：</b> ${uniq.join("、")}</div>`:`<div class="skill"><b>✨ 這一回無特別需要加強的語詞！</b></div>`;
+  show("result");
+}
+retryBtn.onclick=()=>startQuiz(lastBank);
+backLessonBtn.onclick=()=>show("baitang");
+teacherBtn.onclick=()=>teacherPanel.classList.remove("hidden");closeTeacher.onclick=()=>teacherPanel.classList.add("hidden");teacherPanel.onclick=e=>{if(e.target.id==="teacherPanel")teacherPanel.classList.add("hidden")};
+document.querySelectorAll(".pill").forEach(p=>p.onclick=()=>p.classList.toggle("active"));
+show("home",false);
+</script>
+</body></html>

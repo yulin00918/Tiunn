@@ -48,7 +48,7 @@ function render(){tries=0;let q=set[i];$("count").textContent=`第 ${i+1} / 5 �
 $("qcard").innerHTML=`<div class="kicker">${q.word?("本課語詞｜"+q.word):names[bank]}</div><div class="q">${q.q}</div><div class="opts">${q.opts.map((o,j)=>`<button class="opt" onclick="pick(${j},this)">${String.fromCharCode(65+j)}｜${o}</button>`).join("")}</div><div id="fb"></div>`}
 function pick(n,el){let q=set[i];if(document.querySelector(".correct"))return;tries++;if(n===q.ans){el.classList.add("correct");score++;$("fb").innerHTML=`<div class="feedback ok">✅ 著矣！<br>${q.explain}</div><button class="btn next" onclick="next()">下一題 →</button>`}else{el.classList.add("wrong");if(tries===1){if(q.word)weak.push(q.word);$("fb").innerHTML=`<div class="feedback hint">🤔 閣想看覓！<br>${q.hint}</div>`}else{document.querySelectorAll(".opt")[q.ans].classList.add("correct");$("fb").innerHTML=`<div class="feedback bad">答案是：<b>${q.opts[q.ans]}</b><br>${q.explain}</div><button class="btn next" onclick="next()">下一題 →</button>`}}}
 function next(){i++;if(i<5)render();else finish()}function finish(){$("s-"+bank).textContent=`上擺 ${score} / 5`;$("rt").textContent=names[bank]+"完成！";$("fs").textContent=score+" / 5";$("msg").textContent=score===5?"🏆 真𠢕！這關全數答著。":score>=4?"🌟 真好！已經真熟矣。":score>=3?"👍 愈來愈會曉！":"🌱 閣練一擺，會愈來愈熟。";let w=[...new Set(weak)];$("weak").innerHTML=w.length?`<b>建議閣練：</b>${w.join("、")}`:"✨ 這擺無特別需要加強的語詞。";show("result")}
-$("retry").onclick=()=>start(bank);$("home").onclick=()=>show("lesson");$("back").onclick=()=>show("lesson");
+$("retry").onclick=()=>start(bank);$("home").onclick=()=>show("lesson");$("back").onclick=()=>{if($("lesson").classList.contains("hidden")){show("lesson")}else{location.href='../語境填空.dc.html'}};
 
 let pi=0;
 function renderPoem(){

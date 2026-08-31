@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<script src="./taigi-vocab-lessons.js"></script>
+<script src="./taigi-vocab-data.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+</helmet>
+<div style="font-family:'Noto Sans TC',sans-serif;background:linear-gradient(135deg, #ffe3c2 0%, #ffb98f 55%, #ff9f7a 100%);min-height:100vh;">
+
+  <sc-if value="{{screenSelect}}">
+    <div style="background:#1f2d5c;padding:20px 30px;text-align:center;">
+      <div style="font-size:1.3rem;font-weight:900;color:#fff;letter-spacing:0.1em;">咱來讀生份字</div>
+      <div style="font-size:0.8rem;color:rgba(255,255,255,0.7);margin-top:4px;">選擇版本、冊次及課別開始測驗</div>
+    </div>
+    <div style="max-width:1200px;margin:0 auto;padding:24px 30px 60px;">
+      <a href="首頁.dc.html" style="display:inline-block;margin-bottom:20px;color:#1f2d5c;font-weight:700;text-decoration:none;white-space:nowrap;">← 回首頁</a>
+
+      <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:20px;align-items:start;">
+        <sc-for list="{{groups}}" as="grp" hint-placeholder-count="3">
+          <div>
+            <div style="display:flex;align-items:center;gap:8px;margin:0 0 12px;">
+              <span style="width:5px;height:20px;background:#1f2d5c;border-radius:3px;display:inline-block;"></span>
+              <span style="font-weight:800;color:#1f2d5c;font-size:1rem;white-space:nowrap;">{{grp.label}}</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:16px;">
+              <sc-for list="{{grp.cards}}" as="card" hint-placeholder-count="4">
+                <div style="background:{{card.bg}};border-radius:20px;padding:18px 16px;box-shadow:0 8px 20px rgba(140,80,40,0.12);">
+                  <div style="text-align:center;font-weight:800;color:#1f2d5c;font-size:0.95rem;">{{card.title}}</div>
+                  <div style="text-align:center;font-size:0.72rem;color:#8a7d6d;margin-bottom:12px;">{{card.subtitle}}</div>
+                  <sc-for list="{{card.rows}}" as="row" hint-placeholder-count="3">
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 0;border-top:1px solid rgba(0,0,0,0.06);">
+                      <span style="font-size:0.78rem;color:#1f2d5c;font-weight:600;line-height:1.4;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;">{{row.label}}</span>
+                      <button style="{{row.btnStyle}}" disabled="{{row.disabled}}" onClick="{{row.onClick}}">{{row.btnLabel}}</button>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{screenQuiz}}">
+    <div style="max-width:1000px;margin:0 auto;padding:30px;">
+      <button onClick="{{backToSelect}}" style="display:inline-block;margin-bottom:20px;background:none;border:none;color:#1f2d5c;font-weight:700;font-size:15px;cursor:pointer;padding:0;">← 返回選單</button>
+      <dc-import name="生份字測驗" words="{{activeWords}}" subtitle="{{activeSubtitle}}" hint-size="100%,700px"></dc-import>
+    </div>
+  </sc-if>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const { GROUPS_DEF } = window.TAIGI_VOCAB;
+
+class Component extends DCLogic {
+  state = { screen: 'select', activeWords: null, activeSubtitle: '' };
+
+  openLesson(row) {
+    this.setState({ screen: 'quiz', activeWords: row.words, activeSubtitle: row.subtitle });
+  }
+
+  renderVals() {
+    const groups = GROUPS_DEF.map(g => ({
+      label: g.label,
+      cards: g.cards.map(card => ({
+        title: card.title,
+        subtitle: card.subtitle,
+        bg: '#fdf1e2',
+        rows: card.rows.map(row => {
+          const available = !!row.words;
+          return {
+            label: row.label,
+            disabled: !available,
+            btnLabel: available ? '開始' : '尚未建立',
+            btnStyle: `font-family:inherit;border:none;border-radius:999px;padding:6px 14px;font-size:0.72rem;font-weight:700;cursor:${available ? 'pointer' : 'not-allowed'};background:${available ? '#4a9f6e' : '#e5ddd0'};color:${available ? '#fff' : '#9a8f80'};white-space:nowrap;`,
+            onClick: available ? () => this.openLesson(row) : null,
+          };
+        }),
+      })),
+    }));
+    return {
+      screenSelect: this.state.screen === 'select',
+      screenQuiz: this.state.screen === 'quiz',
+      groups,
+      activeWords: this.state.activeWords,
+      activeSubtitle: this.state.activeSubtitle,
+      backToSelect: () => this.setState({ screen: 'select' }),
+    };
+  }
+}
+
+</script>
+</body>
+</html>

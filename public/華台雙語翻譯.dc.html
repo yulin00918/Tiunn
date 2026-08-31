@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  .ht-page {
+    font-family: 'Noto Sans TC', sans-serif;
+    background: linear-gradient(135deg, #ffd9a0 0%, #ffc2b0 20%, #f3b6d3 40%, #d6b8ec 60%, #b9d3f0 80%, #a9e3ec 100%);
+    min-height: 100vh;
+    padding: 34px 20px 56px;
+    color: #4a4540;
+  }
+  .ht-wrap { max-width: 1080px; margin: 0 auto; }
+
+  .ht-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 18px;
+    color: #a91f43;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .ht-title {
+    font-size: clamp(28px, 4vw, 38px);
+    font-weight: 900;
+    color: #b62149;
+    margin: 0 0 8px;
+  }
+
+  .ht-intro {
+    font-size: 15px;
+    line-height: 1.8;
+    margin: 0 0 24px;
+    max-width: 780px;
+  }
+
+  .ht-flow-card {
+    background: rgba(255,255,255,.88);
+    border-radius: 20px;
+    padding: 22px;
+    box-shadow: 0 10px 28px rgba(70,42,55,.12);
+  }
+
+  .ht-flow-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+    font-weight: 900;
+    color: #4a4540;
+  }
+
+  .ht-flowline {
+    display: grid;
+    grid-template-columns: 1fr 56px 1fr;
+    gap: 12px;
+    align-items: stretch;
+  }
+
+  .ht-tool {
+    background: #fff;
+    border: 1px solid #edd1d8;
+    border-radius: 18px;
+    padding: 22px;
+    box-shadow: 0 5px 16px rgba(82,42,57,.07);
+    display: flex;
+    flex-direction: column;
+    min-height: 250px;
+  }
+
+  .ht-tool-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .ht-num {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #c0264a;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    flex: 0 0 34px;
+  }
+
+  .ht-tool-title {
+    font-size: 19px;
+    font-weight: 900;
+    color: #a91f43;
+  }
+
+  .ht-tool-sub {
+    font-size: 13px;
+    color: #7b6269;
+    margin-bottom: 14px;
+    line-height: 1.6;
+  }
+
+  .ht-tool-steps {
+    display: grid;
+    gap: 7px;
+    margin-bottom: 18px;
+  }
+
+  .ht-mini {
+    background: #fff7f9;
+    border: 1px solid #f0d7de;
+    border-radius: 10px;
+    padding: 9px 11px;
+    font-size: 13px;
+    color: #6c555b;
+    line-height: 1.5;
+  }
+
+  .ht-open {
+    margin-top: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 10px 16px;
+    border-radius: 12px;
+    background: #c0264a;
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 900;
+  }
+
+  .ht-open:hover { filter: brightness(.96); }
+
+  .ht-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #b62149;
+    font-size: 28px;
+    font-weight: 900;
+  }
+
+  .ht-copy-note {
+    margin-top: 16px;
+    background: #fff7e9;
+    border: 1px solid #f0d5a8;
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #70543d;
+  }
+
+  .ht-section {
+    background: rgba(255,255,255,.82);
+    border-radius: 18px;
+    padding: 20px 22px;
+    box-shadow: 0 5px 18px rgba(0,0,0,.07);
+    margin-top: 18px;
+  }
+
+  .ht-section-title {
+    font-weight: 900;
+    font-size: 15px;
+    color: #4a4540;
+    margin-bottom: 14px;
+  }
+
+  .ht-guide {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+  }
+
+  .ht-guide-item {
+    background: #fff7f9;
+    border: 1px solid #f1d2da;
+    border-radius: 12px;
+    padding: 10px;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    color: #a91f43;
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1.45;
+  }
+
+  .ht-guide-num {
+    width: 21px;
+    height: 21px;
+    flex: 0 0 21px;
+    border-radius: 50%;
+    background: #c0264a;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+  }
+
+  .ht-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+  }
+
+  .ht-resource {
+    padding: 9px 13px;
+    border-radius: 10px;
+    background: #fff;
+    border: 1px solid #e7bdc8;
+    color: #a91f43;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 800;
+  }
+
+  .ht-resource:hover { background: #fff7f9; }
+
+  @media (max-width: 760px) {
+    .ht-page { padding: 22px 12px 40px; }
+    .ht-flow-card { padding: 16px; }
+    .ht-flowline { grid-template-columns: 1fr; }
+    .ht-arrow { transform: rotate(90deg); height: 30px; }
+    .ht-tool { min-height: auto; padding: 18px; }
+    .ht-guide { grid-template-columns: 1fr; }
+    .ht-section { padding: 17px 15px; }
+  }
+</style>
+</helmet>
+
+<div class="ht-page">
+  <div class="ht-wrap">
+    <a href="首頁.dc.html" class="ht-back">← 回首頁</a>
+
+    <h1 class="ht-title">🗣️ 華台雙語翻譯</h1>
+    <p class="ht-intro">
+      依照「先翻譯、再聽發音」的順序操作。這一頁只負責引導流程，
+      實際工具會在新分頁開啟，避免內嵌網站造成反覆要求網路存取權。
+    </p>
+
+    <div class="ht-flow-card">
+      <div class="ht-flow-head">✨ 兩步完成華語轉台語</div>
+
+      <div class="ht-flowline">
+        <div class="ht-tool">
+          <div class="ht-tool-top">
+            <div class="ht-num">1</div>
+            <div class="ht-tool-title">華語轉台語翻譯</div>
+          </div>
+          <div class="ht-tool-sub">先把華語內容轉成台語，取得可複製的台語文字。</div>
+
+          <div class="ht-tool-steps">
+            <div class="ht-mini">輸入華語內容</div>
+            <div class="ht-mini">按「華翻閩」</div>
+            <div class="ht-mini">按「複製＋刪空格」</div>
+          </div>
+
+          <a class="ht-open"
+             href="https://gnisew.github.io/tools/turn/g2m2.html"
+             target="_blank"
+             rel="noopener">
+             開始翻譯 ↗
+          </a>
+        </div>
+
+        <div class="ht-arrow">→</div>
+
+        <div class="ht-tool">
+          <div class="ht-tool-top">
+            <div class="ht-num">2</div>
+            <div class="ht-tool-title">合成台語語音及羅馬字</div>
+          </div>
+          <div class="ht-tool-sub">把剛才的台語貼上，產生語音並查看羅馬字。</div>
+
+          <div class="ht-tool-steps">
+            <div class="ht-mini">貼上剛才複製的台語</div>
+            <div class="ht-mini">按「查」</div>
+            <div class="ht-mini">聽發音、看羅馬字</div>
+          </div>
+
+          <a class="ht-open"
+             href="https://suisiann.ithuan.tw/"
+             target="_blank"
+             rel="noopener">
+             產生語音 ↗
+          </a>
+        </div>
+      </div>
+
+      <div class="ht-copy-note">
+        💡 建議操作方式：先開第一個工具完成翻譯並複製結果，再回到這一頁開第二個工具。
+        這樣兩個工具彼此獨立，不會因為頁面內嵌而一直重新載入。
+      </div>
+    </div>
+
+    <div class="ht-section">
+      <div class="ht-section-title">📖 使用流程指南</div>
+      <div class="ht-guide">
+        <div class="ht-guide-item"><span class="ht-guide-num">1</span><span>輸入華語</span></div>
+        <div class="ht-guide-item"><span class="ht-guide-num">2</span><span>按「華翻閩」</span></div>
+        <div class="ht-guide-item"><span class="ht-guide-num">3</span><span>按「複製＋刪空格」</span></div>
+        <div class="ht-guide-item"><span class="ht-guide-num">4</span><span>開啟語音工具並貼上</span></div>
+        <div class="ht-guide-item"><span class="ht-guide-num">5</span><span>按「查」聽發音</span></div>
+      </div>
+    </div>
+
+    <div class="ht-section">
+      <div class="ht-section-title">🔗 相關資源</div>
+      <div class="ht-links">
+        <a href="http://tts001.ivoice.tw:8804/" target="_blank" rel="noopener" class="ht-resource">陽明交大語音合成</a>
+        <a href="https://translate.bronci.com.tw/#" target="_blank" rel="noopener" class="ht-resource">長問翻譯器</a>
+        <a href="https://sutian.moe.edu.tw/zh-hant/" target="_blank" rel="noopener" class="ht-resource">教育部台語辭典</a>
+        <a href="https://itaigi.tw/k/%E5%8F%B0%E8%AA%9E/" target="_blank" rel="noopener" class="ht-resource">iTaigi 愛台語</a>
+        <a href="https://www.taigitv.org.tw/taigi-words" target="_blank" rel="noopener" class="ht-resource">公視台語新詞</a>
+        <a href="https://www.taigi-domiso.com/" target="_blank" rel="noopener" class="ht-resource">Tâi-gí 做伙耍</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+</x-dc>
+
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

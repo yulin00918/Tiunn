@@ -92,7 +92,12 @@
         <div style="font-weight:700;color:#e58fc0;margin:18px 0 10px;font-size:1rem;">{{grp.label}}</div>
         <div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(70px,1fr));gap:8px;">
           <sc-for list="{{grp.items}}" as="u" hint-placeholder-count="6">
-            <div style="background:#fff;border:2px solid #e2d9f7;border-radius:10px;padding:8px 6px;text-align:center;font-size:0.95rem;font-weight:600;">{{u}}</div>
+            <div style="position:relative;background:#fff;border:2px solid #e2d9f7;border-radius:10px;padding:8px 6px;text-align:center;font-size:0.95rem;font-weight:600;">
+              <sc-if value="{{u.hasAudio}}">
+                <span style="position:absolute;top:-8px;right:-8px;font-size:0.7rem;background:#8b5fbf;color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;cursor:pointer;" onClick="{{u.onPlay}}">🔊</span>
+              </sc-if>
+              {{u.label}}
+            </div>
           </sc-for>
         </div>
       </sc-for>
@@ -233,6 +238,21 @@ const TAB_DEFS = [
 ];
 function playId(id) { new Audio(`audio/${id}.mp3`).play().catch(()=>{}); }
 function playUrl(url) { new Audio(url).play().catch(()=>{}); }
+const UN_EXAMPLES = {
+  'a':[4496,'阿'],'e':[5959,'挨'],'i':[2047,'伊'],'o':[7814,'蚵'],'oo':[6227,'烏'],'u':[4498,'雨'],
+  'ai':[4778,'哀'],'au':[10607,'漚'],'ia':[8003,'野'],'iu':[11051,'憂'],'io':[174,'么'],'iau':[3048,'妖'],
+  'ua':[5709,'倚'],'ue':[8517,'椏'],'ui':[2830,'衣'],'uai':[5119,'歪'],
+  'ann':[2120,'向'],'inn':[11812,'穎'],'onn':[5804,'唔'],'iann':[11017,'影'],'iaunn':[8171,'喓'],
+  'iunn':[6532,'舀'],'uann':[11532,'鞍'],'uainn':[13479,'𨂿'],
+  'm':[3762,'姆'],'ng':[6426,'秧'],
+  'am':[7311,'掩'],'im':[5565,'音'],'om':[7314,'掩'],'iam':[11991,'閹'],
+  'an':[2281,'安'],'in':[2127,'因'],'un':[5953,'恩'],'ian':[9690,'煙'],'uan':[5716,'冤'],
+  'ang':[3055,'尪'],'ing':[3753,'坱'],'ong':[3878,'往'],'iang':[1411,'央'],'uang':[13084,'嚾'],'iong':[4700,'勇'],
+  'ap':[7637,'盒'],'iap':[8407,'揜'],'at':[10150,'遏'],'it':[2,'一'],'ut':[11189,'熨'],
+  'iat':[11653,'擛'],'uat':[10532,'斡'],'ak':[3281,'沃'],'ik':[9641,'溢'],'ok':[8341,'惡'],'iak':[10499,'摔'],'iok':[5364,'約'],
+  'ah':[3943,'押'],'eh':[778,'厄'],'oh':[10375,'僫'],'iah':[9483,'搤'],'ioh':[12296,'臆'],
+  'uah':[5166,'活'],'aih':[11604,'噯'],
+};
 const CUSTOM_SIANN_AUDIO = { 'p':'audio/siann_p.mp3', 'ph':'audio/siann_ph.mp3', 'm':'audio/siann_m.mp3', 'b':'audio/siann_b.mp3', 't':'audio/siann_t.mp3', 'th':'audio/siann_th.mp3', 'g':'audio/siann_g.mp3', 'h':'audio/siann_h.mp3', 'ng':'audio/siann_ng.mp3', 'kh':'audio/siann_kh.mp3', 'k':'audio/siann_k.mp3', 'l':'audio/siann_l.mp3', 'n':'audio/siann_n.mp3', 'j':'audio/siann_j.mp3', 's':'audio/siann_s.mp3', 'tsh':'audio/siann_tsh.mp3', 'ts':'audio/siann_ts.mp3' };
 
 class Component extends DCLogic {
@@ -260,7 +280,17 @@ class Component extends DCLogic {
       }),
     }));
 
-    const unGroups = UN_GROUPS_DEF.map(([label, list]) => ({ label, items: list }));
+    const unGroups = UN_GROUPS_DEF.map(([label, list]) => ({
+      label,
+      items: list.map(u => {
+        const ex = UN_EXAMPLES[u];
+        return {
+          label: u,
+          hasAudio: !!ex,
+          onPlay: ex ? (e) => { e.stopPropagation(); playId(ex[0]); } : null,
+        };
+      }),
+    }));
 
     const toneSets = TONE_SETS_DEF.map(set => ({
       name: set.name,

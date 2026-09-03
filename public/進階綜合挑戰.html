@@ -8,6 +8,9 @@
 .modegrid,.countgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.selected{border-color:#aa77c5!important;background:#faf2ff!important}.primary{background:#7f62a6;color:#fff;font-weight:900;width:100%;margin-top:16px}
 .qtop{display:flex;justify-content:space-between;font-weight:800}.prompt{text-align:center;font-size:24px;font-weight:900;margin:16px}.pic{display:block;width:min(360px,90%);aspect-ratio:1;object-fit:contain;margin:12px auto;border-radius:22px;background:#fafafa}.play{display:block;margin:20px auto;border:0;border-radius:999px;padding:18px 24px;background:#7f62a6;color:#fff;font-size:20px;font-weight:900}.choices{display:grid;grid-template-columns:1fr 1fr;gap:12px}.choice{font-weight:800}.choice.correct{background:#e6f7e9;border-color:#69b879}.choice.wrong{background:#fde8e8;border-color:#d66}.feedback{text-align:center;margin-top:18px;font-size:18px}.feedback .hanji{font-size:30px;font-weight:900}.feedback .tailo{color:#7f62a6;font-weight:800}.next{margin-top:12px}.result{text-align:center}.score{font-size:56px;font-weight:900;color:#7f62a6}
 @media(max-width:700px){.grid{grid-template-columns:1fr 1fr}.modegrid{grid-template-columns:1fr 1fr}.countgrid{grid-template-columns:repeat(3,1fr)}}
+.choice.correct{background:#d8f5e3!important;border-color:#39a06a!important;color:#14603c!important}
+.choice.wrong{background:#ffe1e1!important;border-color:#d05a5a!important;color:#7d2020!important}
+.choice{transition:transform .12s,box-shadow .12s}.choice:hover{transform:translateY(-2px);box-shadow:0 8px 18px #51435a1f}
 </style></head><body><div class="wrap">
 <a href="台語挑戰區.dc.html" style="display:inline-block;margin-bottom:14px;color:#2461b0;font-weight:700;text-decoration:none;white-space:nowrap;">← 回台語挑戰區</a>
 <div class="hero"><div class="pill">🚀 台語挑戰區</div><h1>進階綜合挑戰</h1><p>生活詞彙 × 圖片 × 教育部詞條讀音</p></div>
@@ -42,7 +45,8 @@ let opts=shuffle([q,...distractors(q)]);
 if(q._mode==='audio-image') body+=`<div class=choices>${opts.map(x=>`<button class=choice data-id="${x.id}"><img src="${x.image}" style="width:100%;aspect-ratio:1;object-fit:contain;border-radius:12px"></button>`).join('')}</div>`;
 else body+=`<div class=choices>${opts.map(x=>`<button class=choice data-id="${x.id}">${x.hanji}</button>`).join('')}</div>`;
 body+=`<div id=fb class=feedback></div>`;$('#qbody').innerHTML=body;if($('#play')){$('#play').onclick=()=>play(q);setTimeout(()=>play(q),250)}
-$$('.choice').forEach(b=>b.onclick=()=>answer(b,q))}
+const PALETTE=[['#fff3e0','#f0a350','#8a4a12'],['#e8f5ff','#5aa6dd','#14496e'],['#f3ecff','#9b73cf','#4a2d75'],['#e9f8ee','#4fa877','#1c5638'],['#ffeef4','#e0709b','#7d2247'],['#fffbe0','#d9b021','#6b5209']];
+$$('.choice').forEach((b,idx)=>{const c=PALETTE[idx%PALETTE.length];b.style.background=c[0];b.style.border=`2px solid ${c[1]}`;b.style.color=c[2];b.onclick=()=>answer(b,q)})}
 function answer(b,q){if(locked)return;locked=true;let ok=b.dataset.id===q.id;if(ok){score++;b.classList.add('correct')}else{b.classList.add('wrong');let c=$(`.choice[data-id="${q.id}"]`);if(c)c.classList.add('correct')}
 $('#fb').innerHTML=`<div>${ok?'✅ 答對！':'❌ 再記一下'}</div><div class=hanji>${q.hanji}</div><div class=tailo>${q.tailo}</div>${q.audio?'<button class="play" id="again">🔊 再聽一次</button>':''}<button class="primary next" id="next">${qi+1===qs.length?'看結果':'下一題'}</button>`;if($('#again'))$('#again').onclick=()=>play(q);$('#next').onclick=next}
 function next(){qi++;if(qi>=qs.length){$('#quiz').classList.add('hidden');$('#result').classList.remove('hidden');$('#finalScore').textContent=`${score} / ${qs.length}`;$('#finalText').textContent=`答對率 ${Math.round(score/qs.length*100)}%`;return}render()}

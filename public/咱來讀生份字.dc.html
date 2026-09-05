@@ -3,6 +3,29 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>咱來讀生份字</title>
+<meta name="author" content="張鈺聆">
+<meta name="copyright" content="© 張鈺聆">
+<script src="./author-credit.js"></script>
+<!--
+==================================================
+網站介面、功能與教學整合設計／製作：張鈺聆
+Copyright © 張鈺聆. All rights reserved.
+
+本網站為台語教學用途所設計。
+
+「張鈺聆 製」係指本網站之介面設計、
+功能整合、互動設計與教學資源整合，
+不代表頁面中所有教材文字、課文、圖片、
+音檔、辭典資料或第三方素材均為作者原創。
+
+教材、課文、音檔、圖片、辭典資料及其他
+第三方素材之著作權，仍屬原權利人所有。
+
+未經作者同意，請勿移除作者標示後，
+將本網站介面、程式功能或整合成果重新發布、
+重新包裝、冒名散布或作為他人原創作品。
+==================================================
+-->
 <script src="./taigi-vocab-lessons.js"></script><script src="./taigi-vocab-data.js"></script>
 <style>
 *{box-sizing:border-box}body{margin:0;font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;background:linear-gradient(135deg,#ffe3c2,#ffb98f 55%,#ff9f7a);min-height:100vh;color:#1f2d5c}.top{background:#1f2d5c;color:white;padding:18px;text-align:center}.top b{font-size:22px;letter-spacing:.12em}.top div{opacity:.75;font-size:13px;margin-top:5px}.wrap{max-width:1080px;margin:auto;padding:22px}.back{color:#1f2d5c;text-decoration:none;font-weight:800}.panel{background:#fff9f1;border-radius:22px;padding:22px;margin-top:18px;box-shadow:0 10px 30px #7d45232a}.selectors{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.field label{display:block;font-size:13px;font-weight:800;margin-bottom:6px}.field select{width:100%;padding:11px;border:2px solid #ead7c5;border-radius:12px;background:white;font-size:15px}.amounts{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.amounts button,.primary{border:0;border-radius:999px;padding:10px 18px;font-weight:800;cursor:pointer}.amounts button{background:#efe5da;color:#604f42}.amounts button.on{background:#4a9f6e;color:#fff}.primary{background:#1f2d5c;color:#fff;font-size:16px;padding:12px 24px}.modeTitle{font-weight:900;margin:2px 0 10px}.modes{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}.modeBtn{border:2px solid #d9dce8;background:white;color:#1f2d5c;border-radius:999px;padding:11px 14px;font-weight:900;cursor:pointer}.modeBtn.on{background:#1f2d5c;color:white;border-color:#1f2d5c}.lessonInfo{margin:16px 0 4px;color:#746557}.quiz{max-width:760px;margin:20px auto}.meta{display:flex;justify-content:space-between;gap:10px;font-weight:800}.bar{height:10px;background:#eadfd4;border-radius:99px;overflow:hidden;margin:10px 0 20px}.bar i{display:block;height:100%;background:#4a9f6e}.card{background:#fff;border-radius:24px;padding:28px;box-shadow:0 12px 32px #7545252b;text-align:center}.tag{display:inline-block;background:#fff0dc;color:#a86422;padding:6px 12px;border-radius:99px;font-weight:800;font-size:13px}.prompt{font-size:32px;font-weight:900;margin:22px 0 10px;word-break:break-word}.sub{color:#88786a;margin-bottom:16px}.audioBtn{border:0;background:#1f2d5c;color:white;border-radius:50%;width:68px;height:68px;font-size:28px;cursor:pointer;margin:10px}.opts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}.opt{border:2px solid #eadfd4;background:#fffaf4;border-radius:16px;padding:15px;font-size:18px;font-weight:800;cursor:pointer;color:#1f2d5c}.opt:hover{border-color:#9cc9ac}.opt.good{background:#e7f7ec;border-color:#4a9f6e}.opt.bad{background:#ffe8e2;border-color:#df735e}.feedback{min-height:28px;margin:16px 0 4px;font-weight:800}.next{display:none;margin:10px auto 0}.result{text-align:center}.score{font-size:54px;font-weight:900;margin:10px}.small{color:#7e6f63}.warn{background:#fff1d7;border-radius:14px;padding:10px 14px;margin-top:14px;color:#80591e;font-size:13px}@media(max-width:760px){.selectors{grid-template-columns:1fr 1fr}.modes{grid-template-columns:1fr 1fr}.opts{grid-template-columns:1fr}.prompt{font-size:27px}}@media(max-width:460px){.selectors{grid-template-columns:1fr}.modes{grid-template-columns:1fr}.wrap{padding:14px}.card{padding:20px}}

@@ -4,6 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
+<meta name="author" content="張鈺聆">
+<meta name="copyright" content="© 張鈺聆">
+<script src="./author-credit.js"></script>
+<!-- 網站介面、功能與教學整合設計／製作：張鈺聆　Copyright © 張鈺聆. All rights reserved.
+     「張鈺聆 製」係指介面設計、功能整合、互動設計與教學資源整合；
+     教材、課文、音檔、圖片、辭典資料等第三方素材之著作權仍屬原權利人所有。
+     完整版權宣告見 author-credit.js。 -->
 </head>
 <body>
 <x-dc>
@@ -152,7 +159,7 @@ function tokenizeSegment(text) {
 
 class Component extends DCLogic {
   state = { tab: 'reading', current: 0, playing: false, continuous: false, progressPct: 0, status: '尚未播放', speed: 1, playingVocabIdx: null, popupIdx: null };
-  audioEl = new Audio();
+  audioEl = Object.assign(new Audio(), { preload: 'none' });
 
   componentDidMount() {
     this.audioEl.addEventListener('timeupdate', () => {

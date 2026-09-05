@@ -4,6 +4,29 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
+<meta name="author" content="張鈺聆">
+<meta name="copyright" content="© 張鈺聆">
+<script src="./author-credit.js"></script>
+<!--
+==================================================
+網站介面、功能與教學整合設計／製作：張鈺聆
+Copyright © 張鈺聆. All rights reserved.
+
+本網站為台語教學用途所設計。
+
+「張鈺聆 製」係指本網站之介面設計、
+功能整合、互動設計與教學資源整合，
+不代表頁面中所有教材文字、課文、圖片、
+音檔、辭典資料或第三方素材均為作者原創。
+
+教材、課文、音檔、圖片、辭典資料及其他
+第三方素材之著作權，仍屬原權利人所有。
+
+未經作者同意，請勿移除作者標示後，
+將本網站介面、程式功能或整合成果重新發布、
+重新包裝、冒名散布或作為他人原創作品。
+==================================================
+-->
 </head>
 <body>
 <x-dc>
@@ -74,6 +97,9 @@
       <sc-if value="{{isBueTsiahGoo}}">
         <dc-import name="未食五日節粽點讀" hint-size="100%,900px"></dc-import>
       </sc-if>
+      <sc-if value="{{isTshiuKiA}}">
+        <dc-import name="手機仔點讀" hint-size="100%,900px"></dc-import>
+      </sc-if>
       <sc-if value="{{!hasDc}}">
         <div style="background:#ffffffcc;border-radius:16px;padding:28px;box-shadow:0 4px 14px rgba(0,0,0,0.08);">
           <h3 style="font-size:18px;font-weight:700;color:#8f2035;margin-bottom:14px;">{{activeSubtitle}}</h3>
@@ -93,7 +119,7 @@ const GROUPS_DEF = [
   { key: 'yuda', label: '育達版(國中)', cards: [
     { title: '第1冊', subtitle: '共 4 課', rows: [ { label: '第1課 白糖粿', ready: true, dc: '白糖粿點讀' }, { label: '第2課 來去屏東海生館蹛一暝', ready: true, dc: '來去屏東海生館蹛一暝點讀' }, { label: '第3課 四秀仔錢', ready: true, dc: '四秀仔錢點讀' }, { label: '第4課 燒銀紙佮放炮仔', ready: true, dc: '燒銀紙佮放炮仔點讀' } ] },
     { title: '第2冊', subtitle: '共 4 課', rows: [ { label: '第1課 踢銅管仔', ready: true, dc: '踢銅管仔點讀' }, { label: '第2課 爸仔囝', ready: true, dc: '爸仔囝點讀' }, { label: '第3課 阿媽的目屎', ready: true, dc: '阿媽的目屎點讀' }, { label: '第4課 未食五日節粽', ready: true, dc: '未食五日節粽點讀' } ] },
-    { title: '第3冊', subtitle: '共 0 課', rows: [ { label: '第1課', ready: false }, { label: '第2課', ready: false }, { label: '第3課', ready: false } ] },
+    { title: '第3冊', subtitle: '共 1 課', rows: [ { label: '第1課 手機仔', ready: true, dc: '手機仔點讀' }, { label: '第2課', ready: false }, { label: '第3課', ready: false } ] },
   ]},
   { key: 'kangxuan', label: '康軒版(國中)', cards: [
     { title: '第1冊', subtitle: '共 0 課', rows: [ { label: '第1課', ready: false }, { label: '第2課', ready: false } ] },
@@ -149,6 +175,7 @@ class Component extends DCLogic {
       isPahAKiann: this.state.activeDc === '爸仔囝點讀',
       isAMaBakSai: this.state.activeDc === '阿媽的目屎點讀',
       isBueTsiahGoo: this.state.activeDc === '未食五日節粽點讀',
+      isTshiuKiA: this.state.activeDc === '手機仔點讀',
       backToSelect: () => this.setState({ screen: 'select' }),
     };
   }

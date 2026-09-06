@@ -100,6 +100,15 @@ Copyright © 張鈺聆. All rights reserved.
       <sc-if value="{{isTshiuKiA}}">
         <dc-import name="手機仔點讀" hint-size="100%,900px"></dc-import>
       </sc-if>
+      <sc-if value="{{isUKang}}">
+        <dc-import name="雨港基隆點讀" hint-size="100%,900px"></dc-import>
+      </sc-if>
+      <sc-if value="{{isKeNngKo}}">
+        <dc-import name="雞卵糕點讀" hint-size="100%,900px"></dc-import>
+      </sc-if>
+      <sc-if value="{{isKhongIo}}">
+        <dc-import name="炕窯點讀" hint-size="100%,900px"></dc-import>
+      </sc-if>
       <sc-if value="{{!hasDc}}">
         <div style="background:#ffffffcc;border-radius:16px;padding:28px;box-shadow:0 4px 14px rgba(0,0,0,0.08);">
           <h3 style="font-size:18px;font-weight:700;color:#8f2035;margin-bottom:14px;">{{activeSubtitle}}</h3>
@@ -119,10 +128,17 @@ const GROUPS_DEF = [
   { key: 'yuda', label: '育達版(國中)', cards: [
     { title: '第1冊', subtitle: '共 4 課', rows: [ { label: '第1課 白糖粿', ready: true, dc: '白糖粿點讀' }, { label: '第2課 來去屏東海生館蹛一暝', ready: true, dc: '來去屏東海生館蹛一暝點讀' }, { label: '第3課 四秀仔錢', ready: true, dc: '四秀仔錢點讀' }, { label: '第4課 燒銀紙佮放炮仔', ready: true, dc: '燒銀紙佮放炮仔點讀' } ] },
     { title: '第2冊', subtitle: '共 4 課', rows: [ { label: '第1課 踢銅管仔', ready: true, dc: '踢銅管仔點讀' }, { label: '第2課 爸仔囝', ready: true, dc: '爸仔囝點讀' }, { label: '第3課 阿媽的目屎', ready: true, dc: '阿媽的目屎點讀' }, { label: '第4課 未食五日節粽', ready: true, dc: '未食五日節粽點讀' } ] },
-    { title: '第3冊', subtitle: '共 1 課', rows: [ { label: '第1課 手機仔', ready: true, dc: '手機仔點讀' }, { label: '第2課', ready: false }, { label: '第3課', ready: false } ] },
+    { title: '第3冊', subtitle: '共 4 課', rows: [ { label: '第1課 手機仔', ready: true, dc: '手機仔點讀' }, { label: '第2課 雨港基隆，魚鹽規布袋', ready: true, dc: '雨港基隆點讀' }, { label: '第3課 雞卵糕', ready: true, dc: '雞卵糕點讀' }, { label: '第4課 炕窯', ready: true, dc: '炕窯點讀' } ] },
   ]},
   { key: 'kangxuan', label: '康軒版(國中)', cards: [
-    { title: '第1冊', subtitle: '共 0 課', rows: [ { label: '第1課', ready: false }, { label: '第2課', ready: false } ] },
+    { title: '第1冊', subtitle: '共 6 課', rows: [
+      { label: '第1課 講咱的話', ready: true, href: '康軒點讀/B1L1_講咱的話/index.html' },
+      { label: '第2課 鬥陣', ready: true, href: '康軒點讀/B1L2_鬥陣/index.html' },
+      { label: '第3課 真珠奶茶', ready: true, href: '康軒點讀/B1L3_真珠奶茶/index.html' },
+      { label: '第4課 你有載具無？', ready: true, href: '康軒點讀/B1L4_你有載具無/index.html' },
+      { label: '自學 過年的批', ready: true, href: '康軒點讀/B1自學_過年的批/index.html' },
+      { label: '素養活動 臺灣台語常用詞辭典紹介', ready: true, href: '康軒點讀/B1素養活動_臺灣台語常用詞辭典紹介/index.html' },
+    ]},
     { title: '第2冊', subtitle: '共 0 課', rows: [ { label: '第1課', ready: false }, { label: '第2課', ready: false } ] },
     { title: '第3冊', subtitle: '共 0 課', rows: [ { label: '第1課', ready: false }, { label: '第2課', ready: false } ] },
   ]},
@@ -138,6 +154,7 @@ class Component extends DCLogic {
   state = { screen: 'select', activeSubtitle: '', activeDc: null };
 
   openLesson(cardTitle, groupLabel, row) {
+    if (row.href) { window.location.href = row.href; return; }
     this.setState({ screen: 'lesson', activeSubtitle: `${groupLabel} ${cardTitle} ${row.label}`, activeDc: row.dc || null });
   }
 
@@ -176,6 +193,9 @@ class Component extends DCLogic {
       isAMaBakSai: this.state.activeDc === '阿媽的目屎點讀',
       isBueTsiahGoo: this.state.activeDc === '未食五日節粽點讀',
       isTshiuKiA: this.state.activeDc === '手機仔點讀',
+      isUKang: this.state.activeDc === '雨港基隆點讀',
+      isKeNngKo: this.state.activeDc === '雞卵糕點讀',
+      isKhongIo: this.state.activeDc === '炕窯點讀',
       backToSelect: () => this.setState({ screen: 'select' }),
     };
   }

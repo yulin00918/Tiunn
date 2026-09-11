@@ -1,152 +1,385 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-Hant">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
+<title>鈺聆上台語課</title>
 <meta name="author" content="張鈺聆">
-<meta name="copyright" content="© 張鈺聆">
+<meta name="creator" content="張鈺聆">
+<meta name="maintainer" content="張鈺聆">
+<meta name="project" content="鈺聆上台語課">
+<meta name="source-reference" content="詹宗龍老師｜宗龍的台語課">
 <script src="./author-credit.js"></script>
 <!--
-==================================================
-網站介面、功能與教學整合設計／製作：張鈺聆
-Copyright © 張鈺聆. All rights reserved.
+============================================================
+鈺聆上台語課｜網站製作與來源說明
 
-本網站為台語教學用途所設計。
+網站建置、教學內容整合、功能擴充與後續維護：
+張鈺聆
 
-「張鈺聆 製」係指本網站之介面設計、
-功能整合、互動設計與教學資源整合，
-不代表頁面中所有教材文字、課文、圖片、
-音檔、辭典資料或第三方素材均為作者原創。
+本站建置初期之部分網站架構、功能概念與教學工具設計，
+曾參考詹宗龍老師「宗龍的台語課」之分享與實作經驗。
 
-教材、課文、音檔、圖片、辭典資料及其他
-第三方素材之著作權，仍屬原權利人所有。
+參考網站：
+https://sites.google.com/ms.mingdao.edu.tw/tsiam/
 
-未經作者同意，請勿移除作者標示後，
-將本網站介面、程式功能或整合成果重新發布、
-重新包裝、冒名散布或作為他人原創作品。
-==================================================
+感謝詹宗龍老師分享教學經驗與資源，
+提供本站早期規劃與發展的重要參考。
+
+本站後續依實際教學需求持續進行內容整理、
+介面重新設計、功能擴充、互動設計與教學應用。
+
+教材、課文、圖片、音檔、辭典資料及其他第三方素材之
+著作權與相關權利，仍屬各原權利人所有。
+
+「張鈺聆 製」係指本站之建置、教學整合、介面設計、
+功能擴充與後續維護，不表示其中所有教材內容、
+第三方素材或早期參考之設計概念均為本人原創。
+============================================================
+
+本檔案為網站唯一正式首頁（部署根路徑 /）。
+首頁.dc.html 已改為舊連結相容轉接頁，請勿在該檔維護首頁內容。
+============================================================
 -->
 </head>
 <body>
 <x-dc>
 <helmet>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;800;900&display=swap" rel="stylesheet">
 <style>
-  a{color:inherit;}
-  a:hover{opacity:0.9;}
+  :root{
+    --ink:#15344b;
+    --paper:#fbf8f2;
+    --shadow:0 12px 30px rgba(65,54,43,.10);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;}
+  a{color:inherit;text-decoration:none;}
+
+  .site-shell{
+    min-height:100vh;
+    font-family:'Noto Sans TC',sans-serif;
+    color:var(--ink);
+    background:
+      radial-gradient(circle at 8% 6%, rgba(243,188,111,.16), transparent 22%),
+      radial-gradient(circle at 93% 14%, rgba(117,190,219,.12), transparent 24%),
+      var(--paper);
+  }
+
+  /* ── ① 品牌 Header ───────────────────── */
+  .topbar{position:sticky;top:0;z-index:20;background:rgba(251,248,242,.93);backdrop-filter:blur(14px);border-bottom:1px solid rgba(221,210,195,.8);}
+  .topbar-inner{max-width:1240px;margin:0 auto;min-height:72px;padding:10px 24px;display:flex;align-items:center;justify-content:space-between;gap:18px;}
+  .brand{display:flex;align-items:center;gap:12px;min-width:0;}
+  .brand img{width:58px;height:58px;object-fit:contain;flex:0 0 auto;}
+  .brand-name{font-size:24px;line-height:1.05;font-weight:900;letter-spacing:.04em;white-space:nowrap;}
+  .brand-sub{margin-top:3px;font-size:11px;font-weight:800;letter-spacing:.16em;color:#698093;}
+  .main-nav{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;}
+  .main-nav a{padding:11px 14px;border-radius:999px;font-size:13.5px;font-weight:800;color:#3f5a6d;transition:.16s ease;}
+  @media(hover:hover){.main-nav a:hover{background:#fff;box-shadow:0 5px 14px rgba(63,90,109,.08);}}
+
+  /* ── ② Hero ─────────────────────────── */
+  .hero-wrap{max-width:1240px;margin:0 auto;padding:24px 24px 14px;}
+  .hero{min-height:300px;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(330px,.95fr);overflow:hidden;border:1px solid #eadfce;border-radius:30px;box-shadow:var(--shadow);background:linear-gradient(110deg,rgba(255,250,240,.98) 0 53%,rgba(225,241,239,.93) 53% 100%);}
+  .hero-copy{padding:44px 48px;display:flex;flex-direction:column;justify-content:center;}
+  .eyebrow{display:inline-flex;align-items:center;width:max-content;gap:8px;padding:7px 11px;border-radius:999px;background:#fff4dd;color:#9a6417;font-size:12px;font-weight:900;letter-spacing:.12em;}
+  .hero h1{margin:16px 0 8px;font-size:clamp(34px,4.6vw,54px);line-height:1.05;letter-spacing:.03em;font-weight:900;color:#123b4f;}
+  .hero-kicker{margin:0;font-size:clamp(19px,2.2vw,27px);font-weight:900;color:#244f63;letter-spacing:.04em;}
+  .hero-sub{margin:13px 0 0;color:#617482;font-size:15px;line-height:1.8;font-weight:700;}
+  .hero-start{margin-top:22px;display:inline-flex;align-items:center;justify-content:space-between;gap:18px;width:min(390px,100%);min-height:60px;padding:14px 18px 14px 22px;border-radius:999px;background:#fff;border:1px solid #e8ded0;box-shadow:0 8px 18px rgba(73,69,61,.08);font-weight:900;color:#244f63;}
+  .hero-start span:last-child{width:36px;height:36px;flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;background:#f4a83c;color:#fff;font-size:20px;}
+  .hero-note{margin-top:12px;font-size:12.5px;color:#8a968e;font-weight:700;}
+
+  .hero-visual{position:relative;min-height:300px;padding:32px;overflow:hidden;background:linear-gradient(180deg,rgba(25,79,70,.88),rgba(36,91,78,.92)),linear-gradient(135deg,#d6eee8,#95c5ba);}
+  .hero-visual:before{content:"";position:absolute;inset:0;background:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:28px 28px;opacity:.42;}
+  .chalk{position:relative;z-index:1;width:min(360px,100%);margin-left:auto;color:#f8f1df;font-size:clamp(23px,2.8vw,35px);line-height:1.45;letter-spacing:.08em;font-weight:500;transform:rotate(-1.5deg);}
+  .chalk strong{display:block;font-size:1.15em;font-weight:800;}
+  .chalk-line{margin-top:12px;width:170px;height:4px;border-radius:999px;background:#f2bf53;}
+  .desk-scene{position:absolute;left:28px;right:26px;bottom:18px;display:flex;align-items:flex-end;justify-content:space-between;gap:18px;z-index:1;}
+  .mascot-stage{width:144px;height:144px;border-radius:30px;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;box-shadow:0 14px 28px rgba(10,46,40,.18);transform:rotate(-2deg);}
+  .mascot-stage img{width:120px;height:120px;object-fit:contain;}
+  .note-card{max-width:186px;padding:15px 16px;border-radius:6px 6px 14px 14px;background:#f7e6ae;color:#254a4d;font-weight:900;line-height:1.65;transform:rotate(3deg);box-shadow:0 10px 18px rgba(12,46,41,.13);}
+
+  .content{max-width:1240px;margin:0 auto;padding:0 24px 52px;}
+  .section-title-row{margin:22px 0 14px;}
+  .section-title-row h2{margin:0;font-size:clamp(20px,2.4vw,24px);font-weight:900;color:#153f55;}
+  .section-title-row p{margin:5px 0 0;font-size:13.5px;color:#7d8b94;font-weight:700;line-height:1.7;}
+
+  /* ── ③ 我的台語課本 ─────────────────── */
+  .textbook-card{min-height:180px;padding:26px 30px;border-radius:24px;border:1px solid #e7ded3;box-shadow:0 8px 20px rgba(66,57,47,.07);background:linear-gradient(110deg,rgba(245,251,255,.98),rgba(231,244,251,.95));display:flex;align-items:center;justify-content:space-between;gap:22px;transition:.16s ease;}
+  @media(hover:hover){.textbook-card:hover{transform:translateY(-3px);box-shadow:0 16px 30px rgba(66,57,47,.13);}}
+  .textbook-label{font-size:12px;font-weight:900;color:#7b91a1;letter-spacing:.12em;}
+  .textbook-card h3{margin:7px 0 8px;font-size:clamp(24px,3vw,30px);font-weight:900;color:#1e526b;}
+  .textbook-card p{margin:0;color:#667a88;font-size:14.5px;line-height:1.75;font-weight:700;}
+  .textbook-cta{margin-top:18px;display:inline-flex;align-items:center;gap:8px;min-height:52px;padding:14px 22px;border-radius:999px;background:#f57d27;color:#fff;font-size:15px;font-weight:900;box-shadow:0 8px 16px rgba(245,125,39,.2);}
+  .book-stack{flex:0 0 190px;position:relative;min-height:120px;}
+  .book{position:absolute;right:0;width:150px;height:30px;border-radius:6px 12px 12px 6px;box-shadow:0 5px 10px rgba(55,74,84,.13);display:flex;align-items:center;padding-left:18px;font-size:12px;font-weight:900;color:#23485c;}
+  .book:nth-child(1){top:8px;background:#f3b179;transform:rotate(3deg);}
+  .book:nth-child(2){top:42px;background:#95c8d6;transform:rotate(-2deg);}
+  .book:nth-child(3){top:76px;background:#98c69d;transform:rotate(1deg);}
+
+  /* ── ④ 四大學習區 ───────────────────── */
+  .zone-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;}
+  .zone-card{min-height:318px;border-radius:24px;padding:22px;border:1px solid rgba(255,255,255,.9);box-shadow:0 9px 22px rgba(70,63,55,.08);display:flex;flex-direction:column;overflow:hidden;position:relative;}
+  .zone-card:after{content:"";position:absolute;width:120px;height:120px;border-radius:50%;right:-42px;top:-48px;background:rgba(255,255,255,.28);}
+  .zone-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
+  .zone-index{font-size:12px;font-weight:900;letter-spacing:.1em;opacity:.7;}
+  .zone-icon{width:66px;height:66px;flex:0 0 auto;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:34px;background:rgba(255,255,255,.74);box-shadow:inset 0 0 0 1px rgba(255,255,255,.9);}
+  .zone-card h3{margin:14px 0 4px;font-size:clamp(21px,2.3vw,24px);line-height:1.15;font-weight:900;letter-spacing:.02em;}
+  .zone-tag{margin:0;font-size:13px;font-weight:800;opacity:.75;}
+  .zone-lead{margin:12px 0 16px;font-size:13.5px;line-height:1.7;opacity:.8;min-height:44px;}
+  .zone-links{margin-top:auto;display:flex;flex-direction:column;gap:8px;}
+  .zone-link{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:46px;padding:11px 14px;border-radius:999px;background:rgba(255,255,255,.8);font-size:14px;font-weight:900;transition:.16s ease;}
+  @media(hover:hover){.zone-link:hover{transform:translateX(3px);background:#fff;}}
+  .zone-listen{background:linear-gradient(180deg,#dff0ff,#d7ebfb);color:#205f9c;}
+  .zone-decode{background:linear-gradient(180deg,#ddf3e7,#d5eee1);color:#216c4f;}
+  .zone-speak{background:linear-gradient(180deg,#fff0e4,#fee7d7);color:#b55422;}
+  .zone-quest{background:linear-gradient(180deg,#efe7ff,#e9defb);color:#6740a5;}
+
+  /* ── ⑤ 毋知欲對佗位開始？ ───────────── */
+  .helper-card{margin-top:22px;padding:24px 26px;border-radius:24px;border:1px solid #e7ded3;box-shadow:0 8px 20px rgba(66,57,47,.07);background:linear-gradient(180deg,#f3f9ff,#edf6fb);}
+  .helper-card h3{margin:0;font-size:clamp(19px,2.2vw,22px);font-weight:900;color:#234f69;}
+  .helper-card p{margin:6px 0 15px;font-size:13.5px;color:#6d8290;font-weight:700;}
+  .helper-links{display:grid;grid-template-columns:repeat(auto-fit,minmax(216px,1fr));gap:9px;}
+  .helper-links a{min-height:58px;padding:13px 15px;border-radius:14px;background:#fff;border:1px solid #dce9f0;font-size:13.5px;line-height:1.5;font-weight:900;color:#2d617c;display:flex;align-items:center;justify-content:space-between;gap:10px;transition:.16s ease;}
+  @media(hover:hover){.helper-links a:hover{background:#f7fbfe;border-color:#b9d6e6;}}
+  .helper-want{font-weight:700;color:#7b8f9c;flex:0 0 auto;}
+
+  /* ── ⑥ 教師專區 ─────────────────────── */
+  .teacher-card{margin-top:22px;padding:20px 24px;border-radius:24px;border:1px solid #ded9d2;box-shadow:0 6px 16px rgba(66,57,47,.05);background:linear-gradient(180deg,#faf8f5,#f6f2ec);display:flex;align-items:center;justify-content:space-between;gap:18px;}
+  .teacher-card h3{margin:0;font-size:19px;font-weight:900;color:#4e5358;}
+  .teacher-card p{margin:5px 0 0;font-size:12.5px;color:#8a8e92;font-weight:700;line-height:1.7;}
+  .teacher-link{flex:0 0 auto;min-height:52px;display:inline-flex;align-items:center;padding:14px 20px;border-radius:14px;background:#fff;border:1px solid #ded9d2;font-size:13.5px;font-weight:900;color:#5f6468;}
+
+  /* ── ⑦ Footer ───────────────────────── */
+  footer{max-width:1240px;margin:0 auto;padding:18px 24px 44px;border-top:1px solid #e6ded2;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;color:#8a918f;font-size:12.5px;line-height:1.8;}
+  .credit strong{color:#596462;}
+
+  @media (max-width:1050px){
+    .main-nav{display:none;}
+    .hero{grid-template-columns:1fr .78fr;}
+    .hero-copy{padding:40px 36px;}
+    .zone-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+  }
+  @media (max-width:780px){
+    .topbar-inner{min-height:64px;padding:8px 16px;}
+    .brand img{width:48px;height:48px;}
+    .brand-name{font-size:20px;}
+    .hero-wrap,.content,footer{padding-left:16px;padding-right:16px;}
+    .hero{grid-template-columns:1fr;}
+    .hero-copy{padding:32px 24px 28px;}
+    .hero-visual{min-height:230px;}
+    .chalk{width:100%;font-size:25px;}
+    .desk-scene{left:20px;right:20px;}
+    .mascot-stage{width:110px;height:110px;}
+    .mascot-stage img{width:90px;height:90px;}
+    .note-card{max-width:148px;font-size:12px;}
+    .textbook-card{min-height:0;}
+  }
+  @media (max-width:560px){
+    .brand-sub{display:none;}
+    .hero-visual{min-height:200px;padding:22px;}
+    .chalk{font-size:21px;}
+    .zone-grid{grid-template-columns:1fr;}
+    .zone-card{min-height:0;}
+    .textbook-card{display:block;}
+    .book-stack{display:none;}
+    .helper-links{grid-template-columns:1fr;}
+    .teacher-card{align-items:flex-start;flex-direction:column;}
+    .teacher-link{width:100%;justify-content:center;}
+  }
 </style>
 </helmet>
-<div style="font-family:'Noto Sans TC',sans-serif;background:linear-gradient(135deg, #ffd9a0 0%, #ffc2b0 20%, #f3b6d3 40%, #d6b8ec 60%, #b9d3f0 80%, #a9e3ec 100%);min-height:100vh;padding:44px 40px 70px;">
-  <div style="max-width:1500px;margin:0 auto;">
 
-    <header style="display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:36px;">
-      <img src="images/mascot.png" alt="吉祥物" style="width:200px;height:auto;">
-      <div style="text-align:center;">
-        <h1 style="font-size:44px;font-weight:900;color:#1e2a6e;text-shadow:0 2px 0 rgba(255,255,255,0.5);letter-spacing:2px;white-space:nowrap;">鈺聆上台語課</h1>
-        <p style="margin-top:10px;font-size:17px;font-weight:700;color:#a15a2e;">一起用台語學習、互動與成長。</p>
-      </div>
-    </header>
+<div class="site-shell">
 
-    <div style="display:grid;grid-template-columns:repeat(5, 1fr);gap:18px;">
-
-      <div style="border-radius:18px;padding:20px;display:flex;flex-direction:column;box-shadow:0 4px 14px rgba(0,0,0,0.08);background:#fbdbe0;">
-        <h3 style="font-size:17px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;color:#c0264a;">🗣️ 華台雙語翻課</h3>
-        <div style="font-size:12.5px;line-height:1.65;color:#4a4540;flex-grow:1;">
-          <p style="margin-bottom:8px;"><b>功能</b> — 提供華語、台語雙向對照課文,搭配語音示範。</p>
-          <p style="margin-bottom:8px;"><b>特色</b> — 幫助口語表達,常態練習與台語用詞語句,提升語言運用能力。</p>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="./">
+        <img src="images/mascot.png" alt="鈺聆上台語課">
+        <div>
+          <div class="brand-name">鈺聆上台語課</div>
+          <div class="brand-sub">TÂI-GÍ 學習基地</div>
         </div>
-        <a style="margin-top:14px;display:flex;align-items:center;justify-content:center;gap:6px;padding:11px;border-radius:12px;font-weight:700;font-size:14px;text-decoration:none;color:#fff;background:#f2b705;" href="華台雙語翻課.dc.html">👉 開始閱讀</a>
-      </div>
-
-      <div style="border-radius:18px;padding:20px;display:flex;flex-direction:column;box-shadow:0 4px 14px rgba(0,0,0,0.08);background:#fde3cf;">
-        <h3 style="font-size:17px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;color:#d9720c;">🕵️ 形音義挑戰</h3>
-        <div style="font-size:12.5px;line-height:1.65;color:#4a4540;flex-grow:1;">
-          <p style="margin-bottom:8px;"><b>功能</b> — 化身詞語偵探，從聽音、拼音、字形與詞義線索破解課文詞語。</p>
-          <p style="margin-bottom:8px;"><b>特色</b> — 六種任務交錯挑戰，最後用三線索合體完成 Boss 關。</p>
-        </div>
-        <a style="margin-top:14px;display:flex;align-items:center;justify-content:center;gap:6px;padding:11px;border-radius:12px;font-weight:700;font-size:14px;text-decoration:none;color:#fff;background:#f08a1e;" href="detective.dc.html">🔎 開始破解</a>
-      </div>
-
-      <div style="border-radius:18px;padding:20px;display:flex;flex-direction:column;box-shadow:0 4px 14px rgba(0,0,0,0.08);background:#dcefd9;">
-        <h3 style="font-size:17px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;color:#2f8f3e;">🎮 咱來讀生份字</h3>
-        <div style="font-size:12.5px;line-height:1.65;color:#4a4540;flex-grow:1;">
-          <p style="margin-bottom:8px;"><b>功能</b> — 依版本、冊別與課次，練習課本生字與課文補充詞。</p>
-          <p style="margin-bottom:8px;"><b>特色</b> — 聽讀音、看台語、認台羅，多種方式反覆熟悉詞語。</p>
-        </div>
-        <a style="margin-top:14px;display:flex;align-items:center;justify-content:center;gap:6px;padding:11px;border-radius:12px;font-weight:700;font-size:14px;text-decoration:none;color:#fff;background:#3a9d4a;" href="vocab.dc.html">👉 開始挑戰</a>
-      </div>
-
-      <div style="border-radius:18px;padding:20px;display:flex;flex-direction:column;box-shadow:0 4px 14px rgba(0,0,0,0.08);background:#dcefe0;">
-        <h3 style="font-size:17px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;color:#2c2c2c;">✏️ 語境填空</h3>
-        <div style="font-size:12.5px;line-height:1.65;color:#4a4540;flex-grow:1;">
-          <p style="margin-bottom:8px;"><b>功能</b> — 依文章情境選擇適當詞語,完成句子內容。</p>
-          <p style="margin-bottom:8px;"><b>特色</b> — 提升閱讀理解、詞語運用與語感。</p>
-        </div>
-        <a style="margin-top:14px;display:flex;align-items:center;justify-content:center;gap:6px;padding:11px;border-radius:12px;font-weight:700;font-size:14px;text-decoration:none;color:#fff;background:#e8552f;" href="語境填空.dc.html">👉 開始作答</a>
-      </div>
-
-      <div style="border-radius:18px;padding:20px;display:flex;flex-direction:column;box-shadow:0 4px 14px rgba(0,0,0,0.08);background:#e9e2f7;">
-        <h3 style="font-size:17px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;color:#7a3fc4;">🧩 咱來鬥句</h3>
-        <div style="font-size:12.5px;line-height:1.65;color:#4a4540;flex-grow:1;">
-          <p style="margin-bottom:8px;"><b>功能</b> — 將打散的例句重新排列,組成正確完整的句子。</p>
-          <p style="margin-bottom:8px;"><b>特色</b> — 熟悉句型結構,提升表達能力與語法概念。</p>
-        </div>
-        <a style="margin-top:14px;display:flex;align-items:center;justify-content:center;gap:6px;padding:11px;border-radius:12px;font-weight:700;font-size:14px;text-decoration:none;color:#fff;background:#e0552b;" href="咱來鬥句.dc.html">👉 開始造句</a>
-      </div>
-
-      <div style="border-radius:18px;padding:20px;display:flex;flex-direction:column;box-shadow:0 4px 14px rgba(0,0,0,0.08);background:#fbdbe0;">
-        <h3 style="font-size:17px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;color:#8f2035;">📖 台語點讀</h3>
-        <div style="font-size:12.5px;line-height:1.65;color:#4a4540;flex-grow:1;">
-          <p style="margin-bottom:8px;"><b>功能</b> — 課文結合點讀功能,點擊文字即可聽真人或 AI 發音。</p>
-          <p style="margin-bottom:8px;"><b>特色</b> — 隨點隨聽,自主練習更方便,培養正確語音。</p>
-        </div>
-        <a style="margin-top:14px;display:flex;align-items:center;justify-content:center;gap:6px;padding:11px;border-radius:12px;font-weight:700;font-size:14px;text-decoration:none;color:#4a3600;background:#f2b705;" href="台語點讀.dc.html">👉 開始閱讀</a>
-      </div>
-
-      <div style="border-radius:18px;padding:20px;display:flex;flex-direction:column;box-shadow:0 4px 14px rgba(0,0,0,0.08);background:#fdf1c8;">
-        <h3 style="font-size:17px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;color:#a3690c;">🎵 羅馬字發音</h3>
-        <div style="font-size:12.5px;line-height:1.65;color:#4a4540;flex-grow:1;">
-          <p style="margin-bottom:8px;"><b>功能</b> — 內含「羅馬字拼音系統」與「羅馬字組合練習」兩個分頁。</p>
-          <p style="margin-bottom:8px;"><b>特色</b> — 建立正確拼音基礎,提升發音準確度。</p>
-        </div>
-        <a style="margin-top:14px;display:flex;align-items:center;justify-content:center;gap:6px;padding:11px;border-radius:12px;font-weight:700;font-size:14px;text-decoration:none;color:#fff;background:#2f8fd8;" href="羅馬字發音.dc.html">⭐ 打好基礎</a>
-      </div>
-
-      <div style="border-radius:18px;padding:20px;display:flex;flex-direction:column;box-shadow:0 4px 14px rgba(0,0,0,0.08);background:#d9e9fb;">
-        <h3 style="font-size:17px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;color:#2461b0;">🚀 台語挑戰區</h3>
-        <div style="font-size:12.5px;line-height:1.65;color:#4a4540;flex-grow:1;">
-          <p style="margin-bottom:8px;"><b>功能</b> — 提供多元進階練習與綜合挑戰活動。</p>
-          <p style="margin-bottom:8px;"><b>特色</b> — 循序提升台語聽、說、讀、寫能力。</p>
-        </div>
-        <a style="margin-top:14px;display:flex;align-items:center;justify-content:center;gap:6px;padding:11px;border-radius:12px;font-weight:700;font-size:14px;text-decoration:none;color:#fff;background:#7448c9;" href="台語挑戰區.dc.html">👉 接受挑戰</a>
-      </div>
-
-      <div style="border-radius:18px;padding:20px;display:flex;flex-direction:column;box-shadow:0 4px 14px rgba(0,0,0,0.08);background:#fbdbe0;">
-        <h3 style="font-size:17px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;color:#8f2035;">💼 教學百寶箱</h3>
-        <div style="font-size:12.5px;line-height:1.65;color:#4a4540;flex-grow:1;">
-          <p style="margin-bottom:8px;"><b>功能</b> — 整合課堂教學小工具,目前內含「抽獎活動」分頁。</p>
-          <p style="margin-bottom:8px;"><b>特色</b> — 讓老師備課更快速,學生學習更便利。</p>
-        </div>
-        <a style="margin-top:14px;display:flex;align-items:center;justify-content:center;gap:6px;padding:11px;border-radius:12px;font-weight:700;font-size:14px;text-decoration:none;color:#fff;background:#e0552b;" href="教學百寶箱.dc.html">👉 開往百寶箱</a>
-      </div>
-
-      <div style="border-radius:18px;padding:20px;display:flex;flex-direction:column;box-shadow:0 4px 14px rgba(0,0,0,0.08);background:#e9e2f7;">
-        <h3 style="font-size:17px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;color:#7a3fc4;">🎲 主題互動學習</h3>
-        <div style="font-size:12.5px;line-height:1.65;color:#4a4540;flex-grow:1;">
-          <p style="margin-bottom:8px;"><b>功能</b> — 依不同主題設計互動教材、遊戲及任務活動。</p>
-          <p style="margin-bottom:8px;"><b>特色</b> — 透過沉浸式學習,提高學習動機與理解程度。</p>
-        </div>
-        <a style="margin-top:14px;display:flex;align-items:center;justify-content:center;gap:6px;padding:11px;border-radius:12px;font-weight:700;font-size:14px;text-decoration:none;color:#fff;background:#7448c9;" href="主題互動學習.dc.html">👉 立即體驗</a>
-      </div>
-
+      </a>
+      <nav class="main-nav" aria-label="主要導覽">
+        <a href="./">⌂ 首頁</a>
+        <a href="#textbook">📖 我的台語課本</a>
+        <a href="#practice">✦ 四大學習區</a>
+        <a href="#teacher">🧰 教師專區</a>
+      </nav>
     </div>
-
-    <footer style="text-align:center;margin-top:44px;font-size:12.5px;color:#6b6560;">持續新增練習內容中,敬請期待。</footer>
-
   </div>
+
+  <div class="hero-wrap">
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow">TÂI-GÍ LEARNING BASE</div>
+        <h1>鈺聆上台語課</h1>
+        <p class="hero-kicker">聽有・看有・講會出來</p>
+        <p class="hero-sub">從課文出發，練到生活真正會用。</p>
+        <a class="hero-start" href="#textbook">
+          <span>今仔日欲對佗位開始？</span>
+          <span>→</span>
+        </a>
+        <div class="hero-note">毋免照順序，對你需要的所在開始就好。</div>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="chalk">
+          <strong>台語，</strong>
+          是一種<br>
+          看見家鄉的方式
+          <div class="chalk-line"></div>
+        </div>
+        <div class="desk-scene">
+          <div class="mascot-stage">
+            <img src="images/mascot.png" alt="">
+          </div>
+          <div class="note-card">學台語<br>嘛會當真趣味！</div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <main class="content">
+
+    <section id="textbook">
+      <div class="section-title-row">
+        <h2>📖 我的台語課本</h2>
+        <p>課文點讀｜正式教材</p>
+      </div>
+      <a class="textbook-card" href="台語點讀.dc.html">
+        <div>
+          <div class="textbook-label">📖 正式教材入口</div>
+          <h3>咱來讀課文</h3>
+          <p>揀你的課本，聽課文、看語詞、學台羅。</p>
+          <span class="textbook-cta">開始讀課文 →</span>
+        </div>
+        <div class="book-stack" aria-hidden="true">
+          <div class="book">課文</div>
+          <div class="book">語詞</div>
+          <div class="book">台羅</div>
+        </div>
+      </a>
+    </section>
+
+    <section id="practice">
+      <div class="section-title-row">
+        <h2>今仔日，你想欲練啥物？</h2>
+        <p>四種練習方向，毋免照順序，揀你需要的就好。</p>
+      </div>
+      <div class="zone-grid">
+        <sc-for list="{{zones}}" as="zone" hint-placeholder-count="4">
+          <article class="zone-card {{zone.className}}">
+            <div class="zone-head">
+              <div>
+                <div class="zone-index">{{zone.index}}</div>
+                <h3>{{zone.icon}} {{zone.title}}</h3>
+                <p class="zone-tag">{{zone.tag}}</p>
+              </div>
+              <div class="zone-icon">{{zone.bigIcon}}</div>
+            </div>
+            <p class="zone-lead">{{zone.lead}}</p>
+            <div class="zone-links">
+              <sc-for list="{{zone.cards}}" as="card" hint-placeholder-count="3">
+                <a class="zone-link" href="{{card.href}}">
+                  <span>{{card.name}}</span>
+                  <span>›</span>
+                </a>
+              </sc-for>
+            </div>
+          </article>
+        </sc-for>
+      </div>
+    </section>
+
+    <section class="helper-card">
+      <h3>🧭 毋知欲對佗位開始？</h3>
+      <p>看你今仔日想做啥物，直接揀一條路。</p>
+      <div class="helper-links">
+        <sc-for list="{{guides}}" as="g" hint-placeholder-count="5">
+          <a href="{{g.href}}">
+            <span class="helper-want">{{g.want}}</span>
+            <span>{{g.to}} ›</span>
+          </a>
+        </sc-for>
+      </div>
+    </section>
+
+    <section id="teacher" class="teacher-card">
+      <div>
+        <h3>👩‍🏫 教師專區・教學百寶箱</h3>
+        <p>學生名單、抽獎、分組、計分、計時、抽籤等課堂工具。</p>
+      </div>
+      <a class="teacher-link" href="教學百寶箱.dc.html">進入教師工具 →</a>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="credit"><strong>張鈺聆 製</strong>｜鈺聆上台語課</div>
+    <div>持續新增練習內容中，敬請期待。</div>
+  </footer>
+
 </div>
 
 </x-dc>
+
+<script type="text/x-dc" data-dc-script>
+const ZONES = [
+  {
+    index:'01', className:'zone-listen', icon:'👂', bigIcon:'🎧',
+    title:'聽讀練功', tag:'聽會著、唸會準',
+    lead:'從聲音、拼音與發音練習開始，予耳仔愈聽愈熟。',
+    cards:[
+      { name:'台羅練功房', href:'羅馬字發音.dc.html' }
+    ]
+  },
+  {
+    index:'02', className:'zone-decode', icon:'🔎', bigIcon:'🔍',
+    title:'詞語解碼', tag:'看會準、讀會懂',
+    lead:'認生份字、破解形音義、讀懂語境，把詞語真正變成自己的。',
+    cards:[
+      { name:'課文解碼站', href:'咱來讀生份字.dc.html' },
+      { name:'形音義挑戰', href:'形音義挑戰.dc.html' },
+      { name:'語境判讀所', href:'語境填空.dc.html' }
+    ]
+  },
+  {
+    index:'03', className:'zone-speak', icon:'💬', bigIcon:'🗨️',
+    title:'開喙運用', tag:'講會出、用會著',
+    lead:'把學會的詞語鬥成句，練到真正會講、真正用會著。',
+    cards:[
+      { name:'台語組句任務', href:'咱來鬥句.dc.html' },
+      { name:'華台雙語翻課', href:'華台雙語翻譯.dc.html' }
+    ]
+  },
+  {
+    index:'04', className:'zone-quest', icon:'🏆', bigIcon:'🏅',
+    title:'闖關挑戰', tag:'學過矣，來試看覓！',
+    lead:'把學過的攏總拿出來，用任務、互動與挑戰試看覓。',
+    cards:[
+      { name:'主題任務島', href:'主題互動學習.dc.html' },
+      { name:'台語挑戰區', href:'台語挑戰區.dc.html' }
+    ]
+  }
+];
+
+const GUIDES = [
+  { want:'想聽課文',      to:'咱來讀課文', href:'台語點讀.dc.html' },
+  { want:'想練發音',      to:'聽讀練功',   href:'#practice' },
+  { want:'看不懂詞',      to:'詞語解碼',   href:'#practice' },
+  { want:'想試著講一句',  to:'開喙運用',   href:'#practice' },
+  { want:'想挑戰自己',    to:'闖關挑戰',   href:'#practice' }
+];
+
+class Component extends DCLogic {
+  renderVals() {
+    return { zones: ZONES, guides: GUIDES };
+  }
+}
+</script>
 </body>
 </html>

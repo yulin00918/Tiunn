@@ -4,67 +4,123 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
+<title>台語挑戰區｜鈺聆上台語課</title>
 <meta name="author" content="張鈺聆">
 <meta name="copyright" content="© 張鈺聆">
 <script src="./author-credit.js"></script>
-<!--
-==================================================
-網站介面、功能與教學整合設計／製作：張鈺聆
-Copyright © 張鈺聆. All rights reserved.
-
-本網站為台語教學用途所設計。
-
-「張鈺聆 製」係指本網站之介面設計、
-功能整合、互動設計與教學資源整合，
-不代表頁面中所有教材文字、課文、圖片、
-音檔、辭典資料或第三方素材均為作者原創。
-
-教材、課文、音檔、圖片、辭典資料及其他
-第三方素材之著作權，仍屬原權利人所有。
-
-未經作者同意，請勿移除作者標示後，
-將本網站介面、程式功能或整合成果重新發布、
-重新包裝、冒名散布或作為他人原創作品。
-==================================================
--->
+<!-- 網站介面、功能與教學整合設計／製作：張鈺聆　Copyright © 張鈺聆.
+     「張鈺聆 製」係指介面設計、功能整合、互動設計與教學資源整合；
+     教材、課文、音檔、圖片、辭典資料等第三方素材之著作權仍屬原權利人所有。
+     完整版權宣告見 author-credit.js。 -->
 </head>
 <body>
 <x-dc>
 <helmet>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  a{color:inherit;text-decoration:none;}
+  .ca-card{transition:.18s ease;}
+  .ca-boss{transition:.18s ease;}
+  @media(hover:hover){
+    .ca-card:hover{transform:translateY(-3px);box-shadow:0 16px 32px rgba(45,55,70,.14) !important;}
+    .ca-boss:hover{transform:translateY(-3px);box-shadow:0 18px 38px rgba(160,80,25,.20) !important;}
+    .ca-home:hover{background:rgba(255,255,255,.18) !important;}
+    .ca-back:hover{border-color:#b9c8d6 !important;}
+  }
+</style>
 </helmet>
-<div style="font-family:'Noto Sans TC',sans-serif;background:linear-gradient(135deg, #ffd9a0 0%, #ffc2b0 20%, #f3b6d3 40%, #d6b8ec 60%, #b9d3f0 80%, #a9e3ec 100%);min-height:100vh;padding:40px;">
-  <div style="max-width:1000px;margin:0 auto;">
-    <a href="首頁.dc.html" style="display:inline-block;margin-bottom:20px;color:#2461b0;font-weight:700;text-decoration:none;">← 回首頁</a>
-    <h1 style="font-size:32px;font-weight:900;color:#2461b0;margin-bottom:8px;">🚀 台語挑戰區</h1>
-    <p style="font-size:15px;color:#4a4540;margin-bottom:24px;">提供多元進階練習與綜合挑戰活動,循序提升台語聽、說、讀、寫能力。</p>
+<div style="font-family:'Noto Sans TC',sans-serif;color:#2b3a45;min-height:100vh;background:radial-gradient(circle at 6% 4%,rgba(243,188,111,.13),transparent 22%),radial-gradient(circle at 95% 10%,rgba(117,190,219,.10),transparent 24%),#fbf8f2;">
 
-    <div style="display:flex;gap:10px;margin-bottom:20px;">
-      <sc-for list="{{tabs}}" as="tab" hint-placeholder-count="3">
-        <button style="{{tab.btnStyle}}" onClick="{{tab.onClick}}">{{tab.label}}</button>
-      </sc-for>
+  <div style="background:#15344b;color:#fff;">
+    <div style="max-width:1120px;margin:auto;min-height:66px;padding:12px 22px;display:flex;align-items:center;gap:14px;">
+      <a class="ca-home" href="首頁.dc.html" style="flex:0 0 auto;display:inline-flex;align-items:center;min-height:44px;padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.10);color:#dce7f2;font-size:14px;font-weight:800;white-space:nowrap;">🏠 回首頁</a>
+      <div style="min-width:0;text-align:center;flex:1;">
+        <div style="font-size:clamp(19px,3.4vw,22px);font-weight:900;letter-spacing:.08em;">🏆 台語挑戰區</div>
+        <div style="margin-top:3px;font-size:12.5px;color:#9db4c7;font-weight:700;line-height:1.5;">從基礎練習一路挑戰到綜合任務</div>
+      </div>
+      <div style="flex:0 0 auto;width:104px;"></div>
     </div>
+  </div>
 
-    <sc-for list="{{tabs}}" as="tab" hint-placeholder-count="3">
+  <div style="position:relative;background:linear-gradient(100deg,#fff2e0,#ffe7ee 70%,#fdeee3);border-bottom:1px solid #f3ddca;overflow:hidden;">
+    <div style="max-width:1120px;margin:auto;padding:16px 22px 20px;display:flex;align-items:center;gap:14px;position:relative;z-index:1;">
+      <span style="flex:0 0 auto;font-size:24px;transform:rotate(-8deg);">🏅</span>
+      <div style="background:#fff;border:1px solid #f2d9c4;border-radius:16px 16px 16px 4px;padding:11px 16px;box-shadow:0 5px 14px rgba(140,90,50,.08);">
+        <div style="font-size:11.5px;font-weight:900;letter-spacing:.14em;color:#b5762c;">今日任務</div>
+        <div style="margin-top:4px;font-size:14.5px;font-weight:800;color:#7a5433;line-height:1.6;">{{bandText}}</div>
+      </div>
+    </div>
+    <svg viewBox="0 0 1440 16" preserveAspectRatio="none" style="position:absolute;left:0;right:0;bottom:-1px;width:100%;height:16px;display:block;"><path d="M0,10 C240,2 480,15 720,8 C960,2 1200,14 1440,7 L1440,16 L0,16 Z" fill="#fbf8f2"></path></svg>
+  </div>
+
+  <main style="max-width:1120px;margin:auto;padding:22px 22px 0;">
+
+    <sc-if value="{{playing}}">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;background:#fff;border:1px solid #eae2d6;border-radius:20px;padding:14px 18px;box-shadow:0 8px 20px rgba(45,55,70,.07);margin-bottom:16px;">
+        <div style="display:flex;align-items:center;gap:11px;min-width:0;flex-wrap:wrap;">
+          <span style="flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;background:#e7f2ea;color:#2f7d4a;border-radius:999px;padding:7px 13px;font-size:12.5px;font-weight:900;letter-spacing:.06em;white-space:nowrap;">● 正在進行基礎挑戰</span>
+          <span style="font-size:15px;font-weight:900;color:#2b3a45;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;">{{playingName}}</span>
+        </div>
+        <button class="ca-back" style="flex:0 0 auto;border:2px solid #e2e6e0;background:#fff;color:#2b3a45;border-radius:999px;padding:12px 20px;min-height:48px;cursor:pointer;font-family:inherit;font-size:15px;font-weight:900;transition:.16s;" onClick="{{backToList}}">← 返回挑戰列表</button>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{!playing}}" hint-placeholder-val="{{true}}">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-bottom:20px;">
+        <sc-for list="{{tabs}}" as="tab" hint-placeholder-count="2">
+          <button style="{{tab.btnStyle}}" onClick="{{tab.onClick}}">
+            <span style="display:flex;align-items:center;gap:10px;">
+              <span style="font-size:26px;line-height:1;">{{tab.icon}}</span>
+              <span style="text-align:left;min-width:0;">
+                <span style="display:block;font-size:17px;font-weight:900;line-height:1.3;">{{tab.label}}</span>
+                <span style="display:block;margin-top:3px;font-size:12.5px;font-weight:700;opacity:.75;line-height:1.5;">{{tab.hint}}</span>
+              </span>
+            </span>
+          </button>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <sc-for list="{{tabs}}" as="tab" hint-placeholder-count="2">
+
       <sc-if value="{{tab.activeBasic}}">
-        <div style="background:#ffffffcc;border-radius:16px;padding:28px;box-shadow:0 4px 14px rgba(0,0,0,0.08);">
-          <h3 style="font-size:18px;font-weight:700;color:#2461b0;margin-bottom:14px;">{{tab.label}}</h3>
-          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;">
-            <button style="border:none;border-radius:14px;padding:20px;background:#e9f8ee;color:#205c3f;font-weight:800;font-size:15px;cursor:pointer;font-family:inherit;text-align:left;" onClick="{{goToVeggieGame}}">🥬🍉 菜蔬果子大挑戰<br><span style="font-size:12px;font-weight:500;color:#4d6f5d;">看圖選出台羅</span></button>
-            <button style="border:none;border-radius:14px;padding:20px;background:#f4ecfb;color:#5c3a86;font-weight:800;font-size:15px;cursor:pointer;font-family:inherit;text-align:left;" onClick="{{goToColorGame}}">🎨👕 色水大挑戰<br><span style="font-size:12px;font-weight:500;color:#7d6b93;">看色水選出台羅</span></button>
-            <button style="border:none;border-radius:14px;padding:20px;background:#e6f4ec;color:#1f6b4f;font-weight:800;font-size:15px;cursor:pointer;font-family:inherit;text-align:left;" onClick="{{goToColorRoulette}}">🎡👕 色水走馬燈<br><span style="font-size:12px;font-weight:500;color:#4d7a64;">停格看台羅唸出色水</span></button>
-            <button style="border:none;border-radius:14px;padding:20px;background:#e6f4ec;color:#1f6b4f;font-weight:800;font-size:15px;cursor:pointer;font-family:inherit;text-align:left;" onClick="{{goToVeggieRoulette}}">🎡🥬 蔬果走馬燈<br><span style="font-size:12px;font-weight:500;color:#4d7a64;">停格看台羅唸出蔬果</span></button>
-          </div>
+        <div style="background:#fff;border:1px solid #eae2d6;border-radius:26px;padding:26px;box-shadow:0 10px 26px rgba(45,55,70,.08);">
+          <sc-for list="{{groups}}" as="grp" hint-placeholder-count="2">
+            <div style="{{grp.wrapStyle}}">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:13px;">
+                <span style="flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:30px;padding:0 9px;border-radius:999px;background:{{grp.tone}};color:#fff;font-size:12.5px;font-weight:900;">{{grp.step}}</span>
+                <div style="min-width:0;">
+                  <div style="font-size:17px;font-weight:900;line-height:1.3;">{{grp.title}}</div>
+                  <div style="margin-top:2px;font-size:12.5px;color:#8a968e;font-weight:700;line-height:1.5;">{{grp.hint}}</div>
+                </div>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;">
+                <sc-for list="{{grp.games}}" as="g" hint-placeholder-count="2">
+                  <article class="ca-card" style="{{g.cardStyle}}" onClick="{{g.onClick}}">
+                    <div style="font-size:38px;line-height:1;">{{g.icon}}</div>
+                    <h3 style="margin:11px 0 7px;font-size:clamp(19px,2.6vw,21px);font-weight:900;line-height:1.35;">{{g.name}}</h3>
+                    <p style="margin:0;color:#6d7d76;font-size:13.5px;font-weight:700;line-height:1.7;flex-grow:1;">{{g.how}}</p>
+                    <span style="{{g.ctaStyle}}">開始挑戰 →</span>
+                  </article>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
         </div>
       </sc-if>
+
       <sc-if value="{{tab.activeAdvanced}}">
-        <div style="background:#ffffffcc;border-radius:16px;padding:28px;box-shadow:0 4px 14px rgba(0,0,0,0.08);">
-          <h3 style="font-size:18px;font-weight:700;color:#2461b0;margin-bottom:14px;">{{tab.label}}</h3>
-          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;">
-            <a href="進階綜合挑戰.html" style="display:block;border-radius:14px;padding:20px;background:#e9eefb;color:#2b3f7a;font-weight:800;font-size:15px;text-decoration:none;">🚀 進階綜合挑戰<br><span style="font-size:12px;font-weight:500;color:#5c6a94;">綜合聽讀寫與語詞應用</span></a>
-          </div>
+        <div style="background:#fff;border:1px solid #eae2d6;border-radius:26px;padding:26px;box-shadow:0 10px 26px rgba(45,55,70,.08);">
+          <a class="ca-boss" href="進階綜合挑戰.html" style="position:relative;display:flex;flex-direction:column;background:linear-gradient(150deg,#fff6ea,#ffe9d2);border:2px solid #f0c48a;border-radius:24px;padding:30px 26px 26px;box-shadow:0 12px 28px rgba(160,80,25,.13);cursor:pointer;overflow:hidden;">
+            <span style="position:absolute;top:16px;right:18px;background:#f57d27;color:#fff;font-size:11px;font-weight:900;letter-spacing:.12em;border-radius:999px;padding:5px 13px;">BOSS</span>
+            <div style="font-size:46px;line-height:1;">🚀</div>
+            <h3 style="margin:13px 0 9px;font-size:clamp(23px,3.4vw,29px);font-weight:900;letter-spacing:.02em;">進階綜合挑戰</h3>
+            <p style="margin:0;max-width:560px;color:#8a6f4c;font-size:14.5px;font-weight:700;line-height:1.85;">想把聽、讀、寫與語詞運用一起挑戰？來試試進階綜合挑戰。</p>
+            <span style="display:inline-flex;align-items:center;justify-content:center;align-self:flex-start;margin-top:20px;min-height:52px;border-radius:999px;background:#f57d27;color:#fff;font-size:16px;font-weight:900;padding:14px 26px;box-shadow:0 9px 20px rgba(245,125,39,.24);">進入挑戰 →</span>
+          </a>
         </div>
       </sc-if>
+
       <sc-if value="{{tab.activeVeggieGame}}">
         <dc-import name="菜蔬果子大挑戰" hint-size="100%,900px"></dc-import>
       </sc-if>
@@ -77,37 +133,84 @@ Copyright © 張鈺聆. All rights reserved.
       <sc-if value="{{tab.activeVeggieRoulette}}">
         <dc-import name="蔬果走馬燈" hint-size="100%,900px"></dc-import>
       </sc-if>
+
     </sc-for>
+
+  </main>
+
+  <div style="max-width:1120px;margin:22px auto 0;padding:0 22px 34px;font-size:12px;color:#9aa8a0;font-weight:700;text-align:center;">
+    <span style="color:#7d8f86;">張鈺聆 製</span>｜鈺聆上台語課
   </div>
+
 </div>
 
 </x-dc>
 <script type="text/x-dc" data-dc-script>
+const GAME_META = {
+  veggie:      { icon: '🥬🍉', name: '菜蔬果子大挑戰', how: '看圖 → 選出台羅' },
+  color:       { icon: '🎨👕', name: '色水大挑戰',     how: '看色水 → 選出台羅' },
+  roulette:    { icon: '🎡👕', name: '色水走馬燈',     how: '停格 → 看台羅講色水' },
+  vegRoulette: { icon: '🎡🥬', name: '蔬果走馬燈',     how: '停格 → 看台羅講蔬果' },
+};
+
+const GROUPS = [
+  { step: '關卡 1', title: '看圖挑戰', hint: '看著圖，揀出正確的台羅', tone: '#2f7d5a', keys: ['veggie', 'color'],
+    cardBg: 'linear-gradient(150deg,#f6fbf8,#eaf5ee)', cardBorder: '#d8e8de', ctaBg: '#2f7d5a' },
+  { step: '關卡 2', title: '開喙挑戰', hint: '看著台羅，家己講出來', tone: '#7d55ad', keys: ['roulette', 'vegRoulette'],
+    cardBg: 'linear-gradient(150deg,#f8f5fc,#f1eafb)', cardBorder: '#e2d8ee', ctaBg: '#7d55ad' },
+];
+
 class Component extends DCLogic {
   state = { activeTab: 0, activeGame: null };
+
   renderVals() {
     const data = [
-      { label: '基礎挑戰', isBasic: true },
-      { label: '進階綜合挑戰', isAdvanced: true },
+      { label: '基礎挑戰', icon: '🌱', hint: '先暖身，一關一關過', isBasic: true },
+      { label: '進階綜合挑戰', icon: '🚀', hint: '基礎練熟矣，來挑戰 Boss', isAdvanced: true },
     ];
+    const activeGame = this.state.activeGame;
+
     const tabs = data.map((d, i) => {
       const active = i === this.state.activeTab;
       const isBasicTab = active && d.isBasic;
       return {
         ...d,
         active,
-        activeBasic: isBasicTab && !this.state.activeGame,
-        activeVeggieGame: isBasicTab && this.state.activeGame === 'veggie',
-        activeColorGame: isBasicTab && this.state.activeGame === 'color',
-        activeColorRoulette: isBasicTab && this.state.activeGame === 'roulette',
-        activeVeggieRoulette: isBasicTab && this.state.activeGame === 'vegRoulette',
+        activeBasic: isBasicTab && !activeGame,
+        activeVeggieGame: isBasicTab && activeGame === 'veggie',
+        activeColorGame: isBasicTab && activeGame === 'color',
+        activeColorRoulette: isBasicTab && activeGame === 'roulette',
+        activeVeggieRoulette: isBasicTab && activeGame === 'vegRoulette',
         activeAdvanced: active && d.isAdvanced,
         onClick: () => this.setState({ activeTab: i, activeGame: null }),
-        btnStyle: `padding:10px 20px;border-radius:12px;border:none;font-weight:700;font-size:14px;cursor:pointer;background:${active ? '#2461b0' : '#ffffffaa'};color:${active ? '#fff' : '#2461b0'};`,
+        btnStyle: `display:flex;align-items:center;padding:16px 18px;border-radius:20px;border:2px solid ${active ? '#15344b' : '#e6ded2'};font-family:inherit;cursor:pointer;min-height:76px;text-align:left;transition:.16s ease;background:${active ? '#15344b' : '#fff'};color:${active ? '#fff' : '#5a6b74'};box-shadow:${active ? '0 10px 22px rgba(21,52,75,.18)' : '0 6px 16px rgba(45,55,70,.05)'};`,
       };
     });
+
+    const goto = (key) => () => this.setState({ activeGame: key });
+    const groups = GROUPS.map(grp => ({
+      step: grp.step, title: grp.title, hint: grp.hint, tone: grp.tone,
+      wrapStyle: grp === GROUPS[0] ? '' : 'margin-top:26px;padding-top:24px;border-top:1px dashed #ecdcc9;',
+      games: grp.keys.map(key => {
+        const m = GAME_META[key];
+        return {
+          icon: m.icon, name: m.name, how: m.how,
+          onClick: goto(key),
+          cardStyle: `background:${grp.cardBg};border:2px solid ${grp.cardBorder};border-radius:22px;padding:24px;box-shadow:0 8px 20px rgba(45,55,70,.06);cursor:pointer;display:flex;flex-direction:column;`,
+          ctaStyle: `display:inline-flex;align-items:center;justify-content:center;margin-top:18px;min-height:50px;border-radius:999px;background:${grp.ctaBg};color:#fff;font-size:15.5px;font-weight:900;padding:13px 20px;`,
+        };
+      }),
+    }));
+
     return {
       tabs,
+      groups,
+      playing: !!activeGame,
+      playingName: activeGame ? `${GAME_META[activeGame].icon} ${GAME_META[activeGame].name}` : '',
+      bandText: activeGame
+        ? '挑戰進行中，欲換一項會使按「返回挑戰列表」。'
+        : '揀一項挑戰，看你今仔日學了偌熟。',
+      backToList: () => this.setState({ activeGame: null }),
       goToVeggieGame: () => this.setState({ activeGame: 'veggie' }),
       goToColorGame: () => this.setState({ activeGame: 'color' }),
       goToColorRoulette: () => this.setState({ activeGame: 'roulette' }),

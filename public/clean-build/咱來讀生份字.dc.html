@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>咱來讀生份字</title>
+<meta name="author" content="張鈺聆">
+<meta name="copyright" content="© 張鈺聆">
+<script src="./author-credit.js"></script>
+<!--
+==================================================
+網站介面、功能與教學整合設計／製作：張鈺聆
+Copyright © 張鈺聆. All rights reserved.
+
+本網站為台語教學用途所設計。
+
+「張鈺聆 製」係指本網站之介面設計、
+功能整合、互動設計與教學資源整合，
+不代表頁面中所有教材文字、課文、圖片、
+音檔、辭典資料或第三方素材均為作者原創。
+
+教材、課文、音檔、圖片、辭典資料及其他
+第三方素材之著作權，仍屬原權利人所有。
+
+未經作者同意，請勿移除作者標示後，
+將本網站介面、程式功能或整合成果重新發布、
+重新包裝、冒名散布或作為他人原創作品。
+==================================================
+-->
+<script src="./taigi-vocab-lessons.js"></script><script src="./taigi-vocab-data.js"></script>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;background:linear-gradient(135deg,#ffe3c2,#ffb98f 55%,#ff9f7a);min-height:100vh;color:#1f2d5c}.top{background:#1f2d5c;color:white;padding:18px;text-align:center}.top b{font-size:22px;letter-spacing:.12em}.top div{opacity:.75;font-size:13px;margin-top:5px}.wrap{max-width:1080px;margin:auto;padding:22px}.back{color:#1f2d5c;text-decoration:none;font-weight:800}.panel{background:#fff9f1;border-radius:22px;padding:22px;margin-top:18px;box-shadow:0 10px 30px #7d45232a}.selectors{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.scopeNote{margin-top:12px;font-size:13px;font-weight:800;color:#8a6f56;background:#fff0dc;border-radius:12px;padding:9px 13px;display:inline-block}@media(max-width:820px){.selectors{grid-template-columns:1fr 1fr}}@media(max-width:520px){.selectors{grid-template-columns:1fr}.modes{grid-template-columns:1fr}.wrap{padding:16px 14px}.panel{padding:18px;border-radius:18px}}.field label{display:block;font-size:13px;font-weight:800;margin-bottom:6px}.field select{width:100%;padding:11px;border:2px solid #ead7c5;border-radius:12px;background:white;font-size:15px}.amounts{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.amounts button,.primary{border:0;border-radius:999px;padding:10px 18px;font-weight:800;cursor:pointer}.amounts button{background:#efe5da;color:#604f42}.amounts button.on{background:#4a9f6e;color:#fff}.primary{background:#1f2d5c;color:#fff;font-size:16px;padding:12px 24px}.modeTitle{font-weight:900;margin:2px 0 10px}.modes{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}.modeBtn{border:2px solid #d9dce8;background:white;color:#1f2d5c;border-radius:999px;padding:11px 14px;font-weight:900;cursor:pointer}.modeBtn.on{background:#1f2d5c;color:white;border-color:#1f2d5c}.lessonInfo{margin:16px 0 4px;color:#746557}.quiz{max-width:760px;margin:20px auto}.meta{display:flex;justify-content:space-between;gap:10px;font-weight:800}.bar{height:10px;background:#eadfd4;border-radius:99px;overflow:hidden;margin:10px 0 20px}.bar i{display:block;height:100%;background:#4a9f6e}.card{background:#fff;border-radius:24px;padding:28px;box-shadow:0 12px 32px #7545252b;text-align:center}.tag{display:inline-block;background:#fff0dc;color:#a86422;padding:6px 12px;border-radius:99px;font-weight:800;font-size:13px}.prompt{font-size:32px;font-weight:900;margin:22px 0 10px;word-break:break-word}.sub{color:#88786a;margin-bottom:16px}.audioBtn{border:0;background:#1f2d5c;color:white;border-radius:50%;width:68px;height:68px;font-size:28px;cursor:pointer;margin:10px}.opts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}.opt{border:2px solid #eadfd4;background:#fffaf4;border-radius:16px;padding:15px;font-size:18px;font-weight:800;cursor:pointer;color:#1f2d5c}.opt:hover{border-color:#9cc9ac}.opt.good{background:#e7f7ec;border-color:#4a9f6e}.opt.bad{background:#ffe8e2;border-color:#df735e}.feedback{min-height:28px;margin:16px 0 4px;font-weight:800}.next{display:none;margin:10px auto 0}.result{text-align:center}.score{font-size:54px;font-weight:900;margin:10px}.small{color:#7e6f63}.warn{background:#fff1d7;border-radius:14px;padding:10px 14px;margin-top:14px;color:#80591e;font-size:13px}@media(max-width:760px){.selectors{grid-template-columns:1fr 1fr}.modes{grid-template-columns:1fr 1fr}.opts{grid-template-columns:1fr}.prompt{font-size:27px}}@media(max-width:460px){.selectors{grid-template-columns:1fr}.modes{grid-template-columns:1fr}.wrap{padding:14px}.card{padding:20px}}
+</style></head><body>
+<div class="top"><b>咱來讀生份字</b><div>聽音・看字・認台羅｜共用完整課文詞庫</div></div>
+<div class="wrap" id="selectScreen"><a class="back" href="首頁.dc.html">← 回首頁</a><div class="panel"><div class="modeTitle">選擇練習模式</div><div class="modes" id="modes">
+<button class="modeBtn on" data-mode="audioHanji">🎧 聽讀音選台語</button>
+<button class="modeBtn" data-mode="audioTailo">🎧 聽讀音選台羅</button>
+<button class="modeBtn" data-mode="hanjiTailo">👀 看台語選台羅</button>
+<button class="modeBtn" data-mode="tailoHanji">👀 看台羅選台語</button>
+</div><div class="selectors">
+<div class="field"><label>版本</label><select id="pub"></select></div><div class="field"><label>冊別</label><select id="book"></select></div><div class="field"><label>課次</label><select id="lesson"></select></div>
+</div><div class="scopeNote">練習範圍：全部（課本生字＋補充）</div><div class="lessonInfo" id="info"></div><div class="amounts"><button data-n="8" class="on">8 題</button><button data-n="15">15 題</button><button data-n="all">全部</button></div><div style="margin-top:20px"><button class="primary" id="start" style="white-space:nowrap">開始練習</button></div><div class="warn">有可靠音檔的詞才會出現「聽讀音」題型；沒有音檔的詞仍會用字形／台羅題型練習，不會硬配錯誤音檔。</div></div></div>
+<div class="wrap quiz" id="quizScreen" style="display:none"><button class="back" id="quit" style="border:0;background:none;cursor:pointer;font-size:15px">← 返回選單</button><div class="meta"><span id="qnum"></span><span id="scoreNow"></span></div><div class="bar"><i id="bar"></i></div><div class="card"><span class="tag" id="typeTag"></span><div class="prompt" id="prompt"></div><div class="sub" id="sub"></div><button class="audioBtn" id="audioBtn" style="display:none">🔊</button><div class="opts" id="opts"></div><div class="feedback" id="feedback"></div><button class="primary next" id="next">下一題</button></div></div>
+<div class="wrap quiz" id="resultScreen" style="display:none"><div class="card result"><div class="tag">完成練習</div><div class="score" id="finalScore"></div><div class="small" id="finalText"></div><div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:24px"><button class="primary" id="again">同課再玩</button><button class="primary" id="choose">重新選課</button></div></div></div>
+<audio id="player"></audio>
+<script>
+const {GROUPS_DEF}=window.TAIGI_VOCAB; const $=id=>document.getElementById(id); let amount=8, mode='audioHanji', questions=[],qi=0,score=0,locked=false,currentRow=null;
+/* 已知死連結（封版驗收列出之真平舊資料缺檔）：不進聽音題，但仍可用於文字題。不猜配、不代換相似讀音。 */
+const DEAD_AUDIO=new Set(['audio/zhenping_b1l2_huainn-tit.mp3','audio/zhenping_b1l2_thuann.mp3','audio/zhenping_b1l2_phainn-se.mp3','audio/zhenping_b1l2_be-hu-tshi.mp3']);
+function hasAudio(w){return !!w.audio && !DEAD_AUDIO.has(w.audio)}
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function cleanTailo(s){return (s||'').split('/').map(x=>x.trim()).filter(Boolean)}
+function init(){ $('pub').innerHTML=GROUPS_DEF.map((g,i)=>`<option value="${i}">${g.label}</option>`).join(''); updateBooks(); document.querySelectorAll('.modeBtn').forEach(b=>b.onclick=()=>{document.querySelectorAll('.modeBtn').forEach(x=>x.classList.remove('on'));b.classList.add('on');mode=b.dataset.mode;updateInfo()}); document.querySelectorAll('.amounts button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.amounts button').forEach(x=>x.classList.remove('on'));b.classList.add('on');amount=b.dataset.n==='all'?'all':+b.dataset.n}); $('pub').onchange=updateBooks;$('book').onchange=updateLessons;$('lesson').onchange=updateInfo;$('start').onclick=start;$('quit').onclick=showSelect;$('next').onclick=next;$('again').onclick=start;$('choose').onclick=showSelect}
+function updateBooks(){let g=GROUPS_DEF[+$('pub').value];$('book').innerHTML=g.cards.map((b,i)=>`<option value="${i}">${b.title}</option>`).join('');updateLessons()}
+function updateLessons(){let g=GROUPS_DEF[+$('pub').value],b=g.cards[+$('book').value];$('lesson').innerHTML=b.rows.map((r,i)=>`<option value="${i}" ${!r.words?'disabled':''}>${r.label}${r.words?'':'（尚未建立）'}</option>`).join('');let idx=b.rows.findIndex(r=>r.words);if(idx>=0)$('lesson').value=idx;updateInfo()}
+function row(){let g=GROUPS_DEF[+$('pub').value],b=g.cards[+$('book').value];return b.rows[+$('lesson').value]}
+function updateInfo(){currentRow=row();if(!currentRow?.words){$('info').textContent='本課尚未建立題庫';$('start').disabled=true;return}let audioMode=mode==='audioHanji'||mode==='audioTailo', eligible=audioMode?currentRow.words.filter(hasAudio):currentRow.words;$('info').textContent=`${currentRow.subtitle}｜本課共 ${currentRow.words.length} 個詞語｜目前模式可練 ${eligible.length} 個${audioMode?'（有可靠音檔）':''}`;$('start').disabled=eligible.length===0;$('start').style.opacity=eligible.length===0?'.45':'1'}
+/* 干擾項不足時，從同一出版社其他課次的同類欄位补足，使選項不少於4個。只补干擾項，不影響正確答案。 */
+function publisherPool(){const g=GROUPS_DEF[+$('pub').value];return g.cards.flatMap(b=>b.rows.filter(r=>r.words).flatMap(r=>r.words))}
+function distract(pool,key,correct,n=3){const grab=src=>[...new Set(src.flatMap(w=>key==='tailo'?cleanTailo(w[key]):[w[key]]).filter(Boolean).filter(x=>x!==correct))];let vals=shuffle(grab(pool)).slice(0,n);if(vals.length<n){const extra=shuffle(grab(publisherPool()).filter(x=>!vals.includes(x)));vals=vals.concat(extra.slice(0,n-vals.length))}return vals}
+function makeQ(w,pool,type){let answer,prompt,tag,sub,audio=false;if(type==='audioHanji'){answer=w.hanji;prompt='聽讀音，選出台語漢字';tag='👂 聽讀音選台語';sub='按喇叭聽讀音';audio=true}else if(type==='audioTailo'){answer=cleanTailo(w.tailo)[0];prompt='聽讀音，選出台羅';tag='🎧 聽讀音選台羅';sub='按喇叭聽讀音';audio=true}else if(type==='hanjiTailo'){answer=cleanTailo(w.tailo)[0];prompt=w.hanji;tag='🔤 看台語選台羅';sub='這个詞按怎讀？'}else{answer=w.hanji;prompt=cleanTailo(w.tailo)[0];tag='🀄 看台羅選台語';sub='這个台羅對應佗一个詞？'}let key=(type==='audioTailo'||type==='hanjiTailo')?'tailo':'hanji';return{w,type,answer,prompt,tag,sub,audio,opts:shuffle([answer,...distract(pool,key,answer)])}}
+function buildQuestions(words,n){let eligible=(mode==='audioHanji'||mode==='audioTailo')?words.filter(hasAudio):words;let chosen=n==='all'?shuffle(eligible):shuffle(eligible).slice(0,Math.min(n,eligible.length));return chosen.map(w=>makeQ(w,eligible,mode))}
+function start(){currentRow=row();if(!currentRow?.words)return;questions=buildQuestions(currentRow.words,amount);if(!questions.length)return;qi=0;score=0;$('selectScreen').style.display='none';$('resultScreen').style.display='none';$('quizScreen').style.display='block';renderQ()}
+function renderQ(){locked=false;let q=questions[qi];$('qnum').textContent=`第 ${qi+1} / ${questions.length} 題`;$('scoreNow').textContent=`答對 ${score} 題`;$('bar').style.width=`${qi/questions.length*100}%`;$('typeTag').textContent=q.tag;$('prompt').textContent=q.prompt;$('sub').textContent=q.sub;$('feedback').textContent='';$('next').style.display='none';$('audioBtn').style.display=q.audio?'inline-block':'none';if(q.audio){const p=$('player');const src=q.w.audio;p.onerror=null;p.pause();p.src=src;p.load();const play=()=>{p.currentTime=0;const r=p.play();if(r&&r.catch)r.catch(()=>{$('sub').textContent='請按 🔊 聽讀音'})};p.onerror=()=>{$('sub').textContent='⚠ 音檔載入失敗：'+src};$('audioBtn').onclick=play;setTimeout(play,200)}$('opts').innerHTML='';q.opts.forEach(o=>{let b=document.createElement('button');b.className='opt';b.textContent=o;b.onclick=()=>answer(b,o);$('opts').appendChild(b)})}
+function answer(btn,val){if(locked)return;locked=true;let q=questions[qi],ok=val===q.answer;if(ok)score++;[...$('opts').children].forEach(b=>{b.disabled=true;if(b.textContent===q.answer)b.classList.add('good')});if(!ok)btn.classList.add('bad');$('feedback').textContent=ok?'答對矣！👏':`答案：${q.answer}`;$('scoreNow').textContent=`答對 ${score} 題`;$('next').style.display='inline-block';$('next').textContent=qi===questions.length-1?'看結果':'下一題'}
+function next(){qi++;if(qi>=questions.length){$('quizScreen').style.display='none';$('resultScreen').style.display='block';let pct=Math.round(score/questions.length*100);$('finalScore').textContent=`${score} / ${questions.length}`;$('finalText').textContent=`答對率 ${pct}%｜${currentRow.subtitle}`;return}renderQ()}
+function showSelect(){$('player').pause();$('quizScreen').style.display='none';$('resultScreen').style.display='none';$('selectScreen').style.display='block';updateInfo()}
+init();
+</script></body></html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<meta name="author" content="張鈺聆">
+<meta name="copyright" content="© 張鈺聆">
+<script src="./author-credit.js"></script>
+<!-- 網站介面、功能與教學整合設計／製作：張鈺聆　Copyright © 張鈺聆. All rights reserved.
+     「張鈺聆 製」係指介面設計、功能整合、互動設計與教學資源整合；
+     教材、課文、音檔、圖片、辭典資料等第三方素材之著作權仍屬原權利人所有。
+     完整版權宣告見 author-credit.js。 -->
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  .rd-segment{transition:.2s;}
+  .rd-segment:hover{border-color:#b9c2ee !important;}
+  .rd-speak.playing{background:#6f7fd8 !important;}
+</style>
+</helmet>
+<div style="font-family:'Noto Sans TC',sans-serif;color:#3a3d4d;background:linear-gradient(180deg,#f2f4ff 0%,#fbf9f6 100%);min-height:100vh;">
+  <div style="max-width:980px;margin:auto;padding:34px 20px 70px;">
+
+    <div style="display:flex;justify-content:space-between;gap:24px;align-items:flex-end;margin-bottom:22px;flex-wrap:wrap;">
+      <div>
+        <span style="display:inline-flex;gap:8px;align-items:center;padding:7px 12px;border-radius:999px;background:#dfe4f7;color:#4a5490;font-size:13px;">🎧 育達版・第三冊</span>
+        <h1 style="margin:10px 0 6px;font-size:34px;letter-spacing:.08em;font-weight:650;">第二課｜雨港基隆，魚鹽規布袋</h1>
+        <div style="color:#7a7d8c;font-size:14px;">點選課文段落即可播放；播放中的段落會自動反白。</div>
+      </div>
+      <div style="font-size:14px;color:#7a7d8c;white-space:nowrap;">作者：施玉鳳｜江寶釵</div>
+    </div>
+
+    <div style="display:flex;gap:8px;margin:18px 0;flex-wrap:wrap;">
+      <button style="{{readingTabStyle}}" onClick="{{selectReading}}">📖 課文點讀</button>
+      <button style="{{vocabTabStyle}}" onClick="{{selectVocab}}">🗣️ 語詞點讀</button>
+    </div>
+
+    <sc-if value="{{showReading}}">
+      <div style="position:sticky;top:10px;z-index:10;display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:rgba(252,252,255,.94);backdrop-filter:blur(8px);border:1px solid #dfe1ee;border-radius:16px;padding:12px;box-shadow:0 12px 34px rgba(60,66,110,.08);margin-bottom:16px;">
+        <button style="border:1px solid #454a63;background:#454a63;color:#fff;padding:9px 12px;border-radius:10px;cursor:pointer;font-family:inherit;" onClick="{{playAll}}">▶ 全文連續播放</button>
+        <button style="border:1px solid #dfe1ee;background:#fdfdff;color:#454a63;padding:9px 12px;border-radius:10px;cursor:pointer;font-family:inherit;" onClick="{{togglePause}}">⏸ 暫停</button>
+        <button style="border:1px solid #dfe1ee;background:#fdfdff;color:#454a63;padding:9px 12px;border-radius:10px;cursor:pointer;font-family:inherit;" onClick="{{restart}}">↺ 重新開始</button>
+        <label style="font-size:13px;">速度
+          <select value="{{speed}}" onChange="{{onSpeedChange}}" style="border:1px solid #dfe1ee;background:#fdfdff;color:#454a63;padding:9px 12px;border-radius:10px;font-family:inherit;">
+            <option value="0.75">0.75×</option>
+            <option value="1">1×</option>
+            <option value="1.25">1.25×</option>
+          </select>
+        </label>
+        <div style="height:6px;background:#e6e8f2;border-radius:999px;overflow:hidden;flex:1;min-width:140px;"><span style="display:block;height:100%;background:#6f7fd8;width:{{progressPct}}%;"></span></div>
+        <div style="margin-left:auto;color:#7a7d8c;font-size:13px;">{{status}}</div>
+      </div>
+
+      <div style="background:rgba(255,255,255,.5);border:1px solid #dfe1ee;border-radius:22px;padding:18px;box-shadow:0 12px 34px rgba(60,66,110,.08);">
+        <sc-for list="{{segments}}" as="seg" hint-placeholder-count="7">
+          <sc-if value="{{seg.showHeading}}">
+            <div style="display:flex;align-items:center;gap:10px;margin:6px 0 12px;">
+              <span style="width:4px;height:20px;background:#6f7fd8;border-radius:2px;display:inline-block;"></span>
+              <span style="font-size:16px;font-weight:800;color:#4a5490;">{{seg.section}}</span>
+            </div>
+          </sc-if>
+          <article class="rd-segment" style="{{seg.style}}" onClick="{{seg.onClick}}">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+              <span style="width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:14px;background:{{seg.numBg}};color:{{seg.numColor}};flex-shrink:0;">{{seg.num}}</span>
+              <span style="font-size:14px;font-weight:700;color:#5b6080;">第 {{seg.num}} 段</span>
+              <button style="{{seg.playBtnStyle}}" onClick="{{seg.onPlayClick}}">▶ 播放</button>
+            </div>
+            <div style="font-size:18px;letter-spacing:.02em;">
+              <sc-for list="{{seg.lines}}" as="line" hint-placeholder-count="5">
+                <div style="line-height:1.95;">
+                  <sc-for list="{{line.tokens}}" as="tok" hint-placeholder-count="0">
+                    <span style="{{tok.style}}" onClick="{{tok.onClick}}">{{tok.text}}</span>
+                  </sc-for>
+                </div>
+              </sc-for>
+            </div>
+          </article>
+        </sc-for>
+      </div>
+      <div style="margin-top:16px;padding:14px 16px;background:#e9ecfa;border-radius:14px;color:#575d80;font-size:13px;line-height:1.7;">💡 使用方式:點段落或「▶ 播放」即可播放。按「全文連續播放」會從目前段落開始,自動接著播放下一段。點課文中彩色的語詞會跳出解釋卡片，不會觸發整段播放。</div>
+    </sc-if>
+
+    <sc-if value="{{popupShow}}">
+      <div style="position:fixed;inset:0;background:rgba(40,44,70,.4);display:flex;align-items:center;justify-content:center;z-index:50;padding:16px;" onClick="{{closePopup}}">
+        <article onClick="{{stopPropagation}}" style="background:#fdfdff;border:1px solid #dfe1ee;border-radius:20px;padding:22px;max-width:380px;width:100%;box-shadow:0 20px 50px rgba(40,44,70,.25);display:grid;grid-template-columns:44px 1fr auto;gap:14px;align-items:start;">
+          <div style="width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#e4e8f8;color:#4a5490;font-weight:700;">{{popupWord.num}}</div>
+          <div style="min-width:0;">
+            <div style="font-size:22px;font-weight:650;overflow-wrap:anywhere;">{{popupWord.word}}</div>
+            <div style="font-size:15px;color:#5b68b0;margin-top:2px;overflow-wrap:anywhere;">{{popupWord.roman}}</div>
+            <div style="font-size:14px;color:#7a7d8c;margin-top:8px;line-height:1.65;">{{popupWord.gloss}}</div>
+          </div>
+          <button class="rd-speak" style="{{popupWord.btnStyle}}" onClick="{{popupWord.onPlay}}">🔊</button>
+        </article>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{showVocab}}">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;">
+        <sc-for list="{{vocabCards}}" as="v" hint-placeholder-count="16">
+          <article style="background:rgba(255,255,255,.78);border:1px solid #dfe1ee;border-radius:18px;padding:16px;display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:start;">
+            <div style="width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#e4e8f8;color:#4a5490;font-weight:700;">{{v.num}}</div>
+            <div style="min-width:0;">
+              <div style="font-size:20px;font-weight:650;overflow-wrap:anywhere;">{{v.word}}</div>
+              <div style="font-size:14px;color:#5b68b0;margin-top:2px;overflow-wrap:anywhere;">{{v.roman}}</div>
+              <div style="font-size:14px;color:#7a7d8c;margin-top:6px;line-height:1.65;">{{v.gloss}}</div>
+            </div>
+            <button class="rd-speak" style="{{v.btnStyle}}" onClick="{{v.onPlay}}">🔊</button>
+          </article>
+        </sc-for>
+      </div>
+      <div style="margin-top:16px;padding:14px 16px;background:#e9ecfa;border-radius:14px;color:#575d80;font-size:13px;line-height:1.7;">💡 點右側喇叭即可播放出版社提供的語詞音檔。</div>
+    </sc-if>
+
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const AUDIO_BASE = 'audio/read-u-kang-ki-liong/';
+const SEGMENTS_DEF = [
+  ['雨港基隆', '故鄉的雨 上綿\n一滴一滴拍佇窗仔門\n親像演奏北管 八音聲\ntshìn tshìn tshah\ntshìn tshìn tshah\n天官賜福'],
+  ['雨港基隆', '故鄉的山 上霧\n不時 戴紗帽\n社寮和平島\n雨幔 靴管 霆水螺\n上山落船'],
+  ['雨港基隆', '故鄉的港口 上澹\n霎霎仔雨 毛毛仔雨 摔大雨\n一葩一葩 溫暖的電火球仔\n伴奏崁仔頂的賣魚聲'],
+  ['雨港基隆', '透抽 軟絲仔 紅目鰱\n250 50 50 220 20 20\n基隆雨港佇鬧熱中\n天漸漸光矣'],
+  ['魚鹽規布袋', '海湧的門拍開\n逐家入來\n魚仔佮鹽\n貯甲\n規布袋'],
+  ['魚鹽規布袋', '港埠的手伸出去\n行船人的歌詩共送船人的相思\n接做\n歸心的魚仔歡喜跳甲\n規布袋'],
+  ['魚鹽規布袋', '拍開門\n逐家相招\n咱做伙鬥鬧熱\n人佮人的相拄的情意\n貯甲\n規布袋'],
+];
+const SEGMENT_AUDIO = ['lesson-001.mp3','lesson-002.mp3','lesson-003.mp3','lesson-004.mp3','lesson-005.mp3','lesson-006.mp3','lesson-007.mp3'];
+const VOCAB_DEF = [
+  ['01','北管','pak-kuán','流行在中國閩南及臺灣的傳統音樂','vocab-01.mp3'],
+  ['02','八音','pat-im','由八種材質製成的樂器總稱','vocab-02.mp3'],
+  ['03','雨幔','hōo-mua','雨衣','vocab-03.mp3'],
+  ['04','靴管','hia-kóng','雨鞋','vocab-04.mp3'],
+  ['05','霆水螺','tân-tsuí-lê','指拉警報，過去亦有報時、通知之意','vocab-05.mp3'],
+  ['06','澹','tâm','意即溼','vocab-06.mp3'],
+  ['07','霎霎仔雨','sap-sap-á-hōo','細雨、小雨、毛毛雨','vocab-07.mp3'],
+  ['08','摔大雨','siàng-tuā-hōo','意即下大雨','vocab-08.mp3'],
+  ['09','崁仔頂','Khám-á-tíng','此為基隆市崁仔頂魚市場的名稱','vocab-09.mp3'],
+  ['10','軟絲仔','nńg-si-á','萊氏擬烏賊的俗稱','vocab-10.mp3'],
+  ['11','紅目鰱','âng-ba̍k-liân','大眼鯛，魚身呈卵圓形、紅色','vocab-11.mp3'],
+  ['01','布袋','pòo-tē','用棉布製成的袋子，與嘉義布袋鎮地名之意。如用在地名，則臺羅拼音的第一個字母需大寫','vocab-12.mp3'],
+  ['02','貯','té / tué','裝、盛','vocab-13.mp3'],
+  ['03','港埠','káng-poo','停泊船隻的地方','vocab-14.mp3'],
+  ['04','歸心','kui-sim','形容渴望返家的心','vocab-15.mp3'],
+  ['05','相拄','sio-tú','意指相逢、相遇','vocab-16.mp3'],
+];
+
+const VOCAB_WORDS_SORTED = VOCAB_DEF.map((v, idx) => ({ word: v[1], idx })).sort((a, b) => b.word.length - a.word.length);
+function tokenizeSegment(text) {
+  const tokens = [];
+  let i = 0;
+  while (i < text.length) {
+    let matched = null;
+    for (const v of VOCAB_WORDS_SORTED) {
+      if (text.startsWith(v.word, i)) { matched = v; break; }
+    }
+    if (matched) { tokens.push({ text: matched.word, vocabIdx: matched.idx }); i += matched.word.length; }
+    else { tokens.push({ text: text[i], vocabIdx: null }); i += 1; }
+  }
+  const merged = [];
+  for (const t of tokens) {
+    const last = merged[merged.length - 1];
+    if (last && last.vocabIdx === null && t.vocabIdx === null) last.text += t.text;
+    else merged.push({ ...t });
+  }
+  return merged;
+}
+
+class Component extends DCLogic {
+  state = { tab: 'reading', current: 0, playing: false, continuous: false, progressPct: 0, status: '尚未播放', speed: 1, playingVocabIdx: null, popupIdx: null };
+  audioEl = Object.assign(new Audio(), { preload: 'none' });
+
+  componentDidMount() {
+    this.audioEl.addEventListener('timeupdate', () => {
+      const pct = this.audioEl.duration ? (this.audioEl.currentTime / this.audioEl.duration * 100) : 0;
+      this.setState({ progressPct: pct });
+    });
+    this.audioEl.addEventListener('ended', () => {
+      this.setState({ progressPct: 0, playing: false, playingVocabIdx: null });
+      if (this.state.continuous && this.state.current < SEGMENTS_DEF.length - 1) {
+        this.playSegment(this.state.current + 1, true);
+      } else {
+        this.setState({ continuous: false, status: '播放完成' });
+      }
+    });
+  }
+  componentWillUnmount() { this.audioEl.pause(); }
+
+  playSegment(index, keepContinuous) {
+    this.setState({ current: index, continuous: keepContinuous, playing: true, playingVocabIdx: null, status: `正在播放：第 ${index + 1} 段` });
+    this.audioEl.src = AUDIO_BASE + SEGMENT_AUDIO[index];
+    this.audioEl.playbackRate = Number(this.state.speed);
+    this.audioEl.play().catch(() => {});
+  }
+  togglePause() {
+    if (this.audioEl.paused) { this.audioEl.play().catch(() => {}); this.setState({ playing: true, status: `繼續播放：第 ${this.state.current + 1} 段` }); }
+    else { this.audioEl.pause(); this.setState({ playing: false, status: `已暫停：第 ${this.state.current + 1} 段` }); }
+  }
+  restart() { this.playSegment(0, false); }
+  playVocab(idx) {
+    this.setState({ playingVocabIdx: idx, continuous: false, playing: false, status: '語詞播放中' });
+    this.audioEl.src = AUDIO_BASE + VOCAB_DEF[idx][4];
+    this.audioEl.playbackRate = Number(this.state.speed);
+    this.audioEl.play().catch(() => {});
+  }
+  openPopup(idx) { this.setState({ popupIdx: idx }); }
+  closePopup() { this.setState({ popupIdx: null }); }
+
+  renderVals() {
+    const s = this.state;
+    const segments = SEGMENTS_DEF.map(([section, text], i) => {
+      const active = i === s.current && s.playing;
+      const lines = text.split('\n').map(lineText => ({
+        tokens: tokenizeSegment(lineText).map(tok => ({
+          text: tok.text,
+          style: tok.vocabIdx !== null ? 'color:#5b68b0;font-weight:700;text-decoration:underline;text-decoration-style:dotted;cursor:pointer;' : '',
+          onClick: tok.vocabIdx !== null ? (e) => { e.stopPropagation(); this.openPopup(tok.vocabIdx); } : null,
+        })),
+      }));
+      return {
+        num: i + 1, lines, section,
+        showHeading: i === 0 || SEGMENTS_DEF[i - 1][0] !== section,
+        numBg: active ? '#6f7fd8' : '#e4e8f8', numColor: active ? '#fff' : '#4a5490',
+        style: `padding:18px 18px 16px;border-radius:16px;cursor:pointer;margin-bottom:14px;border:1px solid ${active ? '#b9c2ee' : '#e8eaf4'};background:${active ? '#eef1ff' : '#fff'};`,
+        playBtnStyle: `margin-left:auto;border:1px solid ${active ? '#6f7fd8' : '#dfe1ee'};background:${active ? '#6f7fd8' : '#fdfdff'};color:${active ? '#fff' : '#454a63'};padding:6px 12px;border-radius:999px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;flex-shrink:0;`,
+        onClick: () => this.playSegment(i, false),
+        onPlayClick: (e) => { e.stopPropagation(); this.playSegment(i, false); },
+      };
+    });
+    const vocabCards = VOCAB_DEF.map(([num, word, roman, gloss], idx) => ({
+      num, word, roman, gloss,
+      btnStyle: `border:none;background:${s.playingVocabIdx === idx ? '#6f7fd8' : '#454a63'};color:#fff;border-radius:12px;width:40px;height:40px;cursor:pointer;flex-shrink:0;`,
+      onPlay: () => this.playVocab(idx),
+    }));
+    const popupIdx = s.popupIdx;
+    const popupWord = popupIdx !== null ? (() => {
+      const [num, word, roman, gloss] = VOCAB_DEF[popupIdx];
+      return { num, word, roman, gloss, btnStyle: `border:none;background:${s.playingVocabIdx === popupIdx ? '#6f7fd8' : '#454a63'};color:#fff;border-radius:12px;width:40px;height:40px;cursor:pointer;`, onPlay: () => this.playVocab(popupIdx) };
+    })() : {};
+    return {
+      readingTabStyle: `border:1px solid #dfe1ee;background:${s.tab === 'reading' ? '#454a63' : 'rgba(255,255,255,.6)'};color:${s.tab === 'reading' ? '#fff' : '#454a63'};padding:10px 15px;border-radius:12px;cursor:pointer;font-family:inherit;`,
+      vocabTabStyle: `border:1px solid #dfe1ee;background:${s.tab === 'vocab' ? '#454a63' : 'rgba(255,255,255,.6)'};color:${s.tab === 'vocab' ? '#fff' : '#454a63'};padding:10px 15px;border-radius:12px;cursor:pointer;font-family:inherit;`,
+      selectReading: () => this.setState({ tab: 'reading' }), selectVocab: () => this.setState({ tab: 'vocab' }),
+      showReading: s.tab === 'reading', showVocab: s.tab === 'vocab',
+      playAll: () => this.playSegment(s.current, true), togglePause: () => this.togglePause(), restart: () => this.restart(),
+      speed: s.speed, onSpeedChange: (e) => { this.setState({ speed: e.target.value }); this.audioEl.playbackRate = Number(e.target.value); },
+      progressPct: s.progressPct, status: s.status, segments, vocabCards,
+      popupShow: popupIdx !== null, popupWord, closePopup: () => this.closePopup(), stopPropagation: (e) => e.stopPropagation(),
+    };
+  }
+}
+
+</script>
+</body>
+</html>

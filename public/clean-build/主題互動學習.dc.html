@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<meta name="author" content="張鈺聆">
+<meta name="copyright" content="© 張鈺聆">
+<script src="./author-credit.js"></script>
+<!--
+==================================================
+網站介面、功能與教學整合設計／製作：張鈺聆
+Copyright © 張鈺聆. All rights reserved.
+
+本網站為台語教學用途所設計。
+
+「張鈺聆 製」係指本網站之介面設計、
+功能整合、互動設計與教學資源整合，
+不代表頁面中所有教材文字、課文、圖片、
+音檔、辭典資料或第三方素材均為作者原創。
+
+教材、課文、音檔、圖片、辭典資料及其他
+第三方素材之著作權，仍屬原權利人所有。
+
+未經作者同意，請勿移除作者標示後，
+將本網站介面、程式功能或整合成果重新發布、
+重新包裝、冒名散布或作為他人原創作品。
+==================================================
+-->
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+</helmet>
+<div style="font-family:'Noto Sans TC',sans-serif;background:linear-gradient(135deg, #ffd9a0 0%, #ffc2b0 20%, #f3b6d3 40%, #d6b8ec 60%, #b9d3f0 80%, #a9e3ec 100%);min-height:100vh;padding:40px;">
+  <div style="max-width:1000px;margin:0 auto;">
+    <a href="首頁.dc.html" style="display:inline-block;margin-bottom:20px;color:#7a3fc4;font-weight:700;text-decoration:none;">← 回首頁</a>
+    <h1 style="font-size:32px;font-weight:900;color:#7a3fc4;margin-bottom:8px;">🎲 主題互動學習</h1>
+    <p style="font-size:15px;color:#4a4540;margin-bottom:24px;">依不同主題設計互動教材、遊戲及任務活動,提高學習動機與理解程度。</p>
+
+    <div style="margin-top:0;">
+      <h3 style="font-size:18px;font-weight:700;color:#7a3fc4;margin-bottom:14px;">🎮 外部互動遊戲平台</h3>
+      <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:16px;">
+        <sc-for list="{{gamePlatforms}}" as="game" hint-placeholder-count="3">
+          <div style="background:#f2e6d8;border-radius:16px;padding:20px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+              <span style="font-size:20px;">{{game.icon}}</span>
+              <span style="font-weight:800;font-size:16px;color:#3a3530;">{{game.name}}</span>
+            </div>
+            <p style="font-size:12px;color:#7a7266;margin:0 0 12px;">{{game.desc}}</p>
+            <input type="text" placeholder="{{game.placeholder}}" value="{{game.code}}" onChange="{{game.onCodeChange}}" style="width:100%;box-sizing:border-box;padding:9px 12px;border:1px solid #d9cdb8;border-radius:10px;font-family:inherit;font-size:13px;margin-bottom:10px;outline:none;">
+            <a href="{{game.url}}" target="_blank" rel="noopener" style="display:block;text-align:center;padding:10px;border-radius:10px;background:#a06a3f;color:#fff;text-decoration:none;font-weight:700;font-size:13px;">開始遊戲</a>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { activeTab: 0, codes: {} };
+  renderVals() {
+    const GAME_PLATFORMS = [
+      { key: 'blooket', icon: '🚀', name: 'Blooket', desc: '遊戲化問答教學', placeholder: '輸入 Room ID 或前往網站', url: 'https://www.blooket.com/play' },
+      { key: 'gimkit', icon: '🎯', name: 'Gimkit', desc: '即時、多人小遊戲', placeholder: '輸入 Game Code 或前往網站', url: 'https://www.gimkit.com/join' },
+      { key: 'wayground', icon: '🌟', name: 'Wayground', desc: '互動問答與任務活動', placeholder: '輸入 Join Code 或前往網站', url: 'https://wayground.com/join' },
+      { key: 'classroom', icon: '🏫', name: '互動教室', desc: '自建即時互動教室（主持端）', placeholder: '輸入房號或直接前往主持端', url: 'https://interactive-classroom-v1.yulin00918.workers.dev/host' },
+      { key: 'board', icon: '🖥️', name: '電子白板', desc: '教師示範與全班共編白板', placeholder: '輸入房號或直接開啟白板', url: 'https://interactive-classroom-v1.yulin00918.workers.dev/board' },
+    ];
+    const gamePlatforms = GAME_PLATFORMS.map(g => ({
+      ...g,
+      code: this.state.codes[g.key] || '',
+      onCodeChange: (e) => this.setState({ codes: { ...this.state.codes, [g.key]: e.target.value } }),
+    }));
+    const data = [
+      { label: '主題一', placeholder: '在此貼上主題一互動教材內容' },
+      { label: '主題二', placeholder: '在此貼上主題二互動教材內容' },
+      { label: '主題三', placeholder: '在此貼上主題三互動教材內容' },
+    ];
+    const tabs = data.map((d, i) => {
+      const active = i === this.state.activeTab;
+      return {
+        ...d,
+        active,
+        onClick: () => this.setState({ activeTab: i }),
+        btnStyle: `padding:10px 20px;border-radius:12px;border:none;font-weight:700;font-size:14px;cursor:pointer;background:${active ? '#7a3fc4' : '#ffffffaa'};color:${active ? '#fff' : '#7a3fc4'};`,
+      };
+    });
+    return { tabs, gamePlatforms };
+  }
+}
+
+</script>
+</body>
+</html>

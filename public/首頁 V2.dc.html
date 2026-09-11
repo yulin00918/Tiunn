@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  a{color:inherit;text-decoration:none;}
+  a:hover{opacity:.96;}
+  .v2card{transition:transform .16s ease, box-shadow .16s ease;}
+  .v2card:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(60,48,40,.13) !important;}
+  .v2tool{transition:border-color .16s ease, background .16s ease;}
+  .v2tool:hover{border-color:#c9b8a6 !important;background:#fffdf9 !important;}
+</style>
+</helmet>
+<div style="font-family:'Noto Sans TC',sans-serif;background:#fbf7f0;min-height:100vh;color:#3b352f;">
+
+  <header style="max-width:1180px;margin:0 auto;padding:40px 28px 8px;display:flex;align-items:center;gap:22px;flex-wrap:wrap;">
+    <img src="images/mascot.png" alt="" style="width:112px;height:auto;flex-shrink:0;">
+    <div style="min-width:0;">
+      <div style="font-size:13px;font-weight:800;letter-spacing:.22em;color:#b08341;margin-bottom:6px;">TÂI-GÍ　學習基地</div>
+      <h1 style="margin:0;font-size:clamp(30px,4.4vw,44px);font-weight:900;letter-spacing:.04em;color:#2b3566;">鈺聆上台語課</h1>
+      <p style="margin:10px 0 0;font-size:16px;font-weight:700;color:#8a7b6a;">聽有・看有・講會出來</p>
+      <p style="margin:6px 0 0;font-size:14.5px;font-weight:700;color:#9a8b7a;">從課文出發，練到生活真正會用。</p>
+      <p style="margin:8px 0 0;font-size:13px;color:#a89a88;">毋免照順序，對你需要的所在開始就好。</p>
+    </div>
+  </header>
+
+  <div style="max-width:1180px;margin:0 auto;padding:22px 28px 0;">
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <sc-for list="{{navChips}}" as="chip" hint-placeholder-count="4">
+        <a href="{{chip.href}}" style="{{chip.style}}">{{chip.label}}</a>
+      </sc-for>
+    </div>
+  </div>
+
+  <main style="max-width:1180px;margin:0 auto;padding:30px 28px 20px;">
+    <section id="textbook" style="margin-bottom:40px;scroll-margin-top:20px;">
+      <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:14px;flex-wrap:wrap;">
+        <span style="font-size:26px;line-height:1;">📖</span>
+        <h2 style="margin:0;font-size:23px;font-weight:900;letter-spacing:.06em;color:#8f2035;">我的台語課本</h2>
+        <span style="font-size:13px;font-weight:700;color:#9a8b7a;">正式教材入口</span>
+      </div>
+      <a class="v2card" href="台語點讀.dc.html" style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;background:linear-gradient(120deg,#fff 0%,#fdf3ee 100%);border:2px solid #f0d3c8;border-radius:22px;padding:28px 30px;box-shadow:0 8px 22px rgba(120,60,50,.10);">
+        <div style="flex:1;min-width:240px;">
+          <div style="font-size:clamp(26px,3.4vw,34px);font-weight:900;letter-spacing:.05em;color:#8f2035;">咱來讀課文</div>
+          <p style="margin:12px 0 0;font-size:15.5px;line-height:1.9;color:#6f6459;">揀你的課本，聽課文、看語詞、學台羅。</p>
+        </div>
+        <span style="display:inline-flex;align-items:center;gap:9px;background:#8f2035;color:#fff;border-radius:999px;padding:14px 26px;font-size:16px;font-weight:900;white-space:nowrap;">開始讀課文 <span style="font-size:17px;">→</span></span>
+      </a>
+    </section>
+
+    <sc-for list="{{zones}}" as="zone" hint-placeholder-count="4">
+      <section id="{{zone.id}}" style="margin-bottom:38px;scroll-margin-top:20px;">
+        <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:4px;flex-wrap:wrap;">
+          <span style="font-size:26px;line-height:1;">{{zone.icon}}</span>
+          <h2 style="margin:0;font-size:23px;font-weight:900;letter-spacing:.06em;color:{{zone.ink}};">{{zone.title}}</h2>
+          <span style="font-size:13px;font-weight:700;color:#9a8b7a;">{{zone.tag}}</span>
+        </div>
+        <p style="margin:0 0 16px;font-size:14px;color:#8a7b6a;line-height:1.75;">{{zone.lead}}</p>
+        <div style="height:3px;border-radius:3px;background:{{zone.rule}};margin-bottom:18px;"></div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:16px;">
+          <sc-for list="{{zone.cards}}" as="card" hint-placeholder-count="2">
+            <a class="v2card" href="{{card.href}}" style="{{card.style}}">
+              <div style="display:flex;align-items:center;gap:9px;">
+                <span style="font-size:22px;line-height:1;">{{card.icon}}</span>
+                <span style="font-size:18px;font-weight:900;letter-spacing:.03em;color:{{card.ink}};">{{card.name}}</span>
+              </div>
+              <p style="margin:11px 0 0;font-size:13.5px;line-height:1.8;color:#6f6459;flex-grow:1;">{{card.desc}}</p>
+              <div style="display:flex;align-items:center;gap:7px;margin-top:15px;">
+                <span style="font-size:13.5px;font-weight:800;color:{{card.ink}};">{{card.cta}}</span>
+                <span style="font-size:14px;color:{{card.ink}};">→</span>
+              </div>
+            </a>
+          </sc-for>
+        </div>
+      </section>
+    </sc-for>
+
+    <section style="margin-top:6px;border-top:1px dashed #ddd0bd;padding-top:26px;">
+      <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:4px;flex-wrap:wrap;">
+        <span style="font-size:19px;line-height:1;">🧰</span>
+        <h2 style="margin:0;font-size:17px;font-weight:900;letter-spacing:.06em;color:#7d7266;">教師工具</h2>
+        <span style="font-size:12.5px;font-weight:700;color:#a2958a;">課堂運用｜非學生練習區</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:14px;">
+        <sc-for list="{{tools}}" as="tool" hint-placeholder-count="1">
+          <a class="v2tool" href="{{tool.href}}" style="border:1px solid #e3d8c8;background:#fff;border-radius:14px;padding:15px 16px;display:flex;align-items:center;gap:11px;">
+            <span style="font-size:20px;line-height:1;">{{tool.icon}}</span>
+            <span style="min-width:0;">
+              <span style="display:block;font-size:15px;font-weight:800;color:#5d5348;">{{tool.name}}</span>
+              <span style="display:block;font-size:12.5px;color:#94897c;margin-top:3px;">{{tool.desc}}</span>
+            </span>
+          </a>
+        </sc-for>
+      </div>
+    </section>
+  </main>
+
+  <footer style="max-width:1180px;margin:0 auto;padding:14px 28px 64px;font-size:12.5px;color:#a2958a;line-height:1.9;">
+    持續新增練習內容中，敬請期待。<br>
+    教材、課文、圖片、音檔、辭典資料及其他第三方素材之著作權，仍屬各原權利人所有。
+  </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const ZONES = [
+  { id:'listen', icon:'👂', title:'聽讀練功', tag:'聽會著、唸會準', ink:'#b5651d', rule:'linear-gradient(90deg,#f0c48a,#fbe6cb)',
+    lead:'拼音基礎與發音練習，把耳朵佮喙練開。',
+    cards:[
+      { icon:'🎵', name:'台羅練功房', href:'羅馬字發音.dc.html', cta:'打好基礎',
+        desc:'台羅拼音系統與組合練習，建立聲母、韻母、聲調的正確基礎。' },
+    ]},
+  { id:'decode', icon:'🔎', title:'詞語解碼', tag:'看會準、讀會懂', ink:'#2f7d4a', rule:'linear-gradient(90deg,#9ed3ab,#dcefd9)',
+    lead:'認生份字、破解形音義、讀懂語境——把詞語真正變成自己的。',
+    cards:[
+      { icon:'🎮', name:'咱來讀生份字', href:'咱來讀生份字.dc.html', cta:'開始練習',
+        desc:'依版本、冊別、課次練習課本生字與補充詞，聽讀音、看台語、認台羅四種模式。' },
+      { icon:'🕵️', name:'形音義挑戰', href:'形音義挑戰.dc.html', cta:'開始破解',
+        desc:'綜合字形、讀音與詞義線索，四種任務循序挑戰，最後合體完成 Boss 關。' },
+      { icon:'📖', name:'語境挑戰', href:'語境填空.dc.html', cta:'開始作答',
+        desc:'從生活情境與課文內容判斷語意，從「看懂」練到「會用」。' },
+    ]},
+  { id:'speak', icon:'💬', title:'開喙運用', tag:'講會出、用會著', ink:'#a2417c', rule:'linear-gradient(90deg,#e9a8cc,#f7dfec)',
+    lead:'學會的詞語鬥成句、講出聲，練出真正用會著的台語。',
+    cards:[
+      { icon:'🧩', name:'咱來鬥句', href:'咱來鬥句.dc.html', cta:'開始造句',
+        desc:'揀聲母、韻母佮聲調抽詞，用抽著的詞鬥出一句完整的台語。' },
+      { icon:'🗣️', name:'華台雙語翻課', href:'華台雙語翻譯.dc.html', cta:'開始對照',
+        desc:'華語、台語雙向對照與語音合成工具，練口語表達佮台語用詞。' },
+    ]},
+  { id:'quest', icon:'🏆', title:'闖關挑戰', tag:'學過矣，來試看覓！', ink:'#3b5fb5', rule:'linear-gradient(90deg,#a8c4ee,#dde8fa)',
+    lead:'把學過的攏總拿出來，一關一關闖過去。',
+    cards:[
+      { icon:'🚀', name:'台語挑戰區', href:'台語挑戰區.dc.html', cta:'接受挑戰',
+        desc:'基礎挑戰的圖像辨識、走馬燈搶答，以及進階綜合闖關活動。' },
+      { icon:'🎲', name:'主題互動學習', href:'主題互動學習.dc.html', cta:'立即體驗',
+        desc:'依主題連結互動遊戲平台與即時互動教室，全班同步參與。' },
+    ]},
+];
+const TOOLS = [
+  { icon:'💼', name:'教學百寶箱', href:'教學百寶箱.dc.html', desc:'學生名單、抽獎、分組、計分、計時、抽籤等課堂工具' },
+];
+
+class Component extends DCLogic {
+  renderVals() {
+    const zones = ZONES.map(z => ({
+      ...z,
+      cards: z.cards.map(c => ({
+        ...c, ink: z.ink,
+        style: `background:#fff;border:1px solid #ece1d1;border-radius:18px;padding:19px 20px 18px;display:flex;flex-direction:column;box-shadow:0 5px 16px rgba(80,62,45,.07);`,
+      })),
+    }));
+    const navChips = [{ icon:'📖', title:'我的台語課本', id:'textbook', ink:'#8f2035' }, ...ZONES].map(z => ({
+      label: `${z.icon} ${z.title}`, href: `#${z.id}`,
+      style: `border:1px solid #e3d8c8;background:#fff;border-radius:999px;padding:9px 15px;font-size:13.5px;font-weight:800;color:${z.ink};white-space:nowrap;`,
+    }));
+    return { zones, navChips, tools: TOOLS };
+  }
+}
+
+</script>
+</body>
+</html>

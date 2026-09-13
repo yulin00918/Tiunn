@@ -4,92 +4,138 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
-<meta name="author" content="張鈺聆">
-<meta name="copyright" content="© 張鈺聆">
-<script src="./author-credit.js"></script>
-<!--
-==================================================
-網站介面、功能與教學整合設計／製作：張鈺聆
-Copyright © 張鈺聆. All rights reserved.
-
-本網站為台語教學用途所設計。
-
-「張鈺聆 製」係指本網站之介面設計、
-功能整合、互動設計與教學資源整合，
-不代表頁面中所有教材文字、課文、圖片、
-音檔、辭典資料或第三方素材均為作者原創。
-
-教材、課文、音檔、圖片、辭典資料及其他
-第三方素材之著作權，仍屬原權利人所有。
-
-未經作者同意，請勿移除作者標示後，
-將本網站介面、程式功能或整合成果重新發布、
-重新包裝、冒名散布或作為他人原創作品。
-==================================================
--->
 </head>
 <body>
 <x-dc>
 <helmet>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  a{color:inherit;text-decoration:none;}
+  .ti-wrap,.ti-wrap *{box-sizing:border-box;}
+  .ti-card{transition:.18s ease;}
+  @media(hover:hover){
+    .ti-card:hover{transform:translateY(-3px);box-shadow:0 16px 32px rgba(45,55,70,.14) !important;}
+    .ti-cta:hover{filter:brightness(1.06);}
+    .ti-home:hover{background:rgba(255,255,255,.18) !important;}
+  }
+</style>
 </helmet>
-<div style="font-family:'Noto Sans TC',sans-serif;background:linear-gradient(135deg, #ffd9a0 0%, #ffc2b0 20%, #f3b6d3 40%, #d6b8ec 60%, #b9d3f0 80%, #a9e3ec 100%);min-height:100vh;padding:40px;">
-  <div style="max-width:1000px;margin:0 auto;">
-    <a href="首頁.dc.html" style="display:inline-block;margin-bottom:20px;color:#7a3fc4;font-weight:700;text-decoration:none;">← 回首頁</a>
-    <h1 style="font-size:32px;font-weight:900;color:#7a3fc4;margin-bottom:8px;">🎲 主題互動學習</h1>
-    <p style="font-size:15px;color:#4a4540;margin-bottom:24px;">依不同主題設計互動教材、遊戲及任務活動,提高學習動機與理解程度。</p>
+<div class="ti-wrap" style="font-family:'Noto Sans TC',sans-serif;color:#2b3a45;min-height:100vh;background:radial-gradient(circle at 6% 4%,rgba(243,188,111,.13),transparent 22%),radial-gradient(circle at 95% 10%,rgba(117,190,219,.10),transparent 24%),#fbf8f2;">
 
-    <div style="margin-top:0;">
-      <h3 style="font-size:18px;font-weight:700;color:#7a3fc4;margin-bottom:14px;">🎮 外部互動遊戲平台</h3>
-      <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:16px;">
-        <sc-for list="{{gamePlatforms}}" as="game" hint-placeholder-count="3">
-          <div style="background:#f2e6d8;border-radius:16px;padding:20px;">
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-              <span style="font-size:20px;">{{game.icon}}</span>
-              <span style="font-weight:800;font-size:16px;color:#3a3530;">{{game.name}}</span>
-            </div>
-            <p style="font-size:12px;color:#7a7266;margin:0 0 12px;">{{game.desc}}</p>
-            <input type="text" placeholder="{{game.placeholder}}" value="{{game.code}}" onChange="{{game.onCodeChange}}" style="width:100%;box-sizing:border-box;padding:9px 12px;border:1px solid #d9cdb8;border-radius:10px;font-family:inherit;font-size:13px;margin-bottom:10px;outline:none;">
-            <a href="{{game.url}}" target="_blank" rel="noopener" style="display:block;text-align:center;padding:10px;border-radius:10px;background:#a06a3f;color:#fff;text-decoration:none;font-weight:700;font-size:13px;">開始遊戲</a>
-          </div>
-        </sc-for>
+  <div style="background:#15344b;color:#fff;">
+    <div style="max-width:1120px;margin:auto;min-height:66px;padding:12px 22px;display:flex;align-items:center;gap:14px;">
+      <a class="ti-home" href="首頁.dc.html" style="flex:0 0 auto;display:inline-flex;align-items:center;min-height:44px;padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.10);color:#dce7f2;font-size:14px;font-weight:800;white-space:nowrap;">🏠 回首頁</a>
+      <div style="min-width:0;text-align:center;flex:1;">
+        <div style="font-size:clamp(19px,3.4vw,22px);font-weight:900;letter-spacing:.08em;line-height:1.35;">🏝️ 主題任務島</div>
+        <div style="margin-top:3px;font-size:12.5px;color:#9db4c7;font-weight:700;line-height:1.5;">互動任務佮課堂活動的入口</div>
       </div>
+      <div style="flex:0 0 auto;width:104px;"></div>
     </div>
   </div>
+
+  <div style="position:relative;background:linear-gradient(100deg,#fff2e0,#ffe7ee 70%,#fdeee3);border-bottom:1px solid #f3ddca;overflow:hidden;">
+    <div style="max-width:1120px;margin:auto;padding:16px 22px 20px;display:flex;align-items:center;gap:14px;position:relative;z-index:1;">
+      <span style="flex:0 0 auto;font-size:24px;transform:rotate(-8deg);">🗺️</span>
+      <div style="background:#fff;border:1px solid #f2d9c4;border-radius:16px 16px 16px 4px;padding:11px 16px;box-shadow:0 5px 14px rgba(140,90,50,.08);">
+        <div style="font-size:11.5px;font-weight:900;letter-spacing:.14em;color:#b5762c;">今日任務</div>
+        <div style="margin-top:4px;font-size:14.5px;font-weight:800;color:#7a5433;line-height:1.6;">揀一个任務島，老師會予你房號抑是連結。</div>
+      </div>
+    </div>
+    <svg viewBox="0 0 1440 16" preserveAspectRatio="none" style="position:absolute;left:0;right:0;bottom:-1px;width:100%;height:16px;display:block;"><path d="M0,10 C240,2 480,15 720,8 C960,2 1200,14 1440,7 L1440,16 L0,16 Z" fill="#fbf8f2"></path></svg>
+  </div>
+
+  <main style="max-width:1120px;margin:auto;padding:22px 22px 0;">
+
+    <sc-for list="{{groups}}" as="grp" hint-placeholder-count="2">
+      <section style="{{grp.wrapStyle}}">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+          <span style="flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:30px;padding:0 10px;border-radius:999px;background:{{grp.tone}};color:#fff;font-size:12.5px;font-weight:900;white-space:nowrap;">{{grp.badge}}</span>
+          <div style="min-width:0;">
+            <h2 style="margin:0;font-size:clamp(18px,2.4vw,20px);font-weight:900;line-height:1.35;">{{grp.title}}</h2>
+            <p style="margin:3px 0 0;font-size:12.5px;color:#8a968e;font-weight:700;line-height:1.55;">{{grp.hint}}</p>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px;">
+          <sc-for list="{{grp.items}}" as="it" hint-placeholder-count="3">
+            <article class="ti-card" style="{{it.cardStyle}}">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <span style="flex:0 0 auto;width:46px;height:46px;border-radius:14px;display:inline-flex;align-items:center;justify-content:center;font-size:24px;background:rgba(255,255,255,.82);">{{it.icon}}</span>
+                <div style="min-width:0;">
+                  <h3 style="margin:0;font-size:18px;font-weight:900;line-height:1.35;overflow-wrap:anywhere;">{{it.name}}</h3>
+                  <p style="margin:3px 0 0;font-size:12.5px;color:#6d7d76;font-weight:700;line-height:1.55;">{{it.desc}}</p>
+                </div>
+              </div>
+
+              <label style="display:block;margin-top:14px;">
+                <span style="display:block;font-size:11.5px;font-weight:900;color:#8a968e;letter-spacing:.06em;margin-bottom:6px;">{{it.fieldLabel}}</span>
+                <input type="text" placeholder="{{it.placeholder}}" value="{{it.code}}" onChange="{{it.onCodeChange}}" style="width:100%;min-height:48px;padding:12px 14px;border:1px solid #dcd4c8;border-radius:12px;background:#fff;font-family:inherit;font-size:14px;outline:none;">
+              </label>
+
+              <a class="ti-cta" href="{{it.url}}" target="_blank" rel="noopener" style="{{it.ctaStyle}}">{{it.cta}}</a>
+            </article>
+          </sc-for>
+        </div>
+      </section>
+    </sc-for>
+
+    <div style="margin-top:24px;background:#fff8df;border:1px solid #f0e4aa;border-radius:16px;padding:14px 16px;font-size:13px;color:#6f633d;line-height:1.85;">
+      <strong>💡 提醒</strong>：欄位內的房號／代碼由老師現場提供，若無代碼嘛會使直接按按鈕進入平台。所有任務島攏會佇新分頁拍開。
+    </div>
+
+  </main>
+
+  <div style="max-width:1120px;margin:22px auto 0;padding:0 22px 34px;font-size:12px;color:#9aa8a0;font-weight:700;text-align:center;">
+    <span style="color:#7d8f86;">張鈺聆 製</span>｜鈺聆上台語課
+  </div>
+
 </div>
 
 </x-dc>
 <script type="text/x-dc" data-dc-script>
+const GROUPS_DEF = [
+  {
+    badge: '課堂任務', title: '老師的互動教室', hint: '老師開房、學生加入，做伙完成課堂任務',
+    tone: '#15344b',
+    cardBg: 'linear-gradient(150deg,#f4f9fd,#e9f2f9)', cardBorder: '#d6e3ee', ctaBg: '#15344b',
+    keys: ['classroom', 'board'],
+  },
+  {
+    badge: '外部平台', title: '遊戲化學習平台', hint: '用遊戲的方式閣練一擺，鬥陣比看覓',
+    tone: '#b5762c',
+    cardBg: 'linear-gradient(150deg,#fffaf2,#fdf1e2)', cardBorder: '#f0dfc8', ctaBg: '#b5762c',
+    keys: ['blooket', 'gimkit', 'wayground'],
+  },
+];
+
+const PLATFORMS = {
+  classroom:  { icon: '🏫', name: '互動教室',  desc: '自建即時互動教室（主持端）', fieldLabel: '房號（可留空）', placeholder: '輸入房號或直接前往主持端', cta: '進入主持端 →', url: 'https://interactive-classroom-v1.yulin00918.workers.dev/host' },
+  board:      { icon: '🖥️', name: '電子白板',  desc: '教師示範與全班共編白板',     fieldLabel: '房號（可留空）', placeholder: '輸入房號或直接開啟白板',   cta: '開啟白板 →',   url: 'https://interactive-classroom-v1.yulin00918.workers.dev/board' },
+  blooket:    { icon: '🚀', name: 'Blooket',   desc: '遊戲化問答教學',             fieldLabel: 'Room ID（可留空）', placeholder: '輸入 Room ID 或前往網站',  cta: '開始遊戲 →', url: 'https://www.blooket.com/play' },
+  gimkit:     { icon: '🎯', name: 'Gimkit',    desc: '即時、多人小遊戲',           fieldLabel: 'Game Code（可留空）', placeholder: '輸入 Game Code 或前往網站', cta: '開始遊戲 →', url: 'https://www.gimkit.com/join' },
+  wayground:  { icon: '🌟', name: 'Wayground', desc: '互動問答與任務活動',         fieldLabel: 'Join Code（可留空）', placeholder: '輸入 Join Code 或前往網站', cta: '開始遊戲 →', url: 'https://wayground.com/join' },
+};
+
 class Component extends DCLogic {
-  state = { activeTab: 0, codes: {} };
+  state = { codes: {} };
+
   renderVals() {
-    const GAME_PLATFORMS = [
-      { key: 'blooket', icon: '🚀', name: 'Blooket', desc: '遊戲化問答教學', placeholder: '輸入 Room ID 或前往網站', url: 'https://www.blooket.com/play' },
-      { key: 'gimkit', icon: '🎯', name: 'Gimkit', desc: '即時、多人小遊戲', placeholder: '輸入 Game Code 或前往網站', url: 'https://www.gimkit.com/join' },
-      { key: 'wayground', icon: '🌟', name: 'Wayground', desc: '互動問答與任務活動', placeholder: '輸入 Join Code 或前往網站', url: 'https://wayground.com/join' },
-      { key: 'classroom', icon: '🏫', name: '互動教室', desc: '自建即時互動教室（主持端）', placeholder: '輸入房號或直接前往主持端', url: 'https://interactive-classroom-v1.yulin00918.workers.dev/host' },
-      { key: 'board', icon: '🖥️', name: '電子白板', desc: '教師示範與全班共編白板', placeholder: '輸入房號或直接開啟白板', url: 'https://interactive-classroom-v1.yulin00918.workers.dev/board' },
-    ];
-    const gamePlatforms = GAME_PLATFORMS.map(g => ({
-      ...g,
-      code: this.state.codes[g.key] || '',
-      onCodeChange: (e) => this.setState({ codes: { ...this.state.codes, [g.key]: e.target.value } }),
+    const groups = GROUPS_DEF.map((grp, gi) => ({
+      badge: grp.badge, title: grp.title, hint: grp.hint, tone: grp.tone,
+      wrapStyle: gi === 0 ? '' : 'margin-top:28px;',
+      items: grp.keys.map(key => {
+        const p = PLATFORMS[key];
+        return {
+          icon: p.icon, name: p.name, desc: p.desc,
+          fieldLabel: p.fieldLabel, placeholder: p.placeholder, cta: p.cta, url: p.url,
+          code: this.state.codes[key] || '',
+          onCodeChange: (e) => this.setState({ codes: { ...this.state.codes, [key]: e.target.value } }),
+          cardStyle: `background:${grp.cardBg};border:2px solid ${grp.cardBorder};border-radius:22px;padding:20px;box-shadow:0 8px 20px rgba(45,55,70,.06);display:flex;flex-direction:column;`,
+          ctaStyle: `display:inline-flex;align-items:center;justify-content:center;margin-top:14px;min-height:50px;border-radius:999px;background:${grp.ctaBg};color:#fff;font-size:15px;font-weight:900;padding:13px 20px;`,
+        };
+      }),
     }));
-    const data = [
-      { label: '主題一', placeholder: '在此貼上主題一互動教材內容' },
-      { label: '主題二', placeholder: '在此貼上主題二互動教材內容' },
-      { label: '主題三', placeholder: '在此貼上主題三互動教材內容' },
-    ];
-    const tabs = data.map((d, i) => {
-      const active = i === this.state.activeTab;
-      return {
-        ...d,
-        active,
-        onClick: () => this.setState({ activeTab: i }),
-        btnStyle: `padding:10px 20px;border-radius:12px;border:none;font-weight:700;font-size:14px;cursor:pointer;background:${active ? '#7a3fc4' : '#ffffffaa'};color:${active ? '#fff' : '#7a3fc4'};`,
-      };
-    });
-    return { tabs, gamePlatforms };
+    return { groups };
   }
 }
 

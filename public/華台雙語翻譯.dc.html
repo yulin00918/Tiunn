@@ -4,367 +4,163 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
-<meta name="author" content="張鈺聆">
-<meta name="copyright" content="© 張鈺聆">
-<script src="./author-credit.js"></script>
-<!--
-==================================================
-網站介面、功能與教學整合設計／製作：張鈺聆
-Copyright © 張鈺聆. All rights reserved.
-
-本網站為台語教學用途所設計。
-
-「張鈺聆 製」係指本網站之介面設計、
-功能整合、互動設計與教學資源整合，
-不代表頁面中所有教材文字、課文、圖片、
-音檔、辭典資料或第三方素材均為作者原創。
-
-教材、課文、音檔、圖片、辭典資料及其他
-第三方素材之著作權，仍屬原權利人所有。
-
-未經作者同意，請勿移除作者標示後，
-將本網站介面、程式功能或整合成果重新發布、
-重新包裝、冒名散布或作為他人原創作品。
-==================================================
--->
 </head>
 <body>
 <x-dc>
 <helmet>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;800;900&display=swap" rel="stylesheet">
 <style>
-  * { box-sizing: border-box; }
-  body { margin: 0; }
-  .ht-page {
-    font-family: 'Noto Sans TC', sans-serif;
-    background: linear-gradient(135deg, #ffd9a0 0%, #ffc2b0 20%, #f3b6d3 40%, #d6b8ec 60%, #b9d3f0 80%, #a9e3ec 100%);
-    min-height: 100vh;
-    padding: 34px 20px 56px;
-    color: #4a4540;
+  a{color:inherit;text-decoration:none;}
+  .ht-wrap,.ht-wrap *{box-sizing:border-box;}
+  .ht-tool{transition:.18s ease;}
+  @media(max-width:760px){
+    [data-ht-flow]{grid-template-columns:1fr !important;}
+    [data-ht-flow] > div:not(.ht-tool){transform:rotate(90deg);height:30px;}
   }
-  .ht-wrap { max-width: 1080px; margin: 0 auto; }
-
-  .ht-back {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin-bottom: 18px;
-    color: #a91f43;
-    font-weight: 700;
-    text-decoration: none;
-  }
-
-  .ht-title {
-    font-size: clamp(28px, 4vw, 38px);
-    font-weight: 900;
-    color: #b62149;
-    margin: 0 0 8px;
-  }
-
-  .ht-intro {
-    font-size: 15px;
-    line-height: 1.8;
-    margin: 0 0 24px;
-    max-width: 780px;
-  }
-
-  .ht-flow-card {
-    background: rgba(255,255,255,.88);
-    border-radius: 20px;
-    padding: 22px;
-    box-shadow: 0 10px 28px rgba(70,42,55,.12);
-  }
-
-  .ht-flow-head {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 18px;
-    font-weight: 900;
-    color: #4a4540;
-  }
-
-  .ht-flowline {
-    display: grid;
-    grid-template-columns: 1fr 56px 1fr;
-    gap: 12px;
-    align-items: stretch;
-  }
-
-  .ht-tool {
-    background: #fff;
-    border: 1px solid #edd1d8;
-    border-radius: 18px;
-    padding: 22px;
-    box-shadow: 0 5px 16px rgba(82,42,57,.07);
-    display: flex;
-    flex-direction: column;
-    min-height: 250px;
-  }
-
-  .ht-tool-top {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 12px;
-  }
-
-  .ht-num {
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    background: #c0264a;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 900;
-    flex: 0 0 34px;
-  }
-
-  .ht-tool-title {
-    font-size: 19px;
-    font-weight: 900;
-    color: #a91f43;
-  }
-
-  .ht-tool-sub {
-    font-size: 13px;
-    color: #7b6269;
-    margin-bottom: 14px;
-    line-height: 1.6;
-  }
-
-  .ht-tool-steps {
-    display: grid;
-    gap: 7px;
-    margin-bottom: 18px;
-  }
-
-  .ht-mini {
-    background: #fff7f9;
-    border: 1px solid #f0d7de;
-    border-radius: 10px;
-    padding: 9px 11px;
-    font-size: 13px;
-    color: #6c555b;
-    line-height: 1.5;
-  }
-
-  .ht-open {
-    margin-top: auto;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 44px;
-    padding: 10px 16px;
-    border-radius: 12px;
-    background: #c0264a;
-    color: #fff;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 900;
-  }
-
-  .ht-open:hover { filter: brightness(.96); }
-
-  .ht-arrow {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #b62149;
-    font-size: 28px;
-    font-weight: 900;
-  }
-
-  .ht-copy-note {
-    margin-top: 16px;
-    background: #fff7e9;
-    border: 1px solid #f0d5a8;
-    border-radius: 12px;
-    padding: 12px 14px;
-    font-size: 13px;
-    line-height: 1.6;
-    color: #70543d;
-  }
-
-  .ht-section {
-    background: rgba(255,255,255,.82);
-    border-radius: 18px;
-    padding: 20px 22px;
-    box-shadow: 0 5px 18px rgba(0,0,0,.07);
-    margin-top: 18px;
-  }
-
-  .ht-section-title {
-    font-weight: 900;
-    font-size: 15px;
-    color: #4a4540;
-    margin-bottom: 14px;
-  }
-
-  .ht-guide {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 8px;
-  }
-
-  .ht-guide-item {
-    background: #fff7f9;
-    border: 1px solid #f1d2da;
-    border-radius: 12px;
-    padding: 10px;
-    display: flex;
-    gap: 8px;
-    align-items: flex-start;
-    color: #a91f43;
-    font-size: 12px;
-    font-weight: 800;
-    line-height: 1.45;
-  }
-
-  .ht-guide-num {
-    width: 21px;
-    height: 21px;
-    flex: 0 0 21px;
-    border-radius: 50%;
-    background: #c0264a;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 11px;
-  }
-
-  .ht-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 9px;
-  }
-
-  .ht-resource {
-    padding: 9px 13px;
-    border-radius: 10px;
-    background: #fff;
-    border: 1px solid #e7bdc8;
-    color: #a91f43;
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 800;
-  }
-
-  .ht-resource:hover { background: #fff7f9; }
-
-  @media (max-width: 760px) {
-    .ht-page { padding: 22px 12px 40px; }
-    .ht-flow-card { padding: 16px; }
-    .ht-flowline { grid-template-columns: 1fr; }
-    .ht-arrow { transform: rotate(90deg); height: 30px; }
-    .ht-tool { min-height: auto; padding: 18px; }
-    .ht-guide { grid-template-columns: 1fr; }
-    .ht-section { padding: 17px 15px; }
+  @media(hover:hover){
+    .ht-tool:hover{transform:translateY(-3px);box-shadow:0 16px 32px rgba(45,55,70,.14) !important;}
+    .ht-open:hover{filter:brightness(1.06);}
+    .ht-res:hover{background:#fffaf2 !important;border-color:#e0c9ab !important;}
+    .ht-home:hover{background:rgba(255,255,255,.18) !important;}
   }
 </style>
 </helmet>
+<div class="ht-wrap" style="font-family:'Noto Sans TC',sans-serif;color:#2b3a45;min-height:100vh;background:radial-gradient(circle at 6% 4%,rgba(243,188,111,.13),transparent 22%),radial-gradient(circle at 95% 10%,rgba(117,190,219,.10),transparent 24%),#fbf8f2;">
 
-<div class="ht-page">
-  <div class="ht-wrap">
-    <a href="首頁.dc.html" class="ht-back">← 回首頁</a>
-
-    <h1 class="ht-title">🗣️ 華台雙語翻譯</h1>
-    <p class="ht-intro">
-      依照「先翻譯、再聽發音」的順序操作。這一頁只負責引導流程，
-      實際工具會在新分頁開啟，避免內嵌網站造成反覆要求網路存取權。
-    </p>
-
-    <div class="ht-flow-card">
-      <div class="ht-flow-head">✨ 兩步完成華語轉台語</div>
-
-      <div class="ht-flowline">
-        <div class="ht-tool">
-          <div class="ht-tool-top">
-            <div class="ht-num">1</div>
-            <div class="ht-tool-title">華語轉台語翻譯</div>
-          </div>
-          <div class="ht-tool-sub">先把華語內容轉成台語，取得可複製的台語文字。</div>
-
-          <div class="ht-tool-steps">
-            <div class="ht-mini">輸入華語內容</div>
-            <div class="ht-mini">按「華翻閩」</div>
-            <div class="ht-mini">按「複製＋刪空格」</div>
-          </div>
-
-          <a class="ht-open"
-             href="https://gnisew.github.io/tools/turn/g2m2.html"
-             target="_blank"
-             rel="noopener">
-             開始翻譯 ↗
-          </a>
-        </div>
-
-        <div class="ht-arrow">→</div>
-
-        <div class="ht-tool">
-          <div class="ht-tool-top">
-            <div class="ht-num">2</div>
-            <div class="ht-tool-title">合成台語語音及羅馬字</div>
-          </div>
-          <div class="ht-tool-sub">把剛才的台語貼上，產生語音並查看羅馬字。</div>
-
-          <div class="ht-tool-steps">
-            <div class="ht-mini">貼上剛才複製的台語</div>
-            <div class="ht-mini">按「查」</div>
-            <div class="ht-mini">聽發音、看羅馬字</div>
-          </div>
-
-          <a class="ht-open"
-             href="https://suisiann.ithuan.tw/"
-             target="_blank"
-             rel="noopener">
-             產生語音 ↗
-          </a>
-        </div>
+  <div style="background:#15344b;color:#fff;">
+    <div style="max-width:1120px;margin:auto;min-height:66px;padding:12px 22px;display:flex;align-items:center;gap:14px;">
+      <a class="ht-home" href="首頁.dc.html" style="flex:0 0 auto;display:inline-flex;align-items:center;min-height:44px;padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.10);color:#dce7f2;font-size:14px;font-weight:800;white-space:nowrap;">🏠 回首頁</a>
+      <div style="min-width:0;text-align:center;flex:1;">
+        <div style="font-size:clamp(19px,3.4vw,22px);font-weight:900;letter-spacing:.08em;line-height:1.35;">🗣️ 華台雙語翻課</div>
+        <div style="margin-top:3px;font-size:12.5px;color:#9db4c7;font-weight:700;line-height:1.5;">華語轉台語，閣聽發音、看羅馬字</div>
       </div>
-
-      <div class="ht-copy-note">
-        💡 建議操作方式：先開第一個工具完成翻譯並複製結果，再回到這一頁開第二個工具。
-        這樣兩個工具彼此獨立，不會因為頁面內嵌而一直重新載入。
-      </div>
-    </div>
-
-    <div class="ht-section">
-      <div class="ht-section-title">📖 使用流程指南</div>
-      <div class="ht-guide">
-        <div class="ht-guide-item"><span class="ht-guide-num">1</span><span>輸入華語</span></div>
-        <div class="ht-guide-item"><span class="ht-guide-num">2</span><span>按「華翻閩」</span></div>
-        <div class="ht-guide-item"><span class="ht-guide-num">3</span><span>按「複製＋刪空格」</span></div>
-        <div class="ht-guide-item"><span class="ht-guide-num">4</span><span>開啟語音工具並貼上</span></div>
-        <div class="ht-guide-item"><span class="ht-guide-num">5</span><span>按「查」聽發音</span></div>
-      </div>
-    </div>
-
-    <div class="ht-section">
-      <div class="ht-section-title">🔗 相關資源</div>
-      <div class="ht-links">
-        <a href="http://tts001.ivoice.tw:8804/" target="_blank" rel="noopener" class="ht-resource">陽明交大語音合成</a>
-        <a href="https://translate.bronci.com.tw/#" target="_blank" rel="noopener" class="ht-resource">長問翻譯器</a>
-        <a href="https://sutian.moe.edu.tw/zh-hant/" target="_blank" rel="noopener" class="ht-resource">教育部台語辭典</a>
-        <a href="https://itaigi.tw/k/%E5%8F%B0%E8%AA%9E/" target="_blank" rel="noopener" class="ht-resource">iTaigi 愛台語</a>
-        <a href="https://www.taigitv.org.tw/taigi-words" target="_blank" rel="noopener" class="ht-resource">公視台語新詞</a>
-        <a href="https://www.taigi-domiso.com/" target="_blank" rel="noopener" class="ht-resource">Tâi-gí 做伙耍</a>
-      </div>
+      <div style="flex:0 0 auto;width:104px;"></div>
     </div>
   </div>
+
+  <div style="position:relative;background:linear-gradient(100deg,#fff2e0,#ffe7ee 70%,#fdeee3);border-bottom:1px solid #f3ddca;overflow:hidden;">
+    <div style="max-width:1120px;margin:auto;padding:16px 22px 20px;display:flex;align-items:center;gap:14px;position:relative;z-index:1;">
+      <span style="flex:0 0 auto;font-size:24px;transform:rotate(-8deg);">💬</span>
+      <div style="background:#fff;border:1px solid #f2d9c4;border-radius:16px 16px 16px 4px;padding:11px 16px;box-shadow:0 5px 14px rgba(140,90,50,.08);">
+        <div style="font-size:11.5px;font-weight:900;letter-spacing:.14em;color:#b5762c;">雙語工作台</div>
+        <div style="margin-top:4px;font-size:14.5px;font-weight:800;color:#7a5433;line-height:1.6;">先翻譯，閣聽發音——兩步就完成。</div>
+      </div>
+    </div>
+    <svg viewBox="0 0 1440 16" preserveAspectRatio="none" style="position:absolute;left:0;right:0;bottom:-1px;width:100%;height:16px;display:block;"><path d="M0,10 C240,2 480,15 720,8 C960,2 1200,14 1440,7 L1440,16 L0,16 Z" fill="#fbf8f2"></path></svg>
+  </div>
+
+  <main style="max-width:1120px;margin:auto;padding:22px 22px 0;">
+
+    <section style="background:#fff;border:1px solid #eae2d6;border-radius:26px;padding:26px;box-shadow:0 10px 26px rgba(45,55,70,.08);">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+        <span style="flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:30px;padding:0 10px;border-radius:999px;background:#15344b;color:#fff;font-size:12.5px;font-weight:900;white-space:nowrap;">工作台</span>
+        <h2 style="margin:0;font-size:clamp(18px,2.4vw,20px);font-weight:900;line-height:1.35;">兩步完成華語轉台語</h2>
+      </div>
+      <p style="margin:0 0 18px 0;font-size:13px;color:#8a968e;font-weight:700;line-height:1.7;">工具攏會佇新分頁拍開，兩个工具互相獨立，袂因為內嵌一直重新載入。</p>
+
+      <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:stretch;" data-ht-flow>
+        <sc-for list="{{tools}}" as="t" hint-placeholder-count="2">
+          <sc-if value="{{t.showArrow}}">
+            <div style="display:flex;align-items:center;justify-content:center;color:#b5762c;font-size:26px;font-weight:900;">→</div>
+          </sc-if>
+          <article class="ht-tool" style="{{t.cardStyle}}">
+            <div style="display:flex;align-items:center;gap:11px;margin-bottom:10px;">
+              <span style="flex:0 0 auto;width:36px;height:36px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:{{t.numBg}};color:#fff;font-size:15px;font-weight:900;">{{t.num}}</span>
+              <h3 style="margin:0;font-size:18px;font-weight:900;line-height:1.35;overflow-wrap:anywhere;">{{t.title}}</h3>
+            </div>
+            <p style="margin:0 0 14px;font-size:13px;color:#6d7d76;font-weight:700;line-height:1.65;">{{t.sub}}</p>
+            <div style="display:grid;gap:7px;margin-bottom:16px;">
+              <sc-for list="{{t.steps}}" as="s" hint-placeholder-count="3">
+                <div style="{{t.stepStyle}}">{{s}}</div>
+              </sc-for>
+            </div>
+            <a class="ht-open" href="{{t.url}}" target="_blank" rel="noopener" style="{{t.ctaStyle}}">{{t.cta}}</a>
+          </article>
+        </sc-for>
+      </div>
+
+      <div style="margin-top:16px;background:#fff8df;border:1px solid #f0e4aa;border-radius:16px;padding:13px 16px;font-size:13px;color:#6f633d;line-height:1.8;">
+        <strong>💡 建議操作</strong>：先開第一个工具完成翻譯並複製結果，才閣轉來這頁開第二个工具。
+      </div>
+    </section>
+
+    <section style="margin-top:20px;background:#fff;border:1px solid #eae2d6;border-radius:26px;padding:24px;box-shadow:0 10px 26px rgba(45,55,70,.08);">
+      <div style="font-size:16px;font-weight:900;margin-bottom:14px;">📖 使用流程指南</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:9px;">
+        <sc-for list="{{guides}}" as="g" hint-placeholder-count="5">
+          <div style="display:flex;align-items:center;gap:9px;background:#f8fbf9;border:1px solid #e2ebe5;border-radius:14px;padding:12px 13px;min-height:52px;">
+            <span style="flex:0 0 auto;width:24px;height:24px;border-radius:50%;background:#2f7d5a;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;">{{g.n}}</span>
+            <span style="font-size:13.5px;font-weight:800;color:#3d5349;line-height:1.5;overflow-wrap:anywhere;">{{g.text}}</span>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-top:20px;background:#fff;border:1px solid #eae2d6;border-radius:26px;padding:24px;box-shadow:0 10px 26px rgba(45,55,70,.08);">
+      <div style="font-size:16px;font-weight:900;margin-bottom:14px;">🔗 相關資源</div>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;">
+        <sc-for list="{{resources}}" as="r" hint-placeholder-count="6">
+          <a class="ht-res" href="{{r.url}}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;min-height:48px;padding:12px 18px;border-radius:999px;background:#fffaf4;border:1px solid #ebdfd0;color:#8a5f2c;font-size:14px;font-weight:900;white-space:nowrap;">{{r.name}} ↗</a>
+        </sc-for>
+      </div>
+    </section>
+
+  </main>
+
+  <div style="max-width:1120px;margin:22px auto 0;padding:0 22px 34px;font-size:12px;color:#9aa8a0;font-weight:700;text-align:center;">
+    <span style="color:#7d8f86;">張鈺聆 製</span>｜鈺聆上台語課
+  </div>
+
 </div>
 
 </x-dc>
-
 <script type="text/x-dc" data-dc-script>
+const TOOLS = [
+  {
+    num: '1', title: '華語轉台語翻譯', sub: '先共華語內容轉做台語，提著會使複製的台語文字。',
+    steps: ['輸入華語內容', '按「華翻閩」', '按「複製＋刪空格」'],
+    cta: '開始翻譯 ↗', url: 'https://gnisew.github.io/tools/turn/g2m2.html',
+    tone: '#15344b', bg: 'linear-gradient(150deg,#f4f9fd,#e9f2f9)', border: '#d6e3ee', stepBg: '#f7fbfe', stepBorder: '#dfeaf3', stepColor: '#4a6577',
+  },
+  {
+    num: '2', title: '合成台語語音及羅馬字', sub: '共拄才的台語貼上，產生語音閣看羅馬字。',
+    steps: ['貼上拄才複製的台語', '按「查」', '聽發音、看羅馬字'],
+    cta: '產生語音 ↗', url: 'https://suisiann.ithuan.tw/',
+    tone: '#b5762c', bg: 'linear-gradient(150deg,#fffaf2,#fdf1e2)', border: '#f0dfc8', stepBg: '#fffcf6', stepBorder: '#f2e5d2', stepColor: '#7a6248',
+  },
+];
+
+const GUIDES = [
+  { n: 1, text: '輸入華語' },
+  { n: 2, text: '按「華翻閩」' },
+  { n: 3, text: '按「複製＋刪空格」' },
+  { n: 4, text: '開啟語音工具並貼上' },
+  { n: 5, text: '按「查」聽發音' },
+];
+
+const RESOURCES = [
+  { name: '陽明交大語音合成', url: 'http://tts001.ivoice.tw:8804/' },
+  { name: '長問翻譯器', url: 'https://translate.bronci.com.tw/#' },
+  { name: '教育部台語辭典', url: 'https://sutian.moe.edu.tw/zh-hant/' },
+  { name: 'iTaigi 愛台語', url: 'https://itaigi.tw/k/%E5%8F%B0%E8%AA%9E/' },
+  { name: '公視台語新詞', url: 'https://www.taigitv.org.tw/taigi-words' },
+  { name: 'Tâi-gí 做伙耍', url: 'https://www.taigi-domiso.com/' },
+];
+
 class Component extends DCLogic {
   renderVals() {
-    return {};
+    const tools = TOOLS.map((t, i) => ({
+      num: t.num, title: t.title, sub: t.sub, steps: t.steps, cta: t.cta, url: t.url,
+      showArrow: i > 0,
+      numBg: t.tone,
+      cardStyle: `background:${t.bg};border:2px solid ${t.border};border-radius:22px;padding:22px;box-shadow:0 8px 20px rgba(45,55,70,.06);display:flex;flex-direction:column;`,
+      stepStyle: `background:${t.stepBg};border:1px solid ${t.stepBorder};border-radius:12px;padding:10px 12px;font-size:13px;font-weight:700;color:${t.stepColor};line-height:1.55;`,
+      ctaStyle: `margin-top:auto;display:inline-flex;align-items:center;justify-content:center;min-height:50px;border-radius:999px;background:${t.tone};color:#fff;font-size:15px;font-weight:900;padding:13px 20px;`,
+    }));
+    return { tools, guides: GUIDES, resources: RESOURCES };
   }
 }
+
 </script>
 </body>
 </html>

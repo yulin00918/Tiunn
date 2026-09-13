@@ -4,75 +4,101 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
-<meta name="author" content="張鈺聆">
-<meta name="copyright" content="© 張鈺聆">
-<script src="./author-credit.js"></script>
-<!--
-==================================================
-網站介面、功能與教學整合設計／製作：張鈺聆
-Copyright © 張鈺聆. All rights reserved.
-
-本網站為台語教學用途所設計。
-
-「張鈺聆 製」係指本網站之介面設計、
-功能整合、互動設計與教學資源整合，
-不代表頁面中所有教材文字、課文、圖片、
-音檔、辭典資料或第三方素材均為作者原創。
-
-教材、課文、音檔、圖片、辭典資料及其他
-第三方素材之著作權，仍屬原權利人所有。
-
-未經作者同意，請勿移除作者標示後，
-將本網站介面、程式功能或整合成果重新發布、
-重新包裝、冒名散布或作為他人原創作品。
-==================================================
--->
 </head>
 <body>
 <x-dc>
 <helmet>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  a{color:inherit;text-decoration:none;}
+  .rd-wrap,.rd-wrap *{box-sizing:border-box;}
+  .rd-lesson{transition:.16s ease;}
+  @media(hover:hover){
+    .rd-lesson:hover:not([disabled]){transform:translateX(3px);border-color:#c9b9a4 !important;}
+    .rd-pub:hover{transform:translateY(-3px);box-shadow:0 16px 32px rgba(45,55,70,.14) !important;}
+    .rd-home:hover{background:rgba(255,255,255,.18) !important;}
+    .rd-back:hover{border-color:#b9c8d6 !important;}
+  }
+</style>
 </helmet>
-<div style="font-family:'Noto Sans TC',sans-serif;background:linear-gradient(135deg, #ffe3c2 0%, #ffb98f 55%, #ff9f7a 100%);min-height:100vh;">
+<div class="rd-wrap" style="font-family:'Noto Sans TC',sans-serif;color:#2b3a45;min-height:100vh;background:radial-gradient(circle at 6% 4%,rgba(243,188,111,.13),transparent 22%),radial-gradient(circle at 95% 10%,rgba(117,190,219,.10),transparent 24%),#fbf8f2;">
 
-  <sc-if value="{{screenSelect}}">
-    <div style="background:#8f2035;padding:20px 30px;text-align:center;">
-      <div style="font-size:1.3rem;font-weight:900;color:#fff;letter-spacing:0.1em;">台語點讀</div>
-      <div style="font-size:0.8rem;color:rgba(255,255,255,0.7);margin-top:4px;">選擇版本、冊次及課別開始點讀</div>
+  <div style="background:#15344b;color:#fff;">
+    <div style="max-width:1120px;margin:auto;min-height:66px;padding:12px 22px;display:flex;align-items:center;gap:14px;">
+      <a class="rd-home" href="首頁.dc.html" style="flex:0 0 auto;display:inline-flex;align-items:center;min-height:44px;padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.10);color:#dce7f2;font-size:14px;font-weight:800;white-space:nowrap;">🏠 回首頁</a>
+      <div style="min-width:0;text-align:center;flex:1;">
+        <div style="font-size:clamp(19px,3.4vw,22px);font-weight:900;letter-spacing:.08em;line-height:1.35;">📖 咱來讀課文</div>
+        <div style="margin-top:3px;font-size:12.5px;color:#9db4c7;font-weight:700;line-height:1.5;">課文點讀｜正式教材</div>
+      </div>
+      <div style="flex:0 0 auto;width:104px;"></div>
     </div>
-    <div style="max-width:1200px;margin:0 auto;padding:24px 30px 60px;">
-      <a href="首頁.dc.html" style="display:inline-block;margin-bottom:20px;color:#8f2035;font-weight:700;text-decoration:none;white-space:nowrap;">← 回首頁</a>
+  </div>
 
-      <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:20px;align-items:start;">
-        <sc-for list="{{groups}}" as="grp" hint-placeholder-count="3">
-          <div>
-            <div style="display:flex;align-items:center;gap:8px;margin:0 0 12px;">
-              <span style="width:5px;height:20px;background:#8f2035;border-radius:3px;display:inline-block;"></span>
-              <span style="font-weight:800;color:#8f2035;font-size:1rem;white-space:nowrap;">{{grp.label}}</span>
-            </div>
-            <div style="display:flex;flex-direction:column;gap:16px;">
-              <sc-for list="{{grp.cards}}" as="card" hint-placeholder-count="4">
-                <div style="background:{{card.bg}};border-radius:20px;padding:18px 16px;box-shadow:0 8px 20px rgba(140,80,40,0.12);">
-                  <div style="text-align:center;font-weight:800;color:#8f2035;font-size:0.95rem;">{{card.title}}</div>
-                  <div style="text-align:center;font-size:0.72rem;color:#8a7d6d;margin-bottom:12px;">{{card.subtitle}}</div>
-                  <sc-for list="{{card.rows}}" as="row" hint-placeholder-count="3">
-                    <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 0;border-top:1px solid rgba(0,0,0,0.06);">
-                      <span style="font-size:0.78rem;color:#8f2035;font-weight:600;line-height:1.4;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;">{{row.label}}</span>
-                      <button style="{{row.btnStyle}}" disabled="{{row.disabled}}" onClick="{{row.onClick}}">{{row.btnLabel}}</button>
-                    </div>
-                  </sc-for>
-                </div>
-              </sc-for>
-            </div>
-          </div>
-        </sc-for>
+  <div style="position:relative;background:linear-gradient(100deg,#fff2e0,#ffe7ee 70%,#fdeee3);border-bottom:1px solid #f3ddca;overflow:hidden;">
+    <div style="max-width:1120px;margin:auto;padding:16px 22px 20px;display:flex;align-items:center;gap:14px;position:relative;z-index:1;">
+      <span style="flex:0 0 auto;font-size:24px;transform:rotate(-8deg);">📚</span>
+      <div style="background:#fff;border:1px solid #f2d9c4;border-radius:16px 16px 16px 4px;padding:11px 16px;box-shadow:0 5px 14px rgba(140,90,50,.08);">
+        <div style="font-size:11.5px;font-weight:900;letter-spacing:.14em;color:#b5762c;">今日課文</div>
+        <div style="margin-top:4px;font-size:14.5px;font-weight:800;color:#7a5433;line-height:1.6;">{{bandText}}</div>
       </div>
     </div>
-  </sc-if>
+    <svg viewBox="0 0 1440 16" preserveAspectRatio="none" style="position:absolute;left:0;right:0;bottom:-1px;width:100%;height:16px;display:block;"><path d="M0,10 C240,2 480,15 720,8 C960,2 1200,14 1440,7 L1440,16 L0,16 Z" fill="#fbf8f2"></path></svg>
+  </div>
 
-  <sc-if value="{{screenLesson}}">
-    <div style="max-width:1000px;margin:0 auto;padding:30px;">
-      <button onClick="{{backToSelect}}" style="display:inline-block;margin-bottom:20px;background:none;border:none;color:#8f2035;font-weight:700;font-size:15px;cursor:pointer;padding:0;">← 返回選單</button>
+  <main style="max-width:1120px;margin:auto;padding:22px 22px 0;">
+
+    <sc-if value="{{screenSelect}}" hint-placeholder-val="{{true}}">
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-bottom:22px;">
+        <sc-for list="{{publishers}}" as="p" hint-placeholder-count="3">
+          <button class="rd-pub" style="{{p.style}}" onClick="{{p.onClick}}">
+            <span style="display:flex;align-items:center;gap:11px;">
+              <span style="flex:0 0 auto;font-size:26px;line-height:1;">{{p.icon}}</span>
+              <span style="text-align:left;min-width:0;">
+                <span style="display:block;font-size:17px;font-weight:900;line-height:1.3;">{{p.label}}</span>
+                <span style="display:block;margin-top:3px;font-size:12.5px;font-weight:700;opacity:.75;line-height:1.5;">{{p.count}}</span>
+              </span>
+            </span>
+          </button>
+        </sc-for>
+      </div>
+
+      <sc-for list="{{books}}" as="bk" hint-placeholder-count="3">
+        <section style="{{bk.wrapStyle}}">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:13px;flex-wrap:wrap;">
+            <span style="flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:30px;padding:0 11px;border-radius:999px;background:{{bk.badgeBg}};color:#fff;font-size:12.5px;font-weight:900;white-space:nowrap;">{{bk.title}}</span>
+            <span style="font-size:12.5px;color:#8a968e;font-weight:700;line-height:1.5;">{{bk.subtitle}}</span>
+          </div>
+
+          <sc-if value="{{bk.hasLessons}}">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px;">
+              <sc-for list="{{bk.rows}}" as="row" hint-placeholder-count="4">
+                <button class="rd-lesson" style="{{row.style}}" onClick="{{row.onClick}}">
+                  <span style="flex:0 0 auto;width:30px;height:30px;border-radius:9px;background:{{row.numBg}};color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:900;">{{row.num}}</span>
+                  <span style="flex:1;min-width:0;text-align:left;font-size:14.5px;font-weight:800;line-height:1.5;overflow-wrap:anywhere;">{{row.name}}</span>
+                  <span style="flex:0 0 auto;font-size:16px;opacity:.5;">›</span>
+                </button>
+              </sc-for>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{!bk.hasLessons}}">
+            <div style="background:#faf7f2;border:1px dashed #ddd2c2;border-radius:16px;padding:18px;text-align:center;font-size:13.5px;color:#a0968a;font-weight:800;line-height:1.7;">尚未上線，教材陸續整理中</div>
+          </sc-if>
+        </section>
+      </sc-for>
+
+    </sc-if>
+
+    <sc-if value="{{screenLesson}}">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;background:#fff;border:1px solid #eae2d6;border-radius:20px;padding:14px 18px;box-shadow:0 8px 20px rgba(45,55,70,.07);margin-bottom:16px;">
+        <div style="display:flex;align-items:center;gap:11px;min-width:0;">
+          <span style="flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;background:#e7f2ea;color:#2f7d4a;border-radius:999px;padding:7px 13px;font-size:12.5px;font-weight:900;letter-spacing:.06em;">● 課文點讀中</span>
+          <span style="font-size:15px;font-weight:900;color:#2b3a45;overflow-wrap:anywhere;">{{activeSubtitle}}</span>
+        </div>
+        <button class="rd-back" style="flex:0 0 auto;border:2px solid #e2e6e0;background:#fff;color:#2b3a45;border-radius:999px;padding:12px 20px;min-height:48px;cursor:pointer;font-family:inherit;font-size:15px;font-weight:900;transition:.16s;" onClick="{{backToSelect}}">← 返回課文目錄</button>
+      </div>
+
       <sc-if value="{{isBaithangkue}}">
         <dc-import name="白糖粿點讀" hint-size="100%,900px"></dc-import>
       </sc-if>
@@ -100,7 +126,7 @@ Copyright © 張鈺聆. All rights reserved.
       <sc-if value="{{isTshiuKiA}}">
         <dc-import name="手機仔點讀" hint-size="100%,900px"></dc-import>
       </sc-if>
-      <sc-if value="{{isUKang}}">
+      <sc-if value="{{isUkangKelang}}">
         <dc-import name="雨港基隆點讀" hint-size="100%,900px"></dc-import>
       </sc-if>
       <sc-if value="{{isKeNngKo}}">
@@ -109,28 +135,40 @@ Copyright © 張鈺聆. All rights reserved.
       <sc-if value="{{isKhongIo}}">
         <dc-import name="炕窯點讀" hint-size="100%,900px"></dc-import>
       </sc-if>
-      <sc-if value="{{!hasDc}}">
-        <div style="background:#ffffffcc;border-radius:16px;padding:28px;box-shadow:0 4px 14px rgba(0,0,0,0.08);">
-          <h3 style="font-size:18px;font-weight:700;color:#8f2035;margin-bottom:14px;">{{activeSubtitle}}</h3>
-          <div style="border:2px dashed #8f203555;border-radius:12px;padding:40px;text-align:center;background:repeating-linear-gradient(45deg, #fbdbe055, #fbdbe055 10px, #fff0 10px, #fff0 20px);">
-            <p style="font-family:monospace;font-size:13px;color:#8a4a52;">在此貼上「{{activeSubtitle}}」的點讀課文內容與音檔</p>
-          </div>
-        </div>
-      </sc-if>
-    </div>
-  </sc-if>
+    </sc-if>
+
+  </main>
+
+  <div style="max-width:1120px;margin:22px auto 0;padding:0 22px 34px;font-size:12px;color:#9aa8a0;font-weight:700;text-align:center;">
+    <span style="color:#7d8f86;">張鈺聆 製</span>｜鈺聆上台語課
+  </div>
 
 </div>
 
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 const GROUPS_DEF = [
-  { key: 'yuda', label: '育達版(國中)', cards: [
-    { title: '第1冊', subtitle: '共 4 課', rows: [ { label: '第1課 白糖粿', ready: true, dc: '白糖粿點讀' }, { label: '第2課 來去屏東海生館蹛一暝', ready: true, dc: '來去屏東海生館蹛一暝點讀' }, { label: '第3課 四秀仔錢', ready: true, dc: '四秀仔錢點讀' }, { label: '第4課 燒銀紙佮放炮仔', ready: true, dc: '燒銀紙佮放炮仔點讀' } ] },
-    { title: '第2冊', subtitle: '共 4 課', rows: [ { label: '第1課 踢銅管仔', ready: true, dc: '踢銅管仔點讀' }, { label: '第2課 爸仔囝', ready: true, dc: '爸仔囝點讀' }, { label: '第3課 阿媽的目屎', ready: true, dc: '阿媽的目屎點讀' }, { label: '第4課 未食五日節粽', ready: true, dc: '未食五日節粽點讀' } ] },
-    { title: '第3冊', subtitle: '共 4 課', rows: [ { label: '第1課 手機仔', ready: true, dc: '手機仔點讀' }, { label: '第2課 雨港基隆，魚鹽規布袋', ready: true, dc: '雨港基隆點讀' }, { label: '第3課 雞卵糕', ready: true, dc: '雞卵糕點讀' }, { label: '第4課 炕窯', ready: true, dc: '炕窯點讀' } ] },
+  { key: 'yuda', label: '育達版(國中)', icon: '📕', tone: '#b5762c', cards: [
+    { title: '第1冊', subtitle: '共 4 課', rows: [
+      { label: '第1課 白糖粿', ready: true, dc: '白糖粿點讀' },
+      { label: '第2課 來去屏東海生館蹛一暝', ready: true, dc: '來去屏東海生館蹛一暝點讀' },
+      { label: '第3課 四秀仔錢', ready: true, dc: '四秀仔錢點讀' },
+      { label: '第4課 燒銀紙佮放炮仔', ready: true, dc: '燒銀紙佮放炮仔點讀' },
+    ]},
+    { title: '第2冊', subtitle: '共 4 課', rows: [
+      { label: '第1課 踢銅管仔', ready: true, dc: '踢銅管仔點讀' },
+      { label: '第2課 爸仔囝', ready: true, dc: '爸仔囝點讀' },
+      { label: '第3課 阿媽的目屎', ready: true, dc: '阿媽的目屎點讀' },
+      { label: '第4課 未食五日節粽', ready: true, dc: '未食五日節粽點讀' },
+    ]},
+    { title: '第3冊', subtitle: '共 4 課', rows: [
+      { label: '第1課 手機仔', ready: true, dc: '手機仔點讀' },
+      { label: '第2課 雨港基隆，魚鹽規布袋', ready: true, dc: '雨港基隆點讀' },
+      { label: '第3課 雞卵糕', ready: true, dc: '雞卵糕點讀' },
+      { label: '第4課 炕窯', ready: true, dc: '炕窯點讀' },
+    ]},
   ]},
-  { key: 'kangxuan', label: '康軒版(國中)', cards: [
+  { key: 'kangxuan', label: '康軒版(國中)', icon: '📘', tone: '#2f6ba8', cards: [
     { title: '第1冊', subtitle: '共 6 課', rows: [
       { label: '第1課 講咱的話', ready: true, href: '康軒點讀/B1L1_講咱的話/index.html' },
       { label: '第2課 鬥陣', ready: true, href: '康軒點讀/B1L2_鬥陣/index.html' },
@@ -139,19 +177,19 @@ const GROUPS_DEF = [
       { label: '自學 過年的批', ready: true, href: '康軒點讀/B1自學_過年的批/index.html' },
       { label: '素養活動 臺灣台語常用詞辭典紹介', ready: true, href: '康軒點讀/B1素養活動_臺灣台語常用詞辭典紹介/index.html' },
     ]},
-    { title: '第2冊', subtitle: '共 0 課', rows: [ { label: '第1課', ready: false }, { label: '第2課', ready: false } ] },
-    { title: '第3冊', subtitle: '共 0 課', rows: [ { label: '第1課', ready: false }, { label: '第2課', ready: false } ] },
+    { title: '第2冊', subtitle: '尚未上線', rows: [] },
+    { title: '第3冊', subtitle: '尚未上線', rows: [] },
   ]},
-  { key: 'zhenping', label: '真平版(國中)', cards: [
-    { title: '第1冊', subtitle: '共 0 課', rows: [ { label: '第1課', ready: false }, { label: '第2課', ready: false }, { label: '第3課', ready: false } ] },
-    { title: '第2冊', subtitle: '共 0 課', rows: [ { label: '第1課', ready: false }, { label: '第2課', ready: false } ] },
-    { title: '第3冊', subtitle: '共 0 課', rows: [ { label: '第1課', ready: false }, { label: '第2課', ready: false } ] },
-    { title: '第4冊', subtitle: '共 0 課', rows: [ { label: '第1課', ready: false }, { label: '第2課', ready: false } ] },
+  { key: 'zhenping', label: '真平版(國中)', icon: '📗', tone: '#3f8b6a', cards: [
+    { title: '第1冊', subtitle: '尚未上線', rows: [] },
+    { title: '第2冊', subtitle: '尚未上線', rows: [] },
+    { title: '第3冊', subtitle: '尚未上線', rows: [] },
+    { title: '第4冊', subtitle: '尚未上線', rows: [] },
   ]},
 ];
 
 class Component extends DCLogic {
-  state = { screen: 'select', activeSubtitle: '', activeDc: null };
+  state = { screen: 'select', pub: 'yuda', activeSubtitle: '', activeDc: null };
 
   openLesson(cardTitle, groupLabel, row) {
     if (row.href) { window.location.href = row.href; return; }
@@ -159,31 +197,48 @@ class Component extends DCLogic {
   }
 
   renderVals() {
-    const groups = GROUPS_DEF.map(g => ({
-      label: g.label,
-      cards: g.cards.map(card => ({
-        title: card.title,
-        subtitle: card.subtitle,
-        bg: '#fdf1e2',
-        rows: card.rows.map(row => {
-          const available = !!row.ready;
-          return {
-            label: row.label,
-            disabled: !available,
-            btnLabel: available ? '開始' : '尚未建立',
-            btnStyle: `font-family:inherit;border:none;border-radius:999px;padding:6px 14px;font-size:0.72rem;font-weight:700;cursor:${available ? 'pointer' : 'not-allowed'};background:${available ? '#4a9f6e' : '#e5ddd0'};color:${available ? '#fff' : '#9a8f80'};white-space:nowrap;`,
-            onClick: available ? () => this.openLesson(card.title, g.label, row) : null,
-          };
-        }),
-      })),
-    }));
+    const curKey = this.state.pub;
+    const group = GROUPS_DEF.find(g => g.key === curKey) || GROUPS_DEF[0];
+
+    const publishers = GROUPS_DEF.map(g => {
+      const total = g.cards.reduce((n, c) => n + c.rows.filter(r => r.ready).length, 0);
+      const active = g.key === curKey;
+      return {
+        icon: g.icon, label: g.label,
+        count: total ? `${total} 課可讀` : '尚未上線',
+        onClick: () => this.setState({ pub: g.key }),
+        style: `display:flex;align-items:center;padding:16px 18px;border-radius:20px;border:2px solid ${active ? '#15344b' : '#e6ded2'};font-family:inherit;cursor:pointer;min-height:76px;text-align:left;transition:.16s ease;background:${active ? '#15344b' : '#fff'};color:${active ? '#fff' : '#5a6b74'};box-shadow:${active ? '0 10px 22px rgba(21,52,75,.18)' : '0 6px 16px rgba(45,55,70,.05)'};`,
+      };
+    });
+
+    const books = group.cards.map((card, ci) => {
+      const rows = card.rows.filter(r => r.ready);
+      return {
+        title: card.title, subtitle: card.subtitle,
+        badgeBg: group.tone,
+        hasLessons: rows.length > 0,
+        wrapStyle: `background:#fff;border:1px solid #eae2d6;border-radius:24px;padding:22px;box-shadow:0 10px 26px rgba(45,55,70,.08);${ci === 0 ? '' : 'margin-top:16px;'}`,
+        rows: rows.map((row, ri) => ({
+          num: String(ri + 1).padStart(2, '0'),
+          name: row.label,
+          numBg: group.tone,
+          onClick: () => this.openLesson(card.title, group.label, row),
+          style: 'display:flex;align-items:center;gap:11px;padding:13px 15px;min-height:58px;border-radius:15px;border:1px solid #ece4d8;background:#fdfbf7;cursor:pointer;font-family:inherit;',
+        })),
+      };
+    });
+
+    const totalReady = GROUPS_DEF.reduce((n, g) => n + g.cards.reduce((m, c) => m + c.rows.filter(r => r.ready).length, 0), 0);
+
     return {
       screenSelect: this.state.screen === 'select',
       screenLesson: this.state.screen === 'lesson',
-      groups,
+      bandText: this.state.screen === 'lesson'
+        ? '點課文段落聽讀音，點語詞看解說。'
+        : `揀你的課本，聽課文、看語詞、學台羅。目前有 ${totalReady} 課。`,
+      publishers, books,
       activeSubtitle: this.state.activeSubtitle,
-      activeDc: this.state.activeDc,
-      hasDc: !!this.state.activeDc,
+      backToSelect: () => this.setState({ screen: 'select', activeDc: null }),
       isBaithangkue: this.state.activeDc === '白糖粿點讀',
       isHaisingkuan: this.state.activeDc === '來去屏東海生館蹛一暝點讀',
       isSisiua: this.state.activeDc === '四秀仔錢點讀',
@@ -193,10 +248,9 @@ class Component extends DCLogic {
       isAMaBakSai: this.state.activeDc === '阿媽的目屎點讀',
       isBueTsiahGoo: this.state.activeDc === '未食五日節粽點讀',
       isTshiuKiA: this.state.activeDc === '手機仔點讀',
-      isUKang: this.state.activeDc === '雨港基隆點讀',
+      isUkangKelang: this.state.activeDc === '雨港基隆點讀',
       isKeNngKo: this.state.activeDc === '雞卵糕點讀',
       isKhongIo: this.state.activeDc === '炕窯點讀',
-      backToSelect: () => this.setState({ screen: 'select' }),
     };
   }
 }

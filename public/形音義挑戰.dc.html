@@ -26,7 +26,7 @@ Copyright © 張鈺聆. All rights reserved.
 重新包裝、冒名散布或作為他人原創作品。
 ==================================================
 -->
-<title>形音義挑戰｜鈺聆上台語課</title>
+<title>形音義挑戰｜鈺聆的台語課</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root{--navy:#15344b;--ink:#25324a;--cream:#fff8ed;--paper:#fffdf8;--peach:#ffc69f;--orange:#f57d27;--green:#2f7d4a;--red:#c75b5b;--gold:#e7b657;--muted:#8b877f;--line:#eadfce}
@@ -167,7 +167,7 @@ select{width:100%;min-height:50px;padding:12px;border:2px solid #e4dccf;border-r
 <div id="lessonInfo" class="notice"></div></div>
 <div class="stepBlock"><div class="stepHead"><span class="stepNo">2</span><div><p class="stepTitle">揀挑戰量</p><p class="stepHint">欲破解幾題？</p></div></div>
 <div class="chips" id="amounts"><button class="chip active" data-n="8">8 題</button><button class="chip" data-n="15">15 題</button><button class="chip" data-n="all">全部</button></div></div>
-<div class="stepBlock"><div class="stepHead"><span class="stepNo">3</span><div><p class="stepTitle">本次偵探任務</p><p class="stepHint">系統會自動轮替出題，毋免自己揀</p></div></div>
+<div class="stepBlock"><div class="stepHead"><span class="stepNo">3</span><div><p class="stepTitle">本次偵探任務</p><p class="stepHint">以下 6 種任務會由系統自動穿插出題，不需要自己選擇。你只要選教材與題數，按下「開始破解」就可以。</p></div></div>
 <div class="steps">
 <div class="step"><span class="stepIcon">👂</span><span class="stepName">聽聲揣字</span></div>
 <div class="step"><span class="stepIcon">🔎</span><span class="stepName">拼音解碼</span></div>
@@ -176,7 +176,7 @@ select{width:100%;min-height:50px;padding:12px;border:2px solid #e4dccf;border-r
 <div class="step"><span class="stepIcon">⚡</span><span class="stepName">真假偵探</span></div>
 <div class="step boss"><span class="bossFlag">BOSS</span><span class="stepIcon">🧩</span><span class="stepName">三線索合體</span></div>
 </div>
-<div class="bossNote">🧩 三線索合體是每一輪的最後一題，要將字形、讀音、意思三條線索配做伙。</div></div>
+<div class="bossNote">🧩 三線索合體｜最後一題固定為 BOSS 關 — 要將字形、讀音、意思三條線索配做伙。</div></div>
 <div class="actions"><button id="startBtn" class="primary">開始破解 →</button></div>
 </section>
 <section id="quizScreen" class="card hidden">
@@ -188,7 +188,7 @@ select{width:100%;min-height:50px;padding:12px;border:2px solid #e4dccf;border-r
 <div class="hero"><span class="badge">🕵️ 詞語偵探報告</span><h2 id="reportTitle">任務完成！</h2></div><div id="scoreBig" class="score"></div><div id="reportSub"></div><div id="meters" class="meters"></div><div id="wrongList" class="wrongList"></div><div class="actions"><button id="retryWrong" class="primary">🔁 錯題再挑戰</button><button id="replay" class="secondary">同課再玩</button><button id="backSelect" class="secondary">重新選課</button></div>
 </section>
 <div class="footerNote">共用「課文解碼站」詞庫；音檔共用單一播放器。</div>
-<div class="pageFoot"><span>張鈺聆 製</span>｜鈺聆上台語課</div>
+<div class="pageFoot"><span>張鈺聆 製</span>｜鈺聆的台語課</div>
 </main>
 <script>
 const { GROUPS_DEF } = window.TAIGI_VOCAB;
@@ -302,12 +302,21 @@ const MEANING_SCENES = {
 
 function meaningSceneFor(w){ return MEANING_SCENES[w.hanji] || null; }
 
+function normText(s){ return String(s||'').replace(/[\s\u3000（）()【】\[\]「」『』，。、；：！？~]/g,'').toLowerCase(); }
+function tailoSylSet(t){ return new Set(String(t||'').toLowerCase().split(/[\s\-\u2013\u2014.]+/).filter(Boolean)); }
+function tailoOverlap(a,b){ const A=tailoSylSet(a), B=tailoSylSet(b); for(const s of A) if(B.has(s)) return true; return false; }
+
 function meaningChoiceObjects(w, count=4){
   const scene=meaningSceneFor(w);
   const correctText=scene ? scene.answer : w.meaning;
-  let others=shuffle(pool.filter(x=>x!==w && x.meaning).map(x=>x.meaning))
-    .filter((v,i,a)=>v!==w.meaning && a.indexOf(v)===i)
-    .slice(0,count-1);
+  const seen=new Set([normText(correctText), normText(w.meaning)]);
+  const others=[];
+  for(const m of shuffle(pool.filter(x=>x!==w && x.meaning).map(x=>x.meaning))){
+    const key=normText(m);
+    if(seen.has(key)) continue;
+    seen.add(key); others.push(m);
+    if(others.length>=count-1) break;
+  }
   let opts=[{text:correctText,ok:true}, ...others.map(x=>({text:x,ok:false}))];
   return shuffle(opts);
 }
@@ -332,15 +341,20 @@ function audioMeaningChoices(w, count=4){
 
 function buildTruthCase(w){
   const usable=pool.filter(x=>x!==w && x.tailo && x.meaning);
-  const isTrue=Math.random()<0.5 || usable.length<2;
+  const soundDonors=usable.filter(x=>!tailoOverlap(x.tailo,w.tailo) && normText(x.tailo)!==normText(w.tailo));
+  const meaningDonors=usable.filter(x=>normText(x.meaning)!==normText(w.meaning));
+  const isTrue=Math.random()<0.5 || (!soundDonors.length && !meaningDonors.length);
   if(isTrue){
     return {isTrue:true,hanji:w.hanji,tailo:w.tailo,meaning:w.meaning,wrongPart:null};
   }
-  const wrongType=Math.random()<0.5?'sound':'meaning';
-  const donor=shuffle(usable)[0];
+  let wrongType=Math.random()<0.5?'sound':'meaning';
+  if(wrongType==='sound' && !soundDonors.length) wrongType='meaning';
+  else if(wrongType==='meaning' && !meaningDonors.length) wrongType='sound';
   if(wrongType==='sound'){
+    const donor=shuffle(soundDonors)[0];
     return {isTrue:false,hanji:w.hanji,tailo:donor.tailo,meaning:w.meaning,wrongPart:'讀音'};
   }
+  const donor=shuffle(meaningDonors)[0];
   return {isTrue:false,hanji:w.hanji,tailo:w.tailo,meaning:donor.meaning,wrongPart:'詞義'};
 }
 
@@ -386,7 +400,21 @@ if(q.type==='trueFalse'){
 }
 if(q.type==='triple'){
   if(!q.trio){
-    q.trio=shuffle([w,...shuffle(pool.filter(x=>x!==w)).slice(0,2)]).map((x,i)=>({w:x,uid:`tri-${qi}-${i}`}));
+    const partners=[]; const usedM=new Set([normText(w.meaning)]);
+    for(const cand of shuffle(pool.filter(x=>x!==w))){
+      if(usedM.has(normText(cand.meaning))) continue;
+      if([w,...partners].some(p=>tailoOverlap(p.tailo,cand.tailo))) continue;
+      usedM.add(normText(cand.meaning)); partners.push(cand);
+      if(partners.length>=2) break;
+    }
+    if(partners.length<2){
+      for(const cand of shuffle(pool.filter(x=>x!==w && !partners.includes(x)))){
+        if(usedM.has(normText(cand.meaning))) continue;
+        usedM.add(normText(cand.meaning)); partners.push(cand);
+        if(partners.length>=2) break;
+      }
+    }
+    q.trio=shuffle([w,...partners]).map((x,i)=>({w:x,uid:`tri-${qi}-${i}`}));
     q.matches=0;q.sel={};
   }
   const active=q.trio.filter(x=>!x.done);

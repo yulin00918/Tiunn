@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>課文解碼站｜鈺聆上台語課</title>
+<title>課文解碼站｜鈺聆的台語課</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;800;900&display=swap" rel="stylesheet">
 <meta name="author" content="張鈺聆">
 <meta name="copyright" content="© 張鈺聆">
@@ -113,7 +113,7 @@ Copyright © 張鈺聆. All rights reserved.
 <div class="startRow"><button class="primary" id="start" style="white-space:nowrap">開始練習 →</button></div><div class="warn">有可靠音檔的詞才會出現「聽讀音」題型；沒有音檔的詞仍會用字形／台羅題型練習，不會硬配錯誤音檔。</div></div></div>
 <div class="wrap quiz" id="quizScreen" style="display:none"><button class="back" id="quit" style="border:0;background:none;cursor:pointer;font-size:15px">← 返回選單</button><div class="meta"><span id="qnum"></span><span id="scoreNow"></span></div><div class="bar"><i id="bar"></i></div><div class="card"><span class="tag" id="typeTag"></span><div class="prompt" id="prompt"></div><div class="sub" id="sub"></div><button class="audioBtn" id="audioBtn" style="display:none">🔊 播放語音</button><div class="opts" id="opts"></div><div class="feedback" id="feedback"></div><button class="primary next" id="next">下一題</button></div></div>
 <div class="wrap quiz" id="resultScreen" style="display:none"><div class="card result"><div class="tag">🎉 任務完成</div><div class="score" id="finalScore"></div><div class="small" id="finalText"></div><div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:24px"><button class="primary" id="again">同課再玩</button><button class="primary" id="choose">重新選課</button></div></div></div>
-<footer class="pageFoot"><span>張鈺聆 製</span>｜鈺聆上台語課</footer>
+<footer class="pageFoot"><span>張鈺聆 製</span>｜鈺聆的台語課</footer>
 <audio id="player" preload="none"></audio>
 <script>
 const {GROUPS_DEF}=window.TAIGI_VOCAB; const $=id=>document.getElementById(id); let amount=8, mode='audioHanji', questions=[],qi=0,score=0,locked=false,currentRow=null;

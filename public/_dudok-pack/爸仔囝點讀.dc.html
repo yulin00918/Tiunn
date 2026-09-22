@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  a{color:inherit;text-decoration:none;}
+  .pk-wrap,.pk-wrap *{box-sizing:border-box;}
+  .pk-seg{transition:.18s ease;}
+  @media(hover:hover){
+    .pk-seg:hover{border-color:#cfdcc9 !important;background:#fbfdf9 !important;}
+    .pk-vocab:hover{transform:translateY(-2px);box-shadow:0 12px 24px rgba(60,80,55,.12) !important;}
+    .pk-ctl:hover{border-color:#c6d4bf !important;}
+  }
+  @media(max-width:820px){
+    .pk-vocabgrid{grid-template-columns:1fr !important;}
+  }
+  @media(max-width:600px){
+    .pk-ctlbar{gap:8px !important;}
+    .pk-ctlbar .pk-ctl{flex:1 1 auto;justify-content:center;}
+  }
+</style>
+</helmet>
+<div class="pk-wrap" style="font-family:'Noto Sans TC',sans-serif;color:#2b3a45;">
+  <div style="max-width:1000px;margin:auto;">
+
+    <div style="background:#fff;border:1px solid #e2e8dd;border-radius:22px;padding:18px 20px;box-shadow:0 8px 20px rgba(45,55,70,.07);margin-bottom:16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+      <span style="flex:0 0 auto;width:46px;height:46px;border-radius:14px;background:#edf4e9;display:inline-flex;align-items:center;justify-content:center;font-size:24px;">🐶</span>
+      <div style="min-width:0;flex:1;">
+        <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;">
+          <span style="flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;padding:5px 11px;border-radius:999px;background:#5a8a4e;color:#fff;font-size:11.5px;font-weight:900;white-space:nowrap;">育達版・第二冊</span>
+          <h2 style="margin:0;font-size:clamp(19px,3vw,23px);font-weight:900;letter-spacing:.04em;line-height:1.3;">第二課｜爸仔囝</h2>
+        </div>
+        <div style="margin-top:5px;font-size:12.5px;color:#8a968e;font-weight:700;line-height:1.6;">敘事＋對話｜點段落聽讀音，點<span style="color:#4a7d3f;border-bottom:2px dotted #8fb884;">彩色語詞</span>看解說</div>
+      </div>
+    </div>
+
+    <div class="pk-ctlbar" style="position:sticky;top:8px;z-index:10;display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:rgba(251,253,249,.95);backdrop-filter:blur(10px);border:1px solid #e2e8dd;border-radius:20px;padding:12px 14px;box-shadow:0 10px 26px rgba(45,55,70,.09);margin-bottom:16px;">
+      <button class="pk-ctl" style="flex:0 0 auto;display:inline-flex;align-items:center;min-height:48px;border:none;background:#15344b;color:#fff;padding:12px 18px;border-radius:999px;cursor:pointer;font-family:inherit;font-size:14.5px;font-weight:900;" onClick="{{playAll}}">▶ 全文連續播放</button>
+      <button class="pk-ctl" style="flex:0 0 auto;display:inline-flex;align-items:center;min-height:48px;border:2px solid #e4ebe0;background:#fff;color:#4f5a4b;padding:11px 16px;border-radius:999px;cursor:pointer;font-family:inherit;font-size:14px;font-weight:800;transition:.16s;" onClick="{{togglePause}}">⏸ 暫停</button>
+      <button class="pk-ctl" style="flex:0 0 auto;display:inline-flex;align-items:center;min-height:48px;border:2px solid #e4ebe0;background:#fff;color:#4f5a4b;padding:11px 16px;border-radius:999px;cursor:pointer;font-family:inherit;font-size:14px;font-weight:800;transition:.16s;" onClick="{{restart}}">↺ 重頭</button>
+      <label style="flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:800;color:#7d8a78;">速度
+        <select value="{{speed}}" onChange="{{onSpeedChange}}" style="min-height:48px;border:2px solid #e4ebe0;background:#fff;color:#4f5a4b;padding:10px 12px;border-radius:14px;font-family:inherit;font-size:14px;font-weight:800;">
+          <option value="0.75">0.75×</option>
+          <option value="1">1×</option>
+          <option value="1.25">1.25×</option>
+        </select>
+      </label>
+      <div style="flex:1 1 140px;min-width:120px;height:8px;background:#e8efe4;border-radius:999px;overflow:hidden;"><span style="display:block;height:100%;background:linear-gradient(90deg,#7cab6d,#5a8a4e);width:{{progressPct}}%;"></span></div>
+      <div style="flex:0 0 auto;color:#7d8a78;font-size:12.5px;font-weight:800;white-space:nowrap;">{{status}}</div>
+    </div>
+
+    <section style="background:#fff;border:1px solid #e2e8dd;border-radius:26px;padding:24px 22px;box-shadow:0 10px 26px rgba(45,55,70,.08);">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap;">
+        <span style="flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:30px;padding:0 11px;border-radius:999px;background:#5a8a4e;color:#fff;font-size:12.5px;font-weight:900;white-space:nowrap;">課文點讀</span>
+        <span style="font-size:12.5px;color:#8a968e;font-weight:700;line-height:1.5;">全文 {{segCount}} 段</span>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:16px;padding:11px 14px;background:#f7faf5;border:1px solid #e6ede2;border-radius:14px;">
+        <span style="font-size:12px;font-weight:800;color:#8a968e;">說話的人：</span>
+        <span style="display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:800;color:#7a5b2e;"><span style="width:13px;height:13px;border-radius:4px;background:#f3e0bd;display:inline-block;"></span>阿爸</span>
+        <span style="display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:800;color:#3f6b7d;"><span style="width:13px;height:13px;border-radius:4px;background:#d7e8ef;display:inline-block;"></span>我（阿花仔）</span>
+      </div>
+
+      <sc-for list="{{segments}}" as="seg" hint-placeholder-count="5">
+        <article class="pk-seg" style="{{seg.style}}" onClick="{{seg.onClick}}">
+          <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px;">
+            <span style="flex:0 0 auto;width:28px;height:28px;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:900;background:{{seg.numBg}};color:{{seg.numColor}};">{{seg.num}}</span>
+            <span style="font-size:12.5px;font-weight:800;color:#9aa595;">{{seg.hint}}</span>
+          </div>
+          <p style="margin:0;font-size:clamp(17px,2.2vw,18.5px);line-height:2.15;letter-spacing:.02em;text-align:justify;">
+<sc-for list="{{seg.runs}}" as="run" hint-placeholder-count="0"><sc-if value="{{run.isQuote}}"><span style="{{run.quoteStyle}}"><span style="{{run.tagStyle}}">{{run.speaker}}</span><sc-for list="{{run.tokens}}" as="tok" hint-placeholder-count="0"><sc-if value="{{tok.isVocab}}"><span style="{{tok.style}}" onClick="{{tok.onClick}}">{{tok.text}}</span></sc-if><sc-if value="{{!tok.isVocab}}"><span>{{tok.text}}</span></sc-if></sc-for></span></sc-if>
+<sc-if value="{{!run.isQuote}}"><sc-for list="{{run.tokens}}" as="tok" hint-placeholder-count="0"><sc-if value="{{tok.isVocab}}"><span style="{{tok.style}}" onClick="{{tok.onClick}}">{{tok.text}}</span></sc-if><sc-if value="{{!tok.isVocab}}"><span>{{tok.text}}</span></sc-if></sc-for></sc-if>
+            </sc-for>
+          </p>
+        </article>
+      </sc-for>
+    </section>
+
+    <section style="margin-top:20px;background:#fff;border:1px solid #e2e8dd;border-radius:26px;padding:24px 22px;box-shadow:0 10px 26px rgba(45,55,70,.08);">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap;">
+        <span style="flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:30px;padding:0 11px;border-radius:999px;background:#2f7d5a;color:#fff;font-size:12.5px;font-weight:900;white-space:nowrap;">語詞點讀</span>
+        <span style="font-size:12.5px;color:#8a968e;font-weight:700;line-height:1.5;">本課 {{vocabCount}} 个語詞</span>
+      </div>
+      <p style="margin:0 0 16px;font-size:12.5px;color:#8a968e;font-weight:700;line-height:1.7;">點喇叭聽出版社提供的語詞音檔。</p>
+
+      <div class="pk-vocabgrid" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;">
+        <sc-for list="{{vocabCards}}" as="v" hint-placeholder-count="20">
+          <article class="pk-vocab" style="background:#fbfdf9;border:1px solid #e6ede2;border-radius:18px;padding:15px;display:grid;grid-template-columns:38px 1fr auto;gap:12px;align-items:start;transition:.18s ease;">
+            <span style="width:32px;height:32px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;background:#e4eedd;color:#4a7d3f;font-size:13px;font-weight:900;">{{v.num}}</span>
+            <div style="min-width:0;">
+              <div style="font-size:19px;font-weight:900;line-height:1.35;overflow-wrap:anywhere;">{{v.word}}</div>
+              <div style="font-size:14px;color:#4a7d3f;font-weight:800;margin-top:3px;overflow-wrap:anywhere;">{{v.roman}}</div>
+              <div style="font-size:13.5px;color:#7d8a82;font-weight:700;margin-top:6px;line-height:1.7;">{{v.gloss}}</div>
+            </div>
+            <button style="{{v.btnStyle}}" onClick="{{v.onPlay}}">🔊</button>
+          </article>
+        </sc-for>
+      </div>
+    </section>
+
+  </div>
+
+  <sc-if value="{{popupShow}}">
+    <div style="position:fixed;inset:0;background:rgba(45,55,70,.42);display:flex;align-items:center;justify-content:center;z-index:60;padding:18px;" onClick="{{closePopup}}">
+      <article onClick="{{stopPropagation}}" style="background:#fff;border:1px solid #e2e8dd;border-radius:22px;padding:22px;max-width:380px;width:100%;box-shadow:0 22px 52px rgba(45,55,70,.28);">
+        <div style="display:grid;grid-template-columns:38px 1fr auto;gap:13px;align-items:start;">
+          <span style="width:32px;height:32px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;background:#e4eedd;color:#4a7d3f;font-size:13px;font-weight:900;">{{popupWord.num}}</span>
+          <div style="min-width:0;">
+            <div style="font-size:23px;font-weight:900;line-height:1.3;overflow-wrap:anywhere;">{{popupWord.word}}</div>
+            <div style="font-size:15px;color:#4a7d3f;font-weight:800;margin-top:3px;overflow-wrap:anywhere;">{{popupWord.roman}}</div>
+            <div style="font-size:14px;color:#7d8a82;font-weight:700;margin-top:9px;line-height:1.75;">{{popupWord.gloss}}</div>
+          </div>
+          <button style="{{popupWord.btnStyle}}" onClick="{{popupWord.onPlay}}">🔊</button>
+        </div>
+        <button style="width:100%;margin-top:18px;min-height:48px;border:2px solid #e4ebe0;background:#fff;color:#4f5a4b;border-radius:999px;cursor:pointer;font-family:inherit;font-size:14.5px;font-weight:900;" onClick="{{closePopup}}">關起來</button>
+      </article>
+    </div>
+  </sc-if>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const AUDIO_BASE = 'audio/read-pah-a-kiann/';
+const SEGMENTS_DEF = [
+  '我是阿爸去動物收容所分轉來飼的，這十冬來我上知伊的性。阿爸伊上軟心，只要我用這雙眼神共使目尾，行倚去共下頦靠踮伊的跤頭趺，閣用袂輸thián-pú-lah仝款肥軟仔肥軟的手共掰咧掰咧，就算伊䖙佇膨椅頂，電視當看甲神去，嘛會共我抱起去罩踮伊的身軀頂。',
+  '透早天貓霧仔光，我就興tshih-tshih覆佇阿爸的眠床邊等伊起來。「A̍unnh！A̍unnh！」輕輕仔共哀兩聲就好，若吠傷大力會共阿爸驚著。',
+  '嘿嘿，有聽著阿爸牽甲躼躼長的哈唏聲，身軀閣佇棉襀被內底躽。「A̍unnh！A̍unnh！」這擺較大聲共叫看覓，若無，膀胱強強欲煏開矣啦！',
+  '「謼，阿花仔，今仔日禮拜呢！」阿爸的聲嗽敢若無偌好。我蝹佇壁角，目頭結結共𥍉𥍉看，用上哀怨的氣口勻勻仔共哼兩聲「Aunn—aunn—。」阿爸即時躘起床，行過來對我的頭殼頂一直挲，我歡喜甲喙仔裂獅獅，耳仔覆覆親像飛行機欲起飛，尾溜綴咧直直幌，硞硞舐阿爸的手指頭仔，我就知影阿爸伊上惜我。',
+  '這十年來，阮兩个爸仔囝相依倚，無論好歹天，阿爸攏會𤆬我出去行徙兼運動。我歲頭較有矣，目睭雺霧閣痚呴，辛苦病疼沓沓浮。佳哉有伊來照顧，才免流浪街仔路，有緣佮伊來做伴，感情永遠攏袂散。',
+];
+const SEGMENT_AUDIO = ['lesson-001.mp3','lesson-002.mp3','lesson-003.mp3','lesson-004.mp3','lesson-005.mp3'];
+const VOCAB_DEF = [
+  [1,'軟心','nńg-sim','心軟。','vocab-01.mp3'],
+  [2,'䖙','the / thenn','身體半躺臥，小憩。','vocab-02.mp3'],
+  [3,'神','sîn','發呆、恍惚。','vocab-03.mp3'],
+  [4,'罩','tà','趴在某人身上。','vocab-04.mp3'],
+  ['★','thián-pú-lah','テンブラ','甜不辣。','vocab-jp-01.mp3'],
+  [5,'貓霧仔光','bâ-bū-á-kng','破曉時的天色。','vocab-05.mp3'],
+  [6,'興tshih-tshih','hìng-tshih-tshih','形容高興的狀態。','vocab-06.mp3'],
+  [7,'吠','puī','狗叫。','vocab-07.mp3'],
+  [8,'躼躼長','lò-lò-tn̂g','形容很長的狀態。','vocab-08.mp3'],
+  [9,'哈唏','hah-hì','打呵欠。','vocab-09.mp3'],
+  [10,'躽','nuà','倒在地上或床上翻滾。','vocab-10.mp3'],
+  [11,'煏','piak','指物體因受熱、拉扯等因素，膨脹起來超過限度而爆裂。','vocab-11.mp3'],
+  [12,'聲嗽','siann-sàu','口氣、語氣，通常指不好的說話口氣。','vocab-12.mp3'],
+  [13,'蝹','un','蜷曲身體、曲身蹲坐。','vocab-13.mp3'],
+  [14,'𥍉𥍉看','nih-nih-khuànn','形容焦急、渴望而直視前方的樣子。','vocab-14.mp3'],
+  [15,'躘','liòng / lìng','用腳踢開、亂踢、掙扎。此處指從床上突然起身。','vocab-15.mp3'],
+  [16,'耳仔覆覆','hīnn-á phak-phak','意指耳朵服貼的狀態，表現對主人的信任。','vocab-16.mp3'],
+  [17,'直直幌','ti̍t-ti̍t hàinn','形容持續擺動的狀態。','vocab-17.mp3'],
+  [18,'痚呴','he-ku','氣喘病、哮喘病。','vocab-18.mp3'],
+  [19,'流浪','liû-lōng','生活沒有著落，到處飄盪，隨處謀生。','vocab-19.mp3'],
+];
+
+const VOCAB_WORDS_SORTED = VOCAB_DEF.map((v, idx) => ({ word: v[1], idx })).sort((a, b) => b.word.length - a.word.length);
+function tokenizeSegment(text) {
+  const tokens = [];
+  let i = 0;
+  while (i < text.length) {
+    let matched = null;
+    for (const v of VOCAB_WORDS_SORTED) {
+      if (text.startsWith(v.word, i)) { matched = v; break; }
+    }
+    if (matched) { tokens.push({ text: matched.word, vocabIdx: matched.idx }); i += matched.word.length; }
+    else { tokens.push({ text: text[i], vocabIdx: null }); i += 1; }
+  }
+  const merged = [];
+  for (const t of tokens) {
+    const last = merged[merged.length - 1];
+    if (last && last.vocabIdx === null && t.vocabIdx === null) last.text += t.text;
+    else merged.push({ ...t });
+  }
+  return merged;
+}
+
+/* 依原文「」切成敘述段與引語段；不改動原文任何一字、不調整順序。 */
+function splitRuns(text) {
+  const runs = [];
+  let i = 0, buf = '';
+  while (i < text.length) {
+    if (text[i] === '\u300c') {
+      const close = text.indexOf('\u300d', i + 1);
+      if (close > -1) {
+        if (buf) { runs.push({ isQuote: false, text: buf }); buf = ''; }
+        runs.push({ isQuote: true, text: text.slice(i, close + 1) });
+        i = close + 1;
+        continue;
+      }
+    }
+    buf += text[i];
+    i += 1;
+  }
+  if (buf) runs.push({ isQuote: false, text: buf });
+  return runs;
+}
+
+/* 說話者依原文擬聲內容判斷：狗吠聲屬「我（阿花仔）」，其餘引語屬「阿爸」。 */
+const DOG_MARKS = ['A\u030dunnh', 'Aunn'];
+function speakerOf(quote) {
+  const inner = quote.replace(/[\u300c\u300d]/g, '');
+  return DOG_MARKS.some(m => inner.startsWith(m)) ? 'dog' : 'pa';
+}
+const SPEAKER_STYLE = {
+  pa:  { name: '阿爸',       bg: '#fdf6e7', border: '#f0e0bd', tagBg: '#f3e0bd', tagColor: '#7a5b2e' },
+  dog: { name: '我（阿花仔）', bg: '#f2f9fc', border: '#d7e8ef', tagBg: '#d7e8ef', tagColor: '#3f6b7d' },
+};
+
+class Component extends DCLogic {
+  state = { current: 0, playing: false, continuous: false, progressPct: 0, status: '尚未播放', speed: 1, playingVocabIdx: null, popupIdx: null };
+  audioEl = Object.assign(new Audio(), { preload: 'none' });
+
+  componentDidMount() {
+    this.audioEl.addEventListener('timeupdate', () => {
+      const pct = this.audioEl.duration ? (this.audioEl.currentTime / this.audioEl.duration * 100) : 0;
+      this.setState({ progressPct: pct });
+    });
+    this.audioEl.addEventListener('ended', () => {
+      this.setState({ progressPct: 0, playing: false, playingVocabIdx: null });
+      if (this.state.continuous && this.state.current < SEGMENTS_DEF.length - 1) {
+        this.playSegment(this.state.current + 1, true);
+      } else {
+        this.setState({ continuous: false, status: '播放完成' });
+      }
+    });
+  }
+  componentWillUnmount() { this.audioEl.pause(); }
+
+  playSegment(index, keepContinuous) {
+    this.setState({ current: index, continuous: keepContinuous, playing: true, playingVocabIdx: null, status: `播放中：第 ${index + 1} 段` });
+    this.audioEl.src = AUDIO_BASE + SEGMENT_AUDIO[index];
+    this.audioEl.playbackRate = Number(this.state.speed);
+    this.audioEl.play().catch(() => {});
+  }
+  togglePause() {
+    if (this.audioEl.paused) { this.audioEl.play().catch(() => {}); this.setState({ playing: true, status: `繼續：第 ${this.state.current + 1} 段` }); }
+    else { this.audioEl.pause(); this.setState({ playing: false, status: `已暫停：第 ${this.state.current + 1} 段` }); }
+  }
+  restart() { this.playSegment(0, false); }
+  playVocab(idx) {
+    this.setState({ playingVocabIdx: idx, continuous: false, playing: false, status: '語詞播放中' });
+    this.audioEl.src = AUDIO_BASE + VOCAB_DEF[idx][4];
+    this.audioEl.playbackRate = Number(this.state.speed);
+    this.audioEl.play().catch(() => {});
+  }
+  openPopup(idx) { this.setState({ popupIdx: idx }); }
+  closePopup() { this.setState({ popupIdx: null }); }
+
+  renderVals() {
+    const s = this.state;
+    const mapTokens = (text) => tokenizeSegment(text).map(tok => ({
+      text: tok.text, isVocab: tok.vocabIdx !== null,
+      style: tok.vocabIdx !== null ? 'color:#4a7d3f;font-weight:800;border-bottom:2px dotted #8fb884;cursor:pointer;padding-bottom:1px;' : '',
+      onClick: tok.vocabIdx !== null ? (e) => { e.stopPropagation(); this.openPopup(tok.vocabIdx); } : null,
+    }));
+
+    const segments = SEGMENTS_DEF.map((text, i) => {
+      const active = i === s.current && s.playing;
+      const runs = splitRuns(text).map(run => {
+        if (!run.isQuote) return { isQuote: false, tokens: mapTokens(run.text) };
+        const sp = SPEAKER_STYLE[speakerOf(run.text)];
+        return {
+          isQuote: true, speaker: sp.name, tokens: mapTokens(run.text),
+          quoteStyle: `display:inline;background:${sp.bg};border:1px solid ${sp.border};border-radius:10px;padding:3px 8px 4px;margin:0 2px;box-decoration-break:clone;-webkit-box-decoration-break:clone;`,
+          tagStyle: `display:inline-block;background:${sp.tagBg};color:${sp.tagColor};border-radius:6px;padding:1px 7px;margin-right:6px;font-size:11.5px;font-weight:900;letter-spacing:.04em;vertical-align:2px;white-space:nowrap;`,
+        };
+      });
+      return {
+        num: i + 1, runs,
+        hint: active ? '播放中' : '點這段聽讀音',
+        numBg: active ? '#5a8a4e' : '#e4eedd', numColor: active ? '#fff' : '#4a7d3f',
+        style: `display:block;width:100%;padding:18px 18px 16px;border-radius:18px;cursor:pointer;margin-bottom:12px;border:1px solid ${active ? '#bcd6b2' : '#edf1ea'};background:${active ? '#f6fbf3' : '#fbfdf9'};`,
+        onClick: () => this.playSegment(i, false),
+      };
+    });
+
+    const vocabBtn = (on) => `border:none;background:${on ? '#5a8a4e' : '#15344b'};color:#fff;border-radius:12px;width:44px;height:44px;min-height:44px;cursor:pointer;font-size:17px;flex:0 0 auto;`;
+    const vocabCards = VOCAB_DEF.map(([num, word, roman, gloss], idx) => ({
+      num, word, roman, gloss,
+      btnStyle: vocabBtn(s.playingVocabIdx === idx),
+      onPlay: () => this.playVocab(idx),
+    }));
+    const popupIdx = s.popupIdx;
+    const popupWord = popupIdx !== null ? (() => {
+      const [num, word, roman, gloss] = VOCAB_DEF[popupIdx];
+      return { num, word, roman, gloss, btnStyle: vocabBtn(s.playingVocabIdx === popupIdx), onPlay: () => this.playVocab(popupIdx) };
+    })() : {};
+
+    return {
+      segCount: SEGMENTS_DEF.length, vocabCount: VOCAB_DEF.length,
+      playAll: () => this.playSegment(s.current, true), togglePause: () => this.togglePause(), restart: () => this.restart(),
+      speed: s.speed, onSpeedChange: (e) => { this.setState({ speed: e.target.value }); this.audioEl.playbackRate = Number(e.target.value); },
+      progressPct: s.progressPct, status: s.status, segments, vocabCards,
+      popupShow: popupIdx !== null, popupWord, closePopup: () => this.closePopup(), stopPropagation: (e) => e.stopPropagation(),
+    };
+  }
+}
+
+</script>
+</body>
+</html>

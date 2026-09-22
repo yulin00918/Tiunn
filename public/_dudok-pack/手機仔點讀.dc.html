@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  a{color:inherit;text-decoration:none;}
+  .ly-wrap,.ly-wrap *{box-sizing:border-box;}
+  .ly-block{transition:.18s ease;}
+  @media(hover:hover){
+    .ly-block:hover{border-color:#c9d0ea !important;background:#fcfdff !important;}
+    .ly-vocab:hover{transform:translateY(-2px);box-shadow:0 12px 24px rgba(55,60,95,.12) !important;}
+    .ly-ctl:hover{border-color:#c3cae6 !important;}
+    .ly-play:hover{filter:brightness(1.06);}
+    .ly-toggle:hover{background:#eef1fb !important;}
+  }
+  @media(max-width:820px){
+    .ly-vocabgrid{grid-template-columns:1fr !important;}
+  }
+  @media(max-width:600px){
+    .ly-ctlbar{gap:8px !important;}
+    .ly-ctlbar .ly-ctl{flex:1 1 auto;justify-content:center;}
+  }
+</style>
+</helmet>
+<div class="ly-wrap" style="font-family:'Noto Sans TC',sans-serif;color:#2b3a45;">
+  <div style="max-width:1000px;margin:auto;">
+
+    <div style="background:#fff;border:1px solid #e2e5f0;border-radius:22px;padding:18px 20px;box-shadow:0 8px 20px rgba(45,55,70,.07);margin-bottom:16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+      <span style="flex:0 0 auto;width:46px;height:46px;border-radius:14px;background:#eef1fb;display:inline-flex;align-items:center;justify-content:center;font-size:24px;">🎵</span>
+      <div style="min-width:0;flex:1;">
+        <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;">
+          <span style="flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;padding:5px 11px;border-radius:999px;background:#4a5490;color:#fff;font-size:11.5px;font-weight:900;white-space:nowrap;">育達版・第三冊</span>
+          <h2 style="margin:0;font-size:clamp(19px,3vw,23px);font-weight:900;letter-spacing:.04em;line-height:1.3;">第一課｜手機仔</h2>
+        </div>
+        <div style="margin-top:5px;font-size:12.5px;color:#8a968e;font-weight:700;line-height:1.6;">歌詞｜詞曲・演唱：盧廣仲　點段落聽讀音，點<span style="color:#5b68b0;border-bottom:2px dotted #9aa4d8;">彩色語詞</span>看解說</div>
+      </div>
+    </div>
+
+    <div class="ly-ctlbar" style="position:sticky;top:8px;z-index:10;display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:rgba(252,253,255,.95);backdrop-filter:blur(10px);border:1px solid #e2e5f0;border-radius:20px;padding:12px 14px;box-shadow:0 10px 26px rgba(45,55,70,.09);margin-bottom:16px;">
+      <button class="ly-ctl" style="flex:0 0 auto;display:inline-flex;align-items:center;min-height:48px;border:none;background:#15344b;color:#fff;padding:12px 18px;border-radius:999px;cursor:pointer;font-family:inherit;font-size:14.5px;font-weight:900;" onClick="{{playAll}}">▶ 全曲連續播放</button>
+      <button class="ly-ctl" style="flex:0 0 auto;display:inline-flex;align-items:center;min-height:48px;border:2px solid #e6e9f4;background:#fff;color:#4c5268;padding:11px 16px;border-radius:999px;cursor:pointer;font-family:inherit;font-size:14px;font-weight:800;transition:.16s;" onClick="{{togglePause}}">⏸ 暫停</button>
+      <button class="ly-ctl" style="flex:0 0 auto;display:inline-flex;align-items:center;min-height:48px;border:2px solid #e6e9f4;background:#fff;color:#4c5268;padding:11px 16px;border-radius:999px;cursor:pointer;font-family:inherit;font-size:14px;font-weight:800;transition:.16s;" onClick="{{restart}}">↺ 重頭</button>
+      <label style="flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:800;color:#7e849b;">速度
+        <select value="{{speed}}" onChange="{{onSpeedChange}}" style="min-height:48px;border:2px solid #e6e9f4;background:#fff;color:#4c5268;padding:10px 12px;border-radius:14px;font-family:inherit;font-size:14px;font-weight:800;">
+          <option value="0.75">0.75×</option>
+          <option value="1">1×</option>
+          <option value="1.25">1.25×</option>
+        </select>
+      </label>
+      <div style="flex:1 1 140px;min-width:120px;height:8px;background:#eaedf7;border-radius:999px;overflow:hidden;"><span style="display:block;height:100%;background:linear-gradient(90deg,#8b95d0,#4a5490);width:{{progressPct}}%;"></span></div>
+      <div style="flex:0 0 auto;color:#7e849b;font-size:12.5px;font-weight:800;white-space:nowrap;">{{status}}</div>
+    </div>
+
+    <section style="background:#fff;border:1px solid #e2e5f0;border-radius:26px;padding:26px 22px;box-shadow:0 10px 26px rgba(45,55,70,.08);">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap;">
+        <span style="flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:30px;padding:0 11px;border-radius:999px;background:#4a5490;color:#fff;font-size:12.5px;font-weight:900;white-space:nowrap;">課文點讀</span>
+        <span style="font-size:12.5px;color:#8a968e;font-weight:700;line-height:1.5;">全曲 {{segCount}} 段</span>
+      </div>
+
+      <sc-for list="{{segments}}" as="seg" hint-placeholder-count="8">
+        <article class="ly-block" style="{{seg.style}}">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:13px;flex-wrap:wrap;">
+            <span style="flex:0 0 auto;width:28px;height:28px;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:900;background:{{seg.numBg}};color:{{seg.numColor}};">{{seg.num}}</span>
+            <span style="font-size:13px;font-weight:900;color:#5b6080;">第 {{seg.num}} 段</span>
+            <button class="ly-play" style="{{seg.playBtnStyle}}" onClick="{{seg.onPlayClick}}">▶ 播放</button>
+          </div>
+
+          <div onClick="{{seg.onClick}}" style="cursor:pointer;">
+            <sc-for list="{{seg.lines}}" as="line" hint-placeholder-count="5">
+              <div style="font-size:clamp(17.5px,2.3vw,19px);line-height:1.95;letter-spacing:.03em;"><sc-for list="{{line.tokens}}" as="tok" hint-placeholder-count="0"><sc-if value="{{tok.isVocab}}"><span style="{{tok.style}}" onClick="{{tok.onClick}}">{{tok.text}}</span></sc-if><sc-if value="{{!tok.isVocab}}"><span>{{tok.text}}</span></sc-if></sc-for></div>
+            </sc-for>
+          </div>
+
+          <button class="ly-toggle" style="{{seg.toggleStyle}}" onClick="{{seg.onToggleZh}}">華語對照 {{seg.zhCaret}}</button>
+          <sc-if value="{{seg.zhOpen}}">
+            <div style="margin-top:10px;padding:13px 15px;background:#f6f8fd;border:1px solid #e6eaf6;border-left:3px solid #9aa4d8;border-radius:6px 14px 14px 6px;">
+              <div style="font-size:11.5px;font-weight:900;color:#8a90ab;letter-spacing:.1em;margin-bottom:7px;">第 {{seg.num}} 段・華語對照</div>
+              <sc-for list="{{seg.zhLines}}" as="zl" hint-placeholder-count="5">
+                <div style="font-size:14px;color:#7a7d8c;font-weight:700;line-height:1.9;">{{zl}}</div>
+              </sc-for>
+            </div>
+          </sc-if>
+        </article>
+      </sc-for>
+    </section>
+
+    <section style="margin-top:20px;background:#fff;border:1px solid #e2e5f0;border-radius:26px;padding:24px 22px;box-shadow:0 10px 26px rgba(45,55,70,.08);">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap;">
+        <span style="flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:30px;padding:0 11px;border-radius:999px;background:#2f7d5a;color:#fff;font-size:12.5px;font-weight:900;white-space:nowrap;">語詞點讀</span>
+        <span style="font-size:12.5px;color:#8a968e;font-weight:700;line-height:1.5;">本課 {{vocabCount}} 个語詞</span>
+      </div>
+      <p style="margin:0 0 16px;font-size:12.5px;color:#8a968e;font-weight:700;line-height:1.7;">點喇叭聽出版社提供的語詞音檔。</p>
+
+      <div class="ly-vocabgrid" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;">
+        <sc-for list="{{vocabCards}}" as="v" hint-placeholder-count="12">
+          <article class="ly-vocab" style="background:#fcfdff;border:1px solid #e8ebf4;border-radius:18px;padding:15px;display:grid;grid-template-columns:38px 1fr auto;gap:12px;align-items:start;transition:.18s ease;">
+            <span style="width:32px;height:32px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;background:#e4e8f8;color:#4a5490;font-size:13px;font-weight:900;">{{v.num}}</span>
+            <div style="min-width:0;">
+              <div style="font-size:19px;font-weight:900;line-height:1.35;overflow-wrap:anywhere;">{{v.word}}</div>
+              <div style="font-size:14px;color:#5b68b0;font-weight:800;margin-top:3px;overflow-wrap:anywhere;">{{v.roman}}</div>
+              <div style="font-size:13.5px;color:#7d8a82;font-weight:700;margin-top:6px;line-height:1.7;">{{v.gloss}}</div>
+            </div>
+            <button style="{{v.btnStyle}}" onClick="{{v.onPlay}}">🔊</button>
+          </article>
+        </sc-for>
+      </div>
+    </section>
+
+  </div>
+
+  <sc-if value="{{popupShow}}">
+    <div style="position:fixed;inset:0;background:rgba(45,55,70,.42);display:flex;align-items:center;justify-content:center;z-index:60;padding:18px;" onClick="{{closePopup}}">
+      <article onClick="{{stopPropagation}}" style="background:#fff;border:1px solid #e2e5f0;border-radius:22px;padding:22px;max-width:380px;width:100%;box-shadow:0 22px 52px rgba(45,55,70,.28);">
+        <div style="display:grid;grid-template-columns:38px 1fr auto;gap:13px;align-items:start;">
+          <span style="width:32px;height:32px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;background:#e4e8f8;color:#4a5490;font-size:13px;font-weight:900;">{{popupWord.num}}</span>
+          <div style="min-width:0;">
+            <div style="font-size:23px;font-weight:900;line-height:1.3;overflow-wrap:anywhere;">{{popupWord.word}}</div>
+            <div style="font-size:15px;color:#5b68b0;font-weight:800;margin-top:3px;overflow-wrap:anywhere;">{{popupWord.roman}}</div>
+            <div style="font-size:14px;color:#7d8a82;font-weight:700;margin-top:9px;line-height:1.75;">{{popupWord.gloss}}</div>
+          </div>
+          <button style="{{popupWord.btnStyle}}" onClick="{{popupWord.onPlay}}">🔊</button>
+        </div>
+        <button style="width:100%;margin-top:18px;min-height:48px;border:2px solid #e6e9f4;background:#fff;color:#4c5268;border-radius:999px;cursor:pointer;font-family:inherit;font-size:14.5px;font-weight:900;" onClick="{{closePopup}}">關起來</button>
+      </article>
+    </div>
+  </sc-if>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const AUDIO_BASE = 'audio/read-tshiu-ki-a/';
+const SEGMENTS_DEF = [
+  ['你看你看 天頂的月娘\n你看你看 閃爍的流星\n莫看莫看 你的手機仔\n看你邊仔的 火金蛄 有偌逍遙',
+   '你看你看 天上的月亮\n你看你看 閃爍的流星\n不要看不要看 你的手機\n看你身邊的 螢火蟲 有多逍遙'],
+  ['你看你看 la-jí-ooh咧唱歌\n你看你看 溫柔吉他聲\n莫看莫看 無聊的盤撋\n若是 我叫 你的名\n你敢會聽著我',
+   '你看你看 收音機在唱歌\n你看你看 溫柔吉他聲\n不要看不要看 沒有意義的交際應酬\n若是 我呼喊 你的名字\n你能否聽得到'],
+  ['手機仔毋是你的愛人仔\n哪會 每一工都共伊 攬牢牢\n像咱遮好的人 輸予手機仔\n心內親像著賊偷\n著賊偷',
+   '手機不是你的情人\n怎會每天都將它 摟得緊緊的\n像我們這麼好的人 卻輸給手機\n內心就像遭小偷一樣\n遭小偷'],
+  ['緊來鼻芳 阿母有滷肉\n緊崁耳空 阿伯咧磅米芳\n囥下手頭 自揣的煩惱\n咱來去 大甲廟口 踅街 拍煙腸',
+   '趕快來聞聞這香味 媽媽有滷一鍋肉\n趕快摀住耳朵 伯伯在爆米花\n放下手頭 自尋的煩惱\n我們去 大甲廟口 逛夜市 打香腸'],
+  ['手機仔毋是你的愛人仔\n哪會每一工都共伊 攬牢牢\n像咱遮好的人 輸予手機仔\n心內親像著賊偷',
+   '手機不是你的情人\n怎會每天都將它 摟得緊緊的\n像我們這麼好的人 卻輸給手機\n內心就像遭小偷一樣'],
+  ['手機仔毋是你的愛人仔\n敢會當留一點時間佮我做伴\n這葩愛的電火 毋免充電\n會使陪你過春夏秋冬\n予我陪你過春夏秋冬',
+   '手機不是你的情人\n能不能留一點時間和我作伴\n這盞愛的電燈不用充電\n能陪你度過春夏秋冬\n讓我陪你度過春夏秋冬'],
+  ['有夠緣投 看我穿西裝\n媠媠芳芳 出門來電頭鬃\n昨昏 我買一支新的手機仔\n欲去送予一个 上重要的人',
+   '好英俊呀 看我穿西裝\n既漂亮又香氛 出門燙頭髮\n昨天 我買一支新的手機\n要送給一位 最重要的人'],
+  ['下晡三點 火車欲起行\n轉來看著 故鄉的阿媽\n伊講 伊講 伊無愛手機仔\n伊只想欲 佇巷仔口 會當看著我\n佇咱兜的巷仔口 等待著我',
+   '下午三點 火車準備起行\n回去探望 故鄉的奶奶\n她說 她說 我不要手機\n她只希望能夠 在巷口 看到我\n在我們家的巷子口 等待著我回來'],
+];
+const SEGMENT_AUDIO = ['lesson-001.mp3','lesson-002.mp3','lesson-003.mp3','lesson-004.mp3','lesson-005.mp3','lesson-006.mp3','lesson-007.mp3','lesson-008.mp3'];
+const VOCAB_DEF = [
+  [1,'閃爍','siám-sih','光線不穩定，明明滅滅的樣子。','vocab-01.mp3'],
+  [2,'莫','mài','不要。表示禁止或勸阻之意。','vocab-02.mp3'],
+  [3,'盤撋','puânn-nuá','交際應酬。指人與人之間互相交往。','vocab-03.mp3'],
+  ['★','la-jí-ooh','ラジオ（rajio）','日語外來詞，收音機。','vocab-jp-01.mp3'],
+  [4,'愛人仔','ài-jîn-á / ài-lîn-á','情人。','vocab-04.mp3'],
+  [5,'哪會','ná ē','怎麼會。','vocab-05.mp3'],
+  [6,'攬牢牢','lám-tiâu-tiâu','緊緊地擁抱。','vocab-06.mp3'],
+  [7,'著賊偷','tio̍h-tsha̍t-thau','失竊、遭小偷。','vocab-07.mp3'],
+  [8,'崁','khàm','覆蓋。','vocab-08.mp3'],
+  [9,'囥','khǹg','擱下、放下。','vocab-09.mp3'],
+  [10,'緣投','iân-tâu','英俊。形容男子長相好看。','vocab-10.mp3'],
+  [11,'電頭鬃','tiān-thâu-tsang','燙頭髮。','vocab-11.mp3'],
+];
+
+const VOCAB_WORDS_SORTED = VOCAB_DEF.map((v, idx) => ({ word: v[1], idx })).sort((a, b) => b.word.length - a.word.length);
+function tokenizeSegment(text) {
+  const tokens = [];
+  let i = 0;
+  while (i < text.length) {
+    let matched = null;
+    for (const v of VOCAB_WORDS_SORTED) {
+      if (text.startsWith(v.word, i)) { matched = v; break; }
+    }
+    if (matched) { tokens.push({ text: matched.word, vocabIdx: matched.idx }); i += matched.word.length; }
+    else { tokens.push({ text: text[i], vocabIdx: null }); i += 1; }
+  }
+  const merged = [];
+  for (const t of tokens) {
+    const last = merged[merged.length - 1];
+    if (last && last.vocabIdx === null && t.vocabIdx === null) last.text += t.text;
+    else merged.push({ ...t });
+  }
+  return merged;
+}
+
+class Component extends DCLogic {
+  state = { current: 0, playing: false, continuous: false, progressPct: 0, status: '尚未播放', speed: 1, playingVocabIdx: null, popupIdx: null, zhOpen: {} };
+  audioEl = Object.assign(new Audio(), { preload: 'none' });
+
+  componentDidMount() {
+    this.audioEl.addEventListener('timeupdate', () => {
+      const pct = this.audioEl.duration ? (this.audioEl.currentTime / this.audioEl.duration * 100) : 0;
+      this.setState({ progressPct: pct });
+    });
+    this.audioEl.addEventListener('ended', () => {
+      this.setState({ progressPct: 0, playing: false, playingVocabIdx: null });
+      if (this.state.continuous && this.state.current < SEGMENTS_DEF.length - 1) {
+        this.playSegment(this.state.current + 1, true);
+      } else {
+        this.setState({ continuous: false, status: '播放完成' });
+      }
+    });
+  }
+  componentWillUnmount() { this.audioEl.pause(); }
+
+  playSegment(index, keepContinuous) {
+    this.setState({ current: index, continuous: keepContinuous, playing: true, playingVocabIdx: null, status: `播放中：第 ${index + 1} 段` });
+    this.audioEl.src = AUDIO_BASE + SEGMENT_AUDIO[index];
+    this.audioEl.playbackRate = Number(this.state.speed);
+    this.audioEl.play().catch(() => {});
+  }
+  togglePause() {
+    if (this.audioEl.paused) { this.audioEl.play().catch(() => {}); this.setState({ playing: true, status: `繼續：第 ${this.state.current + 1} 段` }); }
+    else { this.audioEl.pause(); this.setState({ playing: false, status: `已暫停：第 ${this.state.current + 1} 段` }); }
+  }
+  restart() { this.playSegment(0, false); }
+  playVocab(idx) {
+    this.setState({ playingVocabIdx: idx, continuous: false, playing: false, status: '語詞播放中' });
+    this.audioEl.src = AUDIO_BASE + VOCAB_DEF[idx][4];
+    this.audioEl.playbackRate = Number(this.state.speed);
+    this.audioEl.play().catch(() => {});
+  }
+  openPopup(idx) { this.setState({ popupIdx: idx }); }
+  closePopup() { this.setState({ popupIdx: null }); }
+
+  renderVals() {
+    const s = this.state;
+    const segments = SEGMENTS_DEF.map(([text, zh], i) => {
+      const active = i === s.current && s.playing;
+      const zhOpen = !!s.zhOpen[i];
+      /* 台語歌詞依原本 \n 逐行呈現，不合併、不重排、不補字 */
+      const lines = text.split('\n').map(lineText => ({
+        tokens: tokenizeSegment(lineText).map(tok => ({
+          text: tok.text, isVocab: tok.vocabIdx !== null,
+          style: tok.vocabIdx !== null ? 'color:#5b68b0;font-weight:800;border-bottom:2px dotted #9aa4d8;cursor:pointer;padding-bottom:1px;' : '',
+          onClick: tok.vocabIdx !== null ? (e) => { e.stopPropagation(); this.openPopup(tok.vocabIdx); } : null,
+        })),
+      }));
+      return {
+        num: i + 1, lines, zhLines: zh.split('\n'), zhOpen, zhCaret: zhOpen ? '▴' : '▾',
+        numBg: active ? '#4a5490' : '#e4e8f8', numColor: active ? '#fff' : '#4a5490',
+        style: `display:block;width:100%;padding:20px 20px 18px;border-radius:18px;margin-bottom:14px;border:1px solid ${active ? '#b9c2ee' : '#eef0f7'};background:${active ? '#f7f9ff' : '#fcfdff'};`,
+        playBtnStyle: `margin-left:auto;display:inline-flex;align-items:center;min-height:44px;border:none;background:${active ? '#4a5490' : '#eef1fb'};color:${active ? '#fff' : '#4a5490'};padding:11px 18px;border-radius:999px;font-size:13.5px;font-weight:900;cursor:pointer;font-family:inherit;flex-shrink:0;`,
+        toggleStyle: `margin-top:14px;display:inline-flex;align-items:center;min-height:44px;background:#f6f8fd;border:1px solid #e6eaf6;border-radius:999px;padding:10px 16px;font-family:inherit;font-size:13px;font-weight:800;color:#7e849b;cursor:pointer;transition:.16s;`,
+        onClick: () => this.playSegment(i, false),
+        onPlayClick: (e) => { e.stopPropagation(); this.playSegment(i, false); },
+        onToggleZh: (e) => { e.stopPropagation(); this.setState({ zhOpen: { ...this.state.zhOpen, [i]: !this.state.zhOpen[i] } }); },
+      };
+    });
+
+    const vocabBtn = (on) => `border:none;background:${on ? '#4a5490' : '#15344b'};color:#fff;border-radius:12px;width:44px;height:44px;min-height:44px;cursor:pointer;font-size:17px;flex:0 0 auto;`;
+    const vocabCards = VOCAB_DEF.map(([num, word, roman, gloss], idx) => ({
+      num, word, roman, gloss,
+      btnStyle: vocabBtn(s.playingVocabIdx === idx),
+      onPlay: () => this.playVocab(idx),
+    }));
+    const popupIdx = s.popupIdx;
+    const popupWord = popupIdx !== null ? (() => {
+      const [num, word, roman, gloss] = VOCAB_DEF[popupIdx];
+      return { num, word, roman, gloss, btnStyle: vocabBtn(s.playingVocabIdx === popupIdx), onPlay: () => this.playVocab(popupIdx) };
+    })() : {};
+
+    return {
+      segCount: SEGMENTS_DEF.length, vocabCount: VOCAB_DEF.length,
+      playAll: () => this.playSegment(s.current, true), togglePause: () => this.togglePause(), restart: () => this.restart(),
+      speed: s.speed, onSpeedChange: (e) => { this.setState({ speed: e.target.value }); this.audioEl.playbackRate = Number(e.target.value); },
+      progressPct: s.progressPct, status: s.status, segments, vocabCards,
+      popupShow: popupIdx !== null, popupWord, closePopup: () => this.closePopup(), stopPropagation: (e) => e.stopPropagation(),
+    };
+  }
+}
+
+</script>
+</body>
+</html>

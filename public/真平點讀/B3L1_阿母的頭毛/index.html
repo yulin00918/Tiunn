@@ -1,0 +1,35 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>真平 B3L1｜阿母的頭毛</title><style>body{margin:0;background:#f6f0e4;color:#263532;font-family:"Noto Sans TC","Microsoft JhengHei","PingFang TC",sans-serif}.wrap{max-width:900px;margin:auto;padding:18px 18px 70px}.top{display:flex;justify-content:space-between;flex-wrap:wrap}.back{color:#536b55;font-weight:800;text-decoration:none}.tag{background:#ebe4d6;padding:7px 12px;border-radius:999px}.hero,.stanza{background:#fffdf8;border:1px solid #d9d1c3;border-radius:22px}.hero{padding:28px;margin:16px 0}h1{font-size:clamp(32px,5vw,48px);margin:5px 0}.sub,.note{color:#6e746d}.controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}button{border:0;border-radius:999px;padding:10px 15px;background:#536b55;color:#fff;font-weight:800;cursor:pointer}.secondary{background:#e9e4d9;color:#263532}.stanza{padding:20px 24px;margin:14px 0}.stanza.active{outline:3px solid #aebba8}.sh{display:flex;justify-content:space-between;gap:12px;align-items:center;color:#536b55;font-weight:900}.play:disabled{background:#d7d1c6;color:#777;cursor:default}.verse{text-align:center;font-size:23px;line-height:2.05;padding:8px 0}.vocab{display:inline;background:#fff3ce;color:inherit;border-radius:0;border-bottom:2px dotted #9a7740;padding:0 2px;font:inherit;font-weight:800}dialog{border:0;border-radius:22px;padding:0;max-width:min(520px,90vw)}dialog::backdrop{background:#26353266}.modal{padding:24px;background:#fffdf8}.roman{color:#755b35;font-size:18px;font-weight:800}.meaning{font-size:18px;line-height:1.7;margin:12px 0}footer{text-align:center;color:#777166;font-size:13px;margin-top:28px;line-height:1.8}@media(max-width:640px){.verse{font-size:20px}}</style></head><body><main class="wrap">
+<div class="top"><a class="back" href="../../台語點讀.dc.html">← 回「台語點讀」</a><span class="tag">真平｜第三冊｜第一課</span></div>
+<section class="hero"><div class="sub">咱來讀課文｜現代詩／詩歌式</div><h1>阿母的頭毛</h1><div class="sub">作者：向陽</div>
+<div class="controls"><button id="all">▶ 全文順序播放</button><button id="pause" class="secondary">Ⅱ 暫停</button><button id="restart" class="secondary">↺ 重頭</button><button id="speed" class="secondary">1.0×</button></div></section>
+<p class="note">依原課文四葩呈現：姑娘 → 家後 → 阿母 → 囝兒大漢後。出版社 PPT 的第3、4葩共用同一段正式課文音檔，因此保留四葩文字，但播放時以第3–4葩連續音檔處理，不自行切割音檔。</p>
+<article class="stanza" data-a="0">
+      <div class="sh"><span>第 1 葩｜做姑娘的時陣</span><button class="play">▶</button></div>
+      <div class="verse"><div>做姑娘的<button class="vocab" data-v="時陣">時陣</button>，阿母的</div><div>頭毛，<button class="vocab" data-v="烏金">烏金</button>柔軟閣<button class="vocab" data-v="滑溜">滑溜</button></div><div>親像鏡仝款的溪仔水</div><div>流過每一位少年家的心肝頂</div></div>
+    </article><article class="stanza" data-a="1">
+      <div class="sh"><span>第 2 葩｜嫁予阿爹的時陣</span><button class="play">▶</button></div>
+      <div class="verse"><div>嫁予阿爹的<button class="vocab" data-v="時陣">時陣</button>，阿母的頭毛，活潑美麗閣可愛</div><div>親像微微的春風</div><div>化解一度浪子的阿爹</div></div>
+    </article><article class="stanza" data-a="2">
+      <div class="sh"><span>第 3 葩｜生阮以後</span><button class="play">▶ 3–4葩</button></div>
+      <div class="verse"><div>生阮以後，阿母的</div><div>頭毛，端莊親切閣溫暖</div><div>親像寒天的日頭</div><div>保護幼稚軟弱的阮</div></div>
+    </article><article class="stanza" data-a="2">
+      <div class="sh"><span>第 4 葩｜阮大漢了後</span><button class="play" disabled>↳ 同上</button></div>
+      <div class="verse"><div>阮<button class="vocab" data-v="大漢">大漢</button>了後，阿母的</div><div>頭毛，已經失去光彩</div><div>親像入秋的天頂</div><div>普通的景色裡一層收成的偉大</div></div>
+    </article>
+<dialog id="dlg"><div class="modal"><h2 id="dw"></h2><div class="roman" id="dr"></div><div class="meaning" id="dm"></div><button id="close">關閉</button></div></dialog>
+<audio id="audio"></audio><footer>網站介面、功能與教學整合設計／製作：張鈺聆　Copyright © 張鈺聆. All rights reserved.<br>教材、課文、語詞、台羅、音檔等第三方素材之著作權仍屬原權利人所有。</footer></main>
+<script>
+const files=["audio/jenpin-b3-l1/lesson-001.mp3", "audio/jenpin-b3-l1/lesson-002.mp3", "audio/jenpin-b3-l1/lesson-003.mp3"];
+const vocab={"烏金": ["oo-kim", "烏黑柔亮。"], "滑溜": ["kūt-liu", "很滑、滑順。"], "時陣": ["sî-tsūn", "時候。"], "大漢": ["tuā-hàn", "長大。"]};
+const audio=document.querySelector('#audio'),cards=[...document.querySelectorAll('.stanza')];let rate=1,seq=false,idx=0;
+function markAudio(i){cards.forEach((c,n)=>c.classList.toggle('active', i===2 ? (n===2||n===3) : n===i))}
+function play(i){seq=false;idx=i;markAudio(i);audio.src=files[i];audio.playbackRate=rate;audio.play()}
+cards.forEach(c=>{const b=c.querySelector('.play');if(!b.disabled)b.onclick=()=>play(+c.dataset.a)});
+all.onclick=()=>{seq=true;idx=0;markAudio(0);audio.src=files[0];audio.playbackRate=rate;audio.play()};
+audio.onended=()=>{if(seq&&++idx<files.length){markAudio(idx);audio.src=files[idx];audio.playbackRate=rate;audio.play()}else{seq=false;cards.forEach(c=>c.classList.remove('active'))}};
+pause.onclick=()=>audio.paused?audio.play():audio.pause();
+restart.onclick=()=>{audio.pause();seq=true;idx=0;markAudio(0);audio.src=files[0];audio.playbackRate=rate;audio.play()};
+speed.onclick=e=>{rate=rate===1?.8:rate===.8?1.2:1;e.target.textContent=rate.toFixed(1)+'×';audio.playbackRate=rate};
+const dlg=document.querySelector('#dlg');document.querySelectorAll('.vocab').forEach(b=>b.onclick=e=>{e.stopPropagation();const d=vocab[b.dataset.v];dw.textContent=b.dataset.v;dr.textContent=d[0];dm.textContent=d[1];dlg.showModal()});
+close.onclick=()=>dlg.close();dlg.onclick=e=>{if(e.target===dlg)dlg.close()};
+</script></body></html>

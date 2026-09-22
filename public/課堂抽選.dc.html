@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  .cp-wrap,.cp-wrap *{box-sizing:border-box;}
+  .cp-card{aspect-ratio:.72;position:relative;transform-style:preserve-3d;transition:.55s;}
+  .cp-face{position:absolute;inset:0;border-radius:13px;backface-visibility:hidden;box-shadow:0 7px 15px rgba(83,64,61,.11);border:1px solid rgba(120,90,80,.12);}
+  .cp-back{display:flex;align-items:center;justify-content:center;}
+  .cp-back:after{content:"✦";display:grid;place-items:center;width:64%;aspect-ratio:1;border:2px dashed rgba(255,255,255,.82);border-radius:15px;color:#fff;font-size:24px;}
+  .cp-front{transform:rotateY(180deg);background:#fffdf9;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px;text-align:center;}
+  .cp-card.flip{transform:rotateY(180deg);}
+  .cp-card.shake{animation:cpshake .32s infinite alternate;}
+  .cp-card.dim{opacity:.14;}
+  .cp-card.win{z-index:4;transform:rotateY(180deg) scale(1.3) !important;opacity:1;}
+  @keyframes cpshake{from{transform:translate(-4px,2px) rotate(-2deg)}to{transform:translate(4px,-2px) rotate(2deg)}}
+  .cp-spot{min-height:56px;border-radius:13px;background:#fff;border:1px solid #ead8ca;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:900;transition:.14s;padding:6px;text-align:center;}
+  .cp-spot.hot{background:#fff0b7;box-shadow:0 0 0 5px rgba(246,223,145,.55);transform:scale(1.08);}
+  .cp-spot.fade{opacity:.22;}
+  .cp-spot.final{opacity:1;background:#fff0b7;transform:scale(1.14);box-shadow:0 0 0 7px rgba(246,223,145,.42);}
+  .cp-grid6{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;align-content:center;}
+  @media(max-width:800px){.cp-main{grid-template-columns:1fr !important;}.cp-grid6{grid-template-columns:repeat(5,1fr);}}
+  @media(max-width:520px){.cp-grid6{grid-template-columns:repeat(4,1fr);gap:7px;}}
+  @media(hover:hover){
+    .cp-btn:hover{filter:brightness(1.05);}
+    .cp-ghost:hover{border-color:#e0b9a6 !important;}
+  }
+</style>
+</helmet>
+<div class="cp-wrap" style="font-family:'Noto Sans TC',sans-serif;color:#563b3d;background:linear-gradient(120deg,#ffe7cf,#f8ddec 50%,#dbeaf6);padding:20px;">
+  <div style="max-width:1160px;margin:auto;">
+
+    <div class="cp-main" style="display:grid;grid-template-columns:minmax(0,1.5fr) minmax(280px,.8fr);gap:14px;">
+
+      <section style="background:rgba(255,253,249,.94);border:1px solid #efd9c9;border-radius:18px;padding:16px;box-shadow:0 7px 18px rgba(94,68,63,.08);">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap;">
+          <h2 style="font-size:17px;margin:0;font-weight:900;">🎯 課堂抽選</h2>
+          <span style="font-size:12.5px;color:#8e7472;font-weight:700;">{{countLabel}}</span>
+        </div>
+
+        <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;">
+          <sc-for list="{{modes}}" as="m" hint-placeholder-count="2">
+            <button style="{{m.style}}" onClick="{{m.onClick}}">{{m.label}}</button>
+          </sc-for>
+        </div>
+
+        <div style="position:relative;min-height:405px;border-radius:15px;overflow:hidden;background:linear-gradient(#fff9f3,#fffdf9);border:1px solid #eadbd0;">
+
+          <sc-if value="{{isCards}}" hint-placeholder-val="{{true}}">
+            <div class="cp-grid6" style="position:absolute;inset:0;padding:22px;perspective:1000px;overflow:auto;">
+              <sc-for list="{{cards}}" as="c" hint-placeholder-count="30">
+                <div class="cp-card {{c.cls}}">
+                  <div class="cp-face cp-back" style="background:{{c.color}};"></div>
+                  <div class="cp-face cp-front">
+                    <div style="font-size:21px;font-weight:900;">{{c.top}}</div>
+                    <div style="font-size:12px;margin-top:4px;color:#806968;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{c.sub}}</div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{isSpot}}">
+            <div class="cp-grid6" style="position:absolute;inset:0;padding:24px;overflow:auto;">
+              <sc-for list="{{spots}}" as="p" hint-placeholder-count="30">
+                <div class="cp-spot {{p.cls}}">
+                  <span>{{p.top}}</span>
+                  <small style="font-size:11px;color:#8e7472;font-weight:600;">{{p.sub}}</small>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{empty}}">
+            <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px;text-align:center;color:#8e7472;">
+              <span style="font-size:42px;">📇</span>
+              <div style="font-weight:800;font-size:15px;line-height:1.7;">目前沒有學生名單<br>請先到「學生名單」分頁建立，或按右側「從學生名單載入」</div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{showResult}}">
+            <div style="position:absolute;z-index:10;left:50%;top:50%;transform:translate(-50%,-50%);width:min(360px,86%);background:#fffdf9;border:2px solid #fff;border-radius:22px;padding:20px;text-align:center;box-shadow:0 20px 50px rgba(70,50,48,.24);">
+              <div style="font-size:12.5px;color:#8e7472;font-weight:700;">抽選結果</div>
+              <sc-if value="{{isSingle}}">
+                <div style="font-size:38px;font-weight:900;margin:8px 0 2px;">{{singleTop}}</div>
+                <div style="font-size:18px;font-weight:800;">{{singleSub}}</div>
+              </sc-if>
+              <sc-if value="{{!isSingle}}">
+                <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:12px 0 4px;">
+                  <sc-for list="{{resultList}}" as="r" hint-placeholder-count="0">
+                    <div style="min-width:88px;background:#fff5ec;border:1px solid #f0d7c6;border-radius:14px;padding:9px 10px;">
+                      <strong style="display:block;font-size:18px;">{{r.top}}</strong>
+                      <span style="font-size:12px;color:#8e7472;">{{r.sub}}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+              <div style="display:flex;justify-content:center;gap:8px;margin-top:14px;flex-wrap:wrap;">
+                <button class="cp-btn" style="border:0;border-radius:11px;padding:11px 14px;min-height:44px;font-weight:800;cursor:pointer;background:#bde9de;color:#3c6e63;font-family:inherit;" onClick="{{toggleTimer}}">{{timerLabel}}</button>
+                <button class="cp-btn" style="border:0;border-radius:11px;padding:11px 14px;min-height:44px;font-weight:800;cursor:pointer;background:#f1e9e2;color:#684f50;font-family:inherit;" onClick="{{again}}">再抽</button>
+                <button class="cp-btn" style="border:0;border-radius:11px;padding:11px 14px;min-height:44px;font-weight:800;cursor:pointer;background:#f39b74;color:#fff;font-family:inherit;" onClick="{{closeResult}}">完成</button>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+
+        <div style="display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin-top:13px;">
+          <button class="cp-btn" style="border:0;border-radius:12px;padding:13px 20px;min-height:48px;background:#e98562;color:#fff;font-weight:900;cursor:pointer;font-family:inherit;font-size:15px;" onClick="{{pick}}">✨ 開始抽選</button>
+          <button class="cp-ghost" style="border:1px solid #ead8ca;border-radius:12px;padding:12px 16px;min-height:48px;background:#fff;color:#72595a;cursor:pointer;font-family:inherit;font-weight:800;" onClick="{{undo}}">↶ 復原</button>
+          <button class="cp-ghost" style="border:1px solid #ead8ca;border-radius:12px;padding:12px 16px;min-height:48px;background:#fff;color:#72595a;cursor:pointer;font-family:inherit;font-weight:800;" onClick="{{resetRound}}">⟳ 重設本輪</button>
+        </div>
+
+        <sc-if value="{{notice}}">
+          <div style="margin-top:11px;padding:10px 13px;border-radius:12px;background:#fff0dc;border:1px solid #f0d9b4;color:#8a6430;font-size:13px;font-weight:700;line-height:1.7;">{{notice}}</div>
+        </sc-if>
+
+        <div style="text-align:right;font-size:11px;color:#a1827d;margin-top:10px;font-weight:700;">張鈺聆 製</div>
+      </section>
+
+      <aside style="background:rgba(255,253,249,.94);border:1px solid #efd9c9;border-radius:18px;padding:16px;box-shadow:0 7px 18px rgba(94,68,63,.08);">
+
+        <div style="padding:10px 0;border-bottom:1px solid #eee1d8;">
+          <h3 style="font-size:14px;margin:0 0 9px;font-weight:900;">👥 目前學生名單</h3>
+          <div style="background:{{rosterBg}};border:1px solid {{rosterBorder}};border-radius:12px;padding:11px;">
+            <strong style="display:block;color:{{rosterColor}};font-size:13.5px;">{{rosterTitle}}</strong>
+            <span style="font-size:12.5px;color:#8e7472;font-weight:700;">{{rosterInfo}}</span>
+          </div>
+          <button class="cp-btn" style="width:100%;margin-top:9px;border:0;border-radius:11px;padding:12px;min-height:48px;background:#f39b74;color:#fff;font-weight:900;cursor:pointer;font-family:inherit;" onClick="{{loadRoster}}">📥 從學生名單載入</button>
+          <div style="font-size:11.5px;color:#8e7472;margin-top:8px;line-height:1.7;font-weight:600;">讀取「學生名單」分頁目前選取的班級。</div>
+        </div>
+
+        <div style="padding:10px 0;border-bottom:1px solid #eee1d8;">
+          <h3 style="font-size:14px;margin:0 0 9px;font-weight:900;">卡片顯示</h3>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;">
+            <sc-for list="{{showModes}}" as="sm" hint-placeholder-count="3">
+              <button style="{{sm.style}}" onClick="{{sm.onClick}}">{{sm.label}}</button>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="padding:10px 0;border-bottom:1px solid #eee1d8;">
+          <h3 style="font-size:14px;margin:0 0 9px;font-weight:900;">抽選人數</h3>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <select value="{{pickCountSel}}" onChange="{{onPickCountChange}}" style="flex:1;min-height:46px;border:1px solid #ead8ca;border-radius:10px;padding:10px;background:#fff;color:#674f50;font-family:inherit;">
+              <option value="1">1 人</option><option value="2">2 人</option><option value="3">3 人</option>
+              <option value="4">4 人</option><option value="5">5 人</option><option value="6">6 人</option>
+              <option value="custom">自訂</option>
+            </select>
+            <sc-if value="{{isCustomCount}}">
+              <input type="number" min="1" max="40" value="{{customCount}}" onChange="{{onCustomCountChange}}" style="max-width:92px;min-height:46px;border:1px solid #ead8ca;border-radius:10px;padding:10px;background:#fff;color:#674f50;font-family:inherit;">
+            </sc-if>
+          </div>
+          <div style="font-size:11.5px;color:#8e7472;margin-top:8px;line-height:1.7;font-weight:600;">多人抽選時，幸運翻牌會同時留下多張牌；聚光抽選會同時亮起多人。</div>
+        </div>
+
+        <div style="padding:10px 0;border-bottom:1px solid #eee1d8;">
+          <h3 style="font-size:14px;margin:0 0 9px;font-weight:900;">抽選設定</h3>
+          <sc-for list="{{switches}}" as="sw" hint-placeholder-count="2">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin:10px 0;font-size:13.5px;font-weight:700;">
+              <span>{{sw.label}}</span>
+              <button style="{{sw.style}}" onClick="{{sw.onClick}}"><span style="{{sw.knobStyle}}"></span></button>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="padding:10px 0;">
+          <h3 style="font-size:14px;margin:0 0 9px;font-weight:900;">本輪紀錄</h3>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;">
+            <sc-if value="{{noHistory}}">
+              <span style="font-size:12px;color:#8e7472;font-weight:600;">尚無紀錄</span>
+            </sc-if>
+            <sc-for list="{{historyChips}}" as="h" hint-placeholder-count="0">
+              <span style="font-size:11.5px;background:#f5eee8;border-radius:999px;padding:6px 10px;font-weight:700;">{{h}}</span>
+            </sc-for>
+          </div>
+        </div>
+
+      </aside>
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const COLORS = ['#f5b6c8','#a9dfd1','#f5dc8d','#cec0eb','#b8dff0','#f5c3a7'];
+
+class Component extends DCLogic {
+  state = {
+    students: [], className: '',
+    mode: 'cards', show: 'both',
+    pickCountSel: '1', customCount: 7,
+    noRepeat: true, balanced: false,
+    history: [], counts: {},
+    busy: false, phase: 'idle', winners: [], flipped: false, dimmed: false, hotNum: null,
+    showResult: false, notice: '', timerLeft: null,
+  };
+  timers = [];
+  timerInt = null;
+
+  componentDidMount() { this.loadRoster(true); }
+  componentWillUnmount() { this.clearTimers(); if (this.timerInt) clearInterval(this.timerInt); }
+
+  clearTimers() { this.timers.forEach(t => clearTimeout(t)); this.timers = []; }
+  later(fn, ms) { this.timers.push(setTimeout(fn, ms)); }
+
+  loadRoster(silent) {
+    try {
+      const raw = localStorage.getItem('teacherToolboxClassData');
+      if (!raw) { if (!silent) this.setState({ notice: '目前教學百寶箱裡沒有學生名單，請先到「學生名單」分頁建立。' }); return; }
+      const data = JSON.parse(raw);
+      const cls = (data.classes && data.currentClassId) ? data.classes[data.currentClassId] : data;
+      const list = (cls && cls.students) ? cls.students : [];
+      if (!list.length) { if (!silent) this.setState({ notice: '目前班級的學生名單是空的。' }); return; }
+      const students = list.map((s, i) => ({ num: s.seatNumber || String(i + 1), name: s.name || '' }));
+      this.setState({ students, className: (cls && cls.className) || '', history: [], counts: {}, showResult: false, notice: silent ? '' : '已從學生名單載入' });
+      if (!silent) this.later(() => this.setState({ notice: '' }), 2000);
+    } catch (e) { if (!silent) this.setState({ notice: '讀取學生名單失敗。' }); }
+  }
+
+  label(s) {
+    if (this.state.show === 'num') return [s.num + '號', ''];
+    if (this.state.show === 'name') return ['', s.name];
+    return [s.num + '號', s.name];
+  }
+
+  pool() {
+    const s = this.state;
+    if (!s.noRepeat) return s.students;
+    const used = new Set(s.history.flat());
+    const p = s.students.filter(x => !used.has(x.num));
+    return p.length ? p : s.students;
+  }
+  wantCount() {
+    const s = this.state;
+    const n = s.pickCountSel === 'custom' ? parseInt(s.customCount || '1', 10) : parseInt(s.pickCountSel, 10);
+    return Math.max(1, Math.min(n || 1, s.students.length || 1));
+  }
+  chooseOne(p) {
+    if (!this.state.balanced) return p[Math.floor(Math.random() * p.length)];
+    const c = this.state.counts;
+    const w = p.map(s => 1 / (1 + (c[s.num] || 0)));
+    let r = Math.random() * w.reduce((a, b) => a + b, 0);
+    for (let i = 0; i < p.length; i++) { r -= w[i]; if (r <= 0) return p[i]; }
+    return p[p.length - 1];
+  }
+  chooseMany(p, n) {
+    let work = [...p], out = [];
+    n = Math.min(n, work.length);
+    for (let i = 0; i < n; i++) { const s = this.chooseOne(work); out.push(s); work = work.filter(x => x.num !== s.num); }
+    return out;
+  }
+
+  pick() {
+    const s = this.state;
+    if (s.busy || !s.students.length) return;
+    const p = this.pool();
+    if (!p.length) return;
+    const n = this.wantCount();
+    if (s.noRepeat && p.length < n) {
+      this.setState({ notice: `本輪只賰 ${p.length} 人會使抽，請先重設本輪抑是降低抽選人數。` });
+      this.later(() => this.setState({ notice: '' }), 2600);
+      return;
+    }
+    this.clearTimers();
+    const chosen = this.chooseMany(p, n);
+    const nums = chosen.map(x => x.num);
+    const counts = { ...s.counts };
+    nums.forEach(x => counts[x] = (counts[x] || 0) + 1);
+    this.setState({ busy: true, showResult: false, notice: '', winners: nums, history: [...s.history, nums], counts, flipped: false, dimmed: false, hotNum: null, phase: 'run' });
+
+    if (s.mode === 'cards') {
+      this.later(() => this.setState({ flipped: true }), 520);
+      this.later(() => this.setState({ dimmed: true }), 1150);
+      this.later(() => this.setState({ showResult: true, busy: false, phase: 'idle', resultOf: chosen }), 1750);
+      this.setState({ resultOf: chosen });
+    } else {
+      const list = s.students;
+      let i = 0; const steps = 25;
+      const tick = () => {
+        const cur = list[(i * 7 + 2) % list.length];
+        this.setState({ hotNum: cur.num });
+        i++;
+        if (i < steps) this.later(tick, 50 + i * 4);
+        else {
+          this.setState({ hotNum: null, dimmed: true });
+          this.later(() => this.setState({ showResult: true, busy: false, phase: 'idle', resultOf: chosen }), 600);
+        }
+      };
+      this.setState({ resultOf: chosen });
+      tick();
+    }
+  }
+
+  closeResult(redraw) {
+    this.clearTimers();
+    if (this.timerInt) { clearInterval(this.timerInt); this.timerInt = null; }
+    this.setState({ showResult: false, timerLeft: null, busy: false, flipped: false, dimmed: false, hotNum: null, winners: redraw === false ? this.state.winners : [] });
+  }
+  again() { this.closeResult(); this.later(() => this.pick(), 120); }
+  resetRound() { this.closeResult(); this.setState({ history: [], counts: {} }); }
+  undo() {
+    const s = this.state;
+    const h = [...s.history];
+    const g = h.pop();
+    const counts = { ...s.counts };
+    if (g) g.forEach(n => counts[n] = Math.max(0, (counts[n] || 1) - 1));
+    this.closeResult();
+    this.setState({ history: h, counts });
+  }
+  toggleTimer() {
+    if (this.timerInt) { clearInterval(this.timerInt); this.timerInt = null; this.setState({ timerLeft: null }); return; }
+    let t = 30;
+    this.setState({ timerLeft: t });
+    this.timerInt = setInterval(() => {
+      t--;
+      this.setState({ timerLeft: t });
+      if (t <= 0) { clearInterval(this.timerInt); this.timerInt = null; }
+    }, 1000);
+  }
+
+  renderVals() {
+    const s = this.state;
+    const win = new Set(s.winners);
+
+    const modes = [['cards', '🎴 幸運翻牌'], ['spot', '🔦 聚光抽選']].map(([k, label]) => ({
+      label, onClick: () => { this.closeResult(); this.setState({ mode: k }); },
+      style: `border:1px solid ${s.mode === k ? '#f5a879' : '#ead8ca'};background:${s.mode === k ? '#f5a879' : '#fff'};color:${s.mode === k ? '#fff' : '#755c5c'};border-radius:11px;padding:11px 15px;min-height:46px;font-weight:800;cursor:pointer;font-family:inherit;font-size:14px;`,
+    }));
+
+    const showModes = [['num', '只顯示座號'], ['name', '只顯示姓名'], ['both', '座號＋姓名']].map(([k, label]) => ({
+      label, onClick: () => { this.closeResult(); this.setState({ show: k }); },
+      style: `border:1px solid ${s.show === k ? '#efaabd' : '#ead8ca'};background:${s.show === k ? '#f6c0cf' : '#fff'};border-radius:10px;padding:10px 5px;min-height:44px;font-size:12px;cursor:pointer;color:#765c5d;font-weight:${s.show === k ? 900 : 700};font-family:inherit;`,
+    }));
+
+    const switches = [
+      { key: 'noRepeat', label: '🚫 本輪不重複', on: s.noRepeat },
+      { key: 'balanced', label: '⚖️ 均衡抽選', on: s.balanced },
+    ].map(sw => ({
+      label: sw.label,
+      onClick: () => this.setState({ [sw.key]: !s[sw.key] }),
+      style: `width:46px;height:26px;border:none;padding:0;background:${sw.on ? '#75cdb9' : '#ddd3cd'};border-radius:99px;position:relative;cursor:pointer;flex:0 0 auto;`,
+      knobStyle: `position:absolute;width:20px;height:20px;top:3px;left:${sw.on ? '23px' : '3px'};background:#fff;border-radius:50%;transition:.2s;`,
+    }));
+
+    const cards = s.students.map((st, i) => {
+      const [top, sub] = this.label(st);
+      const isWin = win.has(st.num);
+      let cls = '';
+      if (s.phase === 'run' && !s.flipped) cls = 'shake';
+      else if (s.flipped) cls = isWin && s.dimmed ? 'flip win' : (s.dimmed ? 'flip dim' : 'flip');
+      return { top, sub, cls, color: COLORS[i % COLORS.length] };
+    });
+
+    const spots = s.students.map(st => {
+      const [a, b] = this.label(st);
+      const isWin = win.has(st.num);
+      let cls = '';
+      if (s.hotNum === st.num) cls = 'hot';
+      else if (s.dimmed) cls = isWin ? 'final' : 'fade';
+      return { top: a || b, sub: a && b ? b : '', cls };
+    });
+
+    const chosen = s.resultOf || [];
+    const resultList = chosen.map(x => { const [top, sub] = this.label(x); return { top: top || sub, sub: top ? sub : '' }; });
+    const single = resultList[0] || { top: '', sub: '' };
+
+    const historyChips = s.history.slice().reverse().map(g =>
+      g.map(n => { const st = s.students.find(x => x.num === n); return st ? `${st.num} ${st.name}` : n; }).join('、'));
+
+    return {
+      countLabel: s.students.length ? `${s.students.length} 人` : '尚未載入名單',
+      modes, showModes, switches,
+      isCards: s.mode === 'cards' && s.students.length > 0,
+      isSpot: s.mode === 'spot' && s.students.length > 0,
+      empty: s.students.length === 0,
+      cards, spots,
+      showResult: s.showResult,
+      isSingle: resultList.length === 1,
+      singleTop: single.top, singleSub: single.sub, resultList,
+      timerLabel: s.timerLeft === null ? '⏱ 30秒' : (s.timerLeft > 0 ? `⏱ ${s.timerLeft}秒` : '⏰ 時間到'),
+      toggleTimer: () => this.toggleTimer(),
+      again: () => this.again(), closeResult: () => this.closeResult(),
+      pick: () => this.pick(), undo: () => this.undo(), resetRound: () => this.resetRound(),
+      notice: s.notice,
+      rosterTitle: s.students.length ? '✓ 已從「學生名單」載入' : '⚠ 尚未載入名單',
+      rosterInfo: s.students.length ? `${s.className || '未命名班級'}｜${s.students.length} 人` : '請先到「學生名單」分頁建立班級',
+      rosterBg: s.students.length ? '#edf8f4' : '#fff3e8',
+      rosterBorder: s.students.length ? '#c8e8dd' : '#f0d9b4',
+      rosterColor: s.students.length ? '#397667' : '#8a6430',
+      loadRoster: () => this.loadRoster(false),
+      pickCountSel: s.pickCountSel, isCustomCount: s.pickCountSel === 'custom', customCount: s.customCount,
+      onPickCountChange: (e) => this.setState({ pickCountSel: e.target.value }),
+      onCustomCountChange: (e) => this.setState({ customCount: e.target.value }),
+      noHistory: s.history.length === 0, historyChips,
+    };
+  }
+}
+
+</script>
+</body>
+</html>

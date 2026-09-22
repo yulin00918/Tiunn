@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>康軒第三冊｜第一課 泅過日月潭</title>
+<style>
+:root{--bg:#f6f0e4;--card:#fffdf8;--ink:#263533;--green:#536b55;--line:#ded4c3;--soft:#eee6d7}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif}
+.wrap{max-width:920px;margin:auto;padding:22px 18px 60px}.back{color:var(--green);text-decoration:none;font-weight:700}
+.tag{display:inline-block;margin-top:18px;padding:6px 12px;border:1px solid var(--line);border-radius:999px;background:#fff9ef;font-size:14px}
+h1{font-size:34px;margin:12px 0 5px}.sub{color:#66736e;margin-bottom:18px}
+.controls{display:flex;flex-wrap:wrap;gap:9px;margin:18px 0 24px}.controls button{border:0;border-radius:12px;padding:11px 15px;background:var(--green);color:white;font-weight:700;font-size:15px}
+.controls button.alt{background:#7b8578}.stage{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 22px}.stage span{background:var(--soft);padding:7px 11px;border-radius:999px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px 24px;margin:15px 0;box-shadow:0 5px 15px rgba(70,55,35,.05)}
+.card h2{font-size:18px;margin:0 0 13px;color:var(--green)}.lyrics{font-size:22px;line-height:2.05;letter-spacing:.02em}
+.chant{font-weight:800;font-size:24px}.note{font-size:14px;color:#6f746f;background:#f1eadf;padding:12px 14px;border-radius:12px;margin-top:18px}
+footer{margin-top:28px;font-size:13px;color:#777;line-height:1.7}
+@media(max-width:600px){h1{font-size:28px}.lyrics{font-size:20px}.card{padding:19px 17px}}
+</style></head>
+<body><main class="wrap">
+<a class="back" href="../../台語點讀.dc.html">← 回台語點讀目錄</a><br>
+<span class="tag">康軒版・第三冊</span>
+<h1>第一課｜泅過日月潭</h1>
+<div class="sub">歌詞／詩歌式課文點讀｜讀出青春、陪伴與鬥陣拍拚的節奏</div>
+
+<div class="stage"><span>🏃 起步</span><span>🤝 有你陪伴</span><span>🔥 鬥陣拍拚</span><span>🏁 衝向終點</span></div>
+
+<div class="controls">
+<button onclick="play('audio/kangxuan-b3-l1/publisher-full-1.mp3')">▶ 出版社全文 A</button>
+<button onclick="play('audio/kangxuan-b3-l1/publisher-full-2.mp3')">🎧 出版社全文 B</button>
+<button class="alt" onclick="toggle()">⏯ 暫停／繼續</button>
+<button class="alt" onclick="restart()">↺ 重新開始</button>
+<button class="alt" onclick="rate=.75;sync()">0.75×</button><button class="alt" onclick="rate=1;sync()">1×</button><button class="alt" onclick="rate=1.25;sync()">1.25×</button>
+</div>
+<audio id="player"></audio>
+
+<section class="card"><h2>01｜起步</h2><div class="lyrics">
+咱的跤步比日頭較早精神<br>
+用喝聲共天叫予醒<br>
+汗水津佇青春的路裡<br>
+堅持　欲成功著堅持
+</div></section>
+
+<section class="card"><h2>02｜有你陪伴</h2><div class="lyrics">
+這條路有你的陪伴<br>
+這條路有你的贊聲<br>
+予我袂孤單　予我的心愈定<br>
+青春美夢綴咱行
+</div></section>
+
+<section class="card"><h2>03｜鬥陣拍拚</h2><div class="lyrics chant">
+鬥陣拍拚<br>
+大步向前行<br>
+無論輸贏　攏有咱的跤跡
+</div><br><div class="lyrics chant">
+鬥陣拍拚<br>
+路著靠咱家己行<br>
+有你有我　啥物攏免驚惶
+</div></section>
+
+<section class="card"><h2>04｜衝向終點</h2><div class="lyrics chant">
+喔——只要天公伯仔肯看顧<br>
+喔——咱就相招共拚落去<br>
+大聲喝　衝衝衝<br>
+GO！GO！GO！
+</div></section>
+
+<div class="note">這一課依歌詞本身的節奏分成四個閱讀區塊，不依 PPT 頁面硬切。出版社全文音檔保留原檔，不自行裁切或合成。</div>
+<footer>網站介面與教學整合設計／製作：張鈺聆<br>教材、課文與音檔等第三方素材之著作權仍屬原權利人所有。</footer>
+<script>
+const a=document.getElementById('player'); let rate=1;
+function sync(){a.playbackRate=rate}
+function play(src){a.src=src;sync();a.play()}
+function toggle(){if(!a.src)return;a.paused?a.play():a.pause()}
+function restart(){if(!a.src)return;a.currentTime=0;a.play()}
+</script>
+<script src="../../author-credit.js"></script>
+</main></body></html>

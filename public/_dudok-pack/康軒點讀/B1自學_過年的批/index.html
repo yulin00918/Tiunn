@@ -1,0 +1,38 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>台語點讀 V2｜過年的批</title><style>
+:root{--bg:#f8f1e6;--card:#fffaf2;--ink:#3d332b;--accent:#a64b43;--green:#496b5a;--line:#dfcfbd}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif}.wrap{max-width:980px;margin:auto;padding:24px}.top{background:#6f8f91;color:white;padding:24px;border-radius:22px}.top h1{margin:4px 0;font-size:clamp(28px,5vw,44px)}.top p{margin:0;opacity:.9}.tabs,.controls{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}.tabs button,.controls button,.playword{border:0;border-radius:999px;padding:10px 16px;font-weight:700;cursor:pointer}.tabs button.active{background:var(--green);color:white}.controls button{background:white;border:1px solid var(--line)}.panel{display:none}.panel.active{display:block}.seg{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;margin:12px 0;line-height:2;font-size:20px;cursor:pointer}.seg:hover{box-shadow:0 3px 12px #0001}.seg.playing{outline:3px solid #c99d68}.v{color:var(--accent);font-weight:800;text-decoration:underline dotted;cursor:pointer}.vocabgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}.vc{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}.vc h3{margin:0;color:var(--accent)}.roman{color:var(--green);font-weight:700}.modal{position:fixed;inset:0;background:#0007;display:none;align-items:center;justify-content:center;padding:20px}.modal.open{display:flex}.box{background:white;max-width:460px;width:100%;border-radius:20px;padding:22px}.box h2{color:var(--accent)}.playword{background:var(--green);color:white}.hint{font-size:14px;opacity:.75}.status{font-size:14px;margin-left:auto;align-self:center}@media(max-width:600px){.wrap{padding:12px}.seg{font-size:18px;padding:15px}.top{padding:18px}}
+
+.letter-paper{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px 28px;margin-top:12px}
+.letter-paper .seg{background:transparent;border:0;border-radius:10px;margin:0;padding:12px 8px;box-shadow:none}
+.letter-paper .seg:hover{background:#fff5e9}
+.letter-paper .seg:first-child{padding-top:4px}
+.letter-paper .seg:last-child{padding-bottom:4px}
+.letter-paper .seg:last-child{text-align:right}
+@media(max-width:600px){.letter-paper{padding:18px 16px}.letter-paper .seg{padding:10px 4px}}
+</style>
+<meta name="author" content="張鈺聆">
+<meta name="copyright" content="© 張鈺聆">
+<script src="../../author-credit.js"></script>
+<!-- 網站介面、功能與教學整合設計／製作：張鈺聆　Copyright © 張鈺聆. All rights reserved.
+     教材、課文、語詞、台羅、音檔等第三方素材之著作權仍屬原權利人所有。完整宣告見 author-credit.js。 -->
+</head><body><main class="wrap"><a href="../../台語點讀.dc.html" style="display:inline-block;margin-bottom:14px;color:#8f2035;font-weight:700;text-decoration:none;white-space:nowrap;">← 回台語點讀目錄</a><header class="top"><div>康軒版・第一冊｜自學</div><h1>過年的批</h1><p>作者：王昭華｜正式教材點讀驗收版</p></header>
+<div class="tabs"><button class="active" data-tab="lesson">課文點讀</button><button data-tab="vocab">語詞點讀</button></div>
+<div class="controls"><button onclick="playAll()">▶ 課文全文</button><button onclick="togglePause()">⏯ 暫停／繼續</button><button onclick="restart()">↺ 重新播放</button><button onclick="speed(.75)">0.75×</button><button onclick="speed(1)">1×</button><button onclick="speed(1.25)">1.25×</button><span class="status" id="status">準備完成</span></div>
+<section id="lesson" class="panel active"><p class="hint">點整段可播放課文；點紅色語詞只會開啟語詞說明，不會誤播整段。</p>
+<div class="letter-paper"><div class="seg" data-a="audio/lesson-001.mp3">阿軒兄：<br>收著你寄來的聖誕卡，收著新年的祝福，足歡喜！</div>
+<div class="seg" data-a="audio/lesson-002.mp3"><span class="v" data-v="0">掠準</span>你是寫英文，想袂到是台文，我佮阿母做伙臆，一字一字唸出聲，規句讀出來，掠著你的意思，袂輸破解神祕的暗號，哈哈，阮母仔囝嘛算厲害啦！</div>
+<div class="seg" data-a="audio/lesson-003.mp3">阮學校這禮拜才<span class="v" data-v="1">歇寒</span>，進前攏咧考試，逐工有夠緊張的，總算歇睏矣，啊！我已經咧<span class="v" data-v="2">數想</span>欲過年矣！</div>
+<div class="seg" data-a="audio/lesson-004.mp3">今年過年拍算嘛仝款，二九暝圍爐食火鍋，守佇厝跨年。初一行春，出門拜年。</div>
+<div class="seg" data-a="audio/lesson-005.mp3">初二會去阿媽遐，阿媽今年嘛仝款，炊<span class="v" data-v="3">鹹粿</span>、炊<span class="v" data-v="4">甜粿</span>，鹹粿<span class="v" data-v="5">煎甲赤赤</span>，搵蒜茸豆油，甜粿<span class="v" data-v="6">滒</span>一重麵粉糊，<span class="v" data-v="7">糋予酥酥</span>，哇！想著就流喙瀾。</div>
+<div class="seg" data-a="audio/lesson-006.mp3">阿軒表兄今年食袂著，就予小弟我來替你鬥食啦。<br>新的一年，祝你萬事如意。<br>表小弟 阿宥 敬上　1月20日</div></div>
+</section><section id="vocab" class="panel"><div class="vocabgrid" id="grid"></div></section></main>
+<div class="modal" id="modal"><div class="box"><button style="float:right" onclick="closeM()">✕</button><h2 id="mh"></h2><div class="roman" id="mr"></div><p id="md"></p><button class="playword" id="mp">🔊 播放語詞</button></div></div>
+<script>
+const V=[['掠準','lia̍h-tsún','以為。'],['歇寒','hioh-kuânn','放寒假。'],['數想','siàu-siūnn','妄想。'],['鹹粿','kiâm-kué','鹹年糕。'],['甜粿','tinn-kué','甜年糕。'],['煎甲赤赤','tsian kah tshiah-tshiah','煎得表皮呈微焦紅棕色。'],['滒','kō','沾裹。'],['糋予酥酥','tsìnn hōo soo-soo','炸得鬆脆可口。']];let audio=new Audio(),rate=1,current='';
+function play(src,el){document.querySelectorAll('.seg').forEach(x=>x.classList.remove('playing'));if(el)el.classList.add('playing');current=src;audio.src=src;audio.playbackRate=rate;audio.play();status.textContent='播放中'}
+document.querySelectorAll('.seg').forEach(el=>el.addEventListener('click',e=>{if(e.target.classList.contains('v'))return;play(el.dataset.a,el)}));
+document.querySelectorAll('.v').forEach(el=>el.addEventListener('click',e=>{e.stopPropagation();openV(+el.dataset.v)}));
+function playAll(){document.querySelectorAll('.seg').forEach(x=>x.classList.remove('playing'));TWReadSequence.start(audio,Array.from({length:6},(_,i)=>`audio/lesson-${String(i+1).padStart(3,'0')}.mp3`),()=>rate,(i)=>{document.querySelectorAll('.seg').forEach(x=>x.classList.remove('playing'));const x=document.querySelectorAll('.seg')[i];if(x)x.classList.add('playing');status.textContent='播放中'},()=>{document.querySelectorAll('.seg').forEach(x=>x.classList.remove('playing'));status.textContent='播放完成'})};function togglePause(){audio.paused?audio.play():audio.pause()};function restart(){audio.currentTime=0;audio.play()};function speed(x){rate=x;audio.playbackRate=x;status.textContent='速度 '+x+'×'}
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById(b.dataset.tab).classList.add('active')});
+const grid=document.getElementById('grid');V.forEach((v,i)=>grid.insertAdjacentHTML('beforeend',`<div class="vc"><h3>${v[0]}</h3><div class="roman">${v[1]}</div><p>${v[2]}</p><button class="playword" onclick="play('audio/vocab-${String(i+1).padStart(2,'0')}.mp3')">🔊 播放</button></div>`));
+function openV(i){let v=V[i];mh.textContent=v[0];mr.textContent=v[1];md.textContent=v[2];mp.onclick=()=>play(`audio/vocab-${String(i+1).padStart(2,'0')}.mp3`);modal.classList.add('open')}function closeM(){modal.classList.remove('open')}modal.onclick=e=>{if(e.target===modal)closeM()};audio.onended=()=>status.textContent='播放完成';
+</script><script src="../shared/sequence-player.js"></script></body></html>

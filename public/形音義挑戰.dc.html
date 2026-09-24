@@ -206,11 +206,20 @@ function updateLessons(){let g=GROUPS_DEF[+edition.value],b=g.cards[+book.value]
 function getRow(){let g=GROUPS_DEF[+edition.value],b=g.cards[+book.value];return b.rows[+lesson.value]}
 function updateInfo(){let r=getRow(); lessonInfo.textContent=r?.words?`${r.subtitle}｜目前 ${r.words.length} 個詞語｜有音檔 ${r.words.filter(playable).length} 個`:'這一課尚未建立詞庫。';startBtn.disabled=!r?.words}
 edition.onchange=updateBooks;book.onchange=updateLessons;lesson.onchange=updateInfo; $$('#amounts .chip').forEach(b=>b.onclick=()=>{$$('#amounts .chip').forEach(x=>x.classList.remove('active'));b.classList.add('active');amount=b.dataset.n==='all'?'all':+b.dataset.n});
+// 通用詞義有效性判斷：一般挑戰、錯題再挑戰、Boss 關共用。
+function hasMeaning(w){return !!String((w&&w.meaning)||'').trim()}
 function makeQuestions(words){
   let selected=amount==='all'?shuffle(words):shuffle(words).slice(0,Math.min(amount,words.length));
   const normalTypes=['audioShape','shapeSound','shapeMeaning','audioMeaning','trueFalse'];
   let qs=selected.map((w,i)=>({w,type:normalTypes[i%normalTypes.length]}));
-
+  return finalizeQuestions(qs,true);
+}
+// 錯題再挑戰：題型隨機，但同樣經過 finalizeQuestions 檢查音檔與詞義。
+function makeRetryQuestions(words){
+  let qs=words.map(w=>({w,type:shuffle(['audioShape','shapeSound','shapeMeaning','audioMeaning','trueFalse'])[0]}));
+  return finalizeQuestions(qs,qs.length>2);
+}
+function finalizeQuestions(qs,withBoss){
   // 音檔題遇著無音檔的詞，優先交換題型；無法交換時改成不需音檔的題型。
   const audioTypes=new Set(['audioShape','audioMeaning']);
   for(let i=0;i<qs.length;i++){
@@ -224,8 +233,27 @@ function makeQuestions(words){
     }
   }
 
+  // 詞義題遇著無 meaning 的詞，優先交換題型；無法交換時改成字形／字音題。
+  const meaningTypes=new Set(['shapeMeaning','audioMeaning','trueFalse']);
+  for(let i=0;i<qs.length;i++){
+    if(meaningTypes.has(qs[i].type)&&!hasMeaning(qs[i].w)){
+      const ti=qs[i].type;
+      let j=qs.findIndex((cand,k)=>k!==i&&hasMeaning(cand.w)&&!meaningTypes.has(cand.type)
+        &&(!audioTypes.has(ti)||playable(cand.w))&&(!audioTypes.has(cand.type)||playable(qs[i].w)));
+      if(j>=0){ qs[i].type=qs[j].type; qs[j].type=ti; }
+      else qs[i].type=playable(qs[i].w)&&(i%2)?'audioShape':'shapeSound';
+    }
+  }
+
   // 正式版：最後一題固定改為三線索 Boss 關。
-  if(qs.length) qs[qs.length-1].type='triple';
+  if(withBoss&&qs.length){
+    const last=qs.length-1;
+    if(!hasMeaning(qs[last].w)){
+      const j=qs.findIndex((cand,k)=>k<last&&hasMeaning(cand.w));
+      if(j>=0){ const tw=qs[j].w; qs[j].w=qs[last].w; qs[last].w=tw; qs[j].type=playable(qs[j].w)&&(j%2)?'audioShape':'shapeSound'; }
+    }
+    if(hasMeaning(qs[last].w)) qs[last].type='triple';
+  }
   return qs;
 }
 function show(screen){audioPlayer.pause();['selectScreen','quizScreen','reportScreen'].forEach(id=>$('#'+id).classList.toggle('hidden',id!==screen))}
@@ -311,7 +339,7 @@ function meaningChoiceObjects(w, count=4){
   const correctText=scene ? scene.answer : w.meaning;
   const seen=new Set([normText(correctText), normText(w.meaning)]);
   const others=[];
-  for(const m of shuffle(pool.filter(x=>x!==w && x.meaning).map(x=>x.meaning))){
+  for(const m of shuffle(pool.filter(x=>x!==w && hasMeaning(x)).map(x=>x.meaning))){
     const key=normText(m);
     if(seen.has(key)) continue;
     seen.add(key); others.push(m);
@@ -326,7 +354,7 @@ function audioMeaningChoices(w, count=4){
   const target=norm(w.meaning);
   let seen=new Set([target]);
   let candidates=[];
-  for(const x of shuffle(pool.filter(x=>x!==w && x.meaning))){
+  for(const x of shuffle(pool.filter(x=>x!==w && hasMeaning(x)))){
     const n=norm(x.meaning);
     if(!n || seen.has(n)) continue;
     // 避免完全相同或明顯包含關係的答案，同時保留本課真實詞義作干擾。
@@ -340,7 +368,7 @@ function audioMeaningChoices(w, count=4){
 
 
 function buildTruthCase(w){
-  const usable=pool.filter(x=>x!==w && x.tailo && x.meaning);
+  const usable=pool.filter(x=>x!==w && x.tailo && hasMeaning(x));
   const soundDonors=usable.filter(x=>!tailoOverlap(x.tailo,w.tailo) && normText(x.tailo)!==normText(w.tailo));
   const meaningDonors=usable.filter(x=>normText(x.meaning)!==normText(w.meaning));
   const isTrue=Math.random()<0.5 || (!soundDonors.length && !meaningDonors.length);
@@ -401,14 +429,14 @@ if(q.type==='trueFalse'){
 if(q.type==='triple'){
   if(!q.trio){
     const partners=[]; const usedM=new Set([normText(w.meaning)]);
-    for(const cand of shuffle(pool.filter(x=>x!==w))){
+    for(const cand of shuffle(pool.filter(x=>x!==w && String(x.meaning||'').trim()))){
       if(usedM.has(normText(cand.meaning))) continue;
       if([w,...partners].some(p=>tailoOverlap(p.tailo,cand.tailo))) continue;
       usedM.add(normText(cand.meaning)); partners.push(cand);
       if(partners.length>=2) break;
     }
     if(partners.length<2){
-      for(const cand of shuffle(pool.filter(x=>x!==w && !partners.includes(x)))){
+      for(const cand of shuffle(pool.filter(x=>x!==w && !partners.includes(x) && String(x.meaning||'').trim()))){
         if(usedM.has(normText(cand.meaning))) continue;
         usedM.add(normText(cand.meaning)); partners.push(cand);
         if(partners.length>=2) break;
@@ -463,6 +491,6 @@ if(q.type==='audioShape'){
 }
 nextBtn.classList.remove('hidden');scoreNow.textContent=`${score} 分`}
 nextBtn.onclick=()=>{qi++;if(qi>=questions.length)report();else renderQ()};quitBtn.onclick=()=>show('selectScreen');
-function report(){show('reportScreen');bar.style.width='100%';let pct=Math.round(score/questions.length*100);scoreBig.textContent=`${score} / ${questions.length}`;reportTitle.textContent=pct>=90?'金牌詞語偵探！':pct>=70?'破解任務完成！':'線索閣愛練習！';reportSub.textContent=`正確率 ${pct}%｜${getRow()?.subtitle||''}`;let names={shape:'👁 字形辨識',sound:'🎧 聽音辨識',meaning:'💭 詞義理解',combo:'🧩 綜合破解'};meters.innerHTML=Object.entries(stats).map(([k,[a,b]])=>{let p=b?Math.round(a/b*100):0;return `<div class="meterRow"><b>${names[k]}</b><div class="meter"><i style="width:${p}%"></i></div><span>${b?p+'%':'—'}</span></div>`}).join('')+`<div class="notice" style="margin-top:14px">一般任務會輪流出現五種玩法，最後一題固定是 🧩 三線索合體 Boss 關。</div>`;let uniq=[...new Set(wrong)];wrongList.innerHTML=uniq.length?`<h3>🔁 建議再練的詞</h3>${uniq.map(w=>`<div class="wrongItem"><b>${esc(w.hanji)}</b>　${esc(w.tailo)}<div class="tiny">${esc(w.meaning)}</div></div>`).join('')}`:'<div class="notice">🎉 這輪沒有錯題！</div>';retryWrong.classList.toggle('hidden',!uniq.length);retryWrong.onclick=()=>{pool=getRow().words;questions=uniq.map((w,i)=>({w,type:playable(w)?shuffle(['audioShape','shapeSound','shapeMeaning','audioMeaning','trueFalse'])[0]:shuffle(['shapeSound','shapeMeaning','trueFalse'])[0]}));if(questions.length>2)questions[questions.length-1].type='triple';retryMode=true;begin();}}
+function report(){show('reportScreen');bar.style.width='100%';let pct=Math.round(score/questions.length*100);scoreBig.textContent=`${score} / ${questions.length}`;reportTitle.textContent=pct>=90?'金牌詞語偵探！':pct>=70?'破解任務完成！':'線索閣愛練習！';reportSub.textContent=`正確率 ${pct}%｜${getRow()?.subtitle||''}`;let names={shape:'👁 字形辨識',sound:'🎧 聽音辨識',meaning:'💭 詞義理解',combo:'🧩 綜合破解'};meters.innerHTML=Object.entries(stats).map(([k,[a,b]])=>{let p=b?Math.round(a/b*100):0;return `<div class="meterRow"><b>${names[k]}</b><div class="meter"><i style="width:${p}%"></i></div><span>${b?p+'%':'—'}</span></div>`}).join('')+`<div class="notice" style="margin-top:14px">一般任務會輪流出現五種玩法，最後一題固定是 🧩 三線索合體 Boss 關。</div>`;let uniq=[...new Set(wrong)];wrongList.innerHTML=uniq.length?`<h3>🔁 建議再練的詞</h3>${uniq.map(w=>`<div class="wrongItem"><b>${esc(w.hanji)}</b>　${esc(w.tailo)}<div class="tiny">${esc(w.meaning)}</div></div>`).join('')}`:'<div class="notice">🎉 這輪沒有錯題！</div>';retryWrong.classList.toggle('hidden',!uniq.length);retryWrong.onclick=()=>{pool=getRow().words;questions=makeRetryQuestions(uniq);retryMode=true;begin();}}
 replay.onclick=()=>{pool=getRow().words;questions=makeQuestions(pool);begin()};backSelect.onclick=()=>show('selectScreen');initSelect();
 </script></body></html>

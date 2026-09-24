@@ -285,7 +285,7 @@ https://sites.google.com/ms.mingdao.edu.tw/tsiam/
             <div class="zone-links">
               <sc-for list="{{zone.cards}}" as="card" hint-placeholder-count="3">
                 <a class="zone-link" href="{{card.href}}">
-                  <span>{{card.name}}</span>
+                  <span>{{card.name}}<sc-if value="{{card.desc}}"><small style="display:block;margin-top:2px;font-size:12px;font-weight:700;opacity:.72;">{{card.desc}}</small></sc-if></span>
                   <span>›</span>
                 </a>
               </sc-for>
@@ -334,7 +334,8 @@ const ZONES = [
     title:'聽讀練功', tag:'聽會著、唸會準',
     lead:'從聲音、拼音與發音練習開始，予耳仔愈聽愈熟。',
     cards:[
-      { name:'台羅練功房', href:'羅馬字發音.dc.html' }
+      { name:'台羅練功房', href:'羅馬字發音.dc.html' },
+      { name:'🎧 聽聲辨拼音', href:'聽聲辨拼音.dc.html', desc:'聽聲音、辨拼音，從單元音一路闖到聲母＋複元音！' }
     ]
   },
   {

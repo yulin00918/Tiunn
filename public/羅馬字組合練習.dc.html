@@ -118,17 +118,14 @@ const UN_GROUPS_DEF = [
   ['1.單母音', ['a','e','i','o','oo','u']],
   ['2.複母音', ['ai','au','ia','iu','io','iau','ua','ue','ui','uai']],
   ['3.鼻化(單)', ['ann','enn','inn','onn']],
-  ['3.鼻化(複)', ['ainn','aunn','iann','iaunn','iunn','uann','uainn','uinn']],
-  ['4.聲化韻母', ['m','ng']],
-  ['4.聲化(入聲)', ['mh','ngh']],
-  ['5.鼻尾-m', ['am','im','om','iam']],
-  ['5.鼻尾-n', ['an','in','un','ian','uan']],
-  ['5.鼻尾-ng', ['ang','ing','ong','iang','uang','iong']],
-  ['6.入聲-p', ['ap','ip','op','iap']],
-  ['6.入聲-t', ['at','it','ut','iat','uat']],
-  ['6.入聲-k', ['ak','ik','ok','iak','iok']],
-  ['6.入聲-h', ['ah','eh','ih','oh','ooh','uh','iah','ioh','iuh','uah','ueh','aih','auh','iauh','uih']],
-  ['6.入聲-h(鼻化)', ['annh','ennh','onnh','aunnh','iannh','uainnh']],
+  ['4.鼻化(複)', ['ainn','aunn','iann','iaunn','iunn','uann','uainn','uinn']],
+  ['5.聲化韻母', ['m','ng']],
+  ['6.鼻音韻母', ['am','im','om','iam','an','in','un','ian','uan','ang','ing','ong','iang','iong','uang']],
+  ['7.入聲-p', ['ap','ip','op','iap']],
+  ['8.入聲-t', ['at','it','ut','iat','uat']],
+  ['9.入聲-k', ['ak','ik','ok','iak','iok']],
+  ['10.入聲-h', ['ah','eh','ih','oh','ooh','uh','iah','ioh','iuh','uah','ueh','aih','auh','iauh','uih']],
+  ['11.入聲-h(鼻化)', ['annh','ennh','onnh','aunnh','iannh','uainnh']],
 ];
 const TIAU_LIST = [1,2,3,4,5,6,7,8];
 const SIANN_EXAMPLES = {
@@ -140,6 +137,13 @@ const SIANN_EXAMPLES = {
 };
 const CUSTOM_SIANN_AUDIO = {
   'g': 'audio/siann_g.mp3',
+  'ng': 'audio/7313(1).mp3',
+};
+const CUSTOM_UN_AUDIO = {
+  'enn': 'audio/un_enn.wav',
+  'ainn': 'audio/un_ainn.mp3',
+  'aunn': 'audio/un_aunn.mp3',
+  'uinn': 'audio/un_uinn.mp3',
 };
 const MOE_SIANN_AUDIO = {
   'p': 'https://www.mdnkids.com/BoPoMo/audio/01.mp3', 'ph': 'https://www.mdnkids.com/BoPoMo/audio/02.mp3',
@@ -235,12 +239,13 @@ class Component extends DCLogic {
       items: list.map(u => {
         const selected = un === u;
         const ex = UN_EXAMPLES[u];
+        const customUrl = CUSTOM_UN_AUDIO[u];
         return {
           label: u,
           style: `position:relative;font-family:inherit;font-size:0.95rem;padding:8px 4px;border-radius:8px;border:1.5px solid #ddd0bd;background:${selected?'#315C63':'#fff'};color:${selected?'#fff':'#243337'};cursor:pointer;`,
           onClick: () => this.select('un', u),
-          hasAudio: !!ex,
-          playAudio: ex ? (e) => { e.stopPropagation(); playFile(ex[0]); } : null,
+          hasAudio: !!(customUrl || ex),
+          playAudio: (customUrl || ex) ? (e) => { e.stopPropagation(); if (customUrl) playUrl(customUrl); else playFile(ex[0]); } : null,
         };
       }),
     }));

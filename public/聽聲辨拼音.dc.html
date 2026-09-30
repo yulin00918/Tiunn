@@ -9,26 +9,83 @@
 <script src="./author-credit.js"></script>
 <!-- 網站介面、功能與教學整合設計／製作：張鈺聆　Copyright © 張鈺聆.
      教材、音檔等第三方素材之著作權仍屬原權利人所有。完整宣告見 author-credit.js。
-     本頁遊戲核心整合自「聽聲辨拼音 V1.2 Lv1–Lv6 連續闖關版」；題庫、關卡順序、血量、時間、錯題追擊、CLEAR／GAME OVER 規則未變動。
+     本頁遊戲核心整合自「聽聲辨拼音 V1.5 完整遊戲狀態版」；題庫、六關、HP10＋重生×1、錯題追擊、計時、COMBO 未變動。
      整合調整：①音檔路徑（Lv.1–3 → audio/tailo-listening/，Lv.4–6 → audio/{id}.mp3）②網站導覽列 ③hover 僅限滑鼠裝置 ④第一題在點擊當下播放。 -->
+
 <style>
-:root{--bg:#f5f1e8;--paper:#fffdf7;--ink:#253333;--deep:#315c63;--gold:#b48745;--line:#d9d2c4;--bad:#9b4d45;--good:#44745c}
-*{box-sizing:border-box}body{margin:0;font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;background:linear-gradient(180deg,#edf1ec,#f6f1e7);color:var(--ink);overflow-x:hidden}
+:root{--navy:#173d52;--ink:#20343a;--cream:#fffaf0;--paper:#fffdf8;--mint:#58a58f;--coral:#e67b67;--sun:#e3ad45;--lav:#8d82b8;--sky:#62a7bd;--line:#d9d7ca}
+*{box-sizing:border-box} body{margin:0;font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;color:var(--ink);background:#f4f1e7}
+.wrap{max-width:980px;margin:auto;padding:16px}.top{display:flex;justify-content:space-between;align-items:center;padding:8px 4px 15px}.brand{font-weight:950;color:var(--navy);font-size:19px}.credit{font-size:13px;opacity:.6}
+.screen{display:none}.screen.active{display:block}.card{position:relative;overflow:hidden;background:linear-gradient(180deg,#fffdf6,#f7f3e7);border:1px solid #ded9ca;border-radius:30px;padding:28px;box-shadow:0 15px 35px rgba(35,61,63,.08)}.center{text-align:center}
+.card:before,.card:after{content:"";position:absolute;border-radius:50%;pointer-events:none}.card:before{width:180px;height:180px;background:#dceee7;right:-75px;top:-80px}.card:after{width:150px;height:150px;background:#f6dfbd;left:-80px;bottom:-80px}
+.kicker{position:relative;z-index:1;display:inline-block;background:#e4eee9;padding:7px 14px;border-radius:999px;font-weight:900;color:var(--navy);font-size:13px}
+.heroTitle{position:relative;z-index:1;font-size:clamp(34px,6vw,55px);font-weight:1000;letter-spacing:.04em;margin:8px 0 2px;color:var(--navy)}
+.sub{position:relative;z-index:1;max-width:620px;margin:0 auto 8px;line-height:1.7;opacity:.72}
+.map{position:relative;z-index:1;max-width:720px;height:430px;margin:12px auto 6px}
+.map svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}.trail{fill:none;stroke:#c7b991;stroke-width:8;stroke-linecap:round;stroke-dasharray:3 16}
+.island{position:absolute;width:126px;min-height:105px;border:0;border-radius:45% 55% 48% 52% / 54% 44% 56% 46%;padding:12px 8px;background:white;box-shadow:0 9px 0 rgba(40,55,55,.10),0 15px 25px rgba(40,55,55,.09);display:flex;flex-direction:column;justify-content:center;align-items:center;transform:rotate(-2deg)}
+.island:nth-of-type(even){transform:rotate(2deg)}.island .ico{font-size:30px;line-height:1}.island b{font-size:14px;margin-top:4px;color:var(--navy)}.island small{font-size:11px;opacity:.6;margin-top:2px}
+.i1{left:4%;top:60%}.i2{left:23%;top:29%}.i3{left:43%;top:57%}.i4{left:61%;top:20%}.i5{left:77%;top:50%}.i6{right:1%;top:4%}
+.i1{background:#dff1e9}.i2{background:#f9e4c2}.i3{background:#f7d9d4}.i4{background:#dcecf1}.i5{background:#e7e1f2}.i6{background:#f6e8b9}
+.startFlag{position:absolute;left:0;bottom:4%;font-size:25px}.goal{position:absolute;right:2%;top:-4%;font-size:28px}
+.lifeDock{position:relative;z-index:2;display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin:-4px auto 16px}.pill{background:#fff;border:1px solid #ded9ca;border-radius:999px;padding:10px 16px;font-weight:950;box-shadow:0 4px 12px rgba(30,50,50,.06)}
+.primary{position:relative;z-index:2;border:0;background:var(--coral);color:white;padding:16px 34px;border-radius:999px;font-size:18px;font-weight:1000;cursor:pointer;box-shadow:0 7px 0 #b85e4e,0 13px 22px rgba(190,95,80,.18);transition:.15s}@media(hover:hover){.primary:hover{transform:translateY(-2px)}}.primary:active{transform:translateY(5px);box-shadow:0 2px 0 #b85e4e}
+.note{position:relative;z-index:1;margin:20px auto 0;max-width:650px;font-size:13px;opacity:.7;line-height:1.7}
+.levelTrack{display:flex;gap:7px;margin-bottom:15px}.trackStep{flex:1;height:10px;border-radius:99px;background:#deddd5}.trackStep.on:nth-child(1){background:#58a58f}.trackStep.on:nth-child(2){background:#e3ad45}.trackStep.on:nth-child(3){background:#e67b67}.trackStep.on:nth-child(4){background:#62a7bd}.trackStep.on:nth-child(5){background:#8d82b8}.trackStep.on:nth-child(6){background:#d29b32}
+.hud{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap}.hud>div{flex:1;min-width:115px;background:rgba(255,255,255,.8);border:1px solid #e1ddd1;border-radius:18px;padding:10px;text-align:center}.hud>div:first-child{flex:1.5}.small{font-size:12px;opacity:.6}.big{font-size:18px;font-weight:1000;color:var(--navy);margin-top:2px}.hearts{font-size:16px;font-weight:1000;color:var(--navy)}.lifeMeta{font-size:12px;color:#a87828;font-weight:900;margin-top:3px}
+.timerWrap{height:10px;background:#e4e0d7;border-radius:99px;overflow:hidden;margin:13px 0}.timer{height:100%;width:100%;background:var(--mint);transition:width .08s linear}.timer.danger{background:var(--coral)}
+.question{text-align:center;padding:8px 0}.qPrompt{font-weight:900;color:var(--navy)}
+.soundZone{position:relative;width:150px;height:150px;margin:8px auto 4px;display:grid;place-items:center}
+.wave{position:absolute;border:3px solid rgba(98,167,189,.35);border-radius:50%;animation:pulse 2s infinite}.w1{width:110px;height:110px}.w2{width:135px;height:135px;animation-delay:.4s}.w3{width:155px;height:155px;animation-delay:.8s}
+@keyframes pulse{0%,100%{transform:scale(.88);opacity:.35}50%{transform:scale(1.04);opacity:1}}
+.listen{position:relative;z-index:2;width:92px;height:92px;border:0;border-radius:50%;background:var(--navy);color:#fff;font-size:38px;cursor:pointer;box-shadow:0 8px 0 #0e2a39,0 15px 25px rgba(23,61,82,.2)}.listen:active{transform:translateY(5px);box-shadow:0 3px 0 #0e2a39}
+.opts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:650px;margin:15px auto}.opt{min-height:64px;border:2px solid #d8d5ca;background:white;border-radius:18px;font-size:23px;font-weight:1000;color:var(--navy);cursor:pointer;box-shadow:0 6px 0 #d8d5ca;transition:.12s}@media(hover:hover){.opt:not(:disabled):hover{transform:translateY(-2px);border-color:#9dbbb2}}.opt:active{transform:translateY(4px);box-shadow:0 2px 0 #d8d5ca}.opt:disabled{opacity:.72}
+.feedback{min-height:42px;text-align:center;font-size:19px;font-weight:1000;padding:6px}.good{color:#3d7a5b}.bad{color:#b65d52}.combo{text-align:center;min-height:30px;color:#d2793e;font-size:20px;font-weight:1000}
+.revivePanel{position:relative;z-index:2;max-width:530px;margin:auto;padding:26px;border-radius:28px;background:#fff8df;border:2px solid #ecd49d;box-shadow:0 10px 0 #e2c47f}.reviveIcon{font-size:58px;animation:bob 1.5s ease-in-out infinite}@keyframes bob{50%{transform:translateY(-7px)}}.reviveTitle{font-size:34px;font-weight:1000;color:var(--navy)}.reviveText{line-height:1.8;opacity:.72}.resultStat{font-size:19px;line-height:2}.confusions{max-width:520px;margin:15px auto;text-align:left;background:#f5efe2;border-radius:18px;padding:15px 18px}
+@media(max-width:720px){.wrap{padding:9px}.card{padding:18px;border-radius:22px}.map{height:610px;max-width:390px}.map svg{display:none}.island{width:116px;min-height:92px}.i1{left:2%;top:76%}.i2{left:48%;top:63%}.i3{left:4%;top:48%}.i4{left:50%;top:34%}.i5{left:5%;top:18%}.i6{right:1%;top:2%}.startFlag{bottom:2%}.goal{top:-2%}.opts{grid-template-columns:repeat(2,1fr)}.hud>div:first-child{flex-basis:100%}}
+@media(prefers-reduced-motion:reduce){.wave,.reviveIcon{animation:none}.primary,.opt{transition:none}}
+
+/* V1.5：完整遊戲狀態畫面 */
+.stateScene{position:relative;z-index:2;max-width:650px;margin:auto;padding:16px 8px 4px}
+.stateBurst{position:relative;width:150px;height:150px;margin:0 auto 4px;display:grid;place-items:center}
+.stateBurst:before,.stateBurst:after{content:"";position:absolute;border-radius:50%;inset:15px;border:3px solid rgba(227,173,69,.32);animation:statePulse 1.8s ease-out infinite}
+.stateBurst:after{inset:0;animation-delay:.45s}
+@keyframes statePulse{0%{transform:scale(.72);opacity:0}45%{opacity:1}100%{transform:scale(1.12);opacity:0}}
+.stateIcon{position:relative;z-index:2;font-size:72px;filter:drop-shadow(0 8px 5px rgba(30,50,50,.13));animation:stateBob 1.5s ease-in-out infinite}
+@keyframes stateBob{50%{transform:translateY(-7px) rotate(2deg)}}
+.clearWord{font-size:clamp(34px,7vw,58px);font-weight:1000;letter-spacing:.04em;color:var(--navy);margin:-3px 0 2px}
+.clearSub{font-size:18px;font-weight:900;color:#9b7130;margin-bottom:15px}
+.carryBox{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:14px auto 18px}
+.carryChip{background:white;border:1px solid #ded8c9;border-radius:999px;padding:9px 15px;font-weight:950}
+.nextPreview{max-width:540px;margin:0 auto 20px;background:rgba(255,255,255,.68);border:1px dashed #cbbd98;border-radius:20px;padding:13px 17px;line-height:1.65}
+.revivePanel{overflow:hidden}
+.revivePanel:before{content:"";position:absolute;inset:-40%;background:conic-gradient(from 0deg,transparent,#f7d87955,transparent,#fff5b555,transparent);animation:spinGlow 5s linear infinite;pointer-events:none}
+.revivePanel>*{position:relative;z-index:1}
+@keyframes spinGlow{to{transform:rotate(360deg)}}
+.reviveStone{width:96px;height:96px;margin:0 auto 8px;display:grid;place-items:center;border-radius:30px 30px 45px 45px;background:linear-gradient(145deg,#fff5b8,#efbf4e);box-shadow:0 9px 0 #d2a23d,0 0 35px rgba(239,191,78,.5);font-size:48px;animation:stoneGlow 1.25s ease-in-out infinite alternate}
+@keyframes stoneGlow{to{transform:translateY(-6px) scale(1.04);box-shadow:0 12px 0 #d2a23d,0 0 55px rgba(239,191,78,.75)}}
+.gameoverScene{position:relative;z-index:2;max-width:600px;margin:auto}
+.gameoverIcon{font-size:72px;filter:grayscale(.2);margin:4px 0}
+.gameoverTitle{font-size:clamp(37px,7vw,62px);font-weight:1000;color:#704a47;letter-spacing:.03em;margin:0}
+.gameoverSub{font-weight:900;opacity:.68;margin:3px 0 16px}
+.finalScene{position:relative;z-index:2;max-width:650px;margin:auto}
+.trophyWrap{position:relative;width:180px;height:150px;margin:auto}
+.trophy{position:relative;z-index:2;font-size:88px;animation:trophyPop 1.25s ease-in-out infinite alternate}
+@keyframes trophyPop{to{transform:translateY(-8px) rotate(3deg) scale(1.04)}}
+.spark{position:absolute;font-size:25px;animation:sparkle 1.5s ease-in-out infinite}.s1{left:8px;top:25px}.s2{right:5px;top:12px;animation-delay:.4s}.s3{right:28px;bottom:12px;animation-delay:.8s}.s4{left:25px;bottom:8px;animation-delay:1.1s}
+@keyframes sparkle{0%,100%{transform:scale(.5) rotate(0);opacity:.3}50%{transform:scale(1.25) rotate(20deg);opacity:1}}
+.finalTitle{font-size:clamp(34px,7vw,56px);font-weight:1000;color:var(--navy);margin:0}.finalSub{font-size:19px;font-weight:900;color:#a2752f;margin:4px 0 14px}
+.resultCards{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;max-width:520px;margin:15px auto}.resultCard{background:white;border:1px solid #ded9ca;border-radius:17px;padding:12px 8px}.resultCard strong{display:block;font-size:22px;color:var(--navy)}
+.screenShake{animation:screenShake .34s linear}@keyframes screenShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}50%{transform:translateX(5px)}75%{transform:translateX(-3px)}}
+@media(max-width:620px){.resultCards{grid-template-columns:1fr 1fr}.resultCards .resultCard:last-child{grid-column:1/-1}.stateBurst{width:125px;height:125px}.stateIcon{font-size:61px}}
+@media(prefers-reduced-motion:reduce){.stateBurst:before,.stateBurst:after,.stateIcon,.revivePanel:before,.reviveStone,.trophy,.spark{animation:none}}
+
 .siteHead{background:#15344b;color:#fff}.siteHeadIn{max-width:860px;margin:auto;min-height:62px;padding:10px 20px;display:flex;align-items:center;gap:12px}.homeBtn{flex:0 0 auto;display:inline-flex;align-items:center;min-height:44px;padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.10);color:#dce7f2;font-size:14px;font-weight:800;text-decoration:none;white-space:nowrap}.siteTitle{flex:1;min-width:0;text-align:center;font-size:clamp(18px,3.4vw,21px);font-weight:900;letter-spacing:.06em}.siteSpacer{flex:0 0 auto;width:92px}
-.wrap{max-width:860px;margin:auto;padding:20px}.top{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:14px}.brand{font-weight:900;color:var(--deep)}.credit{font-size:13px;opacity:.65}
-.card{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:24px;box-shadow:0 12px 35px rgba(40,50,45,.08)}
-h1{margin:8px 0;font-size:clamp(25px,5vw,40px)}.sub{opacity:.75;line-height:1.7;margin-bottom:20px}.screen{display:none}.screen.active{display:block}.center{text-align:center}
-.stage{display:inline-flex;padding:7px 12px;border-radius:999px;background:#e7efed;color:var(--deep);font-weight:900}
-.hud{display:grid;grid-template-columns:1.3fr .75fr .75fr .75fr;gap:10px;margin:16px 0}.hud>div{background:#f1eee5;border-radius:16px;padding:11px;text-align:center}.small{font-size:12px;opacity:.65}.big{font-size:18px;font-weight:900;margin-top:3px}.hearts{font-size:19px;letter-spacing:1px;word-break:break-all}
-.timerWrap{height:11px;background:#e5e1d7;border-radius:999px;overflow:hidden;margin:14px 0 4px}.timer{height:100%;width:100%;background:var(--deep);transition:width .08s linear}.timer.danger{background:var(--bad)}
-.question{text-align:center;padding:20px 0 8px}.listen{border:0;border-radius:20px;background:var(--deep);color:white;font-size:22px;font-weight:900;padding:17px 28px;min-height:60px;cursor:pointer;margin:14px}.listen:active{transform:scale(.98)}
-.opts{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin:18px auto;max-width:620px}.opt{border:2px solid #cfd7d3;background:white;border-radius:17px;padding:16px 6px;min-height:60px;font-size:22px;font-weight:900;color:var(--deep);cursor:pointer;overflow-wrap:anywhere}.opt:disabled{cursor:default;opacity:.72}
-@media(hover:hover){.opt:not(:disabled):hover{border-color:var(--deep);background:#f0f6f4}.homeBtn:hover{background:rgba(255,255,255,.18)}}
-.feedback{min-height:52px;text-align:center;font-weight:900;font-size:18px;padding:8px}.good{color:var(--good)}.bad{color:var(--bad)}.combo{text-align:center;min-height:30px;font-weight:900;color:var(--gold);font-size:18px}
-.note{margin:18px 0;padding:14px 16px;background:#f2eee3;border-radius:16px;font-size:14px;line-height:1.75;text-align:left}.primary{border:0;background:var(--deep);color:white;padding:14px 24px;min-height:52px;border-radius:16px;font-size:17px;font-weight:900;cursor:pointer}.resultStat{font-size:19px;line-height:2}.confusions{margin:15px auto;max-width:520px;text-align:left;background:#f3efe5;padding:15px 18px;border-radius:16px}
-.levelGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}.levelBox{padding:15px;border:1px solid var(--line);border-radius:17px;background:#fff}.levelBox b{color:var(--deep)}
-@media(max-width:620px){.wrap{padding:10px}.card{padding:17px}.hud{grid-template-columns:1fr 1fr}.hud>div:first-child{grid-column:1/-1}.opts{grid-template-columns:repeat(2,1fr)}.levelGrid{grid-template-columns:1fr}.siteHeadIn{padding:8px 12px}.siteSpacer{display:none}}
+html,body{overflow-x:hidden}
+@media(max-width:520px){.siteHeadIn{padding:8px 12px}.siteSpacer{display:none}}
+@media(hover:hover){.homeBtn:hover{background:rgba(255,255,255,.18)}}
 </style>
+
 </head>
 <body>
 <div class="siteHead"><div class="siteHeadIn">
@@ -40,30 +97,32 @@ h1{margin:8px 0;font-size:clamp(25px,5vw,40px)}.sub{opacity:.75;line-height:1.7;
 <div class="wrap">
 <div class="top"><div class="brand">🎧 聽聲辨拼音</div><div class="credit">張鈺聆 製</div></div>
 
+
 <section id="start" class="screen active card center">
-  <div class="stage">連續闖關</div>
-  <h1>Lv.1 單元音 → Lv.2 複元音 → Lv.3 聲母初階 → Lv.4 初階聲母＋單元音 → Lv.5 進階聲母＋單元音 → Lv.6 聲母＋複元音</h1>
-  <p class="sub">同一條生命線一路往前。每一關剩多少血，就帶多少血進下一關。</p>
-  <div class="levelGrid">
-    <div class="levelBox"><b>Lv.1｜單元音</b><br>a・i・u・e・o・oo<br>18 題＋錯題追擊</div>
-    <div class="levelBox"><b>Lv.2｜複元音</b><br>ia・iau・io・iu・ua・uai・ue・ui・ai・au<br>30 題＋錯題追擊</div>
-    <div class="levelBox"><b>Lv.3｜聲母初階</b><br>p・ph・t・th・k・kh・ts・tsh<br>24 題＋錯題追擊</div>
-    <div class="levelBox"><b>Lv.4｜聲母＋單元音</b><br>8 個初階聲母 × a・i・u・e・o・oo<br>24 題＋錯題追擊</div>
-    <div class="levelBox"><b>Lv.5｜聲母進階＋單元音</b><br>m・b・n・l・ng・g・h・s × 單元音<br>24 題＋錯題追擊</div>
-    <div class="levelBox"><b>Lv.6｜聲母＋複元音</b><br>已學聲母 × ai・au・ia・iau・io・iu・ua・uai・ue・ui<br>24 題＋錯題追擊</div>
-  </div>
-  <div class="note">
-    ❤️ 全程共用 10 滴血，過關不補血。<br>
-    每關先熟悉，再逐步加速；答錯或超時扣 1 滴血。<br>
-    錯過的音會延遲再出現，基本題完成且錯音全部清除才可進下一關。<br>
-    ❤️ 歸零後只能從 Lv.1 重新開始。
-  </div>
-  <button id="startBtn" class="primary">開始連續闖關</button>
+<div class="kicker">🧭 聲音冒險島</div>
+<div class="heroTitle">聽聲辨拼音</div>
+<p class="sub">戴上耳朵，沿著聲音航線前進。從最簡單的單元音出發，一路闖到聲母＋複元音！</p>
+<div class="map">
+<svg viewBox="0 0 720 430" aria-hidden="true"><path class="trail" d="M45 345 C130 355,120 200,220 185 S330 355,405 300 S430 130,525 125 S570 290,635 250 S640 95,690 70"/></svg>
+<div class="startFlag">🚩</div><div class="goal">🏆</div>
+<div class="island i1"><div class="ico">👂</div><b>Lv.1 單元音</b><small>18題</small></div>
+<div class="island i2"><div class="ico">🌊</div><b>Lv.2 複元音</b><small>30題</small></div>
+<div class="island i3"><div class="ico">🎙️</div><b>Lv.3 聲母初階</b><small>24題</small></div>
+<div class="island i4"><div class="ico">🧩</div><b>Lv.4 聲母＋單元音</b><small>24題</small></div>
+<div class="island i5"><div class="ico">✨</div><b>Lv.5 進階聲母</b><small>24題</small></div>
+<div class="island i6"><div class="ico">🏆</div><b>Lv.6 最終挑戰</b><small>24題</small></div>
+</div>
+<div class="lifeDock"><div class="pill">❤️ HP 10 / 10</div><div class="pill">✨ 重生石 ×1</div></div>
+<button id="startBtn" class="primary">🚀 出發冒險</button>
+<div class="note">答錯或超時會扣 1 HP，錯過的音會偷偷在後面再出現。第一次 HP 歸零時，重生石會讓你原地復活一次！</div>
 </section>
 
+
+
 <section id="game" class="screen card">
+  <div id="levelTrack" class="levelTrack"></div>
   <div class="hud">
-    <div><div class="small">生命</div><div id="hearts" class="hearts"></div></div>
+    <div><div class="small">生命值</div><div id="hearts" class="hearts"></div><div id="revivesHud" class="lifeMeta"></div></div>
     <div><div class="small">關卡</div><div id="level" class="big"></div></div>
     <div><div class="small">進度</div><div id="progress" class="big"></div></div>
     <div><div class="small">階段</div><div id="phase" class="big"></div></div>
@@ -71,28 +130,60 @@ h1{margin:8px 0;font-size:clamp(25px,5vw,40px)}.sub{opacity:.75;line-height:1.7;
   <div id="timerWrap" class="timerWrap" style="visibility:hidden"><div id="timer" class="timer"></div></div>
   <div class="question">
     <div id="qnum" class="small"></div>
-    <button id="listen" class="listen">🔊 再聽一次</button>
-    <div class="small">聽到的是哪一個拼音？</div>
+    <div class="qPrompt">仔細聽，這是哪一個拼音？</div>
+    <div class="soundZone"><span class="wave w1"></span><span class="wave w2"></span><span class="wave w3"></span><button id="listen" class="listen" aria-label="再聽一次">🔊</button></div>
+    <div class="small">點喇叭可以再聽一次</div>
   </div>
   <div id="opts" class="opts"></div>
   <div id="combo" class="combo"></div>
   <div id="feedback" class="feedback"></div>
 </section>
 
+
+
+<section id="revive" class="screen card center">
+  <div class="revivePanel">
+    <div class="reviveStone">✨</div>
+    <div class="reviveTitle">重生石發動！</div>
+    <div class="reviveText">HP 歸零，但你還有最後一次機會。<br>重生石化成能量，讓你留在目前關卡繼續冒險！</div>
+    <div class="carryBox"><div class="carryChip">❤️ HP 回復 10 / 10</div><div class="carryChip">🪨 重生石 ×0</div></div>
+    <button id="reviveBtn" class="primary">✨ 原地復活，繼續！</button>
+  </div>
+</section>
+
 <section id="transition" class="screen card center">
-  <div id="transitionBadge" class="stage">LEVEL CLEAR</div>
-  <h1 id="transitionTitle">準備進入下一關</h1>
-  <div id="carry" class="resultStat"></div>
-  <div id="transitionNote" class="note"></div>
-  <button id="nextLevelBtn" class="primary">進入下一關</button>
+  <div class="stateScene">
+    <div class="stateBurst"><div class="stateIcon">🎉</div></div>
+    <div id="transitionBadge" class="kicker">Lv.1 CLEAR</div>
+    <div class="clearWord">LEVEL CLEAR!</div>
+    <div id="transitionTitle" class="clearSub">下一座島嶼已解鎖</div>
+    <div id="carry" class="carryBox"></div>
+    <div id="transitionNote" class="nextPreview"></div>
+    <button id="nextLevelBtn" class="primary">前往下一座島 ➜</button>
+  </div>
 </section>
 
 <section id="result" class="screen card center">
-  <div id="resultBadge" class="stage">RESULT</div>
-  <h1 id="resultTitle"></h1>
-  <div id="resultStat" class="resultStat"></div>
-  <div id="confusions" class="confusions" style="display:none"></div>
-  <button id="restartBtn" class="primary">從 Lv.1 重新挑戰</button>
+  <div id="successResult" class="finalScene" style="display:none">
+    <div class="trophyWrap"><span class="spark s1">✨</span><span class="spark s2">⭐</span><span class="spark s3">✨</span><span class="spark s4">⭐</span><div class="trophy">🏆</div></div>
+    <div class="kicker">六座島嶼全部完成</div>
+    <div class="finalTitle">冒險完成！</div>
+    <div class="finalSub">你成功走完聽聲辨拼音的六關航線</div>
+    <div id="successStats" class="resultCards"></div>
+    <div id="successConfusions" class="confusions" style="display:none"></div>
+    <button class="primary restartAction">🔁 再挑戰一次</button>
+  </div>
+  <div id="failResult" class="gameoverScene" style="display:none">
+    <div class="gameoverIcon">🌧️</div>
+    <div class="kicker">冒險暫時中止</div>
+    <div class="gameoverTitle">GAME OVER</div>
+    <div class="gameoverSub">兩條生命都用完了</div>
+    <div id="failStats" class="resultCards"></div>
+    <div id="failConfusions" class="confusions" style="display:none"></div>
+    <button class="primary restartAction">↻ 從 Lv.1 重新出發</button>
+  </div>
+  <div id="resultBadge" style="display:none"></div><div id="resultTitle" style="display:none"></div><div id="resultStat" style="display:none"></div><div id="confusions" style="display:none"></div>
+  <button id="restartBtn" style="display:none"></button>
 </section>
 </div>
 
@@ -147,7 +238,7 @@ Object.entries(lv4Audio).forEach(([k,v])=>audioMap[k]=`audio/${v.id}.mp3`);
 Object.entries(lv5Audio).forEach(([k,v])=>audioMap[k]=`audio/${v.id}.mp3`);
 Object.entries(lv6Audio).forEach(([k,v])=>audioMap[k]=`audio/${v.id}.mp3`);
 
-let levelIndex=0,queue=[],index=0,lives=10,combo=0,totalCorrect=0,totalWrong=0,timeouts=0;
+let levelIndex=0,queue=[],index=0,lives=10,revives=1,combo=0,totalCorrect=0,totalWrong=0,timeouts=0;
 let locked=false,current=null,timerId=null,deadline=0,confusion={},unresolved=new Set();
 
 const $=s=>document.querySelector(s);
@@ -158,13 +249,19 @@ function makeBase(level){
  if(level.id===4||level.id===5||level.id===6)return shuffle(level.sounds.map(s=>({answer:s,retry:false})));
  return shuffle(level.sounds.flatMap(s=>Array.from({length:3},()=>({answer:s,retry:false}))));
 }
-function beginAll(){levelIndex=0;lives=10;combo=0;totalCorrect=0;totalWrong=0;timeouts=0;confusion={};beginLevel()}
+function beginAll(){levelIndex=0;lives=10;revives=1;combo=0;totalCorrect=0;totalWrong=0;timeouts=0;confusion={};beginLevel()}
 function beginLevel(){queue=makeBase(levels[levelIndex]);index=0;unresolved=new Set();locked=false;screen("game");nextQuestion()}
 function phaseFor(level){
  if(index>=level.baseCount)return {name:"追擊",sec:level.retrySec};
  return level.phases.find(p=>index<p.until)||level.phases[level.phases.length-1];
 }
-function renderHearts(){$("#hearts").textContent="❤️".repeat(lives)+"🤍".repeat(10-lives)}
+function renderHearts(){
+ $("#hearts").textContent=`❤️ HP ${lives} / 10`;
+ $("#revivesHud").textContent=`✨ 重生 ×${revives}`;
+}
+function renderLevelTrack(){
+ $("#levelTrack").innerHTML=levels.map((lv,i)=>`<div class="trackStep ${i<=levelIndex?"on":""}" title="Lv.${lv.id} ${lv.name}"></div>`).join("");
+}
 function playAudio(){if(!current)return;const p=$("#player");p.src=audioMap[current.answer];p.currentTime=0;p.play().catch(()=>{})}
 function renderOptions(level){
  let choices;
@@ -190,14 +287,14 @@ function renderOptions(level){
 }
 function nextQuestion(){
  clearInterval(timerId);locked=false;$("#feedback").textContent="";$("#feedback").className="feedback";$("#combo").textContent=combo>=2?`🔥 COMBO ×${combo}`:"";
- if(lives<=0){finish(false);return}
+ if(lives<=0){if(revives>0){showRevive();return}else{finish(false);return}}
  const level=levels[levelIndex];
  if(index>=queue.length){
    if(unresolved.size===0){levelClear();return}
    [...unresolved].forEach(x=>queue.push({answer:x,retry:true}));
  }
  current=queue[index];const ph=phaseFor(level);
- renderHearts();$("#level").textContent=`Lv.${level.id}`;
+ renderHearts();renderLevelTrack();$("#level").textContent=`Lv.${level.id}`;
  $("#progress").textContent=index<level.baseCount?`${index+1} / ${level.baseCount}`:`追擊 ${index-level.baseCount+1}`;
  $("#phase").textContent=ph.name;$("#qnum").textContent=index<level.baseCount?`第 ${index+1} 題｜${level.name}`:`錯題追擊｜${level.name}`;
  renderOptions(level);setTimeout(()=>{if(gesturePlayed){gesturePlayed=false;return}playAudio()},180);
@@ -228,13 +325,28 @@ function answer(choice,isTimeout){
  }
  index++;setTimeout(nextQuestion,ok?650:1100)
 }
+
+function showRevive(){
+ clearInterval(timerId);
+ revives--;
+ lives=10;
+ combo=0;
+ renderHearts();
+ screen("revive");
+}
+function continueAfterRevive(){
+ screen("game");
+ locked=false;
+ nextQuestion();
+}
+
 function levelClear(){
  if(levelIndex<levels.length-1){
    const currentLevel=levels[levelIndex], nextLevel=levels[levelIndex+1];
    screen("transition");
    $("#transitionBadge").textContent=`Lv.${currentLevel.id} CLEAR`;
    $("#transitionTitle").textContent=`準備進入${nextLevel.name}`;
-   $("#carry").innerHTML=`你帶著 <b>${lives} 滴血</b>進入 Lv.${nextLevel.id}`;
+   $("#carry").innerHTML=`<div class="carryChip">❤️ HP ${lives} / 10</div><div class="carryChip">✨ 重生石 ×${revives}</div><div class="carryChip">🗺️ Lv.${nextLevel.id} 已解鎖</div>`;
    $("#transitionNote").textContent=nextLevel.id===2
      ?"Lv.2 有 10 個複元音、30 題基本題。題目選項會更多，後段反應時間也會縮短。"
      :nextLevel.id===3
@@ -244,20 +356,28 @@ function levelClear(){
          :nextLevel.id===5
            ?"Lv.5 加入 m／b、n／l、ng／g、h／s 等進階聲母，再和單元音拼起來聽，共 24 題。"
            :"Lv.6 把前面學過的聲母和複元音真正拼起來。先慢速拼合，再做送氣辨音，最後進入 5 秒混合快攻，共 24 題。";
-   $("#nextLevelBtn").textContent=`進入 Lv.${nextLevel.id}`;
+   $("#nextLevelBtn").textContent=`前往 Lv.${nextLevel.id}｜${nextLevel.name} ➜`;
  }else finish(true);
 }
 function finish(clear){
- clearInterval(timerId);screen("result");$("#resultBadge").textContent=clear?`Lv.${levels.length} CLEAR`:"GAME OVER";
- $("#resultTitle").textContent=clear?"六關連續闖關成功！":"10 滴血用完了";
- $("#resultStat").innerHTML=clear?`剩餘 ❤️ <b>${lives}</b><br>總答對 ${totalCorrect} 題｜錯誤 ${totalWrong} 次${timeouts?`｜超時 ${timeouts} 次`:""}`:`抵達 Lv.${levels[levelIndex].id}<br>答對 ${totalCorrect} 題｜錯誤 ${totalWrong} 次<br><b>只能從 Lv.1 重新開始</b>`;
+ clearInterval(timerId);screen("result");
+ $("#successResult").style.display=clear?"block":"none";
+ $("#failResult").style.display=clear?"none":"block";
+ const accuracy=(totalCorrect+totalWrong)>0?Math.round(totalCorrect/(totalCorrect+totalWrong)*100):0;
+ const stats=`<div class="resultCard"><span class="small">答對</span><strong>${totalCorrect}</strong>題</div>
+ <div class="resultCard"><span class="small">正確率</span><strong>${accuracy}%</strong></div>
+ <div class="resultCard"><span class="small">${clear?"剩餘 HP":"抵達關卡"}</span><strong>${clear?lives:"Lv."+levels[levelIndex].id}</strong></div>`;
+ const box=clear?$("#successStats"):$("#failStats"); box.innerHTML=stats;
+ const cbox=clear?$("#successConfusions"):$("#failConfusions");
  const keys=Object.keys(confusion);
- if(keys.length){$("#confusions").style.display="block";$("#confusions").innerHTML="<b>本輪易混淆／超時</b><br>"+keys.sort((a,b)=>confusion[b]-confusion[a]).map(k=>`${k}：${confusion[k]} 次`).join("<br>")}else $("#confusions").style.display="none";
+ if(keys.length){cbox.style.display="block";cbox.innerHTML="<b>🎯 本輪易混淆／超時</b><br>"+keys.sort((a,b)=>confusion[b]-confusion[a]).map(k=>`${k}：${confusion[k]} 次`).join("<br>")}
+ else cbox.style.display="none";
 }
-/* 行動裝置自動播放限制：在「開始／進入下一關／重新挑戰」這次點擊中直接播放第一題 */
+/* 行動裝置自動播放限制：在點擊當下直接播放第一題 */
 let gesturePlayed=false;
 function startWithGesture(fn){fn();if(current&&$("#game").classList.contains("active")){gesturePlayed=true;playAudio()}}
-$("#startBtn").onclick=()=>startWithGesture(beginAll);$("#restartBtn").onclick=()=>startWithGesture(beginAll);$("#nextLevelBtn").onclick=()=>startWithGesture(()=>{levelIndex++;beginLevel()});$("#listen").onclick=playAudio;
+$("#startBtn").onclick=()=>startWithGesture(beginAll);$("#reviveBtn").onclick=()=>startWithGesture(continueAfterRevive);$("#restartBtn").onclick=()=>startWithGesture(beginAll);
+document.querySelectorAll(".restartAction").forEach(b=>b.onclick=beginAll);$("#nextLevelBtn").onclick=()=>startWithGesture(()=>{levelIndex++;beginLevel()});$("#listen").onclick=playAudio;
 </script>
 </body>
 </html>

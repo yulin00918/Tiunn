@@ -12,8 +12,18 @@
 .legend{display:flex;gap:10px;flex-wrap:wrap;font-size:14px;margin:12px 0}.chip{padding:5px 9px;border-radius:8px}.chip.v{background:#fff3ce}.chip.f{background:#fde5dc}
 dialog{border:0;border-radius:22px;padding:0;max-width:min(520px,90vw);box-shadow:0 24px 70px #0005}dialog::backdrop{background:#26353266}.modal{padding:24px 26px;background:var(--card)}.modal h2{margin:0 0 8px;color:var(--green)}.roman{font-size:18px;color:#755b35;font-weight:800;margin:8px 0 14px}.meaning{font-size:18px;line-height:1.7}.fix{font-size:22px;font-weight:900;margin:12px 0}footer{text-align:center;color:#777166;font-size:13px;margin-top:30px;line-height:1.8}
 @media(max-width:640px){.chatgroup{padding-right:18px;padding-top:64px}.bubble{max-width:92%;font-size:18px}}
+</style><style>
+body,button,.bubble,.roman,.meaning{font-family:"Noto Sans TC","Microsoft JhengHei","PingFang TC",sans-serif!important}
+.new-tabs{display:flex;gap:12px;margin:22px 0;flex-wrap:wrap}
+.new-tab{padding:12px 22px;border-radius:14px;border:1px solid #c6d6d1;background:#fff;color:#244f49;font-weight:700;cursor:pointer}
+.new-tab.active{background:#315c63;color:#fff}
+.word-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:18px 0}
+.word-card{display:flex;flex-direction:column;align-items:flex-start;gap:7px;text-align:left;padding:18px;background:#fff;border:1px solid #c6d6d1;border-radius:14px;cursor:pointer;color:#243337}
+.word-card b{font-size:1.3rem}.word-card small{color:#315c63}.word-card span{line-height:1.6}
+.modal button{margin-top:16px;margin-right:6px}
 </style></head><body><main class="wrap">
 <div class="top"><a class="back" href="../../台語點讀.dc.html">← 回「台語點讀」</a><span class="tag">真平｜第一冊｜第二課</span></div>
+<nav class="new-tabs"><button class="new-tab active" data-target="lesson-pane">📖 課文點讀</button><button class="new-tab" data-target="vocab-pane">🔊 語詞點讀</button></nav><div id="lesson-pane" class="new-pane">
 <section class="hero"><div class="sub">咱來讀課文｜LINE 師生對話式</div><h1>啥？閩南語嘛有「火星文」！</h1><div class="sub">作者：翁瑞鴻</div>
 <div class="controls"><button id="all">▶ 全文順序播放</button><button class="secondary" id="pause">Ⅱ 暫停</button><button class="secondary" id="restart">↺ 重頭</button><button class="secondary" id="speed">1.0×</button></div></section>
 <p class="note">這一課的「火星文」是教材刻意保留的課文內容，不改成正字；學生可點紅色虛線詞查看正確寫法。</p>
@@ -25,7 +35,8 @@ dialog{border:0;border-radius:22px;padding:0;max-width:min(520px,90vw);box-shado
 <section class="chatgroup" data-i="4"><button class="segplay" aria-label="播放第5段">▶</button><div class="row teacher"><div class="bubble"><b>先的</b><div>是「好」毋是「<button class="fire" data-fire="賀" data-correct="好">賀</button>」。愛用著的字才是好。若是共你的名烏白寫，<button class="vocab" data-v="橫直">橫直</button>看有、聽有就好，你看按怎？</div></div></div><div class="row student"><div class="bubble"><b>古錐淇</b><div>……</div></div></div></section>
 <section class="chatgroup" data-i="5"><button class="segplay" aria-label="播放第6段">▶</button><div class="row teacher"><div class="bubble"><b>先的</b><div>咱若是常在用毋著的字，年久月深予<button class="vocab" data-v="湠">湠</button>落去，閩南語會成做<button class="vocab" data-v="隨">隨</button>人烏白寫的語言，按呢毋好喔！</div></div></div><div class="row student"><div class="bubble"><b>古錐淇</b><div><button class="fire" data-fire="拍謝" data-correct="歹勢">拍謝</button>啦！哈……</div></div></div></section>
 <section class="chatgroup" data-i="6"><button class="segplay" aria-label="播放第7段">▶</button><div class="row teacher"><div class="bubble"><b>先的</b><div>閣「<button class="fire" data-fire="拍謝" data-correct="歹勢">拍謝</button>」，按呢時到老師予你的成績，嘛是會足<button class="vocab" data-v="歹勢">歹勢</button>喔！你用教育部《臺灣台語常用詞辭典》查正確的用字了，閣重寫一擺傳予我喔。</div></div></div><div class="row student"><div class="bubble"><b>古錐淇</b><div>啊！哈哈哈，老師，真<button class="vocab" data-v="歹勢">歹勢</button>啦！好，<button class="vocab" data-v="隨">隨</button>來查，寫好<button class="vocab" data-v="隨">隨</button>傳予老師。</div></div></div></section>
-<dialog id="dlg"><div class="modal"><h2 id="dw"></h2><div class="roman" id="dr"></div><div class="meaning" id="dm"></div><button id="close">關閉</button></div></dialog>
+</div><section id="vocab-pane" class="new-pane" hidden><h2>語詞點讀</h2><p>點選語詞查看台羅與詞義；有語詞音檔的可按「🔊 播放語詞」。</p><div class="word-grid"><button class="word-card" type="button" data-v="紮"><b>紮</b><small>tsah</small><span>攜帶。</span></button><button class="word-card" type="button" data-v="伴手"><b>伴手</b><small>phuānn-tshiú</small><span>拜訪親友時，攜帶的小禮物。</span></button><button class="word-card" type="button" data-v="感心"><b>感心</b><small>kám-sim</small><span>感動、感激。指內心有所觸動。源自日語。</span></button><button class="word-card" type="button" data-v="橫直"><b>橫直</b><small>huâinn-ti̍t / huînn-ti̍t</small><span>橫豎、反正，無論如何。</span></button><button class="word-card" type="button" data-v="湠"><b>湠</b><small>thuànn</small><span>蔓延、擴散。</span></button><button class="word-card" type="button" data-v="歹勢"><b>歹勢</b><small>pháinn-sè</small><span>不好意思、對不起、抱歉。</span></button><button class="word-card" type="button" data-v="隨"><b>隨</b><small>suî</small><span>即刻、馬上。</span></button></div></section>
+<dialog id="dlg"><div class="modal"><h2 id="dw"></h2><div class="roman" id="dr"></div><div class="meaning" id="dm"></div><button type="button" id="vplay" hidden>🔊 播放語詞</button><button id="close">關閉</button></div></dialog>
 <audio id="audio" preload="none"></audio>
 <footer>網站介面、功能與教學整合設計／製作：張鈺聆　Copyright © 張鈺聆. All rights reserved.<br>教材、課文、語詞、台羅、音檔等第三方素材之著作權仍屬原權利人所有。</footer>
 </main><script>
@@ -39,4 +50,18 @@ speed.onclick=e=>{rate=rate===1?.8:rate===.8?1.2:1;e.target.textContent=rate.toF
 const dlg=document.querySelector('#dlg');document.querySelectorAll('.vocab').forEach(b=>b.onclick=e=>{e.stopPropagation();let d=vocab[b.dataset.v];dw.textContent=b.dataset.v;dr.textContent=d[0];dm.textContent=d[1];dlg.showModal()});
 document.querySelectorAll('.fire').forEach(b=>b.onclick=e=>{e.stopPropagation();dw.textContent='火星文';dr.textContent=b.dataset.fire+' → '+b.dataset.correct;dm.textContent='這是課文刻意呈現的火星文；右側是教材引導使用的正確寫法。';dlg.showModal()});
 close.onclick=()=>dlg.close();dlg.onclick=e=>{if(e.target===dlg)dlg.close()};
+</script><script>
+const wordAudio=new Audio();
+const wordAudioMap={"橫直":"../../audio/11749(1).mp3","湠":"../../audio/thuann.mp3","歹勢":"../../audio/phainn-se.mp3"};
+function openWord(w){dw.textContent=w;dr.textContent=vocab[w][0];dm.textContent=vocab[w][1];vplay.hidden=!wordAudioMap[w];dlg.showModal()}
+document.querySelectorAll('.vocab').forEach(b=>b.onclick=e=>{e.stopPropagation();openWord(b.dataset.v)});
+document.querySelectorAll('.fire').forEach(b=>b.addEventListener('click',()=>{vplay.hidden=true}));
+document.querySelectorAll('.word-card').forEach(b=>b.addEventListener('click',()=>openWord(b.dataset.v)));
+vplay.addEventListener('click',()=>{const f=wordAudioMap[dw.textContent];if(f){wordAudio.pause();wordAudio.src=f;wordAudio.currentTime=0;wordAudio.play()}});
+dlg.addEventListener('close',()=>wordAudio.pause());
+document.querySelectorAll('.new-tab').forEach(btn=>btn.addEventListener('click',()=>{
+ document.querySelectorAll('.new-tab').forEach(b=>b.classList.toggle('active',b===btn));
+ document.querySelectorAll('.new-pane').forEach(p=>p.hidden=p.id!==btn.dataset.target);
+ audio.pause();audio.currentTime=0;wordAudio.pause();
+}));
 </script></body></html>

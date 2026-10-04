@@ -41,6 +41,15 @@
   addMeta('author', SITE_AUTHOR);
   addMeta('copyright', SITE_COPYRIGHT);
 
+  // 特殊漢字備援字型：依本檔位置載入同層 fonts/taigi-ext.js
+  (function () {
+    var me = document.currentScript && document.currentScript.src;
+    if (!me || window.__taigiExtLoaded) return;
+    var s = document.createElement('script');
+    s.src = me.replace(/[^\/]*$/, 'fonts/taigi-ext.js');
+    (document.head || document.documentElement).appendChild(s);
+  })();
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', addCredit);
   } else {

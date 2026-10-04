@@ -36,7 +36,7 @@ body,button,.bubble,.roman,.meaning{font-family:"Noto Sans TC","Microsoft JhengH
 <section class="chatgroup" data-i="5"><button class="segplay" aria-label="播放第6段">▶</button><div class="row teacher"><div class="bubble"><b>先的</b><div>咱若是常在用毋著的字，年久月深予<button class="vocab" data-v="湠">湠</button>落去，閩南語會成做<button class="vocab" data-v="隨">隨</button>人烏白寫的語言，按呢毋好喔！</div></div></div><div class="row student"><div class="bubble"><b>古錐淇</b><div><button class="fire" data-fire="拍謝" data-correct="歹勢">拍謝</button>啦！哈……</div></div></div></section>
 <section class="chatgroup" data-i="6"><button class="segplay" aria-label="播放第7段">▶</button><div class="row teacher"><div class="bubble"><b>先的</b><div>閣「<button class="fire" data-fire="拍謝" data-correct="歹勢">拍謝</button>」，按呢時到老師予你的成績，嘛是會足<button class="vocab" data-v="歹勢">歹勢</button>喔！你用教育部《臺灣台語常用詞辭典》查正確的用字了，閣重寫一擺傳予我喔。</div></div></div><div class="row student"><div class="bubble"><b>古錐淇</b><div>啊！哈哈哈，老師，真<button class="vocab" data-v="歹勢">歹勢</button>啦！好，<button class="vocab" data-v="隨">隨</button>來查，寫好<button class="vocab" data-v="隨">隨</button>傳予老師。</div></div></div></section>
 </div><section id="vocab-pane" class="new-pane" hidden><h2>語詞點讀</h2><p>點選語詞查看台羅與詞義；有語詞音檔的可按「🔊 播放語詞」。</p><div class="word-grid"><button class="word-card" type="button" data-v="紮"><b>紮</b><small>tsah</small><span>攜帶。</span></button><button class="word-card" type="button" data-v="伴手"><b>伴手</b><small>phuānn-tshiú</small><span>拜訪親友時，攜帶的小禮物。</span></button><button class="word-card" type="button" data-v="感心"><b>感心</b><small>kám-sim</small><span>感動、感激。指內心有所觸動。源自日語。</span></button><button class="word-card" type="button" data-v="橫直"><b>橫直</b><small>huâinn-ti̍t / huînn-ti̍t</small><span>橫豎、反正，無論如何。</span></button><button class="word-card" type="button" data-v="湠"><b>湠</b><small>thuànn</small><span>蔓延、擴散。</span></button><button class="word-card" type="button" data-v="歹勢"><b>歹勢</b><small>pháinn-sè</small><span>不好意思、對不起、抱歉。</span></button><button class="word-card" type="button" data-v="隨"><b>隨</b><small>suî</small><span>即刻、馬上。</span></button></div></section>
-<dialog id="dlg"><div class="modal"><h2 id="dw"></h2><div class="roman" id="dr"></div><div class="meaning" id="dm"></div><button type="button" id="vplay" hidden>🔊 播放語詞</button><button id="close">關閉</button></div></dialog>
+<dialog id="dlg"><div class="modal"><h2 id="dw"></h2><div class="roman" id="dr"></div><div class="meaning" id="dm"></div><button type="button" id="vplay" hidden>🔊 播放語詞</button><button type="button" id="close" style="position:relative;z-index:2;cursor:pointer">關閉</button></div></dialog>
 <audio id="audio" preload="none"></audio>
 <footer>網站介面、功能與教學整合設計／製作：張鈺聆　Copyright © 張鈺聆. All rights reserved.<br>教材、課文、語詞、台羅、音檔等第三方素材之著作權仍屬原權利人所有。</footer>
 </main><script>
@@ -49,7 +49,13 @@ pause.onclick=()=>audio.paused?audio.play():audio.pause();restart.onclick=()=>{a
 speed.onclick=e=>{rate=rate===1?.8:rate===.8?1.2:1;e.target.textContent=rate.toFixed(1)+'×';audio.playbackRate=rate};
 const dlg=document.querySelector('#dlg');document.querySelectorAll('.vocab').forEach(b=>b.onclick=e=>{e.stopPropagation();let d=vocab[b.dataset.v];dw.textContent=b.dataset.v;dr.textContent=d[0];dm.textContent=d[1];dlg.showModal()});
 document.querySelectorAll('.fire').forEach(b=>b.onclick=e=>{e.stopPropagation();dw.textContent='火星文';dr.textContent=b.dataset.fire+' → '+b.dataset.correct;dm.textContent='這是課文刻意呈現的火星文；右側是教材引導使用的正確寫法。';dlg.showModal()});
-close.onclick=()=>dlg.close();dlg.onclick=e=>{if(e.target===dlg)dlg.close()};
+/* 修正：全域名稱 close 會解析成 window.close()，不是按鈕，所以改用 getElementById 綁定 */
+const closeBtn=document.getElementById('close');
+function closeDlg(){if(dlg.open)dlg.close()}
+closeBtn.addEventListener('click',e=>{e.stopPropagation();closeDlg()});
+dlg.addEventListener('click',e=>{const r=dlg.getBoundingClientRect();if(e.target===dlg&&(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom))closeDlg();else if(e.target===dlg)closeDlg()});
+dlg.addEventListener('cancel',e=>{e.preventDefault();closeDlg()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDlg()});
 </script><script>
 const wordAudio=new Audio();
 const wordAudioMap={"橫直":"../../audio/11749(1).mp3","湠":"../../audio/thuann.mp3","歹勢":"../../audio/phainn-se.mp3"};

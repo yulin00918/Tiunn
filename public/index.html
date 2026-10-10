@@ -1,245 +1,31 @@
-<!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./support.js"></script>
-<title>鈺聆的台語課</title>
-<meta name="author" content="張鈺聆">
-<meta name="creator" content="張鈺聆">
-<meta name="maintainer" content="張鈺聆">
-<meta name="project" content="鈺聆的台語課">
-<meta name="source-reference" content="詹宗龍老師｜宗龍的台語課">
-<script src="./author-credit.js"></script>
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="author" content="張鈺聆"><meta name="creator" content="張鈺聆"><meta name="maintainer" content="張鈺聆"><meta name="project" content="鈺見台語"><meta name="source-reference" content="詹宗龍老師｜宗龍的台語課">
 <!--
 ============================================================
-鈺聆的台語課｜網站製作與來源說明
+鈺見台語｜網站製作與來源說明
 
-網站建置、教學內容整合、功能擴充與後續維護：
-張鈺聆
+網站建置、教學內容整合、功能擴充與後續維護：張鈺聆
 
 本站建置初期之部分網站架構、功能概念與教學工具設計，
 曾參考詹宗龍老師「宗龍的台語課」之分享與實作經驗。
-
-參考網站：
-https://sites.google.com/ms.mingdao.edu.tw/tsiam/
-
-感謝詹宗龍老師分享教學經驗與資源，
-提供本站早期規劃與發展的重要參考。
-
-本站後續依實際教學需求持續進行內容整理、
-介面重新設計、功能擴充、互動設計與教學應用。
+參考網站：https://sites.google.com/ms.mingdao.edu.tw/tsiam/
+感謝詹宗龍老師分享教學經驗與資源，提供本站早期規劃與發展的重要參考。
 
 教材、課文、圖片、音檔、辭典資料及其他第三方素材之
 著作權與相關權利，仍屬各原權利人所有。
 
-「張鈺聆 製」係指本站之建置、教學整合、介面設計、
-功能擴充與後續維護，不表示其中所有教材內容、
-第三方素材或早期參考之設計概念均為本人原創。
+「張鈺聆 製」係指本站之建置、教學整合、介面設計、功能擴充與後續維護，
+不表示其中所有教材內容、第三方素材或早期參考之設計概念均為本人原創。
 ============================================================
+--><title>鈺見台語｜遇見台語，發現語言的趣味</title><meta name="description" content="鈺見台語，從課文點讀、台羅拼音到趣味挑戰，陪你一步一步探索台語。"><link rel="icon" type="image/png" href="assets/favicon.png"><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800&family=Noto+Serif+TC:wght@500;600;700&display=swap" rel="stylesheet"><style>
+:root{--forest:#254e47;--ink:#263b37;--muted:#6a7771;--cream:#faf8f2;--terracotta:#bd754e;--line:#e4e5dd}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--cream);color:var(--ink);font-family:'Noto Sans TC',sans-serif}a{color:inherit;text-decoration:none}.wrap{max-width:1140px;margin:auto;padding:0 28px}header{background:rgba(250,248,242,.96);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10;backdrop-filter:blur(12px)}.nav{min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:24px}.brand{display:flex;align-items:center;gap:13px;font-family:'Noto Serif TC',serif;font-weight:700;font-size:23px;white-space:nowrap;color:var(--forest)}.brand-logo{width:218px;max-width:100%;height:auto;display:block}.brand-icon{width:38px;height:38px;border-radius:12px;background:#e7eee5;display:grid;place-items:center;font-size:22px}nav{display:flex;gap:24px;font-size:14px;color:#50635d}nav a:hover,.card-links a:hover{color:var(--terracotta)}.hero{padding:86px 0 75px;overflow:hidden}.hero-inner{display:grid;grid-template-columns:1.13fr .87fr;align-items:center;gap:55px}.eyebrow{letter-spacing:.23em;font-size:12px;color:#a16a4d;font-weight:700}h1{font:700 clamp(54px,6vw,88px)/1.3 'Noto Serif TC',serif;letter-spacing:.06em;color:var(--forest);margin:18px 0 15px}.tagline{font:600 clamp(19px,2.1vw,26px)/1.7 'Noto Serif TC',serif;color:#885b42;margin:0 0 18px}.intro{line-height:2;color:var(--muted);font-size:16px;margin-bottom:30px}.cta{display:inline-flex;gap:22px;align-items:center;background:var(--forest);color:white;padding:15px 27px;border-radius:40px;font-weight:700}.cta:hover{background:#397365}.hero-art{min-height:350px;position:relative;display:grid;place-items:center}.art-disc{width:min(100%,410px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 25%,#f5f0df,#e4eee6 70%);position:absolute}.art-disc:after{content:'';position:absolute;inset:24px;border:1px solid rgba(53,95,76,.16);border-radius:50%}.art-leaf{position:absolute;font-size:34px;color:#87a88b}.art-leaf.a{left:6%;top:16%}.art-leaf.b{right:9%;bottom:17%}.art-caption{position:absolute;bottom:5px;right:15px;color:#8c998b;font-size:12px;letter-spacing:.1em}.mascot{max-width:68%;max-height:300px;object-fit:contain;z-index:1;filter:drop-shadow(0 16px 18px rgba(40,65,49,.1))}.section-title{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:25px}.section-title h2{font:700 29px 'Noto Serif TC',serif;color:var(--forest);margin:0 0 7px}.section-title p{color:var(--muted);margin:0;font-size:14px}.learning-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.learning-card{background:white;border:1px solid #e8e7df;border-radius:20px;padding:27px 30px;position:relative;overflow:hidden;box-shadow:0 8px 30px rgba(42,67,53,.035)}.learning-card:before{content:'';position:absolute;right:-50px;top:-80px;width:200px;height:200px;border-radius:50%;background:var(--tint)}.card-top{display:flex;align-items:center;justify-content:space-between;position:relative}.index{font-size:11px;letter-spacing:.16em;color:#8b948e}.mini-symbol{font-size:29px;color:#819c8c}.learning-card h3{position:relative;font:700 25px 'Noto Serif TC',serif;color:var(--forest);margin:16px 0 6px}.learning-card p{position:relative;color:var(--muted);font-size:14px;margin:0 0 23px}.card-links{position:relative;display:flex;flex-wrap:wrap;gap:9px}.card-links a{border:1px solid #dfe6df;background:#fff;border-radius:30px;padding:9px 13px;font-size:13px}.card-links span{font-size:12px;margin-left:6px}.quote{margin:75px auto 60px;padding:40px 25px;text-align:center;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.quote p{font:600 23px/1.8 'Noto Serif TC',serif;color:var(--forest);margin:0 0 10px}.quote small{color:var(--muted)}footer{padding:25px 0 40px;text-align:center;font-size:12px;color:#7b857f}.notice{background:#f0ede3;color:#746b57;text-align:center;padding:8px;font-size:12px}@media(max-width:780px){nav{display:none}.nav{min-height:66px}.hero{padding:45px 0 35px}.hero-inner{grid-template-columns:1fr;gap:18px}.hero-art{min-height:230px;order:-1}.art-disc{width:230px}.mascot{max-height:210px}.hero-copy{text-align:center}h1{font-size:54px}.intro{font-size:14px}.learning-grid{grid-template-columns:1fr}.section-title h2{font-size:25px}.quote{margin:40px auto}.wrap{padding:0 20px}}
 
-本檔案為網站唯一正式首頁（部署根路徑 /）。
-首頁.dc.html 已改為舊連結相容轉接頁，請勿在該檔維護首頁內容。
-============================================================
--->
-</head>
-
-<body>
-<x-dc>
-<helmet>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;800;900&display=swap" rel="stylesheet">
-<style>
-:root{
-  --ink:#15344b; --paper:#fbf8f2; --green:#245e55; --green2:#dcece5;
-  --orange:#f57d27; --gold:#f4a83c; --blue:#e1f0f8; --mint:#e0f1e8;
-  --peach:#fff0e4; --purple:#eee6fb; --line:#e7ded3;
-  --shadow:0 12px 30px rgba(65,54,43,.10);
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0}
-a{color:inherit;text-decoration:none}
-.site-shell{
-  min-height:100vh;font-family:'Noto Sans TC',sans-serif;color:var(--ink);
-  background:
-    radial-gradient(circle at 8% 6%,rgba(243,188,111,.16),transparent 22%),
-    radial-gradient(circle at 93% 14%,rgba(117,190,219,.12),transparent 24%),
-    var(--paper);
-}
-.topbar{position:sticky;top:0;z-index:20;background:rgba(251,248,242,.93);backdrop-filter:blur(14px);border-bottom:1px solid rgba(221,210,195,.8)}
-.topbar-inner{max-width:1240px;margin:auto;min-height:72px;padding:10px 24px;display:flex;align-items:center;justify-content:space-between;gap:18px}
-.brand{display:flex;align-items:center;gap:12px}
-.brand img{width:58px;height:58px;object-fit:contain}
-.brand-name{font-size:24px;font-weight:900;letter-spacing:.04em}
-.brand-sub{margin-top:3px;font-size:11px;font-weight:800;letter-spacing:.16em;color:#698093}
-.main-nav{display:flex;gap:8px;flex-wrap:wrap}
-.main-nav a{padding:10px 13px;border-radius:999px;font-size:13px;font-weight:800;color:#3f5a6d}
-.main-nav a:hover{background:#fff}
-
-.hero-wrap{max-width:1240px;margin:auto;padding:24px 24px 14px}
-.hero{min-height:300px;display:grid;grid-template-columns:minmax(0,1.08fr) minmax(330px,.92fr);overflow:hidden;border:1px solid #eadfce;border-radius:30px;box-shadow:var(--shadow);background:linear-gradient(110deg,rgba(255,250,240,.98) 0 53%,rgba(225,241,239,.93) 53% 100%)}
-.hero-copy{padding:42px 46px;display:flex;flex-direction:column;justify-content:center}
-.eyebrow{display:inline-flex;width:max-content;padding:7px 11px;border-radius:999px;background:#fff4dd;color:#9a6417;font-size:12px;font-weight:900;letter-spacing:.12em}
-.hero h1{margin:15px 0 7px;font-size:clamp(34px,4.6vw,52px);line-height:1.05;font-weight:900;color:#123b4f}
-.hero-kicker{margin:0;font-size:clamp(19px,2.2vw,26px);font-weight:900;color:#244f63}
-.hero-sub{margin:12px 0 0;color:#617482;font-size:14.5px;line-height:1.8;font-weight:700}
-.quick{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}
-.quick a{padding:10px 14px;border-radius:999px;background:#fff;border:1px solid #e8ded0;font-size:13px;font-weight:900;color:#28566a;box-shadow:0 5px 12px rgba(73,69,61,.06)}
-.hero-note{margin-top:11px;font-size:12px;color:#8a968e;font-weight:700}
-
-.hero-visual{position:relative;min-height:300px;padding:30px;overflow:hidden;background:linear-gradient(180deg,rgba(25,79,70,.88),rgba(36,91,78,.92)),linear-gradient(135deg,#d6eee8,#95c5ba)}
-.hero-visual:before{content:"";position:absolute;inset:0;background:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:28px 28px;opacity:.42}
-.chalk{position:relative;z-index:1;width:min(360px,100%);margin-left:auto;color:#f8f1df;font-size:clamp(23px,2.8vw,35px);line-height:1.45;letter-spacing:.08em;font-weight:500;transform:rotate(-1.5deg)}
-.chalk strong{display:block;font-size:1.15em;font-weight:800}
-.chalk-line{margin-top:12px;width:170px;height:4px;border-radius:999px;background:#f2bf53}
-.desk-scene{position:absolute;left:28px;right:26px;bottom:18px;display:flex;align-items:flex-end;justify-content:space-between;gap:18px;z-index:1}
-.mascot-stage{width:144px;height:144px;border-radius:30px;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;box-shadow:0 14px 28px rgba(10,46,40,.18);transform:rotate(-2deg)}
-.mascot-stage img{width:120px;height:120px;object-fit:contain}
-.note-card{max-width:186px;padding:15px 16px;border-radius:6px 6px 14px 14px;background:#f7e6ae;color:#254a4d;font-weight:900;line-height:1.65;transform:rotate(3deg);box-shadow:0 10px 18px rgba(12,46,41,.13)}
-
-.content{max-width:1240px;margin:auto;padding:7px 24px 52px}
-.learning-map{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin:20px 0 13px}
-.learning-map h2{margin:0;font-size:clamp(22px,2.6vw,27px);font-weight:900;color:#153f55}
-.learning-map p{margin:5px 0 0;font-size:13.5px;color:#7d8b94;font-weight:700}
-
-.section{margin-top:30px}
-.section-title{display:flex;align-items:center;gap:10px;margin-bottom:12px}
-.section-no{padding:6px 9px;border-radius:9px;background:#dcece5;color:#245e55;font-size:11px;font-weight:900;letter-spacing:.08em}
-.section-title h3{margin:0;font-size:20px;font-weight:900;color:#153f55}
-.section-title span{font-size:12.5px;color:#839097;font-weight:700}
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
-.card{min-height:165px;padding:20px;border-radius:21px;background:rgba(255,253,248,.96);border:1px solid var(--line);box-shadow:0 6px 18px rgba(66,57,47,.05);display:flex;flex-direction:column;transition:.16s ease}
-.card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
-.card.feature{grid-column:span 2;background:linear-gradient(135deg,#fffdf8,#eef7f2)}
-.icon{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:23px;margin-bottom:14px;background:#fff4dd}
-.card.blue .icon{background:var(--blue)}
-.card.mint .icon{background:var(--mint)}
-.card.peach .icon{background:var(--peach)}
-.card.purple .icon{background:var(--purple)}
-.card h4{margin:0 0 6px;font-size:18px;font-weight:900;color:#214b5e}
-.card p{margin:0 0 15px;color:#71818a;font-size:13px;line-height:1.65;font-weight:650}
-.go{margin-top:auto;font-size:13px;font-weight:900;color:#2a6659}
-.card.orange .go{color:#c45e20}
-
-.teacher-card{margin-top:34px;padding:22px 25px;border-radius:24px;background:linear-gradient(180deg,#274f48,#315f56);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:18px;box-shadow:var(--shadow)}
-.teacher-card small{font-size:11px;font-weight:900;letter-spacing:.12em;color:#bfd6d0}
-.teacher-card h3{margin:4px 0 5px;font-size:19px}
-.teacher-card p{margin:0;font-size:12.5px;color:#dce9e5;font-weight:700}
-.teacher-link{flex:0 0 auto;padding:13px 18px;border-radius:13px;background:#fff;color:#285249;font-size:13px;font-weight:900}
-
-footer{max-width:1240px;margin:auto;padding:18px 24px 44px;border-top:1px solid #e6ded2;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;color:#8a918f;font-size:12.5px;line-height:1.8}
-.credit strong{color:#596462}
-
-@media(max-width:1050px){
- .main-nav{display:none}.hero{grid-template-columns:1fr .78fr}.grid{grid-template-columns:repeat(2,1fr)}.card.feature{grid-column:span 2}
-}
-@media(max-width:780px){
- .topbar-inner{min-height:64px;padding:8px 16px}.brand img{width:48px;height:48px}.brand-name{font-size:20px}
- .hero-wrap,.content,footer{padding-left:16px;padding-right:16px}.hero{grid-template-columns:1fr}.hero-copy{padding:31px 24px 27px}
- .hero-visual{min-height:225px}.mascot-stage{width:110px;height:110px}.mascot-stage img{width:90px;height:90px}
- .learning-map{align-items:flex-start;flex-direction:column}
-}
-@media(max-width:560px){
- .brand-sub{display:none}.hero-visual{min-height:200px;padding:22px}.chalk{font-size:21px}
- .grid{grid-template-columns:1fr}.card.feature{grid-column:span 1}.teacher-card{align-items:flex-start;flex-direction:column}.teacher-link{width:100%;text-align:center}
-}
-</style>
-</helmet>
-
-<div class="site-shell">
-  <div class="topbar">
-    <div class="topbar-inner">
-      <a class="brand" href="./">
-        <img src="images/mascot.png" alt="鈺聆的台語課">
-        <div>
-          <div class="brand-name">鈺聆的台語課</div>
-          <div class="brand-sub">TÂI-GÍ 學習基地</div>
-        </div>
-      </a>
-      <nav class="main-nav" aria-label="主要導覽">
-        <a href="./">⌂ 首頁</a>
-        <a href="#text">📖 課文學習</a>
-        <a href="#challenge">✦ 練功挑戰</a>
-        <a href="#tailo">🔤 台羅練功</a>
-        <a href="#teacher">🧰 教師專區</a>
-      </nav>
-    </div>
-  </div>
-
-  <div class="hero-wrap">
-    <section class="hero">
-      <div class="hero-copy">
-        <div class="eyebrow">TÂI-GÍ LEARNING BASE</div>
-        <h1>鈺聆的台語課</h1>
-        <p class="hero-kicker">今仔日，欲對佗位開始？</p>
-        <p class="hero-sub">讀課文、練語詞、學台羅，抑是來挑戰？照你今仔日欲學的直接入去。</p>
-        <div class="quick">
-          <a href="#text">📖 我要讀課文</a>
-          <a href="#challenge">🎮 我要來挑戰</a>
-          <a href="#tailo">🔤 我要練台羅</a>
-        </div>
-        <div class="hero-note">毋免照順序，對你需要的所在開始就好。</div>
-      </div>
-      <div class="hero-visual" aria-hidden="true">
-        <div class="chalk"><strong>台語，</strong>是一種<br>看見家鄉的方式<div class="chalk-line"></div></div>
-        <div class="desk-scene">
-          <div class="mascot-stage"><img src="images/mascot.png" alt=""></div>
-          <div class="note-card">學台語<br>嘛會當真趣味！</div>
-        </div>
-      </div>
-    </section>
-  </div>
-
-  <main class="content">
-    <div class="learning-map">
-      <div><h2>今仔日，你想欲學啥物？</h2><p>照學習目的分區，毋免佇一大堆功能內底揣。</p></div>
-    </div>
-
-    <section class="section" id="text">
-      <div class="section-title"><b class="section-no">01</b><h3>課文學習</h3><span>先聽、先讀、看懂課文</span></div>
-      <div class="grid">
-        <a class="card blue feature" href="台語點讀.dc.html"><div class="icon">🎧</div><h4>咱來讀課文</h4><p>揀你的課本，聽課文、看語詞、學台羅。</p><div class="go">開始讀課文 →</div></a>
-        <a class="card mint" href="咱來讀生份字.dc.html"><div class="icon">📚</div><h4>課文解碼站</h4><p>把課文裡較生份的字詞抓出來，先熟悉再讀。</p><div class="go">開始學習 →</div></a>
-        <a class="card peach" href="華台雙語翻譯.dc.html"><div class="icon">↔️</div><h4>華台雙語翻課</h4><p>華語與台語互相對照，練習真正會使用的表達。</p><div class="go">進入翻課 →</div></a>
-      </div>
-    </section>
-
-    <section class="section" id="challenge">
-      <div class="section-title"><b class="section-no">02</b><h3>練功挑戰</h3><span>學過矣，就來試看覓</span></div>
-      <div class="grid">
-        <a class="card mint feature" href="形音義挑戰.dc.html"><div class="icon">⚔️</div><h4>形音義挑戰</h4><p>從字形、字音到詞義，把課文語詞真正練熟。</p><div class="go">進入形音義挑戰 →</div></a>
-        <a class="card blue" href="語境填空.dc.html"><div class="icon">🧩</div><h4>語境判讀所</h4><p>把語詞放回句子裡，從語境判斷正確用法。</p><div class="go">開始挑戰 →</div></a>
-        <a class="card peach orange" href="咱來鬥句.dc.html"><div class="icon">🃏</div><h4>台語組句任務</h4><p>抽詞、組句、加料，把學會的詞真正講出來。</p><div class="go">開始鬥句 →</div></a>
-        <a class="card purple" href="台語挑戰區.dc.html"><div class="icon">🏆</div><h4>台語挑戰區</h4><p>把學過的能力攏總拿出來，進入綜合任務挑戰。</p><div class="go">進入挑戰 →</div></a>
-      </div>
-    </section>
-
-    <section class="section" id="tailo">
-      <div class="section-title"><b class="section-no">03</b><h3>台羅練功</h3><span>看、聽、拼，慢慢練到熟</span></div>
-      <div class="grid">
-        <a class="card blue feature" href="羅馬字發音.dc.html"><div class="icon">🔤</div><h4>台羅練功房</h4><p>從羅馬字發音、拼音系統到組合練習，建立台羅基本功。</p><div class="go">進入台羅練功房 →</div></a>
-        <a class="card mint" href="聽聲辨拼音.dc.html"><div class="icon">🎧</div><h4>聽聲辨拼音</h4><p>聽聲音、辨拼音，從單元音一路闖到聲母＋複元音。</p><div class="go">開始練功 →</div></a>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="section-title"><b class="section-no">04</b><h3>主題互動學習</h3><span>台語嘛會當用佇生活</span></div>
-      <div class="grid">
-        <a class="card peach feature" href="主題互動學習.dc.html"><div class="icon">🌱</div><h4>主題任務島</h4><p>用生活主題、任務與互動活動學台語，適合課堂延伸與自主探索。</p><div class="go">看所有主題 →</div></a>
-      </div>
-    </section>
-
-    <section id="teacher" class="teacher-card">
-      <div><small>TEACHER ZONE</small><h3>👩‍🏫 教師專區・教學百寶箱</h3><p>學生名單、抽獎、分組、計分、計時、抽籤等課堂工具。</p></div>
-      <a class="teacher-link" href="教學百寶箱.dc.html">進入教師工具 →</a>
-    </section>
-  </main>
-
-  <footer>
-    <div class="credit"><strong>張鈺聆 製</strong>｜鈺聆的台語課</div>
-    <div>持續新增練習內容中，敬請期待。</div>
-  </footer>
-</div>
-</x-dc>
-</body>
-</html>
+/* V3: illustration and matching logo typography */
+.accent{color:#D58B5A}
+.hero-inner{grid-template-columns: .92fr 1.08fr;gap:24px}
+.hero-art{min-height:410px;overflow:visible}
+.hero-illustration{display:block;width:100%;max-width:670px;height:auto;object-fit:contain;filter:drop-shadow(0 10px 16px rgba(52,73,57,.035))}
+.art-caption{right:8%;bottom:3%;font-family:'Noto Serif TC',serif;color:#8a684e}
+.brand-logo{width:235px}
+h1{letter-spacing:.04em}
+@media(max-width:780px){.hero-inner{grid-template-columns:1fr}.hero-art{min-height:0;order:-1}.hero-illustration{width:100%;max-width:430px}.brand-logo{width:190px}.art-caption{bottom:0;right:5%}}
+.cta{white-space:nowrap;flex-shrink:0}</style></head><body><header><div class="wrap nav"><a class="brand" href="index.html"><img src="assets/logo-horizontal.svg" alt="鈺見台語" class="brand-logo"></a><nav><a href="#learning">探索學習</a><a href="#section-01">課文學習</a><a href="#section-03">台羅拼音</a><a href="#section-02">趣味挑戰</a><a href="#section-04">更多資源</a></nav></div></header><main><div class="wrap"><section class="hero"><div class="hero-inner"><div class="hero-copy"><div class="eyebrow">YU JIAN · TÂI-GÍ</div><h1>鈺見<span class="accent">台</span>語</h1><p class="tagline">遇見台語，發現語言的趣味。</p><p class="intro">從聽懂一句話、認識一個字開始，<br>在自己的步調裡，慢慢練出台語力。</p><a class="cta" href="#learning">開始探索 <span>↗</span></a></div><div class="hero-art"><img class="hero-illustration" src="images/hero-reading.png" alt="女孩和狗狗一起閱讀台語書籍的插畫"><span class="art-caption">聽有 · 學會 · 講出來</span></div></div></section><section id="learning"><div class="section-title"><div><h2>從這裡，開始探索</h2><p>選一個你喜歡的方向，讓學習自然發生。</p></div></div><div class="learning-grid"><section class="learning-card" id="section-01" style="--tint:#E7EEE5"><div class="card-top"><span class="index">01 / LEARN</span><span class="mini-symbol">✦</span></div><h3>課文學習</h3><p>先聽，再讀，慢慢熟悉台語的聲音。</p><div class="card-links"><a href="台語點讀.dc.html">咱來讀課文 <span aria-hidden="true">↗</span></a><a href="咱來讀生份字.dc.html">課文解碼站 <span aria-hidden="true">↗</span></a><a href="華台雙語翻譯.dc.html">華台雙語翻課 <span aria-hidden="true">↗</span></a></div></section><section class="learning-card" id="section-02" style="--tint:#F9EBDD"><div class="card-top"><span class="index">02 / LEARN</span><span class="mini-symbol">◇</span></div><h3>趣味挑戰</h3><p>把學過的詞，變成自己會用的台語。</p><div class="card-links"><a href="形音義挑戰.dc.html">形音義挑戰 <span aria-hidden="true">↗</span></a><a href="語境填空.dc.html">語境判讀所 <span aria-hidden="true">↗</span></a><a href="咱來鬥句.dc.html">台語組句任務 <span aria-hidden="true">↗</span></a><a href="台語挑戰區.dc.html">台語挑戰區 <span aria-hidden="true">↗</span></a></div></section><section class="learning-card" id="section-03" style="--tint:#E5EFF3"><div class="card-top"><span class="index">03 / LEARN</span><span class="mini-symbol">◌</span></div><h3>台羅拼音</h3><p>從聽聲到辨音，練出自己的拼音力。</p><div class="card-links"><a href="羅馬字發音.dc.html">台羅練功房 <span aria-hidden="true">↗</span></a><a href="聽聲辨拼音.dc.html">聽聲辨拼音 <span aria-hidden="true">↗</span></a></div></section><section class="learning-card" id="section-04" style="--tint:#EEE9F3"><div class="card-top"><span class="index">04 / LEARN</span><span class="mini-symbol">❋</span></div><h3>更多探索</h3><p>讓台語走進生活，也走進教室。</p><div class="card-links"><a href="主題互動學習.dc.html">主題任務島 <span aria-hidden="true">↗</span></a><a href="教學百寶箱.dc.html">教學百寶箱 <span aria-hidden="true">↗</span></a></div></section></div></section><section class="quote"><p>一個音、一個字，<br>慢慢遇見更豐富的台語世界。</p><small>鈺見台語 · 讓語言走進生活</small></section></div></main><footer>鈺見台語｜桃園市立大竹國中・張鈺聆老師</footer><script src="./support.js"></script><script src="./author-credit.js"></script></body></html>

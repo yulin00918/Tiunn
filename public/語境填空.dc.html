@@ -329,7 +329,7 @@ class Component extends DCLogic {
       crumb: crumbs[s.view] || crumbs.home,
       backBtnStyle: `border:2px solid #e2e6e0;background:#fff;color:#33423d;padding:11px 18px;border-radius:999px;min-height:46px;cursor:pointer;font-family:inherit;font-size:15px;font-weight:800;transition:.16s;visibility:${s.view === 'home' ? 'hidden' : 'visible'};`,
       goBack: () => this.goBack(),
-      goLife: () => this.go('life'), goTextbook: () => this.go('textbook'),
+      goLife: () => { window.location.href = '生活語境/index.html'; }, goTextbook: () => this.go('textbook'),
       lifeTopics: LIFE_TOPICS.map(([icon, name, desc, badge]) => ({
         icon, name, desc, badge: badge || '規劃中',
         style: `background:${badge ? '#fdfbf7' : 'rgba(255,255,255,.5)'};border:2px ${badge ? 'solid' : 'dashed'} ${badge ? '#eae2d6' : '#ddd6ca'};border-radius:20px;padding:22px;text-align:center;`,

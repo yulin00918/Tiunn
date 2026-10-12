@@ -230,7 +230,18 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 const SIANN_GROUPS_DEF = [["雙唇音", [["p","八","pat",48],["ph","皮","phî",1852],["m","毋","m̄",809],["b","文","bûn",796]]], ["舌尖音", [["t","刀","to",50],["th","天","thinn",784],["n","年","nî",2288],["l","人","lâng",46]]], ["舌根音", [["k","工","kang",199],["kh","口","kháu",183],["ng","黃","n̂g",9224],["g","牛","gû",1218]]], ["舌尖前音", [["ts","子","tsú",192],["tsh","千","tshian",180],["s","三","sann",163]]], ["喉音／零聲母", [["h","下","hā",168],["j",null,null,null],["（無）","伊","i",2047]]]];
-const UN_GROUPS_DEF = [["1. 單母音", ["a","e","i","o","oo","u"]], ["2. 複母音", ["ai","au","ia","iu","io","iau","ua","ue","ui","uai"]], ["3. 鼻化元音(單元音)", ["ann","enn","inn","onn"]], ["3. 鼻化元音(複元音)", ["ainn","aunn","iann","iaunn","iunn","uann","uainn","uinn"]], ["4. 聲化韻母", ["m","ng"]], ["4. 聲化韻母(入聲)", ["mh","ngh"]], ["5. 鼻音韻尾 -m", ["am","im","om","iam"]], ["5. 鼻音韻尾 -n", ["an","in","un","ian","uan"]], ["5. 鼻音韻尾 -ng", ["ang","ing","ong","iang","uang","iong"]], ["6. 入聲韻尾 -p", ["ap","ip","op","iap"]], ["6. 入聲韻尾 -t", ["at","it","ut","iat","uat"]], ["6. 入聲韻尾 -k", ["ak","ik","ok","iak","iok"]], ["6. 入聲韻尾 -h", ["ah","eh","ih","oh","ooh","uh","iah","ioh","iuh","uah","ueh","aih","auh","iauh","uih"]], ["6. 入聲韻尾 -h(鼻化入聲)", ["annh","ennh","onnh","aunnh","iannh","uainnh"]]];
+const UN_GROUPS_DEF = [
+  ['1.單母音', ['a','e','i','o','oo','u']],
+  ['2.複母音', ['ai','au','ia','iu','io','iau','ua','ue','ui','uai']],
+  ['3.鼻化(單)', ['ann','enn','inn','onn']],
+  ['4.鼻化(複)', ['ainn','aunn','iann','iaunn','iunn','uann','uainn','uinn']],
+  ['5.聲化韻母', ['m','ng']],
+  ['6.鼻音韻母', ['am','im','om','iam','an','in','un','ian','uan','ang','ing','ong','iang','iong','uang']],
+  ['7.入聲-p', ['ap','ip','op','iap']],
+  ['8.入聲-t', ['at','it','ut','iat','uat']],
+  ['9.入聲-k', ['ak','ik','ok','iak','iok']],
+  ['10.入聲-h', ['ah','eh','ih','oh','uh','iah','ioh','iuh','uah','ueh','aih','auh','iauh','uih']],
+];
 const TONE_SETS_DEF = [
   { name: "君滾棍骨群滾郡滑", tones: [
     {num:1,hanji:"君",tailo:"kun",id:2954},{num:2,hanji:"滾",tailo:"kún",id:10567},{num:3,hanji:"棍",tailo:"kùn",id:null},
@@ -255,6 +266,18 @@ const TAB_DEFS = [
 ];
 function playId(id) { new Audio(`audio/${id}.mp3`).play().catch(()=>{}); }
 function playUrl(url) { new Audio(url).play().catch(()=>{}); }
+const CUSTOM_UN_AUDIO = {
+  'enn': 'audio/un_enn.wav',
+  'ainn': 'audio/un_ainn.mp3',
+  'aunn': 'audio/un_aunn.mp3',
+  'uinn': 'audio/un_uinn.mp3',
+  'ann': 'audio/ann.mp3', 'auh': 'audio/auh.mp3', 'ia': 'audio/ia.mp3', 'iak': 'audio/iak.mp3',
+  'iann': 'audio/iann.mp3', 'iauh': 'audio/iauh.mp3', 'ih': 'audio/ih.mp3', 'inn': 'audio/inn.mp3',
+  'iong': 'audio/iong.mp3', 'ip': 'audio/ip.mp3', 'iuh': 'audio/iuh.mp3', 'iunn': 'audio/iunn.mp3',
+  'm': 'audio/m.mp3', 'o': 'audio/o.mp3', 'ong': 'audio/ong.mp3', 'op': 'audio/op.mp3',
+  'u': 'audio/u.mp3', 'ua': 'audio/ua.mp3', 'uainn': 'audio/uainn.mp3', 'ueh': 'audio/ueh.mp3',
+  'uh': 'audio/uh.mp3', 'uih': 'audio/uih.mp3',
+};
 const UN_EXAMPLES = {
   'a':[4496,'阿'],'e':[5959,'挨'],'i':[2047,'伊'],'o':[7814,'蚵'],'oo':[6227,'烏'],'u':[4498,'雨'],
   'ai':[4778,'哀'],'au':[10607,'漚'],'ia':[8003,'野'],'iu':[11051,'憂'],'io':[174,'么'],'iau':[3048,'妖'],
@@ -270,7 +293,7 @@ const UN_EXAMPLES = {
   'ah':[3943,'押'],'eh':[778,'厄'],'oh':[10375,'僫'],'iah':[9483,'搤'],'ioh':[12296,'臆'],
   'uah':[5166,'活'],'aih':[11604,'噯'],
 };
-const CUSTOM_SIANN_AUDIO = { 'p':'audio/siann_p.mp3', 'ph':'audio/siann_ph.mp3', 'm':'audio/siann_m.mp3', 'b':'audio/siann_b.mp3', 't':'audio/siann_t.mp3', 'th':'audio/siann_th.mp3', 'g':'audio/siann_g.mp3', 'h':'audio/siann_h.mp3', 'ng':'audio/siann_ng_v2.mp3', 'kh':'audio/siann_kh.mp3', 'k':'audio/siann_k.mp3', 'l':'audio/siann_l.mp3', 'n':'audio/siann_n.mp3', 'j':'audio/siann_j.mp3', 's':'audio/siann_s.mp3', 'tsh':'audio/siann_tsh.mp3', 'ts':'audio/siann_ts.mp3' };
+const CUSTOM_SIANN_AUDIO = { 'p':'audio/siann_p.mp3', 'ph':'audio/siann_ph.mp3', 'm':'audio/siann_m.mp3', 'b':'audio/siann_b_v2.mp3', 't':'audio/siann_t.mp3', 'th':'audio/siann_th.mp3', 'g':'audio/siann_g.mp3', 'h':'audio/siann_h.mp3', 'ng':'audio/siann_ng_v2.mp3', 'kh':'audio/siann_kh.mp3', 'k':'audio/siann_k.mp3', 'l':'audio/siann_l.mp3', 'n':'audio/siann_n.mp3', 'j':'audio/siann_j.mp3', 's':'audio/siann_s.mp3', 'tsh':'audio/siann_tsh.mp3', 'ts':'audio/siann_ts.mp3' };
 
 class Component extends DCLogic {
   state = { activeTab: 0 };
@@ -301,10 +324,11 @@ class Component extends DCLogic {
       label,
       items: list.map(u => {
         const ex = UN_EXAMPLES[u];
+        const customUrl = CUSTOM_UN_AUDIO[u];
         return {
           label: u,
-          hasAudio: !!ex,
-          onPlay: ex ? (e) => { e.stopPropagation(); playId(ex[0]); } : null,
+          hasAudio: !!(customUrl || ex),
+          onPlay: (customUrl || ex) ? (e) => { e.stopPropagation(); if (customUrl) playUrl(customUrl); else playId(ex[0]); } : null,
         };
       }),
     }));

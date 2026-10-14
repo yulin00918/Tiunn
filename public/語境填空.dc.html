@@ -102,12 +102,7 @@ Copyright © 張鈺聆. All rights reserved.
             <p style="margin:0;color:#6c7d74;line-height:1.8;font-size:14.5px;flex-grow:1;">依出版社、冊次、課次進入正式語境練習。</p>
             <span style="display:inline-flex;align-items:center;justify-content:center;gap:7px;margin-top:18px;min-height:50px;border-radius:999px;background:#f57d27;color:#fff;font-size:15.5px;font-weight:900;padding:13px 20px;">選擇課本 →</span>
           </article>
-          <a class="lc-click" href="zhenping-challenge/index.html" style="background:linear-gradient(150deg,#f3faf6,#e6f3ec);border:2px solid #cfe6d8;border-radius:22px;padding:26px;box-shadow:0 8px 20px rgba(45,60,53,.07);cursor:pointer;display:flex;flex-direction:column;color:inherit;text-decoration:none;">
-            <div style="font-size:46px;line-height:1;">📗</div>
-            <h2 style="font-size:clamp(23px,3.2vw,28px);margin:12px 0 8px;font-weight:900;">真平課文挑戰</h2>
-            <p style="margin:0;color:#6c7d74;line-height:1.8;font-size:14.5px;flex-grow:1;">真平第二～四冊，共 20 單元、500 題。</p>
-            <span style="display:inline-flex;align-items:center;justify-content:center;gap:7px;margin-top:18px;min-height:50px;border-radius:999px;background:#3f8b6a;color:#fff;font-size:15.5px;font-weight:900;padding:13px 20px;">選擇冊別 →</span>
-          </a>
+          
         </div>
       </div>
     </sc-if>
@@ -246,7 +241,7 @@ const PUBLISHERS = {
     5: [{ no: '＋', title: '第五冊', desc: '尚未建立課文' }],
     6: [{ no: '＋', title: '第六冊', desc: '尚未建立課文' }],
   }},
-  zhenping: { icon: '📗', name: '真平', desc: '目前已建立第一冊、第二冊課程', title: '📗 真平', defaultBook: 1, books: {
+  zhenping: { icon: '📗', name: '真平', desc: '目前已建立第一冊至第四冊課程', title: '📗 真平', defaultBook: 1, books: {
     1: [
       { no: '01', title: '😄 第一課｜趣味的誤會', desc: '課文語詞・語境選詞・讀文理解・綜合挑戰', file: '真平_第一冊_第一課_趣味的誤會.html' },
       { no: '02', title: '🔥 第二課｜啥？閩南語嘛有「火星文」！', desc: '課文語詞・語境選詞・讀文理解・綜合挑戰', file: '真平_第一冊_第二課_火星文.html' },
@@ -258,17 +253,31 @@ const PUBLISHERS = {
       { no: '語二', title: '✨ 語文天地（二）｜形容詞', desc: '形容詞用法與語感練習', file: '真平_第一冊_語文天地二_形容詞.html' },
     ],
     2: [
-      { no: '01', title: '🎭 第一課｜布袋戲尪仔', desc: '課文語詞・語境選詞・讀文理解・綜合挑戰', file: '真平_第二冊_第一課_布袋戲尪仔.html' },
-      { no: '02', title: '🎪 第二課｜看戲真趣味', desc: '課文語詞・語境選詞・讀文理解・綜合挑戰', file: '真平_第二冊_第二課_看戲真趣味.html' },
-      { no: '03', title: '🏃 第三課｜運動身體好', desc: '課文語詞・語境選詞・讀文理解・綜合挑戰', file: '真平_第二冊_第三課_運動身體好.html' },
-      { no: '04', title: '🎨 第四課｜藝術展覽', desc: '課文語詞・語境選詞・讀文理解・綜合挑戰', file: '真平_第二冊_第四課_藝術展覽.html' },
-      { no: '05', title: '🏝️ 第五課｜臺灣好所在', desc: '課文語詞・語境選詞・讀文理解・綜合挑戰', file: '真平_第二冊_第五課_臺灣好所在.html' },
-      { no: '06', title: '🌊 第六課｜風聲水影日月潭', desc: '課文語詞・語境選詞・讀文理解・綜合挑戰', file: '真平_第二冊_第六課_風聲水影日月潭.html' },
-      { no: '語一', title: '🏃 語文天地（一）｜動詞', desc: '動詞用法與語感練習', file: '真平_第二冊_語文天地一_動詞.html' },
-      { no: '語二', title: '🔢 語文天地（二）｜量詞', desc: '量詞用法與語感練習', file: '真平_第二冊_語文天地二_量詞.html' },
+      { no: '01', title: '🎭 第一課｜布袋戲尪仔', desc: '課文語詞・語境選詞・讀文理解・綜合挑戰', file: '真平_第二冊_第1課_布袋戲尪仔.html', path: 'zhenping-challenge/B2/' },
+      { no: '02', title: '🎪 第二課｜看戲真趣味', desc: '課文語詞・語境選詞・讀文理解・綜合挑戰', file: '真平_第二冊_第2課_看戲真趣味.html', path: 'zhenping-challenge/B2/' },
+      { no: '03', title: '🏃 第三課｜運動身體好', desc: '課文語詞・語境選詞・讀文理解・綜合挑戰', file: '真平_第二冊_第3課_運動身體好.html', path: 'zhenping-challenge/B2/' },
+      { no: '04', title: '🎨 第四課｜藝術展覽', desc: '課文語詞・語境選詞・讀文理解・綜合挑戰', file: '真平_第二冊_第4課_藝術展覽.html', path: 'zhenping-challenge/B2/' },
+      { no: '05', title: '🏝️ 第五課｜臺灣好所在', desc: '課文語詞・語境選詞・讀文理解・綜合挑戰', file: '真平_第二冊_第5課_臺灣好所在.html', path: 'zhenping-challenge/B2/' },
+      { no: '06', title: '🌊 第六課｜風聲水影日月潭', desc: '課文語詞・語境選詞・讀文理解・綜合挑戰', file: '真平_第二冊_第6課_風聲水影日月潭.html', path: 'zhenping-challenge/B2/' },
+      { no: '語一', title: '🏃 語文天地（一）｜動詞', desc: '動詞用法與語感練習', file: '真平_第二冊_語文天地一.html', path: 'zhenping-challenge/B2/' },
+      { no: '語二', title: '🔢 語文天地（二）｜量詞', desc: '量詞用法與語感練習', file: '真平_第二冊_語文天地二.html', path: 'zhenping-challenge/B2/' },
     ],
-    3: [{ no: '＋', title: '第三冊', desc: '尚未建立課文' }],
-    4: [{ no: '＋', title: '第四冊', desc: '尚未建立課文' }],
+    3: [
+      { no: '01', title: '👩 第一課｜阿母的頭毛', desc: '課文語詞・語境選詞・讀文理解・綜合挑戰', file: '真平_第三冊_第1課_阿母的頭毛.html', path: 'zhenping-challenge/B3/' },
+      { no: '02', title: '📒 第二課｜阮阿媽專用的電話簿仔', desc: '課文語詞・語境選詞・讀文理解・綜合挑戰', file: '真平_第三冊_第2課_阮阿媽專用的電話簿仔.html', path: 'zhenping-challenge/B3/' },
+      { no: '03', title: '👴 第三課｜綴會著時代的老教授', desc: '課文語詞・語境選詞・讀文理解・綜合挑戰', file: '真平_第三冊_第3課_綴會著時代的老教授.html', path: 'zhenping-challenge/B3/' },
+      { no: '04', title: '🚀 第四課｜好奇號上火星', desc: '課文語詞・語境選詞・讀文理解・綜合挑戰', file: '真平_第三冊_第4課_好奇號上火星.html', path: 'zhenping-challenge/B3/' },
+      { no: '語一', title: '📖 語文天地（一）', desc: '課文語詞・語境選詞・讀文理解・綜合挑戰', file: 'B3Y1_語文天地一.html', path: 'zhenping-challenge/B3/' },
+      { no: '語二', title: '✨ 語文天地（二）', desc: '課文語詞・語境選詞・讀文理解・綜合挑戰', file: 'B3Y2_語文天地二.html', path: 'zhenping-challenge/B3/' },
+    ],
+    4: [
+      { no: '01', title: '🌸 第一課｜人生逐位會開花', desc: '課文語詞・語境選詞・讀文理解・綜合挑戰', file: '真平_第四冊_第1課_人生逐位會開花.html', path: 'zhenping-challenge/B4/' },
+      { no: '02', title: '🧠 第二課｜固定心態，沿路阻礙；成長心態，一生無礙', desc: '課文語詞・語境選詞・讀文理解・綜合挑戰', file: '真平_第四冊_第2課_固定心態，沿路阻礙；成長心態，一生無礙.html', path: 'zhenping-challenge/B4/' },
+      { no: '03', title: '✨ 第三課｜思念火金蛄', desc: '課文語詞・語境選詞・讀文理解・綜合挑戰', file: '真平_第四冊_第3課_思念火金蛄.html', path: 'zhenping-challenge/B4/' },
+      { no: '04', title: '🌊 第四課｜太平洋的風', desc: '課文語詞・語境選詞・讀文理解・綜合挑戰', file: '真平_第四冊_第4課_太平洋的風.html', path: 'zhenping-challenge/B4/' },
+      { no: '語一', title: '📖 語文天地（一）', desc: '課文語詞・語境選詞・讀文理解・綜合挑戰', file: 'B4Y1_語文天地一.html', path: 'zhenping-challenge/B4/' },
+      { no: '語二', title: '✨ 語文天地（二）', desc: '課文語詞・語境選詞・讀文理解・綜合挑戰', file: 'B4Y2_語文天地二.html', path: 'zhenping-challenge/B4/' },
+    ],
     5: [{ no: '＋', title: '第五冊', desc: '尚未建立課文' }],
     6: [{ no: '＋', title: '第六冊', desc: '尚未建立課文' }],
   }},
@@ -355,7 +364,7 @@ class Component extends DCLogic {
       }) : [],
       lessons: lessonRows.map(l => ({
         no: l.no, title: l.title, desc: l.desc,
-        hasLink: !!l.file, href: l.file ? BASE + l.file : '',
+        hasLink: !!l.file, href: l.file ? (l.path ? l.path + l.file : BASE + l.file) : '',
       })),
     };
   }

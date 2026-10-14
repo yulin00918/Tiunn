@@ -236,10 +236,7 @@ const PUBLISHERS = {
       { no: '03', title: '🎵 第三課｜拌拌咧', desc: '課文語詞・語境選詞・讀文理解・綜合挑戰', file: '康軒_第三冊_第三課_拌拌咧.html' },
       { no: '素一', title: '🌀 素養活動（一）｜防災智識那學那耍', desc: '颱風・地震・通關任務', file: '康軒_第三冊_素養活動一_防災智識那學那耍.html' },
       { no: '素二', title: '💭 素養活動（二）｜咱的心情咱的冊店', desc: '情緒辨識・調適・一句話表達心情', file: '康軒_第三冊_素養活動二_咱的心情咱的冊店.html' },
-    ],
-    4: [{ no: '＋', title: '第四冊', desc: '尚未建立課文' }],
-    5: [{ no: '＋', title: '第五冊', desc: '尚未建立課文' }],
-    6: [{ no: '＋', title: '第六冊', desc: '尚未建立課文' }],
+    ]
   }},
   zhenping: { icon: '📗', name: '真平', desc: '目前已建立第一冊至第四冊課程', title: '📗 真平', defaultBook: 1, books: {
     1: [
@@ -277,9 +274,7 @@ const PUBLISHERS = {
       { no: '04', title: '🌊 第四課｜太平洋的風', desc: '課文語詞・語境選詞・讀文理解・綜合挑戰', file: '真平_第四冊_第4課_太平洋的風.html', path: 'zhenping-challenge/B4/' },
       { no: '語一', title: '📖 語文天地（一）', desc: '課文語詞・語境選詞・讀文理解・綜合挑戰', file: 'B4Y1_語文天地一.html', path: 'zhenping-challenge/B4/' },
       { no: '語二', title: '✨ 語文天地（二）', desc: '課文語詞・語境選詞・讀文理解・綜合挑戰', file: 'B4Y2_語文天地二.html', path: 'zhenping-challenge/B4/' },
-    ],
-    5: [{ no: '＋', title: '第五冊', desc: '尚未建立課文' }],
-    6: [{ no: '＋', title: '第六冊', desc: '尚未建立課文' }],
+    ]
   }},
   yuda: { icon: '📕', name: '育達', desc: '目前已建立第一冊至第三冊課程', title: '📕 育達', defaultBook: 1, books: {
     1: [
@@ -299,10 +294,7 @@ const PUBLISHERS = {
       { no: '02', title: '🌧️ 第二課｜雨港基隆，魚鹽規布袋', desc: '現代詩・語詞・在地文化・故鄉詩', file: '育達_第三冊_第二課_雨港基隆_魚鹽規布袋.html' },
       { no: '03', title: '🍰 第三課｜雞卵糕', desc: '課文語詞・家庭情感・記持的滋味', file: '育達_第三冊_第三課_雞卵糕.html' },
       { no: '04', title: '🔥 第四課｜炕窯', desc: '課文語詞・閱讀理解・炕窯流程', file: '育達_第三冊_第四課_炕窯.html' },
-    ],
-    4: [{ no: '＋', title: '第四冊', desc: '尚未建立課文' }],
-    5: [{ no: '＋', title: '第五冊', desc: '尚未建立課文' }],
-    6: [{ no: '＋', title: '第六冊', desc: '尚未建立課文' }],
+    ]
   }},
 };
 
@@ -354,7 +346,7 @@ class Component extends DCLogic {
         icon: p.icon, name: p.name, desc: p.desc, onClick: () => this.openPublisher(key),
       })),
       pubTitle: pub ? pub.title : '',
-      bookPills: pub ? [1, 2, 3, 4, 5, 6].map(n => {
+      bookPills: pub ? Object.keys(pub.books).map(Number).sort((x, y) => x - y).map(n => {
         const active = n === s.book;
         return {
           label: `第${['一','二','三','四','五','六'][n - 1]}冊`,

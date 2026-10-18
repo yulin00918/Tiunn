@@ -149,6 +149,35 @@ select{width:100%;min-height:50px;padding:12px;border:2px solid #e4dccf;border-r
   .steps{grid-template-columns:1fr}
 }
 
+
+/* 鈺見台語｜形音義挑戰 V2：溫暖活潑版（僅視覺覆寫） */
+:root{--navy:#254E47;--ink:#263B37;--cream:#FAF8F2;--paper:#fff;--orange:#E88B4A;--green:#278777;--gold:#F4C65D;--muted:#6A7771;--line:#E4E5DD;--peach:#FFE4C7}
+body{background:radial-gradient(circle at 7% 9%,rgba(244,198,93,.23),transparent 26%),radial-gradient(circle at 95% 17%,rgba(85,169,156,.17),transparent 28%),var(--cream)}
+.top{background:linear-gradient(110deg,#254E47,#316E62 78%,#37877B);border-bottom:4px solid #F4C65D}
+.topIn .home{color:#fff;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.22)}
+.topIn p{color:#E7F2E9}
+.taskBand{background:linear-gradient(105deg,#FFF1D4 0%,#FFE1CA 51%,#DDF1E9 100%);border-bottom:1px solid #F1D5B4}
+.bubble{border-color:#F4C990;box-shadow:0 6px 16px rgba(160,103,50,.10)}
+.bubble .todayTag{color:#B15F2A}.bubble .todayTxt{color:#594936}
+.card{border:1px solid #E8E6D9;box-shadow:0 12px 32px rgba(38,78,71,.10)}
+.hero .badge,.missionTag{background:#E0F2EC;color:#236B60;border:1px solid #B9DED1}
+.hero h2,.stepTitle,.prompt{color:#254E47}.hero p,.tiny,.stepHint,.bossNote{color:#66766D}
+.stepBlock{border-top-color:#E8DAC6}.stepNo{background:#E88B4A;color:#fff}
+.label,.triCol h4{color:#456C65}select{border-color:#D8E3D8}select:focus-visible{outline:3px solid #F4C65D;outline-offset:2px}
+.notice{background:#FFF3D8;border-color:#F4DDA7;color:#755832}
+.chip{background:#FFFCF4;border-color:#E7DCC9;color:#385A53}.chip.active{background:#278777;border-color:#278777;color:white}
+.step{background:#F4FAF5;border-color:#D7E8DE}.step:nth-child(3n+2){background:#FFF5E5;border-color:#F3DFB9}.step:nth-child(3n){background:#ECF8F4;border-color:#CBE9DD}
+.stepName{color:#365F56}.step.boss{background:linear-gradient(140deg,#FFF0B9,#FFE0AD);border:2px solid #F0BB60}.step.boss .stepName{color:#89551C}.bossFlag{background:#E88B4A}
+.primary{background:linear-gradient(110deg,#E88B4A,#DA753B);color:white;box-shadow:0 9px 20px rgba(215,110,49,.25)}
+.secondary{background:#fff;color:#254E47;border-color:#B6CFC3}
+.quizHead{color:#365F56}.progress,.meter{background:#E8E8D9}.bar,.meter i{background:linear-gradient(90deg,#55A99C,#F4C65D)}
+.audioBtn{background:#254E47;box-shadow:0 8px 18px rgba(37,78,71,.23)}
+.opt,.triItem{background:#FFFEFA;border-color:#DBE4D9;color:#263B37}.opt.correct,.triItem.done{background:#E3F5E9;border-color:#278777;color:#176452}.opt.wrong{background:#FDEBE4;border-color:#CF8166;color:#9A462E}
+.triItem.sel{background:#FFF1D7;border-color:#E88B4A;box-shadow:0 4px 12px rgba(232,139,74,.18)}
+.feedback{background:#F0F8F3;border-color:#D4E7DA;color:#315D50}.score{color:#278777}
+.wrongItem{background:#FFFCF4;border-color:#E6E1D4}.footerNote,.pageFoot{color:#77847C}
+@media(hover:hover){.primary:not(:disabled):hover{box-shadow:0 12px 24px rgba(215,110,49,.31)}.chip:hover,.opt:hover,.triItem:not(.done):hover{border-color:#55A99C}.secondary:hover{border-color:#55A99C}}
+@media(prefers-reduced-motion:reduce){.primary,.opt,.triItem,.bar{transition:none}}
 </style>
 <script src="./taigi-vocab-lessons.js"></script>
 <script src="./taigi-vocab-data.js"></script>

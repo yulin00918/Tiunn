@@ -60,20 +60,45 @@
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap;">
         <span style="flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:30px;padding:0 11px;border-radius:999px;background:#6b5b95;color:#fff;font-size:12.5px;font-weight:900;white-space:nowrap;">課文點讀</span>
         <span style="font-size:12.5px;color:#8a968e;font-weight:700;line-height:1.5;">全詩 {{segCount}} 節・{{lineCount}} 行</span>
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-left:auto;"><span style="display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:800;color:#2f7d4a;white-space:nowrap;"><span style="width:10px;height:10px;border-radius:3px;background:#2f7d4a;"></span>本調</span><span style="display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:800;color:#2b6cb0;white-space:nowrap;"><span style="width:10px;height:10px;border-radius:3px;background:#2b6cb0;"></span>一般變調</span><span style="display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:800;color:#d9731f;white-space:nowrap;"><span style="width:10px;height:10px;border-radius:3px;background:#d9731f;"></span>再變調</span><span style="display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:800;color:#7b4fb0;white-space:nowrap;"><span style="width:10px;height:10px;border-radius:3px;background:#7b4fb0;"></span>仔前變調</span><span style="display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:800;color:#8a8f94;white-space:nowrap;"><span style="width:10px;height:10px;border-radius:3px;background:#8a8f94;"></span>輕聲</span><button style="{{romBtnStyle}}" onClick="{{toggleRom}}">拼音</button><button style="{{toneBtnStyle}}" onClick="{{toggleTone}}">調號與顏色</button></div>
       </div>
 
       <sc-for list="{{segments}}" as="seg" hint-placeholder-count="4">
-        <article class="po-stanza" style="{{seg.style}}" onClick="{{seg.onClick}}">
+        <article class="po-stanza" style="{{seg.style}}" onClick="{{seg.artClick}}">
           <div style="display:flex;align-items:center;gap:9px;margin-bottom:14px;">
-            <span style="flex:0 0 auto;width:28px;height:28px;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:900;background:{{seg.numBg}};color:{{seg.numColor}};">{{seg.num}}</span>
+            <span onClick="{{seg.badgeClick}}" style="flex:0 0 auto;width:28px;height:28px;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:900;cursor:pointer;background:{{seg.numBg}};color:{{seg.numColor}};">{{seg.num}}</span>
             <span style="font-size:12.5px;font-weight:800;color:#9d97a8;">{{seg.hint}}</span>
           </div>
+          <sc-if value="{{!annot}}">
           <sc-for list="{{seg.lines}}" as="line" hint-placeholder-count="4">
             <div style="display:flex;align-items:baseline;gap:12px;padding:3px 0;">
               <span style="flex:0 0 auto;width:16px;text-align:right;font-size:11px;font-weight:800;color:#c3bcd2;user-select:none;">{{line.n}}</span>
               <p style="margin:0;flex:1;min-width:0;font-size:clamp(17.5px,2.3vw,19.5px);line-height:1.95;letter-spacing:.03em;"><sc-for list="{{line.tokens}}" as="tok" hint-placeholder-count="0"><sc-if value="{{tok.isImage}}"><img src="images/peh.jpg" alt="𬦰" onClick="{{tok.onClick}}" style="{{tok.imgStyle}}"></sc-if><sc-if value="{{tok.isVocab}}"><span style="{{tok.style}}" onClick="{{tok.onClick}}">{{tok.text}}</span></sc-if><sc-if value="{{tok.isPlain}}"><span>{{tok.text}}</span></sc-if></sc-for></p>
             </div>
           </sc-for>
+          </sc-if>
+          <sc-if value="{{annot}}">
+          <sc-for list="{{seg.aLines}}" as="line" hint-placeholder-count="0">
+            <div style="display:flex;align-items:flex-end;gap:12px;padding:4px 0;">
+              <span style="flex:0 0 auto;width:16px;text-align:right;font-size:11px;font-weight:800;color:#c3bcd2;user-select:none;padding-bottom:18px;">{{line.n}}</span>
+              <div style="flex:1;min-width:0;display:flex;flex-wrap:wrap;align-items:flex-end;row-gap:8px;line-height:1.2;"><sc-for list="{{line.items}}" as="it" hint-placeholder-count="0"><sc-if value="{{it.isText}}"><span style="font-size:19px;padding:0 1px 16px;">{{it.text}}</span></sc-if><sc-if value="{{it.isGroup}}"><span style="{{it.groupStyle}}"><sc-for list="{{it.chars}}" as="c" hint-placeholder-count="0"><span style="{{c.boxStyle}}" onClick="{{c.onClick}}"><span style="{{c.romStyle}}">{{c.rom}}</span><sc-if value="{{c.isImg}}"><img src="images/peh.jpg" alt="𬦰" style="{{c.imgStyle}}"></sc-if><sc-if value="{{!c.isImg}}"><span style="{{c.hanStyle}}">{{c.han}}</span></sc-if><span style="{{c.toneStyle}}">{{c.tone}}</span></span></sc-for></span></sc-if></sc-for></div>
+            </div>
+          </sc-for>
+          <sc-if value="{{seg.hasCard}}">
+          <div onClick="{{stopProp}}" style="position:relative;margin-top:14px;padding:16px 18px;border-radius:16px;background:#fff;border:2px solid {{seg.card.color}};box-shadow:0 6px 16px rgba(45,55,70,.08);">
+            <button onClick="{{seg.closeCard}}" style="position:absolute;top:8px;right:10px;width:32px;height:32px;border:none;background:none;font-size:20px;color:#8a8f94;cursor:pointer;">×</button>
+            <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;padding-right:30px;">
+              <sc-if value="{{seg.card.isImg}}"><img src="images/peh.jpg" alt="𬦰" style="height:40px;vertical-align:middle;"></sc-if><sc-if value="{{!seg.card.isImg}}"><span style="font-size:40px;font-weight:900;line-height:1.1;color:{{seg.card.color}};">{{seg.card.han}}</span></sc-if>
+              <span style="font-size:18px;font-weight:800;color:#47565e;">{{seg.card.rom}}</span>
+              <span style="font-size:12.5px;font-weight:900;color:#fff;background:{{seg.card.color}};border-radius:999px;padding:4px 10px;">{{seg.card.typeLabel}}</span>
+            </div>
+            <div style="margin-top:8px;font-size:15px;font-weight:800;color:#2b3a45;">{{seg.card.toneLine}}</div>
+            <div style="margin-top:6px;font-size:14.5px;color:#47565e;line-height:1.7;">{{seg.card.note}}</div>
+            <sc-if value="{{seg.card.hasAlt}}"><div style="margin-top:6px;font-size:13.5px;color:#9aa5ab;line-height:1.7;">另讀：{{seg.card.alt}}</div></sc-if>
+            <sc-if value="{{seg.card.hasVocab}}"><button onClick="{{seg.card.openVocab}}" style="margin-top:12px;min-height:40px;border:2px solid #e8c88c;background:#fffaef;color:#845f36;border-radius:999px;padding:8px 16px;font-family:inherit;font-size:14px;font-weight:800;cursor:pointer;">看語詞解說</button></sc-if>
+          </div>
+          </sc-if>
+          </sc-if>
         </article>
       </sc-for>
     </section>
@@ -172,8 +197,12 @@ function tokenizeSegment(text) {
   return merged;
 }
 
+/* 變調標注資料（本課專用）。每節一個陣列，對應 SEGMENTS_DEF 同序；"<br>"＝換行。
+ * 字：[漢字, 台羅, 本調, 實際調(0=輕聲), 類型, 說明, 另讀]；本調 9＝外來語高升調 */
+const SANDHI_DEF = [[[["阿","a",1,7,"reg","第1調變第7調。"],["媽","má",2,2,"base","主語「阿媽」後面接副詞「上」，讀本調。"]],[["上","siōng",7,3,"reg","第7調變第3調。"],["愛","ài",3,2,"reg","第3調變第2調。"],["流","lâu",5,7,"reg","第5調變第7調。"],["目","ba̍k",8,4,"reg","-k 結尾的第8調，變第4調。"],["屎","sái",2,2,"base","詩行結尾稍停，讀本調。"]],"<br>",[["歡","huann",1,7,"reg","第1調變第7調。"],["喜","hí",2,2,"base","「歡喜」說完，後面接「也流」，讀本調。"]],[["也","iā",7,3,"reg","第7調變第3調。"],["流","lâu",5,5,"base","「歡喜也流」說完，後面接「艱苦也流」，讀本調。"]],[["艱","kan",1,7,"reg","第1調變第7調。"],["苦","khóo",2,2,"base","「艱苦」說完，後面接「也流」，讀本調。"]],[["也","iā",7,3,"reg","第7調變第3調。"],["流","lâu",5,5,"base","詩行結尾稍停，讀本調。"]],"<br>",[["看","khuànn",3,2,"reg","第3調變第2調。"],["著","tio̍h",8,3,"reg","-h 結尾的第8調，變第3調。"],["細","sè",3,2,"reg","第3調變第2調。"],["漢","hàn",3,3,"base","「的」前面讀本調。"]],[["的","ê",5,7,"reg","修飾後面的名詞，讀變調。"],["阮","gún",2,2,"base","「阮」是「跋倒」的主語，讀本調。"]],[["跋","pua̍h",8,3,"reg","-h 結尾的第8調，變第3調。"],["倒","tó",2,2,"base","詩行結尾稍停，讀本調。"]],"<br>",[["伊","i",1,1,"base","主語「伊」後面接副詞「也」，讀本調。"]],[["也","iā",7,3,"reg","第7調變第3調。"],["流","lâu",5,5,"base","句末讀本調。"]]],[[["阿","a",1,7,"reg","第1調變第7調。"],["媽","má",2,2,"base","「的」前面讀本調。"]],[["的","ê",5,7,"reg","修飾後面的名詞，讀變調。"],["目","ba̍k",8,4,"reg","-k 結尾的第8調，變第4調。"],["屎","sái",2,2,"base","詩行結尾稍停，讀本調。"]],"<br>",[["是","sī",7,3,"reg","第7調變第3調。"],["早","tsá",2,1,"reg","第2調變第1調。"],["起","khí",2,1,"reg","第2調變第1調。"],["時","sî",5,5,"base","時間詞「早起時」詞尾讀本調。"]],[["葉","hio̍h",8,7,"apre","「仔」前面的第8調變第7調（一般變調是變第3調）。"],["仔","á",2,1,"reg","「仔」不在這一組的最後，照一般規則第2調變第1調。"],["頂","tíng",2,2,"base","「的」前面讀本調。"]],[["的","ê",5,7,"reg","修飾後面的名詞，讀變調。"],["露","lōo",7,3,"reg","第7調變第3調。"],["水","tsuí",2,2,"base","詩行結尾稍停，讀本調。"]],"<br>",[["照","tsiàu",3,2,"reg","第3調變第2調。"],["顧","kòo",3,2,"reg","第3調變第2調。"],["著","tio̍h",8,3,"reg","-h 結尾的第8調，變第3調。"],["暗","àm",3,2,"reg","第3調變第2調。"],["時","sî",5,5,"base","「的」前面讀本調。"]],[["的","ê",5,7,"reg","修飾後面的名詞，讀變調。"],["阮","gún",2,2,"base","詩行結尾稍停，讀本調。"]],"<br>",[["疼","thiànn",3,2,"reg","第3調變第2調。"],["痛","thàng",3,2,"reg","第3調變第2調。"],["著","tio̍h",8,3,"reg","-h 結尾的第8調，變第3調。"],["青","tshenn",1,7,"reg","第1調變第7調。"],["葉","hio̍h",8,8,"base","「的」前面讀本調。"]],[["的","ê",5,7,"reg","修飾後面的名詞，讀變調。"],["孫","sun",1,1,"base","句末讀本調。"]]],[[["等","tán",2,1,"reg","第2調變第1調。"],["到","kàu",3,2,"reg","第3調變第2調。"],["日","ji̍t",8,4,"reg","-t 結尾的第8調，變第4調。"],["頭","thâu",5,5,"base","主語「日頭」後面接動詞「𬦰」，讀本調。"]],[["𬦰","peh",4,2,"reg","-h 結尾的第4調，變第2調。"],["上","tsiūnn",7,3,"reg","第7調變第3調。"],["山","suann",1,1,"base","詩行結尾稍停，讀本調。"]],"<br>",[["風","hong",1,1,"base","主語「風」後面接「微微」，讀本調。"]],[["微","bî",5,7,"reg","第5調變第7調。"],["微","bî",5,7,"reg","第5調變第7調。"],["吹","tshue",1,7,"reg","第1調變第7調。"],["著","tio̍h",8,3,"reg","-h 結尾的第8調，變第3調。"],["阮","gún",2,2,"base","逗號前讀本調。"]],"，",[["阮","gún",2,2,"base","主語「阮」後面接「歡歡喜喜」，讀本調。"]],[["歡","huann",1,7,"reg","第1調變第7調。"],["歡","huann",1,7,"reg","第1調變第7調。"],["喜","hí",2,1,"reg","第2調變第1調。"],["喜","hí",2,2,"base","詩行結尾稍停，讀本調。"]],"<br>",[["拍","phah",4,2,"reg","-h 結尾的第4調，變第2調。"],["散","suànn",3,2,"reg","第3調變第2調。"],["露","lōo",7,3,"reg","第7調變第3調。"],["水","tsuí",2,2,"base","「拍散露水」說完，後面接「輾入地」，讀本調。"]],[["輾","liàn",3,2,"reg","第3調變第2調。"],["入","ji̍p",8,4,"reg","-p 結尾的第8調，變第4調。"],["地","tē",7,7,"base","逗號前讀本調。"]],"，",[["煞","suah",4,2,"reg","-h 結尾的第4調，變第2調。"],["也","iā",7,3,"reg","第7調變第3調。"],["拍","phah",4,2,"reg","-h 結尾的第4調，變第2調。"],["散","suànn",3,3,"base","詩行結尾稍停，讀本調。","也可以連著下一行念，「散」讀變調（第3調變第2調）。"]],"<br>",[["阿","a",1,7,"reg","第1調變第7調。"],["媽","má",2,2,"base","「的」前面讀本調。"]],[["的","ê",5,7,"reg","修飾後面的名詞，讀變調。"],["目","ba̍k",8,4,"reg","-k 結尾的第8調，變第4調。"],["屎","sái",2,2,"base","句末讀本調。"]]],[[["後","āu",7,7,"pre","後面是輕聲，輕聲前一字讀本調。"],["來","lâi",5,0,"light","「--」後面的字讀輕聲。"]],[["就","tō",7,3,"reg","第7調變第3調。"],["無","bô",5,7,"reg","第5調變第7調。"],["閣","koh",4,1,"zai","虛詞「閣」再變調：-h 結尾的第4調不停在第2調，讀短平的第1調。"],["看","khuànn",3,2,"reg","第3調變第2調。"],["著","tio̍h",8,3,"reg","-h 結尾的第8調，變第3調。"],["阿","a",1,7,"reg","第1調變第7調。"],["媽","má",2,2,"base","詩行結尾稍停，讀本調。"]],"<br>",[["無","bô",5,7,"reg","第5調變第7調。"],["閣","koh",4,1,"zai","虛詞「閣」再變調：-h 結尾的第4調不停在第2調，讀短平的第1調。"],["看","khuànn",3,2,"reg","第3調變第2調。"],["著","tio̍h",8,3,"reg","-h 結尾的第8調，變第3調。"],["阿","a",1,7,"reg","第1調變第7調。"],["媽","má",2,2,"base","「的」前面讀本調。"]],[["的","ê",5,7,"reg","修飾後面的名詞，讀變調。"],["目","ba̍k",8,4,"reg","-k 結尾的第8調，變第4調。"],["屎","sái",2,2,"base","詩行結尾稍停，讀本調。"]],"<br>",[["彼","hit",4,8,"reg","-t 結尾的第4調，變第8調。"],["年","nî",5,5,"base","時間「彼年」詞尾讀本調。"]],[["大","tuā",7,3,"reg","第7調變第3調。"],["漢","hàn",3,3,"base","時間詞「大漢」詞尾讀本調。"]],[["去","khì",3,2,"reg","第3調變第2調。"],["培","puē",7,3,"reg","第7調變第3調。"],["墓","bōng",7,7,"base","逗號前讀本調。"]],"，",[["才","tsiah",4,2,"reg","「才」是 -h 結尾的第4調，照一般規則變第2調。"],["閣","koh",4,1,"zai","虛詞「閣」再變調：-h 結尾的第4調不停在第2調，讀短平的第1調。"],["看","khuànn",3,2,"reg","第3調變第2調。"],["著","tio̍h",8,8,"base","詩行結尾稍停，讀本調。"]],"<br>",[["阿","a",1,7,"reg","第1調變第7調。"],["媽","má",2,2,"base","「的」前面讀本調。"]],[["的","ê",5,7,"reg","修飾後面的名詞，讀變調。"],["目","ba̍k",8,4,"reg","-k 結尾的第8調，變第4調。"],["屎","sái",2,2,"base","停頓前讀本調。"]],"：",[["掛","kuà",3,3,"base","後面有破折號停頓，讀本調。"]],"—",[["墓","bōng",7,3,"reg","第7調變第3調。"],["牌","pâi",5,5,"base","句末讀本調。","課本漢字寫「掛—墓—牌」，網頁原文寫「掛—墓牌」，照網頁原文。"]]]];
+const SANDHI_TYPES = { base:['本調','#2f7d4a'], reg:['一般變調','#2b6cb0'], zai:['再變調','#d9731f'], apre:['仔前變調','#7b4fb0'], light:['輕聲','#8a8f94'], pre:['輕聲前讀本調','#2f7d4a'] };
 class Component extends DCLogic {
-  state = { current: 0, playing: false, continuous: false, progressPct: 0, status: '尚未播放', speed: 1, playingVocabIdx: null, popupIdx: null };
+  state = { current: 0, playing: false, continuous: false, progressPct: 0, status: '尚未播放', speed: 1, playingVocabIdx: null, popupIdx: null, showRom: false, showTone: false, sel: null };
   audioEl = Object.assign(new Audio(), { preload: 'none' });
 
   componentDidMount() {
@@ -212,6 +241,51 @@ class Component extends DCLogic {
   openPopup(idx) { this.setState({ popupIdx: idx }); }
   closePopup() { this.setState({ popupIdx: null }); }
 
+  sandhiFor(i, text, lineStart) {
+    const s = this.state;
+    const play = () => this.playSegment(i, false);
+    if (!(s.showRom || s.showTone)) return { artClick: play, badgeClick: null, aLines: [], hasCard: false, card: {} };
+    const orig = [];
+    for (const ln of text.split('\n')) for (const tok of tokenizeSegment(ln)) for (const ch of [...tok.text]) if (!/[\s\-]/.test(ch)) orig.push(tok.vocabIdx);
+    let pos = 0;
+    const adv = (t) => { const n = [...t].filter(ch => !/[\s\-]/.test(ch)).length; const v = orig[pos]; pos += n; return v; };
+    const aLines = [{ n: lineStart + 1, items: [] }];
+    (SANDHI_DEF[i] || []).forEach((x, g) => {
+      const line = aLines[aLines.length - 1];
+      if (x === '<br>') { aLines.push({ n: line.n + 1, items: [] }); return; }
+      if (typeof x === 'string') { adv(x); line.items.push({ isText: true, text: x }); return; }
+      line.items.push({ isGroup: true, groupStyle: 'display:inline-flex;flex-wrap:nowrap;gap:1px;margin:0 5px 0 0;padding-bottom:2px;border-bottom:1px solid #c9c2b6;', chars: x.map((c, k) => {
+        const [han, rom, tone, act, type] = c;
+        const vIdx = adv(han);
+        const color = (SANDHI_TYPES[type] || SANDHI_TYPES.base)[1];
+        const sel = s.sel && s.sel.i === i && s.sel.g === g && s.sel.k === k;
+        const isV = vIdx !== null && vIdx !== undefined;
+        return {
+          han, rom, isImg: han === '\u{2C9B0}', tone: act === 0 ? '輕' : (tone === act ? String(tone) : tone + '→' + act),
+          boxStyle: 'display:inline-flex;flex-direction:column;align-items:center;cursor:pointer;padding:2px 1px;border-radius:6px;' + (sel ? 'background:#fff0c9;box-shadow:0 0 0 2px #e8b84a;' : ''),
+          romStyle: 'font-size:11px;font-weight:700;color:#6b7a80;white-space:nowrap;visibility:' + (s.showRom ? 'visible' : 'hidden') + ';',
+          hanStyle: 'font-size:' + (type === 'light' && s.showTone ? '17px' : '20px') + ';font-weight:' + (isV ? '800;border-bottom:2px dotted #a794c9' : '500') + ';' + (s.showTone ? 'color:' + color + ';' : ''),
+          imgStyle: 'height:20px;display:block;' + (isV ? 'border-bottom:2px dotted #a794c9;' : ''),
+          toneStyle: 'font-size:11px;font-weight:800;white-space:nowrap;color:' + color + ';visibility:' + (s.showTone ? 'visible' : 'hidden') + ';',
+          onClick: (e) => { e.stopPropagation(); this.setState({ sel: { i, g, k, v: vIdx } }); },
+        };
+      }) });
+    });
+    let card = {}, hasCard = false;
+    if (s.sel && s.sel.i === i) {
+      const c = (SANDHI_DEF[i][s.sel.g] || [])[s.sel.k];
+      if (c) {
+        const [han, rom, tone, act, type, note, alt] = c;
+        const T = SANDHI_TYPES[type] || SANDHI_TYPES.base;
+        hasCard = true;
+        card = { han, rom, isImg: han === '\u{2C9B0}', note: note || '', alt: alt || '', hasAlt: !!alt, typeLabel: T[0], color: T[1],
+          toneLine: act === 0 ? '本調 第' + tone + '調 → 輕聲' : (tone === act ? '本調 第' + tone + '調・不變' : '本調 第' + tone + '調 → 實際 第' + act + '調'),
+          hasVocab: s.sel.v !== null && s.sel.v !== undefined,
+          openVocab: (e) => { e.stopPropagation(); this.openPopup(s.sel.v); } };
+      }
+    }
+    return { artClick: null, badgeClick: (e) => { e.stopPropagation(); play(); }, aLines, hasCard, card, closeCard: (e) => { e.stopPropagation(); this.setState({ sel: null }); } };
+  }
   renderVals() {
     const s = this.state;
     let lineNo = 0;
@@ -244,6 +318,7 @@ class Component extends DCLogic {
         numBg: active ? '#6b5b95' : '#ece7f6', numColor: active ? '#fff' : '#6b5b95',
         style: `display:block;width:100%;padding:20px 20px 18px;border-radius:18px;cursor:pointer;margin-bottom:14px;border:1px solid ${active ? '#c5b9de' : '#f0edf6'};background:${active ? '#faf7ff' : '#fdfcff'};`,
         onClick: () => this.playSegment(i, false),
+        ...this.sandhiFor(i, text, lineNo - text.split('\n').length),
       };
     });
 
@@ -260,6 +335,12 @@ class Component extends DCLogic {
     })() : {};
 
     return {
+      annot: s.showRom || s.showTone,
+      toggleRom: () => this.setState({ showRom: !s.showRom }),
+      toggleTone: () => this.setState({ showTone: !s.showTone }),
+      romBtnStyle: 'min-height:36px;border-radius:999px;padding:6px 14px;font-family:inherit;font-size:13px;font-weight:900;cursor:pointer;white-space:nowrap;border:2px solid ' + (s.showRom ? '#2f7d4a' : '#e1ebef') + ';background:' + (s.showRom ? '#2f7d4a' : '#fff') + ';color:' + (s.showRom ? '#fff' : '#47565e') + ';',
+      toneBtnStyle: 'min-height:36px;border-radius:999px;padding:6px 14px;font-family:inherit;font-size:13px;font-weight:900;cursor:pointer;white-space:nowrap;border:2px solid ' + (s.showTone ? '#2f7d4a' : '#e1ebef') + ';background:' + (s.showTone ? '#2f7d4a' : '#fff') + ';color:' + (s.showTone ? '#fff' : '#47565e') + ';',
+      stopProp: (e) => e.stopPropagation(),
       segCount: SEGMENTS_DEF.length,
       lineCount: SEGMENTS_DEF.reduce((n, t) => n + t.split('\n').length, 0),
       vocabCount: VOCAB_DEF.length,

@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
 <!--
   ============================================================
-  台語聲調大挑戰（獅虎豹鱉＋東黨棟督）— 第二版
+  台語聲調大挑戰（獅虎豹鱉＋東黨棟督）— 第三版
   ------------------------------------------------------------
   【加入真人錄音】
   把音檔放在同一個資料夾（例如 audio/），再把路徑填進下方 AUDIO 物件。
@@ -173,6 +173,7 @@ const AUDIO = {
   pa:M+'/media/senn/mp3/imtong/subak/6/6669.mp3',
   pih:M+'/media/senn/mp3/imtong/subak/13/13254.mp3',
   kau:M+'/media/senn/mp3/imtong/subak/8/8571.mp3',
+  kau2:M+'/media/senn/mp3/imtong/subak/4/4329.mp3',
   tshiunn:M+'/media/senn/mp3/imtong/subak/9/9033.mp3',
   lok:M+'/media/senn/mp3/imtong/subak/8/8086.mp3',
   tong1:M+'/media/senn/mp3/imtong/subak/4/4188.mp3',
@@ -225,14 +226,14 @@ const tc = t => `var(--t${t})`;
 const SETS = {
   animal:{
     label:'獅虎豹鱉', hint:'點動物卡片，聽聲音、看調型',
-    six:'大部分腔口的第 6 調已經和第 2 調合併，所以口訣裡重複了「虎」。',
+    six:'大部分腔口的第 6 調已經和第 2 調合併，所以口訣用第 2 調的「狗 káu」來代表，唸起來和「虎 hóo」同一個調。',
     items:[
       {id:'sai',     han:'獅', lo:'sai',     tone:1, emo:'🦁'},
       {id:'hoo',     han:'虎', lo:'hóo',     tone:2, emo:'🐯'},
       {id:'pa',      han:'豹', lo:'pà',      tone:3, emo:'🐆'},
       {id:'pih',     han:'鱉', lo:'pih',     tone:4, emo:'🐢'},
       {id:'kau',     han:'猴', lo:'kâu',     tone:5, emo:'🐒'},
-      {id:'hoo',     han:'虎', lo:'hóo',     tone:6, as:2, emo:'🐯'},
+      {id:'kau2',    han:'狗', lo:'káu',     tone:6, as:2, emo:'🐶'},
       {id:'tshiunn', han:'象', lo:'tshiūnn', tone:7, emo:'🐘'},
       {id:'lok',     han:'鹿', lo:'lo̍k',     tone:8, emo:'🦌'}
     ]},

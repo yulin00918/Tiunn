@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>形音義挑戰｜詞語偵探 V2.1 共用詞庫正式版</title>
+<style>
+:root{--navy:#24355f;--ink:#25324a;--cream:#fff8ed;--paper:#fffdf8;--peach:#ffc69f;--orange:#f58f67;--green:#5ca47b;--red:#c75b5b;--gold:#e7b657;--muted:#8b877f;--line:#eadfce}
+*{box-sizing:border-box}body{margin:0;font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;color:var(--ink);background:linear-gradient(135deg,#ffe7c9,#ffbd95 55%,#ff9f7c);min-height:100vh}.top{background:var(--navy);color:#fff;padding:18px 20px;text-align:center;box-shadow:0 2px 8px #0001}.top h1{margin:0;font-size:clamp(22px,4vw,34px);letter-spacing:.08em}.top p{margin:5px 0 0;opacity:.75;font-size:13px}.wrap{width:min(980px,calc(100% - 28px));margin:22px auto 60px}.card{background:#fffaf2;border:1px solid #ffffff99;border-radius:24px;box-shadow:0 6px 18px #8d4d2a18;padding:22px}.hidden{display:none!important}.hero{text-align:center;padding:12px 0 18px}.hero .badge{display:inline-flex;align-items:center;gap:8px;background:#fff;border-radius:999px;padding:8px 14px;font-weight:800;color:var(--navy);box-shadow:0 2px 8px #0000000d}.hero h2{font-size:clamp(28px,6vw,46px);margin:14px 0 4px}.hero p{margin:0;color:#776f67}.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0}.step{background:#fff;border:1px solid var(--line);border-radius:16px;padding:10px;text-align:center;font-size:13px}.field{margin:18px 0}.label{font-weight:900;margin-bottom:9px}.chips{display:flex;gap:9px;flex-wrap:wrap}.chip{border:1px solid #d8d4cb;background:#fff;border-radius:999px;padding:10px 15px;font-weight:800;color:var(--ink);cursor:pointer;touch-action:manipulation}.chip.active{background:var(--navy);color:#fff;border-color:var(--navy)}select{width:100%;padding:13px 14px;border:1px solid #d8d4cb;border-radius:14px;background:#fff;font:inherit;color:var(--ink)}.primary,.secondary{border:0;border-radius:15px;padding:13px 18px;font:inherit;font-weight:900;cursor:pointer;touch-action:manipulation}.primary{background:var(--green);color:#fff}.secondary{background:#fff;color:var(--navy);border:1px solid #d8d4cb}.primary:disabled{opacity:.45;cursor:not-allowed}.actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}.quizHead{display:flex;justify-content:space-between;gap:12px;align-items:center}.progress{height:10px;background:#eee5d8;border-radius:999px;overflow:hidden;margin:14px 0 20px}.bar{height:100%;background:var(--green);width:0}.mission{text-align:center}.missionTag{display:inline-block;background:var(--navy);color:#fff;border-radius:999px;padding:7px 12px;font-size:13px;font-weight:900}.prompt{font-size:clamp(26px,6vw,44px);font-weight:900;margin:20px 0 6px;line-height:1.35}.subprompt{color:#777;margin-bottom:18px}.audioBtn{width:96px;height:96px;font-size:36px;border:0;border-radius:50%;background:#fff;touch-action:manipulation;box-shadow:0 4px 10px #0001;font-size:36px;cursor:pointer;margin:8px auto 18px}.options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.opt{min-height:70px;border:2px solid transparent;background:#fff;border-radius:18px;padding:14px;font:inherit;font-weight:800;color:var(--ink);cursor:pointer;box-shadow:0 2px 8px #0000000d;line-height:1.4;touch-action:manipulation}.opt:hover{}.opt.correct{border-color:var(--green);background:#eef9f2}.opt.wrong{border-color:var(--red);background:#fff0f0}.feedback{min-height:62px;margin-top:16px;padding:13px 15px;border-radius:16px;background:#ffffff99;text-align:left}.feedback strong{display:block;margin-bottom:4px}.triGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:left}.triCol{background:#fff;border-radius:16px;padding:12px}.triCol h4{margin:0 0 10px;text-align:center}.triItem{display:block;width:100%;margin:7px 0;border:1px solid #ddd;background:#fff;border-radius:12px;padding:10px;cursor:pointer;font:inherit}.triItem.sel{outline:3px solid #9bb5ff}.triItem.done{opacity:.35}.report{text-align:center}.score{font-size:56px;font-weight:900;color:var(--navy);margin:10px}.meters{display:grid;gap:12px;text-align:left;margin:22px auto;max-width:560px}.meterRow{display:grid;grid-template-columns:100px 1fr 54px;gap:10px;align-items:center}.meter{height:12px;background:#eee5d8;border-radius:999px;overflow:hidden}.meter>i{display:block;height:100%;background:var(--green)}.wrongList{text-align:left;margin-top:22px}.wrongItem{background:#fff;border-radius:14px;padding:12px;margin:8px 0}.tiny{font-size:12px;color:#81786f}.notice{background:#fff3d9;border-radius:14px;padding:10px 12px;font-size:13px;margin:12px 0}.truefalse{grid-template-columns:1fr 1fr}.tf{font-size:22px}.footerNote{text-align:center;color:#765f53;font-size:12px;margin-top:14px}@media(max-width:650px){body{background:#ffbd95}.card{contain:layout paint}.wrap{width:min(100% - 18px,980px);margin-top:12px}.card{padding:16px;border-radius:20px}.steps{grid-template-columns:repeat(2,1fr)}.options{grid-template-columns:1fr}.triGrid{grid-template-columns:1fr}.meterRow{grid-template-columns:88px 1fr 44px}.top{padding-top:max(16px,env(safe-area-inset-top))}}
+</style>
+<script src="./taigi-vocab-lessons.js"></script>
+<script src="./taigi-vocab-data.js"></script>
+</head><body>
+<header class="top"><h1>🕵️ 形音義挑戰</h1><p>詞語偵探｜課文形音義挑戰</p></header>
+<main class="wrap"><a href="home.dc.html" style="display:inline-block;margin:0 0 14px;color:#24355f;font-weight:800;text-decoration:none;">← 回首頁</a>
+<section id="selectScreen" class="card">
+<div class="hero"><span class="badge">🔎 今日任務：破解課文詞語</span><h2>詞語偵探</h2><p>毋免死背形、音、義，用線索揣出正確答案。</p></div>
+<div class="steps"><div class="step">👂 聽聲揣字</div><div class="step">🔎 拼音解碼</div><div class="step">💭 詞義偵探</div><div class="step">🧩 線索合體</div></div>
+<div class="field"><div class="label">① 選版本</div><select id="edition"></select></div>
+<div class="field"><div class="label">② 選冊別</div><select id="book"></select></div>
+<div class="field"><div class="label">③ 選課次</div><select id="lesson"></select></div>
+<div class="field"><div class="label">④ 挑戰量</div><div class="chips" id="amounts"><button class="chip active" data-n="8">8 題</button><button class="chip" data-n="15">15 題</button><button class="chip" data-n="all">全部</button></div></div>
+<div id="lessonInfo" class="notice"></div>
+<div class="actions"><button id="startBtn" class="primary">開始破解 →</button></div>
+</section>
+<section id="quizScreen" class="card hidden">
+<div class="quizHead"><button id="quitBtn" class="secondary">← 返回選課</button><div><b id="qCount">1 / 8</b>　<span id="scoreNow">0 分</span></div></div>
+<div class="progress"><div id="bar" class="bar"></div></div>
+<div class="mission"><span id="missionTag" class="missionTag"></span><div id="questionArea"></div><div id="feedback" class="feedback hidden"></div><div class="actions"><button id="nextBtn" class="primary hidden">下一題 →</button></div></div>
+</section>
+<section id="reportScreen" class="card hidden report">
+<div class="hero"><span class="badge">🕵️ 詞語偵探報告</span><h2 id="reportTitle">任務完成！</h2></div><div id="scoreBig" class="score"></div><div id="reportSub"></div><div id="meters" class="meters"></div><div id="wrongList" class="wrongList"></div><div class="actions"><button id="retryWrong" class="primary">🔁 錯題再挑戰</button><button id="replay" class="secondary">同課再玩</button><button id="backSelect" class="secondary">重新選課</button></div>
+</section>
+<div class="footerNote">V1.1 流暢版：共用「咱來讀生份字」詞庫；已減少動畫與重繪，音檔共用單一播放器。</div>
+</main>
+<script>
+const { GROUPS_DEF } = window.TAIGI_VOCAB;
+const $=s=>document.querySelector(s); const $$=s=>[...document.querySelectorAll(s)];
+let amount=8, pool=[], questions=[], qi=0, score=0, locked=false, wrong=[], stats={shape:[0,0],sound:[0,0],meaning:[0,0]}, retryMode=false;
+const typeDefs={audioShape:['👂 聽聲揣字','sound','聽看覓，這是佗一个詞？'],shapeSound:['🔎 拼音解碼','shape','看字形，揣出正確的台羅拼音。'],shapeMeaning:['💭 詞義偵探','meaning','這个詞是啥物意思？'],audioMeaning:['🎧 聽音揣意思','sound','聽讀音，揣出伊的意思。'],trueFalse:['⚡ 真假偵探','combo','這組線索敢著？'],triple:['🧩 三線索合體','combo','共字形、讀音、意思配做伙。']};
+function shuffle(a){const r=[...a];for(let i=r.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[r[i],r[j]]=[r[j],r[i]]}return r} const audioPlayer=new Audio(); audioPlayer.preload='auto'; let audioToken=0; function esc(s){return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function playable(w){return !!w.audio}
+function initSelect(){edition.innerHTML=GROUPS_DEF.map((g,i)=>`<option value="${i}">${g.label}</option>`).join(''); updateBooks()}
+function updateBooks(){let g=GROUPS_DEF[+edition.value];book.innerHTML=g.cards.map((b,i)=>`<option value="${i}">${b.title}</option>`).join('');updateLessons()}
+function updateLessons(){let g=GROUPS_DEF[+edition.value],b=g.cards[+book.value];lesson.innerHTML=b.rows.map((r,i)=>`<option value="${i}" ${!r.words?'disabled':''}>${r.label}${r.words?'':'（尚未建立）'}</option>`).join(''); if(!b.rows[lesson.selectedIndex]?.words){let idx=b.rows.findIndex(r=>r.words); if(idx>=0) lesson.selectedIndex=idx} updateInfo()}
+function getRow(){let g=GROUPS_DEF[+edition.value],b=g.cards[+book.value];return b.rows[+lesson.value]}
+function updateInfo(){let r=getRow(); lessonInfo.textContent=r?.words?`${r.subtitle}｜目前 ${r.words.length} 個詞語｜有音檔 ${r.words.filter(playable).length} 個`:'這一課尚未建立詞庫。';startBtn.disabled=!r?.words}
+edition.onchange=updateBooks;book.onchange=updateLessons;lesson.onchange=updateInfo; $$('#amounts .chip').forEach(b=>b.onclick=()=>{$$('#amounts .chip').forEach(x=>x.classList.remove('active'));b.classList.add('active');amount=b.dataset.n==='all'?'all':+b.dataset.n});
+function makeQuestions(words){
+  let selected=amount==='all'?shuffle(words):shuffle(words).slice(0,Math.min(amount,words.length));
+  const normalTypes=['audioShape','shapeSound','shapeMeaning','audioMeaning','trueFalse'];
+  let qs=selected.map((w,i)=>({w,type:normalTypes[i%normalTypes.length]}));
+
+  // 音檔題遇著無音檔的詞，優先交換題型；無法交換時改成不需音檔的題型。
+  const audioTypes=new Set(['audioShape','audioMeaning']);
+  for(let i=0;i<qs.length;i++){
+    if(audioTypes.has(qs[i].type)&&!playable(qs[i].w)){
+      let j=qs.findIndex((cand,k)=>k>i&&playable(cand.w)&&!audioTypes.has(cand.type));
+      if(j>=0){
+        const t=qs[i].type; qs[i].type=qs[j].type; qs[j].type=t;
+      }else{
+        qs[i].type=(i%2)?'shapeSound':'shapeMeaning';
+      }
+    }
+  }
+
+  // 正式版：最後一題固定改為三線索 Boss 關。
+  if(qs.length) qs[qs.length-1].type='triple';
+  return qs;
+}
+function show(screen){audioPlayer.pause();['selectScreen','quizScreen','reportScreen'].forEach(id=>$('#'+id).classList.toggle('hidden',id!==screen))}
+startBtn.onclick=()=>{pool=getRow().words;questions=makeQuestions(pool);retryMode=false;begin()};
+function begin(){qi=0;score=0;wrong=[];stats={shape:[0,0],sound:[0,0],meaning:[0,0],combo:[0,0]};show('quizScreen');renderQ()}
+function choices(correct,key,count=4){let others=shuffle(pool.filter(x=>x!==correct && x[key] && x[key]!==correct[key])).slice(0,count-1);return shuffle([correct,...others])}
+function audioShapeChoices(correct,count=4){
+  const first=s=>String(s||'').replace(/[áàâāéèêēíìîīóòôōúùûūńǹḿm̄ÁÀÂĀÉÈÊĒÍÌÎĪÓÒÔŌÚÙÛŪŃǸ]/g,'').split(/[-–—\s/]+/)[0].slice(0,2);
+  const syl=s=>String(s||'').split(/[-–—\s/]+/).filter(Boolean).length;
+  const targetSyl=syl(correct.tailo), targetHead=first(correct.tailo);
+  let candidates=pool.filter(x=>x!==correct&&x.hanji&&x.tailo);
+  candidates.sort((a,b)=>{
+    const sa=(syl(a.tailo)===targetSyl?3:0)+(first(a.tailo)===targetHead?2:0)+(Math.abs(String(a.hanji).length-String(correct.hanji).length)<=1?1:0);
+    const sb=(syl(b.tailo)===targetSyl?3:0)+(first(b.tailo)===targetHead?2:0)+(Math.abs(String(b.hanji).length-String(correct.hanji).length)<=1?1:0);
+    return sb-sa||Math.random()-.5;
+  });
+  return shuffle([correct,...candidates.slice(0,count-1)]);
+}
+function splitReadings(t){
+  return String(t||'').split(/\s*\/\s*/).map(x=>x.trim()).filter(Boolean);
+}
+function plainTailo(s){
+  return String(s||'')
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .toLowerCase().replace(/--/g,'-').replace(/\s+/g,'-');
+}
+function tailoUnits(s){
+  return plainTailo(s).split(/[-/]+/).filter(Boolean);
+}
+function phoneticScore(a,b){
+  const ar=splitReadings(a.tailo)[0]||a.tailo, br=splitReadings(b.tailo)[0]||b.tailo;
+  const au=tailoUnits(ar), bu=tailoUnits(br);
+  let score=0;
+  if(au.length===bu.length) score+=5;
+  if(au[0]&&bu[0]&&au[0][0]===bu[0][0]) score+=2;
+  if(au[0]&&bu[0]&&au[0].slice(0,2)===bu[0].slice(0,2)) score+=2;
+  const al=au[au.length-1]||'', bl=bu[bu.length-1]||'';
+  if(al && bl && al.slice(-2)===bl.slice(-2)) score+=2;
+  const lenDiff=Math.abs(plainTailo(ar).length-plainTailo(br).length);
+  if(lenDiff<=2) score+=2;
+  else if(lenDiff<=5) score+=1;
+  return score;
+}
+function shapeSoundChoices(correct,count=4){
+  // 只使用本課詞庫中真實存在的台羅作為干擾，不亂造拼音。
+  // 優先挑音節數、開頭或字串長度接近者，讓學生真的看拼音。
+  let candidates=pool.filter(x=>x!==correct && x.tailo && x.tailo!==correct.tailo);
+  candidates.sort((a,b)=>phoneticScore(correct,b)-phoneticScore(correct,a) || Math.random()-.5);
+  return shuffle([correct,...candidates.slice(0,count-1)]);
+}
+
+const MEANING_SCENES = {
+  '𨑨迌': {scene:'拜六下晡，同學招你做伙出去𨑨迌。伊上可能欲做啥物？', answer:'出去遊玩'},
+  '踅街': {scene:'食飽了後，阿姊講欲去市區踅街。伊欲去做啥物？', answer:'去街路行行看看、逛街'},
+  '儉': {scene:'阿明逐禮拜攏共一寡零用錢囥起來，無共伊開掉。這个行為較接近啥物？', answer:'存錢'},
+  '儉錢': {scene:'小華想欲買一台新電腦，所以逐月攏留一寡錢無開。伊咧做啥物？', answer:'存錢'},
+  '枵': {scene:'中晝猶未食飯，小美講：「我真枵！」伊現在按怎？', answer:'肚子餓'},
+  '泅': {scene:'熱天去游泳池，大家攏落水咧泅。這是咧做啥物？', answer:'游泳'},
+  '翕': {scene:'旅行到海邊，老師講：「大家來翕一張相！」是欲做啥物？', answer:'拍照'},
+  '趁錢': {scene:'阿爸逐工認真做工，希望會當趁錢照顧厝內。這裡的「趁錢」是啥物意思？', answer:'賺錢'},
+  '所費': {scene:'出去旅行進前，老師提醒愛先算交通、食飯佮住宿的所費。這是指啥物？', answer:'需要花的費用'},
+  '徛鵝': {scene:'動物園內底有一群徛鵝，行路搖搖擺擺。這是啥物動物？', answer:'企鵝'},
+  '磅空': {scene:'火車駛入山腹內底烏烏的磅空，過一陣才閣看著天光。這是啥物所在？', answer:'隧道'},
+  '所在': {scene:'老師問：「你上愛去佗一个所在𨑨迌？」這裡的「所在」是啥物意思？', answer:'地方'},
+  '鬥陣': {scene:'下課後，三个人鬥陣去合作社。這表示𪜶按怎去？', answer:'一起、結伴去'},
+  '四界': {scene:'伊揣無鉛筆，佇教室四界揣。這表示伊佇佗位揣？', answer:'到處、處處'},
+  '蹛': {scene:'阿明蹛佇桃園，逐工對厝裡去學校。這裡的「蹛」是啥物意思？', answer:'居住'},
+  '紮': {scene:'出門進前，阿母提醒：「雨傘愛紮咧！」這是叫你按怎？', answer:'攜帶、帶著'},
+  '賰': {scene:'買物了後猶有賰五十箍。這表示五十箍按怎？', answer:'剩下來'},
+  '仝款': {scene:'這兩領衫的色水佮款式攏仝款。這表示𪜶按怎？', answer:'同樣、相像'},
+  '意愛': {scene:'伊真意愛彼條歌，逐工攏咧聽。這裡的「意愛」是啥物意思？', answer:'喜歡'},
+  '現此時': {scene:'「現此時已經十點矣。」這裡是講佗一个時間？', answer:'現在、目前'}
+};
+
+function meaningSceneFor(w){ return MEANING_SCENES[w.hanji] || null; }
+
+function meaningChoiceObjects(w, count=4){
+  const scene=meaningSceneFor(w);
+  const correctText=scene ? scene.answer : w.meaning;
+  let others=shuffle(pool.filter(x=>x!==w && x.meaning).map(x=>x.meaning))
+    .filter((v,i,a)=>v!==w.meaning && a.indexOf(v)===i)
+    .slice(0,count-1);
+  let opts=[{text:correctText,ok:true}, ...others.map(x=>({text:x,ok:false}))];
+  return shuffle(opts);
+}
+
+function audioMeaningChoices(w, count=4){
+  const norm=s=>String(s||'').replace(/[、，。；;（）()「」『』\s]/g,'').toLowerCase();
+  const target=norm(w.meaning);
+  let seen=new Set([target]);
+  let candidates=[];
+  for(const x of shuffle(pool.filter(x=>x!==w && x.meaning))){
+    const n=norm(x.meaning);
+    if(!n || seen.has(n)) continue;
+    // 避免完全相同或明顯包含關係的答案，同時保留本課真實詞義作干擾。
+    if(target===n || (target.length>3 && (target.includes(n)||n.includes(target)))) continue;
+    seen.add(n);
+    candidates.push({text:x.meaning,ok:false});
+    if(candidates.length>=count-1) break;
+  }
+  return shuffle([{text:w.meaning,ok:true}, ...candidates]);
+}
+
+
+function buildTruthCase(w){
+  const usable=pool.filter(x=>x!==w && x.tailo && x.meaning);
+  const isTrue=Math.random()<0.5 || usable.length<2;
+  if(isTrue){
+    return {isTrue:true,hanji:w.hanji,tailo:w.tailo,meaning:w.meaning,wrongPart:null};
+  }
+  const wrongType=Math.random()<0.5?'sound':'meaning';
+  const donor=shuffle(usable)[0];
+  if(wrongType==='sound'){
+    return {isTrue:false,hanji:w.hanji,tailo:donor.tailo,meaning:w.meaning,wrongPart:'讀音'};
+  }
+  return {isTrue:false,hanji:w.hanji,tailo:w.tailo,meaning:donor.meaning,wrongPart:'詞義'};
+}
+
+function readingNote(t){
+  const rs=splitReadings(t);
+  return rs.length>1 ? `這个詞有 ${rs.length} 種課本收錄讀音，攏算正確。` : '注意聲母、韻母佮聲調符號。';
+}
+function audioHTML(w,mode='shape'){
+  const note=mode==='meaning'
+    ? '先莫看漢字，干焦聽讀音揣意思｜音檔會使重播'
+    : '先聽，閣揣正確的台語詞｜音檔會使重播';
+  return `<button class="audioBtn" onclick="playAudio('${esc(w.audio)}')" aria-label="播放讀音">🔊</button><div class="tiny">${note}</div>`;
+}
+window.playAudio=src=>{if(!src)return;const token=++audioToken;try{audioPlayer.pause();audioPlayer.currentTime=0;audioPlayer.src=src;audioPlayer.play().catch(()=>{if(token!==audioToken)return;feedback.classList.remove('hidden');feedback.innerHTML='<strong>🔊 音檔暫時無法播放</strong>請確認這個頁面和原專案的 audio 資料夾放在相同位置。'})}catch(e){}}
+function renderQ(){audioPlayer.pause();audioPlayer.currentTime=0;locked=false;feedback.classList.add('hidden');nextBtn.classList.add('hidden');let q=questions[qi],w=q.w,[label,skill,instr]=typeDefs[q.type];missionTag.textContent=label;qCount.textContent=`${qi+1} / ${questions.length}`;scoreNow.textContent=`${score} 分`;bar.style.width=`${qi/questions.length*100}%`; let h=`<div class="subprompt">${instr}</div>`;
+if(q.type==='audioShape'){let cs=audioShapeChoices(w);h+=audioHTML(w)+`<div class="options">${cs.map(x=>`<button class="opt" data-ok="${x===w}">${esc(x.hanji)}</button>`).join('')}</div>`}
+if(q.type==='shapeSound'){let cs=shapeSoundChoices(w);h+=`<div class="prompt">${esc(w.hanji)}</div><div class="tiny" style="margin-bottom:12px">${esc(readingNote(w.tailo))}</div><div class="options">${cs.map(x=>`<button class="opt" data-ok="${x===w}">${esc(x.tailo)}</button>`).join('')}</div>`}
+if(q.type==='shapeMeaning'){
+  let scene=meaningSceneFor(w), cs=meaningChoiceObjects(w);
+  h+=scene
+    ? `<div class="tiny" style="margin-bottom:8px">🔍 讀情境，揣出這个詞的意思</div><div class="prompt" style="font-size:clamp(1.15rem,3vw,1.55rem);line-height:1.65">${esc(scene.scene)}</div>`
+    : `<div class="tiny" style="margin-bottom:8px">💭 這个詞是啥物意思？</div><div class="prompt">${esc(w.hanji)}</div>`;
+  h+=`<div class="options">${cs.map(x=>`<button class="opt" data-ok="${x.ok}">${esc(x.text)}</button>`).join('')}</div>`;
+}
+if(q.type==='audioMeaning'){
+  let cs=audioMeaningChoices(w);
+  h+=`<div class="tiny" style="margin-bottom:8px">🎧 這題答題進前袂顯示漢字佮台羅</div>`;
+  h+=audioHTML(w,'meaning')+`<div class="options">${cs.map(x=>`<button class="opt" data-ok="${x.ok}">${esc(x.text)}</button>`).join('')}</div>`;
+}
+if(q.type==='trueFalse'){
+  q.truthCase=q.truthCase||buildTruthCase(w);
+  const tc=q.truthCase;
+  q.truth=tc.isTrue;
+  h+=`<div class="tiny" style="margin-bottom:8px">⚡ 快速判案：三條線索敢有一致？</div>
+      <div class="prompt">${esc(tc.hanji)}</div>
+      <div style="background:#fff;border-radius:18px;padding:16px;margin:12px 0;line-height:1.7">
+        <b>${esc(tc.tailo)}</b><br><span>${esc(tc.meaning)}</span>
+      </div>
+      <div class="options truefalse">
+        <button class="opt tf" data-truth="true">⭕ 線索一致</button>
+        <button class="opt tf" data-truth="false">❌ 有問題</button>
+      </div>`;
+}
+if(q.type==='triple'){
+  if(!q.trio){
+    q.trio=shuffle([w,...shuffle(pool.filter(x=>x!==w)).slice(0,2)]).map((x,i)=>({w:x,uid:`tri-${qi}-${i}`}));
+    q.matches=0;q.sel={};
+  }
+  const active=q.trio.filter(x=>!x.done);
+  const col=(key,title,getter)=>`<div class="triCol"><h4>${title}</h4>${shuffle(active).map(x=>`<button class="triItem" data-col="${key}" data-id="${x.uid}">${esc(getter(x.w))}</button>`).join('')}</div>`;
+  h+=`<div class="tiny" style="margin-bottom:10px">🧩 Boss 關｜逐欄揀一張，共仝一个詞的三條線索合起來</div>
+      <div class="triGrid">
+        ${col('hanji','① 字形',x=>x.hanji)}
+        ${col('tailo','② 讀音',x=>x.tailo)}
+        ${col('meaning','③ 意思',x=>x.meaning)}
+      </div>
+      <div id="tripleStatus" class="tiny" style="margin-top:10px">已破解 ${q.matches}／3 組</div>`}
+questionArea.innerHTML=h; bindAnswer(q)}
+function bindAnswer(q){if(q.type==='triple'){questionArea.querySelectorAll('.triItem').forEach(b=>b.onclick=()=>{if(locked||b.classList.contains('done'))return;let col=b.dataset.col;questionArea.querySelectorAll(`[data-col="${col}"]`).forEach(x=>x.classList.remove('sel'));b.classList.add('sel');q.sel[col]=b;if(Object.keys(q.sel).length===3){let ids=Object.values(q.sel).map(x=>x.dataset.id);if(new Set(ids).size===1){const solvedId=ids[0];Object.values(q.sel).forEach(x=>{x.classList.remove('sel');x.classList.add('done')});const item=q.trio.find(x=>x.uid===solvedId);if(item)item.done=true;q.matches++;q.sel={};const st=$('#tripleStatus');if(st)st.textContent=`✨ 配對成功！已破解 ${q.matches}／3 組`;if(q.matches===3)finishAnswer(true,q)}else{const selected=Object.values(q.sel);const st=$('#tripleStatus');if(st)st.textContent='🔍 這三條線索無仝組，閣試一擺！';setTimeout(()=>{requestAnimationFrame(()=>{selected.forEach(x=>x.classList.remove('sel'));q.sel={};if(st&&!locked)st.textContent=`已破解 ${q.matches}／3 組`})},350)}}});return}
+questionArea.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{if(locked)return;let ok=q.type==='trueFalse'?(b.dataset.truth==='true')===q.truth:b.dataset.ok==='true';b.classList.add(ok?'correct':'wrong');if(!ok && q.type!=='trueFalse'){questionArea.querySelectorAll('.opt').forEach(x=>{if(x.dataset.ok==='true')x.classList.add('correct')})}finishAnswer(ok,q)})}
+function finishAnswer(ok,q){if(locked)return;locked=true;let skill=typeDefs[q.type][1];stats[skill][1]++;if(ok){score++;stats[skill][0]++}else wrong.push(q.w);feedback.classList.remove('hidden');
+if(q.type==='audioShape'){
+  feedback.innerHTML=ok?`<strong>👂 聽著矣！</strong>${esc(q.w.hanji)}｜${esc(q.w.tailo)}<div class="tiny">${esc(q.w.meaning)}</div>`:`<strong>🔍 這擺聽毋著，正確是：</strong>${esc(q.w.hanji)}｜${esc(q.w.tailo)}<div class="tiny">${esc(q.w.meaning)}｜會使閣撳 🔊 聽一擺</div>`;
+}else if(q.type==='shapeSound'){
+  feedback.innerHTML=ok?`<strong>🔎 拼音解碼成功！</strong>${esc(q.w.hanji)}｜${esc(q.w.tailo)}<div class="tiny">${esc(readingNote(q.w.tailo))}</div>`:`<strong>🔎 對照一下正確拼音：</strong>${esc(q.w.hanji)}｜${esc(q.w.tailo)}<div class="tiny">${esc(readingNote(q.w.tailo))}</div>`;
+}else if(q.type==='shapeMeaning'){
+  const scene=meaningSceneFor(q.w);
+  feedback.innerHTML=ok
+    ? `<strong>💭 詞義破解成功！</strong>${esc(q.w.hanji)}｜${esc(q.w.meaning)}<div class="tiny">台羅：${esc(q.w.tailo)}</div>`
+    : `<strong>🔍 看情境閣想一擺：</strong>${esc(q.w.hanji)}｜${esc(q.w.meaning)}<div class="tiny">${scene?'這題愛對情境判斷詞義。':'先記牢這个詞的意思。'}｜台羅：${esc(q.w.tailo)}</div>`;
+}else if(q.type==='audioMeaning'){
+  feedback.innerHTML=ok
+    ? `<strong>🎧 聽有意思矣！</strong>${esc(q.w.hanji)}｜${esc(q.w.tailo)}<div class="tiny">${esc(q.w.meaning)}</div>`
+    : `<strong>🎧 聽音辨義：</strong>${esc(q.w.hanji)}｜${esc(q.w.tailo)}<div class="tiny">意思：${esc(q.w.meaning)}｜會使閣撳 🔊 重聽一擺</div>`;
+}else if(q.type==='triple'){
+  feedback.innerHTML=ok
+    ? `<strong>🧩 Boss 關破解完成！</strong>三組字形、讀音、詞義攏配對成功。<div class="tiny">這關同時用著「形＋音＋義」。</div>`
+    : `<strong>🔍 閣試一擺！</strong>`;
+}else if(q.type==='trueFalse'){
+  const tc=q.truthCase;
+  if(tc.isTrue){
+    feedback.innerHTML=ok
+      ? `<strong>⚡ 判案成功！</strong>三條線索攏一致。<div class="tiny">${esc(q.w.hanji)}｜${esc(q.w.tailo)}｜${esc(q.w.meaning)}</div>`
+      : `<strong>🔍 這組其實是正確的：</strong><div class="tiny">${esc(q.w.hanji)}｜${esc(q.w.tailo)}｜${esc(q.w.meaning)}</div>`;
+  }else{
+    feedback.innerHTML=ok
+      ? `<strong>⚡ 判案成功！</strong>問題出佇「${esc(tc.wrongPart)}」。<div class="tiny">正確：${esc(q.w.hanji)}｜${esc(q.w.tailo)}｜${esc(q.w.meaning)}</div>`
+      : `<strong>🔍 有一條線索藏著問題：</strong>${esc(tc.wrongPart)}<div class="tiny">正確：${esc(q.w.hanji)}｜${esc(q.w.tailo)}｜${esc(q.w.meaning)}</div>`;
+  }
+}else{
+  feedback.innerHTML=ok?`<strong>✨ 破解成功！</strong>${esc(q.w.hanji)}｜${esc(q.w.tailo)}｜${esc(q.w.meaning)}`:`<strong>🔍 差一點！正確線索：</strong>${esc(q.w.hanji)}｜${esc(q.w.tailo)}｜${esc(q.w.meaning)}`;
+}
+nextBtn.classList.remove('hidden');scoreNow.textContent=`${score} 分`}
+nextBtn.onclick=()=>{qi++;if(qi>=questions.length)report();else renderQ()};quitBtn.onclick=()=>show('selectScreen');
+function report(){show('reportScreen');bar.style.width='100%';let pct=Math.round(score/questions.length*100);scoreBig.textContent=`${score} / ${questions.length}`;reportTitle.textContent=pct>=90?'金牌詞語偵探！':pct>=70?'破解任務完成！':'線索閣愛練習！';reportSub.textContent=`正確率 ${pct}%｜${getRow()?.subtitle||''}`;let names={shape:'👁 字形辨識',sound:'🎧 聽音辨識',meaning:'💭 詞義理解',combo:'🧩 綜合破解'};meters.innerHTML=Object.entries(stats).map(([k,[a,b]])=>{let p=b?Math.round(a/b*100):0;return `<div class="meterRow"><b>${names[k]}</b><div class="meter"><i style="width:${p}%"></i></div><span>${b?p+'%':'—'}</span></div>`}).join('')+`<div class="notice" style="margin-top:14px">一般任務會輪流出現五種玩法，最後一題固定是 🧩 三線索合體 Boss 關。</div>`;let uniq=[...new Set(wrong)];wrongList.innerHTML=uniq.length?`<h3>🔁 建議再練的詞</h3>${uniq.map(w=>`<div class="wrongItem"><b>${esc(w.hanji)}</b>　${esc(w.tailo)}<div class="tiny">${esc(w.meaning)}</div></div>`).join('')}`:'<div class="notice">🎉 這輪沒有錯題！</div>';retryWrong.classList.toggle('hidden',!uniq.length);retryWrong.onclick=()=>{pool=getRow().words;questions=uniq.map((w,i)=>({w,type:playable(w)?shuffle(['audioShape','shapeSound','shapeMeaning','audioMeaning','trueFalse'])[0]:shuffle(['shapeSound','shapeMeaning','trueFalse'])[0]}));if(questions.length>2)questions[questions.length-1].type='triple';retryMode=true;begin();}}
+replay.onclick=()=>{pool=getRow().words;questions=makeQuestions(pool);begin()};backSelect.onclick=()=>show('selectScreen');initSelect();
+</script></body></html>

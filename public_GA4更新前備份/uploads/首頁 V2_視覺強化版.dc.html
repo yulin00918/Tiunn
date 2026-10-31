@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#15344b;
+    --ink-soft:#496174;
+    --paper:#fbf8f2;
+    --line:#e9dfd2;
+    --shadow:0 12px 30px rgba(65,54,43,.10);
+    --radius:24px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;}
+  a{color:inherit;text-decoration:none;}
+  button,input,select{font:inherit;}
+
+  .site-shell{
+    min-height:100vh;
+    font-family:'Noto Sans TC',sans-serif;
+    color:var(--ink);
+    background:
+      radial-gradient(circle at 8% 6%, rgba(243,188,111,.16), transparent 22%),
+      radial-gradient(circle at 93% 14%, rgba(117,190,219,.12), transparent 24%),
+      var(--paper);
+  }
+
+  .topbar{
+    position:sticky;
+    top:0;
+    z-index:20;
+    background:rgba(251,248,242,.92);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(221,210,195,.8);
+  }
+
+  .topbar-inner{
+    max-width:1240px;
+    margin:0 auto;
+    min-height:72px;
+    padding:10px 24px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:18px;
+  }
+
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    min-width:0;
+  }
+
+  .brand img{
+    width:58px;
+    height:58px;
+    object-fit:contain;
+    flex:0 0 auto;
+  }
+
+  .brand-name{
+    font-size:24px;
+    line-height:1.05;
+    font-weight:900;
+    letter-spacing:.04em;
+    white-space:nowrap;
+  }
+
+  .brand-sub{
+    margin-top:3px;
+    font-size:11px;
+    font-weight:800;
+    letter-spacing:.16em;
+    color:#698093;
+  }
+
+  .main-nav{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    flex-wrap:wrap;
+    justify-content:flex-end;
+  }
+
+  .main-nav a{
+    padding:10px 13px;
+    border-radius:999px;
+    font-size:13px;
+    font-weight:800;
+    color:#3f5a6d;
+    transition:.16s ease;
+  }
+
+  .main-nav a:hover{
+    background:#fff;
+    box-shadow:0 5px 14px rgba(63,90,109,.08);
+  }
+
+  .hero-wrap{
+    max-width:1240px;
+    margin:0 auto;
+    padding:26px 24px 16px;
+  }
+
+  .hero{
+    min-height:320px;
+    display:grid;
+    grid-template-columns:minmax(0,1.05fr) minmax(340px,.95fr);
+    overflow:hidden;
+    border:1px solid #eadfce;
+    border-radius:30px;
+    box-shadow:var(--shadow);
+    background:
+      linear-gradient(110deg,rgba(255,250,240,.98) 0 53%,rgba(225,241,239,.93) 53% 100%);
+  }
+
+  .hero-copy{
+    padding:50px 52px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    width:max-content;
+    gap:8px;
+    padding:7px 11px;
+    border-radius:999px;
+    background:#fff4dd;
+    color:#9a6417;
+    font-size:12px;
+    font-weight:900;
+    letter-spacing:.12em;
+  }
+
+  .hero h1{
+    margin:18px 0 8px;
+    font-size:clamp(38px,5vw,58px);
+    line-height:1.05;
+    letter-spacing:.03em;
+    font-weight:900;
+    color:#123b4f;
+  }
+
+  .hero-kicker{
+    margin:0;
+    font-size:clamp(20px,2.3vw,28px);
+    font-weight:900;
+    color:#244f63;
+    letter-spacing:.04em;
+  }
+
+  .hero-sub{
+    margin:14px 0 0;
+    color:#617482;
+    font-size:15px;
+    line-height:1.8;
+    font-weight:700;
+  }
+
+  .hero-start{
+    margin-top:24px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:18px;
+    width:min(390px,100%);
+    padding:15px 18px 15px 22px;
+    border-radius:999px;
+    background:#fff;
+    border:1px solid #e8ded0;
+    box-shadow:0 8px 18px rgba(73,69,61,.08);
+    font-weight:900;
+    color:#244f63;
+  }
+
+  .hero-start span:last-child{
+    width:36px;
+    height:36px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:#f4a83c;
+    color:#fff;
+    font-size:20px;
+  }
+
+  .hero-note{
+    margin-top:12px;
+    font-size:12.5px;
+    color:#8a968e;
+    font-weight:700;
+  }
+
+  .hero-visual{
+    position:relative;
+    min-height:320px;
+    padding:34px;
+    overflow:hidden;
+    background:
+      linear-gradient(180deg,rgba(25,79,70,.88),rgba(36,91,78,.92)),
+      linear-gradient(135deg,#d6eee8,#95c5ba);
+  }
+
+  .hero-visual:before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+      linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);
+    background-size:28px 28px;
+    opacity:.42;
+  }
+
+  .chalk{
+    position:relative;
+    z-index:1;
+    width:min(360px,100%);
+    margin-left:auto;
+    color:#f8f1df;
+    font-size:clamp(24px,3vw,37px);
+    line-height:1.45;
+    letter-spacing:.08em;
+    font-weight:500;
+    transform:rotate(-1.5deg);
+  }
+
+  .chalk strong{
+    display:block;
+    font-size:1.15em;
+    font-weight:800;
+  }
+
+  .chalk-line{
+    margin-top:12px;
+    width:170px;
+    height:4px;
+    border-radius:999px;
+    background:#f2bf53;
+  }
+
+  .desk-scene{
+    position:absolute;
+    left:30px;
+    right:28px;
+    bottom:20px;
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:18px;
+    z-index:1;
+  }
+
+  .mascot-stage{
+    width:150px;
+    height:150px;
+    border-radius:30px;
+    background:rgba(255,255,255,.90);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 14px 28px rgba(10,46,40,.18);
+    transform:rotate(-2deg);
+  }
+
+  .mascot-stage img{
+    width:126px;
+    height:126px;
+    object-fit:contain;
+  }
+
+  .note-card{
+    max-width:190px;
+    padding:15px 16px;
+    border-radius:6px 6px 14px 14px;
+    background:#f7e6ae;
+    color:#254a4d;
+    font-weight:900;
+    line-height:1.65;
+    transform:rotate(3deg);
+    box-shadow:0 10px 18px rgba(12,46,41,.13);
+  }
+
+  .content{
+    max-width:1240px;
+    margin:0 auto;
+    padding:0 24px 52px;
+  }
+
+  .section-title-row{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:16px;
+    margin:18px 0 14px;
+  }
+
+  .section-title-row h2{
+    margin:0;
+    font-size:24px;
+    font-weight:900;
+    color:#153f55;
+  }
+
+  .section-title-row p{
+    margin:0;
+    font-size:13px;
+    color:#7d8b94;
+    font-weight:700;
+  }
+
+  .zone-grid{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:14px;
+  }
+
+  .zone-card{
+    min-height:318px;
+    border-radius:24px;
+    padding:22px;
+    border:1px solid rgba(255,255,255,.9);
+    box-shadow:0 9px 22px rgba(70,63,55,.08);
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+    position:relative;
+  }
+
+  .zone-card:after{
+    content:"";
+    position:absolute;
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    right:-42px;
+    top:-48px;
+    background:rgba(255,255,255,.28);
+  }
+
+  .zone-head{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:12px;
+  }
+
+  .zone-index{
+    font-size:12px;
+    font-weight:900;
+    letter-spacing:.1em;
+    opacity:.7;
+  }
+
+  .zone-icon{
+    width:66px;
+    height:66px;
+    border-radius:20px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:34px;
+    background:rgba(255,255,255,.74);
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.9);
+  }
+
+  .zone-card h3{
+    margin:14px 0 4px;
+    font-size:24px;
+    line-height:1.15;
+    font-weight:900;
+    letter-spacing:.02em;
+  }
+
+  .zone-tag{
+    margin:0;
+    font-size:13px;
+    font-weight:800;
+    opacity:.75;
+  }
+
+  .zone-lead{
+    margin:12px 0 16px;
+    font-size:13px;
+    line-height:1.65;
+    opacity:.78;
+    min-height:42px;
+  }
+
+  .zone-links{
+    margin-top:auto;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+
+  .zone-link{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    padding:10px 12px;
+    border-radius:999px;
+    background:rgba(255,255,255,.78);
+    font-size:13.5px;
+    font-weight:900;
+    transition:.16s ease;
+  }
+
+  .zone-link:hover{
+    transform:translateX(3px);
+    background:#fff;
+  }
+
+  .zone-listen{background:linear-gradient(180deg,#dff0ff,#d7ebfb);color:#205f9c;}
+  .zone-decode{background:linear-gradient(180deg,#ddf3e7,#d5eee1);color:#216c4f;}
+  .zone-speak{background:linear-gradient(180deg,#fff0e4,#fee7d7);color:#b55422;}
+  .zone-quest{background:linear-gradient(180deg,#efe7ff,#e9defb);color:#6740a5;}
+
+  .secondary-grid{
+    display:grid;
+    grid-template-columns:minmax(0,1.45fr) minmax(300px,.75fr);
+    gap:16px;
+    margin-top:16px;
+  }
+
+  .textbook-card,
+  .helper-card,
+  .teacher-card{
+    border-radius:24px;
+    border:1px solid #e7ded3;
+    box-shadow:0 8px 20px rgba(66,57,47,.07);
+  }
+
+  .textbook-card{
+    min-height:190px;
+    padding:26px 28px;
+    background:
+      linear-gradient(110deg,rgba(245,251,255,.98),rgba(231,244,251,.95));
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:22px;
+  }
+
+  .textbook-copy{
+    min-width:0;
+  }
+
+  .textbook-label{
+    font-size:12px;
+    font-weight:900;
+    color:#7b91a1;
+    letter-spacing:.12em;
+  }
+
+  .textbook-card h2{
+    margin:7px 0 8px;
+    font-size:28px;
+    font-weight:900;
+    color:#1e526b;
+  }
+
+  .textbook-card p{
+    margin:0;
+    color:#667a88;
+    font-size:14px;
+    line-height:1.75;
+    font-weight:700;
+  }
+
+  .textbook-cta{
+    margin-top:18px;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:12px 18px;
+    border-radius:999px;
+    background:#f57d27;
+    color:#fff;
+    font-size:14px;
+    font-weight:900;
+    box-shadow:0 8px 16px rgba(245,125,39,.20);
+  }
+
+  .book-stack{
+    flex:0 0 190px;
+    position:relative;
+    min-height:120px;
+  }
+
+  .book{
+    position:absolute;
+    right:0;
+    width:150px;
+    height:30px;
+    border-radius:6px 12px 12px 6px;
+    box-shadow:0 5px 10px rgba(55,74,84,.13);
+    display:flex;
+    align-items:center;
+    padding-left:18px;
+    font-size:12px;
+    font-weight:900;
+    color:#23485c;
+  }
+
+  .book:nth-child(1){top:8px;background:#f3b179;transform:rotate(3deg);}
+  .book:nth-child(2){top:42px;background:#95c8d6;transform:rotate(-2deg);}
+  .book:nth-child(3){top:76px;background:#98c69d;transform:rotate(1deg);}
+
+  .helper-card{
+    padding:24px;
+    background:linear-gradient(180deg,#f3f9ff,#edf6fb);
+  }
+
+  .helper-card h3{
+    margin:0;
+    font-size:22px;
+    font-weight:900;
+    color:#234f69;
+  }
+
+  .helper-card p{
+    margin:6px 0 14px;
+    font-size:13px;
+    color:#6d8290;
+    font-weight:700;
+  }
+
+  .helper-links{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+  }
+
+  .helper-links a{
+    padding:11px 12px;
+    border-radius:14px;
+    background:#fff;
+    border:1px solid #dce9f0;
+    font-size:12.5px;
+    line-height:1.4;
+    font-weight:900;
+    color:#2d617c;
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+  }
+
+  .teacher-card{
+    margin-top:16px;
+    padding:20px 22px;
+    background:linear-gradient(180deg,#faf8f5,#f6f2ec);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:18px;
+  }
+
+  .teacher-card h3{
+    margin:0;
+    font-size:20px;
+    font-weight:900;
+    color:#4e5358;
+  }
+
+  .teacher-card p{
+    margin:5px 0 0;
+    font-size:12.5px;
+    color:#8a8e92;
+    font-weight:700;
+  }
+
+  .teacher-link{
+    flex:0 0 auto;
+    padding:12px 18px;
+    border-radius:14px;
+    background:#fff;
+    border:1px solid #ded9d2;
+    font-size:13px;
+    font-weight:900;
+    color:#5f6468;
+  }
+
+  footer{
+    max-width:1240px;
+    margin:0 auto;
+    padding:18px 24px 40px;
+    border-top:1px solid #e6ded2;
+    display:flex;
+    justify-content:space-between;
+    gap:16px;
+    flex-wrap:wrap;
+    color:#8a918f;
+    font-size:12px;
+    line-height:1.7;
+  }
+
+  .credit strong{color:#596462;}
+
+  @media (max-width:1050px){
+    .main-nav{display:none;}
+    .hero{grid-template-columns:1fr .78fr;}
+    .hero-copy{padding:42px 38px;}
+    .zone-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+  }
+
+  @media (max-width:780px){
+    .topbar-inner{min-height:64px;padding:8px 16px;}
+    .brand img{width:48px;height:48px;}
+    .brand-name{font-size:20px;}
+    .hero-wrap,.content,footer{padding-left:16px;padding-right:16px;}
+    .hero{grid-template-columns:1fr;}
+    .hero-copy{padding:34px 26px 30px;}
+    .hero-visual{min-height:230px;}
+    .chalk{width:100%;font-size:26px;}
+    .desk-scene{left:20px;right:20px;}
+    .mascot-stage{width:112px;height:112px;}
+    .mascot-stage img{width:92px;height:92px;}
+    .note-card{max-width:150px;font-size:12px;}
+    .secondary-grid{grid-template-columns:1fr;}
+    .textbook-card{min-height:0;}
+  }
+
+  @media (max-width:560px){
+    .brand-sub{display:none;}
+    .hero h1{font-size:38px;}
+    .hero-kicker{font-size:21px;}
+    .hero-visual{min-height:200px;padding:24px;}
+    .chalk{font-size:22px;}
+    .zone-grid{grid-template-columns:1fr;}
+    .zone-card{min-height:0;}
+    .section-title-row{align-items:flex-start;flex-direction:column;gap:4px;}
+    .textbook-card{display:block;}
+    .book-stack{display:none;}
+    .helper-links{grid-template-columns:1fr;}
+    .teacher-card{align-items:flex-start;flex-direction:column;}
+    .teacher-link{width:100%;text-align:center;}
+  }
+</style>
+</helmet>
+
+<div class="site-shell">
+  <div class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#">
+        <img src="images/mascot.png" alt="鈺聆上台語課">
+        <div>
+          <div class="brand-name">鈺聆上台語課</div>
+          <div class="brand-sub">TÂI-GÍ 學習基地</div>
+        </div>
+      </a>
+      <nav class="main-nav" aria-label="主要導覽">
+        <a href="#">⌂ 首頁</a>
+        <a href="#textbook">📖 咱來讀課文</a>
+        <a href="#practice">✦ 學習練功</a>
+        <a href="#teacher">🧰 教師工具</a>
+      </nav>
+    </div>
+  </div>
+
+  <div class="hero-wrap">
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow">TÂI-GÍ LEARNING BASE</div>
+        <h1>鈺聆上台語課</h1>
+        <p class="hero-kicker">聽有・看有・講會出來</p>
+        <p class="hero-sub">從課文出發，練到生活真正會用。</p>
+        <a class="hero-start" href="#practice">
+          <span>今仔日，你想欲練啥物？</span>
+          <span>→</span>
+        </a>
+        <div class="hero-note">毋免照順序，對你需要的所在開始就好。</div>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="chalk">
+          <strong>台語，</strong>
+          是一種<br>
+          看見家鄉的方式
+          <div class="chalk-line"></div>
+        </div>
+        <div class="desk-scene">
+          <div class="mascot-stage">
+            <img src="images/mascot.png" alt="">
+          </div>
+          <div class="note-card">學台語<br>嘛會當真趣味！</div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <main class="content">
+    <section id="practice">
+      <div class="section-title-row">
+        <div>
+          <h2>今仔日，你想欲練啥物？</h2>
+          <p>四種練習方向，毋免照順序，揀你需要的就好。</p>
+        </div>
+      </div>
+
+      <div class="zone-grid">
+        <sc-for list="{{zones}}" as="zone" hint-placeholder-count="4">
+          <article class="zone-card {{zone.className}}">
+            <div class="zone-head">
+              <div>
+                <div class="zone-index">{{zone.index}}</div>
+                <h3>{{zone.icon}} {{zone.title}}</h3>
+                <p class="zone-tag">{{zone.tag}}</p>
+              </div>
+              <div class="zone-icon">{{zone.bigIcon}}</div>
+            </div>
+            <p class="zone-lead">{{zone.lead}}</p>
+            <div class="zone-links">
+              <sc-for list="{{zone.cards}}" as="card" hint-placeholder-count="3">
+                <a class="zone-link" href="{{card.href}}">
+                  <span>{{card.name}}</span>
+                  <span>›</span>
+                </a>
+              </sc-for>
+            </div>
+          </article>
+        </sc-for>
+      </div>
+    </section>
+
+    <div class="secondary-grid">
+      <section id="textbook" class="textbook-card">
+        <div class="textbook-copy">
+          <div class="textbook-label">📖 我的台語課本｜正式教材入口</div>
+          <h2>咱來讀課文</h2>
+          <p>揀你的課本，聽課文、看語詞、學台羅。</p>
+          <a class="textbook-cta" href="台語點讀.dc.html">開始讀課文 →</a>
+        </div>
+        <div class="book-stack" aria-hidden="true">
+          <div class="book">課文</div>
+          <div class="book">語詞</div>
+          <div class="book">台羅</div>
+        </div>
+      </section>
+
+      <aside class="helper-card">
+        <h3>🧭 毋知欲對佗位開始？</h3>
+        <p>看你今仔日想做啥物，直接揀一條路。</p>
+        <div class="helper-links">
+          <a href="台語點讀.dc.html"><span>我想讀今天的課文</span><span>›</span></a>
+          <a href="咱來讀生份字.dc.html"><span>有一个詞我看無</span><span>›</span></a>
+          <a href="咱來鬥句.dc.html"><span>我想練習講台語</span><span>›</span></a>
+          <a href="台語挑戰區.dc.html"><span>我想試看覓有偌𠢕</span><span>›</span></a>
+        </div>
+      </aside>
+    </div>
+
+    <section id="teacher" class="teacher-card">
+      <div>
+        <h3>🧰 教師專區・教學百寶箱</h3>
+        <p>學生名單、抽獎、分組、計分、計時、抽籤等課堂工具。</p>
+      </div>
+      <a class="teacher-link" href="教學百寶箱.dc.html">進入教師工具 →</a>
+    </section>
+  </main>
+
+  <footer>
+    <div class="credit"><strong>張鈺聆 製</strong>｜鈺聆上台語課</div>
+    <div>教材、課文、圖片、音檔、辭典資料及其他第三方素材之著作權，仍屬各原權利人所有。</div>
+  </footer>
+</div>
+
+</x-dc>
+
+<script type="text/x-dc" data-dc-script>
+const ZONES = [
+  {
+    index:'01',
+    className:'zone-listen',
+    icon:'👂',
+    bigIcon:'🎧',
+    title:'聽讀練功',
+    tag:'聽會著、唸會準',
+    lead:'從聲音、拼音與發音練習開始，予耳仔愈聽愈熟。',
+    cards:[
+      { name:'台羅練功房', href:'羅馬字發音.dc.html' }
+    ]
+  },
+  {
+    index:'02',
+    className:'zone-decode',
+    icon:'🔎',
+    bigIcon:'🔍',
+    title:'詞語解碼',
+    tag:'看會準、讀會懂',
+    lead:'認生份字、破解形音義、讀懂語境，把詞語真正變成自己的。',
+    cards:[
+      { name:'咱來讀生份字', href:'咱來讀生份字.dc.html' },
+      { name:'形音義挑戰', href:'形音義挑戰.dc.html' },
+      { name:'語境挑戰', href:'語境填空.dc.html' }
+    ]
+  },
+  {
+    index:'03',
+    className:'zone-speak',
+    icon:'💬',
+    bigIcon:'🗨️',
+    title:'開喙運用',
+    tag:'講會出、用會著',
+    lead:'把學會的詞語鬥成句，練到真正會講、真正用會著。',
+    cards:[
+      { name:'咱來鬥句', href:'咱來鬥句.dc.html' },
+      { name:'華台雙語翻課', href:'華台雙語翻譯.dc.html' }
+    ]
+  },
+  {
+    index:'04',
+    className:'zone-quest',
+    icon:'🏆',
+    bigIcon:'🏅',
+    title:'闖關挑戰',
+    tag:'學過矣，來試看覓！',
+    lead:'把學過的攏總拿出來，用任務、互動與挑戰試看覓。',
+    cards:[
+      { name:'台語挑戰區', href:'台語挑戰區.dc.html' },
+      { name:'主題互動學習', href:'主題互動學習.dc.html' }
+    ]
+  }
+];
+
+class Component extends DCLogic {
+  renderVals() {
+    return { zones: ZONES };
+  }
+}
+</script>
+</body>
+</html>

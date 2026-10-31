@@ -1,0 +1,707 @@
+{
+  "B2L1｜布袋戲尪仔": [
+    {
+      "word": "紩",
+      "tailo": "thīnn",
+      "meaning": "縫合。",
+      "audio": "audio/zhenping-b2/7716(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "尪仔",
+      "tailo": "ang-á",
+      "meaning": "玩偶。",
+      "audio": "audio/zhenping-b2/3071(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "傱",
+      "tailo": "tsông",
+      "meaning": "四處奔走。",
+      "audio": "audio/zhenping-b2/9285(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "吐劍光",
+      "tailo": "thòo kiàm-kong",
+      "meaning": "指練武的人從口中吐出劍來傷人。本課意指銳氣懾人。",
+      "audio": "",
+      "source": "原67詞"
+    },
+    {
+      "word": "膨風",
+      "tailo": "phòng-hong",
+      "meaning": "吹牛。誇口說大話。",
+      "audio": "audio/zhenping-b2/11868(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "精傱",
+      "tailo": "tsing-tsông",
+      "meaning": "積極努力、用心；像樣。",
+      "audio": "audio/zhenping-b2/29798(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "無聲無說",
+      "tailo": "bô-siann-bô-sueh",
+      "meaning": "形容寂靜沒有一點聲音。",
+      "audio": "audio/zhenping-b2/8678(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "行路有風",
+      "tailo": "",
+      "meaning": "走路有風。",
+      "audio": "",
+      "source": "課文補充",
+      "note": "真平課文原句；kautian新.ods 無完整主詞目"
+    },
+    {
+      "word": "戇戇",
+      "tailo": "gōng-gōng",
+      "meaning": "呆傻、呆滯。發愣的樣子。",
+      "audio": "audio/zhenping-b2/13430(1).mp3",
+      "source": "課文補充",
+      "note": "kautian新.ods 主詞目＋音檔精確命中"
+    }
+  ],
+  "B2L2｜看戲真趣味": [
+    {
+      "word": "倯",
+      "tailo": "sông",
+      "meaning": "土裡土氣、傻裡傻氣、俗氣。",
+      "audio": "audio/zhenping-b2/5712(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "踅玲瑯",
+      "tailo": "se̍h-lin-long",
+      "meaning": "繞圈子。；引申作言行舉止不直接了當、拐彎抹角。",
+      "audio": "audio/zhenping-b2/10882(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "扮仙",
+      "tailo": "pān-sian",
+      "meaning": "傳統戲劇中，正戲開演前的開場戲。多半在廟會慶典與祝壽喜慶等時候應用。",
+      "audio": "audio/zhenping-b2/3158(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "大葩尾",
+      "tailo": "tuā-pha-bué / tuā-pha-bé",
+      "meaning": "好的結果、善終。",
+      "audio": "audio/zhenping-b2/29859(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "賰",
+      "tailo": "tshun",
+      "meaning": "剩餘。；存下錢來。",
+      "audio": "audio/zhenping-b2/11906(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "家伙",
+      "tailo": "ke-hué / ke-hé",
+      "meaning": "指財產。",
+      "audio": "audio/zhenping-b2/5911(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "抾",
+      "tailo": "khioh",
+      "meaning": "拾取、撿取。；收集、收取。；收拾、整理。；聚合、聚攏。；和手相關的動作，或是與拾取、撿取相關的抽象動作。；收載。",
+      "audio": "audio/zhenping-b2/3945(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "無閒𩑾𩑾",
+      "tailo": "bô-îng-tshih-tshih",
+      "meaning": "忙得不可開交。",
+      "audio": "audio/zhenping-b2/27268(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "庄頭",
+      "tailo": "tsng-thâu",
+      "meaning": "泛指村落。",
+      "audio": "audio/zhenping-b2/2413(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "規年迵天",
+      "tailo": "kui-nî-thàng-thinn",
+      "meaning": "一整年。",
+      "audio": "audio/zhenping-b2/7858(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "三花",
+      "tailo": "sann-hue",
+      "meaning": "男性丑角。",
+      "audio": "",
+      "source": "原67詞"
+    },
+    {
+      "word": "刣",
+      "tailo": "thâi",
+      "meaning": "宰殺、屠宰。；割傷。；剖開、切開。指切水果及魚類。；殺價、討價還價。；刪除、畫掉。",
+      "audio": "audio/zhenping-b2/2946(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "生湠",
+      "tailo": "senn-thuànn / sinn-thuànn",
+      "meaning": "生育繁殖。",
+      "audio": "audio/zhenping-b2/1960(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "做伙",
+      "tailo": "tsò-hué/tsuè-hé",
+      "meaning": "一起、一塊兒。",
+      "audio": "audio/zhenping-b2/6947(1).mp3",
+      "source": "課文補充",
+      "note": "依本課語境取第一義"
+    },
+    {
+      "word": "佗一味",
+      "tailo": "",
+      "meaning": "哪一種。",
+      "audio": "",
+      "source": "課文補充",
+      "note": "真平華語翻譯「你喜歡哪一種」；kautian新.ods 無完整主詞目"
+    },
+    {
+      "word": "大趁錢",
+      "tailo": "tuā-thàn-tsînn",
+      "meaning": "發大財、賺大錢。常用來說好話祝福人發大財、賺大錢。",
+      "audio": "audio/zhenping-b2/14570(1).mp3",
+      "source": "課文補充",
+      "note": "kautian新.ods 主詞目＋音檔精確命中"
+    },
+    {
+      "word": "大拜拜",
+      "tailo": "",
+      "meaning": "大拜拜。",
+      "audio": "",
+      "source": "課文補充",
+      "note": "真平課文用語；kautian新.ods 無完整主詞目，不自行補義"
+    },
+    {
+      "word": "胸坎",
+      "tailo": "hing-khám",
+      "meaning": "胸膛、胸部。人體軀幹正面上部，內有心臟、肺臟等器官。",
+      "audio": "audio/zhenping-b2/6497(1).mp3",
+      "source": "課文補充",
+      "note": "kautian新.ods 主詞目＋音檔精確命中"
+    },
+    {
+      "word": "仝款",
+      "tailo": "kāng-khuán",
+      "meaning": "同樣、相像。一樣，沒有差別。",
+      "audio": "audio/zhenping-b2/1360(1).mp3",
+      "source": "課文補充",
+      "note": "kautian新.ods 主詞目＋音檔精確命中"
+    },
+    {
+      "word": "噗仔聲",
+      "tailo": "pho̍k-á-siann",
+      "meaning": "掌聲。",
+      "audio": "audio/zhenping-b2/14454(1).mp3",
+      "source": "課文補充",
+      "note": "kautian新.ods 主詞目＋音檔精確命中"
+    }
+  ],
+  "B2L3｜運動身體好": [
+    {
+      "word": "走路",
+      "tailo": "tsáu-lōo",
+      "meaning": "跑路、逃亡。",
+      "audio": "audio/zhenping-b2/3482(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "紅膏赤蠘",
+      "tailo": "âng-ko-tshiah-tshi̍h",
+      "meaning": "臉色紅潤，形容身體健康。",
+      "audio": "audio/zhenping-b2/5424(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "𬦰山",
+      "tailo": "peh-suann",
+      "meaning": "爬山、登山。",
+      "audio": "audio/zhenping-b2/13596(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "定定",
+      "tailo": "tiānn-tiānn",
+      "meaning": "靜止不動。；常常、經常。",
+      "audio": "audio/zhenping-b2/3837(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "𤆬",
+      "tailo": "tshuā",
+      "meaning": "帶領、引導。；照顧、養育。；引誘、誘拐。",
+      "audio": "audio/zhenping-b2/13511(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "露營",
+      "tailo": "lōo-iânn",
+      "meaning": "一種在野外搭設帳篷或簡便草屋為臨時居所的露宿活動。",
+      "audio": "audio/zhenping-b2/13162(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "布棚",
+      "tailo": "pòo-pênn / pòo-pînn",
+      "meaning": "帳篷。用帆布或塑膠布及支架製成的露營用具。；用帆布做成用來遮擋陽光、風雨的棚子。",
+      "audio": "audio/zhenping-b2/13644(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "講笑詼",
+      "tailo": "kóng-tshiò-khue / kóng-tshiò-khe",
+      "meaning": "打諢、逗笑、講笑話。",
+      "audio": "audio/zhenping-b2/12390(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "遐爾仔",
+      "tailo": "hiah-nī-á",
+      "meaning": "那麼。",
+      "audio": "audio/zhenping-b2/10229(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "康健",
+      "tailo": "khong-kiān",
+      "meaning": "健康。身體安好強健無病痛。",
+      "audio": "audio/zhenping-b2/7207(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "紅牙",
+      "tailo": "âng-gê",
+      "meaning": "紅潤。豐滿而帶有紅色的光澤。本詞目常重疊使用。",
+      "audio": "audio/zhenping-b2/5385(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "白死殺",
+      "tailo": "pe̍h-sí-sat",
+      "meaning": "形容人的臉色蒼白，沒有血色。",
+      "audio": "audio/zhenping-b2/27595(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "規家伙仔",
+      "tailo": "kui-ke-hué-á/kui-ke-hé-á",
+      "meaning": "全家人。",
+      "audio": "audio/zhenping-b2/14293(1).mp3",
+      "source": "課文補充",
+      "note": "kautian新.ods 主詞目＋音檔精確命中"
+    },
+    {
+      "word": "逐擺",
+      "tailo": "ta̍k-pái",
+      "meaning": "每次。",
+      "audio": "audio/zhenping-b2/7994(1).mp3",
+      "source": "課文補充",
+      "note": "kautian新.ods 主詞目＋音檔精確命中"
+    },
+    {
+      "word": "普通時",
+      "tailo": "",
+      "meaning": "平常。",
+      "audio": "",
+      "source": "課文補充",
+      "note": "真平華語翻譯「因為平常在家時」；kautian新.ods 無完整主詞目"
+    },
+    {
+      "word": "燒滾滾",
+      "tailo": "sio-kún-kún",
+      "meaning": "熱騰騰。",
+      "audio": "audio/zhenping-b2/11801(1).mp3",
+      "source": "課文補充",
+      "note": "kautian新.ods 主詞目；課文為比喻用法"
+    },
+    {
+      "word": "阮兜",
+      "tailo": "",
+      "meaning": "我們家。",
+      "audio": "",
+      "source": "課文補充",
+      "note": "真平華語翻譯「我們家的人」；kautian新.ods 無完整主詞目"
+    }
+  ],
+  "B2L4｜藝術展覽": [
+    {
+      "word": "展覽",
+      "tailo": "tián-lám",
+      "meaning": "陳列出特定物品供人觀看。",
+      "audio": "audio/zhenping-b2/5947(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "翕相",
+      "tailo": "hip-siòng",
+      "meaning": "拍照、攝影。",
+      "audio": "audio/zhenping-b2/8913(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "媠",
+      "tailo": "suí",
+      "meaning": "漂亮的、美麗的。",
+      "audio": "audio/zhenping-b2/8285(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "裝置藝術",
+      "tailo": "tsong-tì-gē-su̍t",
+      "meaning": "無可奈何、不得已。",
+      "audio": "audio/zhenping-b2/8607(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "齣",
+      "tailo": "tshut",
+      "meaning": "戲劇。；計算戲劇的單位。；引申為惹出來的麻煩。",
+      "audio": "audio/zhenping-b2/13055(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "色水",
+      "tailo": "sik-tsuí",
+      "meaning": "顏色。",
+      "audio": "audio/zhenping-b2/2625(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "豐沛",
+      "tailo": "phong-phài",
+      "meaning": "菜餚豐盛。",
+      "audio": "audio/zhenping-b2/12629(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "敆",
+      "tailo": "kap",
+      "meaning": "接合，釘補。；配合。；調配中藥。",
+      "audio": "audio/zhenping-b2/6002(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "貼倚",
+      "tailo": "tah-uá",
+      "meaning": "貼近。",
+      "audio": "",
+      "source": "原67詞"
+    },
+    {
+      "word": "干焦",
+      "tailo": "kan-na",
+      "meaning": "只有、僅僅。",
+      "audio": "audio/zhenping-b2/448(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "不時",
+      "tailo": "put-sî",
+      "meaning": "隨時、經常。無論什麼時候。",
+      "audio": "audio/zhenping-b2/699(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "kha-mé-lah",
+      "tailo": "kha-mé-lah",
+      "meaning": "照相機、開麥拉。",
+      "audio": "audio/zhenping-b2/20421(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "逝",
+      "tailo": "tsuā",
+      "meaning": "趟、回。計算路程、路途的單位。；條、行。計算線條或條列文字的單位。；路程、路途。",
+      "audio": "audio/zhenping-b2/7902(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "進前",
+      "tailo": "tsìn-tsîng",
+      "meaning": "之前。",
+      "audio": "audio/zhenping-b2/9117(1).mp3",
+      "source": "課文補充",
+      "note": "依本課「看展覽進前」語境取義"
+    },
+    {
+      "word": "無仝",
+      "tailo": "bô kāng",
+      "meaning": "不一樣。",
+      "audio": "audio/zhenping-b2/8586(1).mp3",
+      "source": "課文補充",
+      "note": "kautian新.ods 主詞目＋音檔精確命中"
+    },
+    {
+      "word": "袂輸",
+      "tailo": "bē-su/buē-su",
+      "meaning": "好比、好像。",
+      "audio": "audio/zhenping-b2/6661(1).mp3",
+      "source": "課文補充",
+      "note": "kautian新.ods 主詞目＋音檔精確命中"
+    },
+    {
+      "word": "活跳跳",
+      "tailo": "ua̍h-thiàu-thiàu",
+      "meaning": "活蹦亂跳、活力充沛的樣子。",
+      "audio": "audio/zhenping-b2/5201(1).mp3",
+      "source": "課文補充",
+      "note": "kautian新.ods 主詞目＋音檔精確命中"
+    },
+    {
+      "word": "煞",
+      "tailo": "suah",
+      "meaning": "竟然，表意外的意思。",
+      "audio": "audio/zhenping-b2/9691(1).mp3",
+      "source": "課文補充",
+      "note": "kautian新.ods 白讀；依本課語境取副詞義"
+    },
+    {
+      "word": "拄著",
+      "tailo": "tú-tio̍h",
+      "meaning": "碰到、遭遇。",
+      "audio": "audio/zhenping-b2/4111(1).mp3",
+      "source": "課文補充",
+      "note": "依本課語境取義"
+    },
+    {
+      "word": "有影",
+      "tailo": "ū-iánn",
+      "meaning": "真實不虛的。",
+      "audio": "audio/zhenping-b2/2555(1).mp3",
+      "source": "課文補充",
+      "note": "kautian新.ods 主詞目＋音檔精確命中"
+    },
+    {
+      "word": "好耍",
+      "tailo": "",
+      "meaning": "好玩。",
+      "audio": "",
+      "source": "課文補充",
+      "note": "真平課文語境；kautian新.ods 無完整主詞目"
+    },
+    {
+      "word": "無的確",
+      "tailo": "bô-tik-khak",
+      "meaning": "說不定、不一定。",
+      "audio": "audio/zhenping-b2/8615(1).mp3",
+      "source": "課文補充",
+      "note": "kautian新.ods 主詞目＋音檔精確命中"
+    }
+  ],
+  "B2L5｜臺灣好所在": [
+    {
+      "word": "崙",
+      "tailo": "lūn",
+      "meaning": "小山丘、小土坡。",
+      "audio": "",
+      "source": "原67詞"
+    },
+    {
+      "word": "崁",
+      "tailo": "khàm",
+      "meaning": "覆蓋在器物上的東西。；覆蓋。；隱瞞。；蓋印章。；山崖。指較陡直的崖面，或河階地形。",
+      "audio": "audio/zhenping-b2/5888(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "坪",
+      "tailo": "phiânn",
+      "meaning": "山凹間或山麓上較平坦的地或可耕地。",
+      "audio": "",
+      "source": "原67詞"
+    },
+    {
+      "word": "坑",
+      "tailo": "khenn / khinn",
+      "meaning": "山谷、溪谷。",
+      "audio": "audio/zhenping-b2/3024(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "崎",
+      "tailo": "kiā",
+      "meaning": "斜坡。；陡峭。",
+      "audio": "audio/zhenping-b2/7175(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "匯流",
+      "tailo": "huē-lâu",
+      "meaning": "水流會合。（PPT 近義詞：濫流）",
+      "audio": "",
+      "source": "原67詞"
+    },
+    {
+      "word": "平原",
+      "tailo": "pîng-guân",
+      "meaning": "平坦廣闊的原野。（PPT 近義詞：平洋）",
+      "audio": "audio/zhenping-b2/23704(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "捅",
+      "tailo": "thóng",
+      "meaning": "超過、多出來。；顯露出來。；啄。",
+      "audio": "audio/zhenping-b2/5989(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "罔",
+      "tailo": "bóng",
+      "meaning": "姑且、將就。",
+      "audio": "audio/zhenping-b2/4415(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "交易",
+      "tailo": "kau-i̍k",
+      "meaning": "買賣、生意。",
+      "audio": "audio/zhenping-b2/2064(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "礤冰",
+      "tailo": "tshuah-ping",
+      "meaning": "刨冰。",
+      "audio": "audio/zhenping-b2/12991(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "牛奶膏",
+      "tailo": "gû-ling-ko / gû-ni-ko",
+      "meaning": "煉乳。",
+      "audio": "",
+      "source": "原67詞"
+    },
+    {
+      "word": "源由",
+      "tailo": "",
+      "meaning": "起源由來。",
+      "audio": "",
+      "source": "課文補充",
+      "note": "真平華語翻譯「起源由來」；kautian新.ods 無完整主詞目"
+    },
+    {
+      "word": "號做",
+      "tailo": "hō-tsò/hō-tsuè",
+      "meaning": "叫做、稱為。",
+      "audio": "audio/zhenping-b2/9983(1).mp3",
+      "source": "課文補充",
+      "note": "kautian新.ods 主詞目＋音檔精確命中"
+    },
+    {
+      "word": "水頭",
+      "tailo": "tsuí-thâu",
+      "meaning": "河流上游。",
+      "audio": "audio/zhenping-b2/1170(1).mp3",
+      "source": "課文補充",
+      "note": "依本課河流語境取第二義"
+    },
+    {
+      "word": "所在",
+      "tailo": "sóo-tsāi",
+      "meaning": "地方。",
+      "audio": "audio/zhenping-b2/4001(1).mp3",
+      "source": "課文補充",
+      "note": "kautian新.ods 主詞目＋音檔精確命中"
+    }
+  ],
+  "B2L6｜風聲水影日月潭": [
+    {
+      "word": "攬絚絚",
+      "tailo": "lám-ân-ân",
+      "meaning": "抱得緊緊的。",
+      "audio": "",
+      "source": "原67詞"
+    },
+    {
+      "word": "雺霧",
+      "tailo": "bông-bū",
+      "meaning": "霧。空氣中接近地面的水蒸氣，因遇冷凝結成小水滴或冰晶，而漂浮在地表的一種現象。能見度低於一公里。",
+      "audio": "audio/zhenping-b2/10351(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "罩",
+      "tailo": "tà",
+      "meaning": "用來遮蓋東西的編織物。；覆蓋、籠罩。；趴在某人身上。",
+      "audio": "audio/zhenping-b2/9812(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "四邊",
+      "tailo": "sì-pinn",
+      "meaning": "周邊。四周圍。",
+      "audio": "audio/zhenping-b2/1627(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "毋願",
+      "tailo": "m̄-guān",
+      "meaning": "不願意。不希望、不肯。；不甘心。心裡不服氣，不情願。",
+      "audio": "audio/zhenping-b2/1199(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "鬱卒",
+      "tailo": "ut-tsut",
+      "meaning": "心中愁悶不暢快。",
+      "audio": "audio/zhenping-b2/13433(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "操煩",
+      "tailo": "tshau-huân",
+      "meaning": "操心煩惱。",
+      "audio": "audio/zhenping-b2/11683(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "處處",
+      "tailo": "tshú-tshú",
+      "meaning": "到處、處處。（PPT 近義詞：四界）",
+      "audio": "",
+      "source": "原67詞"
+    },
+    {
+      "word": "眠夢",
+      "tailo": "bîn-bāng",
+      "meaning": "作夢、夢想。",
+      "audio": "audio/zhenping-b2/6415(1).mp3",
+      "source": "原67詞"
+    },
+    {
+      "word": "心茫茫",
+      "tailo": "sim-bông-bông",
+      "meaning": "陶醉。",
+      "audio": "",
+      "source": "原67詞"
+    },
+    {
+      "word": "拍開",
+      "tailo": "phah-khui",
+      "meaning": "打開。",
+      "audio": "",
+      "source": "課文補充",
+      "note": "kautian新.ods 為「近反義詞不單列詞目者」，無獨立音檔；真平華語翻譯「打開」"
+    }
+  ]
+}

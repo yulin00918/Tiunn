@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>台語 Unicode 測試</title>
+<style>
+body{font-family:"Noto Sans TC","Noto Sans","PingFang TC","Microsoft JhengHei","Arial Unicode MS",sans-serif;padding:24px;line-height:1.8}
+.card{max-width:800px;border:1px solid #ddd;border-radius:16px;padding:18px;margin:auto}
+code{background:#f5f5f5;padding:2px 6px;border-radius:6px}
+.ok{color:#277a43;font-weight:800}.bad{color:#b3261e;font-weight:800}
+textarea{width:100%;min-height:100px;font:inherit;line-height:1.8}
+</style>
+</head>
+<body>
+<div class="card">
+<h1>台語／Unicode 測試</h1>
+<p>顯示測試：gí、hóo、pà、kâu、tshiūnn、lo̍k、o͘、𠢕</p>
+<textarea id="input">gí
+lo̍k
+o͘
+𠢕</textarea>
+<p id="result"></p>
+</div>
+<script>
+const nfc=s=>String(s).normalize('NFC');
+const a='gí';
+const b='gi\u0301';
+document.getElementById('result').innerHTML=
+  nfc(a)===nfc(b)
+    ? '<span class="ok">✅ NFC 正規化測試通過</span>'
+    : '<span class="bad">❌ NFC 正規化測試失敗</span>';
+</script>
+</body>
+</html>

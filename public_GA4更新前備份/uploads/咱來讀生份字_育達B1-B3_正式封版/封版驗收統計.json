@@ -1,0 +1,116 @@
+{
+  "scope": "育達B1-B3共12課",
+  "stats": {
+    "WORDS_B1L1": {
+      "total": 29,
+      "official": 20,
+      "supplement": 9,
+      "with_audio": 20,
+      "official_missing_audio": 0
+    },
+    "WORDS_B1L2": {
+      "total": 26,
+      "official": 17,
+      "supplement": 9,
+      "with_audio": 18,
+      "official_missing_audio": 0
+    },
+    "WORDS_B1L3": {
+      "total": 30,
+      "official": 20,
+      "supplement": 10,
+      "with_audio": 20,
+      "official_missing_audio": 0
+    },
+    "WORDS_B1L4": {
+      "total": 19,
+      "official": 13,
+      "supplement": 6,
+      "with_audio": 13,
+      "official_missing_audio": 0
+    },
+    "WORDS_B2L1": {
+      "total": 18,
+      "official": 10,
+      "supplement": 8,
+      "with_audio": 11,
+      "official_missing_audio": 0
+    },
+    "WORDS_B2L2": {
+      "total": 26,
+      "official": 19,
+      "supplement": 7,
+      "with_audio": 19,
+      "official_missing_audio": 0
+    },
+    "WORDS_B2L3": {
+      "total": 11,
+      "official": 7,
+      "supplement": 4,
+      "with_audio": 7,
+      "official_missing_audio": 0
+    },
+    "WORDS_B2L4": {
+      "total": 18,
+      "official": 9,
+      "supplement": 9,
+      "with_audio": 11,
+      "official_missing_audio": 0
+    },
+    "WORDS_B3L1": {
+      "total": 20,
+      "official": 12,
+      "supplement": 8,
+      "with_audio": 13,
+      "official_missing_audio": 0
+    },
+    "WORDS_B3L2": {
+      "total": 23,
+      "official": 16,
+      "supplement": 7,
+      "with_audio": 16,
+      "official_missing_audio": 0
+    },
+    "WORDS_B3L3": {
+      "total": 18,
+      "official": 8,
+      "supplement": 10,
+      "with_audio": 8,
+      "official_missing_audio": 0
+    },
+    "WORDS_B3L4": {
+      "total": 25,
+      "official": 17,
+      "supplement": 8,
+      "with_audio": 17,
+      "official_missing_audio": 0
+    }
+  },
+  "yuda_missing_audio_files": [],
+  "non_yuda_legacy_missing_audio_files": [
+    "audio/bak-iu.mp3",
+    "audio/bak-tsiu.mp3",
+    "audio/gau-tsa.mp3",
+    "audio/han-ban.mp3",
+    "audio/ho-liau-e.mp3",
+    "audio/hue-sit-le.mp3",
+    "audio/ke.mp3",
+    "audio/kun-sng-tshio.mp3",
+    "audio/phainn-se.mp3",
+    "audio/pi-su.mp3",
+    "audio/pu-a.mp3",
+    "audio/si-tua-lang.mp3",
+    "audio/sio-tsioh-mng.mp3",
+    "audio/sit-tsai.mp3",
+    "audio/thai-e.mp3",
+    "audio/tik-sit.mp3",
+    "audio/tshenn-tshau.mp3",
+    "audio/tshong-pong.mp3",
+    "audio/tshu-bi.mp3",
+    "audio/zhenping_b1l2_be-hu-tshi.mp3",
+    "audio/zhenping_b1l2_huainn-tit.mp3",
+    "audio/zhenping_b1l2_phainn-se.mp3",
+    "audio/zhenping_b1l2_thuann.mp3"
+  ],
+  "note": "non_yuda_legacy_missing_audio_files 屬此舊共用資料檔內的真平舊資料，不納入本次育達封版驗收。"
+}

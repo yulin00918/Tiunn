@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>咱來讀生份字 · 第二課 來去屏東海生館蹛一暝</title>
+<style>
+  :root {
+    --navy: #1f2d5c;
+    --navy-dark: #16224a;
+    --card-bg: #fdf6ec;
+    --ink: #1f2d5c;
+    --sub-ink: #5c6690;
+    --pink: #1f2d5c;
+    --pink-dark: #16224a;
+    --option-bg: #fdf1e2;
+    --option-border: #f0dcc4;
+    --green: #4a9f6e;
+    --correct: #4a9f6e;
+    --wrong: #d9637a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+    background: linear-gradient(135deg, #ffe3c2 0%, #ffb98f 55%, #ff9f7a 100%);
+    color: var(--ink);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 14px;
+    position: relative;
+    overflow-x: hidden;
+    gap: 16px;
+  }
+  body::before, body::after {
+    content: "";
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(60px);
+    pointer-events: none;
+    z-index: 0;
+  }
+  body::before {
+    width: 420px;
+    height: 420px;
+    background: rgba(255, 255, 255, 0.35);
+    top: -120px;
+    left: -120px;
+  }
+  body::after {
+    width: 520px;
+    height: 520px;
+    background: rgba(111, 95, 209, 0.18);
+    bottom: -160px;
+    right: -160px;
+  }
+  #app { position: relative; z-index: 1; }
+  .page-footer {
+    position: relative;
+    z-index: 1;
+    color: rgba(31, 45, 92, 0.55);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-align: center;
+  }
+  #app {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  .card {
+    background: var(--card-bg);
+    border-radius: 28px;
+    padding: 40px 36px;
+    width: 90vw;
+    box-shadow: 0 20px 50px rgba(140, 80, 40, 0.2);
+  }
+  h1 {
+    text-align: center;
+    font-size: 1.4rem;
+    color: var(--pink);
+    margin: 0 0 4px;
+    letter-spacing: 0.05em;
+  }
+  .mascot-img {
+    display: block;
+    width: 140px;
+    height: auto;
+    margin: 0 auto 8px;
+  }
+  .subtitle {
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 22px;
+  }
+  .section-label {
+    text-align: center;
+    color: var(--navy);
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin: 22px 0 12px;
+  }
+  .mode-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .count-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+  button.choice-btn {
+    font-family: inherit;
+    background: var(--option-bg);
+    border: 2px solid var(--option-border);
+    border-radius: 16px;
+    padding: 16px 10px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--navy);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .mode-grid button.choice-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 1rem;
+  }
+  .count-grid button.choice-btn {
+    border-radius: 999px;
+    padding: 14px 6px;
+  }
+  button.choice-btn:hover:not(:disabled) { border-color: var(--green); }
+  button.choice-btn.selected {
+    background: #fff;
+    border-color: var(--green);
+    color: var(--green);
+  }
+  button.choice-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+  .start-btn {
+    display: block;
+    width: 100%;
+    margin-top: 26px;
+    background: var(--navy);
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    padding: 16px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.15em;
+  }
+  .start-btn:hover:not(:disabled) { background: var(--navy-dark); }
+  .start-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .note {
+    text-align: center;
+    font-size: 0.72rem;
+    color: var(--sub-ink);
+    margin-top: 14px;
+    line-height: 1.5;
+  }
+
+  /* quiz screen */
+  .quiz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    color: var(--sub-ink);
+    margin-bottom: 18px;
+  }
+  .progress-bar {
+    background: #f0edfa;
+    border-radius: 999px;
+    height: 8px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .progress-fill {
+    background: var(--green);
+    height: 100%;
+    transition: width 0.3s ease;
+  }
+  .question-box {
+    text-align: center;
+    margin-bottom: 26px;
+  }
+  .question-hanji {
+    font-size: 2.6rem;
+    font-weight: 700;
+  }
+  .question-tailo {
+    font-size: 1.1rem;
+    color: var(--sub-ink);
+    margin-top: 4px;
+  }
+  .play-question-btn {
+    background: var(--navy);
+    color: #fff;
+    border: none;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    font-size: 1.6rem;
+    cursor: pointer;
+    margin: 0 auto;
+    display: block;
+  }
+  .play-question-btn:hover { background: var(--navy-dark); }
+
+  .answer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .answer-btn {
+    font-family: inherit;
+    background: #fff;
+    border: 2px solid var(--option-border);
+    border-radius: 16px;
+    padding: 16px 10px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .answer-btn.audio-opt {
+    font-size: 1.6rem;
+    padding: 20px 10px;
+  }
+  .answer-btn:hover:not(:disabled) { border-color: var(--green); }
+  .answer-btn.correct { background: var(--correct); border-color: var(--correct); color: #fff; }
+  .answer-btn.wrong { background: var(--wrong); border-color: var(--wrong); color: #fff; }
+  .answer-btn:disabled { cursor: default; }
+
+  .feedback-line {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 0.95rem;
+    min-height: 24px;
+    font-weight: 700;
+  }
+  .feedback-line.correct-text { color: var(--correct); }
+  .feedback-line.wrong-text { color: var(--wrong); }
+
+  .next-btn {
+    display: block;
+    width: 100%;
+    margin-top: 16px;
+    background: var(--navy);
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .result-score {
+    text-align: center;
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--pink);
+    margin: 10px 0;
+  }
+  .result-sub {
+    text-align: center;
+    color: var(--sub-ink);
+    margin-bottom: 18px;
+  }
+  .wrong-list {
+    background: #faf8ff;
+    border-radius: 14px;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+  }
+  .wrong-list h3 { font-size: 0.85rem; color: var(--sub-ink); margin: 0 0 8px; }
+  .wrong-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-size: 0.9rem;
+    border-bottom: 1px solid #eee7fb;
+  }
+  .wrong-item:last-child { border-bottom: none; }
+
+  .hidden { display: none !important; }
+
+  /* ===== 測驗中畫面：左右分欄 ===== */
+  .quiz-layout {
+    display: flex;
+    gap: 28px;
+    width: 90vw;
+    align-items: stretch;
+    flex-wrap: nowrap;
+    border: 5px solid #e58fc0;
+    border-radius: 40px;
+    padding: 28px;
+  }
+  @media (max-width: 700px) {
+    .quiz-layout { flex-direction: column; }
+  }
+  .quiz-left {
+    background: linear-gradient(160deg, #7fdcc0 0%, #3f9e7a 100%);
+    border-radius: 30px;
+    padding: 34px 28px;
+    color: #fff;
+    width: 240px;
+    min-width: 240px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 50px rgba(30, 100, 70, 0.25);
+  }
+  @media (max-width: 700px) {
+    .quiz-left { width: 100%; min-width: 0; }
+  }
+  .quiz-right {
+    background: var(--card-bg);
+    border-radius: 30px;
+    padding: 42px 44px;
+    flex: 1;
+    min-width: 260px;
+    box-shadow: 0 20px 50px rgba(140, 80, 40, 0.2);
+  }
+  .quiz-mode-pill {
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 999px;
+    padding: 8px 14px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 18px;
+  }
+  .quiz-info-box {
+    background: rgba(255, 255, 255, 0.94);
+    border-radius: 18px;
+    padding: 18px 18px;
+    margin-bottom: 22px;
+    color: var(--navy);
+  }
+  .info-title {
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+  }
+  .info-row span:first-child { color: var(--sub-ink); }
+  .info-row span:last-child { font-weight: 700; }
+  .info-divider {
+    font-weight: 700;
+    font-size: 0.78rem;
+    color: #d9637a;
+    margin: 10px 0 6px;
+    text-align: center;
+  }
+  .info-meaning-box {
+    border-radius: 12px;
+    padding: 8px 10px;
+    font-size: 0.85rem;
+    text-align: center;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+  .info-meaning-box.pink {
+    background: #fce3ea;
+    color: #a8425c;
+  }
+  .info-meaning-box.blue {
+    background: transparent;
+    color: #3a5bc7;
+  }
+  .quiz-progress-text-big {
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+  .quiz-left .progress-bar {
+    background: rgba(255, 255, 255, 0.3);
+    margin-bottom: 22px;
+    height: 8px;
+  }
+  .quiz-left .progress-fill {
+    background: #fff;
+  }
+  .quiz-nav-row {
+    display: flex;
+    gap: 8px;
+    margin-top: auto;
+  }
+  .quiz-nav-btn {
+    flex: 1;
+    font-family: inherit;
+    background: rgba(255, 255, 255, 0.22);
+    border: none;
+    border-radius: 999px;
+    color: #fff;
+    padding: 12px 6px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .quiz-nav-btn:hover:not(:disabled) { background: rgba(255, 255, 255, 0.35); }
+  .quiz-nav-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+  .quiz-back-btn {
+    margin-top: 12px;
+    font-family: inherit;
+    background: rgba(0, 0, 0, 0.15);
+    border: none;
+    border-radius: 999px;
+    color: #fff;
+    padding: 10px 6px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .quiz-back-btn:hover { background: rgba(0, 0, 0, 0.25); }
+
+  .quiz-right h1 { font-size: 1.2rem; margin-bottom: 4px; white-space: nowrap; }
+  .quiz-right .subtitle { font-size: 0.8rem; margin-bottom: 10px; white-space: nowrap; }
+
+  .quiz-question-label {
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin: 22px 0 22px;
+    line-height: 1.5;
+    white-space: nowrap;
+  }
+  .replay-btn {
+    display: block;
+    margin: 0 auto 20px;
+    background: var(--navy);
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .replay-btn:hover { background: var(--navy-dark); }
+
+  .answer-grid-lettered {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 480px) {
+    .answer-grid-lettered { grid-template-columns: 1fr; }
+  }
+  .answer-btn-lettered {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: inherit;
+    background: #f3effc;
+    border: 2px solid #e2d9f7;
+    border-radius: 16px;
+    padding: 16px 18px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--navy);
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.15s ease;
+    min-width: 0;
+  }
+  .answer-btn-lettered span:last-child {
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+  }
+  .answer-btn-lettered:hover:not(:disabled) { border-color: #8a6fe0; }
+  .answer-badge {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #6f5fd1;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.95rem;
+    flex-shrink: 0;
+  }
+  .answer-btn-lettered.correct { background: var(--correct); border-color: var(--correct); color: #fff; }
+  .answer-btn-lettered.correct .answer-badge { background: rgba(255,255,255,0.35); color: #fff; }
+  .answer-btn-lettered.wrong { background: var(--wrong); border-color: var(--wrong); color: #fff; }
+  .answer-btn-lettered.wrong .answer-badge { background: rgba(255,255,255,0.35); color: #fff; }
+  .answer-btn-lettered:disabled { cursor: default; }
+</style>
+</head>
+<body>
+
+<div class="card" id="app">
+
+  <!-- 設定畫面 -->
+  <div id="screen-setup" class="card">
+    <h1>咱來讀生份字</h1>
+    <div class="subtitle">育達版國中第1冊 第2課 來去屏東海生館蹛一暝</div>
+
+    <div class="section-label">選擇聆聽方式</div>
+    <div class="mode-grid" id="mode-grid"></div>
+
+    <div class="section-label">選擇測驗題目數量</div>
+    <div class="count-grid" id="count-grid"></div>
+
+    <button class="start-btn" id="btn-start" disabled>開始挑戰 🚀</button>
+    <div class="note" id="loading-note">正在確認音檔中...</div>
+  </div>
+
+  <!-- 測驗畫面 -->
+  <div id="screen-quiz" class="hidden quiz-layout">
+    <div class="quiz-left">
+      <div class="quiz-info-box">
+        <div class="info-title">題目資訊</div>
+        <div class="info-row"><span>項次：</span><span id="info-num"></span></div>
+        <div class="info-row"><span>頁數：</span><span id="info-page"></span></div>
+        <div class="info-divider">華語解說</div>
+        <div class="info-meaning-box" id="info-meaning"></div>
+      </div>
+      <div class="quiz-progress-text-big" id="quiz-progress-text"></div>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+      <div class="quiz-nav-row">
+        <button class="quiz-nav-btn" id="btn-prev">← 上一題</button>
+        <button class="quiz-nav-btn" id="btn-next">下一題 →</button>
+      </div>
+      <button class="quiz-back-btn" id="btn-back-setup">↩ 返回設定</button>
+    </div>
+    <div class="quiz-right">
+      <h1>咱來讀生份字</h1>
+      <div class="subtitle">育達版國中第1冊 第2課 來去屏東海生館蹛一暝</div>
+      <div class="quiz-question-label" id="quiz-question-label"></div>
+      <div class="question-box" id="question-box"></div>
+      <div class="answer-grid-lettered" id="answer-grid"></div>
+      <div class="feedback-line" id="feedback-line"></div>
+    </div>
+  </div>
+
+  <!-- 結果畫面 -->
+  <div id="screen-result" class="hidden card">
+    <h1>挑戰結束！</h1>
+    <div class="result-score" id="result-score"></div>
+    <div class="result-sub" id="result-sub"></div>
+    <div class="wrong-list hidden" id="wrong-list">
+      <h3>答錯的題目</h3>
+      <div id="wrong-items"></div>
+    </div>
+    <button class="start-btn" id="btn-retry">再玩一次</button>
+  </div>
+
+</div>
+
+<div class="page-footer">育達版國中閩南語 · 第1冊 第2課 來去屏東海生館蹛一暝</div>
+
+<script>
+const WORDS = [{"num": "1", "hanji": "歇熱", "tailo": "hioh-jua̍h / hioh-lua̍h", "audio": "audio/hioh-juah.mp3", "meaning": "放暑假", "page": 26}, {"num": "2", "hanji": "不而過", "tailo": "put-jî-kò / put-lî-kò", "audio": "audio/put-ji-ko.mp3", "meaning": "但是、不過", "page": 26}, {"num": "3", "hanji": "磕袂著", "tailo": "kha̍p-bē-tio̍h / kha̍p-buē-tio̍h", "audio": "audio/khap-be-tioh.mp3", "meaning": "動不動就……", "page": 26}, {"num": "4", "hanji": "熁", "tailo": "hannh", "audio": "audio/hannh.mp3", "meaning": "天氣炎熱，熱氣逼人", "page": 26}, {"num": "5", "hanji": "蹛一暝", "tailo": "tuà-tsi̍t-mê / tuà-tsi̍t-mî", "audio": "audio/tua-tsit-me.mp3", "meaning": "住一晚", "page": 26}, {"num": "6", "hanji": "衝", "tailo": "tshìng", "audio": "audio/tshing.mp3", "meaning": "形容人的氣勢豪盛", "page": 27}, {"num": "7", "hanji": "磅空", "tailo": "pōng-khang", "audio": "audio/pong-khang.mp3", "meaning": "隧道", "page": 27}, {"num": "8", "hanji": "別搭", "tailo": "pa̍t-tah", "audio": "audio/pat-tah.mp3", "meaning": "別處", "page": 27}, {"num": "9", "hanji": "賰", "tailo": "tshun", "audio": "audio/tshun.mp3", "meaning": "剩餘", "page": 27}, {"num": "10", "hanji": "魴魚", "tailo": "hang-hî / hang-hû", "audio": "audio/hang-hi.mp3", "meaning": "魟魚。閩南語另有「魴仔」或「魴仔魚」之稱", "page": 27}, {"num": "11", "hanji": "徛鵝", "tailo": "khiā-gô", "audio": "audio/khia-go.mp3", "meaning": "企鵝", "page": 27}, {"num": "12", "hanji": "箍一輾", "tailo": "khoo-tsi̍t-liàn", "audio": "audio/khoo-tsit-lian.mp3", "meaning": "繞一圈", "page": 28}, {"num": "13", "hanji": "𢯾", "tailo": "mooh", "audio": "audio/mooh.mp3", "meaning": "緊抱", "page": 28}, {"num": "14", "hanji": "棉襀被", "tailo": "mî-tsioh-phuē / mî-tsioh-phē", "audio": "audio/mi-tsioh-phue.mp3", "meaning": "棉被", "page": 28}, {"num": "15", "hanji": "下昏暗", "tailo": "e-hng-àm", "audio": "audio/e-hng-am.mp3", "meaning": "今晚、今天晚上。下昏暗也常用連音，讀「îng-àm」或「îng」", "page": 28}, {"num": "16", "hanji": "隔轉工", "tailo": "keh-tńg-kang", "audio": "audio/keh-tng-kang.mp3", "meaning": "翌日、隔天", "page": 28}, {"num": "17", "hanji": "記持", "tailo": "kì-tî", "audio": "audio/ki-ti.mp3", "meaning": "記憶", "page": 29}, {"num": "18", "hanji": "所在", "tailo": "sóo-tsāi", "audio": "audio/soo-tsai.mp3", "meaning": "地方", "page": "補充"}, {"num": "19", "hanji": "泅", "tailo": "siû", "audio": "audio/siu.mp3", "meaning": "游泳；游水或戲水", "page": "補充"}, {"num": "20", "hanji": "佮", "tailo": "kah", "audio": "audio/kah.mp3", "meaning": "和、及、與、跟", "page": "補充"}, {"num": "21", "hanji": "鬥陣", "tailo": "tàu-tīn", "audio": "audio/tau-tin.mp3", "meaning": "結伴、偕同、一起", "page": "補充"}, {"num": "22", "hanji": "四界", "tailo": "sì-kè / sì-kuè", "audio": "audio/si-ke.mp3", "meaning": "到處、處處", "page": "補充"}, {"num": "23", "hanji": "翕", "tailo": "hip", "audio": "audio/hip.mp3", "meaning": "照相、拍照", "page": "補充"}, {"num": "24", "hanji": "𤆬", "tailo": "tshuā", "audio": "audio/tshua.mp3", "meaning": "帶領、引導", "page": "補充"}, {"num": "25", "hanji": "紲落來", "tailo": "suà--lo̍h-lâi", "audio": "audio/sua-loh-lai.mp3", "meaning": "接下來、接著", "page": "補充"}, {"num": "26", "hanji": "誠實", "tailo": "tsiânn-si̍t", "audio": "audio/tsiann-sit.mp3", "meaning": "真的、確實", "page": "補充"}];
+
+const MODES = [
+  { id: 'listen-hanji', label: '🎧 聽音檔選台語' },
+  { id: 'listen-tailo', label: '🎧 聽音檔選台羅' },
+  { id: 'see-hanji', label: '📖 看台語選台羅' },
+  { id: 'see-tailo', label: '📖 看台羅選台語' },
+];
+
+let state = {
+  mode: null,
+  count: null,
+  audioAvailable: {},
+  quiz: [],
+  answers: [],
+  current: 0,
+};
+
+function checkAudioExists(url) {
+  return new Promise((resolve) => {
+    const a = new Audio();
+    let done = false;
+    const finish = (ok) => { if (!done) { done = true; resolve(ok); } };
+    a.addEventListener('canplaythrough', () => finish(true), { once: true });
+    a.addEventListener('error', () => finish(false), { once: true });
+    a.src = url;
+    a.load();
+    setTimeout(() => finish(false), 5000);
+  });
+}
+
+async function initAudioCheck() {
+  const checks = WORDS.map(w => checkAudioExists(w.audio).then(ok => { state.audioAvailable[w.num] = ok; }));
+  await Promise.all(checks);
+  document.getElementById('loading-note').textContent =
+    `目前 ${WORDS.filter(w => state.audioAvailable[w.num]).length} / ${WORDS.length} 個字有音檔可用`;
+  buildCountGrid();
+}
+
+function buildModeGrid() {
+  const grid = document.getElementById('mode-grid');
+  MODES.forEach(m => {
+    const b = document.createElement('button');
+    b.className = 'choice-btn';
+    b.textContent = m.label;
+    b.onclick = () => {
+      state.mode = m.id;
+      [...grid.children].forEach(c => c.classList.remove('selected'));
+      b.classList.add('selected');
+      buildCountGrid();
+    };
+    grid.appendChild(b);
+  });
+}
+
+function eligiblePoolSize() {
+  if (!state.mode) return 0;
+  if (state.mode === 'listen-hanji' || state.mode === 'listen-tailo') {
+    // 聽音檔選文字：題目本身需要音檔，選項是文字，不需要音檔
+    return WORDS.filter(w => state.audioAvailable[w.num]).length;
+  } else {
+    // 看台語選台羅／看台羅選台語：全部都是文字，不需要音檔
+    return WORDS.length;
+  }
+}
+
+function buildCountGrid() {
+  const grid = document.getElementById('count-grid');
+  grid.innerHTML = '';
+  const pool = eligiblePoolSize();
+  const options = [5, 7, 9, 11].filter(n => n <= Math.max(pool, 4));
+  if (pool > 0 && !options.includes(pool) && pool < 12) options.push(pool);
+  options.sort((a,b) => a-b);
+  options.forEach(n => {
+    const b = document.createElement('button');
+    b.className = 'choice-btn';
+    b.textContent = n + '題';
+    if (n > pool || pool < 4) b.disabled = true;
+    b.onclick = () => {
+      state.count = n;
+      [...grid.children].forEach(c => c.classList.remove('selected'));
+      b.classList.add('selected');
+      updateStartBtn();
+    };
+    grid.appendChild(b);
+  });
+  updateStartBtn();
+}
+
+function updateStartBtn() {
+  const btn = document.getElementById('btn-start');
+  btn.disabled = !(state.mode && state.count);
+}
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function buildQuiz() {
+  const isListenMode = state.mode === 'listen-hanji' || state.mode === 'listen-tailo';
+  const pool = isListenMode ? WORDS.filter(w => state.audioAvailable[w.num]) : WORDS;
+  const targets = shuffle(pool).slice(0, state.count);
+  state.quiz = targets.map(target => {
+    const distractorPool = pool.filter(w => w.num !== target.num);
+    const distractors = shuffle(distractorPool).slice(0, 3);
+    const options = shuffle([target, ...distractors]);
+    return { target, options };
+  });
+  state.answers = state.quiz.map(() => null);
+  state.current = 0;
+}
+
+const MODE_LABELS = {
+  'listen-hanji': '🎧 聽音檔選台語',
+  'listen-tailo': '🎧 聽音檔選台羅',
+  'see-hanji': '📖 看台語選台羅',
+  'see-tailo': '📖 看台羅選台語',
+};
+const LETTERS = ['A', 'B', 'C', 'D'];
+
+function questionLabelFor(mode) {
+  switch (mode) {
+    case 'listen-hanji': return '請聽音檔，選擇正確的台語';
+    case 'listen-tailo': return '請聽音檔，選擇正確的台羅';
+    case 'see-hanji': return '請選出正確的台羅拼音';
+    case 'see-tailo': return '請選出正確的台語漢字';
+  }
+}
+
+function renderQuestion() {
+  const q = state.quiz[state.current];
+  const isListenMode = state.mode === 'listen-hanji' || state.mode === 'listen-tailo';
+  const savedAnswer = state.answers[state.current];
+
+  document.getElementById('info-num').textContent = q.target.num;
+  document.getElementById('info-page').textContent = /^\d+$/.test(String(q.target.page)) ? `第 ${q.target.page} 頁` : q.target.page;
+  const meaningBox = document.getElementById('info-meaning');
+  meaningBox.textContent = `${q.target.meaning}(${q.target.num})`;
+  meaningBox.className = 'info-meaning-box ' + (isListenMode ? 'pink' : 'blue');
+  document.getElementById('quiz-progress-text').textContent = `第 ${state.current + 1} 題 / 共 ${state.quiz.length} 題`;
+  document.getElementById('progress-fill').style.width = `${((state.current + 1) / state.quiz.length) * 100}%`;
+
+  document.getElementById('btn-prev').disabled = state.current === 0;
+  document.getElementById('btn-next').textContent = state.current === state.quiz.length - 1 ? '完成測驗 ✓' : '下一題 →';
+
+  const qBox = document.getElementById('question-box');
+  const aGrid = document.getElementById('answer-grid');
+  const feedback = document.getElementById('feedback-line');
+  aGrid.innerHTML = '';
+  feedback.textContent = '';
+  feedback.className = 'feedback-line';
+
+  document.getElementById('quiz-question-label').textContent = questionLabelFor(state.mode);
+
+  if (isListenMode) {
+    qBox.innerHTML = `<button class="replay-btn" id="play-q-btn">🔁 重播音檔</button>`;
+    document.getElementById('play-q-btn').onclick = () => new Audio(q.target.audio).play();
+    if (!savedAnswer) new Audio(q.target.audio).play().catch(() => {});
+  } else if (state.mode === 'see-hanji') {
+    qBox.innerHTML = `<div class="question-hanji" style="text-align:center;font-size:2.4rem;font-weight:700;margin-bottom:10px;">${q.target.hanji}</div>`;
+  } else {
+    qBox.innerHTML = `<div style="text-align:center;font-size:1.8rem;font-weight:700;margin-bottom:10px;">${q.target.tailo}</div>`;
+  }
+
+  q.options.forEach((opt, i) => {
+    const b = document.createElement('button');
+    b.className = 'answer-btn-lettered';
+    const showHanji = (state.mode === 'listen-hanji' || state.mode === 'see-tailo');
+    const optText = showHanji ? opt.hanji : opt.tailo;
+    let fontSize = '1.2rem';
+    if (optText.length > 14) fontSize = '0.75rem';
+    else if (optText.length > 10) fontSize = '0.9rem';
+    else if (optText.length > 7) fontSize = '1.05rem';
+    b.innerHTML = `<span class="answer-badge">${LETTERS[i]}</span><span style="font-size:${fontSize}">${optText}</span>`;
+
+    if (savedAnswer) {
+      b.disabled = true;
+      if (opt.num === q.target.num) b.classList.add('correct');
+      else if (opt.num === savedAnswer.selectedNum) b.classList.add('wrong');
+    } else {
+      b.onclick = () => {
+        if (!isListenMode && state.audioAvailable[opt.num]) new Audio(opt.audio).play();
+        handleAnswer(opt);
+      };
+    }
+    aGrid.appendChild(b);
+  });
+
+  if (savedAnswer) {
+    if (savedAnswer.correct) {
+      feedback.textContent = '答對了！';
+      feedback.className = 'feedback-line correct-text';
+    } else {
+      const correctText = (state.mode === 'listen-hanji' || state.mode === 'see-tailo') ? q.target.hanji : q.target.tailo;
+      feedback.textContent = `答錯了，正確答案是「${correctText}」`;
+      feedback.className = 'feedback-line wrong-text';
+    }
+  }
+}
+
+function handleAnswer(opt) {
+  const q = state.quiz[state.current];
+  const correct = opt.num === q.target.num;
+  state.answers[state.current] = { selectedNum: opt.num, correct };
+  renderQuestion();
+}
+
+function goToQuestion(idx) {
+  state.current = idx;
+  renderQuestion();
+}
+
+function prevQuestion() {
+  if (state.current > 0) goToQuestion(state.current - 1);
+}
+
+function nextQuestion() {
+  if (state.current < state.quiz.length - 1) {
+    goToQuestion(state.current + 1);
+  } else {
+    showResult();
+  }
+}
+
+function backToSetup() {
+  const answeredCount = state.answers.filter(a => a).length;
+  if (answeredCount > 0 && answeredCount < state.quiz.length) {
+    if (!confirm('測驗還沒做完，確定要返回設定畫面嗎？目前的作答會消失。')) return;
+  }
+  document.getElementById('screen-quiz').classList.add('hidden');
+  document.getElementById('screen-setup').classList.remove('hidden');
+}
+
+function showResult() {
+  const score = state.answers.filter(a => a && a.correct).length;
+  const wrongWords = state.quiz.filter((q, i) => state.answers[i] && !state.answers[i].correct).map(q => q.target);
+
+  document.getElementById('screen-quiz').classList.add('hidden');
+  document.getElementById('screen-result').classList.remove('hidden');
+  document.getElementById('result-score').textContent = `${score} / ${state.quiz.length}`;
+  document.getElementById('result-sub').textContent =
+    score === state.quiz.length ? '全部答對，真勢！' : '繼續加油！';
+  if (wrongWords.length > 0) {
+    document.getElementById('wrong-list').classList.remove('hidden');
+    document.getElementById('wrong-items').innerHTML = wrongWords.map(w =>
+      `<div class="wrong-item"><span>${w.hanji}</span><span>${w.tailo}</span></div>`
+    ).join('');
+  } else {
+    document.getElementById('wrong-list').classList.add('hidden');
+  }
+}
+
+function startQuiz() {
+  buildQuiz();
+  document.getElementById('screen-setup').classList.add('hidden');
+  document.getElementById('screen-result').classList.add('hidden');
+  document.getElementById('screen-quiz').classList.remove('hidden');
+  renderQuestion();
+}
+
+function resetToSetup() {
+  document.getElementById('screen-result').classList.add('hidden');
+  document.getElementById('screen-setup').classList.remove('hidden');
+}
+
+buildModeGrid();
+initAudioCheck();
+document.getElementById('btn-start').onclick = startQuiz;
+document.getElementById('btn-prev').onclick = prevQuestion;
+document.getElementById('btn-next').onclick = nextQuestion;
+document.getElementById('btn-back-setup').onclick = backToSetup;
+document.getElementById('btn-retry').onclick = resetToSetup;
+</script>
+</body>
+</html>

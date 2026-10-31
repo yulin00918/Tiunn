@@ -1,0 +1,155 @@
+function audio_player(str) {
+	//console.log(str);
+	if (document.getElementById("video_obj")) {
+		document.getElementById("video_obj").pause();
+	}
+	document.getElementById("audio_obj").src = str;
+	document.getElementById("audio_obj").play();
+}
+function video_player(str) {
+	//console.log(str);
+	$("#video_obj").show();
+	document.getElementById("audio_obj").pause();
+	document.getElementById("video_obj").src = str;
+	document.getElementById("video_obj").play();
+}
+function tone_test(str)
+{
+$(".tone1_sub_table").hide();
+$(".tone1_sub"+str).show();
+$(".tone1_sub_table_bg").attr("src","tone/tone1/5-1_"+str+".png");
+$(".tone1_sub_table_bg").show();
+}
+function show_game(str)
+{
+	if(str=="0")
+	{
+		document.getElementById("game").src = "";
+		$("#game").hide();
+		$(".close_bt").hide();
+	}
+	else
+	{
+		document.getElementById("game").src="game/game"+str+"/game.html";
+		$("#game").show();
+		$(".close_bt").show();
+	}
+}
+window.onload = function () {
+	$("img").attr({
+		draggable: "false"
+	});
+	this.addEventListener('contextmenu', function (e) {
+		e.preventDefault();
+	});
+	var event_down;
+	var event_up;
+	var event_move;
+	var event_click;
+	var touch_type = false;
+	if ('ontouchstart' in document.documentElement == false) {
+		event_down = "mousedown";
+		event_up = "mouseup";
+		event_move = "mousemove";
+		event_over = "mouseover";
+		event_out = "mouseout";
+		event_leave = "mouseleave";
+		event_click = "click";
+	} else {
+		event_down = "touchstart";
+		event_up = "touchend";
+		event_move = "touchmove";
+		event_over = "touchmove";
+		event_out = "touchend";
+		event_leave = "null";
+		event_click = "touchend";
+		touch_type = true;
+	}
+	var bt_array = ["start_bt"];
+	var bt_scale1 = 1.1;
+	var bt_scale2 = 0.9;
+	var now_bt = null;
+	
+	$("area").bind("focus", function () {
+		this.blur();
+	});
+	$(document.body).bind(event_out, function () {
+		$(".sam_bt").css("opacity",0);
+	});
+	$(".sam_bt").bind(event_over+" "+event_down, function () {
+		$(".sam_bt").css("opacity",0);
+		$(this).css("opacity",1);
+	});
+	$(".close_bt").bind(event_click, function () {
+		show_game(0);
+	});
+	$(".sam_bt").bind(event_click, function () {
+		var url = this.className.replace("sam_bt ","");
+		if(url.search("test")!=-1)
+		{
+			var filename = this.src.substring(this.src.lastIndexOf('/')+1);
+			var url = this.src.replace("images/"+filename,"mp3/"+filename.replace(".png",".mp3"));
+			audio_player(url);
+		}
+		else
+		{
+			window.location=(url +".html");
+		}
+	});
+	for(var i = 0;i<$("table").length;i++)
+	{
+		var tb = $("table")[i];
+		if(tb.innerHTML.length==3)
+		{
+			$(tb).hide();
+		}
+	}
+	for(var i = 0;i<$('.prac1_table th').length;i++)
+	{
+		if(!$('.prac1_table th')[i].className)
+		{
+			var th = $('.prac1_table th')[i];
+			if($('.prac2_table').length!=0)
+			{
+				$(th).addClass("prac2_th");
+			}
+			else
+			if($('.prac3_table').length!=0)
+			{
+				$(th).addClass("prac3_th");
+			}
+			else
+			if($('.prac4_table').length!=0)
+			{
+				$(th).addClass("prac4_th");
+			}
+			else
+			{
+				$(th).addClass("prac1_th");
+			}
+		}
+	}
+	/*$(".prac1_table th").bind(event_over+" "+event_down, function () {
+		console.log($(this).css("background-color"));
+		if($(this).css("background-color")=="rgba(0, 0, 0, 0)")
+		{
+			$(this).css("background-color","#000");
+		}
+	});
+	$(".prac1_table th").bind(event_out, function () {
+		if($(this).css("background-color")=="rgb(0, 0, 0)")
+		{
+			$(this).css("background-color","#fff");
+		}
+	});*/
+	/*$(".sam_bt").bind(event_out, function () {});
+	$(".sam_bt").bind(event_down, function () {});
+	$(".sam_bt").bind(event_up, function () {});*/
+	if(document.getElementById("video_obj"))
+	{
+	document.getElementById("video_obj").onended = function() {
+		$("#video_obj").hide();
+		/*document.getElementById("video_obj").currentTime = 0;*/
+	};
+	}
+}

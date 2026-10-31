@@ -1,0 +1,23 @@
+台語網站 V2.5｜可持續擴充題庫版
+
+核心原則：遊戲程式固定，題庫資料獨立。
+
+1. taigi-vocab-lessons.js
+   - 唯一需要持續新增課次資料的檔案。
+   - 每課一個物件：id、publisher、book、lesson、title、words。
+   - words 欄位固定：num、hanji、tailo、audio、meaning、page。
+
+2. taigi-vocab-data.js
+   - 題庫索引引擎。自動把課次資料整理成版本→冊別→課次。
+   - 原則上新增課次時不要修改此檔。
+
+3. 咱來讀生份字.dc.html / 形音義挑戰.dc.html
+   - 兩個功能都讀取同一份共用題庫。
+   - 新課加入 taigi-vocab-lessons.js 後，兩邊會同步出現。
+
+4. 音檔規則
+   - 有可靠音檔：audio 填相對路徑，例如 audio/dict-11275.mp3。
+   - 沒有可靠音檔：audio 留空字串。形音義挑戰會避開需要音檔的題型。
+
+目前資料：育達 B1L1–L4、B3L1–L2；真平 B1L1。
+既有 V2.4 遊戲流程、8/15/全部、六種題型與 Boss 不變。

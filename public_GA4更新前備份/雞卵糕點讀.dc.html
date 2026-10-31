@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<meta name="author" content="張鈺聆">
+<meta name="copyright" content="© 張鈺聆">
+<script src="./author-credit.js"></script>
+<!-- 網站介面、功能與教學整合設計／製作：張鈺聆　Copyright © 張鈺聆.
+     「張鈺聆 製」係指介面設計、功能整合、互動設計與教學資源整合；
+     教材、課文、音檔、圖片、辭典資料等第三方素材之著作權仍屬原權利人所有。
+     完整版權宣告見 author-credit.js。 -->
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  a{color:inherit;text-decoration:none;}
+  .rd-wrap,.rd-wrap *{box-sizing:border-box;}
+  .rd-seg{transition:.18s ease;}
+  @media(hover:hover){
+    .rd-seg:hover{border-color:#e3d0b4 !important;background:#fffdf8 !important;}
+    .rd-vocab:hover{transform:translateY(-2px);box-shadow:0 12px 24px rgba(88,67,42,.12) !important;}
+    .rd-ctl:hover{border-color:#d9c7a8 !important;}
+  }
+  @media(max-width:820px){
+    .rd-vocabgrid{grid-template-columns:1fr !important;}
+  }
+  @media(max-width:600px){
+    .rd-ctlbar{gap:8px !important;}
+    .rd-ctlbar .rd-ctl{flex:1 1 auto;justify-content:center;}
+  }
+</style>
+</helmet>
+<div class="rd-wrap" style="font-family:'Noto Sans TC',sans-serif;color:#2b3a45;">
+  <div style="max-width:1000px;margin:auto;">
+
+    <div style="background:#fff;border:1px solid #eae2d6;border-radius:22px;padding:18px 20px;box-shadow:0 8px 20px rgba(45,55,70,.07);margin-bottom:16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+      <span style="flex:0 0 auto;width:46px;height:46px;border-radius:14px;background:#fdf1e2;display:inline-flex;align-items:center;justify-content:center;font-size:24px;">🍰</span>
+      <div style="min-width:0;flex:1;">
+        <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;">
+          <span style="flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;padding:5px 11px;border-radius:999px;background:#b5762c;color:#fff;font-size:11.5px;font-weight:900;white-space:nowrap;">育達版・第三冊</span>
+          <h2 style="margin:0;font-size:clamp(19px,3vw,23px);font-weight:900;letter-spacing:.04em;line-height:1.3;">第三課｜雞卵糕</h2>
+        </div>
+        <div style="margin-top:5px;font-size:12.5px;color:#8a968e;font-weight:700;line-height:1.6;">作者：田美瑜｜點段落聽讀音，點<span style="color:#b7642e;border-bottom:2px dotted #d99a5e;">彩色語詞</span>看解說</div>
+      </div>
+    </div>
+
+    <div class="rd-ctlbar" style="position:sticky;top:8px;z-index:10;display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:rgba(255,252,247,.95);backdrop-filter:blur(10px);border:1px solid #eae2d6;border-radius:20px;padding:12px 14px;box-shadow:0 10px 26px rgba(45,55,70,.09);margin-bottom:16px;">
+      <button class="rd-ctl" style="flex:0 0 auto;display:inline-flex;align-items:center;min-height:48px;border:none;background:#15344b;color:#fff;padding:12px 18px;border-radius:999px;cursor:pointer;font-family:inherit;font-size:14.5px;font-weight:900;" onClick="{{playAll}}">▶ 全文連續播放</button>
+      <button class="rd-ctl" style="flex:0 0 auto;display:inline-flex;align-items:center;min-height:48px;border:2px solid #ece2d2;background:#fff;color:#5d5344;padding:11px 16px;border-radius:999px;cursor:pointer;font-family:inherit;font-size:14px;font-weight:800;transition:.16s;" onClick="{{togglePause}}">⏸ 暫停</button>
+      <button class="rd-ctl" style="flex:0 0 auto;display:inline-flex;align-items:center;min-height:48px;border:2px solid #ece2d2;background:#fff;color:#5d5344;padding:11px 16px;border-radius:999px;cursor:pointer;font-family:inherit;font-size:14px;font-weight:800;transition:.16s;" onClick="{{restart}}">↺ 重頭</button>
+      <label style="flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:800;color:#8a7f6d;">速度
+        <select value="{{speed}}" onChange="{{onSpeedChange}}" style="min-height:48px;border:2px solid #ece2d2;background:#fff;color:#5d5344;padding:10px 12px;border-radius:14px;font-family:inherit;font-size:14px;font-weight:800;">
+          <option value="0.75">0.75×</option>
+          <option value="1">1×</option>
+          <option value="1.25">1.25×</option>
+        </select>
+      </label>
+      <div style="flex:1 1 140px;min-width:120px;height:8px;background:#f0e7d8;border-radius:999px;overflow:hidden;"><span style="display:block;height:100%;background:linear-gradient(90deg,#d89a4e,#b78652);width:{{progressPct}}%;"></span></div>
+      <div style="flex:0 0 auto;color:#8a7f6d;font-size:12.5px;font-weight:800;white-space:nowrap;">{{status}}</div>
+    </div>
+
+    <section style="background:#fff;border:1px solid #eae2d6;border-radius:26px;padding:24px 22px;box-shadow:0 10px 26px rgba(45,55,70,.08);">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+        <span style="flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:30px;padding:0 11px;border-radius:999px;background:#b5762c;color:#fff;font-size:12.5px;font-weight:900;white-space:nowrap;">課文點讀</span>
+        <span style="font-size:12.5px;color:#8a968e;font-weight:700;line-height:1.5;">全文 {{segCount}} 段</span>
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-left:auto;"><span style="display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:800;color:#2f7d4a;white-space:nowrap;"><span style="width:10px;height:10px;border-radius:3px;background:#2f7d4a;"></span>本調</span><span style="display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:800;color:#2b6cb0;white-space:nowrap;"><span style="width:10px;height:10px;border-radius:3px;background:#2b6cb0;"></span>一般變調</span><span style="display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:800;color:#d9731f;white-space:nowrap;"><span style="width:10px;height:10px;border-radius:3px;background:#d9731f;"></span>再變調</span><span style="display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:800;color:#7b4fb0;white-space:nowrap;"><span style="width:10px;height:10px;border-radius:3px;background:#7b4fb0;"></span>仔前變調</span><span style="display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:800;color:#8a8f94;white-space:nowrap;"><span style="width:10px;height:10px;border-radius:3px;background:#8a8f94;"></span>輕聲</span><button style="{{romBtnStyle}}" onClick="{{toggleRom}}">拼音</button><button style="{{toneBtnStyle}}" onClick="{{toggleTone}}">調號與顏色</button></div>
+      </div>
+
+      <sc-for list="{{segments}}" as="seg" hint-placeholder-count="8">
+        <article class="rd-seg" style="{{seg.style}}" onClick="{{seg.artClick}}">
+          <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px;">
+            <span onClick="{{seg.badgeClick}}" style="flex:0 0 auto;width:28px;height:28px;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:900;cursor:pointer;background:{{seg.numBg}};color:{{seg.numColor}};">{{seg.num}}</span>
+            <span style="font-size:12.5px;font-weight:800;color:#a0968a;">{{seg.hint}}</span>
+          </div>
+          <sc-if value="{{!annot}}">
+          <p style="margin:0;font-size:clamp(17px,2.2vw,18.5px);line-height:2.0;letter-spacing:.02em;text-align:justify;">
+<sc-for list="{{seg.tokens}}" as="tok" hint-placeholder-count="0"><sc-if value="{{tok.isVocab}}"><span style="{{tok.style}}" onClick="{{tok.onClick}}">{{tok.text}}</span></sc-if><sc-if value="{{!tok.isVocab}}"><span>{{tok.text}}</span></sc-if></sc-for>
+          </p>
+          </sc-if>
+          <sc-if value="{{annot}}">
+          <div style="display:flex;flex-wrap:wrap;align-items:flex-end;row-gap:8px;line-height:1.2;">
+<sc-for list="{{seg.aItems}}" as="it" hint-placeholder-count="0"><sc-if value="{{it.isBr}}"><span style="flex-basis:100%;height:0;"></span></sc-if><sc-if value="{{it.isText}}"><span style="font-size:18px;padding:0 1px 16px;">{{it.text}}</span></sc-if><sc-if value="{{it.isGroup}}"><span style="{{it.groupStyle}}"><sc-for list="{{it.chars}}" as="c" hint-placeholder-count="0"><span style="{{c.boxStyle}}" onClick="{{c.onClick}}"><span style="{{c.romStyle}}">{{c.rom}}</span><span style="{{c.hanStyle}}">{{c.han}}</span><span style="{{c.toneStyle}}">{{c.tone}}</span></span></sc-for></span></sc-if></sc-for>
+          </div>
+          <sc-if value="{{seg.hasCard}}">
+          <div onClick="{{stopProp}}" style="position:relative;margin-top:14px;padding:16px 18px;border-radius:16px;background:#fff;border:2px solid {{seg.card.color}};box-shadow:0 6px 16px rgba(45,55,70,.08);">
+            <button onClick="{{seg.closeCard}}" style="position:absolute;top:8px;right:10px;width:32px;height:32px;border:none;background:none;font-size:20px;color:#8a8f94;cursor:pointer;">×</button>
+            <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;padding-right:30px;">
+              <span style="font-size:40px;font-weight:900;line-height:1.1;color:{{seg.card.color}};">{{seg.card.han}}</span>
+              <span style="font-size:18px;font-weight:800;color:#47565e;">{{seg.card.rom}}</span>
+              <span style="font-size:12.5px;font-weight:900;color:#fff;background:{{seg.card.color}};border-radius:999px;padding:4px 10px;">{{seg.card.typeLabel}}</span>
+            </div>
+            <div style="margin-top:8px;font-size:15px;font-weight:800;color:#2b3a45;">{{seg.card.toneLine}}</div>
+            <div style="margin-top:6px;font-size:14.5px;color:#47565e;line-height:1.7;">{{seg.card.note}}</div>
+            <sc-if value="{{seg.card.hasAlt}}"><div style="margin-top:6px;font-size:13.5px;color:#9aa5ab;line-height:1.7;">另讀：{{seg.card.alt}}</div></sc-if>
+            <sc-if value="{{seg.card.hasVocab}}"><button onClick="{{seg.card.openVocab}}" style="margin-top:12px;min-height:40px;border:2px solid #e8c88c;background:#fffaef;color:#845f36;border-radius:999px;padding:8px 16px;font-family:inherit;font-size:14px;font-weight:800;cursor:pointer;">看語詞解說</button></sc-if>
+          </div>
+          </sc-if>
+          </sc-if>
+        </article>
+      </sc-for>
+    </section>
+
+    <section style="margin-top:20px;background:#fff;border:1px solid #eae2d6;border-radius:26px;padding:24px 22px;box-shadow:0 10px 26px rgba(45,55,70,.08);">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap;">
+        <span style="flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:30px;padding:0 11px;border-radius:999px;background:#2f7d5a;color:#fff;font-size:12.5px;font-weight:900;white-space:nowrap;">語詞點讀</span>
+        <span style="font-size:12.5px;color:#8a968e;font-weight:700;line-height:1.5;">本課 {{vocabCount}} 个語詞</span>
+      </div>
+      <p style="margin:0 0 16px;font-size:12.5px;color:#8a968e;font-weight:700;line-height:1.7;">點喇叭聽出版社提供的語詞音檔。</p>
+
+      <div class="rd-vocabgrid" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;">
+        <sc-for list="{{vocabCards}}" as="v" hint-placeholder-count="8">
+          <article class="rd-vocab" style="background:#fdfbf7;border:1px solid #ece4d8;border-radius:18px;padding:15px;display:grid;grid-template-columns:38px 1fr auto;gap:12px;align-items:start;transition:.18s ease;">
+            <span style="width:32px;height:32px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;background:#f3e4cd;color:#845f36;font-size:13px;font-weight:900;">{{v.num}}</span>
+            <div style="min-width:0;">
+              <div style="font-size:19px;font-weight:900;line-height:1.35;overflow-wrap:anywhere;">{{v.word}}</div>
+              <div style="font-size:14px;color:#a8724a;font-weight:800;margin-top:3px;overflow-wrap:anywhere;">{{v.roman}}</div>
+              <div style="font-size:13.5px;color:#7d8a82;font-weight:700;margin-top:6px;line-height:1.7;">{{v.gloss}}</div>
+            </div>
+            <button style="{{v.btnStyle}}" onClick="{{v.onPlay}}">🔊</button>
+          </article>
+        </sc-for>
+      </div>
+    </section>
+
+  </div>
+
+  <sc-if value="{{popupShow}}">
+    <div style="position:fixed;inset:0;background:rgba(45,55,70,.42);display:flex;align-items:center;justify-content:center;z-index:60;padding:18px;" onClick="{{closePopup}}">
+      <article onClick="{{stopPropagation}}" style="background:#fff;border:1px solid #eae2d6;border-radius:22px;padding:22px;max-width:380px;width:100%;box-shadow:0 22px 52px rgba(45,55,70,.28);">
+        <div style="display:grid;grid-template-columns:38px 1fr auto;gap:13px;align-items:start;">
+          <span style="width:32px;height:32px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;background:#f3e4cd;color:#845f36;font-size:13px;font-weight:900;">{{popupWord.num}}</span>
+          <div style="min-width:0;">
+            <div style="font-size:23px;font-weight:900;line-height:1.3;overflow-wrap:anywhere;">{{popupWord.word}}</div>
+            <div style="font-size:15px;color:#a8724a;font-weight:800;margin-top:3px;overflow-wrap:anywhere;">{{popupWord.roman}}</div>
+            <div style="font-size:14px;color:#7d8a82;font-weight:700;margin-top:9px;line-height:1.75;">{{popupWord.gloss}}</div>
+          </div>
+          <button style="{{popupWord.btnStyle}}" onClick="{{popupWord.onPlay}}">🔊</button>
+        </div>
+        <button style="width:100%;margin-top:18px;min-height:48px;border:2px solid #ece2d2;background:#fff;color:#5d5344;border-radius:999px;cursor:pointer;font-family:inherit;font-size:14.5px;font-weight:900;" onClick="{{closePopup}}">關起來</button>
+      </article>
+    </div>
+  </sc-if>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const AUDIO_BASE = 'audio/read-ke-nng-ko/';
+const SEGMENTS_DEF = [
+  '印象內面的雞卵糕，總是軟軟甜甜，內底有誠濟我細漢甜蜜的記持。以早較艱苦，囡仔人罕得咧過生日，上加是阿母煠一粒卵予阮食，就歡喜幾若工矣，若想欲食雞卵糕，實在愛家境袂䆀才有法度。',
+  '彼當陣厝裡頭喙濟，我是上細漢的查某囡仔，三个阿兄攏真𠢕讀冊，考試提頭名就親像桌頂拈柑，干焦我排袂著生相。',
+  '不而過，阿爸佮阿母袂因為按呢就來罵我，嘛誠尊重我的興趣。',
+  '這馬認真想起來，以早逐年阮兜食雞卵糕，攏是佇我的生日。佇彼个重男輕女的時代，真正誠罕見。',
+  '阿母講過伊足想欲生一个查某囡仔，尤其是生三兄的時，因為伊生做誠古錐，兩蕊目睭足大蕊閣肨奶肨奶，皮膚真白，阿母佮阿爸攏講：「伊若是查某囡仔，毋知有偌好咧！」',
+  '莫怪若拄著阿爸的同事，𪜶攏會講：「恁阿爸知影恁阿母生你的時，歡頭喜面，那唱歌那呼噓仔轉來看恁阿母佮你喔！」',
+  '就是因為按呢，所以我自出世就一直受著爸母的疼痛。毋過，細漢的時較毋捌代誌，足愛變鬼變怪，齣頭有夠濟。',
+  '細漢欣羨別人有雞卵糕通食，真正是會曉吵的囡仔才有糖仔通食，我生日彼工誠實食著雞卵糕，閣是上出名的臺中「神仙雞卵糕」。雞卵糕軟軟閣綿綿，彼種滿足的記持，到今攏印佇我的頭殼內。',
+];
+const SEGMENT_AUDIO = ['lesson-001.mp3','lesson-002.mp3','lesson-003.mp3','lesson-004.mp3','lesson-005.mp3','lesson-006.mp3','lesson-007.mp3','lesson-008.mp3'];
+const VOCAB_DEF = [
+  ['01','罕得','hán-tit','稀罕、難得、稀少','vocab-01.mp3'],
+  ['02','頭喙','thâu-tshuì','指家中人口','vocab-02.mp3'],
+  ['03','桌頂拈柑','toh-tíng ni kam','用手指頭拈取桌上的橘子，比喻事情極其容易','vocab-03.mp3'],
+  ['04','生相','senn-siùnn / sinn-siùnn','生肖','vocab-04.mp3'],
+  ['05','肨奶','hàng-ling / hàng-ni','嬰兒肥。形容嬰兒長得白白嫩嫩','vocab-05.mp3'],
+  ['06','呼噓仔','khoo-si-á','吹口哨','vocab-06.mp3'],
+  ['07','變鬼變怪','pìnn-kuí-pìnn-kuài','搞鬼、耍花招、故弄玄虛','vocab-07.mp3'],
+  ['08','齣頭','tshut-thâu','把戲、花樣','vocab-08.mp3'],
+];
+
+const VOCAB_WORDS_SORTED = VOCAB_DEF.map((v, idx) => ({ word: v[1], idx })).sort((a, b) => b.word.length - a.word.length);
+function tokenizeSegment(text) {
+  const tokens = [];
+  let i = 0;
+  while (i < text.length) {
+    let matched = null;
+    for (const v of VOCAB_WORDS_SORTED) {
+      if (text.startsWith(v.word, i)) { matched = v; break; }
+    }
+    if (matched) { tokens.push({ text: matched.word, vocabIdx: matched.idx }); i += matched.word.length; }
+    else { tokens.push({ text: text[i], vocabIdx: null }); i += 1; }
+  }
+  const merged = [];
+  for (const t of tokens) {
+    const last = merged[merged.length - 1];
+    if (last && last.vocabIdx === null && t.vocabIdx === null) last.text += t.text;
+    else merged.push({ ...t });
+  }
+  return merged;
+}
+
+/* 變調標注資料（本課專用）。每段一個陣列，對應 SEGMENTS_DEF 同序段落（依網頁分段重新切過，每字標注未改）。
+ * 字：[漢字, 台羅, 本調, 實際調(0=輕聲), 類型, 說明, 另讀]；本調 9＝外來語高升調 */
+const SANDHI_DEF = [[[["印","ìn",3,2,"reg","第3調變第2調。"],["象","siōng",7,3,"reg","第7調變第3調。"],["內","lāi",7,3,"reg","第7調變第3調。"],["面","bīn",7,7,"base","「的」前面讀本調。"]],[["的","ê",5,7,"reg","修飾後面的名詞，讀變調。"],["雞","ke",1,7,"reg","第1調變第7調。"],["卵","nn̄g",7,3,"reg","第7調變第3調。"],["糕","ko",1,1,"base","逗號前讀本調。"]],"，",[["總","tsóng",2,2,"pre","後面是輕聲，輕聲前一字讀本調。"],["是","sī",7,0,"light","「--」後面的字讀輕聲。"]],[["軟","nńg",2,1,"reg","第2調變第1調。"],["軟","nńg",2,1,"reg","第2調變第1調。"],["甜","tinn",1,7,"reg","第1調變第7調。"],["甜","tinn",1,1,"base","逗號前讀本調。"]],"，",[["內","lāi",7,3,"reg","第7調變第3調。"],["底","té",2,2,"base","話題「內底」後面接動詞「有」，讀本調。"]],[["有","ū",7,3,"reg","第7調變第3調。"],["誠","tsiânn",5,7,"reg","第5調變第7調。"],["濟","tsē",7,3,"reg","第7調變第3調。"],["我","guá",2,1,"reg","代名詞不在句尾，讀變調，第2調變第1調。"],["細","sè",3,2,"reg","第3調變第2調。"],["漢","hàn",3,3,"base","時間詞「細漢」詞尾讀本調。"]],[["甜","tinn",1,7,"reg","第1調變第7調。"],["蜜","bi̍t",8,8,"base","「的」前面讀本調。"]],[["的","ê",5,7,"reg","修飾後面的名詞，讀變調。"],["記","kì",3,2,"reg","第3調變第2調。"],["持","tî",5,5,"base","句末讀本調。"]],"。",[["以","í",2,1,"reg","第2調變第1調。"],["早","tsá",2,2,"base","時間詞「以早」詞尾讀本調。"]],[["較","khah",4,1,"zai","程度副詞「較」再變調：-h 結尾的第4調不停在第2調，讀短平的第1調。"],["艱","kan",1,7,"reg","第1調變第7調。"],["苦","khóo",2,2,"base","逗號前讀本調。"]],"，",[["囡","gín",2,1,"apre","「仔」前面的第2調變第1調，和一般變調相同。"],["仔","á",2,1,"reg","「仔」不在這一組的最後，照一般規則第2調變第1調。"],["人","lâng",5,5,"base","主語「囡仔人」後面接「罕得」，讀本調。"]],[["罕","hán",2,1,"reg","第2調變第1調。"],["得","tit",4,8,"reg","-t 結尾的第4調，變第8調。"],["咧","teh",4,1,"zai","表示進行的「咧」再變調，讀短平的第1調。","也有人念得較輕、較低。"],["過","kuè",3,2,"reg","第3調變第2調。"],["生","senn",1,7,"reg","第1調變第7調。"],["日","ji̍t",8,8,"base","逗號前讀本調。"]],"，",[["上","siōng",7,3,"reg","第7調變第3調。"],["加","ke",1,1,"base","副詞「上加」（最多）後面帶出整句，讀本調。"]],[["是","sī",7,3,"reg","第7調變第3調。"],["阿","A",1,7,"reg","第1調變第7調。"],["母","bú",2,2,"base","主語「阿母」後面接動詞「煠」，讀本調。"]],[["煠","sa̍h",8,3,"reg","-h 結尾的第8調，變第3調。"],["一","tsi̍t",8,4,"reg","-t 結尾的第8調，變第4調。"],["粒","lia̍p",8,4,"reg","-p 結尾的第8調，變第4調。"],["卵","nn̄g",7,7,"base","「卵」後面接「予」，讀本調。"]],[["予","hōo",7,3,"reg","第7調變第3調。"],["阮","guán",2,1,"reg","代名詞不在句尾，讀變調，第2調變第1調。"],["食","tsia̍h",8,8,"base","逗號前讀本調。"]],"，",[["就","tō",7,3,"reg","第7調變第3調。"],["歡","huann",1,7,"reg","第1調變第7調。"],["喜","hí",2,1,"reg","第2調變第1調。"],["幾","kuí",2,1,"reg","第2調變第1調。"],["若","nā",7,3,"reg","第7調變第3調。"],["工","kang",1,1,"pre","後面是輕聲，輕聲前一字讀本調。"],["矣","ah",4,0,"light","句尾語氣詞讀輕聲。"]],"，",[["若","nā",7,3,"reg","第7調變第3調。"],["想","siūnn",7,3,"reg","第7調變第3調。"],["欲","beh",4,1,"zai","虛詞「欲」再變調：-h 結尾的第4調不停在第2調，讀短平的第1調。"],["食","tsia̍h",8,3,"reg","-h 結尾的第8調，變第3調。"],["雞","ke",1,7,"reg","第1調變第7調。"],["卵","nn̄g",7,3,"reg","第7調變第3調。"],["糕","ko",1,1,"base","逗號前讀本調。"]],"，",[["實","si̍t",8,4,"reg","-t 結尾的第8調，變第4調。"],["在","tsāi",7,7,"base","副詞「實在」詞尾讀本調。"]],[["愛","ài",3,2,"reg","第3調變第2調。"],["家","ka",1,7,"reg","第1調變第7調。"],["境","kíng",2,2,"base","主語「家境」後面接「袂䆀」，讀本調。"]],[["袂","bē",7,3,"reg","第7調變第3調。"],["䆀","bái",2,2,"base","後面接副詞「才」，讀本調。"]],[["才","tsiah",4,2,"reg","「才」是 -h 結尾的第4調，照一般規則變第2調。"],["有","ū",7,3,"reg","第7調變第3調。"],["法","huat",4,8,"reg","-t 結尾的第4調，變第8調。"],["度","tōo",7,7,"base","句末讀本調。"]],"。"],[[["彼","hit",4,8,"reg","-t 結尾的第4調，變第8調。"],["當","tang",1,7,"reg","第1調變第7調。"],["陣","tsūn",7,7,"base","時間詞「彼當陣」詞尾讀本調。"]],[["厝","tshù",3,3,"pre","後面是輕聲，輕聲前一字讀本調。"],["裡","lí",2,0,"light","「--」後面的字讀輕聲。"]],[["頭","thâu",5,7,"reg","第5調變第7調。"],["喙","tshuì",3,3,"base","主語「頭喙」後面接「濟」，讀本調。"]],[["濟","tsē",7,7,"base","逗號前讀本調。"]],"，",[["我","guá",2,1,"reg","代名詞不在句尾，讀變調，第2調變第1調。"],["是","sī",7,3,"reg","第7調變第3調。"],["上","siōng",7,3,"reg","第7調變第3調。"],["細","sè",3,2,"reg","第3調變第2調。"],["漢","hàn",3,3,"base","「的」前面讀本調。"]],[["的","ê",5,7,"reg","修飾後面的名詞，讀變調。"],["查","tsa",1,7,"reg","第1調變第7調。"],["某","bóo",2,1,"reg","第2調變第1調。"],["囡","gín",2,1,"apre","「仔」前面的第2調變第1調，和一般變調相同。"],["仔","á",2,2,"base","逗號前讀本調。"]],"，",[["三","sann",1,7,"reg","第1調變第7調。"],["个","ê",5,7,"reg","第5調變第7調。"],["阿","A",1,7,"reg","第1調變第7調。"],["兄","hiann",1,1,"base","主語「阿兄」後面接副詞「攏」，讀本調。"]],[["攏","lóng",2,1,"reg","第2調變第1調。"],["真","tsin",1,7,"reg","第1調變第7調。"],["𠢕","gâu",5,7,"reg","第5調變第7調。"],["讀","tha̍k",8,4,"reg","-k 結尾的第8調，變第4調。"],["冊","tsheh",4,4,"base","逗號前讀本調。"]],"，",[["考","khó",2,1,"reg","第2調變第1調。"],["試","tshì",3,3,"base","話題「考試」後面接動詞「提」，讀本調。"]],[["提","the̍h",8,3,"reg","-h 結尾的第8調，變第3調。"],["頭","thâu",5,7,"reg","第5調變第7調。"],["名","miâ",5,5,"base","「考試提頭名」是主語，後面接「就」，讀本調。"]],[["就","tō",7,3,"reg","第7調變第3調。"],["親","tshin",1,7,"reg","第1調變第7調。"],["像","tshiūnn",7,3,"reg","第7調變第3調。"],["桌","toh",4,2,"reg","-h 結尾的第4調，變第2調。"],["頂","tíng",2,2,"base","地點「桌頂」後面接動詞「拈」，讀本調。"]],[["拈","ni",1,7,"reg","第1調變第7調。"],["柑","kam",1,1,"base","逗號前讀本調。"]],"，",[["干","kan",1,7,"reg","第1調變第7調。"],["焦","na",1,7,"reg","第1調變第7調。"],["我","guá",2,2,"base","主語「我」後面接動詞「排」，讀本調。"]],[["排","pâi",5,7,"reg","第5調變第7調。"],["袂","bē",7,3,"reg","第7調變第3調。"],["著","tio̍h",8,3,"reg","-h 結尾的第8調，變第3調。"],["生","senn",1,7,"reg","第1調變第7調。"],["相","siùnn",3,3,"base","句末讀本調。"]],"。"],[[["不","put",4,8,"reg","-t 結尾的第4調，變第8調。"],["而","jî",5,7,"reg","第5調變第7調。"],["過","kò",3,3,"base","逗號前讀本調。"]],"，",[["阿","A",1,7,"reg","第1調變第7調。"],["爸","pah",4,4,"base","後面接連接詞「佮」，讀本調。"]],[["佮","kah",4,1,"zai","連接詞「佮」再變調：-h 結尾的第4調不停在第2調，讀短平的第1調。"],["阿","A",1,7,"reg","第1調變第7調。"],["母","bú",2,2,"base","主語「阿母」後面接「袂」，讀本調。"]],[["袂","bē",7,3,"reg","第7調變第3調。"],["因","in",1,7,"reg","第1調變第7調。"],["為","uī",7,3,"reg","第7調變第3調。"],["按","án",2,1,"reg","第2調變第1調。"],["呢","ne",1,1,"base","「按呢」詞尾讀本調。"]],[["就","tō",7,3,"reg","第7調變第3調。"],["來","lâi",5,7,"reg","第5調變第7調。"],["罵","mē",7,7,"pre","後面是輕聲，輕聲前一字讀本調。"],["我","guá",2,0,"light","「--」後面的字讀輕聲。"]],"，",[["嘛","mā",7,3,"reg","第7調變第3調。"],["誠","tsiânn",5,7,"reg","第5調變第7調。"],["尊","tsun",1,7,"reg","第1調變第7調。"],["重","tiōng",7,3,"reg","第7調變第3調。"],["我","guá",2,1,"reg","代名詞不在句尾，讀變調，第2調變第1調。","也有人在「的」前讀本調。"]],[["的","ê",5,7,"reg","修飾後面的名詞，讀變調。"],["興","hìng",3,2,"reg","第3調變第2調。"],["趣","tshù",3,3,"base","句末讀本調。"]],"。"],[[["這","tsit",4,8,"reg","-t 結尾的第4調，變第8調。"],["馬","má",2,2,"base","時間詞「這馬」詞尾讀本調。"]],[["認","jīn",7,3,"reg","第7調變第3調。"],["真","tsin",1,7,"reg","第1調變第7調。"],["想","siūnn",7,7,"pre","後面是輕聲，輕聲前一字讀本調。"],["起","khí",2,0,"light","「--」後面的字讀輕聲。"],["來","lâi",5,0,"light","「--」後面的字讀輕聲。"]],"，",[["以","í",2,1,"reg","第2調變第1調。"],["早","tsá",2,2,"base","時間詞「以早」詞尾讀本調。"]],[["逐","ta̍k",8,4,"reg","-k 結尾的第8調，變第4調。"],["年","nî",5,5,"base","時間詞「逐年」詞尾讀本調。"]],[["阮","guán",2,1,"reg","代名詞不在句尾，讀變調，第2調變第1調。"],["兜","tau",1,1,"base","主語「阮兜」後面接動詞「食」，讀本調。"]],[["食","tsia̍h",8,3,"reg","-h 結尾的第8調，變第3調。"],["雞","ke",1,7,"reg","第1調變第7調。"],["卵","nn̄g",7,3,"reg","第7調變第3調。"],["糕","ko",1,1,"base","逗號前讀本調。"]],"，",[["攏","lóng",2,1,"reg","第2調變第1調。"],["是","sī",7,3,"reg","第7調變第3調。"],["佇","tī",7,3,"reg","第7調變第3調。"],["我","guá",2,1,"reg","代名詞不在句尾，讀變調，第2調變第1調。","也有人在「的」前讀本調。"]],[["的","ê",5,7,"reg","修飾後面的名詞，讀變調。"],["生","senn",1,7,"reg","第1調變第7調。"],["日","ji̍t",8,8,"base","句末讀本調。"]],"。",[["佇","tī",7,3,"reg","第7調變第3調。"],["彼","hit",4,8,"reg","-t 結尾的第4調，變第8調。"],["个","ê",5,7,"reg","第5調變第7調。"],["重","tiōng",7,3,"reg","第7調變第3調。"],["男","lâm",5,7,"reg","第5調變第7調。"],["輕","khin",1,7,"reg","第1調變第7調。"],["女","lú",2,2,"base","「的」前面讀本調。"]],[["的","ê",5,7,"reg","修飾後面的名詞，讀變調。"],["時","sî",5,7,"reg","第5調變第7調。"],["代","tāi",7,7,"base","逗號前讀本調。"]],"，",[["真","tsin",1,7,"reg","第1調變第7調。"],["正","tsiànn",3,2,"reg","第3調變第2調。"],["誠","tsiânn",5,7,"reg","第5調變第7調。"],["罕","hán",2,1,"reg","第2調變第1調。"],["見","kiàn",3,3,"base","句末讀本調。"]],"。"],[[["阿","A",1,7,"reg","第1調變第7調。"],["母","bú",2,2,"base","主語「阿母」後面接動詞「講」，讀本調。"]],[["講","kóng",2,1,"reg","第2調變第1調。"],["過","kuè",3,2,"reg","「講過」後面直接帶出內容，連著念，第3調變第2調。","若在「講過」後面稍停，就讀本調。"],["伊","i",1,7,"reg","代名詞不在句尾，讀變調，第1調變第7調。"],["足","tsiok",4,8,"reg","-k 結尾的第4調，變第8調。"],["想","siūnn",7,3,"reg","第7調變第3調。"],["欲","beh",4,1,"zai","虛詞「欲」再變調：-h 結尾的第4調不停在第2調，讀短平的第1調。"],["生","senn",1,7,"reg","第1調變第7調。"],["一","tsi̍t",8,4,"reg","-t 結尾的第8調，變第4調。"],["个","ê",5,7,"reg","第5調變第7調。"],["查","tsa",1,7,"reg","第1調變第7調。"],["某","bóo",2,1,"reg","第2調變第1調。"],["囡","gín",2,1,"apre","「仔」前面的第2調變第1調，和一般變調相同。"],["仔","á",2,2,"base","逗號前讀本調。"]],"，",[["尤","iû",5,7,"reg","第5調變第7調。"],["其","kî",5,7,"reg","第5調變第7調。"],["是","sī",7,3,"reg","第7調變第3調。"],["生","senn",1,7,"reg","第1調變第7調。"],["三","sann",1,7,"reg","第1調變第7調。"],["兄","hiann",1,1,"base","「的」前面讀本調。"]],[["的","ê",5,7,"reg","修飾後面的名詞，讀變調。"],["時","sî",5,5,"base","逗號前讀本調。"]],"，",[["因","in",1,7,"reg","第1調變第7調。"],["為","uī",7,3,"reg","第7調變第3調。"],["伊","i",1,7,"reg","代名詞不在句尾，讀變調，第1調變第7調。"],["生","senn",1,7,"reg","第1調變第7調。"],["做","tsò",3,2,"reg","第3調變第2調。"],["誠","tsiânn",5,7,"reg","第5調變第7調。"],["古","kóo",2,1,"reg","第2調變第1調。"],["錐","tsui",1,1,"base","逗號前讀本調。"]],"，",[["兩","nn̄g",7,3,"reg","第7調變第3調。"],["蕊","luí",2,1,"reg","第2調變第1調。"],["目","ba̍k",8,4,"reg","-k 結尾的第8調，變第4調。"],["睭","tsiu",1,1,"base","主語「目睭」後面接「足大蕊」，讀本調。"]],[["足","tsiok",4,8,"reg","-k 結尾的第4調，變第8調。"],["大","tuā",7,3,"reg","第7調變第3調。"],["蕊","luí",2,2,"base","後面接連接詞「閣」，讀本調。"]],[["閣","koh",4,1,"zai","虛詞「閣」再變調：-h 結尾的第4調不停在第2調，讀短平的第1調。"],["肨","hàng",3,2,"reg","第3調變第2調。"],["奶","ling",1,7,"reg","「肨奶肨奶」連著念，第1調變第7調。"],["肨","hàng",3,2,"reg","第3調變第2調。"],["奶","ling",1,1,"base","逗號前讀本調。"]],"，",[["皮","phuê",5,7,"reg","第5調變第7調。"],["膚","hu",1,1,"base","主語「皮膚」後面接「真白」，讀本調。"]],[["真","tsin",1,7,"reg","第1調變第7調。"],["白","pe̍h",8,8,"base","逗號前讀本調。"]],"，",[["阿","A",1,7,"reg","第1調變第7調。"],["母","bú",2,2,"base","後面接連接詞「佮」，讀本調。"]],[["佮","kah",4,1,"zai","連接詞「佮」再變調：-h 結尾的第4調不停在第2調，讀短平的第1調。"],["阿","A",1,7,"reg","第1調變第7調。"],["爸","pah",4,4,"base","主語「阿爸」後面接副詞「攏」，讀本調。"]],[["攏","lóng",2,1,"reg","第2調變第1調。"],["講","kóng",2,2,"base","停頓前讀本調。"]],"：「",[["伊","i",1,7,"reg","代名詞不在句尾，讀變調，第1調變第7調。"],["若","nā",7,3,"reg","第7調變第3調。"],["是","sī",7,3,"reg","第7調變第3調。"],["查","tsa",1,7,"reg","第1調變第7調。"],["某","bóo",2,1,"reg","第2調變第1調。"],["囡","gín",2,1,"apre","「仔」前面的第2調變第1調，和一般變調相同。"],["仔","á",2,2,"base","逗號前讀本調。"]],"，",[["毋","m̄",7,3,"reg","第7調變第3調。"],["知","tsai",1,7,"reg","第1調變第7調。"],["有","ū",7,3,"reg","第7調變第3調。"],["偌","guā",7,3,"reg","第7調變第3調。"],["好","hó",2,2,"pre","後面是輕聲，輕聲前一字讀本調。"],["咧","leh",4,0,"light","句尾語氣詞讀輕聲。"]],"！」"],[[["莫","bo̍k",8,4,"reg","-k 結尾的第8調，變第4調。"],["怪","kuài",3,3,"base","句首副詞「莫怪」後面帶出整句，讀本調。"]],[["若","nā",7,3,"reg","第7調變第3調。"],["拄","tú",2,1,"reg","第2調變第1調。"],["著","tio̍h",8,3,"reg","-h 結尾的第8調，變第3調。"],["阿","A",1,7,"reg","第1調變第7調。"],["爸","pah",4,4,"base","「的」前面讀本調。"]],[["的","ê",5,7,"reg","修飾後面的名詞，讀變調。"],["同","tông",5,7,"reg","第5調變第7調。"],["事","sū",7,7,"base","逗號前讀本調。"]],"，",[["𪜶","in",1,7,"reg","代名詞不在句尾，讀變調，第1調變第7調。"],["攏","lóng",2,1,"reg","第2調變第1調。"],["會","ē",7,3,"reg","第7調變第3調。"],["講","kóng",2,2,"base","停頓前讀本調。"]],"：「",[["恁","lín",2,1,"reg","代名詞不在句尾，讀變調，第2調變第1調。"],["阿","A",1,7,"reg","第1調變第7調。"],["爸","pah",4,4,"base","主語「恁阿爸」後面接動詞「知影」，讀本調。"]],[["知","tsai",1,7,"reg","第1調變第7調。"],["影","iánn",2,1,"reg","第2調變第1調。"],["恁","lín",2,1,"reg","代名詞不在句尾，讀變調，第2調變第1調。"],["阿","A",1,7,"reg","第1調變第7調。"],["母","bú",2,2,"base","「恁阿母」是「生」的主語，讀本調。"]],[["生","senn",1,7,"reg","第1調變第7調。"],["你","lí",2,2,"base","「的」前面讀本調。"]],[["的","ê",5,7,"reg","修飾後面的名詞，讀變調。"],["時","sî",5,5,"base","逗號前讀本調。"]],"，",[["歡","huann",1,7,"reg","第1調變第7調。"],["頭","thâu",5,7,"reg","第5調變第7調。"],["喜","hí",2,1,"reg","第2調變第1調。"],["面","bīn",7,7,"base","逗號前讀本調。"]],"，",[["那","ná",2,1,"reg","第2調變第1調。"],["唱","tshiùnn",3,2,"reg","第3調變第2調。"],["歌","kua",1,1,"base","「那唱歌」說完，後面接「那呼噓仔」，讀本調。"]],[["那","ná",2,1,"reg","第2調變第1調。"],["呼","khoo",1,7,"reg","第1調變第7調。"],["噓","si",1,7,"apre","「仔」前面的第1調變第7調，和一般變調相同。"],["仔","á",2,2,"base","「那呼噓仔」說完，後面接「轉來」，讀本調。"]],[["轉","tńg",2,1,"reg","第2調變第1調。"],["來","lâi",5,7,"reg","第5調變第7調。"],["看","khuànn",3,2,"reg","第3調變第2調。"],["恁","lín",2,1,"reg","代名詞不在句尾，讀變調，第2調變第1調。"],["阿","A",1,7,"reg","第1調變第7調。"],["母","bú",2,2,"base","後面接連接詞「佮」，讀本調。"]],[["佮","kah",4,1,"zai","連接詞「佮」再變調：-h 結尾的第4調不停在第2調，讀短平的第1調。"],["你","lí",2,2,"pre","後面是輕聲，輕聲前一字讀本調。"],["喔","ooh",4,0,"light","句尾語氣詞讀輕聲。課本台羅沒有標「--」，請確認。"]],"！」"],[[["就","tō",7,3,"reg","第7調變第3調。"],["是","sī",7,3,"reg","第7調變第3調。"],["因","in",1,7,"reg","第1調變第7調。"],["為","uī",7,3,"reg","第7調變第3調。"],["按","án",2,1,"reg","第2調變第1調。"],["呢","ne",1,1,"base","「按呢」詞尾讀本調。"]],"，",[["所","sóo",2,1,"reg","第2調變第1調。"],["以","í",2,1,"reg","第2調變第1調。"],["我","guá",2,1,"reg","代名詞不在句尾，讀變調，第2調變第1調。"],["自","tsū",7,3,"reg","第7調變第3調。"],["出","tshut",4,8,"reg","-t 結尾的第4調，變第8調。"],["世","sì",3,3,"base","「自出世」後面接副詞「就」，讀本調。"]],[["就","tō",7,3,"reg","第7調變第3調。"],["一","it",4,8,"reg","-t 結尾的第4調，變第8調。"],["直","ti̍t",8,4,"reg","-t 結尾的第8調，變第4調。"],["受","siū",7,3,"reg","第7調變第3調。"],["著","tio̍h",8,3,"reg","-h 結尾的第8調，變第3調。"],["爸","pē",7,3,"reg","第7調變第3調。"],["母","bú",2,2,"base","「的」前面讀本調。"]],[["的","ê",5,7,"reg","修飾後面的名詞，讀變調。"],["疼","thiànn",3,2,"reg","第3調變第2調。"],["痛","thàng",3,3,"base","句末讀本調。"]],"。",[["毋","m̄",7,3,"reg","第7調變第3調。"],["過","koh",4,4,"base","逗號前讀本調。"]],"，",[["細","sè",3,2,"reg","第3調變第2調。"],["漢","hàn",3,3,"base","「的」前面讀本調。"]],[["的","ê",5,7,"reg","修飾後面的名詞，讀變調。"],["時","sî",5,5,"base","時間「細漢的時」詞尾讀本調。"]],[["較","khah",4,1,"zai","程度副詞「較」再變調：-h 結尾的第4調不停在第2調，讀短平的第1調。"],["毋","m̄",7,3,"reg","第7調變第3調。"],["捌","bat",4,8,"reg","-t 結尾的第4調，變第8調。"],["代","tāi",7,3,"reg","第7調變第3調。"],["誌","tsì",3,3,"base","逗號前讀本調。"]],"，",[["足","tsiok",4,8,"reg","-k 結尾的第4調，變第8調。"],["愛","ài",3,2,"reg","第3調變第2調。"],["變","pìnn",3,2,"reg","第3調變第2調。"],["鬼","kuí",2,1,"reg","第2調變第1調。"],["變","pìnn",3,2,"reg","第3調變第2調。"],["怪","kuài",3,3,"base","逗號前讀本調。"]],"，",[["齣","tshut",4,8,"reg","-t 結尾的第4調，變第8調。"],["頭","thâu",5,5,"base","主語「齣頭」後面接「有夠濟」，讀本調。"]],[["有","ū",7,3,"reg","第7調變第3調。"],["夠","kàu",3,2,"reg","第3調變第2調。"],["濟","tsē",7,7,"base","句末讀本調。"]],"。"],[[["細","sè",3,2,"reg","第3調變第2調。"],["漢","hàn",3,3,"base","時間詞「細漢」詞尾讀本調。"]],[["欣","him",1,7,"reg","第1調變第7調。"],["羨","siān",7,3,"reg","第7調變第3調。"],["別","pa̍t",8,4,"reg","-t 結尾的第8調，變第4調。"],["人","lâng",5,5,"base","「別人」是「有」的主語，讀本調。"]],[["有","ū",7,3,"reg","第7調變第3調。"],["雞","ke",1,7,"reg","第1調變第7調。"],["卵","nn̄g",7,3,"reg","第7調變第3調。"],["糕","ko",1,1,"base","「雞卵糕」後面接「通食」，讀本調。"]],[["通","thang",1,7,"reg","第1調變第7調。"],["食","tsia̍h",8,8,"base","逗號前讀本調。"]],"，",[["真","tsin",1,7,"reg","第1調變第7調。"],["正","tsiànn",3,2,"reg","第3調變第2調。"],["是","sī",7,3,"reg","第7調變第3調。"],["會","ē",7,3,"reg","第7調變第3調。"],["曉","hiáu",2,1,"reg","第2調變第1調。"],["吵","tshá",2,2,"base","「的」前面讀本調。"]],[["的","ê",5,7,"reg","修飾後面的名詞，讀變調。"],["囡","gín",2,1,"apre","「仔」前面的第2調變第1調，和一般變調相同。"],["仔","á",2,2,"base","主語「囡仔」後面接副詞「才」，讀本調。"]],[["才","tsiah",4,2,"reg","「才」是 -h 結尾的第4調，照一般規則變第2調。"],["有","ū",7,3,"reg","第7調變第3調。"],["糖","thn̂g",5,7,"apre","「仔」前面的第5調變第7調，和一般變調相同。"],["仔","á",2,2,"base","「糖仔」後面接「通食」，讀本調。"]],[["通","thang",1,7,"reg","第1調變第7調。"],["食","tsia̍h",8,8,"base","逗號前讀本調。"]],"，",[["我","guá",2,1,"reg","代名詞不在句尾，讀變調，第2調變第1調。"],["生","senn",1,7,"reg","第1調變第7調。"],["日","ji̍t",8,4,"reg","-t 結尾的第8調，變第4調。"],["彼","hit",4,8,"reg","-t 結尾的第4調，變第8調。"],["工","kang",1,1,"base","時間「彼工」詞尾讀本調。"]],[["誠","tsiânn",5,7,"reg","第5調變第7調。"],["實","si̍t",8,4,"reg","-t 結尾的第8調，變第4調。"],["食","tsia̍h",8,3,"reg","-h 結尾的第8調，變第3調。"],["著","tio̍h",8,3,"reg","-h 結尾的第8調，變第3調。"],["雞","ke",1,7,"reg","第1調變第7調。"],["卵","nn̄g",7,3,"reg","第7調變第3調。"],["糕","ko",1,1,"base","逗號前讀本調。"]],"，",[["閣","koh",4,1,"zai","虛詞「閣」再變調：-h 結尾的第4調不停在第2調，讀短平的第1調。"],["是","sī",7,3,"reg","第7調變第3調。"],["上","siōng",7,3,"reg","第7調變第3調。"],["出","tshut",4,8,"reg","-t 結尾的第4調，變第8調。"],["名","miâ",5,5,"base","「的」前面讀本調。"]],[["的","ê",5,7,"reg","修飾後面的名詞，讀變調。"],["臺","Tâi",5,7,"reg","第5調變第7調。"],["中","tiong",1,1,"base","地名「臺中」後面接引號裡的店名，讀本調。"]],"「",[["神","Sîn",5,7,"reg","第5調變第7調。"],["仙","sian",1,7,"reg","第1調變第7調。"],["雞","ke",1,7,"reg","第1調變第7調。"],["卵","nn̄g",7,3,"reg","第7調變第3調。"],["糕","ko",1,1,"base","句末讀本調。"]],"」。",[["雞","ke",1,7,"reg","第1調變第7調。"],["卵","nn̄g",7,3,"reg","第7調變第3調。"],["糕","ko",1,1,"base","主語「雞卵糕」後面接「軟軟」，讀本調。"]],[["軟","nńg",2,1,"reg","第2調變第1調。"],["軟","nńg",2,2,"base","後面接連接詞「閣」，讀本調。"]],[["閣","koh",4,1,"zai","虛詞「閣」再變調：-h 結尾的第4調不停在第2調，讀短平的第1調。"],["綿","mî",5,7,"reg","第5調變第7調。"],["綿","mî",5,5,"base","逗號前讀本調。"]],"，",[["彼","hit",4,8,"reg","-t 結尾的第4調，變第8調。"],["種","tsióng",2,1,"reg","第2調變第1調。"],["滿","buán",2,1,"reg","第2調變第1調。"],["足","tsiok",4,4,"base","「的」前面讀本調。"]],[["的","ê",5,7,"reg","修飾後面的名詞，讀變調。"],["記","kì",3,2,"reg","第3調變第2調。"],["持","tî",5,5,"base","逗號前讀本調。"]],"，",[["到","kàu",3,2,"reg","第3調變第2調。"],["今","tann",1,1,"base","時間詞「到今」詞尾讀本調。"]],[["攏","lóng",2,1,"reg","第2調變第1調。"],["印","ìn",3,2,"reg","第3調變第2調。"],["佇","tī",7,3,"reg","第7調變第3調。"],["我","guá",2,1,"reg","代名詞不在句尾，讀變調，第2調變第1調。","也有人在「的」前讀本調。"]],[["的","ê",5,7,"reg","修飾後面的名詞，讀變調。"],["頭","thâu",5,7,"reg","第5調變第7調。"],["殼","khak",4,8,"reg","-k 結尾的第4調，變第8調。"],["內","lāi",7,7,"base","句末讀本調。"]],"。"]];
+const SANDHI_TYPES = { base:['本調','#2f7d4a'], reg:['一般變調','#2b6cb0'], zai:['再變調','#d9731f'], apre:['仔前變調','#7b4fb0'], light:['輕聲','#8a8f94'], pre:['輕聲前讀本調','#2f7d4a'] };
+class Component extends DCLogic {
+  state = { current: 0, playing: false, continuous: false, progressPct: 0, status: '尚未播放', speed: 1, playingVocabIdx: null, popupIdx: null, showRom: false, showTone: false, sel: null };
+  audioEl = Object.assign(new Audio(), { preload: 'none' });
+
+  componentDidMount() {
+    this.audioEl.addEventListener('timeupdate', () => {
+      const pct = this.audioEl.duration ? (this.audioEl.currentTime / this.audioEl.duration * 100) : 0;
+      this.setState({ progressPct: pct });
+    });
+    this.audioEl.addEventListener('ended', () => {
+      this.setState({ progressPct: 0, playing: false, playingVocabIdx: null });
+      if (this.state.continuous && this.state.current < SEGMENTS_DEF.length - 1) {
+        this.playSegment(this.state.current + 1, true);
+      } else {
+        this.setState({ continuous: false, status: '播放完成' });
+      }
+    });
+  }
+  componentWillUnmount() { this.audioEl.pause(); }
+
+  playSegment(index, keepContinuous) {
+    this.setState({ current: index, continuous: keepContinuous, playing: true, playingVocabIdx: null, status: `播放中：第 ${index + 1} 段` });
+    this.audioEl.src = AUDIO_BASE + SEGMENT_AUDIO[index];
+    this.audioEl.playbackRate = Number(this.state.speed);
+    this.audioEl.play().catch(() => {});
+  }
+  togglePause() {
+    if (this.audioEl.paused) { this.audioEl.play().catch(() => {}); this.setState({ playing: true, status: `繼續：第 ${this.state.current + 1} 段` }); }
+    else { this.audioEl.pause(); this.setState({ playing: false, status: `已暫停：第 ${this.state.current + 1} 段` }); }
+  }
+  restart() { this.playSegment(0, false); }
+  playVocab(idx) {
+    this.setState({ playingVocabIdx: idx, continuous: false, playing: false, status: '語詞播放中' });
+    this.audioEl.src = AUDIO_BASE + VOCAB_DEF[idx][4];
+    this.audioEl.playbackRate = Number(this.state.speed);
+    this.audioEl.play().catch(() => {});
+  }
+  openPopup(idx) { this.setState({ popupIdx: idx }); }
+  closePopup() { this.setState({ popupIdx: null }); }
+
+  sandhiFor(i, text) {
+    const s = this.state;
+    const play = () => this.playSegment(i, false);
+    if (!(s.showRom || s.showTone)) return { artClick: play, badgeClick: null, aItems: [], hasCard: false, card: {} };
+    const orig = [];
+    for (const tok of tokenizeSegment(text)) for (const ch of [...tok.text]) if (!/[\s\-]/.test(ch)) orig.push(tok.vocabIdx);
+    let pos = 0;
+    const adv = (t) => { const n = [...t].filter(ch => !/[\s\-]/.test(ch)).length; const v = orig[pos]; pos += n; return v; };
+    const aItems = (SANDHI_DEF[i] || []).map((x, g) => {
+      if (x === '<br>') return { isBr: true };
+      if (typeof x === 'string') { adv(x); return { isText: true, text: x }; }
+      return { isGroup: true, groupStyle: 'display:inline-flex;flex-wrap:nowrap;gap:1px;margin:0 5px 0 0;padding-bottom:2px;border-bottom:1px solid #c9c2b6;', chars: x.map((c, k) => {
+        const [han, rom, tone, act, type] = c;
+        const vIdx = adv(han);
+        const color = (SANDHI_TYPES[type] || SANDHI_TYPES.base)[1];
+        const sel = s.sel && s.sel.i === i && s.sel.g === g && s.sel.k === k;
+        return {
+          han, rom, tone: act === 0 ? '輕' : (tone === act ? String(tone) : tone + '→' + act),
+          boxStyle: 'display:inline-flex;flex-direction:column;align-items:center;cursor:pointer;padding:2px 1px;border-radius:6px;' + (sel ? 'background:#fff0c9;box-shadow:0 0 0 2px #e8b84a;' : ''),
+          romStyle: 'font-size:11px;font-weight:700;color:#6b7a80;white-space:nowrap;visibility:' + (s.showRom ? 'visible' : 'hidden') + ';',
+          hanStyle: 'font-size:' + (type === 'light' && s.showTone ? '16px' : '19px') + ';font-weight:' + (vIdx !== null && vIdx !== undefined ? '800;border-bottom:2px dotted #d99a5e' : '500') + ';' + (s.showTone ? 'color:' + color + ';' : ''),
+          toneStyle: 'font-size:11px;font-weight:800;white-space:nowrap;color:' + color + ';visibility:' + (s.showTone ? 'visible' : 'hidden') + ';',
+          onClick: (e) => { e.stopPropagation(); this.setState({ sel: { i, g, k, v: vIdx } }); },
+        };
+      }) };
+    });
+    let card = {}, hasCard = false;
+    if (s.sel && s.sel.i === i) {
+      const c = (SANDHI_DEF[i][s.sel.g] || [])[s.sel.k];
+      if (c) {
+        const [han, rom, tone, act, type, note, alt] = c;
+        const T = SANDHI_TYPES[type] || SANDHI_TYPES.base;
+        hasCard = true;
+        card = { han, rom, note: note || '', alt: alt || '', hasAlt: !!alt, typeLabel: T[0], color: T[1],
+          toneLine: act === 0 ? '本調 第' + tone + '調 → 輕聲' : (tone === act ? '本調 第' + tone + '調・不變' : '本調 第' + tone + '調 → 實際 第' + act + '調'),
+          hasVocab: s.sel.v !== null && s.sel.v !== undefined,
+          openVocab: (e) => { e.stopPropagation(); this.openPopup(s.sel.v); } };
+      }
+    }
+    return { artClick: null, badgeClick: (e) => { e.stopPropagation(); play(); }, aItems, hasCard, card, closeCard: (e) => { e.stopPropagation(); this.setState({ sel: null }); } };
+  }
+  renderVals() {
+    const s = this.state;
+    const segments = SEGMENTS_DEF.map((text, i) => {
+      const active = i === s.current && s.playing;
+      const tokens = tokenizeSegment(text).map(tok => ({
+        text: tok.text, isVocab: tok.vocabIdx !== null,
+        style: tok.vocabIdx !== null ? 'color:#b7642e;font-weight:800;border-bottom:2px dotted #d99a5e;cursor:pointer;padding-bottom:1px;' : '',
+        onClick: tok.vocabIdx !== null ? (e) => { e.stopPropagation(); this.openPopup(tok.vocabIdx); } : null,
+      }));
+      return {
+        num: i + 1, tokens,
+        hint: active ? '播放中' : '點這段聽讀音',
+        numBg: active ? '#b5762c' : '#f3e4cd', numColor: active ? '#fff' : '#845f36',
+        style: `display:block;width:100%;padding:18px 18px 16px;border-radius:18px;cursor:pointer;margin-bottom:12px;border:1px solid ${active ? '#e8c88c' : '#f0ebe2'};background:${active ? '#fffaef' : '#fdfbf7'};`,
+        onClick: () => this.playSegment(i, false),
+        ...this.sandhiFor(i, text),
+      };
+    });
+    const vocabBtn = (on) => `border:none;background:${on ? '#b5762c' : '#15344b'};color:#fff;border-radius:12px;width:44px;height:44px;min-height:44px;cursor:pointer;font-size:17px;flex:0 0 auto;`;
+    const vocabCards = VOCAB_DEF.map(([num, word, roman, gloss], idx) => ({
+      num, word, roman, gloss,
+      btnStyle: vocabBtn(s.playingVocabIdx === idx),
+      onPlay: () => this.playVocab(idx),
+    }));
+    const popupIdx = s.popupIdx;
+    const popupWord = popupIdx !== null ? (() => {
+      const [num, word, roman, gloss] = VOCAB_DEF[popupIdx];
+      return { num, word, roman, gloss, btnStyle: vocabBtn(s.playingVocabIdx === popupIdx), onPlay: () => this.playVocab(popupIdx) };
+    })() : {};
+    return {
+      annot: s.showRom || s.showTone,
+      toggleRom: () => this.setState({ showRom: !s.showRom }),
+      toggleTone: () => this.setState({ showTone: !s.showTone }),
+      romBtnStyle: 'min-height:36px;border-radius:999px;padding:6px 14px;font-family:inherit;font-size:13px;font-weight:900;cursor:pointer;white-space:nowrap;border:2px solid ' + (s.showRom ? '#2f7d4a' : '#e1ebef') + ';background:' + (s.showRom ? '#2f7d4a' : '#fff') + ';color:' + (s.showRom ? '#fff' : '#47565e') + ';',
+      toneBtnStyle: 'min-height:36px;border-radius:999px;padding:6px 14px;font-family:inherit;font-size:13px;font-weight:900;cursor:pointer;white-space:nowrap;border:2px solid ' + (s.showTone ? '#2f7d4a' : '#e1ebef') + ';background:' + (s.showTone ? '#2f7d4a' : '#fff') + ';color:' + (s.showTone ? '#fff' : '#47565e') + ';',
+      stopProp: (e) => e.stopPropagation(),
+      segCount: SEGMENTS_DEF.length, vocabCount: VOCAB_DEF.length,
+      playAll: () => this.playSegment(s.current, true), togglePause: () => this.togglePause(), restart: () => this.restart(),
+      speed: s.speed, onSpeedChange: (e) => { this.setState({ speed: e.target.value }); this.audioEl.playbackRate = Number(e.target.value); },
+      progressPct: s.progressPct, status: s.status, segments, vocabCards,
+      popupShow: popupIdx !== null, popupWord, closePopup: () => this.closePopup(), stopPropagation: (e) => e.stopPropagation(),
+    };
+  }
+}
+
+</script>
+</body>
+</html>

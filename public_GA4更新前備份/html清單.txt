@@ -1,0 +1,710 @@
+﻿Canvas.dc.html
+google1a04e325a6b5855b.html
+index.html
+主題互動學習.dc.html
+來去屏東海生館蹛一暝點讀.dc.html
+分組座位圖產生器.dc.html
+台語挑戰區.dc.html
+台語羅馬字拼音系統.dc.html
+台語聲調大挑戰.html
+台語點讀.dc.html
+咱來認生份字.dc.html
+咱來讀生份字.dc.html
+咱來鬥句.dc.html
+四秀仔錢點讀.dc.html
+小組任務分工器.dc.html
+小組競賽計分板.dc.html
+形音義挑戰.dc.html
+形音義挑戰_音檔稽核.html
+手機仔點讀.dc.html
+抽獎活動.dc.html
+教學百寶箱.dc.html
+未食五日節粽點讀.dc.html
+炕窯點讀.dc.html
+燒銀紙佮放炮仔點讀.dc.html
+爸仔囝點讀.dc.html
+生份字測驗.dc.html
+白糖粿點讀.dc.html
+羅馬字發音.dc.html
+羅馬字組合練習.dc.html
+翻卡抽籤.dc.html
+聽聲辨拼音.dc.html
+自由抽籤轉盤.dc.html
+自由設定倒數計時器.dc.html
+色水大挑戰.dc.html
+色水走馬燈.dc.html
+菜蔬果子大挑戰.dc.html
+華台雙語翻譯.dc.html
+蔬果走馬燈.dc.html
+語境填空.dc.html
+課堂抽選.dc.html
+賓果生成器.dc.html
+踢銅管仔點讀.dc.html
+進階綜合挑戰.html
+阿媽的目屎點讀.dc.html
+隨機分組小幫手.dc.html
+雞卵糕點讀.dc.html
+雨港基隆點讀.dc.html
+首頁 v1 備份.dc.html
+首頁 V2.dc.html
+首頁.dc.html
+首頁_V1備份.dc.html
+首頁_V2.dc.html
+clean-build\index.html
+clean-build\主題互動學習.dc.html
+clean-build\來去屏東海生館蹛一暝點讀.dc.html
+clean-build\分組座位圖產生器.dc.html
+clean-build\台語挑戰區.dc.html
+clean-build\台語羅馬字拼音系統.dc.html
+clean-build\台語點讀.dc.html
+clean-build\咱來認生份字.dc.html
+clean-build\咱來讀生份字.dc.html
+clean-build\咱來鬥句.dc.html
+clean-build\四秀仔錢點讀.dc.html
+clean-build\小組任務分工器.dc.html
+clean-build\小組競賽計分板.dc.html
+clean-build\形音義挑戰.dc.html
+clean-build\手機仔點讀.dc.html
+clean-build\抽獎活動.dc.html
+clean-build\教學百寶箱.dc.html
+clean-build\未食五日節粽點讀.dc.html
+clean-build\炕窯點讀.dc.html
+clean-build\燒銀紙佮放炮仔點讀.dc.html
+clean-build\爸仔囝點讀.dc.html
+clean-build\生份字測驗.dc.html
+clean-build\白糖粿點讀.dc.html
+clean-build\羅馬字發音.dc.html
+clean-build\羅馬字組合練習.dc.html
+clean-build\翻卡抽籤.dc.html
+clean-build\自由抽籤轉盤.dc.html
+clean-build\自由設定倒數計時器.dc.html
+clean-build\色水大挑戰.dc.html
+clean-build\色水走馬燈.dc.html
+clean-build\菜蔬果子大挑戰.dc.html
+clean-build\華台雙語翻譯.dc.html
+clean-build\蔬果走馬燈.dc.html
+clean-build\語境填空.dc.html
+clean-build\賓果生成器.dc.html
+clean-build\踢銅管仔點讀.dc.html
+clean-build\進階綜合挑戰.html
+clean-build\阿媽的目屎點讀.dc.html
+clean-build\隨機分組小幫手.dc.html
+clean-build\雞卵糕點讀.dc.html
+clean-build\雨港基隆點讀.dc.html
+clean-build\首頁.dc.html
+clean-build\康軒點讀\B1L1_講咱的話\index.html
+clean-build\康軒點讀\B1L2_鬥陣\index.html
+clean-build\康軒點讀\B1L3_真珠奶茶\index.html
+clean-build\康軒點讀\B1L4_你有載具無\index.html
+clean-build\康軒點讀\B1素養活動_臺灣台語常用詞辭典紹介\index.html
+clean-build\康軒點讀\B1自學_過年的批\index.html
+clean-build\語境挑戰\康軒_第一冊_第一課_講咱的話.html
+clean-build\語境挑戰\康軒_第一冊_第三課_真珠奶茶.html
+clean-build\語境挑戰\康軒_第一冊_第二課_鬥陣.html
+clean-build\語境挑戰\康軒_第一冊_第五課_踅菜市.html
+clean-build\語境挑戰\康軒_第一冊_第四課_你有載具無.html
+clean-build\語境挑戰\康軒_第一冊_素養活動_臺灣台語常用詞辭典.html
+clean-build\語境挑戰\康軒_第一冊_自學_過年的批.html
+clean-build\語境挑戰\康軒_第三冊_第一課_泅過日月潭.html
+clean-build\語境挑戰\康軒_第三冊_第三課_拌拌咧.html
+clean-build\語境挑戰\康軒_第三冊_第二課_一片天.html
+clean-build\語境挑戰\康軒_第三冊_素養活動一_防災智識那學那耍.html
+clean-build\語境挑戰\康軒_第三冊_素養活動二_咱的心情咱的冊店.html
+clean-build\語境挑戰\康軒_第二冊_第一課_ChatGPT與閩南語.html
+clean-build\語境挑戰\康軒_第二冊_第三課_工作犬.html
+clean-build\語境挑戰\康軒_第二冊_第二課_看天食飯.html
+clean-build\語境挑戰\康軒_第二冊_第四課_做好代.html
+clean-build\語境挑戰\康軒_第二冊_素養活動_AI工具欲按怎用.html
+clean-build\語境挑戰\康軒_第二冊_自學_媠花.html
+clean-build\語境挑戰\真平_第一冊_第一課_趣味的誤會.html
+clean-build\語境挑戰\真平_第一冊_第三課_人佮獅.html
+clean-build\語境挑戰\真平_第一冊_第二課_火星文.html
+clean-build\語境挑戰\真平_第一冊_第五課_踅菜市.html
+clean-build\語境挑戰\真平_第一冊_第六課_割稻仔飯.html
+clean-build\語境挑戰\真平_第一冊_第四課_龜兔走標.html
+clean-build\語境挑戰\真平_第一冊_語文天地一_辭典使用.html
+clean-build\語境挑戰\真平_第一冊_語文天地二_形容詞.html
+clean-build\語境挑戰\真平_第二冊_第一課_布袋戲尪仔.html
+clean-build\語境挑戰\真平_第二冊_第三課_運動身體好.html
+clean-build\語境挑戰\真平_第二冊_第二課_看戲真趣味.html
+clean-build\語境挑戰\真平_第二冊_第五課_臺灣好所在.html
+clean-build\語境挑戰\真平_第二冊_第六課_風聲水影日月潭.html
+clean-build\語境挑戰\真平_第二冊_第四課_藝術展覽.html
+clean-build\語境挑戰\真平_第二冊_語文天地一_動詞.html
+clean-build\語境挑戰\真平_第二冊_語文天地二_量詞.html
+clean-build\語境挑戰\育達_第一冊_第一課_白糖粿.html
+clean-build\語境挑戰\育達_第一冊_第三課_四秀仔錢.html
+clean-build\語境挑戰\育達_第一冊_第二課_來去屏東海生館蹛一暝.html
+clean-build\語境挑戰\育達_第一冊_第四課_燒銀紙佮放炮仔.html
+clean-build\語境挑戰\育達_第三冊_第一課_手機仔.html
+clean-build\語境挑戰\育達_第三冊_第三課_雞卵糕.html
+clean-build\語境挑戰\育達_第三冊_第二課_雨港基隆_魚鹽規布袋.html
+clean-build\語境挑戰\育達_第三冊_第四課_炕窯.html
+clean-build\語境挑戰\育達_第二冊_第一課_踢銅管仔.html
+clean-build\語境挑戰\育達_第二冊_第三課_阿媽的目屎.html
+clean-build\語境挑戰\育達_第二冊_第二課_爸仔囝.html
+clean-build\語境挑戰\育達_第二冊_第四課_未食五日節粽.html
+uploads\bingo_generator_teacher_tool_v2.html
+uploads\index(2).html
+uploads\index-05d23774.html
+uploads\index-6302c2cc.html
+uploads\index-8225899e.html
+uploads\index-bef8df1d.html
+uploads\index.html
+uploads\台語挑戰區_進階綜合挑戰_單檔網頁版V1 (1).html
+uploads\台語組句任務_V2.4_基本鬥句智慧抽詞版 (2).html
+uploads\抽獎活動.html
+uploads\教學百寶箱.dc-d3be8965.html
+uploads\教學百寶箱.dc.html
+uploads\教師百寶箱_課堂抽選_V5_多人抽選版 (1).html
+uploads\燒銀紙佮放炮仔點讀.dc.html
+uploads\華台雙語翻課_免iframe_靜態穩定版.dc.html
+uploads\踢銅管仔點讀.dc.html
+uploads\首頁 V2_視覺強化版.dc.html
+uploads\首頁_1.html
+uploads\01_真平第一冊_B1_6課\B1L1_è¶£å³çèª¤æ\index-68fad1ac.html
+uploads\01_真平第一冊_B1_6課\B1L1_è¶£å³çèª¤æ\index.html
+uploads\01_真平第一冊_B1_6課\B1L2_å¥é©åèªåæç«ææ\index-13c52e93.html
+uploads\01_真平第一冊_B1_6課\B1L2_å¥é©åèªåæç«ææ\index.html
+uploads\01_真平第一冊_B1_6課\B1L4_é¾åèµ°æ¨\index-108ced73.html
+uploads\01_真平第一冊_B1_6課\B1L4_é¾åèµ°æ¨\index.html
+uploads\01_真平第一冊_B1_6課\B1L5_è¸èå¸\index-2c362623.html
+uploads\01_真平第一冊_B1_6課\B1L5_è¸èå¸\index.html
+uploads\01_真平第一冊_B1_6課\B1L6_å²ç¨»ä»é£¯\index-97d305b6.html
+uploads\01_真平第一冊_B1_6課\B1L6_å²ç¨»ä»é£¯\index.html
+uploads\02_真平第二冊_B2_6課\B2L1_å¸è¢æ²å°ªä»\index-d997471e.html
+uploads\02_真平第二冊_B2_6課\B2L1_å¸è¢æ²å°ªä»\index.html
+uploads\02_真平第二冊_B2_6課\B2L2_çæ²çè¶£å³\index-1b279203.html
+uploads\02_真平第二冊_B2_6課\B2L2_çæ²çè¶£å³\index.html
+uploads\02_真平第二冊_B2_6課\B2L3_éåèº«é«å¥½\index-44854e12.html
+uploads\02_真平第二冊_B2_6課\B2L3_éåèº«é«å¥½\index.html
+uploads\02_真平第二冊_B2_6課\B2L4_èè¡å±è¦½\index-4af03eaa.html
+uploads\02_真平第二冊_B2_6課\B2L4_èè¡å±è¦½\index.html
+uploads\02_真平第二冊_B2_6課\B2L5_èºç£å¥½æå¨\index-5c614a20.html
+uploads\02_真平第二冊_B2_6課\B2L5_èºç£å¥½æå¨\index.html
+uploads\02_真平第二冊_B2_6課\B2L6_é¢¨è²æ°´å½±æ¥ææ½­\index-2a466912.html
+uploads\02_真平第二冊_B2_6課\B2L6_é¢¨è²æ°´å½±æ¥ææ½­\index.html
+uploads\03_真平第三冊_B3_4課\B3L1_é¿æ¯çé ­æ¯\index-8a0bc00d.html
+uploads\03_真平第三冊_B3_4課\B3L1_é¿æ¯çé ­æ¯\index.html
+uploads\03_真平第三冊_B3_4課\B3L2_é®é¿åª½å°ç¨çé»è©±ç°¿ä»\index-59c1b3f5.html
+uploads\03_真平第三冊_B3_4課\B3L2_é®é¿åª½å°ç¨çé»è©±ç°¿ä»\index.html
+uploads\03_真平第三冊_B3_4課\B3L3_ç¶´æèæä»£çèææ\index-66a54413.html
+uploads\03_真平第三冊_B3_4課\B3L3_ç¶´æèæä»£çèææ\index.html
+uploads\03_真平第三冊_B3_4課\B3L4_å¥½å¥èä¸ç«æ\index-1fa9f88a.html
+uploads\03_真平第三冊_B3_4課\B3L4_å¥½å¥èä¸ç«æ\index.html
+uploads\04_真平第四冊_B4_4課\B4L1_äººçéä½æéè±\index-2070840e.html
+uploads\04_真平第四冊_B4_4課\B4L1_äººçéä½æéè±\index.html
+uploads\04_真平第四冊_B4_4課\B4L2_åºå®å¿ææ²¿è·¯é»ç¤æé·å¿æä¸çç¡ç¤\index-c9a21e1b.html
+uploads\04_真平第四冊_B4_4課\B4L2_åºå®å¿ææ²¿è·¯é»ç¤æé·å¿æä¸çç¡ç¤\index.html
+uploads\04_真平第四冊_B4_4課\B4L3_æå¿µç«éè\index-5d8fe34d.html
+uploads\04_真平第四冊_B4_4課\B4L3_æå¿µç«éè\index.html
+uploads\04_真平第四冊_B4_4課\B4L4_å¤ªå¹³æ´çé¢¨\index-18d8a3d5.html
+uploads\04_真平第四冊_B4_4課\B4L4_å¤ªå¹³æ´çé¢¨\index.html
+uploads\A_康軒B2_Claude更新用_無音檔\å°èªé_è®.dc.html
+uploads\A_康軒B2_Claude更新用_無音檔\åº·è»é»è®\B2L1_ChatGPTæ¢ææè¬é©åèª\index.html
+uploads\A_康軒B2_Claude更新用_無音檔\åº·è»é»è®\B2L2_æ¶æ\index.html
+uploads\A_康軒B2_Claude更新用_無音檔\åº·è»é»è®\B2L3_å·¥ä½ç¬\index.html
+uploads\A_康軒B2_Claude更新用_無音檔\åº·è»é»è®\B2L4_ä¸æºä¸ææç¾©çæ´»å\index.html
+uploads\A_康軒B2_Claude更新用_無音檔\åº·è»é»è®\B2ç´ é¤æ´»å_AIçå·¥å·æ¬²ææç¨\index.html
+uploads\A_康軒B2_Claude更新用_無音檔\åº·è»é»è®\B2èªå­¸_åª è±\index.html
+uploads\B1L1_講咱的話\index-c5b303cc.html
+uploads\B1L1_講咱的話\index.html
+uploads\B1L2_鬥陣\index-2bba1708.html
+uploads\B1L2_鬥陣\index.html
+uploads\B1L3_真珠奶茶\index-ae44cd86.html
+uploads\B1L3_真珠奶茶\index.html
+uploads\B1L4_你有載具無\index-ea0a21d6.html
+uploads\B1L4_你有載具無\index.html
+uploads\B1素養活動_臺灣台語常用詞辭典紹介\index-050f6398.html
+uploads\B1素養活動_臺灣台語常用詞辭典紹介\index.html
+uploads\B1自學_過年的批\index-c25158c7.html
+uploads\B1自學_過年的批\index.html
+uploads\course_overview\index.html
+uploads\course_overview\jenpin\b1\l1\sing-hun-ji.html
+uploads\course_overview\yuda\b1\l1\sing-hun-ji.html
+uploads\course_overview\yuda\b1\l2\sing-hun-ji.html
+uploads\course_overview\yuda\b1\l3\sing-hun-ji.html
+uploads\course_overview\yuda\b1\l4\sing-hun-ji.html
+uploads\course_overview\yuda\b3\l1\sing-hun-ji.html
+uploads\course_overview\yuda\b3\l2\sing-hun-ji.html
+uploads\yuda\b1\l1\sing-hun-ji-be4a6770.html
+uploads\yuda\b1\l1\sing-hun-ji.html
+uploads\yuda\b3\l1\sing-hun-ji-2b44b18d.html
+uploads\yuda\b3\l1\sing-hun-ji.html
+uploads\yuda\b3\l2\sing-hun-ji-aa47b2a2.html
+uploads\yuda\b3\l2\sing-hun-ji.html
+uploads\互動教室_V3.0_正式版介面整理\public\host.html
+uploads\互動教室_V3.0_正式版介面整理\public\join.html
+uploads\互動教室_V4.0.1_台語Unicode相容強化\public\advanced.html
+uploads\互動教室_V4.0.1_台語Unicode相容強化\public\board.html
+uploads\互動教室_V4.0.1_台語Unicode相容強化\public\host.html
+uploads\互動教室_V4.0.1_台語Unicode相容強化\public\join.html
+uploads\互動教室_V4.0.1_台語Unicode相容強化\public\unicode-test.html
+uploads\互動教室_V4.0_介面重整版\public\advanced-91269585.html
+uploads\互動教室_V4.0_介面重整版\public\advanced.html
+uploads\互動教室_V4.0_介面重整版\public\board-8fbd8e2f.html
+uploads\互動教室_V4.0_介面重整版\public\board.html
+uploads\互動教室_V4.0_介面重整版\public\host-f1176c6a.html
+uploads\互動教室_V4.0_介面重整版\public\host.html
+uploads\互動教室_V4.0_介面重整版\public\join-81d95e07.html
+uploads\互動教室_V4.0_介面重整版\public\join.html
+uploads\台語網站_形音義整合_V2.2\index.html
+uploads\台語網站_形音義整合_V2.2\咱來讀生份字.dc.html
+uploads\台語網站_形音義整合_V2.2\形音義挑戰.dc.html
+uploads\台語網站_形音義整合_V2.2\首頁.dc.html
+uploads\台語網站_形音義整合_V2.29_咱來讀生份字修復版\detective.dc.html
+uploads\台語網站_形音義整合_V2.29_咱來讀生份字修復版\home.dc.html
+uploads\台語網站_形音義整合_V2.29_咱來讀生份字修復版\index.html
+uploads\台語網站_形音義整合_V2.29_咱來讀生份字修復版\vocab.dc.html
+uploads\台語網站_形音義整合_V2.30_四模式介面恢復版\detective.dc.html
+uploads\台語網站_形音義整合_V2.30_四模式介面恢復版\home.dc.html
+uploads\台語網站_形音義整合_V2.30_四模式介面恢復版\index.html
+uploads\台語網站_形音義整合_V2.30_四模式介面恢復版\vocab.dc.html
+uploads\台語網站_形音義整合_V2.3_音檔校正版\index.html
+uploads\台語網站_形音義整合_V2.3_音檔校正版\咱來讀生份字.dc.html
+uploads\台語網站_形音義整合_V2.3_音檔校正版\形音義挑戰.dc.html
+uploads\台語網站_形音義整合_V2.3_音檔校正版\首頁.dc.html
+uploads\台語網站_形音義整合_V2.5_可持續擴充題庫版\index.html
+uploads\台語網站_形音義整合_V2.5_可持續擴充題庫版\å±ä¾è®çä_½å.dc.html
+uploads\台語網站_形音義整合_V2.5_可持續擴充題庫版\å½¢é³ç¾©ææ°.dc.html
+uploads\台語網站_形音義整合_V2.5_可持續擴充題庫版\é¦é .dc.html
+uploads\台語網頁_V5.1_康軒B2課文生字音檔補齊\形音義挑戰.dc.html
+uploads\台語網頁_語境挑戰_全專案版\index.html
+uploads\台語網頁_語境挑戰_全專案版\康軒\第一冊\index.html
+uploads\台語網頁_語境挑戰_全專案版\康軒\第一冊\康軒_第一冊_第一課_講咱的話.html
+uploads\台語網頁_語境挑戰_全專案版\康軒\第一冊\康軒_第一冊_第三課_真珠奶茶.html
+uploads\台語網頁_語境挑戰_全專案版\康軒\第一冊\康軒_第一冊_第二課_鬥陣.html
+uploads\台語網頁_語境挑戰_全專案版\康軒\第一冊\康軒_第一冊_第四課_你有載具無.html
+uploads\台語網頁_語境挑戰_全專案版\康軒\第三冊\index.html
+uploads\台語網頁_語境挑戰_全專案版\康軒\第三冊\康軒_第三冊_第一課_泅過日月潭.html
+uploads\台語網頁_語境挑戰_全專案版\康軒\第三冊\康軒_第三冊_第三課_拌拌咧.html
+uploads\台語網頁_語境挑戰_全專案版\康軒\第三冊\康軒_第三冊_第二課_一片天.html
+uploads\台語網頁_語境挑戰_全專案版\康軒\第二冊\index.html
+uploads\台語網頁_語境挑戰_全專案版\康軒\第二冊\康軒_第二冊_第一課_ChatGPT與閩南語_語境挑戰.html
+uploads\台語網頁_語境挑戰_全專案版\康軒\第二冊\康軒_第二冊_第三課_工作犬_語境挑戰.html
+uploads\台語網頁_語境挑戰_全專案版\康軒\第二冊\康軒_第二冊_第二課_看天食飯_語境挑戰.html
+uploads\台語網頁_語境挑戰_全專案版\康軒\第二冊\康軒_第二冊_第四課_做好代_語境挑戰.html
+uploads\台語網頁_語境挑戰_全專案版\康軒\第二冊\康軒_第二冊_自學_媠花_語境挑戰.html
+uploads\台語網頁_語境挑戰_全專案版\真平\第一冊\index.html
+uploads\台語網頁_語境挑戰_全專案版\真平\第一冊\真平_第一冊_第1課_趣味的誤會.html
+uploads\台語網頁_語境挑戰_全專案版\真平\第一冊\真平_第一冊_第2課_啥閩南語嘛有「火星文」.html
+uploads\台語網頁_語境挑戰_全專案版\真平\第一冊\真平_第一冊_第3課_人佮獅.html
+uploads\台語網頁_語境挑戰_全專案版\真平\第一冊\真平_第一冊_第4課_龜兔走標.html
+uploads\台語網頁_語境挑戰_全專案版\真平\第一冊\真平_第一冊_第5課_踅菜市.html
+uploads\台語網頁_語境挑戰_全專案版\真平\第一冊\真平_第一冊_第6課_割稻仔飯.html
+uploads\台語網頁_語境挑戰_全專案版\真平\第一冊\真平_第一冊_語文天地_一_按怎使用教育部臺灣台語常用詞辭典.html
+uploads\台語網頁_語境挑戰_全專案版\真平\第一冊\真平_第一冊_語文天地_二_形容詞.html
+uploads\台語網頁_語境挑戰_全專案版\真平\第二冊\index.html
+uploads\台語網頁_語境挑戰_全專案版\真平\第二冊\真平_第二冊_第1課_布袋戲尪仔.html
+uploads\台語網頁_語境挑戰_全專案版\真平\第二冊\真平_第二冊_第2課_看戲真趣味.html
+uploads\台語網頁_語境挑戰_全專案版\真平\第二冊\真平_第二冊_第3課_運動身體好.html
+uploads\台語網頁_語境挑戰_全專案版\真平\第二冊\真平_第二冊_第4課_藝術展覽.html
+uploads\台語網頁_語境挑戰_全專案版\真平\第二冊\真平_第二冊_第5課_臺灣好所在.html
+uploads\台語網頁_語境挑戰_全專案版\真平\第二冊\真平_第二冊_第6課_風聲水影日月潭.html
+uploads\台語網頁_語境挑戰_全專案版\真平\第二冊\真平_第二冊_語文天地（一）_動詞.html
+uploads\台語網頁_語境挑戰_全專案版\真平\第二冊\真平_第二冊_語文天地（二）_量詞.html
+uploads\台語網頁_語境挑戰_全專案版\育達\第一冊\index.html
+uploads\台語網頁_語境挑戰_全專案版\育達\第一冊\育達_第一冊_第一課_白糖粿.html
+uploads\台語網頁_語境挑戰_全專案版\育達\第一冊\育達_第一冊_第三課_四秀仔錢.html
+uploads\台語網頁_語境挑戰_全專案版\育達\第一冊\育達_第一冊_第二課_來去屏東海生館蹛一暝.html
+uploads\台語網頁_語境挑戰_全專案版\育達\第一冊\育達_第一冊_第四課_燒銀紙佮放炮仔.html
+uploads\台語網頁_語境挑戰_全專案版\育達\第三冊\index.html
+uploads\台語網頁_語境挑戰_全專案版\育達\第三冊\育達_第三冊_第一課_手機仔.html
+uploads\台語網頁_語境挑戰_全專案版\育達\第三冊\育達_第三冊_第三課_雞卵糕.html
+uploads\台語網頁_語境挑戰_全專案版\育達\第三冊\育達_第三冊_第二課_雨港基隆_魚鹽規布袋.html
+uploads\台語網頁_語境挑戰_全專案版\育達\第三冊\育達_第三冊_第四課_炕窯.html
+uploads\台語網頁_語境挑戰_全專案版\育達\第二冊\index.html
+uploads\台語網頁_語境挑戰_全專案版\育達\第二冊\育達_第二冊_第1課_踢銅管仔.html
+uploads\台語網頁_語境挑戰_全專案版\育達\第二冊\育達_第二冊_第2課_爸仔囝.html
+uploads\台語網頁_語境挑戰_全專案版\育達\第二冊\育達_第二冊_第3課_阿媽的目屎.html
+uploads\台語網頁_語境挑戰_全專案版\育達\第二冊\育達_第二冊_第4課_未食五日節粽.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\index.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\康軒\第一冊\index.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\康軒\第一冊\康軒_第一冊_第一課_講咱的話.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\康軒\第一冊\康軒_第一冊_第三課_真珠奶茶.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\康軒\第一冊\康軒_第一冊_第二課_鬥陣.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\康軒\第一冊\康軒_第一冊_第五課_踅菜市.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\康軒\第一冊\康軒_第一冊_第四課_你有載具無.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\康軒\第一冊\康軒_第一冊_素養活動_臺灣台語常用詞辭典.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\康軒\第一冊\康軒_第一冊_自學_過年的批.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\康軒\第三冊\index.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\康軒\第三冊\康軒_第三冊_第一課_泅過日月潭.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\康軒\第三冊\康軒_第三冊_第三課_拌拌咧.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\康軒\第三冊\康軒_第三冊_第二課_一片天.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\康軒\第三冊\康軒_第三冊_素養活動一_防災智識那學那耍.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\康軒\第三冊\康軒_第三冊_素養活動二_咱的心情咱的冊店.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\康軒\第二冊\index.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\康軒\第二冊\康軒_第二冊_第一課_ChatGPT與閩南語_語境挑戰.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\康軒\第二冊\康軒_第二冊_第三課_工作犬_語境挑戰.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\康軒\第二冊\康軒_第二冊_第二課_看天食飯_語境挑戰.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\康軒\第二冊\康軒_第二冊_第四課_做好代_語境挑戰.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\康軒\第二冊\康軒_第二冊_素養活動_AI工具欲按怎用.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\康軒\第二冊\康軒_第二冊_自學_媠花_語境挑戰.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\真平\第一冊\index.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\真平\第一冊\真平_第一冊_第1課_趣味的誤會.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\真平\第一冊\真平_第一冊_第2課_啥閩南語嘛有「火星文」.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\真平\第一冊\真平_第一冊_第3課_人佮獅.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\真平\第一冊\真平_第一冊_第4課_龜兔走標.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\真平\第一冊\真平_第一冊_第5課_踅菜市.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\真平\第一冊\真平_第一冊_第6課_割稻仔飯.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\真平\第一冊\真平_第一冊_語文天地_一_按怎使用教育部臺灣台語常用詞辭典.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\真平\第一冊\真平_第一冊_語文天地_二_形容詞.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\真平\第二冊\index.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\真平\第二冊\真平_第二冊_第1課_布袋戲尪仔.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\真平\第二冊\真平_第二冊_第2課_看戲真趣味.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\真平\第二冊\真平_第二冊_第3課_運動身體好.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\真平\第二冊\真平_第二冊_第4課_藝術展覽.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\真平\第二冊\真平_第二冊_第5課_臺灣好所在.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\真平\第二冊\真平_第二冊_第6課_風聲水影日月潭.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\真平\第二冊\真平_第二冊_語文天地（一）_動詞.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\真平\第二冊\真平_第二冊_語文天地（二）_量詞.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\育達\第一冊\index.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\育達\第一冊\育達_第一冊_第一課_白糖粿.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\育達\第一冊\育達_第一冊_第三課_四秀仔錢.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\育達\第一冊\育達_第一冊_第二課_來去屏東海生館蹛一暝.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\育達\第一冊\育達_第一冊_第四課_燒銀紙佮放炮仔.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\育達\第三冊\index.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\育達\第三冊\育達_第三冊_第一課_手機仔.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\育達\第三冊\育達_第三冊_第三課_雞卵糕.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\育達\第三冊\育達_第三冊_第二課_雨港基隆_魚鹽規布袋.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\育達\第三冊\育達_第三冊_第四課_炕窯.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\育達\第二冊\index.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\育達\第二冊\育達_第二冊_第1課_踢銅管仔.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\育達\第二冊\育達_第二冊_第2課_爸仔囝.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\育達\第二冊\育達_第二冊_第3課_阿媽的目屎.html
+uploads\台語網頁_語境挑戰_全專案版_康軒素養補齊\育達\第二冊\育達_第二冊_第4課_未食五日節粽.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\index.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\康軒\第一冊\index.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\康軒\第一冊\康軒_第一冊_第一課_講咱的話.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\康軒\第一冊\康軒_第一冊_第三課_真珠奶茶.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\康軒\第一冊\康軒_第一冊_第二課_鬥陣.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\康軒\第一冊\康軒_第一冊_第五課_踅菜市.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\康軒\第一冊\康軒_第一冊_第四課_你有載具無.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\康軒\第一冊\康軒_第一冊_素養活動_臺灣台語常用詞辭典.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\康軒\第一冊\康軒_第一冊_自學_過年的批.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\康軒\第三冊\index.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\康軒\第三冊\康軒_第三冊_第一課_泅過日月潭.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\康軒\第三冊\康軒_第三冊_第三課_拌拌咧.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\康軒\第三冊\康軒_第三冊_第二課_一片天.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\康軒\第三冊\康軒_第三冊_素養活動一_防災智識那學那耍.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\康軒\第三冊\康軒_第三冊_素養活動二_咱的心情咱的冊店.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\康軒\第二冊\index.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\康軒\第二冊\康軒_第二冊_第一課_ChatGPT與閩南語_語境挑戰.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\康軒\第二冊\康軒_第二冊_第三課_工作犬_語境挑戰.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\康軒\第二冊\康軒_第二冊_第二課_看天食飯_語境挑戰.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\康軒\第二冊\康軒_第二冊_第四課_做好代_語境挑戰.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\康軒\第二冊\康軒_第二冊_素養活動_AI工具欲按怎用.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\康軒\第二冊\康軒_第二冊_自學_媠花_語境挑戰.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\真平\第一冊\index.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\真平\第一冊\真平_第一冊_第1課_趣味的誤會.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\真平\第一冊\真平_第一冊_第2課_啥閩南語嘛有「火星文」.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\真平\第一冊\真平_第一冊_第3課_人佮獅.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\真平\第一冊\真平_第一冊_第4課_龜兔走標.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\真平\第一冊\真平_第一冊_第5課_踅菜市.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\真平\第一冊\真平_第一冊_第6課_割稻仔飯.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\真平\第一冊\真平_第一冊_語文天地_一_按怎使用教育部臺灣台語常用詞辭典.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\真平\第一冊\真平_第一冊_語文天地_二_形容詞.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\真平\第二冊\index.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\真平\第二冊\真平_第二冊_第1課_布袋戲尪仔.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\真平\第二冊\真平_第二冊_第2課_看戲真趣味.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\真平\第二冊\真平_第二冊_第3課_運動身體好.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\真平\第二冊\真平_第二冊_第4課_藝術展覽.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\真平\第二冊\真平_第二冊_第5課_臺灣好所在.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\真平\第二冊\真平_第二冊_第6課_風聲水影日月潭.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\真平\第二冊\真平_第二冊_語文天地（一）_動詞.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\真平\第二冊\真平_第二冊_語文天地（二）_量詞.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\育達\第一冊\index.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\育達\第一冊\育達_第一冊_第一課_白糖粿.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\育達\第一冊\育達_第一冊_第三課_四秀仔錢.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\育達\第一冊\育達_第一冊_第二課_來去屏東海生館蹛一暝.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\育達\第一冊\育達_第一冊_第四課_燒銀紙佮放炮仔.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\育達\第三冊\index.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\育達\第三冊\育達_第三冊_第一課_手機仔.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\育達\第三冊\育達_第三冊_第三課_雞卵糕.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\育達\第三冊\育達_第三冊_第二課_雨港基隆_魚鹽規布袋.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\育達\第三冊\育達_第三冊_第四課_炕窯.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\育達\第二冊\index.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\育達\第二冊\育達_第二冊_第1課_踢銅管仔.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\育達\第二冊\育達_第二冊_第2課_爸仔囝.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\育達\第二冊\育達_第二冊_第3課_阿媽的目屎.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版\育達\第二冊\育達_第二冊_第4課_未食五日節粽.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\index.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\康軒\第一冊\index.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\康軒\第一冊\康軒_第一冊_第一課_講咱的話.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\康軒\第一冊\康軒_第一冊_第三課_真珠奶茶.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\康軒\第一冊\康軒_第一冊_第二課_鬥陣.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\康軒\第一冊\康軒_第一冊_第五課_踅菜市.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\康軒\第一冊\康軒_第一冊_第四課_你有載具無.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\康軒\第一冊\康軒_第一冊_素養活動_臺灣台語常用詞辭典.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\康軒\第一冊\康軒_第一冊_自學_過年的批.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\康軒\第三冊\index.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\康軒\第三冊\康軒_第三冊_第一課_泅過日月潭.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\康軒\第三冊\康軒_第三冊_第三課_拌拌咧.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\康軒\第三冊\康軒_第三冊_第二課_一片天.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\康軒\第三冊\康軒_第三冊_素養活動一_防災智識那學那耍.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\康軒\第三冊\康軒_第三冊_素養活動二_咱的心情咱的冊店.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\康軒\第二冊\index.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\康軒\第二冊\康軒_第二冊_第一課_ChatGPT與閩南語_語境挑戰.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\康軒\第二冊\康軒_第二冊_第三課_工作犬_語境挑戰.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\康軒\第二冊\康軒_第二冊_第二課_看天食飯_語境挑戰.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\康軒\第二冊\康軒_第二冊_第四課_做好代_語境挑戰.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\康軒\第二冊\康軒_第二冊_素養活動_AI工具欲按怎用.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\康軒\第二冊\康軒_第二冊_自學_媠花_語境挑戰.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\真平\第一冊\index.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\真平\第一冊\真平_第一冊_第1課_趣味的誤會.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\真平\第一冊\真平_第一冊_第2課_啥閩南語嘛有「火星文」.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\真平\第一冊\真平_第一冊_第3課_人佮獅.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\真平\第一冊\真平_第一冊_第4課_龜兔走標.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\真平\第一冊\真平_第一冊_第5課_踅菜市.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\真平\第一冊\真平_第一冊_第6課_割稻仔飯.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\真平\第一冊\真平_第一冊_語文天地_一_按怎使用教育部臺灣台語常用詞辭典.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\真平\第一冊\真平_第一冊_語文天地_二_形容詞.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\真平\第二冊\index.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\真平\第二冊\真平_第二冊_第1課_布袋戲尪仔.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\真平\第二冊\真平_第二冊_第2課_看戲真趣味.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\真平\第二冊\真平_第二冊_第3課_運動身體好.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\真平\第二冊\真平_第二冊_第4課_藝術展覽.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\真平\第二冊\真平_第二冊_第5課_臺灣好所在.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\真平\第二冊\真平_第二冊_第6課_風聲水影日月潭.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\真平\第二冊\真平_第二冊_語文天地（一）_動詞.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\真平\第二冊\真平_第二冊_語文天地（二）_量詞.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\育達\第一冊\index.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\育達\第一冊\育達_第一冊_第一課_白糖粿.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\育達\第一冊\育達_第一冊_第三課_四秀仔錢.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\育達\第一冊\育達_第一冊_第二課_來去屏東海生館蹛一暝.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\育達\第一冊\育達_第一冊_第四課_燒銀紙佮放炮仔.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\育達\第三冊\index.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\育達\第三冊\育達_第三冊_第一課_手機仔.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\育達\第三冊\育達_第三冊_第三課_雞卵糕.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\育達\第三冊\育達_第三冊_第二課_雨港基隆_魚鹽規布袋.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\育達\第三冊\育達_第三冊_第四課_炕窯.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\育達\第二冊\index.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\育達\第二冊\育達_第二冊_第1課_踢銅管仔.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\育達\第二冊\育達_第二冊_第2課_爸仔囝.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\育達\第二冊\育達_第二冊_第3課_阿媽的目屎.html
+uploads\台語網頁_語境挑戰_全專案版_框架修正版 (1)\育達\第二冊\育達_第二冊_第4課_未食五日節粽.html
+uploads\台語蔬果大挑戰_10回合選單版\index.html
+uploads\台語蔬果大挑戰_全新頁面測試版\index.html
+uploads\台語蔬果大挑戰_第1回合_1比1圖框版\index.html
+uploads\台語蔬果大挑戰_第1回合_修正版\index.html
+uploads\台語蔬果大挑戰_第1回合插畫版\index.html
+uploads\台語蔬果大挑戰_第1回合正式測試版\index.html
+uploads\台語蔬果大挑戰_網站專案\index.html
+uploads\台語課程總覽 (1)\index.html
+uploads\台語課程總覽 (1)\yuda\b1\l1\sing-hun-ji.html
+uploads\台語課程總覽 (1)\yuda\b3\l1\sing-hun-ji.html
+uploads\台語課程總覽 (1)\yuda\b3\l2\sing-hun-ji.html
+uploads\咱來讀生份字_育達B1-B3_正式封版\咱來讀生份字.dc.html
+uploads\宗龍的台語課 - 羅馬字組合練習_files\inner-frame-minified.html
+uploads\宗龍的台語課 - 羅馬字組合練習_files\intermediate-frame-minified.html
+uploads\宗龍的台語課 - 羅馬字組合練習_files\saved_resource.html
+uploads\康軒B3_Claude整合用_頁面包\B3L1_泅過日月潭\index.html
+uploads\康軒B3_Claude整合用_頁面包\B3L2_舞蹈班的一天\index.html
+uploads\康軒B3_Claude整合用_頁面包\B3L3_拌拌咧\index.html
+uploads\康軒B3_Claude整合用_頁面包\B3素養活動一_防災智識那學那耍\index.html
+uploads\康軒B3_Claude整合用_頁面包\B3素養活動二_咱的心情咱的冊店\index.html
+uploads\康軒第一冊_語境挑戰_完整四課\康軒_第一冊_第01課_講咱的話_語境挑戰.html
+uploads\康軒第一冊_語境挑戰_完整四課\康軒_第一冊_第02課_鬥陣_語境挑戰.html
+uploads\康軒第一冊_語境挑戰_完整四課\康軒_第一冊_第03課_真珠奶茶_語境挑戰.html
+uploads\康軒第一冊_語境挑戰_完整四課\康軒_第一冊_第04課_你有載具無？_語境挑戰.html
+uploads\康軒第一冊_語境挑戰_完整四課\康軒_第一冊_課程選擇.html
+uploads\康軒點讀_六課生字修復版 (1)\B2L2_#U6536#U6210\index.html
+uploads\康軒點讀_六課生字修復版 (1)\B2L3_#U5de5#U4f5c#U72ac\index.html
+uploads\康軒點讀_六課生字修復版 (1)\B2L4_#U4e00#U64fa#U4e0a#U6709#U610f#U7fa9#U7684#U6d3b#U52d5\index.html
+uploads\康軒點讀_六課生字修復版 (1)\B3L1_#U6cc5#U904e#U65e5#U6708#U6f6d\index.html
+uploads\康軒點讀_六課生字修復版 (1)\B3L2_#U821e#U8e48#U73ed#U7684#U4e00#U5929\index.html
+uploads\康軒點讀_六課生字修復版 (1)\B3L3_#U62cc#U62cc#U54a7\index.html
+uploads\真平第一冊_第一課_趣味的誤會_課文挑戰\真平_第一冊_第一課_趣味的誤會_課文挑戰.html
+uploads\第一課生份字測驗\sing-hun-ji.html
+uploads\聽聲辨拼音_V0.8_Lv1-Lv2連續闖關版\index.html
+uploads\聽聲辨拼音_V1.2_Lv1-Lv6連續闖關版\index.html
+uploads\育達版_白糖粿_自學點讀\index.html
+uploads\育達版_第三課_四秀仔錢_自學點讀\四秀仔錢點讀.dc.html
+uploads\育達版_第三課_四秀仔錢_自學點讀_修正版\四秀仔錢點讀.dc.html
+uploads\育達版_第二冊_第一課_踢銅管仔_自學點讀\踢銅管仔點讀.dc.html
+uploads\育達版_第二冊_第三課_阿媽的目屎_自學點讀\index.html
+uploads\育達版_第二冊_第三課_阿媽的目屎_自學點讀\阿媽的目屎點讀.dc.html
+uploads\育達版_第二冊_第二課_爸仔囝_自學點讀\index.html
+uploads\育達版_第二冊_第二課_爸仔囝_自學點讀\ç¸ä_åé_è®.dc.html
+uploads\育達版_第二課_來去屏東海生館蹛一暝_自學點讀\來去屏東海生館蹛一暝點讀.dc.html
+uploads\育達版_第四課_燒銀紙佮放炮仔_自學點讀\çéç´ä½®æ¾ç®ä_é_è®.dc-77f28edd.html
+uploads\育達版_第四課_燒銀紙佮放炮仔_自學點讀\çéç´ä½®æ¾ç®ä_é_è®.dc.html
+uploads\育達第三冊_L2-L4_點讀整合包\L2\index.html
+uploads\育達第三冊_L2-L4_點讀整合包\L3\index.html
+uploads\育達第三冊_L2-L4_點讀整合包\L4\index.html
+uploads\語境填空_框架整合版_最新版\康軒_第三冊_第一課_泅過日月潭.html
+uploads\語境填空_框架整合版_最新版\康軒_第三冊_第三課_拌拌咧.html
+uploads\語境填空_框架整合版_最新版\康軒_第三冊_第二課_一片天.html
+uploads\語境填空_框架整合版_最新版\真平_第一冊_第二課_火星文.html
+uploads\語境填空_框架整合版_最新版\育達_第一冊_第一課_白糖粿.html
+uploads\語境填空_框架整合版_最新版\育達_第三冊_第一課_手機仔.html
+uploads\語境填空_框架整合版_最新版\育達_第三冊_第三課_雞卵糕.html
+uploads\語境填空_框架整合版_最新版\育達_第三冊_第二課_雨港基隆_魚鹽規布袋.html
+uploads\語境填空_框架整合版_最新版\育達_第三冊_第四課_炕窯.html
+uploads\語境填空_框架整合版_最新版\語境填空.html
+zhenping-challenge\index.html
+zhenping-challenge\B2\真平_第二冊_第1課_布袋戲尪仔.html
+zhenping-challenge\B2\真平_第二冊_第2課_看戲真趣味.html
+zhenping-challenge\B2\真平_第二冊_第3課_運動身體好.html
+zhenping-challenge\B2\真平_第二冊_第4課_藝術展覽.html
+zhenping-challenge\B2\真平_第二冊_第5課_臺灣好所在.html
+zhenping-challenge\B2\真平_第二冊_第6課_風聲水影日月潭.html
+zhenping-challenge\B2\真平_第二冊_語文天地一.html
+zhenping-challenge\B2\真平_第二冊_語文天地二.html
+zhenping-challenge\B3\B3Y1_語文天地一.html
+zhenping-challenge\B3\B3Y2_語文天地二.html
+zhenping-challenge\B3\真平_第三冊_第1課_阿母的頭毛.html
+zhenping-challenge\B3\真平_第三冊_第2課_阮阿媽專用的電話簿仔.html
+zhenping-challenge\B3\真平_第三冊_第3課_綴會著時代的老教授.html
+zhenping-challenge\B3\真平_第三冊_第4課_好奇號上火星.html
+zhenping-challenge\B4\B4Y1_語文天地一.html
+zhenping-challenge\B4\B4Y2_語文天地二.html
+zhenping-challenge\B4\真平_第四冊_第1課_人生逐位會開花.html
+zhenping-challenge\B4\真平_第四冊_第2課_固定心態，沿路阻礙；成長心態，一生無礙.html
+zhenping-challenge\B4\真平_第四冊_第3課_思念火金蛄.html
+zhenping-challenge\B4\真平_第四冊_第4課_太平洋的風.html
+_b3pack\形音義挑戰.dc.html
+_dudok-pack\來去屏東海生館蹛一暝點讀.dc.html
+_dudok-pack\台語點讀.dc.html
+_dudok-pack\四秀仔錢點讀.dc.html
+_dudok-pack\手機仔點讀.dc.html
+_dudok-pack\未食五日節粽點讀.dc.html
+_dudok-pack\炕窯點讀.dc.html
+_dudok-pack\燒銀紙佮放炮仔點讀.dc.html
+_dudok-pack\爸仔囝點讀.dc.html
+_dudok-pack\白糖粿點讀.dc.html
+_dudok-pack\踢銅管仔點讀.dc.html
+_dudok-pack\阿媽的目屎點讀.dc.html
+_dudok-pack\雞卵糕點讀.dc.html
+_dudok-pack\雨港基隆點讀.dc.html
+_dudok-pack\康軒點讀\B1L1_講咱的話\index.html
+_dudok-pack\康軒點讀\B1L2_鬥陣\index.html
+_dudok-pack\康軒點讀\B1L3_真珠奶茶\index.html
+_dudok-pack\康軒點讀\B1L4_你有載具無\index.html
+_dudok-pack\康軒點讀\B1素養活動_臺灣台語常用詞辭典紹介\index.html
+_dudok-pack\康軒點讀\B1自學_過年的批\index.html
+_dudok-pack\康軒點讀\B2L1_ChatGPT敢會曉講閩南語\index.html
+_dudok-pack\康軒點讀\B2L2_收成\index.html
+_dudok-pack\康軒點讀\B2L3_工作犬\index.html
+_dudok-pack\康軒點讀\B2L4_一擺上有意義的活動\index.html
+_dudok-pack\康軒點讀\B2素養活動_AI的工具欲按怎用\index.html
+_dudok-pack\康軒點讀\B2自學_媠花\index.html
+_dudok-pack\康軒點讀\B3L1_泅過日月潭\index.html
+_dudok-pack\康軒點讀\B3L2_舞蹈班的一天\index.html
+_dudok-pack\康軒點讀\B3L3_拌拌咧\index.html
+_dudok-pack\康軒點讀\B3素養活動一_防災智識那學那耍\index.html
+_dudok-pack\康軒點讀\B3素養活動二_咱的心情咱的冊店\index.html
+_dudok-pack\真平點讀\B1L1_趣味的誤會\index.html
+_dudok-pack\真平點讀\B1L2_啥閩南語嘛有火星文\index.html
+_dudok-pack\真平點讀\B1L3_人佮獅\index.html
+_dudok-pack\真平點讀\B1L4_龜兔走標\index.html
+_dudok-pack\真平點讀\B1L5_踅菜市\index.html
+_dudok-pack\真平點讀\B1L6_割稻仔飯\index.html
+_dudok-pack\真平點讀\B2L1_布袋戲尪仔\index.html
+_dudok-pack\真平點讀\B2L2_看戲真趣味\index.html
+_dudok-pack\真平點讀\B2L3_運動身體好\index.html
+_dudok-pack\真平點讀\B2L4_藝術展覽\index.html
+_dudok-pack\真平點讀\B2L5_臺灣好所在\index.html
+_dudok-pack\真平點讀\B2L6_風聲水影日月潭\index.html
+_dudok-pack\真平點讀\B3L1_阿母的頭毛\index.html
+_dudok-pack\真平點讀\B3L2_阮阿媽專用的電話簿仔\index.html
+_dudok-pack\真平點讀\B3L3_綴會著時代的老教授\index.html
+_dudok-pack\真平點讀\B3L4_好奇號上火星\index.html
+_dudok-pack\真平點讀\B4L1_人生逐位會開花\index.html
+_dudok-pack\真平點讀\B4L2_固定心態沿路阻礙成長心態一生無礙\index.html
+_dudok-pack\真平點讀\B4L3_思念火金蛄\index.html
+_dudok-pack\真平點讀\B4L4_太平洋的風\index.html
+_pinyin-pack\台語羅馬字拼音系統.dc.html
+_pinyin-pack\羅馬字發音.dc.html
+_pinyin-pack\羅馬字組合練習.dc.html
+康軒點讀\B1L1_講咱的話\index.html
+康軒點讀\B1L2_鬥陣\index.html
+康軒點讀\B1L3_真珠奶茶\index.html
+康軒點讀\B1L4_你有載具無\index.html
+康軒點讀\B1素養活動_臺灣台語常用詞辭典紹介\index.html
+康軒點讀\B1自學_過年的批\index.html
+康軒點讀\B2L1_ChatGPT敢會曉講閩南語\index.html
+康軒點讀\B2L2_收成\index.html
+康軒點讀\B2L3_工作犬\index.html
+康軒點讀\B2L4_一擺上有意義的活動\index.html
+康軒點讀\B2素養活動_AI的工具欲按怎用\index.html
+康軒點讀\B2自學_媠花\index.html
+康軒點讀\B3L1_泅過日月潭\index.html
+康軒點讀\B3L2_舞蹈班的一天\index.html
+康軒點讀\B3L3_拌拌咧\index.html
+康軒點讀\B3素養活動一_防災智識那學那耍\index.html
+康軒點讀\B3素養活動二_咱的心情咱的冊店\index.html
+康軒點讀_生字修復檢查\B1L1_講咱的話\index.html
+康軒點讀_生字修復檢查\B2L2_收成\index.html
+康軒點讀_生字修復檢查\B2L3_工作犬\index.html
+康軒點讀_生字修復檢查\B2L4_一擺上有意義的活動\index.html
+康軒點讀_生字修復檢查\B3L1_泅過日月潭\index.html
+康軒點讀_生字修復檢查\B3L2_舞蹈班的一天\index.html
+康軒點讀_生字修復檢查\B3L3_拌拌咧\index.html
+生活語境\index.html
+真平點讀\B1L1_趣味的誤會\index.html
+真平點讀\B1L2_啥閩南語嘛有火星文\index.html
+真平點讀\B1L3_人佮獅\index.html
+真平點讀\B1L4_龜兔走標\index.html
+真平點讀\B1L5_踅菜市\index.html
+真平點讀\B1L6_割稻仔飯\index.html
+真平點讀\B2L1_布袋戲尪仔\index.html
+真平點讀\B2L2_看戲真趣味\index.html
+真平點讀\B2L3_運動身體好\index.html
+真平點讀\B2L4_藝術展覽\index.html
+真平點讀\B2L5_臺灣好所在\index.html
+真平點讀\B2L6_風聲水影日月潭\index.html
+真平點讀\B3L1_阿母的頭毛\index.html
+真平點讀\B3L2_阮阿媽專用的電話簿仔\index.html
+真平點讀\B3L3_綴會著時代的老教授\index.html
+真平點讀\B3L4_好奇號上火星\index.html
+真平點讀\B4L1_人生逐位會開花\index.html
+真平點讀\B4L2_固定心態沿路阻礙成長心態一生無礙\index.html
+真平點讀\B4L3_思念火金蛄\index.html
+真平點讀\B4L4_太平洋的風\index.html
+語境挑戰\康軒_第一冊_第一課_講咱的話.html
+語境挑戰\康軒_第一冊_第三課_真珠奶茶.html
+語境挑戰\康軒_第一冊_第二課_鬥陣.html
+語境挑戰\康軒_第一冊_第五課_踅菜市.html
+語境挑戰\康軒_第一冊_第四課_你有載具無.html
+語境挑戰\康軒_第一冊_素養活動_臺灣台語常用詞辭典.html
+語境挑戰\康軒_第一冊_自學_過年的批.html
+語境挑戰\康軒_第三冊_第一課_泅過日月潭.html
+語境挑戰\康軒_第三冊_第三課_拌拌咧.html
+語境挑戰\康軒_第三冊_第二課_一片天.html
+語境挑戰\康軒_第三冊_素養活動一_防災智識那學那耍.html
+語境挑戰\康軒_第三冊_素養活動二_咱的心情咱的冊店.html
+語境挑戰\康軒_第二冊_第一課_ChatGPT與閩南語.html
+語境挑戰\康軒_第二冊_第三課_工作犬.html
+語境挑戰\康軒_第二冊_第二課_看天食飯.html
+語境挑戰\康軒_第二冊_第四課_做好代.html
+語境挑戰\康軒_第二冊_素養活動_AI工具欲按怎用.html
+語境挑戰\康軒_第二冊_自學_媠花.html
+語境挑戰\真平_第一冊_第一課_趣味的誤會.html
+語境挑戰\真平_第一冊_第三課_人佮獅.html
+語境挑戰\真平_第一冊_第二課_火星文.html
+語境挑戰\真平_第一冊_第五課_踅菜市.html
+語境挑戰\真平_第一冊_第六課_割稻仔飯.html
+語境挑戰\真平_第一冊_第四課_龜兔走標.html
+語境挑戰\真平_第一冊_語文天地一_辭典使用.html
+語境挑戰\真平_第一冊_語文天地二_形容詞.html
+語境挑戰\真平_第二冊_第一課_布袋戲尪仔.html
+語境挑戰\真平_第二冊_第三課_運動身體好.html
+語境挑戰\真平_第二冊_第二課_看戲真趣味.html
+語境挑戰\真平_第二冊_第五課_臺灣好所在.html
+語境挑戰\真平_第二冊_第六課_風聲水影日月潭.html
+語境挑戰\真平_第二冊_第四課_藝術展覽.html
+語境挑戰\真平_第二冊_語文天地一_動詞.html
+語境挑戰\真平_第二冊_語文天地二_量詞.html
+語境挑戰\育達_第一冊_第一課_白糖粿.html
+語境挑戰\育達_第一冊_第三課_四秀仔錢.html
+語境挑戰\育達_第一冊_第二課_來去屏東海生館蹛一暝.html
+語境挑戰\育達_第一冊_第四課_燒銀紙佮放炮仔.html
+語境挑戰\育達_第三冊_第一課_手機仔.html
+語境挑戰\育達_第三冊_第三課_雞卵糕.html
+語境挑戰\育達_第三冊_第二課_雨港基隆_魚鹽規布袋.html
+語境挑戰\育達_第三冊_第四課_炕窯.html
+語境挑戰\育達_第二冊_第一課_踢銅管仔.html
+語境挑戰\育達_第二冊_第三課_阿媽的目屎.html
+語境挑戰\育達_第二冊_第二課_爸仔囝.html
+語境挑戰\育達_第二冊_第四課_未食五日節粽.html

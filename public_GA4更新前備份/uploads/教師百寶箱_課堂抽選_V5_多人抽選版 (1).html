@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>教師百寶箱｜課堂抽選 V4</title>
+<style>
+:root{--ink:#563b3d;--muted:#8e7472;--cream:#fff6e7;--paper:#fffdf9;--line:#ead8ca;--coral:#f39b74;--pink:#f4b6ca;--mint:#9edfcf;--yellow:#f6df91;--lav:#cfc1ed;--blue:#b9dff1}
+*{box-sizing:border-box}body{margin:0;font-family:"Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;color:var(--ink);background:linear-gradient(120deg,#ffd0a5,#efb6d5 50%,#b8d9ef);min-height:100vh}
+button,select,input{font:inherit}.shell{max-width:1160px;margin:auto;padding:22px}.head{margin-bottom:15px}.head h1{margin:0;font-size:28px}.head p{margin:5px 0;color:#765e60;font-size:14px}
+.toolbox{background:rgba(255,238,210,.92);border:1px solid rgba(255,255,255,.55);border-radius:20px;padding:14px;box-shadow:0 12px 32px rgba(102,69,68,.12)}
+.tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}.pill{border:1px solid #efc8bd;background:#fff8f4;color:#875e5c;border-radius:999px;padding:8px 12px;font-weight:800;font-size:13px}.pill.active{background:#f39b74;color:#fff;border-color:#f39b74}
+.grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(280px,.8fr);gap:13px}.panel{background:rgba(255,253,249,.92);border:1px solid #efd9c9;border-radius:16px;padding:14px;box-shadow:0 7px 18px rgba(94,68,63,.08)}
+.title{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}.title h2{font-size:16px;margin:0}.tiny{font-size:12px;color:var(--muted)}
+.mode{display:flex;gap:7px;margin-bottom:10px}.mode button{border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 11px;font-weight:800;color:#755c5c;cursor:pointer}.mode button.on{background:#f5a879;color:#fff;border-color:#f5a879}
+.stage{position:relative;min-height:405px;border-radius:15px;overflow:hidden;background:linear-gradient(#fff9f3,#fffdf9);border:1px solid #eadbd0}
+.cardgrid{position:absolute;inset:0;padding:24px;display:grid;grid-template-columns:repeat(6,1fr);gap:10px;align-content:center;perspective:1000px}
+.pickcard{aspect-ratio:.72;position:relative;transform-style:preserve-3d;transition:.55s}.face{position:absolute;inset:0;border-radius:13px;backface-visibility:hidden;box-shadow:0 7px 15px rgba(83,64,61,.11);border:1px solid rgba(120,90,80,.12)}
+.back{display:flex;align-items:center;justify-content:center;background:var(--c)}.back:after{content:"✦";display:grid;place-items:center;width:64%;aspect-ratio:1;border:2px dashed rgba(255,255,255,.82);border-radius:15px;color:#fff;font-size:24px}
+.front{transform:rotateY(180deg);background:var(--paper);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px;text-align:center}.num{font-size:21px;font-weight:900}.nm{font-size:12px;margin-top:4px;color:#806968;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pickcard.flip{transform:rotateY(180deg)}.pickcard.shake{animation:shake .32s infinite alternate}.pickcard.dim{opacity:.14}.pickcard.win{z-index:4;transform:rotateY(180deg) scale(1.35)!important;opacity:1}
+@keyframes shake{from{transform:translate(-4px,2px) rotate(-2deg)}to{transform:translate(4px,-2px) rotate(2deg)}}
+.spotgrid{position:absolute;inset:0;padding:27px;display:none;grid-template-columns:repeat(6,1fr);gap:11px;align-content:center}.spot{min-height:55px;border-radius:13px;background:#fff;border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:900;transition:.14s}.spot small{font-size:11px;color:var(--muted);font-weight:600}.spot.hot{background:#fff0b7;box-shadow:0 0 0 5px rgba(246,223,145,.55);transform:scale(1.08)}.spot.fade{opacity:.22}.spot.final{opacity:1;background:#fff0b7;transform:scale(1.15);box-shadow:0 0 0 7px rgba(246,223,145,.42)}
+.result{position:absolute;z-index:10;left:50%;top:50%;transform:translate(-50%,-50%) scale(.9);width:min(350px,82%);background:#fffdf9;border:2px solid white;border-radius:22px;padding:21px;text-align:center;box-shadow:0 20px 50px rgba(70,50,48,.24);opacity:0;pointer-events:none;transition:.25s}.result.show{opacity:1;transform:translate(-50%,-50%) scale(1);pointer-events:auto}.result .big{font-size:38px;font-weight:900;margin:7px}.result .name{font-size:18px;font-weight:800}
+.result-list{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0 4px}
+.result-person{min-width:86px;background:#fff5ec;border:1px solid #f0d7c6;border-radius:14px;padding:9px 10px}
+.result-person strong{display:block;font-size:18px}.result-person span{font-size:12px;color:var(--muted)}
+.actions{display:flex;justify-content:center;gap:7px;margin-top:14px}.btn{border:0;border-radius:11px;padding:9px 12px;font-weight:800;cursor:pointer;background:#f1e9e2;color:#684f50}.btn.main{background:#f39b74;color:white}.btn.mint{background:#bde9de}
+.controls{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:11px}.start{border:0;border-radius:12px;padding:11px 18px;background:#e98562;color:#fff;font-weight:900;cursor:pointer}.ghost{border:1px solid var(--line);border-radius:12px;padding:10px 13px;background:#fff;color:#72595a;cursor:pointer}
+.section{padding:10px 0;border-bottom:1px solid #eee1d8}.section:last-child{border:0}.section h3{font-size:14px;margin:0 0 8px}.loaded{background:#edf8f4;border:1px solid #c8e8dd;border-radius:12px;padding:10px}.loaded strong{display:block;color:#397667}.row{display:flex;gap:7px;align-items:center;margin-top:8px}.row select,.row input{width:100%;border:1px solid var(--line);border-radius:9px;padding:8px;background:#fff;color:#674f50}.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}.seg button{border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 5px;font-size:12px;cursor:pointer;color:#765c5d}.seg button.on{background:#f6c0cf;border-color:#efaabd;font-weight:900}.switch{display:flex;justify-content:space-between;align-items:center;margin:8px 0;font-size:13px}.toggle{width:42px;height:24px;background:#ddd3cd;border-radius:99px;position:relative;cursor:pointer}.toggle:after{content:"";position:absolute;width:18px;height:18px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s}.toggle.on{background:#75cdb9}.toggle.on:after{left:21px}.history{display:flex;gap:5px;flex-wrap:wrap}.chip{font-size:11px;background:#f5eee8;border-radius:999px;padding:5px 7px}.credit{text-align:right;font-size:11px;color:#a1827d;margin-top:10px}
+@media(max-width:800px){.grid{grid-template-columns:1fr}.cardgrid,.spotgrid{grid-template-columns:repeat(5,1fr)}}@media(max-width:520px){.shell{padding:10px}.cardgrid,.spotgrid{padding:13px;grid-template-columns:repeat(4,1fr);gap:7px}.stage{min-height:390px}.num{font-size:17px}}
+</style></head>
+<body><div class="shell"><div class="head"><h1>🧰 教師百寶箱</h1><p>課堂抽選｜學生名單連動概念版</p></div>
+<div class="toolbox"><div class="tabs"><button class="pill">學生名單</button><button class="pill active">🎯 課堂抽選</button><button class="pill">計時器</button><button class="pill">分組工具</button><button class="pill">記分板</button></div>
+<div class="grid"><section class="panel"><div class="title"><h2>🎯 課堂抽選</h2><span class="tiny" id="count"></span></div>
+<div class="mode"><button class="on" data-mode="cards">🎴 幸運翻牌</button><button data-mode="spot">🔦 聚光抽選</button></div>
+<div class="stage"><div class="cardgrid" id="cards"></div><div class="spotgrid" id="spots"></div>
+<div class="result" id="result"><div class="tiny">抽選結果</div><div id="singleResult"><div class="big" id="rnum"></div><div class="name" id="rname"></div></div><div class="result-list" id="resultList" style="display:none"></div><div class="actions"><button class="btn mint" id="timer">⏱ 30秒</button><button class="btn" id="again">再抽</button><button class="btn main" id="done">完成</button></div></div></div>
+<div class="controls"><button class="start" id="pick">✨ 開始抽選</button><button class="ghost" id="undo">↶ 復原</button><button class="ghost" id="reset">⟳ 重設本輪</button></div><div class="credit">張鈺聆 製</div></section>
+<aside class="panel">
+<div class="section"><h3>👥 目前學生名單</h3><div class="loaded"><strong>✓ 已從「學生名單」載入</strong><span id="classInfo">八年一班｜30 人</span></div><div class="row"><select id="classSel"><option>八年一班</option><option>八年二班</option><option>九年一班</option></select><button class="btn" id="load">載入</button></div><div class="tiny" style="margin-top:7px">正式整合時，這裡直接讀取教師百寶箱已儲存的班級名單。</div></div>
+<div class="section"><h3>卡片顯示</h3><div class="seg"><button data-show="num">只顯示座號</button><button data-show="name">只顯示姓名</button><button class="on" data-show="both">座號＋姓名</button></div></div>
+<div class="section"><h3>抽選人數</h3>
+<div class="row">
+  <select id="pickCount">
+    <option value="1">1 人</option>
+    <option value="2">2 人</option>
+    <option value="3">3 人</option>
+    <option value="4">4 人</option>
+    <option value="5">5 人</option>
+    <option value="6">6 人</option>
+    <option value="custom">自訂</option>
+  </select>
+  <input id="customCount" type="number" min="1" max="40" value="7" style="display:none;max-width:90px">
+</div>
+<div class="tiny" style="margin-top:7px">多人抽選時，幸運翻牌會同時留下多張牌；聚光抽選會同時亮起多人。</div>
+</div>
+<div class="section"><h3>抽選設定</h3><div class="switch"><span>🚫 本輪不重複</span><div class="toggle on" id="noRepeat"></div></div><div class="switch"><span>⚖️ 均衡抽選</span><div class="toggle" id="balanced"></div></div></div>
+<div class="section"><h3>本輪紀錄</h3><div class="history" id="history"><span class="tiny">尚無紀錄</span></div></div>
+</aside></div></div></div>
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const firstNames=['雅婷','子晴','品妤','冠宇','柏翰','宥辰','語彤','承恩','欣妍','宇翔','芷晴','家豪','詠晴','彥廷','思妤','俊傑','昀臻','柏宇','佳穎','祐嘉','婕妤','秉宸','郁涵','昱翔','心瑜','承翰','若晴','冠廷','語恩','柏睿'];
+const surn=['陳','林','黃','張','李','王','吳','劉','蔡','楊'];
+let students=firstNames.map((n,i)=>({num:i+1,name:surn[i%10]+n})),mode='cards',show='both',history=[],counts={},busy=false,timerInt=null;
+const colors=['#f5b6c8','#a9dfd1','#f5dc8d','#cec0eb','#b8dff0','#f5c3a7'];
+function label(s){if(show==='num')return [s.num+'號',''];if(show==='name')return ['',s.name];return [s.num+'號',s.name]}
+function render(){ $('#count').textContent=students.length+' 人';$('#classInfo').textContent=$('#classSel').value+'｜'+students.length+' 人';$('#cards').innerHTML='';$('#spots').innerHTML='';
+students.forEach((s,i)=>{let [a,b]=label(s);let c=document.createElement('div');c.className='pickcard';c.dataset.num=s.num;c.innerHTML=`<div class="face back" style="--c:${colors[i%colors.length]}"></div><div class="face front"><div class="num">${a}</div><div class="nm">${b}</div></div>`;$('#cards').appendChild(c);
+let p=document.createElement('div');p.className='spot';p.dataset.num=s.num;p.innerHTML=`<span>${a||b}</span>${a&&b?`<small>${b}</small>`:''}`;$('#spots').appendChild(p)});
+$('#cards').style.display=mode==='cards'?'grid':'none';$('#spots').style.display=mode==='spot'?'grid':'none'}
+function pool(){
+  if(!$('#noRepeat').classList.contains('on')) return students;
+  let used=new Set(history.flatMap(x=>Array.isArray(x)?x:[x]));
+  let p=students.filter(s=>!used.has(s.num));
+  return p.length?p:students
+}
+function pickCount(){
+  let v=$('#pickCount').value;
+  let n=v==='custom'?parseInt($('#customCount').value||'1',10):parseInt(v,10);
+  return Math.max(1,Math.min(n,students.length))
+}
+function chooseOne(p){
+  if(!$('#balanced').classList.contains('on')) return p[Math.floor(Math.random()*p.length)];
+  let w=p.map(s=>1/(1+(counts[s.num]||0))),sum=w.reduce((a,b)=>a+b,0),r=Math.random()*sum;
+  for(let i=0;i<p.length;i++){r-=w[i];if(r<=0)return p[i]}return p.at(-1)
+}
+function chooseMany(p,n){
+  let work=[...p],out=[];
+  n=Math.min(n,work.length);
+  for(let i=0;i<n;i++){
+    let s=chooseOne(work); out.push(s); work=work.filter(x=>x.num!==s.num)
+  }
+  return out
+}
+function hist(){
+  let h=$('#history');h.innerHTML='';
+  if(!history.length){h.innerHTML='<span class="tiny">尚無紀錄</span>';return}
+  history.slice().reverse().forEach(group=>{
+    let nums=Array.isArray(group)?group:[group];
+    let c=document.createElement('span');c.className='chip';
+    c.textContent=nums.map(n=>{let s=students.find(x=>x.num===n);return s?`${s.num} ${s.name}`:n}).join('、');
+    h.appendChild(c)
+  })
+}
+function result(list){
+  let arr=Array.isArray(list)?list:[list];
+  if(arr.length===1){
+    let [a,b]=label(arr[0]);$('#singleResult').style.display='block';$('#resultList').style.display='none';
+    $('#rnum').textContent=a||b;$('#rname').textContent=a?b:'';
+  }else{
+    $('#singleResult').style.display='none';$('#resultList').style.display='flex';
+    $('#resultList').innerHTML=arr.map(s=>{
+      let [a,b]=label(s);
+      return `<div class="result-person"><strong>${a||b}</strong><span>${a?b:''}</span></div>`
+    }).join('');
+  }
+  $('#result').classList.add('show');busy=false
+}
+function pick(){
+  if(busy)return;
+  let p=pool(); if(!p.length)return;
+  let n=pickCount();
+  if($('#noRepeat').classList.contains('on') && p.length<n){
+    alert(`本輪只剩 ${p.length} 人可抽，請先重設本輪或降低抽選人數。`);
+    return;
+  }
+  busy=true;close(false);
+  let chosen=chooseMany(p,n), nums=chosen.map(s=>s.num);
+  history.push(nums); nums.forEach(num=>counts[num]=(counts[num]||0)+1); hist();
+
+  if(mode==='cards'){
+    let cs=$$('.pickcard');cs.forEach(c=>c.classList.add('shake'));
+    setTimeout(()=>{cs.forEach((c,i)=>{c.classList.remove('shake');setTimeout(()=>c.classList.add('flip'),i*18)})},500);
+    setTimeout(()=>{
+      cs.forEach(c=>{if(!nums.includes(+c.dataset.num))c.classList.add('dim')});
+      cs.filter(c=>nums.includes(+c.dataset.num)).forEach(c=>c.classList.add('win'))
+    },1150);
+    setTimeout(()=>result(chosen),1750)
+  }else{
+    let ps=$$('.spot'),i=0,steps=25;
+    function tick(){
+      ps.forEach(x=>x.classList.remove('hot'));
+      let cur=ps[(i*7+2)%ps.length];cur.classList.add('hot');i++;
+      if(i<steps)setTimeout(tick,50+i*4);
+      else{
+        ps.forEach(x=>{x.classList.remove('hot');x.classList.add('fade')});
+        ps.filter(x=>nums.includes(+x.dataset.num)).forEach(w=>{w.classList.remove('fade');w.classList.add('final')});
+        setTimeout(()=>result(chosen),600)
+      }
+    }tick()
+  }
+}
+function close(redraw=true){$('#result').classList.remove('show');if(timerInt){clearInterval(timerInt);timerInt=null;$('#timer').textContent='⏱ 30秒'}if(redraw)render()}
+$$('.mode button').forEach(b=>b.onclick=()=>{$$('.mode button').forEach(x=>x.classList.remove('on'));b.classList.add('on');mode=b.dataset.mode;close();render()});
+$$('.seg button').forEach(b=>b.onclick=()=>{$$('.seg button').forEach(x=>x.classList.remove('on'));b.classList.add('on');show=b.dataset.show;close();render()});
+$$('.toggle').forEach(t=>t.onclick=()=>t.classList.toggle('on'));$('#pick').onclick=pick;$('#again').onclick=()=>{close();setTimeout(pick,100)};$('#done').onclick=()=>close();$('#reset').onclick=()=>{history=[];counts={};hist();close()};$('#undo').onclick=()=>{let g=history.pop();if(g){let nums=Array.isArray(g)?g:[g];nums.forEach(n=>counts[n]=Math.max(0,(counts[n]||1)-1))}hist();close()};
+$('#load').onclick=()=>{history=[];counts={};hist();render();$('#load').textContent='已載入';setTimeout(()=>$('#load').textContent='載入',900)};
+$('#timer').onclick=()=>{if(timerInt){clearInterval(timerInt);timerInt=null;$('#timer').textContent='⏱ 30秒';return}let t=30;$('#timer').textContent='⏱ '+t+'秒';timerInt=setInterval(()=>{t--;$('#timer').textContent=t?'⏱ '+t+'秒':'⏰ 時間到';if(!t){clearInterval(timerInt);timerInt=null}},1000)};
+$('#pickCount').onchange=()=>{$('#customCount').style.display=$('#pickCount').value==='custom'?'block':'none'};
+render();hist();
+</script></body></html>

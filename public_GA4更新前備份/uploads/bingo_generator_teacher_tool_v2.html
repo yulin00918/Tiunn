@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>賓果生成器大全｜老師們的活動小幫手</title>
+<style>
+  :root{
+    --bg:#f7f5ef; --card:#ffffff; --text:#2f3a3b; --muted:#6d7778;
+    --primary:#557c83; --primary-soft:#dfeaec; --accent:#e8b879;
+    --danger:#c76666; --line:#d9dfdf; --shadow:0 8px 24px rgba(0,0,0,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;background:var(--bg);color:var(--text)}
+  button,input,select,textarea{font:inherit}
+  .app{max-width:1300px;margin:auto;padding:28px}
+  .hero{background:linear-gradient(135deg,#edf4f2,#fff8ed);border:1px solid #e6e3da;border-radius:24px;padding:28px;box-shadow:var(--shadow);margin-bottom:22px}
+  .hero h1{margin:0 0 8px;font-size:clamp(28px,4vw,44px)}
+  .hero p{margin:0;color:var(--muted);font-size:17px}
+  .steps{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+  .step{padding:8px 13px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:14px}
+  .step.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .panel{background:var(--card);border:1px solid #e5e6e2;border-radius:20px;padding:22px;box-shadow:var(--shadow)}
+  .panel h2,.panel h3{margin-top:0}
+  .modes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .mode{border:1px solid var(--line);background:#fff;border-radius:14px;padding:14px 8px;cursor:pointer;text-align:center;transition:.15s}
+  .mode:hover{transform:translateY(-2px)}
+  .mode.active{border-color:var(--primary);background:var(--primary-soft)}
+  .mode .icon{display:block;font-size:26px;margin-bottom:4px}
+  label{font-weight:700;font-size:14px}
+  .field{margin:14px 0}
+  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  input[type="number"],input[type="text"],select,textarea{
+    width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--text)
+  }
+  textarea{min-height:170px;resize:vertical}
+  .inline-input{width:110px!important}
+  .chips{display:flex;gap:8px;flex-wrap:wrap}
+  .chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 12px;cursor:pointer}
+  .chip.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+  .btn{border:none;border-radius:12px;padding:11px 16px;cursor:pointer;font-weight:700}
+  .btn.primary{background:var(--primary);color:#fff}
+  .btn.secondary{background:#eef1f1;color:var(--text)}
+  .btn.accent{background:var(--accent);color:#4b3a23}
+  .btn.danger{background:#fbe7e7;color:var(--danger)}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+  .status{padding:10px 12px;border-radius:12px;background:#f4f6f6;color:var(--muted);font-size:14px;margin-top:8px}
+  .status.warn{background:#fff3df;color:#835a1a}
+  .status.ok{background:#eaf5ec;color:#3e6c49}
+  .preview-wrap{overflow:auto}
+  .bingo-card{width:100%;max-width:520px;margin:auto;background:#fff;border:2px solid #2f3a3b;border-radius:16px;padding:14px}
+  .bingo-title{text-align:center;font-size:24px;font-weight:900;letter-spacing:4px;margin-bottom:10px}
+  .bingo-grid{display:grid;gap:4px}
+  .cell{aspect-ratio:1/1;border:1px solid #4a5657;border-radius:8px;display:flex;align-items:center;justify-content:center;text-align:center;padding:5px;font-weight:700;overflow:hidden;background:#fff}
+  .cell img{max-width:100%;max-height:100%;object-fit:contain}
+  .free{background:#f4e7d1}
+  .section-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}
+  .tab{padding:9px 12px;border-radius:10px;border:1px solid var(--line);background:#fff;cursor:pointer}
+  .tab.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+  .draw-box{min-height:220px;border:2px dashed #b9c7c8;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;background:#fbfdfd}
+  .draw-main{font-size:clamp(38px,7vw,76px);font-weight:900}
+  .draw-sub{color:var(--muted);margin-top:8px}
+  .draw-options{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+  .draw-pill{padding:18px;border-radius:16px;background:#edf3f3;border:2px solid transparent;min-width:110px;font-weight:800;cursor:pointer}
+  .draw-pill.selected{border-color:var(--accent);background:#fff6e8}
+  .history{display:flex;gap:8px;flex-wrap:wrap;max-height:170px;overflow:auto}
+  .hist{padding:7px 10px;border-radius:999px;background:#eef2f2;font-size:13px}
+  .wheel-wrap{display:flex;justify-content:center;margin:10px 0}
+  canvas{max-width:100%;background:#fff;border-radius:50%}
+  .image-list{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .img-item{border:1px solid var(--line);border-radius:12px;padding:8px}
+  .img-item img{width:100%;aspect-ratio:1/1;object-fit:contain;border-radius:8px;background:#fafafa}
+  .img-item input{margin-top:6px}
+  .hidden{display:none!important}
+  .small{font-size:13px;color:var(--muted)}
+  .footer-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+  @media(max-width:900px){
+    .grid{grid-template-columns:1fr}
+    .modes{grid-template-columns:repeat(3,1fr)}
+  }
+  @media(max-width:560px){
+    .app{padding:14px}
+    .modes{grid-template-columns:repeat(2,1fr)}
+  }
+  @media print{
+    body{background:#fff}
+    .no-print,.hero,.panel:not(.print-area){display:none!important}
+    .app{max-width:none;padding:0}
+    .print-area{box-shadow:none;border:none;padding:0}
+    #printCards{display:grid!important;gap:10mm}
+    #printCards.one{grid-template-columns:1fr}
+    #printCards.two{grid-template-columns:1fr 1fr}
+    #printCards.four{grid-template-columns:1fr 1fr}
+    #printCards .bingo-card{break-inside:avoid;page-break-inside:avoid;max-width:none}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <section class="hero no-print">
+    <h1>🎯 賓果生成器大全</h1>
+    <p>老師們的活動小幫手｜建立題庫、產生全班不同卡片、線上抽題、直接列印，一頁搞定。</p>
+    <div class="steps">
+      <span class="step active">① 選擇模式</span><span class="step">② 設定內容</span><span class="step">③ 產生卡片</span><span class="step">④ 開始抽題</span>
+    </div>
+  </section>
+
+  <div class="grid no-print">
+    <section class="panel">
+      <h2>① 選擇賓果模式</h2>
+      <div class="modes" id="modes"></div>
+
+      <div id="contentSettings">
+        <div class="field" id="customArea">
+          <label>題庫內容（每行一題）</label>
+          <textarea id="customText" placeholder="例如：&#10;西瓜&#10;香蕉&#10;鳳梨&#10;芭樂"></textarea>
+          <div class="row" style="margin-top:8px">
+            <button class="btn secondary" id="dedupeBtn">清除重複</button>
+            <button class="btn secondary" id="saveBankBtn">💾 儲存題庫</button>
+            <select id="savedBanks" style="max-width:220px"><option value="">載入已存題庫</option></select>
+          </div>
+        </div>
+
+        <div class="field hidden" id="numberArea">
+          <label>數字範圍</label>
+          <div class="row">
+            <input class="inline-input" type="number" id="numMin" value="1">
+            <span>到</span>
+            <input class="inline-input" type="number" id="numMax" value="75">
+          </div>
+        </div>
+
+        <div class="field hidden" id="mathArea">
+          <label>數學運算</label>
+          <div class="row">
+            <select id="mathOp" style="max-width:180px">
+              <option value="+">加法</option><option value="-">減法</option>
+              <option value="×">乘法</option><option value="÷">除法</option>
+            </select>
+            <input class="inline-input" type="number" id="mathMax" value="20" min="5" max="100">
+            <span class="small">運算數字上限</span>
+          </div>
+        </div>
+
+        <div class="field hidden" id="imageArea">
+          <label>圖片題庫</label>
+          <input type="file" id="imageUpload" accept="image/*" multiple>
+          <p class="small">可一次上傳多張；檔名會自動成為題目名稱，可再修改。</p>
+          <div class="image-list" id="imageList"></div>
+        </div>
+
+        <div id="contentStatus" class="status">目前題庫：0 題</div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>② 賓果設定</h2>
+      <div class="field">
+        <label>卡片尺寸</label>
+        <div class="chips" id="sizeChips">
+          <button class="chip" data-size="3">3×3</button>
+          <button class="chip active" data-size="4">4×4</button>
+          <button class="chip" data-size="5">5×5</button>
+          <button class="chip" data-size="6">6×6</button>
+        </div>
+      </div>
+
+      <div class="field" id="freeArea">
+        <label><input type="checkbox" id="freeCenter"> 5×5 中央設為 FREE</label>
+        <div class="small" style="margin-top:6px">6×6 為偶數格，沒有單一中央格，因此不提供 FREE 中央格。</div>
+      </div>
+
+      <div class="field">
+        <label>產生份數</label>
+        <div class="row">
+          <input class="inline-input" type="number" id="cardCount" value="30" min="1" max="60">
+          <div class="chips">
+            <button class="chip quick-count" data-count="10">10</button>
+            <button class="chip quick-count" data-count="20">20</button>
+            <button class="chip quick-count" data-count="30">30</button>
+            <button class="chip quick-count" data-count="35">35</button>
+            <button class="chip quick-count" data-count="40">40</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label><input type="checkbox" id="showSeat" checked> 卡片標示編號</label>
+      </div>
+
+      <div class="field">
+        <label>列印每頁</label>
+        <select id="perPage">
+          <option value="one">1 張</option>
+          <option value="two" selected>2 張</option>
+          <option value="four">4 張</option>
+        </select>
+      </div>
+
+      <button class="btn primary" id="generateBtn">✨ 產生賓果卡</button>
+      <div id="generateStatus" class="status">請先建立足夠的題庫。</div>
+    </section>
+
+    <section class="panel">
+      <h2>③ 卡片預覽</h2>
+      <div class="preview-wrap">
+        <div id="previewCard" class="bingo-card">
+          <div class="bingo-title">BINGO</div>
+          <div class="bingo-grid" style="grid-template-columns:repeat(4,1fr)">
+            <div class="cell">1</div><div class="cell">2</div><div class="cell">3</div><div class="cell">4</div>
+            <div class="cell">5</div><div class="cell">6</div><div class="cell">7</div><div class="cell">8</div>
+            <div class="cell">9</div><div class="cell">10</div><div class="cell">11</div><div class="cell">12</div>
+            <div class="cell">13</div><div class="cell">14</div><div class="cell">15</div><div class="cell">16</div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-actions">
+        <button class="btn secondary" id="prevCardBtn">← 上一張</button>
+        <button class="btn secondary" id="nextCardBtn">下一張 →</button>
+        <span id="previewIndex" class="small"></span>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>④ 線上抽題</h2>
+      <div class="section-tabs" id="drawTabs">
+        <button class="tab active" data-tab="single">🎯 抽一個</button>
+        <button class="tab" data-tab="choose">🧠 N選M</button>
+        <button class="tab" data-tab="multi">🚀 連抽</button>
+        <button class="tab" data-tab="wheel">🎡 轉盤</button>
+        <button class="tab" data-tab="auto">⏱️ 自動抽</button>
+      </div>
+
+      <div id="singleTab">
+        <div class="draw-box"><div id="drawMain" class="draw-main">準備開始</div><div id="drawSub" class="draw-sub">尚未抽題</div></div>
+        <div class="footer-actions"><button class="btn accent" id="singleDrawBtn">抽一題</button></div>
+      </div>
+
+      <div id="chooseTab" class="hidden">
+        <div class="row">
+          <label>一次出現 <input class="inline-input" id="nCount" type="number" min="2" max="6" value="4"></label>
+          <label>學生可選 <input class="inline-input" id="mCount" type="number" min="1" max="5" value="2"></label>
+        </div>
+        <div class="draw-options" id="chooseOptions"></div>
+        <div class="footer-actions"><button class="btn accent" id="chooseDrawBtn">抽 N 題</button><button class="btn primary" id="confirmChooseBtn">確認選取</button></div>
+      </div>
+
+      <div id="multiTab" class="hidden">
+        <div class="row">
+          <label>一次抽 <input class="inline-input" id="multiCount" type="number" min="2" max="6" value="3"> 題</label>
+        </div>
+        <div class="draw-options" id="multiOptions"></div>
+        <div class="footer-actions"><button class="btn accent" id="multiDrawBtn">🔥 連抽</button></div>
+      </div>
+
+      <div id="wheelTab" class="hidden">
+        <div class="wheel-wrap"><canvas id="wheelCanvas" width="420" height="420"></canvas></div>
+        <div class="footer-actions"><button class="btn accent" id="spinBtn">🎡 轉！</button></div>
+      </div>
+
+      <div id="autoTab" class="hidden">
+        <div class="row">
+          <label>每 <input class="inline-input" type="number" id="autoSec" value="8" min="2" max="60"> 秒抽一題</label>
+        </div>
+        <div class="draw-box"><div id="autoMain" class="draw-main">待機</div><div id="autoSub" class="draw-sub">設定秒數後開始</div></div>
+        <div class="footer-actions">
+          <button class="btn accent" id="autoStartBtn">▶ 開始</button>
+          <button class="btn secondary" id="autoPauseBtn">⏸ 暫停</button>
+          <button class="btn danger" id="autoStopBtn">⏹ 結束</button>
+        </div>
+      </div>
+
+      <hr style="border:none;border-top:1px solid var(--line);margin:20px 0">
+      <h3>📋 已抽題目 <span id="historyCount" class="small"></span></h3>
+      <div id="history" class="history"></div>
+      <div class="footer-actions"><button class="btn danger" id="resetDrawBtn">重設抽題紀錄</button></div>
+    </section>
+  </div>
+
+  <section class="panel print-area" style="margin-top:20px">
+    <div class="no-print">
+      <h2>🖨️ 列印區</h2>
+      <p class="small">產生卡片後按下列印。列印時會自動隱藏操作介面。</p>
+      <button class="btn primary" id="printBtn">列印賓果卡</button>
+      <button class="btn secondary" id="printTeacherBtn">列印老師抽題卡</button>
+    </div>
+    <div id="printCards" class="two"></div>
+    <div id="teacherSheet" class="hidden"></div>
+  </section>
+</div>
+
+<script>
+const MODES = [
+  ['custom','✏️','自訂詞彙'],['number','🔢','數字'],['image','🖼️','圖片'],
+  ['symbol','★','符號圖案'],['letter','🔤','英文字母'],['stroop','🎨','Stroop'],
+  ['idiom','📖','成語'],['card','🃏','撲克牌'],['dice','🎲','骰子']
+];
+const PRESETS = {
+  symbol:['★','♥','◆','●','▲','■','☀','☁','☂','☘','♫','♪','✿','☕','⚽','🏀','🚲','🚗','✈️','🚀','🐶','🐱','🐼','🦁','🐸','🍎','🍌','🍉','🍇','🍓'],
+  letter:'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''),
+  bopomofo:'ㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏㄐㄑㄒㄓㄔㄕㄖㄗㄘㄙㄧㄨㄩㄚㄛㄜㄝㄞㄟㄠㄡㄢㄣㄤㄥㄦ'.split(''),
+  idiom:['一心一意','三心二意','四面八方','五花八門','七上八下','九牛一毛','十全十美','守株待兔','畫蛇添足','亡羊補牢','井底之蛙','掩耳盜鈴','刻舟求劍','狐假虎威','杯弓蛇影','東山再起','名列前茅','百發百中','風和日麗','春暖花開','鳥語花香','大開眼界','自相矛盾','異口同聲','全力以赴','水落石出','一舉兩得','得心應手','恍然大悟','津津有味'],
+  fraction:['1/2','1/3','2/3','1/4','3/4','1/5','2/5','3/5','4/5','1/6','5/6','1/8','3/8','5/8','7/8','2/4','2/6','3/6','4/6','2/8','4/8','6/8','1/10','3/10','7/10','9/10'],
+  card:['A♠','2♠','3♠','4♠','5♠','6♠','7♠','8♠','9♠','10♠','J♠','Q♠','K♠','A♥','2♥','3♥','4♥','5♥','6♥','7♥','8♥','9♥','10♥','J♥','Q♥','K♥','A♦','2♦','3♦','4♦','5♦','6♦','7♦','8♦','9♦','10♦','J♦','Q♦','K♦','A♣','2♣','3♣','4♣','5♣','6♣','7♣','8♣','9♣','10♣','J♣','Q♣','K♣'],
+  dice:['⚀','⚁','⚂','⚃','⚄','⚅']
+};
+let state={mode:'custom',size:4,cards:[],items:[],images:[],preview:0,history:[],autoTimer:null,autoPaused:false,wheelAngle:0};
+
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
+function escapeHTML(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+
+function initModes(){
+  $('#modes').innerHTML=MODES.map(([id,icon,name])=>`<button class="mode ${id==='custom'?'active':''}" data-mode="${id}"><span class="icon">${icon}</span>${name}</button>`).join('');
+  $$('.mode').forEach(b=>b.onclick=()=>{state.mode=b.dataset.mode; $$('.mode').forEach(x=>x.classList.toggle('active',x===b)); updateModeUI(); buildItems();});
+}
+function updateModeUI(){
+  $('#customArea').classList.toggle('hidden',state.mode!=='custom');
+  $('#numberArea').classList.toggle('hidden',state.mode!=='number');
+  $('#mathArea').classList.toggle('hidden',state.mode!=='math');
+  $('#imageArea').classList.toggle('hidden',state.mode!=='image');
+}
+function buildItems(){
+  let arr=[];
+  const m=state.mode;
+  if(m==='custom') arr=$('#customText').value.split(/\n/).map(x=>x.trim()).filter(Boolean);
+  else if(m==='number'){
+    let min=+$('#numMin').value||1,max=+$('#numMax').value||75;if(min>max)[min,max]=[max,min];
+    arr=Array.from({length:max-min+1},(_,i)=>String(min+i));
+  }else if(m==='image'){
+    state.items=state.images.map((x,i)=>({text:x.name||`圖片${i+1}`,image:x.data})); updateStatus(); drawWheel(); return;
+  }else if(m==='math'){
+    const op=$('#mathOp').value,max=+$('#mathMax').value||20;
+    for(let i=1;i<=max;i++)for(let j=1;j<=max;j++){
+      if(op==='÷' && i%j!==0) continue;
+      if(op==='-' && i<j) continue;
+      arr.push(`${i} ${op} ${j}`);
+      if(arr.length>=80)break;
+    }
+  }else if(m==='times'){
+    for(let i=2;i<=9;i++)for(let j=1;j<=9;j++)arr.push(`${i} × ${j}`);
+  }else if(m==='clock'){
+    for(let h=1;h<=12;h++)['00','05','10','15','20','25','30','35','40','45','50','55'].forEach(mm=>arr.push(`${h}:${mm}`));
+  }else if(m==='stroop'){
+    const words=['紅','黃','藍','綠','紫','橙']; const colors=['#e85d5d','#e0ad28','#527bd2','#59a56a','#9063b2','#df8a36'];
+    arr=[];
+    words.forEach((w,wi)=>colors.forEach((c,ci)=>{ if(wi!==ci) arr.push({text:`${w}字-${ci+1}`,html:`<span style=\"color:${c};font-size:1.5em\">${w}</span>`}) }));
+  }else if(m==='dice'){
+    const faces=['⚀','⚁','⚂','⚃','⚄','⚅'];
+    for(let a=0;a<6;a++)for(let b=0;b<6;b++)arr.push({text:`${a+1}+${b+1}`,html:`<span style=\"font-size:1.7em\">${faces[a]} ${faces[b]}</span>`});
+  }else arr=PRESETS[m]||[];
+  state.items=[...new Set(arr.map(x=>typeof x==='string'?x:JSON.stringify(x)))].map(x=>x.startsWith('{')?JSON.parse(x):{text:x});
+  updateStatus(); drawWheel();
+}
+function needed(){return state.size*state.size - (state.size===5 && $('#freeCenter').checked?1:0)}
+function updateStatus(){
+  const n=state.items.length,need=needed();
+  $('#contentStatus').textContent=`目前題庫：${n} 題｜此尺寸至少需要 ${need} 題`;
+  $('#contentStatus').className='status '+(n>=need?'ok':'warn');
+}
+function generateCards(){
+  buildItems();
+  const need=needed(),count=Math.min(60,Math.max(1,+$('#cardCount').value||30));
+  if(state.items.length<need){$('#generateStatus').textContent=`題庫不足：至少需要 ${need} 題。`;$('#generateStatus').className='status warn';return}
+  state.cards=[]; const seen=new Set();
+  for(let c=0;c<count;c++){
+    let tries=0,selected,key;
+    do{
+      selected=shuffle(state.items).slice(0,need); key=selected.map(x=>x.text).join('|'); tries++;
+    }while(seen.has(key)&&tries<100);
+    seen.add(key);
+    if(state.size===5 && $('#freeCenter').checked) selected.splice(12,0,{text:'FREE',free:true});
+    state.cards.push(selected);
+  }
+  state.preview=0; renderPreview(); renderPrint();
+  $('#generateStatus').textContent=`✅ 已產生 ${state.cards.length} 張賓果卡。`;
+  $('#generateStatus').className='status ok';
+}
+function renderCell(item){
+  if(item.free)return `<div class="cell free">FREE</div>`;
+  if(item.image)return `<div class="cell"><img src="${item.image}" alt="${escapeHTML(item.text)}"></div>`;
+  return `<div class="cell">${item.html||escapeHTML(item.text)}</div>`;
+}
+function cardHTML(card,index,print=false){
+  const seat=$('#showSeat').checked?`<div class="small" style="text-align:right">第 ${String(index+1).padStart(2,'0')} 號</div>`:'';
+  return `<div class="bingo-card">${seat}<div class="bingo-title">BINGO</div><div class="bingo-grid" style="grid-template-columns:repeat(${state.size},1fr)">${card.map(renderCell).join('')}</div></div>`;
+}
+function renderPreview(){
+  if(!state.cards.length)return;
+  $('#previewCard').outerHTML=cardHTML(state.cards[state.preview],state.preview).replace('class="bingo-card"','id="previewCard" class="bingo-card"');
+  $('#previewIndex').textContent=`${state.preview+1} / ${state.cards.length}`;
+}
+function renderPrint(){
+  const wrap=$('#printCards');wrap.className=$('#perPage').value;wrap.innerHTML=state.cards.map((c,i)=>cardHTML(c,i,true)).join('');
+}
+function available(){return state.items.filter(x=>!state.history.some(h=>h.text===x.text))}
+function addHistory(items){items.forEach(i=>{if(!state.history.some(h=>h.text===i.text))state.history.push(i)});renderHistory();drawWheel()}
+function renderHistory(){
+  $('#history').innerHTML=state.history.map(x=>`<span class="hist">✓ ${escapeHTML(x.text)}</span>`).join('');
+  $('#historyCount').textContent=`${state.history.length} / ${state.items.length}`;
+}
+function randomAvailable(n=1){return shuffle(available()).slice(0,n)}
+function drawSingle(){
+  const a=randomAvailable(1); if(!a.length){$('#drawMain').textContent='全部抽完！';return}
+  const x=a[0]; $('#drawMain').innerHTML=x.image?`<img src="${x.image}" style="max-width:180px;max-height:180px;object-fit:contain">`:x.html||escapeHTML(x.text);
+  $('#drawSub').textContent=x.text;addHistory(a);
+}
+function drawChoose(){
+  let n=Math.min(6,Math.max(2,+$('#nCount').value||4)),m=Math.min(n-1,Math.max(1,+$('#mCount').value||2));
+  $('#mCount').value=m; const arr=randomAvailable(n); $('#chooseOptions').innerHTML=arr.map((x,i)=>`<button class="draw-pill" data-i="${i}">${x.image?`<img src="${x.image}" style="width:70px;height:70px;object-fit:contain"><br>`:''}${escapeHTML(x.text)}</button>`).join('');
+  $('#chooseOptions').dataset.items=JSON.stringify(arr.map(x=>state.items.indexOf(x)));
+  $$('#chooseOptions .draw-pill').forEach(b=>b.onclick=()=>{const sel=$$('#chooseOptions .selected'); if(b.classList.contains('selected'))b.classList.remove('selected');else if(sel.length<m)b.classList.add('selected')});
+}
+function confirmChoose(){
+  const idxs=JSON.parse($('#chooseOptions').dataset.items||'[]'); const selected=$$('#chooseOptions .draw-pill.selected').map(b=>state.items[idxs[+b.dataset.i]]);
+  if(selected.length)addHistory(selected);
+}
+function drawMulti(){
+  const n=Math.min(6,Math.max(2,+$('#multiCount').value||3)),arr=randomAvailable(n); $('#multiOptions').innerHTML=arr.map(x=>`<div class="draw-pill">${escapeHTML(x.text)}</div>`).join(''); addHistory(arr)
+}
+function setTab(name){
+  ['single','choose','multi','wheel','auto'].forEach(t=>$('#'+t+'Tab').classList.toggle('hidden',t!==name));
+  $$('#drawTabs .tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));
+}
+function drawWheel(){
+  const c=$('#wheelCanvas'),ctx=c.getContext('2d'),items=available().slice(0,24); ctx.clearRect(0,0,c.width,c.height);
+  if(!items.length){ctx.font='24px sans-serif';ctx.textAlign='center';ctx.fillText('沒有可抽題目',210,210);return}
+  const r=190,cx=210,cy=210,step=Math.PI*2/items.length;
+  items.forEach((x,i)=>{
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,i*step,(i+1)*step);ctx.closePath();
+    ctx.fillStyle=i%2?'#edf4f2':'#fff4e5';ctx.fill();ctx.strokeStyle='#b8c2c3';ctx.stroke();
+    ctx.save();ctx.translate(cx,cy);ctx.rotate((i+.5)*step);ctx.textAlign='right';ctx.font='14px sans-serif';ctx.fillStyle='#2f3a3b';ctx.fillText(x.text.slice(0,10),r-14,5);ctx.restore();
+  });
+  ctx.beginPath();ctx.moveTo(210,8);ctx.lineTo(198,32);ctx.lineTo(222,32);ctx.closePath();ctx.fillStyle='#c76666';ctx.fill();
+}
+function spin(){
+  const arr=available();if(!arr.length)return; const pick=arr[Math.floor(Math.random()*arr.length)]; addHistory([pick]);
+  $('#drawMain').textContent=pick.text; $('#drawSub').textContent='轉盤抽中';
+}
+function autoTick(){
+  if(state.autoPaused)return;
+  const arr=randomAvailable(1); if(!arr.length){stopAuto();$('#autoMain').textContent='全部抽完！';return}
+  const x=arr[0];$('#autoMain').textContent=x.text;$('#autoSub').textContent=`已抽 ${state.history.length+1} 題`;addHistory(arr)
+}
+function startAuto(){if(state.autoTimer)return; state.autoPaused=false;autoTick();state.autoTimer=setInterval(autoTick,Math.max(2,+$('#autoSec').value||8)*1000)}
+function pauseAuto(){state.autoPaused=!state.autoPaused;$('#autoPauseBtn').textContent=state.autoPaused?'▶ 繼續':'⏸ 暫停'}
+function stopAuto(){clearInterval(state.autoTimer);state.autoTimer=null;state.autoPaused=false;$('#autoPauseBtn').textContent='⏸ 暫停'}
+
+$('#customText').addEventListener('input',buildItems);
+['#numMin','#numMax','#mathOp','#mathMax'].forEach(s=>$(s).addEventListener('input',buildItems));
+$('#freeCenter').onchange=updateStatus;
+$('#dedupeBtn').onclick=()=>{$('#customText').value=[...new Set($('#customText').value.split(/\n/).map(x=>x.trim()).filter(Boolean))].join('\n');buildItems()};
+$('#saveBankBtn').onclick=()=>{
+  const name=prompt('請輸入題庫名稱');if(!name)return;
+  const banks=JSON.parse(localStorage.getItem('bingoBanks')||'{}');banks[name]=$('#customText').value;localStorage.setItem('bingoBanks',JSON.stringify(banks));loadBankOptions();
+};
+function loadBankOptions(){
+  const banks=JSON.parse(localStorage.getItem('bingoBanks')||'{}');$('#savedBanks').innerHTML='<option value="">載入已存題庫</option>'+Object.keys(banks).map(k=>`<option>${escapeHTML(k)}</option>`).join('');
+}
+$('#savedBanks').onchange=e=>{const banks=JSON.parse(localStorage.getItem('bingoBanks')||'{}');if(banks[e.target.value]!=null){$('#customText').value=banks[e.target.value];buildItems()}};
+
+$('#imageUpload').onchange=e=>{
+  [...e.target.files].forEach(file=>{
+    const r=new FileReader();r.onload=ev=>{state.images.push({name:file.name.replace(/\.[^.]+$/,''),data:ev.target.result});renderImages();buildItems()};r.readAsDataURL(file)
+  })
+};
+function renderImages(){
+  $('#imageList').innerHTML=state.images.map((x,i)=>`<div class="img-item"><img src="${x.data}"><input data-i="${i}" value="${escapeHTML(x.name)}"><button class="btn danger" data-del="${i}" style="margin-top:6px;width:100%">刪除</button></div>`).join('');
+  $$('#imageList input').forEach(inp=>inp.oninput=()=>{state.images[+inp.dataset.i].name=inp.value;buildItems()});
+  $$('#imageList [data-del]').forEach(b=>b.onclick=()=>{state.images.splice(+b.dataset.del,1);renderImages();buildItems()});
+}
+$$('#sizeChips .chip').forEach(b=>b.onclick=()=>{state.size=+b.dataset.size;$$('#sizeChips .chip').forEach(x=>x.classList.toggle('active',x===b));if(state.size!==5)$('#freeCenter').checked=false;$('#freeCenter').disabled=state.size!==5;updateStatus()});
+$$('.quick-count').forEach(b=>b.onclick=()=>{$('#cardCount').value=b.dataset.count});
+$('#generateBtn').onclick=generateCards;
+$('#prevCardBtn').onclick=()=>{if(!state.cards.length)return;state.preview=(state.preview-1+state.cards.length)%state.cards.length;renderPreview()};
+$('#nextCardBtn').onclick=()=>{if(!state.cards.length)return;state.preview=(state.preview+1)%state.cards.length;renderPreview()};
+$('#perPage').onchange=renderPrint;
+$$('#drawTabs .tab').forEach(b=>b.onclick=()=>setTab(b.dataset.tab));
+$('#singleDrawBtn').onclick=drawSingle; $('#chooseDrawBtn').onclick=drawChoose; $('#confirmChooseBtn').onclick=confirmChoose;
+$('#multiDrawBtn').onclick=drawMulti; $('#spinBtn').onclick=spin;
+$('#autoStartBtn').onclick=startAuto; $('#autoPauseBtn').onclick=pauseAuto; $('#autoStopBtn').onclick=stopAuto;
+$('#resetDrawBtn').onclick=()=>{stopAuto();state.history=[];renderHistory();drawWheel();$('#drawMain').textContent='準備開始';$('#drawSub').textContent='尚未抽題'};
+$('#printBtn').onclick=()=>{renderPrint();$('#teacherSheet').classList.add('hidden');$('#printCards').classList.remove('hidden');window.print()};
+$('#printTeacherBtn').onclick=()=>{
+  $('#printCards').classList.add('hidden'); const s=$('#teacherSheet');s.classList.remove('hidden');s.innerHTML='<h2>老師抽題卡</h2><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">'+state.items.map(x=>`<div style="border:1px solid #999;padding:12px">□ ${escapeHTML(x.text)}</div>`).join('')+'</div>';window.print();setTimeout(()=>{s.classList.add('hidden');$('#printCards').classList.remove('hidden')},300)
+};
+
+initModes();loadBankOptions();$('#freeCenter').disabled=state.size!==5;buildItems();renderHistory();drawWheel();
+</script>
+</body>
+</html>

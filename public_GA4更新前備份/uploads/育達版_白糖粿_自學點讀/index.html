@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>育達版｜第一課 白糖粿｜自學點讀</title>
+<style>
+:root{
+  --bg:#f8f0df;
+  --paper:#fffaf1;
+  --ink:#4d4438;
+  --muted:#877a69;
+  --line:#e8dac2;
+  --accent:#b78652;
+  --accent-2:#d7b781;
+  --accent-soft:#f3e4cd;
+  --active:#fff1cf;
+  --shadow:0 12px 34px rgba(88,67,42,.08);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;background:linear-gradient(180deg,#f8f0df 0%,#fbf7ef 100%);color:var(--ink)}
+button,select{font:inherit}
+.wrap{max-width:980px;margin:auto;padding:34px 20px 70px}
+.hero{display:flex;justify-content:space-between;gap:24px;align-items:flex-end;margin-bottom:22px}
+.eyebrow{display:inline-flex;gap:8px;align-items:center;padding:7px 12px;border-radius:999px;background:#ead9bd;color:#765c3c;font-size:13px}
+h1{margin:10px 0 6px;font-size:34px;letter-spacing:.08em;font-weight:650}
+.sub{color:var(--muted);font-size:14px}.author{font-size:14px;color:var(--muted);white-space:nowrap}
+.tabs{display:flex;gap:8px;margin:18px 0}.tab{border:1px solid var(--line);background:rgba(255,255,255,.45);color:var(--ink);padding:10px 15px;border-radius:12px;cursor:pointer}.tab.active{background:var(--ink);color:white;border-color:var(--ink)}
+.panel{display:none}.panel.active{display:block}
+.toolbar{position:sticky;top:10px;z-index:10;display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:rgba(255,250,241,.94);backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:16px;padding:12px;box-shadow:var(--shadow);margin-bottom:16px}
+.toolbar button,.toolbar select{border:1px solid var(--line);background:#fffaf3;color:var(--ink);padding:9px 12px;border-radius:10px;cursor:pointer}.toolbar .primary{background:var(--ink);color:white;border-color:var(--ink)}
+.status{margin-left:auto;color:var(--muted);font-size:13px}
+.reading-card{background:rgba(255,255,255,.68);border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:var(--shadow)}
+.segment{display:grid;grid-template-columns:42px 1fr;gap:12px;padding:17px 14px;border-radius:15px;cursor:pointer;transition:.2s;margin-bottom:6px;border:1px solid transparent}.segment:hover{background:#faf0df}.segment.active{background:var(--active);border-color:#e8c88c}.num{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--accent-soft);color:#7d5b37;font-weight:700}.segment.active .num{background:var(--accent);color:#fff}.text{font-size:18px;line-height:2.05;letter-spacing:.02em}.hint{font-size:12px;color:var(--muted);margin-top:5px}
+.vocab-highlight{color:#5d87a0;font-weight:650;border-bottom:1px dashed #8db4c7}
+.progress{height:6px;background:#efe4d2;border-radius:999px;overflow:hidden;flex:1;min-width:140px}.progress>span{display:block;height:100%;width:0;background:var(--accent);transition:width .15s linear}
+.vocab-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.vocab-card{background:rgba(255,255,255,.72);border:1px solid var(--line);border-radius:18px;padding:16px;display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:start}.vnum{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#f3e3c7;color:#845f36;font-weight:700}.vword{font-size:20px;font-weight:650}.roman{font-size:14px;color:#936f4b;margin-top:2px}.gloss{font-size:14px;color:var(--muted);margin-top:6px;line-height:1.65}.speak{border:none;background:var(--ink);color:#fff;border-radius:12px;width:40px;height:40px;cursor:pointer}.speak.playing{background:var(--accent)}
+.note{margin-top:16px;padding:14px 16px;background:#f4ead9;border-radius:14px;color:#746654;font-size:13px;line-height:1.7}
+@media(max-width:720px){.hero{align-items:flex-start;flex-direction:column}.author{white-space:normal}.toolbar{top:6px}.status{width:100%;margin-left:0}.reading-card{padding:12px}.segment{grid-template-columns:36px 1fr;padding:14px 8px}.text{font-size:17px;line-height:1.95}.vocab-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="hero">
+    <div>
+      <span class="eyebrow">🎧 育達版・自學點讀</span>
+      <h1>第一課｜白糖粿</h1>
+      <div class="sub">點選課文段落即可播放；播放中的段落會自動反白。</div>
+    </div>
+    <div class="author">作者：陳雅菁 Tân Ngá-tsing</div>
+  </header>
+
+  <div class="tabs" role="tablist">
+    <button class="tab active" data-tab="reading">📖 課文點讀</button>
+    <button class="tab" data-tab="vocab">🗣️ 語詞點讀</button>
+  </div>
+
+  <section id="reading" class="panel active">
+    <div class="toolbar">
+      <button class="primary" id="playAll">▶ 全文連續播放</button>
+      <button id="pauseBtn">⏸ 暫停</button>
+      <button id="restartBtn">↺ 重新開始</button>
+      <label>速度
+        <select id="speed">
+          <option value="0.75">0.75×</option>
+          <option value="1" selected>1×</option>
+          <option value="1.25">1.25×</option>
+        </select>
+      </label>
+      <div class="progress" aria-label="播放進度"><span id="bar"></span></div>
+      <div class="status" id="status">尚未播放</div>
+    </div>
+
+    <div class="reading-card" id="segments">
+      <article class="segment" data-audio="audio/lesson-001.mp3">
+        <div class="num">1</div>
+        <div><div class="text">「頭家，共我包三塊白糖粿！」若轉來臺南，我定著會<span class="vocab-highlight">傱</span>來這个所在排列，徛佇人群內底<span class="vocab-highlight">聊聊仔</span>等待這味<span class="vocab-highlight">數念</span>誠久的故鄉好滋味！</div><div class="hint">點這段播放</div></div>
+      </article>
+
+      <article class="segment" data-audio="audio/lesson-002.mp3">
+        <div class="num">2</div>
+        <div><div class="text">一塊一塊白 phau-phau、幼麵麵的「白糖粿」佇油鼎內底泅來泅去，<span class="vocab-highlight">勻勻仔</span><span class="vocab-highlight">烰</span>起來。細漢的時，老爸𤆬我來買的記持嘛綴咧浮出來，彼是一種幸福佮滿足。</div><div class="hint">點這段播放</div></div>
+      </article>
+
+      <article class="segment" data-audio="audio/lesson-003.mp3">
+        <div class="num">3</div>
+        <div><div class="text">看頭家共「白糖粿」<span class="vocab-highlight">滒</span>一<span class="vocab-highlight">沿</span>塗豆糖粉，就若親像一个幼秀的姑娘仔，穿一領媠噹噹的新衫<span class="vocab-highlight">仝款</span>，予人真意愛。</div><div class="hint">點這段播放</div></div>
+      </article>
+
+      <article class="segment" data-audio="audio/lesson-004.mp3">
+        <div class="num">4</div>
+        <div><div class="text">你敢知影「白糖粿」是按怎來的？我哪會遐爾佮意「白糖粿」？其實伊毋但酥酥軟軟、口味好，猶閣有一个真媠的故事。</div><div class="hint">點這段播放</div></div>
+      </article>
+
+      <article class="segment" data-audio="audio/lesson-005.mp3">
+        <div class="num">5</div>
+        <div><div class="text">伊原底是用來拜<span class="vocab-highlight">七娘媽</span>的，傳說彼工是牛郎、織女相會的日子，因為𪜶一冬才見一擺面，所以信眾會共大粒的圓仔<span class="vocab-highlight">硩</span>予平，中央閣用大頭拇<span class="vocab-highlight">揤</span>一<span class="vocab-highlight">凹</span>，聽講是欲<span class="vocab-highlight">貯</span>織女的目屎。落尾，嘛成做臺灣南部特殊的喙食物仔。</div><div class="hint">點這段播放</div></div>
+      </article>
+
+      <article class="segment" data-audio="audio/lesson-006.mp3">
+        <div class="num">6</div>
+        <div><div class="text">佇古早，愛先共<span class="vocab-highlight">秫米</span><span class="vocab-highlight">浸</span>一站仔，紲落來<span class="vocab-highlight">挨米</span>、硩米漿、做<span class="vocab-highlight">粿粞</span>、<span class="vocab-highlight">搙</span>做規丸才閣<span class="vocab-highlight">捻</span>做一塊一塊落去<span class="vocab-highlight">糋</span>，上尾囥佇塗豆糖粉內底滒滒咧，按呢芳貢貢、燒燙燙的白糖粿就完成矣，予人看甲喙瀾㴙㴙津呢！</div><div class="hint">點這段播放</div></div>
+      </article>
+
+      <article class="segment" data-audio="audio/lesson-007.mp3">
+        <div class="num">7</div>
+        <div><div class="text">「來喔！你的三塊白糖粿好矣！」排佇插插插的人群內底，提著我數想足久的白糖粿，等袂赴轉到厝就隨咬一喙！「著！就是這味，這就是故鄉的滋味！」</div><div class="hint">點這段播放</div></div>
+      </article>
+    </div>
+    <div class="note">💡 使用方式：點任一段即可播放。按「全文連續播放」會從目前段落開始，自動接著播放下一段。</div>
+  </section>
+
+  <section id="vocab" class="panel">
+    <div class="vocab-grid" id="vocabGrid"></div>
+    <div class="note">💡 點右側喇叭即可播放出版社提供的語詞音檔。</div>
+  </section>
+
+  <audio id="player" preload="metadata"></audio>
+</main>
+
+<script>
+const vocab = [
+  [1,'傱','tsông','為某種目的四處奔走。','audio/vocab-01.mp3'],
+  [2,'聊聊仔','liâu-liâu-á','慢慢地、謹慎小心地。','audio/vocab-02.mp3'],
+  [3,'數念','siàu-liām','想念、掛念、懷念。','audio/vocab-03.mp3'],
+  [4,'勻勻仔','ûn-ûn-á','慢慢地、謹慎小心地。','audio/vocab-04.mp3'],
+  [5,'烰','phû','油炸，特別指食材會浮在油鍋上。','audio/vocab-05.mp3'],
+  [6,'滒','kō','沾、蘸。','audio/vocab-06.mp3'],
+  [7,'沿','iân','計算重疊、累積物的單位。','audio/vocab-07.mp3'],
+  [8,'仝款','kāng-khuán','同樣、相像。','audio/vocab-08.mp3'],
+  [9,'七娘媽','tshit-niû-má','註生娘娘或是織女。','audio/vocab-09.mp3'],
+  [10,'硩','teh','壓。','audio/vocab-10.mp3'],
+  [11,'揤','tshi̍h','按，用手向下壓。','audio/vocab-11.mp3'],
+  [12,'凹','nah','低陷之處。','audio/vocab-12.mp3'],
+  [13,'貯','té / tué','裝、盛。','audio/vocab-13.mp3'],
+  [14,'秫米','tsu̍t-bí','糯米。','audio/vocab-14.mp3'],
+  [15,'浸','tsìm','把東西放在水中泡著。','audio/vocab-15.mp3'],
+  [16,'挨米','e-bí','磨米。','audio/vocab-16.mp3'],
+  [17,'粿粞','kué-tshè / ké-tshuè','糯米團。','audio/vocab-17.mp3'],
+  [18,'搙','jio̍k / lio̍k','用手搓揉物品。','audio/vocab-18.mp3'],
+  [19,'捻','liàm','用手指頭將東西捏取下來。','audio/vocab-19.mp3'],
+  [20,'糋','tsìnn','炸。','audio/vocab-20.mp3']
+];
+
+const player = document.getElementById('player');
+const segments = [...document.querySelectorAll('.segment')];
+const statusEl = document.getElementById('status');
+const bar = document.getElementById('bar');
+const speed = document.getElementById('speed');
+let current = 0;
+let continuous = false;
+
+function activate(i){
+  current = i;
+  segments.forEach((s,idx)=>s.classList.toggle('active', idx===i));
+  segments[i].scrollIntoView({behavior:'smooth',block:'center'});
+}
+function playSegment(i, keepContinuous=false){
+  continuous = keepContinuous;
+  activate(i);
+  player.src = segments[i].dataset.audio;
+  player.playbackRate = Number(speed.value);
+  player.play();
+  statusEl.textContent = `正在播放：第 ${i+1} 段`;
+}
+segments.forEach((s,i)=>s.addEventListener('click',()=>playSegment(i,false)));
+
+document.getElementById('playAll').addEventListener('click',()=>playSegment(current,true));
+document.getElementById('pauseBtn').addEventListener('click',()=>{
+  if(player.paused){player.play(); statusEl.textContent=`繼續播放：第 ${current+1} 段`;}
+  else{player.pause(); statusEl.textContent=`已暫停：第 ${current+1} 段`;}
+});
+document.getElementById('restartBtn').addEventListener('click',()=>{current=0; playSegment(0,false)});
+speed.addEventListener('change',()=>player.playbackRate=Number(speed.value));
+player.addEventListener('timeupdate',()=>{
+  const pct = player.duration ? (player.currentTime/player.duration*100) : 0;
+  bar.style.width = pct+'%';
+});
+player.addEventListener('ended',()=>{
+  bar.style.width='0%';
+  if(continuous && current < segments.length-1){playSegment(current+1,true)}
+  else {continuous=false; statusEl.textContent='播放完成';}
+});
+
+const vocabGrid = document.getElementById('vocabGrid');
+vocab.forEach(([n,w,r,g,a])=>{
+  const card=document.createElement('article');
+  card.className='vocab-card';
+  card.innerHTML=`<div class="vnum">${n}</div><div><div class="vword">${w}</div><div class="roman">${r}</div><div class="gloss">${g}</div></div><button class="speak" aria-label="播放 ${w}">🔊</button>`;
+  const btn=card.querySelector('.speak');
+  btn.addEventListener('click',()=>{
+    continuous=false;
+    document.querySelectorAll('.speak').forEach(b=>b.classList.remove('playing'));
+    btn.classList.add('playing');
+    player.src=a; player.playbackRate=Number(speed.value); player.play();
+    player.onended=()=>{btn.classList.remove('playing'); player.onended=null;};
+  });
+  vocabGrid.appendChild(card);
+});
+
+document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=>{
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(btn.dataset.tab).classList.add('active');
+}));
+</script>
+</body>
+</html>

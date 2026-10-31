@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>台語聲調大挑戰｜鈺見台語</title>
+<meta name="author" content="張鈺聆">
+<meta name="copyright" content="© 張鈺聆">
+<script src="./author-credit.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+<!--
+  ============================================================
+  台語聲調大挑戰（獅虎豹鱉＋東黨棟督）— 第三版
+  ------------------------------------------------------------
+  【加入真人錄音】
+  把音檔放在同一個資料夾（例如 audio/），再把路徑填進下方 AUDIO 物件。
+  有填路徑 → 播放真人錄音；空白 → 播放「合成調型示意音」。
+  建議使用教育部臺灣台語常用詞辭典音檔，並在頁尾標示出處。
+  ============================================================
+-->
+<style>
+  :root{
+    --bg:#FAF8F2; --card:#ffffff; --ink:#254E47; --muted:#687D76;
+    --red:#254E47; --red-d:#193C36; --indigo:#327F75; --line:#DFE8E2;
+    --ok:#328A68; --bad:#C95046;
+    --amber:#F4C65D; --t1:#D85F4D; --t2:#E88B4A; --t3:#B38A24; --t4:#64944A;
+    --t5:#55A99C; --t6:#E88B4A; --t7:#536EAF; --t8:#9564AD;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--ink);
+       min-height:100vh;padding:16px;line-height:1.6}
+  .lo{font-family:'Noto Sans','Noto Sans TC',sans-serif}
+  .wrap{max-width:860px;margin:0 auto}
+  header{text-align:center;margin:8px 0 18px}
+  header h1{font-weight:900;font-size:clamp(1.6rem,6vw,2.4rem);color:var(--red);letter-spacing:.06em}
+  header p{color:var(--muted);font-size:.95rem}
+  .tabs{display:flex;gap:8px;justify-content:center;margin-bottom:18px}
+  .tab{border:2px solid var(--red);background:#fff;color:var(--red);font:inherit;font-weight:700;
+       padding:10px 18px;border-radius:999px;cursor:pointer;font-size:1rem}
+  .tab.active{background:var(--red);color:#fff}
+  .panel{display:none}.panel.active{display:block}
+
+  /* ---------- 第一關 ---------- */
+  .chant{background:#fff;border:2px dashed var(--line);border-radius:16px;padding:12px;text-align:center;
+         margin-bottom:16px;font-size:1.05rem}
+  .chant b{color:var(--red)}
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  @media(max-width:560px){.grid{grid-template-columns:repeat(2,1fr)}}
+  .card{background:var(--card);border:3px solid transparent;border-radius:16px;padding:10px 6px;
+        text-align:center;cursor:pointer;box-shadow:0 2px 0 var(--line);transition:transform .12s,border-color .12s;
+        font:inherit;color:inherit}
+  .card:hover{transform:translateY(-2px)}
+  .card.sel{border-color:var(--tc)}
+  .card .num{display:inline-block;background:var(--tc);color:#fff;border-radius:999px;font-weight:700;
+             font-size:.8rem;padding:0 10px}
+  .card .emo{font-size:2rem;line-height:1.3}
+  .card .han{font-size:1.5rem;font-weight:900}
+  .card .lo{font-size:1.05rem;color:var(--indigo);font-weight:700}
+  .card.dim{opacity:.6}
+  .detail{margin-top:16px;background:#fff;border-radius:20px;padding:18px;display:grid;
+          grid-template-columns:auto 1fr;gap:18px;align-items:center;box-shadow:0 3px 0 var(--line)}
+  @media(max-width:560px){.detail{grid-template-columns:1fr;text-align:center}}
+  .detail .big{font-size:3.4rem;line-height:1}
+  .detail h2{font-size:1.5rem}
+  .detail h2 .lo{color:var(--indigo);margin-left:6px}
+  .tag{display:inline-block;color:#fff;border-radius:8px;padding:2px 10px;font-weight:700;margin:4px 0}
+  .detail ul{list-style:none;color:var(--muted);font-size:.95rem}
+  .detail ul li::before{content:"・"}
+  .contour-box{display:flex;flex-direction:column;align-items:center;gap:8px}
+  .play{border:none;background:var(--red);color:#fff;font:inherit;font-weight:700;font-size:1rem;
+        border-radius:999px;padding:10px 22px;cursor:pointer;box-shadow:0 3px 0 var(--red-d)}
+  .play:active{transform:translateY(2px);box-shadow:0 1px 0 var(--red-d)}
+  .src{font-size:.75rem;color:var(--muted)}
+  svg .draw{stroke-dasharray:300;stroke-dashoffset:300;animation:draw .7s ease forwards}
+  @keyframes draw{to{stroke-dashoffset:0}}
+
+  /* ---------- 第二關 ---------- */
+  .start{background:#fff;border-radius:20px;padding:24px;text-align:center;box-shadow:0 3px 0 var(--line)}
+  .start h2{color:var(--red);margin-bottom:6px}
+  .start p{color:var(--muted);margin-bottom:14px}
+  .toggle{display:inline-flex;align-items:center;gap:8px;margin-bottom:16px;cursor:pointer;user-select:none}
+  .toggle input{width:20px;height:20px;accent-color:var(--red)}
+  .hud{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-weight:700}
+  .bar{height:10px;background:var(--line);border-radius:999px;overflow:hidden;margin-bottom:14px}
+  .bar i{display:block;height:100%;background:var(--red);transition:width .3s}
+  .combo{color:var(--red)}
+  .q{background:#fff;border-radius:20px;padding:22px;text-align:center;box-shadow:0 3px 0 var(--line);margin-bottom:14px}
+  .q .speaker{width:96px;height:96px;border-radius:50%;border:none;background:var(--indigo);color:#fff;
+              font-size:2.4rem;cursor:pointer;box-shadow:0 4px 0 #1d3257}
+  .q .speaker:active{transform:translateY(3px);box-shadow:0 1px 0 #1d3257}
+  .q .hint{color:var(--muted);margin-top:8px;font-size:.9rem}
+  .reveal{min-height:48px;margin-top:10px;font-size:1.3rem;font-weight:700}
+  .reveal .lo{color:var(--indigo)}
+  .opts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  @media(max-width:560px){.opts{grid-template-columns:repeat(4,1fr);gap:6px}}
+  .opt{background:#fff;border:3px solid var(--tc);border-radius:14px;padding:8px 4px;cursor:pointer;
+       font:inherit;color:var(--ink);display:flex;flex-direction:column;align-items:center;min-height:64px;justify-content:center}
+  .opt b{font-size:1.1rem;color:var(--tc)}
+  .opt.ok{background:var(--ok);border-color:var(--ok)} .opt.ok b{color:#fff}
+  .opt.bad{background:var(--bad);border-color:var(--bad)} .opt.bad b{color:#fff}
+  .opt:disabled{cursor:default}
+  .next{display:block;margin:14px auto 0}
+  .result{background:#fff;border-radius:20px;padding:24px;text-align:center;box-shadow:0 3px 0 var(--line)}
+  .result .score{font-size:3rem;font-weight:900;color:var(--red)}
+  .result table{margin:14px auto;border-collapse:collapse}
+  .result td{padding:4px 12px;border-bottom:1px solid var(--line)}
+  footer{text-align:center;color:var(--muted);font-size:.75rem;margin:28px 0 8px}
+  .brand{font-size:.85rem;color:#55A99C;font-weight:700;letter-spacing:.08em;margin-bottom:6px}
+  .chant-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:-5px 0 18px}
+  .play.secondary{background:#fff;color:#254E47;border:1px solid #DFE8E2;box-shadow:0 3px 0 #DFE8E2}
+  .tab:focus-visible,.card:focus-visible,.play:focus-visible,.opt:focus-visible{outline:3px solid #E88B4A;outline-offset:3px}
+  .shake{animation:shake .35s}
+  @keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav style="display:flex;justify-content:flex-start;margin-bottom:6px;"><a href="index.html" style="display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:8px 16px;border-radius:999px;background:#fff;border:2px solid #DFE8E2;color:#254E47;font-weight:800;text-decoration:none;white-space:nowrap;">← 回首頁</a></nav>
+  <header>
+    <div class="brand">鈺見台語 · 台羅拼音學習</div>
+    <h1>🎵 台語聲調大挑戰</h1>
+    <p>獅虎豹鱉、東黨棟督，八聲一次學起來！</p>
+  </header>
+
+  <div class="tabs">
+    <button class="tab active" data-p="learn">第一關・認識八聲</button>
+    <button class="tab" data-p="quiz">第二關・聽音辨調</button>
+  </div>
+
+  <!-- 第一關 -->
+  <section class="panel active" id="learn">
+    <div class="tabs" id="sets"></div>
+    <div class="chant" id="chant"></div>
+    <div class="chant-actions"><button class="play" id="playChant" type="button">🔊 依序聽整組口訣</button><button class="play secondary" id="stopChant" type="button">停止播放</button></div>
+    <div class="grid" id="grid"></div>
+    <div class="detail" id="detail"></div>
+  </section>
+
+  <!-- 第二關 -->
+  <section class="panel" id="quiz">
+    <div class="start" id="qStart">
+      <h2>聽聽看，這是第幾調？</h2>
+      <p>可選擇 10、20 或 30 題，連續答對有連擊加分！本關僅使用真人錄音。</p>
+      <label for="questionCount" style="display:inline-block;margin:10px 8px 10px 0;font-weight:700">挑戰題數</label><select id="questionCount" style="padding:8px 14px;border-radius:12px;border:2px solid #d9cbb9;background:#fff;color:#254E47;font-size:1rem"><option value="10">10 題・快速練習</option><option value="20" selected>20 題・標準挑戰</option><option value="30">30 題・進階挑戰</option></select><br>
+      <label class="toggle"><input type="checkbox" id="showShape" checked>選項顯示調型提示（拿掉就是困難模式）</label><br>
+      <button class="play" id="startBtn">開始挑戰 ▶</button>
+    </div>
+    <div id="qGame" style="display:none">
+      <div class="hud"><span id="qNum">第 1 / 20 題</span><span class="combo" id="combo"></span><span id="score">0 分</span></div>
+      <div class="bar"><i id="prog" style="width:0"></i></div>
+      <div class="q">
+        <button class="speaker" id="speaker" aria-label="播放">🔊</button>
+        <div class="hint" id="srcHint">點喇叭可以重聽</div>
+        <div class="reveal" id="reveal"></div>
+      </div>
+      <div class="opts" id="opts"></div>
+      <button class="play next" id="nextBtn" style="display:none">下一題 →</button>
+    </div>
+    <div class="result" id="qResult" style="display:none"></div>
+  </section>
+
+  <footer>本頁練習本調；調型為教學示意，實際發音可能因腔口而異。<br>音檔來源：<a href="https://sutian.moe.edu.tw/" target="_blank" rel="noopener">教育部臺灣台語常用詞辭典</a>（第四調 tok 採同音字「啄」的本調錄音；其餘音檔為外部連結，部署前仍需驗證）</footer>
+</div>
+
+<script>
+/* ===== 真人錄音：教育部臺灣台語常用詞辭典音檔（直接連結）。
+   若改用自己下載的音檔，把 M 改成 '' 並填入相對路徑（例如 'audio/9721.mp3'）。
+   「督 tok」使用教育部辭典同音字「啄 tok」真人錄音。 ===== */
+const M='https://sutian.moe.edu.tw';
+const AUDIO = {
+  sai:M+'/media/senn/mp3/imtong/subak/9/9721.mp3',
+  hoo:M+'/media/senn/mp3/imtong/subak/4/4482.mp3',
+  pa:M+'/media/senn/mp3/imtong/subak/6/6669.mp3',
+  pih:M+'/media/senn/mp3/imtong/subak/13/13254.mp3',
+  kau:M+'/media/senn/mp3/imtong/subak/8/8571.mp3',
+  kau2:M+'/media/senn/mp3/imtong/subak/4/4329.mp3',
+  tshiunn:M+'/media/senn/mp3/imtong/subak/9/9033.mp3',
+  lok:M+'/media/senn/mp3/imtong/subak/8/8086.mp3',
+  tong1:M+'/media/senn/mp3/imtong/subak/4/4188.mp3',
+  tong2:M+'/media/senn/mp3/imtong/subak/13/13054.mp3',
+  tong3:M+'/media/senn/mp3/imtong/subak/8/8483.mp3',
+  tong5:M+'/media/senn/mp3/imtong/subak/2/2115.mp3',
+  tong7:M+'/media/senn/mp3/imtong/subak/5/5129.mp3',
+  tok4:'audio/tone-challenge/tok_tok.mp3',
+  tok8:M+'/media/senn/mp3/imtong/subak/5/5121.mp3',
+  kun1:M+'/media/senn/mp3/imtong/subak/2/2954.mp3',
+  kun2:M+'/media/senn/mp3/imtong/subak/10/10567.mp3',
+  kut4:M+'/media/senn/mp3/imtong/subak/6/6800.mp3',
+  kun5:M+'/media/senn/mp3/imtong/subak/9/9815.mp3',
+  kut8:M+'/media/senn/mp3/imtong/subak/9/9684.mp3',
+  ke:M+'/media/senn/mp3/imtong/subak/12/12657.mp3',
+  khu:M+'/media/senn/mp3/imtong/subak/7/7010.mp3',
+  pau:M+'/media/senn/mp3/imtong/subak/1/1384.mp3',
+  tsua2:M+'/media/senn/mp3/imtong/subak/6/6477.mp3',
+  tshiu2:M+'/media/senn/mp3/imtong/subak/0/794.mp3',
+  im2:M+'/media/senn/mp3/imtong/subak/9/9223.mp3',
+  khi3:M+'/media/senn/mp3/imtong/subak/6/6151.mp3',
+  po3:M+'/media/senn/mp3/imtong/subak/8/8250.mp3',
+  kuai3:M+'/media/senn/mp3/imtong/subak/3/3884.mp3',
+  pit4:M+'/media/senn/mp3/imtong/subak/8/8816.mp3',
+  ang5:M+'/media/senn/mp3/imtong/subak/5/5365.mp3',
+  lai5:M+'/media/senn/mp3/imtong/subak/3/3529.mp3',
+  too5:M+'/media/senn/mp3/imtong/subak/7/7897.mp3',
+  poo7:M+'/media/senn/mp3/imtong/subak/3/3275.mp3',
+  si7:M+'/media/senn/mp3/imtong/subak/4/4997.mp3',
+  mia7:M+'/media/senn/mp3/imtong/subak/3/3694.mp3',
+  hap8:M+'/media/senn/mp3/imtong/subak/2/2111.mp3',
+  kiok8:M+'/media/senn/mp3/imtong/subak/3/3058.mp3',
+  peh8:M+'/media/senn/mp3/imtong/subak/1/1850.mp3'
+};
+
+/* ===== 聲調資料 c = [起點, 終點]（1 最低 ～ 5 最高） ===== */
+const TONES = {
+  1:{name:'高平調', c:[5,5], checked:false, mark:'不標符號', desc:'又高又平，像拉長音唱歌'},
+  2:{name:'高降調', c:[5,1], checked:false, mark:'´（向右上的斜線）', desc:'從高處快速往下掉，像在命令人'},
+  3:{name:'低降調', c:[2,1], checked:false, mark:'`（向左上的斜線）', desc:'低低的再往下沉，像在嘆氣'},
+  4:{name:'中促調', c:[3,3], checked:true,  mark:'不標符號（字尾是 -h -p -t -k）', desc:'短短的、中音，很快就收住'},
+  5:{name:'低升調', c:[2,4], checked:false, mark:'ˆ（像屋頂的符號）', desc:'由低往上揚，像在問問題'},
+  6:{name:'已合併', c:[5,1], checked:false, mark:'—', desc:''},
+  7:{name:'中平調', c:[3,3], checked:false, mark:'¯（橫線）', desc:'中間高度、平平地拉長'},
+  8:{name:'高促調', c:[5,5], checked:true,  mark:'̍（直線，標在母音上方）', desc:'短短的、高音，很快就收住'}
+};
+const tc = t => `var(--t${t})`;
+
+/* 第 6 調用 as 指定「實際唸成第幾調」 */
+const SETS = {
+  animal:{
+    label:'獅虎豹鱉', hint:'點動物卡片，聽聲音、看調型',
+    six:'大部分腔口的第 6 調已經和第 2 調合併，所以口訣用第 2 調的「狗 káu」來代表，唸起來和「虎 hóo」同一個調。',
+    items:[
+      {id:'sai',     han:'獅', lo:'sai',     tone:1, emo:'🦁'},
+      {id:'hoo',     han:'虎', lo:'hóo',     tone:2, emo:'🐯'},
+      {id:'pa',      han:'豹', lo:'pà',      tone:3, emo:'🐆'},
+      {id:'pih',     han:'鱉', lo:'pih',     tone:4, emo:'🐢'},
+      {id:'kau',     han:'猴', lo:'kâu',     tone:5, emo:'🐒'},
+      {id:'kau2',    han:'狗', lo:'káu',     tone:6, as:2, emo:'🐶'},
+      {id:'tshiunn', han:'象', lo:'tshiūnn', tone:7, emo:'🐘'},
+      {id:'lok',     han:'鹿', lo:'lo̍k',     tone:8, emo:'🦌'}
+    ]},
+  tong:{
+    label:'東黨棟督', hint:'教育部臺灣台語羅馬字拼音方案的聲調例字',
+    six:'「動」加括號，是因為第 6 調在大部分腔口已經消失。「動」現在唸成 tōng，和第 7 調的「洞」同音。',
+    items:[
+      {id:'tong1', han:'東', lo:'tong', tone:1},
+      {id:'tong2', han:'黨', lo:'tóng', tone:2},
+      {id:'tong3', han:'棟', lo:'tòng', tone:3},
+      {id:'tok4',  han:'督', lo:'tok',  tone:4},
+      {id:'tong5', han:'同', lo:'tông', tone:5},
+      {id:'tong7', han:'(動)', lo:'（今唸 tōng）', tone:6, as:7},
+      {id:'tong7', han:'洞', lo:'tōng', tone:7},
+      {id:'tok8',  han:'毒', lo:'to̍k',  tone:8}
+    ]}
+};
+let curSet='animal';
+let chantToken=0;
+const real = it => it.as || it.tone;   // 實際的聲調（聲音與調型）
+
+/* 測驗題庫：兩組口訣＋「君滾棍骨」組＋教育部聲調練習字。可自行加題 {id, han, lo, tone} */
+const POOL = [...SETS.animal.items, ...SETS.tong.items].filter(a=>a.tone!==6 && AUDIO[a.id]).concat([
+  {id:'ke',han:'雞',lo:'ke',tone:1},{id:'khu',han:'區',lo:'khu',tone:1},{id:'pau',han:'包',lo:'pau',tone:1},
+  {id:'tsua2',han:'紙',lo:'tsuá',tone:2},{id:'tshiu2',han:'手',lo:'tshiú',tone:2},{id:'im2',han:'飲',lo:'ím',tone:2},
+  {id:'khi3',han:'氣',lo:'khì',tone:3},{id:'po3',han:'報',lo:'pò',tone:3},{id:'kuai3',han:'怪',lo:'kuài',tone:3},
+  {id:'pit4',han:'筆',lo:'pit',tone:4},
+  {id:'ang5',han:'紅',lo:'âng',tone:5},{id:'lai5',han:'來',lo:'lâi',tone:5},{id:'too5',han:'途',lo:'tôo',tone:5},
+  {id:'poo7',han:'步',lo:'pōo',tone:7},{id:'si7',han:'是',lo:'sī',tone:7},{id:'mia7',han:'命',lo:'miā',tone:7},
+  {id:'hap8',han:'合',lo:'ha̍p',tone:8},{id:'kiok8',han:'局',lo:'kio̍k',tone:8},{id:'peh8',han:'白',lo:'pe̍h',tone:8},
+  {id:'kun1',han:'君',lo:'kun',tone:1},{id:'kun2',han:'滾',lo:'kún',tone:2},
+  {id:'kut4',han:'骨',lo:'kut',tone:4},
+  {id:'kun5',han:'群',lo:'kûn',tone:5},
+  {id:'kut8',han:'滑',lo:'ku̍t',tone:8}
+]);
+
+/* ===== 調型圖 ===== */
+function contour(t, w=140, h=90, animate=true){
+  const T=TONES[t], pad=12, y=l=>h-pad-(l-1)*(h-2*pad)/4;
+  let x1=pad+8, x2=w-pad-8;
+  if(T.checked){ x1=w*0.36; x2=w*0.64; }
+  let grid='';
+  for(let l=1;l<=5;l++) grid+=`<line x1="${pad}" x2="${w-pad}" y1="${y(l)}" y2="${y(l)}" stroke="#eadfcd" stroke-width="1.5"/>`;
+  const sw = T.checked?10:7;
+  const end = T.checked?`<line x1="${x2+4}" x2="${x2+4}" y1="${y(T.c[1])-9}" y2="${y(T.c[1])+9}" stroke="${tc(t)}" stroke-width="3" stroke-linecap="round"/>`:'';
+  return `<svg viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" aria-hidden="true">${grid}
+    <line class="${animate?'draw':''}" x1="${x1}" y1="${y(T.c[0])}" x2="${x2}" y2="${y(T.c[1])}" stroke="${tc(t)}" stroke-width="${sw}" stroke-linecap="round"/>${end}</svg>`;
+}
+
+/* ===== 播放：有真人錄音用錄音，沒有就合成調型示意音 ===== */
+let ctx;
+function hum(t){
+  ctx = ctx || new (window.AudioContext||window.webkitAudioContext)();
+  const T=TONES[t], now=ctx.currentTime, dur=T.checked?0.17:0.6;
+  const f = l => 200*Math.pow(2,(l-3)*2.2/12);
+  const osc=ctx.createOscillator(); osc.type='sawtooth';
+  osc.frequency.setValueAtTime(f(T.c[0]),now);
+  osc.frequency.linearRampToValueAtTime(f(T.c[1]),now+dur);
+  const g=ctx.createGain(); g.gain.setValueAtTime(0,now);
+  g.gain.linearRampToValueAtTime(0.35,now+0.03);
+  if(T.checked){ g.gain.setValueAtTime(0.35,now+dur-0.02); g.gain.linearRampToValueAtTime(0,now+dur); }
+  else { g.gain.linearRampToValueAtTime(0.28,now+dur-0.12); g.gain.linearRampToValueAtTime(0,now+dur); }
+  const out=ctx.createGain(); out.gain.value=1;
+  [[750,6],[1200,8]].forEach(([fr,q])=>{ const b=ctx.createBiquadFilter(); b.type='bandpass';
+     b.frequency.value=fr; b.Q.value=q; g.connect(b); b.connect(out); });
+  osc.connect(g); out.connect(ctx.destination);
+  osc.start(now); osc.stop(now+dur+0.05);
+}
+const cache={};
+function warn(msg){
+  let w=document.getElementById('audioWarn');
+  if(!w){ w=document.createElement('div'); w.id='audioWarn';
+    w.style.cssText='position:fixed;left:12px;right:12px;bottom:12px;max-width:640px;margin:0 auto;background:#fff3cd;border:2px solid #e0b84c;color:#5c4400;border-radius:12px;padding:10px 14px;font-size:.9rem;z-index:9;box-shadow:0 4px 12px rgba(0,0,0,.12)';
+    w.onclick=()=>w.remove(); document.body.appendChild(w); }
+  w.textContent=msg+'（點此關閉）';
+}
+function play(item){
+  const src=AUDIO[item.id];
+  if(!src){ hum(real(item)); return 'synth'; }
+  const a = cache[src] || (cache[src]=new Audio(src));
+  a.currentTime=0;
+  a.play().catch(err=>{
+    if(err && err.name==='NotAllowedError'){ warn('瀏覽器擋住了自動播放，請按喇叭按鈕播放。'); return; }
+    warn('真人錄音載入失敗，暫時改播合成示意音。請確認網路連線，或把網頁放到 GitHub Pages / 用瀏覽器直接開啟。');
+    hum(real(item));
+  });
+  return 'real';
+}
+/* 預先載入音檔，按下去就能馬上播 */
+window.addEventListener('load',()=>Object.values(AUDIO).forEach(s=>{ if(s&&!cache[s]){ const a=new Audio(); a.preload='auto'; a.src=s; cache[s]=a; } }));
+
+/* ===== 第一關 ===== */
+const grid=document.getElementById('grid'), detail=document.getElementById('detail'),
+      setsBar=document.getElementById('sets'), chant=document.getElementById('chant');
+Object.entries(SETS).forEach(([k,s])=>{
+  const b=document.createElement('button'); b.className='tab'; b.dataset.set=k;
+  b.textContent=s.label; b.onclick=()=>loadSet(k); setsBar.appendChild(b);
+});
+function loadSet(k){
+  chantToken++;
+  curSet=k; const S=SETS[k];
+  [...setsBar.children].forEach(b=>b.classList.toggle('active',b.dataset.set===k));
+  chant.innerHTML='口訣：'+S.items.map(a=>`<b>${a.han}</b>${a.tone===6&&k==='tong'?'':' '+a.lo}`).join('・')
+    +`<br><span class="src">${S.hint}</span>`;
+  grid.innerHTML='';
+  S.items.forEach((a,i)=>{
+    const b=document.createElement('button');
+    b.className='card'+(a.tone===6?' dim':''); b.style.setProperty('--tc',tc(a.tone));
+    b.innerHTML=`<span class="num">第${a.tone}調</span>${a.emo?`<div class="emo">${a.emo}</div>`:''}
+      <div class="han">${a.han}</div><div class="lo">${a.lo}</div>`;
+    b.onclick=()=>select(i,true);
+    grid.appendChild(b);
+  });
+  select(0,false);
+}
+function select(i,sound){
+  const S=SETS[curSet], a=S.items[i], t=real(a), T=TONES[t], six=a.tone===6;
+  [...grid.children].forEach((c,j)=>c.classList.toggle('sel',j===i));
+  const kind = sound ? play(a) : (AUDIO[a.id]?'real':'synth');
+  detail.innerHTML=`<div class="contour-box">${contour(t,160,100)}
+      <button class="play" id="again">🔊 再聽一次</button>
+      <span class="src">${kind==='real'?'真人錄音':'合成調型示意音'}</span></div>
+    <div><div class="big">${a.emo||a.han}</div>
+      <h2>${a.emo?a.han:''}<span class="lo">${a.lo}</span></h2>
+      <span class="tag" style="background:${tc(a.tone)}">第 ${a.tone} 調・${six?`今同第 ${t} 調`:T.name}</span>
+      <ul>${six?`<li>${S.six}</li><li>聽起來和第 ${t} 調一模一樣，按下去比較看看！</li>`
+        :`<li>${T.desc}</li><li>調號：${T.mark}</li>${T.checked?'<li>入聲：聲音短促，尾巴要收住</li>':''}`}</ul></div>`;
+  document.getElementById('again').onclick=()=>select(i,true);
+}
+loadSet('animal');
+
+/* ===== 整組口訣：依序播放真人錄音，缺檔則停下並提示 ===== */
+document.getElementById('playChant').onclick=async()=>{
+  const token=++chantToken;
+  for(const item of SETS[curSet].items){
+    if(token!==chantToken) return;
+    const src=AUDIO[item.id];
+    if(!src){warn('這個字沒有真人錄音，整組播放已停止。');return;}
+    const a=cache[src] || (cache[src]=new Audio(src));
+    try{
+      a.pause();a.currentTime=0;
+      await new Promise((resolve,reject)=>{
+        a.onended=resolve;a.onerror=()=>reject(new Error('audio'));
+        a.play().catch(reject);
+      });
+    }catch(e){warn('口訣音檔無法播放，請檢查網路或改用本站音檔。');return;}
+  }
+};
+document.getElementById('stopChant').onclick=()=>{
+  chantToken++;
+  Object.values(cache).forEach(a=>{a.pause();a.currentTime=0;});
+};
+
+/* ===== 分頁 ===== */
+document.querySelectorAll('.tab[data-p]').forEach(t=>t.onclick=()=>{
+  document.querySelectorAll('.tab[data-p]').forEach(x=>x.classList.toggle('active',x===t));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===t.dataset.p));
+});
+
+/* 測驗只播真人語音：載入失敗不使用合成音替代 */
+function playQuizAudio(item){
+  const src=AUDIO[item.id];
+  if(!src){warn('本題缺少真人錄音，請先補齊音檔。');return;}
+  const a=cache[src] || (cache[src]=new Audio(src));
+  a.pause();a.currentTime=0;
+  a.play().catch(()=>warn('真人錄音播放失敗。建議將授權可用的音檔放入本站，再更新 AUDIO 路徑。'));
+}
+
+/* ===== 第二關 ===== */
+let N=20; const OPTS=[1,2,3,4,5,7,8];
+let qs=[], qi=0, score=0, combo=0, correct=0, wrongBy={};
+const $=id=>document.getElementById(id);
+
+$('startBtn').onclick=startQuiz;
+function startQuiz(){
+  N=Number($('questionCount').value);
+  // 每個聲調平均抽題，盡量避免重複題目；選擇 30 題也不會重複。
+  const buckets=Object.fromEntries(OPTS.map(t=>[t,POOL.filter(q=>q.tone===t && AUDIO[q.id])]));
+  Object.values(buckets).forEach(a=>a.sort(()=>Math.random()-.5));
+  qs=[];
+  while(qs.length<N){
+    const available=OPTS.filter(t=>buckets[t].length);
+    if(!available.length) break;
+    const counts=Object.fromEntries(OPTS.map(t=>[t,qs.filter(q=>q.tone===t).length]));
+    const min=Math.min(...available.map(t=>counts[t]));
+    const least=available.filter(t=>counts[t]===min);
+    const t=least[Math.floor(Math.random()*least.length)];
+    qs.push(buckets[t].pop());
+  }
+  N=qs.length; qs.sort(()=>Math.random()-.5);
+  qi=0; score=0; combo=0; correct=0; wrongBy={};
+  $('qStart').style.display='none'; $('qResult').style.display='none'; $('qGame').style.display='block';
+  showQ();
+}
+function showQ(){
+  const q=qs[qi], shape=$('showShape').checked;
+  $('qNum').textContent=`第 ${qi+1} / ${N} 題`;
+  $('prog').style.width=(qi/N*100)+'%';
+  $('score').textContent=score+' 分';
+  $('combo').textContent=combo>=2?`🔥 ${combo} 連擊`:'';
+  $('reveal').innerHTML=''; $('nextBtn').style.display='none';
+  $('srcHint').textContent = AUDIO[q.id] ? '點喇叭可以重聽' : '點喇叭可以重聽（合成調型示意音）';
+  const box=$('opts'); box.innerHTML='';
+  OPTS.forEach(t=>{
+    const b=document.createElement('button'); b.className='opt'; b.style.setProperty('--tc',tc(t));
+    b.innerHTML=`<b>${t}</b>${shape?contour(t,60,34,false):''}`;
+    b.onclick=()=>answer(t,b); box.appendChild(b);
+  });
+  $('speaker').onclick=()=>play(q);
+  setTimeout(()=>play(q),250);
+}
+function answer(t,btn){
+  const q=qs[qi], ok=t===q.tone;
+  [...$('opts').children].forEach(b=>{ b.disabled=true;
+    if(+b.querySelector('b').textContent===q.tone) b.classList.add('ok'); });
+  if(ok){ combo++; correct++; score+=10+Math.min(combo-1,5)*2; }
+  else { combo=0; btn.classList.add('bad'); btn.classList.add('shake'); wrongBy[q.tone]=(wrongBy[q.tone]||0)+1; }
+  $('score').textContent=score+' 分';
+  $('combo').textContent=combo>=2?`🔥 ${combo} 連擊`:'';
+  $('reveal').innerHTML=`${ok?'⭕ 答對了！':'❌ 再接再厲！'}　${q.han} <span class="lo">${q.lo}</span>
+    <span class="tag" style="background:${tc(q.tone)};font-size:.9rem">第${q.tone}調・${TONES[q.tone].name}</span>`;
+  $('nextBtn').style.display='block';
+  $('nextBtn').textContent = qi===N-1 ? '看成績 →' : '下一題 →';
+}
+$('nextBtn').onclick=()=>{ qi++; qi<N ? showQ() : finish(); };
+function finish(){
+  $('prog').style.width='100%';
+  $('qGame').style.display='none';
+  const r=$('qResult'); r.style.display='block';
+  const rate=correct/N;
+  const stars = rate>=.9?'🌟🌟🌟':rate>=.6?'🌟🌟':rate>=.3?'🌟':'💪';
+  const rows=Object.entries(wrongBy).sort((a,b)=>b[1]-a[1])
+    .map(([t,n])=>`<tr><td><span class="tag" style="background:${tc(t)}">第${t}調</span></td><td>錯 ${n} 次</td><td>${contour(+t,60,34,false)}</td></tr>`).join('');
+  r.innerHTML=`<h2>挑戰完成！</h2><div class="score">${score} 分</div>
+    <p>答對 ${correct} / ${N} 題　${stars}</p>
+    ${rows?`<p style="margin-top:12px;color:var(--muted)">最需要加強的聲調：</p><table>${rows}</table>`
+          :'<p style="margin-top:12px">全部答對，太厲害了！</p>'}
+    <button class="play" id="retry" style="margin-top:12px">再玩一次 ↻</button>
+    <button class="play" id="review" style="margin-top:12px;background:var(--indigo);box-shadow:0 3px 0 #1d3257">回第一關複習</button>`;
+  $('retry').onclick=()=>{ $('qStart').style.display='block'; $('qResult').style.display='none'; $('qGame').style.display='none'; }; 
+  $('review').onclick=()=>document.querySelector('.tab[data-p="learn"]').click();
+}
+</script>
+</body>
+</html>

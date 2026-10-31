@@ -1,0 +1,899 @@
+{
+  "total_unique": 89,
+  "textbook": 31,
+  "supplement": 58,
+  "note": "音檔路徑為正式專案內的相對路徑，本驗收包未附 MP3。",
+  "words": [
+    {
+      "hanji": "興𩑾𩑾",
+      "tailo": "hìng-tshih-tshih",
+      "source": "課本",
+      "audio": "audio/kx-b3/kx-b3l1-01.mp3",
+      "lessons": [
+        "L1 泅過日月潭"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "倚",
+      "tailo": "uá",
+      "source": "課本",
+      "audio": "audio/kx-b3/kx-b3l1-02.mp3",
+      "lessons": [
+        "L1 泅過日月潭"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "催落去",
+      "tailo": "tshui--lo̍h-khì",
+      "source": "課本",
+      "audio": "audio/kx-b3/kx-b3l1-03.mp3",
+      "lessons": [
+        "L1 泅過日月潭"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "烰",
+      "tailo": "phû",
+      "source": "課本",
+      "audio": "audio/kx-b3/kx-b3l1-04.mp3",
+      "lessons": [
+        "L1 泅過日月潭"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "靠勢",
+      "tailo": "khò-sè",
+      "source": "課本",
+      "audio": "audio/kx-b3/kx-b3l1-05.mp3",
+      "lessons": [
+        "L1 泅過日月潭"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "掰無路",
+      "tailo": "pué bô-lōo",
+      "source": "課本",
+      "audio": "audio/kx-b3/kx-b3l1-06.mp3",
+      "lessons": [
+        "L1 泅過日月潭"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "袂振袂動",
+      "tailo": "bē-tín-bē-tāng",
+      "source": "課本",
+      "audio": "audio/kx-b3/kx-b3l1-07.mp3",
+      "lessons": [
+        "L1 泅過日月潭"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "四箍輾轉",
+      "tailo": "sì-khoo-liàn-tńg",
+      "source": "課本",
+      "audio": "audio/kx-b3/kx-b3l1-08.mp3",
+      "lessons": [
+        "L1 泅過日月潭"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "各樣",
+      "tailo": "koh-iūnn",
+      "source": "課本",
+      "audio": "audio/kx-b3/kx-b3l1-09.mp3",
+      "lessons": [
+        "L1 泅過日月潭"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "捒",
+      "tailo": "sak",
+      "source": "課本",
+      "audio": "audio/kx-b3/kx-b3l1-10.mp3",
+      "lessons": [
+        "L1 泅過日月潭"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "才調",
+      "tailo": "tsâi-tiau",
+      "source": "課本",
+      "audio": "audio/kx-b3/kx-b3l1-11.mp3",
+      "lessons": [
+        "L1 泅過日月潭"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "糾筋",
+      "tailo": "kiù-kin",
+      "source": "課本",
+      "audio": "audio/kx-b3/kx-b3l1-12.mp3",
+      "lessons": [
+        "L1 泅過日月潭"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "牚腿",
+      "tailo": "thènn-thuí",
+      "source": "課本",
+      "audio": "audio/kx-b3/kx-b3l1-13.mp3",
+      "lessons": [
+        "L1 泅過日月潭"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "泅有過",
+      "tailo": "siû-ū-kuè",
+      "source": "課本",
+      "audio": "audio/kx-b3/kx-b3l1-14.mp3",
+      "lessons": [
+        "L1 泅過日月潭"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "蹛",
+      "tailo": "tuà",
+      "source": "課文補充",
+      "audio": "audio/dict-12616.mp3",
+      "lessons": [
+        "L1 泅過日月潭"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "平常時",
+      "tailo": "pîng-siông-sî",
+      "source": "課文補充",
+      "audio": "audio/1758(1).mp3",
+      "lessons": [
+        "L1 泅過日月潭"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "勇健",
+      "tailo": "ióng-kiānn",
+      "source": "課文補充",
+      "audio": "audio/dict-4737.mp3",
+      "lessons": [
+        "L1 泅過日月潭"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "勇氣",
+      "tailo": "ióng-khì",
+      "source": "課文補充",
+      "audio": "audio/dict-4734.mp3",
+      "lessons": [
+        "L1 泅過日月潭"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "堅持",
+      "tailo": "kian-tshî",
+      "source": "課文補充",
+      "audio": "audio/dict-7105.mp3",
+      "lessons": [
+        "L1 泅過日月潭"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "中秋",
+      "tailo": "Tiong-tshiu",
+      "source": "課文補充",
+      "audio": "audio/682(1).mp3",
+      "lessons": [
+        "L1 泅過日月潭"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "涼冷",
+      "tailo": "liâng-líng",
+      "source": "課文補充",
+      "audio": "audio/28443(1).mp3",
+      "lessons": [
+        "L1 泅過日月潭"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "沿路",
+      "tailo": "iân-lōo",
+      "source": "課文補充",
+      "audio": "audio/4298(1).mp3",
+      "lessons": [
+        "L1 泅過日月潭"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "冬節",
+      "tailo": "tang-tseh/tang-tsueh",
+      "source": "課文補充",
+      "audio": "audio/20361(1).mp3",
+      "lessons": [
+        "L1 泅過日月潭"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "雄雄",
+      "tailo": "hiông-hiông",
+      "source": "課文補充",
+      "audio": "audio/9270(1).mp3",
+      "lessons": [
+        "L1 泅過日月潭"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "跤底",
+      "tailo": "kha-té/kha-tué",
+      "source": "課文補充",
+      "audio": "audio/10085(1).mp3",
+      "lessons": [
+        "L1 泅過日月潭"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "身軀",
+      "tailo": "sin-khu",
+      "source": "課文補充",
+      "audio": "audio/3508(1).mp3",
+      "lessons": [
+        "L1 泅過日月潭"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "規氣",
+      "tailo": "kui-khì",
+      "source": "課文補充",
+      "audio": "audio/7868(1).mp3",
+      "lessons": [
+        "L1 泅過日月潭"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "特殊",
+      "tailo": "ti̍k-sû",
+      "source": "課文補充",
+      "audio": "audio/6274(1).mp3",
+      "lessons": [
+        "L1 泅過日月潭"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "查某囡仔",
+      "tailo": "tsa-bóo gín-á",
+      "source": "課文補充",
+      "audio": "audio/5099(1).mp3",
+      "lessons": [
+        "L1 泅過日月潭"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "放棄",
+      "tailo": "hòng-khì",
+      "source": "課文補充",
+      "audio": "audio/4090(1).mp3",
+      "lessons": [
+        "L1 泅過日月潭",
+        "L3 拌拌咧"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "鼓勵",
+      "tailo": "kóo-lē",
+      "source": "課文補充",
+      "audio": "audio/10368(1).mp3",
+      "lessons": [
+        "L1 泅過日月潭"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "耐力",
+      "tailo": "nāi-li̍k",
+      "source": "課文補充",
+      "audio": "audio/dict-30032.mp3",
+      "lessons": [
+        "L1 泅過日月潭"
+      ],
+      "meaning_empty": true
+    },
+    {
+      "hanji": "證書",
+      "tailo": "tsìng-su",
+      "source": "課文補充",
+      "audio": "audio/dict-12887.mp3",
+      "lessons": [
+        "L1 泅過日月潭"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "同齊",
+      "tailo": "tâng-tsê",
+      "source": "課本",
+      "audio": "audio/kx-b3/kx-b3l2-01.mp3",
+      "lessons": [
+        "L2 舞蹈班的一片天"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "薅",
+      "tailo": "khau",
+      "source": "課本",
+      "audio": "audio/kx-b3/kx-b3l2-02.mp3",
+      "lessons": [
+        "L2 舞蹈班的一片天"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "捘",
+      "tailo": "tsún",
+      "source": "課本",
+      "audio": "audio/kx-b3/kx-b3l2-03.mp3",
+      "lessons": [
+        "L2 舞蹈班的一片天"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "鐵鉼",
+      "tailo": "thih-phiánn",
+      "source": "課本",
+      "audio": "audio/kx-b3/kx-b3l2-04.mp3",
+      "lessons": [
+        "L2 舞蹈班的一片天"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "操煩",
+      "tailo": "tshau-huân",
+      "source": "課本",
+      "audio": "audio/kx-b3/kx-b3l2-05.mp3",
+      "lessons": [
+        "L2 舞蹈班的一片天"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "歡頭喜面",
+      "tailo": "huann-thâu-hí-bīn",
+      "source": "課本",
+      "audio": "audio/kx-b3/kx-b3l2-06.mp3",
+      "lessons": [
+        "L2 舞蹈班的一片天"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "隔工",
+      "tailo": "keh-kang",
+      "source": "課文補充",
+      "audio": "audio/14422(1).mp3",
+      "lessons": [
+        "L2 舞蹈班的一片天"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "幾若",
+      "tailo": "kuí-nā",
+      "source": "課文補充",
+      "audio": "audio/8329(1).mp3",
+      "lessons": [
+        "L2 舞蹈班的一片天"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "敢若",
+      "tailo": "kánn-ná",
+      "source": "課文補充",
+      "audio": "audio/8444(1).mp3",
+      "lessons": [
+        "L2 舞蹈班的一片天"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "榕仔",
+      "tailo": "tshîng-á",
+      "source": "課文補充",
+      "audio": "audio/10540(1).mp3",
+      "lessons": [
+        "L2 舞蹈班的一片天"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "樹根",
+      "tailo": "tshiū-kin/tshiū-kun",
+      "source": "課文補充",
+      "audio": "audio/11715(1).mp3",
+      "lessons": [
+        "L2 舞蹈班的一片天"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "運動埕",
+      "tailo": "ūn-tōng-tiânn",
+      "source": "課文補充",
+      "audio": "audio/10208(1).mp3",
+      "lessons": [
+        "L2 舞蹈班的一片天"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "佳哉",
+      "tailo": "ka-tsài",
+      "source": "課文補充",
+      "audio": "audio/3553(1).mp3",
+      "lessons": [
+        "L2 舞蹈班的一片天"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "袂輸",
+      "tailo": "bē-su/buē-su",
+      "source": "課文補充",
+      "audio": "audio/6661(1).mp3",
+      "lessons": [
+        "L2 舞蹈班的一片天"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "茄苳",
+      "tailo": "ka-tang",
+      "source": "課文補充",
+      "audio": "audio/5471(1).mp3",
+      "lessons": [
+        "L2 舞蹈班的一片天"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "規陣",
+      "tailo": "kui-tīn",
+      "source": "課文補充",
+      "audio": "audio/7870(1).mp3",
+      "lessons": [
+        "L2 舞蹈班的一片天"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "厝蓋",
+      "tailo": "tshù-kuà",
+      "source": "課文補充",
+      "audio": "audio/dict-28415.mp3",
+      "lessons": [
+        "L2 舞蹈班的一片天"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "厝頂",
+      "tailo": "tshù-tíng",
+      "source": "課文補充",
+      "audio": "audio/5837(1).mp3",
+      "lessons": [
+        "L2 舞蹈班的一片天"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "跑道",
+      "tailo": "pháu-tō",
+      "source": "課文補充",
+      "audio": "audio/25809(1).mp3",
+      "lessons": [
+        "L2 舞蹈班的一片天"
+      ],
+      "meaning_empty": true
+    },
+    {
+      "hanji": "路面",
+      "tailo": "lōo-bīn",
+      "source": "課文補充",
+      "audio": "audio/23178(1).mp3",
+      "lessons": [
+        "L2 舞蹈班的一片天"
+      ],
+      "meaning_empty": true
+    },
+    {
+      "hanji": "不止仔",
+      "tailo": "put-tsí-á",
+      "source": "課文補充",
+      "audio": "audio/623(1).mp3",
+      "lessons": [
+        "L2 舞蹈班的一片天"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "佗位",
+      "tailo": "tó-uī",
+      "source": "課文補充",
+      "audio": "audio/2894(1).mp3",
+      "lessons": [
+        "L2 舞蹈班的一片天"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "空地",
+      "tailo": "khàng-tē/khàng-tuē",
+      "source": "課文補充",
+      "audio": "audio/4384(1).mp3",
+      "lessons": [
+        "L2 舞蹈班的一片天"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "地板",
+      "tailo": "tē-pán/tuē-pán",
+      "source": "課文補充",
+      "audio": "audio/23370(1).mp3",
+      "lessons": [
+        "L2 舞蹈班的一片天"
+      ],
+      "meaning_empty": true
+    },
+    {
+      "hanji": "天真",
+      "tailo": "thian-tsin",
+      "source": "課文補充",
+      "audio": "audio/dict-24196.mp3",
+      "lessons": [
+        "L2 舞蹈班的一片天"
+      ],
+      "meaning_empty": true
+    },
+    {
+      "hanji": "樂觀",
+      "tailo": "lo̍k-kuan",
+      "source": "課文補充",
+      "audio": "audio/dict-11148.mp3",
+      "lessons": [
+        "L2 舞蹈班的一片天"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "感動",
+      "tailo": "kám-tōng",
+      "source": "課文補充",
+      "audio": "audio/9451(1).mp3",
+      "lessons": [
+        "L2 舞蹈班的一片天"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "一片",
+      "tailo": "tsi̍t phiàn",
+      "source": "課本",
+      "audio": "audio/kx-b3/kx-b3l3-01.mp3",
+      "lessons": [
+        "L3 拌拌咧"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "拌拌咧",
+      "tailo": "puann-puann--leh",
+      "source": "課本",
+      "audio": "audio/kx-b3/kx-b3l3-02.mp3",
+      "lessons": [
+        "L3 拌拌咧"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "代",
+      "tailo": "tāi",
+      "source": "課本",
+      "audio": "audio/kx-b3/kx-b3l3-03.mp3",
+      "lessons": [
+        "L3 拌拌咧"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "起毛䆀",
+      "tailo": "khí-moo bái",
+      "source": "課本",
+      "audio": "audio/kx-b3/kx-b3l3-04.mp3",
+      "lessons": [
+        "L3 拌拌咧"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "逐",
+      "tailo": "jiok",
+      "source": "課本",
+      "audio": "audio/kx-b3/kx-b3l3-05.mp3",
+      "lessons": [
+        "L3 拌拌咧"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "走傱",
+      "tailo": "tsáu-tsông",
+      "source": "課本",
+      "audio": "audio/kx-b3/kx-b3l3-06.mp3",
+      "lessons": [
+        "L3 拌拌咧"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "覕相揣",
+      "tailo": "bih-sio-tshuē",
+      "source": "課本",
+      "audio": "audio/kx-b3/kx-b3l3-07.mp3",
+      "lessons": [
+        "L3 拌拌咧"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "拭拭咧",
+      "tailo": "tshit-tshit--leh",
+      "source": "課本",
+      "audio": "audio/kx-b3/kx-b3l3-08.mp3",
+      "lessons": [
+        "L3 拌拌咧"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "撫撫咧",
+      "tailo": "hu-hu--leh",
+      "source": "課本",
+      "audio": "audio/kx-b3/kx-b3l3-09.mp3",
+      "lessons": [
+        "L3 拌拌咧"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "褪赤跤",
+      "tailo": "thǹg-tshiah-kha",
+      "source": "課本",
+      "audio": "audio/kx-b3/kx-b3l3-10.mp3",
+      "lessons": [
+        "L3 拌拌咧"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "囡仔歌",
+      "tailo": "gín-á-kua",
+      "source": "課本",
+      "audio": "audio/kx-b3/kx-b3l3-11.mp3",
+      "lessons": [
+        "L3 拌拌咧"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "心內",
+      "tailo": "sim-lāi",
+      "source": "課文補充",
+      "audio": "audio/14584(1).mp3",
+      "lessons": [
+        "L3 拌拌咧"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "所在",
+      "tailo": "sóo-tsāi",
+      "source": "課文補充",
+      "audio": "audio/dict-4001.mp3",
+      "lessons": [
+        "L3 拌拌咧"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "水田",
+      "tailo": "tsuí-tshân",
+      "source": "課文補充",
+      "audio": "audio/880(1).mp3",
+      "lessons": [
+        "L3 拌拌咧"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "水雞",
+      "tailo": "tsuí-ke/tsuí-kue",
+      "source": "課文補充",
+      "audio": "audio/1192(1).mp3",
+      "lessons": [
+        "L3 拌拌咧"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "田嬰",
+      "tailo": "tshân-enn/tshân-inn",
+      "source": "課文補充",
+      "audio": "audio/2017(1).mp3",
+      "lessons": [
+        "L3 拌拌咧"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "歇睏",
+      "tailo": "hioh-khùn",
+      "source": "課文補充",
+      "audio": "audio/9664(1).mp3",
+      "lessons": [
+        "L3 拌拌咧"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "跋倒",
+      "tailo": "pua̍h-tó",
+      "source": "課文補充",
+      "audio": "audio/9121(1).mp3",
+      "lessons": [
+        "L3 拌拌咧"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "𨑨迌",
+      "tailo": "tshit-thô",
+      "source": "課文補充",
+      "audio": "audio/dict-13522.mp3",
+      "lessons": [
+        "L3 拌拌咧"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "毋免",
+      "tailo": "m̄-bián",
+      "source": "課文補充",
+      "audio": "audio/922(1).mp3",
+      "lessons": [
+        "L3 拌拌咧"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "怨嘆",
+      "tailo": "uàn-thàn",
+      "source": "課文補充",
+      "audio": "audio/4963(1).mp3",
+      "lessons": [
+        "L3 拌拌咧"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "時間",
+      "tailo": "sî-kan",
+      "source": "課文補充",
+      "audio": "audio/6050(1).mp3",
+      "lessons": [
+        "L3 拌拌咧"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "機會",
+      "tailo": "ki-huē",
+      "source": "課文補充",
+      "audio": "audio/11724(1).mp3",
+      "lessons": [
+        "L3 拌拌咧"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "無法度",
+      "tailo": "bô-huat-tōo",
+      "source": "課文補充",
+      "audio": "audio/8612(1).mp3",
+      "lessons": [
+        "L3 拌拌咧"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "目屎",
+      "tailo": "ba̍k-sái",
+      "source": "課文補充",
+      "audio": "audio/1918(1).mp3",
+      "lessons": [
+        "L3 拌拌咧"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "頭殼",
+      "tailo": "thâu-khak",
+      "source": "課文補充",
+      "audio": "audio/12070(1).mp3",
+      "lessons": [
+        "L3 拌拌咧"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "細漢",
+      "tailo": "sè-hàn/suè-hàn",
+      "source": "課文補充",
+      "audio": "audio/7768(1).mp3",
+      "lessons": [
+        "L3 拌拌咧"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "時陣",
+      "tailo": "sî-tsūn",
+      "source": "課文補充",
+      "audio": "audio/6036(1).mp3",
+      "lessons": [
+        "L3 拌拌咧"
+      ],
+      "meaning_empty": false
+    },
+    {
+      "hanji": "啥物",
+      "tailo": "siánn-mih",
+      "source": "課文補充",
+      "audio": "audio/7101(1).mp3",
+      "lessons": [
+        "L3 拌拌咧"
+      ],
+      "meaning_empty": false
+    }
+  ]
+}

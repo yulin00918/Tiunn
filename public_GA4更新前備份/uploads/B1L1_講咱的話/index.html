@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>康軒 B1L1｜講咱的話</title>
+<style>
+*{box-sizing:border-box} body{margin:0;font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;color:#4d4438;background:linear-gradient(180deg,#f8f0df,#fbf7ef);min-height:100vh}
+.wrap{max-width:980px;margin:auto;padding:28px 18px 70px}.head{display:flex;justify-content:space-between;gap:20px;align-items:flex-end;flex-wrap:wrap}.tag{display:inline-flex;padding:7px 12px;border-radius:999px;background:#ead9bd;color:#765c3c;font-size:13px}
+h1{margin:10px 0 6px;font-size:clamp(27px,5vw,34px);letter-spacing:.05em}.muted{color:#877a69;font-size:14px}.tabs{display:flex;gap:8px;margin:18px 0}.tab{border:1px solid #e8dac2;background:#fffaf3;color:#4d4438;padding:10px 15px;border-radius:12px;cursor:pointer}.tab.on{background:#4d4438;color:#fff}
+.controls{position:sticky;top:8px;z-index:5;display:flex;flex-wrap:wrap;gap:9px;align-items:center;background:#fffaf1ee;border:1px solid #e8dac2;border-radius:16px;padding:12px;box-shadow:0 12px 34px #58432a14;margin-bottom:16px}.controls button,.controls select{border:1px solid #e8dac2;background:#fffaf3;color:#4d4438;padding:9px 12px;border-radius:10px}.controls .primary{background:#4d4438;color:white}.bar{height:6px;background:#efe4d2;border-radius:99px;overflow:hidden;flex:1;min-width:120px}.fill{height:100%;background:#b78652;width:0}
+.panel{background:#ffffffad;border:1px solid #e8dac2;border-radius:22px;padding:18px;box-shadow:0 12px 34px #58432a14}.seg{display:grid;grid-template-columns:42px 1fr;gap:12px;padding:17px 14px;border-radius:15px;cursor:pointer;margin-bottom:6px;border:1px solid transparent}.seg:hover{background:#faf0df}.seg.playing{background:#fff1cf;border-color:#e8c88c}.num{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:700;background:#f3e4cd;color:#7d5b37}.seg.playing .num{background:#b78652;color:#fff}.text{font-size:18px;line-height:2.05;letter-spacing:.02em}.vw{color:#b7642e;font-weight:700;text-decoration:underline dotted;cursor:pointer}.hint{font-size:12px;color:#877a69;margin-top:5px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.card{background:#ffffffb8;border:1px solid #e8dac2;border-radius:18px;padding:16px;display:grid;grid-template-columns:44px 1fr auto;gap:12px}.roman{color:#936f4b;margin-top:2px}.gloss{color:#877a69;margin-top:6px;line-height:1.65}.speak{border:0;background:#4d4438;color:#fff;border-radius:12px;width:40px;height:40px;cursor:pointer}
+.hidden{display:none}.modal{position:fixed;inset:0;background:#3c2d1966;display:flex;align-items:center;justify-content:center;z-index:20;padding:16px}.modalCard{background:#fffaf3;border:1px solid #e8dac2;border-radius:20px;padding:22px;max-width:420px;width:100%;box-shadow:0 20px 50px #3c2d1940;display:grid;grid-template-columns:44px 1fr auto;gap:14px}.status{margin-left:auto;color:#877a69;font-size:13px}
+@media(max-width:680px){.grid{grid-template-columns:1fr}.wrap{padding:20px 12px 60px}.panel{padding:10px}.seg{padding:14px 8px}.text{font-size:17px}.controls{top:4px}.status{width:100%;margin:0}}
+</style></head><body>
+<div class="wrap">
+<div class="head"><div><span class="tag">🎧 康軒版・第一冊</span><h1>第一課｜講咱的話</h1><div class="muted">散文・段落式｜點段落播放；點彩色語詞查看解說與發音。</div></div><div class="muted">正式出版社教材音檔</div></div>
+<div class="tabs"><button class="tab on" data-tab="reading">📖 課文點讀</button><button class="tab" data-tab="vocab">🗣️ 語詞點讀</button></div>
+<section id="reading">
+<div class="controls"><button class="primary" id="all">▶ 全文連續播放</button><button id="full">🎙 出版社全文</button><button id="pause">⏸ 暫停</button><button id="restart">↺ 重新開始</button><label>速度 <select id="speed"><option>.75</option><option selected>1</option><option>1.25</option></select></label><div class="bar"><div class="fill" id="fill"></div></div><div class="status" id="status">尚未播放</div></div>
+<div class="panel" id="segments"></div></section>
+<section id="vocab" class="hidden"><div class="grid" id="vocabGrid"></div></section>
+</div><div id="modalRoot"></div>
+<script>
+const SEGMENTS = ["2023年，全國賽的閩南語情境式演說，國中組提著特優獎的楊鎧馨同學，伊的面模仔生做足成外國人，毋過伊的閩南語講甲不止仔輾轉。", "𪜶老爸是南非人，袂曉講閩南語，毋過誠認真咧學習，若拄著臺灣人就拚勢用閩南語佮人對話，所以人共號做「直直講」。", "伊不時鼓勵𪜶查某囝，愛寶惜這塊土地頂懸的語言佮文化，著較捷講閩南語咧。", "為著欲了解病人講的閩南語，朱子宏醫師下真濟工夫。", "伊本底袂曉講閩南語，毋過伊三不五時收看本土戲劇，毋但學會曉和人用閩南語交談，閣進一步佮醫學系的同窗張之嚴，", "做伙共老師的講義編做《醫用台語教學》的教材，幫助真濟毋捌閩南語的醫學生，會當了解病人的症頭，解說治療的方式。", "毋但按呢，伊上歡喜的是，這馬會當用閩南語佮外媽開講矣。"];
+const VOCAB = [["面模仔", "bīn-bôo-á", "臉龐、臉蛋。"], ["不止仔", "put-tsí-á", "非常、相當的意思。"], ["輾轉", "liàn-tńg", "說話流利暢達。"], ["袂曉", "bē-hiáu", "不會、不懂。"], ["拚勢", "piànn-sè", "拚命。"], ["直直講", "ti̍t-ti̍t-kóng", "一直說。"], ["捷", "tsia̍p", "次數很頻繁。"], ["三不五時", "sam-put-gōo-sî", "不時、經常。"], ["同窗", "tông-tshong", "同學。"], ["開講", "khai-káng", "閒談聊天。"]];
+let audio=new Audio(), current=0, continuous=false, playingType=null, currentVocab=null;
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const esc=s=>s.replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+const vocabSorted=VOCAB.map((v,i)=>({w:v[0],i})).sort((a,b)=>b.w.length-a.w.length);
+function marked(text){let out='',i=0;while(i<text.length){let m=vocabSorted.find(v=>text.startsWith(v.w,i));if(m){out+=`<span class="vw" data-v="${m.i}">${esc(m.w)}</span>`;i+=m.w.length}else{out+=esc(text[i++])}}return out}
+function renderSegments(){ $('#segments').innerHTML=SEGMENTS.map((t,i)=>`<article class="seg" data-i="${i}"><div class="num">${i+1}</div><div><div class="text">${marked(t)}</div><div class="hint">🔊 點這一段播放；點彩色詞語看解釋</div></div></article>`).join(''); bind(); }
+function renderVocab(){ $('#vocabGrid').innerHTML=VOCAB.map((v,i)=>`<article class="card"><div class="num">${i+1}</div><div><div style="font-size:20px;font-weight:700">${esc(v[0])}</div><div class="roman">${esc(v[1])}</div><div class="gloss">${esc(v[2])}</div></div><button class="speak" data-playv="${i}">🔊</button></article>`).join(''); $$('[data-playv]').forEach(b=>b.onclick=()=>playVocab(+b.dataset.playv));}
+function bind(){ $$('.seg').forEach(x=>x.onclick=e=>{if(e.target.classList.contains('vw'))return;playSegment(+x.dataset.i,false)}); $$('.vw').forEach(x=>x.onclick=e=>{e.stopPropagation();openVocab(+x.dataset.v)});}
+function setActive(){ $$('.seg').forEach((x,i)=>x.classList.toggle('playing',playingType==='segment'&&i===current&&!audio.paused));}
+function playSegment(i,cont){current=i;continuous=cont;playingType='segment';currentVocab=null;audio.src=`audio/lesson-${String(i+1).padStart(3,'0')}.mp3`;audio.playbackRate=+$speed.value;audio.play();$status.textContent=`正在播放：第 ${i+1} 段`;setActive();}
+function playVocab(i){continuous=false;playingType='vocab';currentVocab=i;audio.src=`audio/vocab-${String(i+1).padStart(2,'0')}.mp3`;audio.playbackRate=+$speed.value;audio.play();$status.textContent=`正在播放語詞：${VOCAB[i][0]}`;setActive();}
+function openVocab(i){const v=VOCAB[i];$('#modalRoot').innerHTML=`<div class="modal"><article class="modalCard"><div class="num">${i+1}</div><div><div style="font-size:22px;font-weight:700">${esc(v[0])}</div><div class="roman">${esc(v[1])}</div><div class="gloss">${esc(v[2])}</div></div><button class="speak" id="modalPlay">🔊</button></article></div>`;$('.modal').onclick=e=>{if(e.target.classList.contains('modal'))$('#modalRoot').innerHTML=''};$('#modalPlay').onclick=()=>playVocab(i);}
+const $status=$('#status'),$fill=$('#fill'),$speed=$('#speed');
+audio.ontimeupdate=()=>{$fill.style.width=(audio.duration?audio.currentTime/audio.duration*100:0)+'%'};
+audio.onended=()=>{setActive();$fill.style.width='0';if(continuous&&playingType==='segment'&&current<SEGMENTS.length-1)playSegment(current+1,true);else{continuous=false;$status.textContent='播放完成';}};
+$('#all').onclick=()=>playSegment(current,true);
+$('#full').onclick=()=>{continuous=false;playingType='full';audio.src='audio/publisher-full.mp3';audio.playbackRate=+$speed.value;audio.play();$status.textContent='正在播放：出版社全文';setActive();};
+$('#pause').onclick=()=>{if(audio.paused){audio.play();$status.textContent='繼續播放'}else{audio.pause();$status.textContent='已暫停'}setActive();};
+$('#restart').onclick=()=>playSegment(0,false); $speed.onchange=()=>audio.playbackRate=+$speed.value;
+$$('.tab').forEach(b=>b.onclick=()=>{$$('.tab').forEach(x=>x.classList.remove('on'));b.classList.add('on');$('#reading').classList.toggle('hidden',b.dataset.tab!=='reading');$('#vocab').classList.toggle('hidden',b.dataset.tab!=='vocab');});
+renderSegments();renderVocab();
+</script></body></html>

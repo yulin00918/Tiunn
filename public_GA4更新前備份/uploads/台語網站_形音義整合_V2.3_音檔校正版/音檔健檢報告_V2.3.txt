@@ -1,0 +1,25 @@
+台語詞庫音檔健檢 V2.3
+
+詞庫總筆數：157
+可與教育部詞目「漢字＋台羅」一對一核對並換成唯一音檔：146 筆
+實際使用的教育部唯一 MP3：137 個
+無法直接一對一核對：11 筆
+
+【無法直接一對一核對，保留原設定】
+攬牢牢｜lám-tiâu-tiâu｜｜詞典無漢字+台羅一對一詞目
+電頭鬃｜tiān-thâu-tsang｜｜詞典無漢字+台羅一對一詞目
+八音｜pat-im｜audio/custom-pat-im.mp3｜詞典無漢字+台羅一對一詞目
+摔大雨｜siàng-tuā-hōo｜audio/custom-siang-tua-hoo.mp3｜詞典無漢字+台羅一對一詞目
+崁仔頂｜Khám-á-tíng｜audio/custom-kham-a-ting.mp3｜詞典無漢字+台羅一對一詞目
+港埠｜káng-poo｜audio/custom-kang-poo.mp3｜詞典無漢字+台羅一對一詞目
+歸心｜kui-sim｜audio/custom-kui-sim.mp3｜詞典無漢字+台羅一對一詞目
+蹛一暝｜tuà-tsi̍t-mê / tuà-tsi̍t-mî｜audio/tua-tsit-me.mp3｜詞典無漢字+台羅一對一詞目
+魴魚｜hang-hî / hang-hû｜audio/hang-hi.mp3｜詞典無漢字+台羅一對一詞目
+箍一輾｜khoo-tsi̍t-liàn｜audio/khoo-tsit-lian.mp3｜詞典無漢字+台羅一對一詞目
+買物｜bé-mi̍h / bué-mi̍h｜audio/be-mih.mp3｜詞典無漢字+台羅一對一詞目
+
+【已確認修正】
+糋｜tsìnn 已改用教育部詞目 11275(1).mp3；櫼｜tsinn 使用 13087(1).mp3，兩者不再共用 tsinn.mp3。
+
+【說明】
+教育部資料中的「【替】」「【白】」「【文】」標記在比對時視為詞目／讀音標記，不當作漢字或台羅本體的一部分。

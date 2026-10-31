@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/organic-03487c1a-87d3-4346-93e4-5edb149c4cd0/styles.css">
+  <script src="_ds/organic-03487c1a-87d3-4346-93e4-5edb149c4cd0/_ds_bundle.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+</helmet>
+<div style="background:linear-gradient(180deg, #a9cbea 0%, #c9d5ef 24%, #e0cbe6 50%, #f0c9d8 75%, #ddc6e6 100%); color:var(--color-text); font-family:var(--font-body); min-height:100vh;">
+  <div style="max-width:1120px; margin:0 auto; padding:var(--space-6) var(--space-4);">
+    <a href="家政金融網頁.dc.html" style="font-size:14px; color:var(--color-accent-700); text-decoration:none;">← 回首頁</a>
+  </div>
+  <header style="max-width:1120px; margin:0 auto; padding:0 var(--space-4) var(--space-6);">
+    <div style="display:flex; align-items:center; gap:var(--space-3); margin-bottom:var(--space-4); flex-wrap:wrap;">
+      <span style="font-size:36px; flex:none;">🎁</span>
+      <h1 style="margin:0; min-width:0; white-space:nowrap; font-size:38px; font-weight:800;">教學百寶箱</h1>
+    </div>
+    <p style="max-width:560px; opacity:0.85; font-size:18px; font-weight:700; margin-bottom:var(--space-3);">課堂教學小工具</p>
+    <div style="display:flex; align-items:center; gap:var(--space-2); flex-wrap:wrap;">
+      <span style="font-weight:700; opacity:0.75; font-size:14px;">目前班級：</span>
+      <sc-for list="{{ classSwitcher }}" as="c" hint-placeholder-count="2">
+        <button onClick="{{ c.onSelect }}" style="{{ c.style }}">{{ c.label }}</button>
+      </sc-for>
+      <button onClick="{{ addClassClick }}" style="padding:6px 14px; border-radius:999px; border:1.5px dashed var(--color-accent-700); background:transparent; color:var(--color-accent-700); font-weight:700; cursor:pointer; font-size:13px;">＋ 新增班級</button>
+    </div>
+  </header>
+
+  <div style="max-width:1120px; margin:0 auto; padding:0 var(--space-4) var(--space-8);">
+    <div style="display:flex; gap:var(--space-2); flex-wrap:wrap; margin-bottom:var(--space-6);">
+      <sc-for list="{{ tabs }}" as="tab" hint-placeholder-count="4">
+        <button onClick="{{ tab.onSelect }}" style="{{ tab.style }}">{{ tab.label }}</button>
+      </sc-for>
+    </div>
+
+    <sc-if value="{{ isRoster }}">
+      <div style="background:white; border-radius:var(--radius-lg); box-shadow:var(--shadow-md); padding:var(--space-6);">
+        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:var(--space-2); margin-bottom:var(--space-4);">
+          <h2 style="margin:0;">📇 學生名單</h2>
+          <div style="display:flex; gap:var(--space-2);">
+            <button onClick="{{ roster.duplicateClass }}" style="padding:7px 14px; border-radius:999px; border:none; background:var(--color-accent-2-100); font-weight:700; cursor:pointer; font-size:13px;">📄 複製班級</button>
+            <button onClick="{{ roster.deleteClass }}" style="padding:7px 14px; border-radius:999px; border:none; background:#ffe4e4; color:#a94444; font-weight:700; cursor:pointer; font-size:13px;">🗑 刪除班級</button>
+          </div>
+        </div>
+
+        <h3 style="margin:0 0 var(--space-2); font-size:16px;">班級基本資料</h3>
+        <div style="display:grid; gap:var(--space-3); margin-bottom:var(--space-5);">
+          <div>
+            <label style="display:block; font-size:13px; font-weight:700; margin-bottom:4px;">學校名稱</label>
+            <input value="{{ roster.schoolName }}" onChange="{{ roster.onSchoolChange }}" placeholder="例如：桃園市立○○國中" style="width:100%; padding:10px 12px; border-radius:12px; border:2px solid #e7e2f5; font-size:15px;" />
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:var(--space-3);">
+            <div>
+              <label style="display:block; font-size:13px; font-weight:700; margin-bottom:4px;">班級名稱</label>
+              <input value="{{ roster.className }}" onChange="{{ roster.onClassChange }}" placeholder="例如：802" style="width:100%; padding:10px 12px; border-radius:12px; border:2px solid #e7e2f5; font-size:15px;" />
+            </div>
+            <div>
+              <label style="display:block; font-size:13px; font-weight:700; margin-bottom:4px;">導師姓名</label>
+              <input value="{{ roster.teacherName }}" onChange="{{ roster.onTeacherChange }}" placeholder="例如：陳老師" style="width:100%; padding:10px 12px; border-radius:12px; border:2px solid #e7e2f5; font-size:15px;" />
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:var(--space-2); margin-bottom:var(--space-3);">
+          <h3 style="margin:0; font-size:16px;">學生名單</h3>
+          <span style="font-weight:700; color:var(--color-accent-700);">目前學生人數：{{ roster.count }} 人</span>
+        </div>
+
+        <div style="display:flex; gap:var(--space-2); flex-wrap:wrap; margin-bottom:var(--space-4);">
+          <label style="padding:9px 16px; border-radius:999px; background:var(--color-accent-2-100); font-weight:700; cursor:pointer;">
+            📥 匯入 Excel／CSV
+            <input type="file" accept=".xlsx,.xls,.csv" onChange="{{ roster.onFileChange }}" style="display:none;" />
+          </label>
+          <button onClick="{{ roster.togglePaste }}" style="padding:9px 16px; border-radius:999px; border:none; background:var(--color-accent-2-100); font-weight:700; cursor:pointer;">📋 貼上名單</button>
+          <button onClick="{{ roster.toggleManual }}" style="padding:9px 16px; border-radius:999px; border:none; background:var(--color-accent-2-100); font-weight:700; cursor:pointer;">＋ 新增學生</button>
+        </div>
+
+        <sc-if value="{{ roster.showPaste }}">
+          <div style="background:#f7f5fc; border-radius:14px; padding:var(--space-3); margin-bottom:var(--space-4);">
+            <textarea value="{{ roster.pasteText }}" onChange="{{ roster.onPasteChange }}" placeholder="1　王小明&#10;2　陳怡君&#10;3　林志豪" style="width:100%; min-height:120px; padding:10px; border-radius:10px; border:1.5px solid #ddd6f0; font-size:14px;"></textarea>
+            <div style="display:flex; gap:var(--space-2); margin-top:var(--space-2);">
+              <button onClick="{{ roster.parsePaste }}" style="padding:8px 16px; border-radius:999px; border:none; background:var(--color-accent-600); color:white; font-weight:700; cursor:pointer;">解析名單</button>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ roster.showManual }}">
+          <div style="background:#f7f5fc; border-radius:14px; padding:var(--space-3); margin-bottom:var(--space-4); display:grid; grid-template-columns:repeat(4,1fr) auto; gap:var(--space-2); align-items:end;">
+            <div><label style="display:block; font-size:12px; font-weight:700;">座號</label><input value="{{ roster.manualSeat }}" onChange="{{ roster.onManualSeat }}" style="width:100%; padding:8px; border-radius:8px; border:1.5px solid #ddd6f0;" /></div>
+            <div><label style="display:block; font-size:12px; font-weight:700;">姓名</label><input value="{{ roster.manualName }}" onChange="{{ roster.onManualName }}" style="width:100%; padding:8px; border-radius:8px; border:1.5px solid #ddd6f0;" /></div>
+            <div><label style="display:block; font-size:12px; font-weight:700;">學號（選填）</label><input value="{{ roster.manualStudentId }}" onChange="{{ roster.onManualStudentId }}" style="width:100%; padding:8px; border-radius:8px; border:1.5px solid #ddd6f0;" /></div>
+            <div><label style="display:block; font-size:12px; font-weight:700;">備註（選填）</label><input value="{{ roster.manualNote }}" onChange="{{ roster.onManualNote }}" style="width:100%; padding:8px; border-radius:8px; border:1.5px solid #ddd6f0;" /></div>
+            <button onClick="{{ roster.addManual }}" style="padding:9px 16px; border-radius:999px; border:none; background:var(--color-accent-600); color:white; font-weight:700; cursor:pointer;">新增</button>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ roster.hasPreview }}">
+          <div style="background:#fff8e8; border:1.5px dashed #e7c96b; border-radius:14px; padding:var(--space-3); margin-bottom:var(--space-4);">
+            <div style="font-weight:700; margin-bottom:var(--space-2);">已讀取 {{ roster.previewCount }} 位學生（匯入預覽）</div>
+            <div style="max-height:220px; overflow:auto;">
+              <table class="table" style="width:100%;">
+                <thead><tr><th>座號</th><th>學號</th><th>姓名</th></tr></thead>
+                <tbody>
+                  <sc-for list="{{ roster.preview }}" as="p" hint-placeholder-count="3">
+                    <tr><td>{{ p.seatNumber }}</td><td>{{ p.studentId }}</td><td>{{ p.name }}</td></tr>
+                  </sc-for>
+                </tbody>
+              </table>
+            </div>
+            <div style="display:flex; gap:var(--space-2); margin-top:var(--space-3);">
+              <button onClick="{{ roster.confirmImport }}" style="padding:9px 18px; border-radius:999px; border:none; background:var(--color-accent-600); color:white; font-weight:700; cursor:pointer;">確認匯入</button>
+              <button onClick="{{ roster.cancelImport }}" style="padding:9px 18px; border-radius:999px; border:none; background:#eee; font-weight:700; cursor:pointer;">取消</button>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ roster.hasStudents }}" hint-placeholder-val="{{ true }}">
+          <div style="overflow:auto; margin-bottom:var(--space-4);">
+            <table class="table" style="width:100%;">
+              <thead><tr><th>座號</th><th>學號</th><th>姓名</th><th>備註</th><th>操作</th></tr></thead>
+              <tbody>
+                <sc-for list="{{ roster.students }}" as="stu" hint-placeholder-count="5">
+                  <tr>
+                    <td><input value="{{ stu.seatNumber }}" onChange="{{ stu.onSeatChange }}" style="width:56px; padding:6px; border-radius:8px; border:1px solid #e2ddf0;" /></td>
+                    <td><input value="{{ stu.studentId }}" onChange="{{ stu.onStudentIdChange }}" style="width:90px; padding:6px; border-radius:8px; border:1px solid #e2ddf0;" /></td>
+                    <td><input value="{{ stu.name }}" onChange="{{ stu.onNameChange }}" style="width:100px; padding:6px; border-radius:8px; border:1px solid #e2ddf0;" /></td>
+                    <td><input value="{{ stu.note }}" onChange="{{ stu.onNoteChange }}" style="width:100px; padding:6px; border-radius:8px; border:1px solid #e2ddf0;" /></td>
+                    <td><button onClick="{{ stu.onDelete }}" style="padding:5px 12px; border-radius:999px; border:none; background:#ffe4e4; color:#a94444; font-weight:700; cursor:pointer;">刪除</button></td>
+                  </tr>
+                </sc-for>
+              </tbody>
+            </table>
+          </div>
+        </sc-if>
+        <sc-if value="{{ roster.isEmpty }}">
+          <p style="opacity:0.6; padding:var(--space-4) 0;">尚未建立學生名單，請用上方方式匯入或新增學生。</p>
+        </sc-if>
+
+        <div style="display:flex; gap:var(--space-2);">
+          <button onClick="{{ roster.clearAll }}" style="padding:9px 18px; border-radius:999px; border:none; background:#ffe4e4; color:#a94444; font-weight:700; cursor:pointer;">清空名單</button>
+          <button onClick="{{ roster.saveNow }}" style="padding:9px 18px; border-radius:999px; border:none; background:var(--color-accent-600); color:white; font-weight:700; cursor:pointer;">儲存資料</button>
+        </div>
+      </div>
+    </sc-if>
+
+    <div style="{{ roster.toolWrapStyle }}">
+      <sc-if value="{{ isLottery }}" hint-placeholder-val="{{ true }}">
+        <dc-import name="抽獎活動" hint-size="100%,760px"></dc-import>
+      </sc-if>
+      <sc-if value="{{ isGrouping }}">
+        <dc-import name="隨機分組小幫手" hint-size="100%,760px"></dc-import>
+      </sc-if>
+      <sc-if value="{{ isScoreboard }}">
+        <dc-import name="小組競賽計分板" hint-size="100%,760px"></dc-import>
+      </sc-if>
+      <sc-if value="{{ isTimer }}">
+        <dc-import name="自由設定倒數計時器" hint-size="100%,760px"></dc-import>
+      </sc-if>
+      <sc-if value="{{ isWheel }}">
+        <dc-import name="自由抽籤轉盤" hint-size="100%,760px"></dc-import>
+      </sc-if>
+      <sc-if value="{{ isSeating }}">
+        <dc-import name="分組座位圖產生器" hint-size="100%,760px"></dc-import>
+      </sc-if>
+      <sc-if value="{{ isGroupTask }}">
+        <dc-import name="組內分工" hint-size="100%,760px"></dc-import>
+      </sc-if>
+      <sc-if value="{{ isCardDraw }}">
+        <dc-import name="翻卡抽籤" hint-size="100%,760px"></dc-import>
+      </sc-if>
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const CLASS_DATA_KEY = 'teacherToolboxClassData';
+
+class Component extends DCLogic {
+  state = {
+    active: 'lottery',
+    store: (() => {
+      const id = 'c_init';
+      return {
+        classes: { [id]: { id, schoolName: '', className: '', homeroomTeacher: '', students: [] } },
+        classOrder: [id],
+        currentClassId: id
+      };
+    })(),
+    showPaste: false, showManual: false, pasteText: '',
+    manualSeat: '', manualName: '', manualStudentId: '', manualNote: '',
+    preview: null
+  };
+
+  componentDidMount() {
+    let store = null;
+    try {
+      const raw = localStorage.getItem(CLASS_DATA_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed && parsed.classes && parsed.classOrder && parsed.currentClassId && parsed.classes[parsed.currentClassId]) {
+          store = { classes: parsed.classes, classOrder: parsed.classOrder, currentClassId: parsed.currentClassId };
+        } else if (parsed && Array.isArray(parsed.students)) {
+          const cls = {
+            id: this.uid('c'),
+            schoolName: parsed.schoolName || '',
+            className: parsed.className || '',
+            homeroomTeacher: parsed.homeroomTeacher || '',
+            students: parsed.students || []
+          };
+          store = { classes: { [cls.id]: cls }, classOrder: [cls.id], currentClassId: cls.id };
+        }
+      }
+    } catch (e) {}
+    if (!store) {
+      const cls = this.emptyClass('');
+      store = { classes: { [cls.id]: cls }, classOrder: [cls.id], currentClassId: cls.id };
+    }
+    this.persistStore(store);
+  }
+
+  uid(prefix) { return (prefix || 's') + '_' + Math.random().toString(36).slice(2, 10); }
+
+  emptyClass(name) {
+    return { id: this.uid('c'), schoolName: '', className: name || '', homeroomTeacher: '', students: [] };
+  }
+
+  persistStore(store) {
+    this.setState({ store });
+    try {
+      const current = store.classes[store.currentClassId] || this.emptyClass('');
+      const payload = {
+        classes: store.classes,
+        classOrder: store.classOrder,
+        currentClassId: store.currentClassId,
+        schoolName: current.schoolName,
+        className: current.className,
+        homeroomTeacher: current.homeroomTeacher,
+        students: current.students
+      };
+      localStorage.setItem(CLASS_DATA_KEY, JSON.stringify(payload));
+    } catch (e) {}
+  }
+
+  updateCurrentClass(patch) {
+    const store = this.state.store;
+    const id = store.currentClassId;
+    const cls = store.classes[id];
+    const updated = { ...cls, ...patch };
+    const classes = { ...store.classes, [id]: updated };
+    this.persistStore({ ...store, classes });
+  }
+
+  switchClass(id) {
+    const store = this.state.store;
+    if (!store.classes[id]) return;
+    this.persistStore({ ...store, currentClassId: id });
+    this.setState({ preview: null, showPaste: false, showManual: false, pasteText: '' });
+  }
+
+  addClass() {
+    const name = prompt('請輸入新班級名稱（例如：802）', '');
+    if (name === null) return;
+    const cls = this.emptyClass(name.trim());
+    const store = this.state.store;
+    const classes = { ...store.classes, [cls.id]: cls };
+    const classOrder = [...store.classOrder, cls.id];
+    this.persistStore({ classes, classOrder, currentClassId: cls.id });
+    this.setState({ preview: null, showPaste: false, showManual: false, pasteText: '' });
+  }
+
+  duplicateClass() {
+    const store = this.state.store;
+    const src = store.classes[store.currentClassId];
+    if (!src) return;
+    const newId = this.uid('c');
+    const copy = {
+      ...src,
+      id: newId,
+      className: (src.className || '未命名班級') + '（複製）',
+      students: src.students.map(s => ({ ...s, id: this.uid('s') }))
+    };
+    const classes = { ...store.classes, [newId]: copy };
+    const idx = store.classOrder.indexOf(store.currentClassId);
+    const classOrder = [...store.classOrder];
+    classOrder.splice(idx + 1, 0, newId);
+    this.persistStore({ classes, classOrder, currentClassId: newId });
+  }
+
+  deleteClass() {
+    const store = this.state.store;
+    if (store.classOrder.length <= 1) { alert('至少要保留一個班級'); return; }
+    const cur = store.classes[store.currentClassId];
+    if (!confirm('確定要刪除「' + (cur.className || '未命名班級') + '」這個班級嗎？此動作無法復原。')) return;
+    const classOrder = store.classOrder.filter(id => id !== store.currentClassId);
+    const classes = { ...store.classes };
+    delete classes[store.currentClassId];
+    const currentClassId = classOrder[0];
+    this.persistStore({ classes, classOrder, currentClassId });
+    this.setState({ preview: null, showPaste: false, showManual: false, pasteText: '' });
+  }
+
+  parseRowsFromText(text) {
+    const lines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+    const rows = lines.map(line => {
+      const parts = line.split(/\t|,|，|\s+/).map(p => p.trim()).filter(Boolean);
+      if (parts.length >= 3) return { seatNumber: parts[0], studentId: parts[1], name: parts.slice(2).join(' ') };
+      if (parts.length === 2) return { seatNumber: parts[0], studentId: '', name: parts[1] };
+      if (parts.length === 1) return { seatNumber: '', studentId: '', name: parts[0] };
+      return null;
+    }).filter(Boolean);
+    return rows;
+  }
+
+  parseSheetRows(aoa) {
+    if (!aoa || !aoa.length) return [];
+    let header = aoa[0].map(h => String(h || '').trim());
+    const findCol = (keys) => header.findIndex(h => keys.some(k => h.includes(k)));
+    const seatIdx = findCol(['座號', '編號']);
+    const idIdx = findCol(['學號']);
+    const nameIdx = findCol(['姓名', '名字']);
+    const hasHeader = seatIdx >= 0 || idIdx >= 0 || nameIdx >= 0;
+    const dataRows = hasHeader ? aoa.slice(1) : aoa;
+    return dataRows.filter(r => r && r.length).map((r, i) => ({
+      seatNumber: hasHeader && seatIdx >= 0 ? String(r[seatIdx] ?? '').trim() : (nameIdx < 0 ? String(r[0] ?? '').trim() : String(i + 1)),
+      studentId: hasHeader && idIdx >= 0 ? String(r[idIdx] ?? '').trim() : '',
+      name: hasHeader && nameIdx >= 0 ? String(r[nameIdx] ?? '').trim() : String(r[r.length - 1] ?? '').trim()
+    })).filter(r => r.name);
+  }
+
+  handleFile(file) {
+    if (!file) return;
+    const isCsv = /\.csv$/i.test(file.name);
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        let rows = [];
+        if (isCsv) {
+          rows = this.parseRowsFromText(String(e.target.result));
+        } else if (window.XLSX) {
+          const wb = window.XLSX.read(e.target.result, { type: 'binary' });
+          const sheet = wb.Sheets[wb.SheetNames[0]];
+          const aoa = window.XLSX.utils.sheet_to_json(sheet, { header: 1 });
+          rows = this.parseSheetRows(aoa);
+        }
+        this.setState({ preview: rows });
+      } catch (err) { alert('檔案讀取失敗，請確認檔案格式'); }
+    };
+    if (isCsv) reader.readAsText(file, 'utf-8'); else reader.readAsBinaryString(file);
+  }
+
+  confirmImport() {
+    const preview = this.state.preview || [];
+    const students = preview.map(p => ({ id: this.uid('s'), seatNumber: p.seatNumber || '', studentId: p.studentId || '', name: p.name, note: '' }));
+    this.updateCurrentClass({ students });
+    this.setState({ preview: null, showPaste: false, showManual: false, pasteText: '' });
+  }
+
+  renderVals() {
+    const active = this.state.active;
+    const store = this.state.store;
+    const cd = store.classes[store.currentClassId];
+    const raw = [
+      { id: 'roster', label: '📇 學生名單', enabled: true },
+      { id: 'lottery', label: '🎁 抽獎活動', dc: '抽獎活動', enabled: true },
+      { id: 'grouping', label: '🎲 隨機分組小幫手', dc: '隨機分組小幫手', enabled: true },
+      { id: 'scoreboard', label: '🏆 小組競賽計分板', dc: '小組競賽計分板', enabled: true },
+      { id: 'timer', label: '⏳ 自由設定倒數計時器', dc: '自由設定倒數計時器', enabled: true },
+      { id: 'wheel', label: '🎡 自由抽籤轉盤', dc: '自由抽籤轉盤', enabled: true },
+      { id: 'seating', label: '🪑 分組座位圖產生器', dc: '分組座位圖產生器', enabled: true },
+      { id: 'groupTask', label: '🧩 組內分工', dc: '組內分工', enabled: true },
+      { id: 'cardDraw', label: '♠ 翻卡抽籤', dc: '翻卡抽籤', enabled: true }
+    ];
+    const tabs = raw.map(t => {
+      const isActive = t.id === active;
+      return {
+        ...t,
+        onSelect: () => { if (t.enabled) this.setState({ active: t.id }); },
+        style: `padding:9px 18px; border-radius:999px; border:none; font-family:var(--font-heading); font-size:16px; font-weight:700; cursor:${t.enabled ? 'pointer' : 'not-allowed'}; white-space:nowrap; background:${isActive ? 'var(--color-accent-600)' : 'var(--color-accent-2-100)'}; color:${isActive ? 'var(--color-bg)' : 'var(--color-text)'}; opacity:${t.enabled ? 1 : 0.5};`
+      };
+    });
+
+    const classSwitcher = store.classOrder.map(id => {
+      const c = store.classes[id];
+      const isCurrent = id === store.currentClassId;
+      return {
+        id,
+        label: `${c.className || '未命名班級'}（${c.students.length}人）`,
+        onSelect: () => this.switchClass(id),
+        style: `padding:6px 14px; border-radius:999px; border:none; font-size:13px; font-weight:700; cursor:pointer; white-space:nowrap; background:${isCurrent ? 'var(--color-accent-600)' : 'var(--color-accent-2-100)'}; color:${isCurrent ? 'var(--color-bg)' : 'var(--color-text)'};`
+      };
+    });
+
+    const students = cd.students.map(stu => ({
+      ...stu,
+      onSeatChange: (e) => this.updateCurrentClass({ students: cd.students.map(s => s.id === stu.id ? { ...s, seatNumber: e.target.value } : s) }),
+      onStudentIdChange: (e) => this.updateCurrentClass({ students: cd.students.map(s => s.id === stu.id ? { ...s, studentId: e.target.value } : s) }),
+      onNameChange: (e) => this.updateCurrentClass({ students: cd.students.map(s => s.id === stu.id ? { ...s, name: e.target.value } : s) }),
+      onNoteChange: (e) => this.updateCurrentClass({ students: cd.students.map(s => s.id === stu.id ? { ...s, note: e.target.value } : s) }),
+      onDelete: () => this.updateCurrentClass({ students: cd.students.filter(s => s.id !== stu.id) })
+    }));
+
+    const roster = {
+      schoolName: cd.schoolName,
+      onSchoolChange: (e) => this.updateCurrentClass({ schoolName: e.target.value }),
+      className: cd.className, teacherName: cd.homeroomTeacher,
+      onClassChange: (e) => this.updateCurrentClass({ className: e.target.value }),
+      onTeacherChange: (e) => this.updateCurrentClass({ homeroomTeacher: e.target.value }),
+      count: cd.students.length,
+      hasStudents: cd.students.length > 0,
+      isEmpty: cd.students.length === 0 && !this.state.preview,
+      students,
+      duplicateClass: () => this.duplicateClass(),
+      deleteClass: () => this.deleteClass(),
+      showPaste: this.state.showPaste,
+      togglePaste: () => this.setState(s => ({ showPaste: !s.showPaste, showManual: false })),
+      pasteText: this.state.pasteText,
+      onPasteChange: (e) => this.setState({ pasteText: e.target.value }),
+      parsePaste: () => this.setState({ preview: this.parseRowsFromText(this.state.pasteText) }),
+      showManual: this.state.showManual,
+      toggleManual: () => this.setState(s => ({ showManual: !s.showManual, showPaste: false })),
+      manualSeat: this.state.manualSeat, onManualSeat: (e) => this.setState({ manualSeat: e.target.value }),
+      manualName: this.state.manualName, onManualName: (e) => this.setState({ manualName: e.target.value }),
+      manualStudentId: this.state.manualStudentId, onManualStudentId: (e) => this.setState({ manualStudentId: e.target.value }),
+      manualNote: this.state.manualNote, onManualNote: (e) => this.setState({ manualNote: e.target.value }),
+      addManual: () => {
+        if (!this.state.manualName.trim()) { alert('請至少輸入姓名'); return; }
+        const newStu = { id: this.uid('s'), seatNumber: this.state.manualSeat, studentId: this.state.manualStudentId, name: this.state.manualName, note: this.state.manualNote };
+        this.updateCurrentClass({ students: [...cd.students, newStu] });
+        this.setState({ manualSeat: '', manualName: '', manualStudentId: '', manualNote: '' });
+      },
+      onFileChange: (e) => this.handleFile(e.target.files && e.target.files[0]),
+      hasPreview: !!this.state.preview,
+      preview: this.state.preview || [],
+      previewCount: (this.state.preview || []).length,
+      confirmImport: () => this.confirmImport(),
+      cancelImport: () => this.setState({ preview: null }),
+      clearAll: () => { if (confirm('確定要清空「' + (cd.className || '此班級') + '」的學生名單嗎？')) this.updateCurrentClass({ students: [] }); },
+      saveNow: () => { this.persistStore(store); alert('資料已儲存'); },
+      toolWrapStyle: `border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-md); ${active === 'roster' ? 'display:none;' : ''}`
+    };
+
+    return {
+      tabs,
+      roster,
+      classSwitcher,
+      addClassClick: () => this.addClass(),
+      isLottery: active === 'lottery',
+      isGrouping: active === 'grouping',
+      isScoreboard: active === 'scoreboard',
+      isTimer: active === 'timer',
+      isWheel: active === 'wheel',
+      isSeating: active === 'seating',
+      isGroupTask: active === 'groupTask',
+      isCardDraw: active === 'cardDraw',
+      isRoster: active === 'roster'
+    };
+  }
+}
+
+</script>
+</body>
+</html>

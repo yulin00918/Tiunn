@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>聽聲辨拼音｜Lv.1–Lv.6 連續闖關</title>
+<style>
+:root{--bg:#f5f1e8;--paper:#fffdf7;--ink:#253333;--deep:#315c63;--gold:#b48745;--line:#d9d2c4;--bad:#9b4d45;--good:#44745c}
+*{box-sizing:border-box}body{margin:0;font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;background:linear-gradient(180deg,#edf1ec,#f6f1e7);color:var(--ink)}
+.wrap{max-width:860px;margin:auto;padding:20px}.top{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:14px}.brand{font-weight:900;color:var(--deep)}.credit{font-size:13px;opacity:.65}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:24px;box-shadow:0 12px 35px rgba(40,50,45,.08)}
+h1{margin:8px 0;font-size:clamp(25px,5vw,40px)}.sub{opacity:.75;line-height:1.7;margin-bottom:20px}.screen{display:none}.screen.active{display:block}.center{text-align:center}
+.stage{display:inline-flex;padding:7px 12px;border-radius:999px;background:#e7efed;color:var(--deep);font-weight:900}
+.hud{display:grid;grid-template-columns:1.3fr .75fr .75fr .75fr;gap:10px;margin:16px 0}.hud>div{background:#f1eee5;border-radius:16px;padding:11px;text-align:center}.small{font-size:12px;opacity:.65}.big{font-size:18px;font-weight:900;margin-top:3px}.hearts{font-size:19px;letter-spacing:1px}
+.timerWrap{height:11px;background:#e5e1d7;border-radius:999px;overflow:hidden;margin:14px 0 4px}.timer{height:100%;width:100%;background:var(--deep);transition:width .08s linear}.timer.danger{background:var(--bad)}
+.question{text-align:center;padding:20px 0 8px}.listen{border:0;border-radius:20px;background:var(--deep);color:white;font-size:22px;font-weight:900;padding:17px 28px;cursor:pointer;margin:14px}.listen:active{transform:scale(.98)}
+.opts{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin:18px auto;max-width:620px}.opt{border:2px solid #cfd7d3;background:white;border-radius:17px;padding:16px 6px;font-size:22px;font-weight:900;color:var(--deep);cursor:pointer}.opt:hover{border-color:var(--deep);background:#f0f6f4}.opt:disabled{cursor:default;opacity:.72}
+.feedback{min-height:52px;text-align:center;font-weight:900;font-size:18px;padding:8px}.good{color:var(--good)}.bad{color:var(--bad)}.combo{text-align:center;min-height:30px;font-weight:900;color:var(--gold);font-size:18px}
+.note{margin:18px 0;padding:14px 16px;background:#f2eee3;border-radius:16px;font-size:14px;line-height:1.75;text-align:left}.primary{border:0;background:var(--deep);color:white;padding:14px 24px;border-radius:16px;font-size:17px;font-weight:900;cursor:pointer}.resultStat{font-size:19px;line-height:2}.confusions{margin:15px auto;max-width:520px;text-align:left;background:#f3efe5;padding:15px 18px;border-radius:16px}
+.levelGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}.levelBox{padding:15px;border:1px solid var(--line);border-radius:17px;background:#fff}.levelBox b{color:var(--deep)}
+@media(max-width:620px){.wrap{padding:10px}.card{padding:17px}.hud{grid-template-columns:1fr 1fr}.hud>div:first-child{grid-column:1/-1}.opts{grid-template-columns:repeat(2,1fr)}.levelGrid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="top"><div class="brand">🎧 聽聲辨拼音</div><div class="credit">張鈺聆 製</div></div>
+
+<section id="start" class="screen active card center">
+  <div class="stage">連續闖關</div>
+  <h1>Lv.1 單元音 → Lv.2 複元音 → Lv.3 聲母初階 → Lv.4 初階聲母＋單元音 → Lv.5 進階聲母＋單元音 → Lv.6 聲母＋複元音</h1>
+  <p class="sub">同一條生命線一路往前。每一關剩多少血，就帶多少血進下一關。</p>
+  <div class="levelGrid">
+    <div class="levelBox"><b>Lv.1｜單元音</b><br>a・i・u・e・o・oo<br>18 題＋錯題追擊</div>
+    <div class="levelBox"><b>Lv.2｜複元音</b><br>ia・iau・io・iu・ua・uai・ue・ui・ai・au<br>30 題＋錯題追擊</div>
+    <div class="levelBox"><b>Lv.3｜聲母初階</b><br>p・ph・t・th・k・kh・ts・tsh<br>24 題＋錯題追擊</div>
+    <div class="levelBox"><b>Lv.4｜聲母＋單元音</b><br>8 個初階聲母 × a・i・u・e・o・oo<br>24 題＋錯題追擊</div>
+    <div class="levelBox"><b>Lv.5｜聲母進階＋單元音</b><br>m・b・n・l・ng・g・h・s × 單元音<br>24 題＋錯題追擊</div>
+    <div class="levelBox"><b>Lv.6｜聲母＋複元音</b><br>已學聲母 × ai・au・ia・iau・io・iu・ua・uai・ue・ui<br>24 題＋錯題追擊</div>
+  </div>
+  <div class="note">
+    ❤️ 全程共用 10 滴血，過關不補血。<br>
+    每關先熟悉，再逐步加速；答錯或超時扣 1 滴血。<br>
+    錯過的音會延遲再出現，基本題完成且錯音全部清除才可進下一關。<br>
+    ❤️ 歸零後只能從 Lv.1 重新開始。
+  </div>
+  <button id="startBtn" class="primary">開始連續闖關</button>
+</section>
+
+<section id="game" class="screen card">
+  <div class="hud">
+    <div><div class="small">生命</div><div id="hearts" class="hearts"></div></div>
+    <div><div class="small">關卡</div><div id="level" class="big"></div></div>
+    <div><div class="small">進度</div><div id="progress" class="big"></div></div>
+    <div><div class="small">階段</div><div id="phase" class="big"></div></div>
+  </div>
+  <div id="timerWrap" class="timerWrap" style="visibility:hidden"><div id="timer" class="timer"></div></div>
+  <div class="question">
+    <div id="qnum" class="small"></div>
+    <button id="listen" class="listen">🔊 再聽一次</button>
+    <div class="small">聽到的是哪一個拼音？</div>
+  </div>
+  <div id="opts" class="opts"></div>
+  <div id="combo" class="combo"></div>
+  <div id="feedback" class="feedback"></div>
+</section>
+
+<section id="transition" class="screen card center">
+  <div id="transitionBadge" class="stage">LEVEL CLEAR</div>
+  <h1 id="transitionTitle">準備進入下一關</h1>
+  <div id="carry" class="resultStat"></div>
+  <div id="transitionNote" class="note"></div>
+  <button id="nextLevelBtn" class="primary">進入下一關</button>
+</section>
+
+<section id="result" class="screen card center">
+  <div id="resultBadge" class="stage">RESULT</div>
+  <h1 id="resultTitle"></h1>
+  <div id="resultStat" class="resultStat"></div>
+  <div id="confusions" class="confusions" style="display:none"></div>
+  <button id="restartBtn" class="primary">從 Lv.1 重新挑戰</button>
+</section>
+</div>
+
+<audio id="player" preload="auto"></audio>
+<script>
+const levels=[
+ {id:1,name:"單元音",sounds:["a","i","u","e","o","oo"],baseCount:18,
+  phases:[{until:6,name:"熟悉",sec:null},{until:12,name:"加速",sec:8},{until:18,name:"快攻",sec:5}],retrySec:4},
+ {id:2,name:"複元音",sounds:["ia","iau","io","iu","ua","uai","ue","ui","ai","au"],baseCount:30,
+  phases:[{until:10,name:"熟悉",sec:null},{until:20,name:"加速",sec:8},{until:30,name:"快攻",sec:5}],retrySec:4},
+ {id:3,name:"聲母初階",sounds:["p","ph","t","th","k","kh","ts","tsh"],baseCount:24,
+  phases:[{until:8,name:"熟悉",sec:null},{until:16,name:"送氣辨音",sec:8},{until:24,name:"快攻",sec:5}],retrySec:4},
+ {id:4,name:"聲母＋單元音",sounds:["pa","pi","poo","pha","phu","pho","ta","te","to","thi","the","thoo","ka","ku","ko","kha","khi","khoo","tsa","tsu","tse","tsha","tsho","tshoo"],baseCount:24,
+  phases:[{until:8,name:"拼起來",sec:null},{until:16,name:"送氣對決",sec:8},{until:24,name:"混合快攻",sec:5}],retrySec:4},
+ {id:5,name:"聲母進階＋單元音",sounds:["ma","mi","moo","bi","bu","be","bo","na","ni","ne","li","lu","lo","ngoo","ga","gu","ge","goo","ha","hi","ho","si","su","so"],baseCount:24,
+  phases:[{until:8,name:"新聲母熟悉",sec:null},{until:16,name:"辨音加速",sec:8},{until:24,name:"混合快攻",sec:5}],retrySec:4},
+ {id:6,name:"聲母＋複元音",sounds:["pai","pue","phai","phue","tai","tiau","thai","thiau","kai","kiau","khai","khiau","tsai","tsiau","tshai","tshiau","mia","nia","lai","gua","hue","siau","bai","niau"],baseCount:24,
+  phases:[{until:8,name:"慢速拼合",sec:null},{until:16,name:"送氣辨音",sec:8},{until:24,name:"全混合快攻",sec:5}],retrySec:4}
+];
+const lv4Audio={
+ pa:{id:5217,hanji:"疤",lomaji:"pa"},pi:{id:7073,hanji:"埤",lomaji:"pi"},poo:{id:5857,hanji:"埔",lomaji:"poo"},
+ pha:{id:3953,hanji:"拋",lomaji:"pha"},phu:{id:6154,hanji:"浮",lomaji:"phû"},pho:{id:4312,hanji:"泡",lomaji:"pho"},
+ ta:{id:186,hanji:"大",lomaji:"ta"},te:{id:5174,hanji:"炱",lomaji:"te"},to:{id:50,hanji:"刀",lomaji:"to"},
+ thi:{id:5951,hanji:"恥",lomaji:"thí"},the:{id:5375,hanji:"胎",lomaji:"the"},thoo:{id:184,hanji:"土",lomaji:"thóo"},
+ ka:{id:1381,hanji:"加",lomaji:"ka"},ku:{id:6341,hanji:"痀",lomaji:"ku"},ko:{id:5792,hanji:"哥",lomaji:"ko"},
+ kha:{id:10059,hanji:"跤",lomaji:"kha"},khi:{id:6671,hanji:"起",lomaji:"khí"},khoo:{id:5452,hanji:"苦",lomaji:"khóo"},
+ tsa:{id:2435,hanji:"早",lomaji:"tsá"},tsu:{id:2440,hanji:"朱",lomaji:"tsu"},tse:{id:3329,hanji:"災",lomaji:"tse"},
+ tsha:{id:5890,hanji:"差",lomaji:"tsha"},tsho:{id:11647,hanji:"操",lomaji:"tsho"},tshoo:{id:3589,hanji:"初",lomaji:"tshoo"}
+};
+const lv5Audio={
+ ma:{id:6799,hanji:"馬",lomaji:"má"},mi:{id:8478,hanji:"棉",lomaji:"mî"},moo:{id:812,hanji:"毛",lomaji:"môo"},
+ bi:{id:3688,hanji:"味",lomaji:"bī"},bu:{id:1659,hanji:"母",lomaji:"bú"},be:{id:6798,hanji:"馬",lomaji:"bé"},bo:{id:8322,hanji:"帽",lomaji:"bō"},
+ na:{id:5451,hanji:"若",lomaji:"nā"},ni:{id:2288,hanji:"年",lomaji:"nî"},ne:{id:13609,hanji:"奶",lomaji:"ne"},
+ li:{id:2868,hanji:"你",lomaji:"lí"},lu:{id:190,hanji:"女",lomaji:"lú"},lo:{id:8159,hanji:"勞",lomaji:"lô"},
+ ngoo:{id:566,hanji:"五",lomaji:"ngóo"},
+ ga:{id:1216,hanji:"牙",lomaji:"gâ"},gu:{id:1218,hanji:"牛",lomaji:"gû"},ge:{id:1217,hanji:"牙",lomaji:"gê"},goo:{id:565,hanji:"五",lomaji:"gōo"},
+ ha:{id:168,hanji:"下",lomaji:"hā"},hi:{id:12139,hanji:"戲",lomaji:"hì"},ho:{id:2272,hanji:"好",lomaji:"hó"},
+ si:{id:2282,hanji:"寺",lomaji:"sī"},su:{id:3128,hanji:"序",lomaji:"sū"},so:{id:7234,hanji:"挲",lomaji:"so"}
+};
+
+const lv6Audio={
+ pai:{id:9103,hanji:"跛",lomaji:"pái"},pue:{id:4186,hanji:"杯",lomaji:"pue"},phai:{id:5167,hanji:"派",lomaji:"phài"},phue:{id:3195,hanji:"批",lomaji:"phue"},
+ tai:{id:3014,hanji:"呆",lomaji:"tai"},tiau:{id:51,hanji:"刁",lomaji:"tiau"},thai:{id:5374,hanji:"胎",lomaji:"thai"},thiau:{id:10137,hanji:"跳",lomaji:"thiàu"},
+ kai:{id:5221,hanji:"皆",lomaji:"kai"},kiau:{id:2040,hanji:"交",lomaji:"kiau"},khai:{id:9144,hanji:"開",lomaji:"khai"},khiau:{id:2436,hanji:"曲",lomaji:"khiau"},
+ tsai:{id:3328,hanji:"災",lomaji:"tsai"},tsiau:{id:3967,hanji:"招",lomaji:"tsiau"},tshai:{id:7574,hanji:"猜",lomaji:"tshai"},tshiau:{id:9478,hanji:"搜",lomaji:"tshiau"},
+ mia:{id:2117,hanji:"名",lomaji:"miâ"},nia:{id:10916,hanji:"領",lomaji:"niá"},lai:{id:3529,hanji:"來",lomaji:"lâi"},gua:{id:3139,hanji:"我",lomaji:"guá"},
+ hue:{id:4426,hanji:"花",lomaji:"hue"},siau:{id:6224,hanji:"消",lomaji:"siau"},bai:{id:13516,hanji:"䆀",lomaji:"bái"},niau:{id:11905,hanji:"貓",lomaji:"niau"}
+};
+const audioMap={};
+levels.slice(0,3).flatMap(x=>x.sounds).forEach(x=>audioMap[x]=`audio/${x}.mp3`);
+Object.entries(lv4Audio).forEach(([k,v])=>audioMap[k]=`../audio/${v.id}.mp3`);
+Object.entries(lv5Audio).forEach(([k,v])=>audioMap[k]=`../audio/${v.id}.mp3`);
+Object.entries(lv6Audio).forEach(([k,v])=>audioMap[k]=`../audio/${v.id}.mp3`);
+
+let levelIndex=0,queue=[],index=0,lives=10,combo=0,totalCorrect=0,totalWrong=0,timeouts=0;
+let locked=false,current=null,timerId=null,deadline=0,confusion={},unresolved=new Set();
+
+const $=s=>document.querySelector(s);
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}
+ for(let i=2;i<a.length;i++){if(a[i].answer===a[i-1].answer&&a[i].answer===a[i-2].answer){let j=a.findIndex((q,k)=>k>i&&q.answer!==a[i].answer);if(j>i)[a[i],a[j]]=[a[j],a[i]]}}return a}
+function screen(id){document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));$("#"+id).classList.add("active")}
+function makeBase(level){
+ if(level.id===4||level.id===5||level.id===6)return shuffle(level.sounds.map(s=>({answer:s,retry:false})));
+ return shuffle(level.sounds.flatMap(s=>Array.from({length:3},()=>({answer:s,retry:false}))));
+}
+function beginAll(){levelIndex=0;lives=10;combo=0;totalCorrect=0;totalWrong=0;timeouts=0;confusion={};beginLevel()}
+function beginLevel(){queue=makeBase(levels[levelIndex]);index=0;unresolved=new Set();locked=false;screen("game");nextQuestion()}
+function phaseFor(level){
+ if(index>=level.baseCount)return {name:"追擊",sec:level.retrySec};
+ return level.phases.find(p=>index<p.until)||level.phases[level.phases.length-1];
+}
+function renderHearts(){$("#hearts").textContent="❤️".repeat(lives)+"🤍".repeat(10-lives)}
+function playAudio(){if(!current)return;const p=$("#player");p.src=audioMap[current.answer];p.currentTime=0;p.play().catch(()=>{})}
+function renderOptions(level){
+ let choices;
+ if(level.id===1){choices=level.sounds}
+ else if(level.id===2){
+   const distract=shuffle(level.sounds.filter(x=>x!==current.answer)).slice(0,5);
+   choices=shuffle([current.answer,...distract]);
+ }else if(level.id===3){
+   choices=level.sounds;
+ }else{
+   const onsetPairs=level.id===4?{p:"ph",ph:"p",t:"th",th:"t",k:"kh",kh:"k",ts:"tsh",tsh:"ts"}:level.id===5?{m:"b",b:"m",n:"l",l:"n",g:"ng",ng:"g",h:"s",s:"h"}:{p:"ph",ph:"p",t:"th",th:"t",k:"kh",kh:"k",ts:"tsh",tsh:"ts",m:"b",b:"m",n:"l",l:"n",g:"ng",ng:"g",h:"s",s:"h"};
+   const split=x=>{const m=x.match(/^(tsh|ts|ph|th|kh|ng|p|t|k|m|b|n|l|g|h|s|j)(iau|uai|ai|au|ia|io|iu|ua|ue|ui|oo|a|i|u|e|o)$/);return m?{onset:m[1],vowel:m[2]}:{onset:"",vowel:""}};
+   const cur=split(current.answer), paired=(onsetPairs[cur.onset]||"")+cur.vowel;
+   let pool=level.sounds.filter(x=>x!==current.answer);
+   let sameVowel=shuffle(pool.filter(x=>split(x).vowel===cur.vowel));
+   let picks=[]; if(level.sounds.includes(paired))picks.push(paired);
+   picks.push(...sameVowel.filter(x=>!picks.includes(x)).slice(0,3-picks.length));
+   if(picks.length<3)picks.push(...shuffle(pool.filter(x=>!picks.includes(x))).slice(0,3-picks.length));
+   choices=shuffle([current.answer,...picks]);
+ }
+ $("#opts").innerHTML=choices.map(x=>`<button class="opt" data-a="${x}">${x}</button>`).join("");
+ document.querySelectorAll(".opt").forEach(b=>b.onclick=()=>answer(b.dataset.a,false));
+}
+function nextQuestion(){
+ clearInterval(timerId);locked=false;$("#feedback").textContent="";$("#feedback").className="feedback";$("#combo").textContent=combo>=2?`🔥 COMBO ×${combo}`:"";
+ if(lives<=0){finish(false);return}
+ const level=levels[levelIndex];
+ if(index>=queue.length){
+   if(unresolved.size===0){levelClear();return}
+   [...unresolved].forEach(x=>queue.push({answer:x,retry:true}));
+ }
+ current=queue[index];const ph=phaseFor(level);
+ renderHearts();$("#level").textContent=`Lv.${level.id}`;
+ $("#progress").textContent=index<level.baseCount?`${index+1} / ${level.baseCount}`:`追擊 ${index-level.baseCount+1}`;
+ $("#phase").textContent=ph.name;$("#qnum").textContent=index<level.baseCount?`第 ${index+1} 題｜${level.name}`:`錯題追擊｜${level.name}`;
+ renderOptions(level);setTimeout(playAudio,180);
+ if(ph.sec==null){$("#timerWrap").style.visibility="hidden"}else{$("#timerWrap").style.visibility="visible";startTimer(ph.sec)}
+}
+function startTimer(sec){
+ deadline=performance.now()+sec*1000;const bar=$("#timer");bar.style.width="100%";bar.classList.remove("danger");
+ timerId=setInterval(()=>{const left=Math.max(0,deadline-performance.now());const pct=left/(sec*1000)*100;bar.style.width=pct+"%";if(pct<30)bar.classList.add("danger");if(left<=0){clearInterval(timerId);answer(null,true)}},80)
+}
+function scheduleRetry(sound){
+ unresolved.add(sound);const gap=3+Math.floor(Math.random()*3);const pos=Math.min(queue.length,index+1+gap);queue.splice(pos,0,{answer:sound,retry:true})
+}
+function answer(choice,isTimeout){
+ if(locked)return;locked=true;clearInterval(timerId);document.querySelectorAll(".opt").forEach(b=>b.disabled=true);
+ const ok=!isTimeout&&choice===current.answer;
+ if(ok){
+   totalCorrect++;combo++;if(current.retry)unresolved.delete(current.answer);
+   $("#feedback").className="feedback good";
+   const src=levels[levelIndex].id===4?lv4Audio[current.answer]:levels[levelIndex].id===5?lv5Audio[current.answer]:levels[levelIndex].id===6?lv6Audio[current.answer]:null;
+   $("#feedback").textContent=src?`✓ ${current.answer}｜例字：${src.hanji}（${src.lomaji}）`:(current.retry?`✓ ${current.answer}｜追擊成功`:"✓ 答對了");
+ }else{
+   totalWrong++;combo=0;lives--;scheduleRetry(current.answer);
+   const key=isTimeout?`超時 → ${current.answer}`:`${current.answer} → ${choice}`;confusion[key]=(confusion[key]||0)+1;
+   if(isTimeout)timeouts++;
+   $("#feedback").className="feedback bad";
+   const src=levels[levelIndex].id===4?lv4Audio[current.answer]:levels[levelIndex].id===5?lv5Audio[current.answer]:levels[levelIndex].id===6?lv6Audio[current.answer]:null; const extra=src?`｜例字：${src.hanji}（${src.lomaji}）`:"";
+   $("#feedback").textContent=isTimeout?`⌛ 超時｜答案：${current.answer}${extra}｜❤️ −1`:`✕ 答案：${current.answer}${extra}｜❤️ −1`;renderHearts();
+ }
+ index++;setTimeout(nextQuestion,ok?650:1100)
+}
+function levelClear(){
+ if(levelIndex<levels.length-1){
+   const currentLevel=levels[levelIndex], nextLevel=levels[levelIndex+1];
+   screen("transition");
+   $("#transitionBadge").textContent=`Lv.${currentLevel.id} CLEAR`;
+   $("#transitionTitle").textContent=`準備進入${nextLevel.name}`;
+   $("#carry").innerHTML=`你帶著 <b>${lives} 滴血</b>進入 Lv.${nextLevel.id}`;
+   $("#transitionNote").textContent=nextLevel.id===2
+     ?"Lv.2 有 10 個複元音、30 題基本題。題目選項會更多，後段反應時間也會縮短。"
+     :nextLevel.id===3
+       ?"Lv.3 練習 p／ph、t／th、k／kh、ts／tsh，共 24 題。留意送氣與不送氣的差別。"
+       :nextLevel.id===4
+         ?"Lv.4 把初階聲母和單元音真正拼起來聽。使用臺羅組合練習既有的真實詞條音檔，共 24 題。"
+         :nextLevel.id===5
+           ?"Lv.5 加入 m／b、n／l、ng／g、h／s 等進階聲母，再和單元音拼起來聽，共 24 題。"
+           :"Lv.6 把前面學過的聲母和複元音真正拼起來。先慢速拼合，再做送氣辨音，最後進入 5 秒混合快攻，共 24 題。";
+   $("#nextLevelBtn").textContent=`進入 Lv.${nextLevel.id}`;
+ }else finish(true);
+}
+function finish(clear){
+ clearInterval(timerId);screen("result");$("#resultBadge").textContent=clear?`Lv.${levels.length} CLEAR`:"GAME OVER";
+ $("#resultTitle").textContent=clear?"六關連續闖關成功！":"10 滴血用完了";
+ $("#resultStat").innerHTML=clear?`剩餘 ❤️ <b>${lives}</b><br>總答對 ${totalCorrect} 題｜錯誤 ${totalWrong} 次${timeouts?`｜超時 ${timeouts} 次`:""}`:`抵達 Lv.${levels[levelIndex].id}<br>答對 ${totalCorrect} 題｜錯誤 ${totalWrong} 次<br><b>只能從 Lv.1 重新開始</b>`;
+ const keys=Object.keys(confusion);
+ if(keys.length){$("#confusions").style.display="block";$("#confusions").innerHTML="<b>本輪易混淆／超時</b><br>"+keys.sort((a,b)=>confusion[b]-confusion[a]).map(k=>`${k}：${confusion[k]} 次`).join("<br>")}else $("#confusions").style.display="none";
+}
+$("#startBtn").onclick=beginAll;$("#restartBtn").onclick=beginAll;$("#nextLevelBtn").onclick=()=>{levelIndex++;beginLevel()};$("#listen").onclick=playAudio;
+</script>
+</body>
+</html>

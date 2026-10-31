@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>形音義挑戰｜音檔稽核工作臺（教師用）</title>
+<!-- 教師稽核工具：唯讀題庫，不修改正式遊戲、題庫或音檔。作者：張鈺聆 -->
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:"Noto Sans TC","Microsoft JhengHei","PingFang TC",sans-serif;background:#fbf6ee;color:#2f2a26}
+header{background:#1f3b5b;color:#fff;padding:14px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+header h1{margin:0;font-size:19px;letter-spacing:.04em}
+header small{opacity:.8}
+main{max-width:1180px;margin:auto;padding:16px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:14px}
+.stat{background:#fff;border:1px solid #eadfcd;border-radius:14px;padding:10px 12px}
+.stat b{display:block;font-size:24px;color:#1f3b5b}
+.stat span{font-size:13px;color:#7a6a58}
+.panel{background:#fff;border:1px solid #eadfcd;border-radius:16px;padding:14px;margin-bottom:14px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+select,input[type=text]{min-height:40px;border:1px solid #d8c9b3;border-radius:10px;padding:6px 10px;font:inherit;background:#fffdf9}
+button{min-height:40px;border:0;border-radius:10px;padding:8px 14px;font:inherit;font-weight:700;cursor:pointer;background:#f1e6d4;color:#3b2f25}
+button.pri{background:#e9744b;color:#fff}
+button.ok{background:#4f9d6a;color:#fff}
+button.bad{background:#d24b4b;color:#fff}
+button.wait{background:#e6b64a;color:#3b2f25}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #1f3b5b;outline-offset:2px}
+.card{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center}
+.word{font-size:34px;font-weight:800;color:#1f3b5b}
+.tailo{font-size:20px;color:#9a4d2a}
+.meta{font-size:13px;color:#7a6a58;margin-top:4px;word-break:break-all}
+.pill{display:inline-block;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:700}
+.s-ok{background:#dff1e4;color:#2f6e45}.s-bad{background:#fbe1e1;color:#9b2c2c}.s-wait{background:#fbefd2;color:#7a5a12}.s-none{background:#eee;color:#666}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{border-bottom:1px solid #f0e6d6;padding:6px 8px;text-align:left;vertical-align:top}
+th{background:#fbf3e6;position:sticky;top:0}
+tr.cur{background:#fff3e0}
+.list{max-height:420px;overflow:auto;border:1px solid #f0e6d6;border-radius:10px}
+.issues li{margin:3px 0}
+.muted{color:#8a7a68;font-size:13px}
+.kbd{font-family:monospace;background:#f1e6d4;border-radius:4px;padding:0 5px}
+@media(max-width:640px){.card{grid-template-columns:1fr}.word{font-size:28px}}
+</style>
+<script src="./taigi-vocab-lessons.js"></script>
+<script src="./taigi-vocab-data.js"></script>
+</head>
+<body>
+<header><h1>🎧 形音義挑戰｜音檔稽核工作臺</h1><small>教師用・唯讀題庫・張鈺聆 製</small></header>
+<main>
+<div class="stats" id="stats"></div>
+
+<div class="panel">
+  <div class="row">
+    <select id="fPub"><option value="">全部出版社</option></select>
+    <select id="fBook"><option value="">全部冊別</option></select>
+    <select id="fLesson"><option value="">全部課次</option></select>
+    <select id="fStatus"><option value="">全部狀態</option><option value="none">尚未檢查</option><option value="ok">正確</option><option value="bad">有問題</option><option value="wait">待確認</option></select>
+    <select id="fBatch"><option value="">全部風險批次</option><option value="1">第一批：曾出錯／共用音檔</option><option value="2">第二批：編號音檔</option><option value="3">第三批：拼音檔名</option><option value="4">第四批：其餘</option></select>
+    <input type="text" id="fText" placeholder="搜尋詞語、臺羅或檔名">
+    <label class="muted"><input type="checkbox" id="fHasAudio" checked> 只看有音檔</label>
+    <button id="onlyNone">只看尚未檢查</button>
+    <button id="onlyBad">只看有問題</button>
+    <button id="resetF">清除篩選</button>
+  </div>
+  <div class="muted" id="fCount" style="margin-top:8px"></div>
+</div>
+
+<div class="panel">
+  <div class="card">
+    <div>
+      <div class="row"><span class="word" id="cWord">—</span><span class="tailo" id="cTailo"></span><span id="cStatus"></span></div>
+      <div class="meta" id="cMeta"></div>
+      <div class="meta" id="cAudio"></div>
+      <div class="meta" id="cPlay"></div>
+      <div class="row" style="margin-top:8px"><input type="text" id="cNote" placeholder="備註（選填）" style="flex:1;min-width:200px"></div>
+    </div>
+    <div class="row" style="justify-content:flex-end">
+      <button id="prev">← 上一筆</button>
+      <button class="pri" id="play">▶ 播放</button>
+      <button id="next">下一筆 →</button>
+      <button class="ok" id="mOk">✔ 正確</button>
+      <button class="bad" id="mBad">✖ 有問題</button>
+      <button class="wait" id="mWait">？ 待確認</button>
+    </div>
+  </div>
+  <div class="row muted" style="margin-top:10px">
+    <label><input type="checkbox" id="autoNext"> 標記後自動跳下一筆並播放</label>
+    <span>快速鍵：<span class="kbd">空白</span> 播放　<span class="kbd">←</span><span class="kbd">→</span> 上下筆　<span class="kbd">1</span> 正確　<span class="kbd">2</span> 有問題　<span class="kbd">3</span> 待確認</span>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="list"><table><thead><tr><th>#</th><th>批次</th><th>詞語</th><th>臺羅</th><th>出處</th><th>音檔</th><th>狀態</th></tr></thead><tbody id="tbody"></tbody></table></div>
+</div>
+
+<div class="panel">
+  <div class="row"><b>異常自動檢查</b><button class="pri" id="runCheck">執行檢查（含檔案存在與解碼）</button><span class="muted" id="checkProg"></span></div>
+  <p class="muted">「共用音檔」「檔名疑似不一致」只是疑似異常，需人工聆聽判斷；編號音檔不會因為檔名沒有拼音而列入。</p>
+  <div id="issues"></div>
+</div>
+
+<div class="panel">
+  <div class="row">
+    <button id="expAll">匯出全部紀錄 CSV</button>
+    <button id="expBad">匯出有問題 CSV</button>
+    <button id="expJson">匯出 JSON 備份</button>
+    <label class="muted">匯入 JSON：<input type="file" id="impJson" accept=".json,application/json"></label>
+  </div>
+  <div class="muted" id="ioMsg" style="margin-top:6px"></div>
+</div>
+</main>
+
+<script>
+(function(){
+const STORE='taigi-audio-audit-v1';
+const G=(window.TAIGI_VOCAB&&window.TAIGI_VOCAB.GROUPS_DEF)||[];
+const PUB={yuda:'育達',kangxuan:'康軒',zhenping:'真平'};
+const KNOWN_BAD=new Set(['傱','糋','櫼']);
+const $=id=>document.getElementById(id);
+const norm=s=>String(s||'').normalize('NFC').trim();
+const plain=s=>norm(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ⁿ/g,'nn').toLowerCase().replace(/[^a-z]/g,'');
+
+// 1. 讀取題庫（直接用正式資料）
+const items=[];const seen={};
+G.forEach(g=>(g.cards||[]).forEach(c=>(c.rows||[]).forEach(r=>{
+  if(!r.words) return;
+  r.words.forEach(w=>{
+    const base=[g.key,c.title,r.label,norm(w.hanji),norm(w.tailo)].join('|');
+    seen[base]=(seen[base]||0)+1;
+    const id=base+(seen[base]>1?'#'+seen[base]:'');
+    items.push({id,pub:g.key,pubName:PUB[g.key]||g.label,book:c.title,lesson:r.label,hanji:norm(w.hanji),tailo:norm(w.tailo),audio:w.audio||'',source:w.source||''});
+  });
+})));
+
+// 2. 共用音檔與風險批次
+const byAudio={};items.forEach(it=>{if(it.audio)(byAudio[it.audio]=byAudio[it.audio]||[]).push(it)});
+const fileName=a=>a.split('/').pop().replace(/\.mp3$/i,'');
+const pinyinName=a=>{let f=fileName(a).replace(/\(\d+\)$/,'').replace(/-1-1$/,'').replace(/-[0-9a-f]{8}$/,'');f=f.replace(/^(dict|custom|yuda_b\d_l\d|kx-b\d+l?\d*|zhenping_b\d+l\d+|un|siann)[-_]/i,'');return /^\d+$/.test(f)||/^(vocab|lesson|kx-b\d)/.test(fileName(a))?null:f;};
+items.forEach(it=>{
+  const shared=it.audio&&byAudio[it.audio].length>1;
+  it.batch=!it.audio?4:(KNOWN_BAD.has(it.hanji)||shared)?1:pinyinName(it.audio)===null?2:3;
+});
+
+// 3. 稽核紀錄
+let rec={};try{rec=JSON.parse(localStorage.getItem(STORE)||'{}')}catch(e){rec={}}
+const save=()=>localStorage.setItem(STORE,JSON.stringify(rec));
+const st=id=>(rec[id]&&rec[id].status)||'none';
+const LABEL={none:'尚未檢查',ok:'正確',bad:'有問題',wait:'待確認'};
+
+// 4. 篩選
+const fill=(sel,vals)=>{const v=sel.value;sel.length=1;vals.forEach(x=>{const o=document.createElement('option');o.value=x;o.textContent=PUB[x]||x;sel.appendChild(o)});sel.value=vals.includes(v)?v:'';};
+const uniq=a=>[...new Set(a)];
+let view=[],cur=0;
+function refreshOptions(){
+  fill($('fPub'),uniq(items.map(i=>i.pub)));
+  fill($('fBook'),uniq(items.filter(i=>!$('fPub').value||i.pub===$('fPub').value).map(i=>i.book)));
+  fill($('fLesson'),uniq(items.filter(i=>(!$('fPub').value||i.pub===$('fPub').value)&&(!$('fBook').value||i.book===$('fBook').value)).map(i=>i.lesson)));
+}
+function applyFilter(keepId){
+  const p=$('fPub').value,b=$('fBook').value,l=$('fLesson').value,s=$('fStatus').value,bt=$('fBatch').value,t=$('fText').value.trim().toLowerCase(),ha=$('fHasAudio').checked;
+  view=items.filter(i=>(!p||i.pub===p)&&(!b||i.book===b)&&(!l||i.lesson===l)&&(!s||st(i.id)===s)&&(!bt||String(i.batch)===bt)&&(!ha||i.audio)&&(!t||(i.hanji+' '+i.tailo+' '+i.audio).toLowerCase().includes(t)));
+  view.sort((a,c)=>a.batch-c.batch);
+  const k=keepId?view.findIndex(i=>i.id===keepId):-1;
+  cur=k>=0?k:Math.min(cur,Math.max(0,view.length-1));
+  $('fCount').textContent='符合條件：'+view.length+' 筆（依風險批次排序）';
+  renderList();renderCard();renderStats();
+}
+['fPub','fBook','fLesson','fStatus','fBatch','fHasAudio'].forEach(id=>$(id).addEventListener('change',()=>{refreshOptions();applyFilter()}));
+$('fText').addEventListener('input',()=>applyFilter());
+$('onlyNone').onclick=()=>{$('fStatus').value='none';applyFilter()};
+$('onlyBad').onclick=()=>{$('fStatus').value='bad';applyFilter()};
+$('resetF').onclick=()=>{['fPub','fBook','fLesson','fStatus','fBatch','fText'].forEach(id=>$(id).value='');$('fHasAudio').checked=true;refreshOptions();applyFilter()};
+
+// 5. 統計
+function renderStats(){
+  const withA=items.filter(i=>i.audio);
+  const c={ok:0,bad:0,wait:0,none:0};withA.forEach(i=>c[st(i.id)]++);
+  const S=[['詞語總筆數',items.length],['有音檔',withA.length],['不重複音檔',Object.keys(byAudio).length],['已確認正確',c.ok],['發現問題',c.bad],['待確認',c.wait],['尚未檢查',c.none]];
+  $('stats').innerHTML=S.map(([k,v])=>`<div class="stat"><b>${v}</b><span>${k}</span></div>`).join('');
+}
+
+// 6. 聆聽
+const player=new Audio();player.preload='none';
+let playState='';
+player.onplaying=()=>setPlay('▶ 播放中');player.onended=()=>setPlay('✓ 播放完畢');player.onerror=()=>setPlay('✗ 無法載入或解碼');
+function setPlay(s){playState=s;$('cPlay').textContent='播放狀態：'+s}
+function stop(){player.pause();try{player.currentTime=0}catch(e){}}
+function play(){const it=view[cur];if(!it||!it.audio)return;stop();player.src=it.audio;setPlay('載入中…');player.play().catch(()=>setPlay('✗ 播放被阻擋或失敗'))}
+const esc=s=>String(s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+function renderCard(){
+  stop();const it=view[cur];
+  if(!it){$('cWord').textContent='—';$('cTailo').textContent='';$('cMeta').textContent='沒有符合的詞語';$('cAudio').textContent='';$('cStatus').innerHTML='';setPlay('');return}
+  $('cWord').textContent=it.hanji;$('cTailo').textContent=it.tailo;
+  $('cMeta').textContent=`${it.pubName}／${it.book}／${it.lesson}｜第 ${it.batch} 批｜${cur+1} / ${view.length}`;
+  $('cAudio').textContent='音檔：'+(it.audio||'（無音檔）')+(it.audio&&byAudio[it.audio].length>1?`　（共 ${byAudio[it.audio].length} 筆共用）`:'');
+  const s=st(it.id);$('cStatus').innerHTML=`<span class="pill s-${s}">${LABEL[s]}</span>`;
+  $('cNote').value=(rec[it.id]&&rec[it.id].note)||'';setPlay(it.audio?'尚未播放':'無音檔');
+  [...$('tbody').children].forEach((tr,i)=>tr.classList.toggle('cur',i===cur));
+  const tr=$('tbody').children[cur];if(tr){const L=tr.closest('.list');const y=tr.offsetTop-L.clientHeight/2;L.scrollTop=y}
+}
+function renderList(){
+  $('tbody').innerHTML=view.map((i,n)=>`<tr data-n="${n}"><td>${n+1}</td><td>${i.batch}</td><td>${esc(i.hanji)}</td><td>${esc(i.tailo)}</td><td>${esc(i.pubName+' '+i.book+' '+i.lesson)}</td><td>${esc(i.audio||'—')}</td><td><span class="pill s-${st(i.id)}">${LABEL[st(i.id)]}</span></td></tr>`).join('');
+}
+$('tbody').addEventListener('click',e=>{const tr=e.target.closest('tr');if(tr){cur=+tr.dataset.n;renderCard()}});
+function go(d){if(!view.length)return;cur=Math.max(0,Math.min(view.length-1,cur+d));renderCard()}
+function mark(s){const it=view[cur];if(!it)return;rec[it.id]={status:s,note:$('cNote').value.trim(),hanji:it.hanji,tailo:it.tailo,audio:it.audio,time:new Date().toISOString()};save();
+  const tr=$('tbody').children[cur];if(tr)tr.lastElementChild.innerHTML=`<span class="pill s-${s}">${LABEL[s]}</span>`;
+  renderStats();
+  if($('autoNext').checked&&cur<view.length-1){cur++;renderCard();play()}else renderCard()}
+$('prev').onclick=()=>go(-1);$('next').onclick=()=>go(1);$('play').onclick=play;
+$('mOk').onclick=()=>mark('ok');$('mBad').onclick=()=>mark('bad');$('mWait').onclick=()=>mark('wait');
+$('cNote').addEventListener('change',()=>{const it=view[cur];if(it&&rec[it.id]){rec[it.id].note=$('cNote').value.trim();save()}});
+document.addEventListener('keydown',e=>{if(/INPUT|SELECT|TEXTAREA/.test(e.target.tagName))return;
+  if(e.key===' '){e.preventDefault();play()}else if(e.key==='ArrowLeft')go(-1);else if(e.key==='ArrowRight')go(1);
+  else if(e.key==='1')mark('ok');else if(e.key==='2')mark('bad');else if(e.key==='3')mark('wait')});
+
+// 7. 異常檢查
+function probe(src){return new Promise(res=>{const a=new Audio();let done=false;const fin=v=>{if(!done){done=true;a.src='';res(v)}};
+  a.preload='metadata';a.onloadedmetadata=()=>fin(isFinite(a.duration)&&a.duration>0?'ok':'decode');a.onerror=()=>fin('fail');setTimeout(()=>fin('timeout'),8000);a.src=src})}
+$('runCheck').onclick=async()=>{
+  const files=Object.keys(byAudio);const bad=[];let n=0;$('runCheck').disabled=true;
+  const q=files.slice();const worker=async()=>{while(q.length){const f=q.shift();const r=await probe(f);if(r!=='ok')bad.push([f,r]);n++;$('checkProg').textContent=`檢查中 ${n}/${files.length}`}};
+  await Promise.all([1,2,3,4,5,6].map(worker));$('runCheck').disabled=false;$('checkProg').textContent=`完成 ${files.length} 支`;
+  const sharedWords=Object.entries(byAudio).filter(([,a])=>uniq(a.map(i=>i.hanji)).length>1);
+  const sharedTone=Object.entries(byAudio).filter(([,a])=>{const t=uniq(a.map(i=>i.tailo.replace(/\s*\/\s*/g,'/')));if(t.length<2)return false;const sets=t.map(x=>x.split('/'));return !sets.every(s=>s.some(p=>sets[0].includes(p)))});
+  const mism=items.filter(i=>{if(!i.audio)return false;const p=pinyinName(i.audio);if(!p)return false;const pn=plain(p);return !i.tailo.split('/').some(t=>plain(t)===pn)});
+  const noA=items.filter(i=>!i.audio);
+  const L=(t,arr,fn)=>`<h4>${t}（${arr.length}）</h4>`+(arr.length?`<ul class="issues">${arr.slice(0,300).map(fn).join('')}</ul>`:'<p class="muted">無</p>');
+  const who=a=>a.map(i=>esc(i.hanji+' '+i.tailo+'（'+i.pubName+i.book+' '+i.lesson+'）')).join('；');
+  $('issues').innerHTML=
+    L('1–2. 音檔不存在或無法解碼',bad,([f,r])=>`<li>${esc(f)}｜${r==='fail'?'找不到或無法載入':r==='decode'?'無法解碼':'逾時'}｜${who(byAudio[f])}</li>`)+
+    L('3. 不同詞語共用同一支音檔（疑似）',sharedWords,([f,a])=>`<li>${esc(f)}｜${who(a)}</li>`)+
+    L('4. 不同臺羅聲調共用同一支音檔（疑似）',sharedTone,([f,a])=>`<li>${esc(f)}｜${who(a)}</li>`)+
+    L('5. 檔名拼音與臺羅疑似不一致',mism,i=>`<li>${esc(i.audio)}｜${who([i])}</li>`)+
+    L('6. 有詞語但沒有音檔',noA,i=>`<li>${who([i])}</li>`);
+};
+
+// 8. 匯出入
+const dl=(name,text,type)=>{const b=new Blob([text],{type});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
+const csvCell=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
+function csv(list){const H=['識別碼','出版社','冊別','課次','詞語','臺羅','音檔','批次','狀態','備註','時間'];
+  return '\ufeff'+[H.join(',')].concat(list.map(i=>[i.id,i.pubName,i.book,i.lesson,i.hanji,i.tailo,i.audio,i.batch,LABEL[st(i.id)],(rec[i.id]||{}).note||'',(rec[i.id]||{}).time||''].map(csvCell).join(','))).join('\r\n')}
+const stamp=()=>new Date().toISOString().slice(0,10);
+$('expAll').onclick=()=>dl('音檔稽核_全部_'+stamp()+'.csv',csv(items),'text/csv;charset=utf-8');
+$('expBad').onclick=()=>dl('音檔稽核_有問題_'+stamp()+'.csv',csv(items.filter(i=>st(i.id)==='bad')),'text/csv;charset=utf-8');
+$('expJson').onclick=()=>dl('音檔稽核備份_'+stamp()+'.json',JSON.stringify({tool:'taigi-audio-audit',version:1,exported:new Date().toISOString(),records:rec},null,1),'application/json');
+$('impJson').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{
+  const d=JSON.parse(r.result);if(d.tool!=='taigi-audio-audit'||!d.records)throw new Error('不是本工具匯出的備份檔');
+  const ids=new Set(items.map(i=>i.id));let ok=0,skip=0,mism=0;
+  for(const[k,v]of Object.entries(d.records)){if(!ids.has(k)){skip++;continue}const it=items.find(i=>i.id===k);if(v.audio!==undefined&&v.audio!==it.audio){mism++;continue}if(!['ok','bad','wait'].includes(v.status)){skip++;continue}rec[k]=v;ok++}
+  save();applyFilter(view[cur]&&view[cur].id);$('ioMsg').textContent=`匯入完成：${ok} 筆；略過 ${skip} 筆（題庫找不到或格式不符）；${mism} 筆因音檔路徑已變更未匯入。`;
+}catch(err){$('ioMsg').textContent='匯入失敗：'+err.message}e.target.value=''};r.readAsText(f)};
+
+refreshOptions();applyFilter();
+if(!items.length)$('fCount').textContent='⚠ 讀不到題庫，請確認本檔與 taigi-vocab-data.js 放在同一層。';
+})();
+</script>
+</body>
+</html>

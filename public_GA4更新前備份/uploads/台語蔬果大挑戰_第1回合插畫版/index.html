@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>菜蔬果子大挑戰</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main class="appShell">
+    <aside class="sidebar">
+      <div class="sidebarBrand">
+        <div class="brandIcon">🥬🍉</div>
+        <div>
+          <h1>菜蔬果子大挑戰</h1>
+          <p>50題・10回合</p>
+        </div>
+      </div>
+
+      <div class="sideTitle">選擇回合</div>
+      <div id="roundMenu" class="roundMenu"></div>
+
+      <div class="sideHint">
+        <strong>每回合</strong><br>
+        5題二選一＋2題搶答
+      </div>
+    </aside>
+
+    <section class="mainArea">
+      <header class="topbar">
+        <div>
+          <div class="eyebrow">台語主題式問答</div>
+          <h2 id="pageTitle">第1回合</h2>
+        </div>
+        <div id="roundBadge" class="badge">第1回合 · 5題</div>
+      </header>
+
+      <section id="quizPanel" class="panel">
+        <div class="meta">
+          <span id="qIndex"></span>
+          <span id="scoreText"></span>
+        </div>
+        <div class="progress"><div id="progressBar"></div></div>
+
+        <h3 class="title">看圖選出正確的台羅拼音</h3>
+
+        <div class="imageBox">
+          <img id="quizImage" alt="">
+        </div>
+
+        <div id="timerArea" class="timerArea idle">
+          <div id="quizTimer" class="timer">8</div>
+          <span>秒</span>
+        </div>
+
+        <div id="startArea" class="actions">
+          <button id="startQuestionBtn" class="btn">▶ 開始作答</button>
+        </div>
+
+        <div id="choices" class="choices hidden">
+          <button id="choiceA" class="choice"></button>
+          <button id="choiceB" class="choice"></button>
+        </div>
+
+        <div id="feedback" class="feedback">
+          <div id="feedbackBig" class="feedbackBig"></div>
+          <div id="feedbackDetail" class="feedbackDetail"></div>
+        </div>
+
+        <div class="actions">
+          <button id="nextBtn" class="btn hidden">下一題 →</button>
+        </div>
+      </section>
+
+      <section id="midPanel" class="panel hidden center">
+        <h2>🎉 5題完成！</h2>
+        <p>接下來進入搶答複習。</p>
+        <button id="enterRapidBtn" class="btn amber">⚡ 搶答時間！</button>
+      </section>
+
+      <section id="rapidPanel" class="panel hidden center">
+        <div class="rapidTag">⚡ 搶答時間！</div>
+        <h2 id="rapidIndex"></h2>
+
+        <div class="imageBox">
+          <img id="rapidImage" alt="">
+        </div>
+
+        <div id="rapidTimerArea" class="timerArea idle">
+          <div id="rapidTimer" class="timer">5</div>
+          <span>秒</span>
+        </div>
+
+        <div id="rapidStartArea" class="actions">
+          <button id="startRapidBtn" class="btn amber">⚡ 開始搶答</button>
+        </div>
+
+        <div id="rapidAnswer" class="answer hidden">
+          <div id="rapidWord" class="answerWord"></div>
+          <div id="rapidRoman" class="answerRoman"></div>
+          <div id="rapidZh" class="answerZh"></div>
+        </div>
+
+        <div class="actions">
+          <button id="revealBtn" class="btn amber hidden">👀 公布答案</button>
+          <button id="rapidNextBtn" class="btn hidden">下一題 →</button>
+        </div>
+      </section>
+
+      <section id="donePanel" class="panel hidden center">
+        <h2 id="doneTitle">🏆 第1回合完成</h2>
+        <p>完成 5 題辨識＋2 題搶答。</p>
+        <div class="actions">
+          <button id="restartBtn" class="btn secondary">↻ 再玩本回合</button>
+          <button id="chooseRoundBtn" class="btn secondary">☰ 選其他回合</button>
+          <button id="nextRoundBtn" class="btn">下一回合 →</button>
+        </div>
+      </section>
+
+      <section id="emptyPanel" class="panel hidden center">
+        <h2 id="emptyTitle">📚 題庫尚未建立</h2>
+        <p>這個回合的題目之後加入即可，程式架構已經準備好。</p>
+        <button id="backAvailableBtn" class="btn secondary">← 回到第1回合</button>
+      </section>
+    </section>
+  </main>
+
+  <script src="data/questions.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>

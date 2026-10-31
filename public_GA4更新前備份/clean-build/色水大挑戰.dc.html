@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<meta name="author" content="張鈺聆">
+<meta name="copyright" content="© 張鈺聆">
+<script src="./author-credit.js"></script>
+<!-- 網站介面、功能與教學整合設計／製作：張鈺聆　Copyright © 張鈺聆. All rights reserved.
+     「張鈺聆 製」係指介面設計、功能整合、互動設計與教學資源整合；
+     教材、課文、音檔、圖片、辭典資料等第三方素材之著作權仍屬原權利人所有。
+     完整版權宣告見 author-credit.js。 -->
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  .cl-round:hover:not(:disabled){border-color:#b79ada;}
+  .cl-opt:hover:not(:disabled){transform:translateY(-2px);border-color:#b79ada;}
+</style>
+</helmet>
+<div style="font-family:'Noto Sans TC',sans-serif;color:#2c2438;background:#f8f5fc;min-height:100vh;">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding:14px 24px;background:linear-gradient(90deg,#f6efff,#fff4fa);border-bottom:2px solid #e6dcf2;flex-wrap:wrap;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span style="font-size:26px;">🎨👕</span>
+      <span style="font-size:22px;font-weight:900;color:#7d55ad;">色水大挑戰</span>
+      <span style="background:#7d55ad;color:#fff;border-radius:999px;padding:6px 14px;font-weight:900;font-size:14px;">{{roundBadge}}</span>
+    </div>
+    <button style="border:1px solid #e0c8ef;background:#fdf6ff;color:#7d55ad;border-radius:999px;padding:8px 16px;font-weight:800;font-size:13px;cursor:pointer;font-family:inherit;" onClick="{{toggleSound}}">🔊 音效：{{soundLabel}}</button>
+  </div>
+
+  <div style="display:flex;gap:20px;width:min(1180px,96%);margin:auto;padding:22px 0 48px;align-items:flex-start;flex-wrap:wrap;">
+
+    <aside style="flex:0 0 220px;background:#fff;border:1px solid #e6dcf2;border-radius:20px;padding:16px;box-shadow:0 10px 26px rgba(70,50,110,0.08);">
+      <div style="background:#9b6fc4;color:#fff;border-radius:12px;padding:9px 12px;font-weight:900;text-align:center;margin-bottom:12px;">本回合進度</div>
+      <div style="display:flex;flex-direction:column;gap:9px;">
+        <sc-for list="{{questionListButtons}}" as="qb" hint-placeholder-count="5">
+          <div style="{{qb.style}}">
+            <span style="width:26px;height:26px;border-radius:50%;background:{{qb.badgeBg}};color:#fff;display:grid;place-items:center;font-weight:900;font-size:13px;flex-shrink:0;">{{qb.num}}</span>
+            <span style="font-weight:800;font-size:14px;">第 {{qb.num}} 題</span>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="margin-top:14px;background:#fff8df;border:1px solid #f0e4aa;border-radius:12px;padding:12px;font-size:12px;color:#6f633d;line-height:1.7;">
+        <div style="font-weight:800;margin-bottom:4px;">💡 玩法說明</div>
+        • 看衫仔的色水，選出正確的台語名稱<br>
+        • 每題 8 秒，答對才會使入下一題
+      </div>
+
+      <div style="margin-top:12px;display:flex;flex-direction:column;gap:8px;">
+        <sc-for list="{{roundNavButtons}}" as="rb" hint-placeholder-count="10">
+          <button class="cl-round" style="{{rb.style}}" disabled="{{rb.disabled}}" onClick="{{rb.onClick}}">
+            <span>第{{rb.num}}回合</span><span style="font-size:11px;opacity:.75;">{{rb.status}}</span>
+          </button>
+        </sc-for>
+      </div>
+    </aside>
+
+    <section style="flex:1;min-width:280px;background:#fff;border:1px solid #e6dcf2;border-radius:20px;padding:22px;box-shadow:0 10px 26px rgba(70,50,110,0.08);">
+      <sc-if value="{{screenEmpty}}">
+        <div style="text-align:center;padding:40px 10px;">
+          <h2 style="margin:0 0 10px;">📚 {{emptyTitle}}</h2>
+          <p style="color:#6f6580;">這个回合的題目後壁才加入，程式架構已經準備好。</p>
+          <button style="border:2px solid #cbb0e3;border-radius:16px;padding:13px 20px;font-weight:900;background:#fff;color:#7d55ad;cursor:pointer;font-family:inherit;" onClick="{{backToFirst}}">← 轉去第1回合</button>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{screenQuiz}}">
+        <div style="text-align:center;font-weight:800;color:#6b5a85;margin-bottom:16px;">🎨 這領衫仔是啥物色？</div>
+        <div style="max-width:420px;margin:0 auto;border:2px solid #e6dcf2;border-radius:20px;padding:18px;position:relative;">
+          <span style="position:absolute;top:10px;right:14px;background:#7d55ad;color:#fff;border-radius:999px;padding:4px 10px;font-weight:900;font-size:12px;">{{qIndex}}</span>
+          <div style="height:min(46vh,320px);min-height:220px;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+            <img src="{{currentImage}}" alt="" style="max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block;">
+          </div>
+        </div>
+
+        <div style="max-width:420px;margin:14px auto 0;display:flex;align-items:center;gap:10px;">
+          <span style="font-size:13px;color:#6f6580;">⏱ 剩餘時間</span>
+          <div style="flex:1;height:12px;background:#f1ebf7;border-radius:999px;overflow:hidden;">
+            <div style="height:100%;background:linear-gradient(90deg,#9b6fc4,#c39ae0);width:{{timerPct}}%;transition:1s linear;"></div>
+          </div>
+          <span style="font-weight:900;font-size:14px;color:#7d55ad;white-space:nowrap;">{{timeLeft}} 秒</span>
+        </div>
+
+        <sc-if value="{{showStart}}">
+          <div style="display:flex;justify-content:center;margin-top:18px;">
+            <button style="border:0;border-radius:16px;padding:13px 20px;font-weight:900;background:#7d55ad;color:#fff;cursor:pointer;font-family:inherit;" onClick="{{startQuestion}}">▶ 開始作答</button>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{showChoices}}">
+          <div style="max-width:420px;margin:18px auto 0;display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+            <sc-for list="{{choices}}" as="c" hint-placeholder-count="2">
+              <button class="cl-opt" style="{{c.style}}" disabled="{{c.disabled}}" onClick="{{c.onClick}}">
+                <span style="width:26px;height:26px;border-radius:50%;background:{{c.badgeBg}};color:#fff;display:grid;place-items:center;font-weight:900;font-size:13px;flex-shrink:0;">{{c.num}}</span>
+                <span style="flex:1;text-align:left;">{{c.text}}</span>
+              </button>
+            </sc-for>
+          </div>
+          <div style="text-align:center;margin-top:14px;color:#9b6fc4;font-weight:700;font-size:13px;">⭐ 請選擇 1 抑是 2</div>
+        </sc-if>
+
+        <sc-if value="{{showResultPanel}}">
+          <div style="max-width:420px;margin:20px auto 0;border:1px solid #e6dcf2;border-radius:20px;overflow:hidden;">
+            <div style="background:{{resultHeaderBg}};color:#fff;padding:14px;text-align:center;font-weight:900;font-size:16px;">{{resultHeaderText}}</div>
+            <div style="padding:16px;">
+              <div style="background:{{resultBoxBg}};border-radius:14px;padding:16px;text-align:center;font-weight:900;font-size:20px;margin-bottom:14px;">{{resultBoxText}}</div>
+              <div style="font-size:12px;color:#5f7d6a;font-weight:800;margin-bottom:4px;">華語</div>
+              <div style="border:2px solid #4a9b73;border-radius:10px;padding:10px 12px;font-weight:800;font-size:17px;margin-bottom:12px;">{{resultZh}}</div>
+              <div style="font-size:12px;color:#a64242;font-weight:800;margin-bottom:4px;">台文</div>
+              <div style="border:2px solid #c65b5b;border-radius:10px;padding:10px 12px;font-weight:800;font-size:17px;margin-bottom:12px;">{{resultWord}}</div>
+              <div style="font-size:12px;color:#7d55ad;font-weight:800;margin-bottom:4px;">台羅</div>
+              <div style="border:2px solid #9b6fc4;border-radius:10px;padding:10px 12px;font-weight:800;font-size:17px;margin-bottom:16px;">{{resultRoman}}</div>
+              <button style="width:100%;border:0;border-radius:14px;padding:13px;font-weight:900;background:#7d55ad;color:#fff;cursor:pointer;font-family:inherit;" onClick="{{nextQuestion}}">下一題 →</button>
+            </div>
+          </div>
+        </sc-if>
+      </sc-if>
+
+      <sc-if value="{{screenMid}}">
+        <div style="text-align:center;padding:40px 10px;">
+          <h2 style="font-size:clamp(28px,4vw,40px);margin:0 0 10px;">🎉 5題完成！</h2>
+          <p style="color:#6f6580;margin:0 0 16px;">接落來入去搶答複習。</p>
+          <button style="border:0;border-radius:16px;padding:13px 20px;font-weight:900;background:#d99018;color:#fff;cursor:pointer;font-family:inherit;" onClick="{{enterRapid}}">⚡ 搶答時間！</button>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{screenRapid}}">
+        <div style="text-align:center;">
+          <div style="display:inline-block;background:#fff2cc;color:#8a5b00;border-radius:999px;padding:8px 14px;font-weight:900;">⚡ 搶答時間！</div>
+          <h2 style="margin:14px 0;">{{rapidIndex}}</h2>
+          <div style="width:min(420px,92%);height:min(46vh,320px);min-height:220px;margin:14px auto;border-radius:20px;border:2px solid #e6dcf2;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+            <img src="{{rapidImage}}" alt="" style="max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block;">
+          </div>
+          <div style="display:flex;justify-content:center;align-items:center;gap:8px;margin:4px 0 16px;font-weight:800;color:#6f6580;">
+            <span>{{rapidTimeLeft}} 秒</span>
+          </div>
+          <sc-if value="{{showRapidStart}}">
+            <button style="border:0;border-radius:16px;padding:13px 20px;font-weight:900;background:#d99018;color:#fff;cursor:pointer;font-family:inherit;" onClick="{{startRapid}}">⚡ 開始搶答</button>
+          </sc-if>
+          <sc-if value="{{showRapidAnswer}}">
+            <div style="max-width:420px;margin:18px auto 0;padding:18px;border:1px solid #e6dcf2;border-radius:20px;background:#faf7fd;">
+              <div style="font-size:30px;font-weight:900;">{{rapidWord}}</div>
+              <div style="font-size:24px;color:#7d55ad;font-weight:900;margin-top:4px;">{{rapidRoman}}</div>
+              <div style="margin-top:8px;color:#7d7488;">{{rapidZh}}</div>
+            </div>
+          </sc-if>
+          <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:18px;">
+            <sc-if value="{{showRevealBtn}}">
+              <button style="border:0;border-radius:16px;padding:13px 20px;font-weight:900;background:#d99018;color:#fff;cursor:pointer;font-family:inherit;" onClick="{{revealRapid}}">👀 公布答案</button>
+            </sc-if>
+            <sc-if value="{{showRapidNext}}">
+              <button style="border:0;border-radius:16px;padding:13px 20px;font-weight:900;background:#7d55ad;color:#fff;cursor:pointer;font-family:inherit;" onClick="{{nextRapid}}">下一題 →</button>
+            </sc-if>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{screenDone}}">
+        <div style="text-align:center;padding:40px 10px;">
+          <h2 style="font-size:clamp(28px,4vw,40px);margin:0 0 12px;">{{doneTitle}}</h2>
+          <p style="color:#6f6580;">完成 5 題辨識＋2 題搶答。</p>
+          <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:18px;">
+            <button style="border:2px solid #cbb0e3;border-radius:16px;padding:13px 20px;font-weight:900;background:#fff;color:#7d55ad;cursor:pointer;font-family:inherit;" onClick="{{restartRound}}">↻ 閣耍本回合</button>
+            <sc-if value="{{showNextRoundBtn}}">
+              <button style="border:0;border-radius:16px;padding:13px 20px;font-weight:900;background:#7d55ad;color:#fff;cursor:pointer;font-family:inherit;" onClick="{{nextRound}}">下一回合 →</button>
+            </sc-if>
+          </div>
+        </div>
+      </sc-if>
+    </section>
+
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const QUESTION_BANK = [
+  { round:1, zh:'黑色', word:'烏色', roman:'oo-sik', image:'images/color-01.png' },
+  { round:1, zh:'白色', word:'白色', roman:'pe̍h-sik', image:'images/color-02.png' },
+  { round:1, zh:'紅色', word:'紅色', roman:'âng-sik', image:'images/color-03.png' },
+  { round:1, zh:'黃色', word:'黃色', roman:'n̂g-sik', image:'images/color-04.png' },
+  { round:1, zh:'藍色', word:'藍色', roman:'nâ-sik', image:'images/color-05.png' },
+  { round:2, zh:'綠色', word:'青色', roman:'tshenn-sik', image:'images/color-06.png' },
+  { round:2, zh:'橘色', word:'柑仔色', roman:'kam-á-sik', image:'images/color-07.png' },
+  { round:2, zh:'紫色', word:'紫色', roman:'tsí-sik', image:'images/color-08.png' },
+  { round:2, zh:'咖啡色', word:'咖啡色', roman:'ka-pi-sik', image:'images/color-09.png' },
+  { round:2, zh:'粉紅色', word:'粉紅仔色', roman:'hún-âng-á-sik', image:'images/color-10.png' },
+  { round:3, zh:'灰色', word:'鉛色', roman:'iân-sik', image:'images/color-11.png' },
+  { round:3, zh:'水藍色', word:'水色', roman:'tsuí-sik', image:'images/color-12.png' },
+  { round:3, zh:'淺綠色', word:'草仔色', roman:'tsháu-á-sik', image:'images/color-13.png' },
+  { round:3, zh:'深紫色', word:'茄仔色', roman:'kiô-á-sik', image:'images/color-14.png' },
+  { round:3, zh:'膚色／肉色', word:'肉色', roman:'bah-sik', image:'images/color-15.png' },
+  { round:4, zh:'米色', word:'米色', roman:'bí-sik', image:'images/color-16.png' },
+  { round:4, zh:'卡其色', word:'卡其色', roman:'khah-khih-sik', image:'images/color-17.png' },
+  { round:4, zh:'靛色／深藍色', word:'靛色', roman:'tīnn-sik', image:'images/color-18.png' },
+  { round:4, zh:'豬肝色', word:'豬肝色', roman:'ti-kuann-sik', image:'images/color-19.png' },
+  { round:4, zh:'鵝黃色', word:'鵝仔黃', roman:'gô-á-n̂g', image:'images/color-20.png' },
+];
+const QUIZ_SECONDS = 8, RAPID_SECONDS = 5, TOTAL_ROUNDS = 10;
+function shuffle(arr) { return [...arr].sort(() => Math.random() - 0.5); }
+function questionsForRound(round) { return QUESTION_BANK.filter(x => x.round === round); }
+function buildOptions(round, x) {
+  const pool = QUESTION_BANK.filter(q => q.round <= round && q.roman !== x.roman);
+  const wrong = pool.length ? pool[Math.floor(Math.random() * pool.length)] : x;
+  return shuffle([x.roman, wrong.roman]);
+}
+
+class Component extends DCLogic {
+  state = {
+    currentRound: 1, screen: 'quiz', Q: questionsForRound(1), soundOn: true, currentOptions: buildOptions(1, questionsForRound(1)[0]),
+    i: 0, score: 0, locked: false, phase: 'start', timeLeft: QUIZ_SECONDS, wrongPick: null, correctlyAnswered: false,
+    playLocked: false,
+    rapidList: [], ri: 0, rapidPhase: 'start', rapidTimeLeft: RAPID_SECONDS,
+  };
+  timerId = null;
+  audioCtx = null;
+
+  componentWillUnmount() { clearInterval(this.timerId); }
+
+  ensureAudio() {
+    if (!this.state.soundOn) return;
+    if (!this.audioCtx) this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (this.audioCtx.state === 'suspended') this.audioCtx.resume();
+  }
+  tone(freq, dur = 0.08, type = 'sine', vol = 0.04, delay = 0) {
+    if (!this.state.soundOn || !this.audioCtx) return;
+    const o = this.audioCtx.createOscillator(), g = this.audioCtx.createGain();
+    const t = this.audioCtx.currentTime + delay;
+    o.type = type; o.frequency.value = freq;
+    g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+    o.connect(g); g.connect(this.audioCtx.destination); o.start(t); o.stop(t + dur);
+  }
+  tickSound() { this.tone(950, 0.03, 'square', 0.02); }
+  correctSound() { this.tone(660, 0.08, 'sine', 0.05); this.tone(880, 0.11, 'sine', 0.05, 0.09); this.tone(1100, 0.14, 'sine', 0.045, 0.20); }
+  wrongSound() { this.tone(220, 0.12, 'sawtooth', 0.035); this.tone(165, 0.18, 'sawtooth', 0.035, 0.11); }
+  timeoutSound() { this.tone(440, 0.10, 'square', 0.04); this.tone(330, 0.13, 'square', 0.04, 0.12); this.tone(220, 0.20, 'square', 0.04, 0.28); }
+
+  startTimer(seconds, onTimeout, isRapid) {
+    clearInterval(this.timerId);
+    if (isRapid) this.setState({ rapidTimeLeft: seconds }); else this.setState({ timeLeft: seconds });
+    this.tickSound();
+    let left = seconds;
+    this.timerId = setInterval(() => {
+      left--;
+      if (isRapid) this.setState({ rapidTimeLeft: left }); else this.setState({ timeLeft: left });
+      if (left > 0) this.tickSound();
+      if (left <= 0) { clearInterval(this.timerId); this.timeoutSound(); onTimeout(); }
+    }, 1000);
+  }
+
+  selectRound(round) {
+    if (this.state.playLocked) return;
+    clearInterval(this.timerId);
+    const Q = questionsForRound(round);
+    this.setState({
+      currentRound: round, Q, i: 0, score: 0, locked: false, phase: 'start', timeLeft: QUIZ_SECONDS, wrongPick: null, correctlyAnswered: false,
+      rapidList: [], ri: 0, rapidPhase: 'start', playLocked: false,
+      currentOptions: Q.length ? buildOptions(round, Q[0]) : [],
+      screen: Q.length === 0 ? 'empty' : 'quiz',
+    });
+  }
+
+  startQuestion() {
+    this.ensureAudio();
+    this.setState({ phase: 'answering', playLocked: true });
+    this.startTimer(QUIZ_SECONDS, () => this.quizTimeout(), false);
+  }
+  quizTimeout() {
+    if (this.state.locked) return;
+    this.setState({ locked: true, phase: 'feedback', playLocked: false, correctlyAnswered: false });
+  }
+  choose(roman) {
+    if (this.state.locked) return;
+    this.ensureAudio();
+    const x = this.state.Q[this.state.i];
+    if (roman === x.roman) {
+      clearInterval(this.timerId);
+      this.correctSound();
+      this.setState({ locked: true, score: this.state.score + 1, phase: 'feedback', playLocked: false, correctlyAnswered: true });
+    } else {
+      this.wrongSound();
+      this.setState({ wrongPick: roman, phase: 'wrongTry' });
+      setTimeout(() => this.setState({ wrongPick: null, phase: this.state.locked ? this.state.phase : 'answering' }), 400);
+    }
+  }
+  nextQuestion() {
+    clearInterval(this.timerId);
+    if (this.state.i < this.state.Q.length - 1) {
+      const nextX = this.state.Q[this.state.i + 1];
+      this.setState({ i: this.state.i + 1, locked: false, wrongPick: null, phase: 'start', timeLeft: QUIZ_SECONDS, correctlyAnswered: false, currentOptions: buildOptions(this.state.currentRound, nextX) });
+    } else {
+      this.setState({ screen: 'mid', playLocked: false });
+    }
+  }
+  enterRapid() {
+    const rapidList = shuffle(this.state.Q).slice(0, 2);
+    this.setState({ screen: 'rapid', rapidList, ri: 0, rapidPhase: 'start', rapidTimeLeft: RAPID_SECONDS });
+  }
+  startRapid() {
+    this.ensureAudio();
+    this.setState({ rapidPhase: 'waiting', playLocked: true });
+    this.startTimer(RAPID_SECONDS, () => this.revealRapid(), true);
+  }
+  revealRapid() { clearInterval(this.timerId); this.setState({ rapidPhase: 'revealed', playLocked: false }); }
+  nextRapid() {
+    clearInterval(this.timerId);
+    if (this.state.ri < 1) this.setState({ ri: this.state.ri + 1, rapidPhase: 'start', rapidTimeLeft: RAPID_SECONDS });
+    else this.setState({ screen: 'done', playLocked: false });
+  }
+  restartRound() { this.selectRound(this.state.currentRound); }
+  nextRound() { if (this.state.currentRound < TOTAL_ROUNDS) this.selectRound(this.state.currentRound + 1); }
+  backToFirst() { this.selectRound(1); }
+  toggleSound() { this.setState({ soundOn: !this.state.soundOn }); }
+
+  renderVals() {
+    const s = this.state;
+    const x = s.Q[s.i];
+
+    const questionListButtons = s.Q.map((q, idx) => {
+      const active = idx === s.i && s.screen === 'quiz';
+      const done = idx < s.i;
+      return {
+        num: idx + 1,
+        badgeBg: active ? '#7d55ad' : done ? '#c39ae0' : '#c4bcd0',
+        style: `display:flex;align-items:center;gap:8px;border:2px solid ${active ? '#9b6fc4' : '#ece4f4'};background:${active ? '#f7f0fd' : '#fff'};border-radius:12px;padding:8px 10px;font-family:inherit;`,
+      };
+    });
+
+    const roundNavButtons = Array.from({ length: TOTAL_ROUNDS }, (_, idx) => {
+      const num = idx + 1;
+      const count = questionsForRound(num).length;
+      const active = num === s.currentRound;
+      return {
+        num, status: count ? `${count}題` : '待加入', disabled: s.playLocked,
+        onClick: () => this.selectRound(num),
+        style: `display:flex;justify-content:space-between;align-items:center;text-align:left;border:2px solid ${active ? '#9b6fc4' : '#ece4f4'};background:${active ? '#f4ecfb' : '#fff'};color:#2c2438;border-radius:12px;padding:9px 12px;font-weight:800;font-size:13px;cursor:${s.playLocked ? 'not-allowed' : 'pointer'};opacity:${s.playLocked && !active ? 0.5 : 1};font-family:inherit;`,
+      };
+    });
+
+    const choices = (x && (s.phase === 'answering' || s.phase === 'feedback' || s.phase === 'wrongTry')) ? s.currentOptions.map((opt, idx) => {
+      let bg = '#fff', border = '#e2d8ee', color = '#2c2438';
+      if (s.locked) { if (opt === x.roman) { bg = '#f0e9fa'; border = '#9b6fc4'; color = '#5c3a86'; } }
+      else if (opt === s.wrongPick) { bg = '#fff0f0'; border = '#d98989'; color = '#8d3e3e'; }
+      return {
+        num: idx + 1, text: opt, disabled: s.locked, badgeBg: idx === 0 ? '#7d55ad' : '#d1729f',
+        style: `display:flex;align-items:center;gap:10px;min-height:72px;border:2px solid ${border};border-radius:16px;background:${bg};font-size:clamp(16px,2.2vw,22px);font-weight:900;color:${color};cursor:${s.locked ? 'default' : 'pointer'};font-family:inherit;padding:0 14px;`,
+        onClick: () => this.choose(opt),
+      };
+    }) : [];
+
+    const rx = s.rapidList[s.ri];
+    const showFeedbackNow = s.phase === 'feedback';
+
+    return {
+      roundBadge: `第${s.currentRound}回合`,
+      soundLabel: s.soundOn ? '開' : '關', toggleSound: () => this.toggleSound(),
+      questionListButtons, roundNavButtons,
+      screenEmpty: s.screen === 'empty', emptyTitle: `第${s.currentRound}回合猶未建立`, backToFirst: () => this.backToFirst(),
+      screenQuiz: s.screen === 'quiz', screenMid: s.screen === 'mid', screenRapid: s.screen === 'rapid', screenDone: s.screen === 'done',
+      qIndex: x ? `${s.i + 1}:${s.Q.length}` : '',
+      currentImage: x ? x.image : '',
+      timeLeft: s.timeLeft, timerPct: (s.timeLeft / QUIZ_SECONDS) * 100,
+      showStart: s.phase === 'start', startQuestion: () => this.startQuestion(),
+      showChoices: choices.length > 0, choices,
+      nextQuestion: () => this.nextQuestion(),
+      enterRapid: () => this.enterRapid(),
+      rapidIndex: rx ? `第 ${s.ri + 1} 題 / 2` : '',
+      rapidImage: rx ? rx.image : '',
+      rapidTimeLeft: s.rapidTimeLeft,
+      showRapidStart: s.rapidPhase === 'start', startRapid: () => this.startRapid(),
+      showRapidAnswer: s.rapidPhase === 'revealed',
+      rapidWord: rx ? rx.word : '', rapidRoman: rx ? rx.roman : '', rapidZh: rx ? `華語：${rx.zh}` : '',
+      showRevealBtn: s.rapidPhase === 'waiting', revealRapid: () => this.revealRapid(),
+      showRapidNext: s.rapidPhase === 'revealed', nextRapid: () => this.nextRapid(),
+      doneTitle: `🏆 第${s.currentRound}回合完成`,
+      showNextRoundBtn: s.currentRound < TOTAL_ROUNDS, nextRound: () => this.nextRound(),
+      restartRound: () => this.restartRound(),
+      showResultPanel: showFeedbackNow && x,
+      resultHeaderBg: s.correctlyAnswered ? '#7d55ad' : '#c65b5b',
+      resultHeaderText: s.correctlyAnswered ? '🎨 答對囉！ 🎉' : '⏰ 時間到！',
+      resultBoxBg: s.correctlyAnswered ? '#f4ecfb' : '#fff0f0',
+      resultBoxText: s.correctlyAnswered ? '著矣！' : '猶差一點！',
+      resultZh: x ? x.zh : '', resultWord: x ? x.word : '', resultRoman: x ? x.roman : '',
+    };
+  }
+}
+
+</script>
+</body>
+</html>

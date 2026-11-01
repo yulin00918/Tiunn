@@ -9,7 +9,37 @@
 .word-card{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:7px;text-align:left;padding:18px;background:#fff;border:1px solid #c6d6d1;border-radius:14px;cursor:pointer;color:#243337}
 .word-card b{font-size:1.3rem;padding-right:28px}.word-card small{display:block;color:#315c63;line-height:1.5;overflow-wrap:anywhere}.word-card span{display:block;line-height:1.6}.word-card em{position:absolute;top:14px;right:14px;font-style:normal}
 .modal button{margin-top:16px;margin-right:6px}
-</style></head><body><main class="wrap">
+</style><style id="sd-style">
+.sd-c{display:inline-flex;flex-direction:column;align-items:center;vertical-align:bottom}
+.sd-py,.sd-tn{display:none;font-size:.5em;line-height:1.35;font-weight:400;letter-spacing:0;white-space:nowrap;font-family:"Noto Sans","Segoe UI",Arial,sans-serif}
+.sd-py-on .sd-py,.sd-tn-on .sd-tn{display:block}
+.sd-p .sd-py,.sd-p .sd-tn{visibility:hidden}
+.sd-c:not(.sd-p){cursor:pointer}
+.sd .vw .sd-h{text-decoration:underline dotted}
+.sd-tn-on .sd .sd-c:not(.sd-p){border-bottom:1.5px solid #cfc5b3}
+.sd-tn-on .sd .sd-end{margin-right:.28em}
+.sd-tn-on .sd-base .sd-h,.sd-tn-on .sd-base .sd-tn,.sd-tn-on .sd-pre .sd-h,.sd-tn-on .sd-pre .sd-tn{color:#1f6f5c}
+.sd-tn-on .sd-reg .sd-h,.sd-tn-on .sd-reg .sd-tn{color:#3b55b0}
+.sd-tn-on .sd-zai .sd-h,.sd-tn-on .sd-zai .sd-tn{color:#c2410c}
+.sd-tn-on .sd-apre .sd-h,.sd-tn-on .sd-apre .sd-tn{color:#8e44ad}
+.sd-tn-on .sd-light .sd-h,.sd-tn-on .sd-light .sd-tn{color:#9aa0a6}
+.sd-py-on .sd .sd-h,.sd-tn-on .sd .sd-h{line-height:1.3}
+.sd-py-on .sd .sd-c,.sd-tn-on .sd .sd-c{padding:.22em .07em .18em}
+.sd-c.sd-sel .sd-h{background:#fde9b8;border-radius:4px}
+.sd-bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;margin:12px 0 18px;font-size:15px}
+.sd-bar label{display:inline-flex;align-items:center;gap:6px;cursor:pointer;font-weight:700}
+.sd-bar input{width:18px;height:18px;accent-color:#536b55}
+.sd-leg{display:none;flex-wrap:wrap;gap:6px}.sd-tn-on .sd-leg{display:flex}
+.sd-leg span{display:inline-flex;align-items:center;gap:5px;font-size:13px;padding:3px 9px;border:1px solid #e0d7c7;border-radius:999px;background:#fffdf8}
+.sd-leg i{width:9px;height:9px;border-radius:50%;display:inline-block}
+#sd-card{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);width:min(460px,calc(100vw - 24px));background:#fffaf3;border:1px solid #e3d5bd;border-radius:18px;box-shadow:0 18px 50px #3c2d1940;padding:16px 18px;z-index:40;font-size:16px;line-height:1.7;color:#263533}
+#sd-card[hidden]{display:none}
+#sd-card .sd-k{font-size:28px;font-weight:800;margin-right:8px}#sd-card .sd-r{color:#936f4b;font-size:18px;font-weight:700}
+#sd-card .sd-t{font-weight:700;margin-top:4px}#sd-card .sd-a{color:#6f665c}
+#sd-card button{border:0;border-radius:10px;padding:8px 12px;font:inherit;font-weight:700;cursor:pointer}
+#sd-card .sd-x{float:right;background:#536b55;color:#fff}#sd-card .sd-v{margin-top:10px;background:#936f4b;color:#fff}
+</style>
+</head><body><main class="wrap">
 <div class="top"><a class="back" href="../../台語點讀.dc.html">← 回「台語點讀」</a><span class="tag">真平｜第一冊｜第五課</span></div>
 <nav class="new-tabs"><button class="new-tab active" type="button" data-target="lesson-pane">📖 課文點讀</button><button class="new-tab" type="button" data-target="vocab-pane">🔊 語詞點讀</button></nav><div id="lesson-pane" class="new-pane">
 <section class="hero"><div class="sub">咱來讀課文｜七字仔・詩歌式</div><h1>踅菜市</h1><div class="sub">作者：蔡連眞</div><div class="controls"><button id="all">▶ 全文順序播放</button><button class="secondary" id="pause">Ⅱ 暫停</button><button class="secondary" id="restart">↺ 重頭</button><button class="secondary" id="speed">1.0×</button></div></section>
@@ -50,4 +80,67 @@ document.querySelectorAll('.new-tab').forEach(btn=>btn.addEventListener('click',
  document.querySelectorAll('.new-pane').forEach(p=>p.hidden=p.id!==btn.dataset.target);
  audio.pause();audio.currentTime=0;wordAudio.pause();closeDlg();
 }));
-</script></body></html>
+</script><script id="sd-module">
+(function(){
+const SANDHI=[[[["逐", "ta̍k", 8, 4, "reg", "-k 結尾的第8調，變第4調。"], ["擺", "pái", 2, 2, "base", "時間詞「逐擺」詞尾讀本調。"]], [["若", "nā", 7, 3, "reg", "第7調變第3調。"], ["到", "kàu", 3, 2, "reg", "第3調變第2調。"], ["歇", "hioh", 4, 2, "reg", "-h 結尾的第4調，變第2調。"], ["睏", "khùn", 3, 2, "reg", "第3調變第2調。"], ["時", "sî", 5, 5, "base", "詩行結尾稍停，讀本調。"]]], [[["阿", "a", 1, 7, "reg", "第1調變第7調。"], ["媽", "má", 2, 2, "base", "主語「阿媽」後面接動詞，讀本調。"]], [["欲", "beh", 4, 1, "zai", "虛詞「欲」再變調：-h 結尾的第4調不停在第2調，讀短平的第1調。"], ["煮", "tsú", 2, 1, "reg", "第2調變第1調。"], ["好", "hó", 2, 1, "reg", "第2調變第1調。"], ["料", "liāu", 7, 3, "reg", "第7調變第3調。"], ["理", "lí", 2, 2, "base", "詩行結尾稍停，讀本調。"]]], [[["無", "bô", 5, 7, "reg", "第5調變第7調。"], ["論", "lūn", 7, 3, "reg", "第7調變第3調。"], ["山", "san", 1, 7, "reg", "第1調變第7調。"], ["珍", "tin", 1, 1, "base", "後面接連接詞「抑」，讀本調。"]], [["抑", "ia̍h", 8, 3, "reg", "-h 結尾的第8調，變第3調。", "課文台羅寫 ia̍h（第8調），語詞表寫 iah，照課文。"], ["海", "hái", 2, 1, "reg", "第2調變第1調。"], ["味", "bī", 7, 7, "base", "詩行結尾稍停，讀本調。"]]], [[["招", "tsio", 1, 7, "reg", "第1調變第7調。"], ["阮", "guán", 2, 1, "reg", "代名詞不在句尾，讀變調，第2調變第1調。"], ["鬥", "tàu", 3, 2, "reg", "第3調變第2調。"], ["陣", "tīn", 7, 3, "reg", "第7調變第3調。"], ["踅", "se̍h", 8, 3, "reg", "-h 結尾的第8調，變第3調。"], ["菜", "tshài", 3, 2, "reg", "第3調變第2調。"], ["市", "tshī", 7, 7, "base", "詩行結尾稍停，讀本調。"]]], [[["兩", "nn̄g", 7, 3, "reg", "第7調變第3調。"], ["爿", "pîng", 5, 7, "reg", "第5調變第7調。"], ["擔", "tànn", 3, 2, "reg", "第3調變第2調。"], ["頭", "thâu", 5, 5, "base", "主語「兩爿擔頭」後面接動詞，讀本調。"]], [["拚", "piànn", 3, 2, "reg", "第3調變第2調。"], ["生", "sing", 1, 7, "reg", "第1調變第7調。"], ["理", "lí", 2, 2, "base", "詩行結尾稍停，讀本調。"]]], [[["頭", "thâu", 5, 7, "reg", "第5調變第7調。"], ["家", "ke", 1, 1, "base", "主語「頭家」後面接動詞，讀本調。"]], [["開", "khui", 1, 7, "reg", "第1調變第7調。"], ["喙", "tshuì", 3, 2, "reg", "第3調變第2調。"], ["來", "lâi", 5, 7, "reg", "第5調變第7調。"], ["喝", "huah", 4, 2, "reg", "-h 結尾的第4調，變第2調。"], ["起", "khí", 2, 2, "base", "詩行結尾稍停，讀本調。"]]], [[["人", "lâng", 5, 7, "reg", "第5調變第7調。"], ["客", "kheh", 4, 4, "base", "主語「人客」後面接動詞，讀本調。"]], [["想", "siūnn", 7, 3, "reg", "第7調變第3調。"], ["欲", "beh", 4, 1, "zai", "虛詞「欲」再變調：-h 結尾的第4調不停在第2調，讀短平的第1調。"], ["買", "bé", 2, 1, "reg", "第2調變第1調。"], ["啥", "siánn", 2, 1, "reg", "第2調變第1調。"], ["物", "mih", 4, 4, "base", "詩行結尾稍停，讀本調。"]]], [[["加", "ke", 1, 7, "reg", "第1調變第7調。"], ["減", "kiám", 2, 1, "reg", "第2調變第1調。"], ["交", "kau", 1, 7, "reg", "第1調變第7調。"], ["關", "kuan", 1, 1, "base", "「加減交關」說完，後面接「感謝你」，稍停，讀本調。"]], [["感", "kám", 2, 1, "reg", "第2調變第1調。"], ["謝", "siā", 7, 7, "pre", "後面是輕聲，輕聲前一字讀本調。"], ["你", "lí", 2, 0, "light", "台羅標「--」，「你」讀輕聲。"]]], [[["各", "kok", 4, 8, "reg", "-k 結尾的第4調，變第8調。"], ["種", "tsióng", 2, 1, "reg", "第2調變第1調。"], ["青", "tshenn", 1, 7, "reg", "第1調變第7調。"], ["菜", "tshài", 3, 3, "base", "後面接連接詞「佮」，讀本調。"]], [["佮", "kah", 4, 1, "zai", "連接詞「佮」再變調：-h 結尾的第4調不停在第2調，讀短平的第1調。"], ["果", "kué", 2, 1, "reg", "第2調變第1調。"], ["子", "tsí", 2, 2, "base", "詩行結尾稍停，讀本調。"]]], [[["豬", "ti", 1, 1, "base", "列舉的項目，稍停，讀本調。"]], [["牛", "gû", 5, 5, "base", "列舉的項目，稍停，讀本調。"]], [["雞", "ke", 1, 1, "base", "列舉的項目，稍停，讀本調。"]], [["鴨", "ah", 4, 4, "base", "列舉的項目，稍停，讀本調。"]], [["蟳", "tsîm", 5, 5, "base", "列舉的項目，稍停，讀本調。"]], [["蝦", "hê", 5, 5, "base", "列舉的項目，稍停，讀本調。"]], [["魚", "hî", 5, 5, "base", "詩行結尾稍停，讀本調。"]]], [[["鹹", "kiâm", 5, 5, "base", "列舉的項目，稍停，讀本調。"]], [["甜", "tinn", 1, 1, "base", "列舉的項目，稍停，讀本調。"]], [["燒", "sio", 1, 1, "base", "列舉的項目，稍停，讀本調。"]], [["冷", "líng", 2, 2, "base", "列舉的項目，稍停，讀本調。"]], [["好", "hó", 2, 1, "reg", "第2調變第1調。"], ["滋", "tsu", 1, 7, "reg", "第1調變第7調。"], ["味", "bī", 7, 7, "base", "詩行結尾稍停，讀本調。"]]], [[["貨", "huè", 3, 2, "reg", "第3調變第2調。"], ["色", "sik", 4, 4, "base", "主語「貨色」後面接動詞，讀本調。"]], [["鮮", "tshinn", 1, 7, "reg", "第1調變第7調。"], ["沢", "tshioh", 4, 4, "base", "「鮮沢」說完，後面接「包滿意」，讀本調。"]], [["包", "pau", 1, 7, "reg", "第1調變第7調。"], ["滿", "muá", 2, 1, "reg", "第2調變第1調。"], ["意", "ì", 3, 3, "base", "詩行結尾稍停，讀本調。"]]], [[["多", "to", 1, 7, "reg", "第1調變第7調。"], ["元", "guân", 5, 7, "reg", "第5調變第7調。"], ["菜", "tshài", 3, 2, "reg", "第3調變第2調。"], ["市", "tshī", 7, 7, "base", "「多元菜市」是主題，後面稍停，讀本調。"]], [["你", "lí", 2, 1, "reg", "代名詞不在句尾，讀變調，第2調變第1調。"], ["隨", "suî", 5, 7, "reg", "第5調變第7調。"], ["意", "ì", 3, 3, "base", "詩行結尾稍停，讀本調。"]]], [[["五", "ngóo", 2, 1, "reg", "第2調變第1調。"], ["金", "kim", 1, 1, "base", "列舉的項目，稍停，讀本調。"]], [["雜", "tsa̍p", 8, 4, "reg", "-p 結尾的第8調，變第4調。"], ["細", "sè", 3, 3, "base", "後面接連接詞「佮」，讀本調。"]], [["佮", "kah", 4, 1, "zai", "連接詞「佮」再變調：-h 結尾的第4調不停在第2調，讀短平的第1調。"], ["成", "sîng", 5, 7, "reg", "第5調變第7調。"], ["衣", "i", 1, 1, "base", "詩行結尾稍停，讀本調。"]]], [[["物", "mi̍h", 8, 3, "reg", "-h 結尾的第8調，變第3調。"], ["件", "kiānn", 7, 7, "base", "主語「物件」後面接動詞，讀本調。"]], [["若", "nā", 7, 3, "reg", "第7調變第3調。"], ["是", "sī", 7, 3, "reg", "第7調變第3調。"], ["有", "ū", 7, 3, "reg", "第7調變第3調。"], ["佮", "kah", 4, 2, "reg", "動詞「佮意」的「佮」不是虛詞，照一般規則 -h 第4調變第2調。"], ["意", "ì", 3, 3, "base", "詩行結尾稍停，讀本調。"]]], [[["大", "tuā", 7, 3, "reg", "第7調變第3調。"], ["捾", "kuānn", 7, 7, "base", "列舉的項目，稍停，讀本調。"]], [["細", "sè", 3, 2, "reg", "第3調變第2調。"], ["捾", "kuānn", 7, 7, "base", "列舉的項目，稍停，讀本調。"]], [["款", "khuán", 2, 2, "pre", "後面是輕聲，輕聲前一字讀本調。"], ["轉", "tńg", 2, 0, "light", "「--」後面的字讀輕聲。"], ["去", "khì", 3, 0, "light", "「--」後面的字讀輕聲。"]]]];
+const CFG={"sel": ".verse > div", "bar": ".controls", "key": "jp-b1l5-sandhi"};
+const TN={base:'本調',reg:'一般變調',zai:'再變調',apre:'仔前變調',light:'輕聲',pre:'輕聲前讀本調'};
+const targets=[...document.querySelectorAll(CFG.sel)];
+if(targets.length!==SANDHI.length){console.warn('sandhi: 段數不符',targets.length,SANDHI.length);return}
+if(typeof markV==='function')targets.forEach(t=>markV(t));
+const ROWS=[];
+function el(tag,cls,txt){const e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e}
+function box(cls,py,h,tn){const s=el('span','sd-c '+cls);s.append(el('span','sd-py',py),el('span','sd-h',h),el('span','sd-tn',tn));return s}
+targets.forEach((t,si)=>{
+  t.classList.add('sd');
+  const exp=[];
+  SANDHI[si].forEach(it=>{
+    if(typeof it==='string'){if(/^<\/?(br|quote)/.test(it))return;for(const ch of it)if(!/\s/.test(ch))exp.push({s:ch});}
+    else it.forEach((r,k)=>{ROWS.push(r);exp.push({s:r[0],r:ROWS.length-1,end:k===it.length-1});});
+  });
+  let k=0;const w=document.createTreeWalker(t,NodeFilter.SHOW_TEXT),nodes=[];
+  while(w.nextNode())nodes.push(w.currentNode);
+  nodes.forEach(n=>{
+    const cs=Array.from(n.nodeValue),f=document.createDocumentFragment();let i=0;
+    while(i<cs.length){
+      const e=exp[k];
+      if(e){const L=Array.from(e.s).length;if(cs.slice(i,i+L).join('')===e.s){
+        if(e.r!=null){const r=ROWS[e.r];const c=box('sd-'+r[4]+(e.end?' sd-end':''),r[1]===r[0]?' ':r[1],r[0],r[3]===0?'輕':(r[2]===r[3]?String(r[2]):r[2]+'→'+r[3]));c.dataset.r=e.r;f.append(c);}
+        else f.append(box('sd-p',' ',e.s,' '));
+        i+=L;k++;continue;}}
+      const ch=cs[i];
+      if(/\s/.test(ch))f.append(document.createTextNode(ch));else{f.append(box('sd-p',' ',ch,' '));console.warn('sandhi: 對不上的字',ch);}
+      i++;
+    }
+    n.replaceWith(f);
+  });
+  if(k!==exp.length)console.warn('sandhi: 第'+(si+1)+'段有資料沒用到',exp.length-k);
+});
+/* 開關 */
+const bar=el('div','sd-bar');
+bar.innerHTML='<label><input type="checkbox" id="sd-py"> 拼音</label><label><input type="checkbox" id="sd-tn"> 調號與顏色</label><span class="sd-leg"><span><i style="background:#1f6f5c"></i>本調</span><span><i style="background:#3b55b0"></i>一般變調</span><span><i style="background:#c2410c"></i>再變調</span><span><i style="background:#8e44ad"></i>仔前變調</span><span><i style="background:#9aa0a6"></i>輕聲</span></span>';
+const anchor=document.querySelector(CFG.bar);anchor.after(bar);
+const cpy=bar.querySelector('#sd-py'),ctn=bar.querySelector('#sd-tn');
+let st={py:false,tn:false};try{const v=JSON.parse(localStorage.getItem(CFG.key)||'{}');st.py=!!v.py;st.tn=!!v.tn}catch(e){}
+function apply(){document.body.classList.toggle('sd-py-on',st.py);document.body.classList.toggle('sd-tn-on',st.tn);cpy.checked=st.py;ctn.checked=st.tn;try{localStorage.setItem(CFG.key,JSON.stringify(st))}catch(e){}}
+cpy.onchange=()=>{st.py=cpy.checked;apply()};ctn.onchange=()=>{st.tn=ctn.checked;apply()};apply();
+/* 說明卡 */
+const card=el('div');card.id='sd-card';card.hidden=true;document.body.append(card);let sel=null;
+function close(){card.hidden=true;if(sel){sel.classList.remove('sd-sel');sel=null}}
+function show(c){
+  const r=ROWS[+c.dataset.r];if(sel)sel.classList.remove('sd-sel');sel=c;c.classList.add('sd-sel');
+  card.innerHTML='';const x=el('button','sd-x','關閉');x.onclick=close;card.append(x);
+  const top=el('div');top.append(el('span','sd-k',r[0]),el('span','sd-r',r[1]));card.append(top);
+  card.append(el('div','sd-t',r[3]===0?'本調第'+r[2]+'調 → 讀輕聲（輕聲）':(r[2]===r[3]?'讀本調第'+r[2]+'調（'+TN[r[4]]+'）':'本調第'+r[2]+'調 → 實際讀第'+r[3]+'調（'+TN[r[4]]+'）')));
+  card.append(el('div','',r[5]));if(r[6])card.append(el('div','sd-a',r[6].charAt(0)==='※'?r[6].slice(1):'另讀：'+r[6]));
+  const v=c.closest('.vw,.vocab,.fire');
+  if(v){const b=el('button','sd-v',v.classList.contains('fire')?'📝 看正確寫法':'📖 看語詞解說');b.onclick=e=>{e.stopPropagation();close();if(v.classList.contains('vw')&&typeof openV==='function')openV(+v.dataset.v);else v.click();};card.append(b);}
+  card.hidden=false;
+}
+targets.forEach(t=>t.addEventListener('click',e=>{const c=e.target.closest('.sd-c');if(!c||c.classList.contains('sd-p'))return;e.stopPropagation();e.preventDefault();show(c)},true));
+card.addEventListener('click',e=>e.stopPropagation());
+document.addEventListener('click',()=>{if(!card.hidden)close()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+})();
+</script>
+</body></html>

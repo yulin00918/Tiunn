@@ -26,21 +26,22 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
   .bg-mode:hover{transform:translateY(-2px);}
-  .bg-chip:hover{border-color:#557c83;}
-  .bg-pill:hover{border-color:#e8b879;}
+  .bg-chip:hover{border-color:#254E47;}
+  .bg-pill:hover{border-color:#F4C65D;}
+  button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #F4C65D;outline-offset:2px;}
 </style>
 </helmet>
-<div style="font-family:'Noto Sans TC',sans-serif;color:#2f3a3b;background:#f7f5ef;min-height:100vh;padding:24px;">
+<div style="font-family:'Noto Sans TC',sans-serif;color:#263B37;background:radial-gradient(circle at 7% 9%,rgba(244,198,93,.23),transparent 26%),radial-gradient(circle at 95% 17%,rgba(85,169,156,.17),transparent 28%),#FAF8F2;min-height:100vh;padding:24px;">
   <div style="max-width:1300px;margin:auto;">
 
-    <div style="background:linear-gradient(135deg,#edf4f2,#fff8ed);border:1px solid #e6e3da;border-radius:24px;padding:26px;box-shadow:0 8px 24px rgba(0,0,0,.08);margin-bottom:20px;">
+    <div style="background:linear-gradient(135deg,#E0F2EC,#FFF6EC);border:1px solid #E8E6D9;border-radius:24px;padding:26px;box-shadow:0 8px 24px rgba(38,78,71,.08);margin-bottom:20px;">
       <h1 style="margin:0 0 8px;font-size:clamp(26px,4vw,40px);">🎯 賓果生成器大全</h1>
-      <p style="margin:0;color:#6d7778;font-size:16px;">建立題庫、產生全班不同卡片、線上抽題、直接列印，一頁搞定。</p>
+      <p style="margin:0;color:#66766D;font-size:16px;">建立題庫、產生全班不同卡片、線上抽題、直接列印，一頁搞定。</p>
     </div>
 
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
 
-      <section style="background:#fff;border:1px solid #e5e6e2;border-radius:20px;padding:22px;box-shadow:0 8px 24px rgba(0,0,0,.08);">
+      <section style="background:#fff;border:1px solid #E8E6D9;border-radius:20px;padding:22px;box-shadow:0 8px 24px rgba(38,78,71,.08);">
         <h2 style="margin-top:0;">① 選擇賓果模式</h2>
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
           <sc-for list="{{modes}}" as="m" hint-placeholder-count="9">
@@ -53,11 +54,11 @@
         <sc-if value="{{isCustom}}">
           <div style="margin:14px 0;">
             <label style="font-weight:700;font-size:14px;">題庫內容（每行一題）</label>
-            <textarea value="{{customText}}" onChange="{{onCustomTextChange}}" placeholder="例如：&#10;西瓜&#10;香蕉&#10;鳳梨&#10;芭樂" style="width:100%;box-sizing:border-box;min-height:170px;resize:vertical;padding:11px 12px;border:1px solid #d9dfdf;border-radius:12px;font:inherit;margin-top:6px;"></textarea>
+            <textarea value="{{customText}}" onChange="{{onCustomTextChange}}" placeholder="例如：&#10;西瓜&#10;香蕉&#10;鳳梨&#10;芭樂" style="width:100%;box-sizing:border-box;min-height:170px;resize:vertical;padding:11px 12px;border:1px solid #E4E5DD;border-radius:12px;font:inherit;margin-top:6px;"></textarea>
             <div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap;">
-              <button class="bg-chip" style="border:0;border-radius:12px;padding:10px 14px;font-weight:700;cursor:pointer;background:#eef1f1;color:#2f3a3b;" onClick="{{dedupe}}">清除重複</button>
-              <button class="bg-chip" style="border:0;border-radius:12px;padding:10px 14px;font-weight:700;cursor:pointer;background:#eef1f1;color:#2f3a3b;" onClick="{{saveBank}}">💾 儲存題庫</button>
-              <select value="{{selectedBank}}" onChange="{{onLoadBank}}" style="max-width:220px;padding:10px;border:1px solid #d9dfdf;border-radius:12px;">
+              <button class="bg-chip" style="border:0;border-radius:12px;padding:10px 14px;font-weight:700;cursor:pointer;background:#ECEEE6;color:#263B37;" onClick="{{dedupe}}">清除重複</button>
+              <button class="bg-chip" style="border:0;border-radius:12px;padding:10px 14px;font-weight:700;cursor:pointer;background:#ECEEE6;color:#263B37;" onClick="{{saveBank}}">💾 儲存題庫</button>
+              <select value="{{selectedBank}}" onChange="{{onLoadBank}}" style="max-width:220px;padding:10px;border:1px solid #E4E5DD;border-radius:12px;">
                 <option value="">載入已存題庫</option>
                 <sc-for list="{{savedBankNames}}" as="bn" hint-placeholder-count="0"><option value="{{bn}}">{{bn}}</option></sc-for>
               </select>
@@ -69,9 +70,9 @@
           <div style="margin:14px 0;">
             <label style="font-weight:700;font-size:14px;">數字範圍</label>
             <div style="display:flex;gap:10px;align-items:center;margin-top:6px;">
-              <input type="number" value="{{numMin}}" onChange="{{onNumMinChange}}" style="width:110px;padding:11px;border:1px solid #d9dfdf;border-radius:12px;">
+              <input type="number" value="{{numMin}}" onChange="{{onNumMinChange}}" style="width:110px;padding:11px;border:1px solid #E4E5DD;border-radius:12px;">
               <span>到</span>
-              <input type="number" value="{{numMax}}" onChange="{{onNumMaxChange}}" style="width:110px;padding:11px;border:1px solid #d9dfdf;border-radius:12px;">
+              <input type="number" value="{{numMax}}" onChange="{{onNumMaxChange}}" style="width:110px;padding:11px;border:1px solid #E4E5DD;border-radius:12px;">
             </div>
           </div>
         </sc-if>
@@ -80,13 +81,13 @@
           <div style="margin:14px 0;">
             <label style="font-weight:700;font-size:14px;">圖片題庫</label>
             <input type="file" accept="image/*" multiple onChange="{{onImageUpload}}" style="display:block;margin-top:8px;">
-            <p style="font-size:13px;color:#6d7778;">可一次上傳多張；檔名會自動成為題目名稱，可再修改。</p>
+            <p style="font-size:13px;color:#66766D;">可一次上傳多張；檔名會自動成為題目名稱，可再修改。</p>
             <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
               <sc-for list="{{imageList}}" as="img" hint-placeholder-count="0">
-                <div style="border:1px solid #d9dfdf;border-radius:12px;padding:8px;">
-                  <img src="{{img.data}}" style="width:100%;aspect-ratio:1/1;object-fit:contain;border-radius:8px;background:#fafafa;">
-                  <input value="{{img.name}}" onChange="{{img.onNameChange}}" style="width:100%;box-sizing:border-box;margin-top:6px;padding:6px;border:1px solid #d9dfdf;border-radius:8px;">
-                  <button style="border:0;border-radius:8px;padding:6px;width:100%;margin-top:6px;background:#fbe7e7;color:#c76666;font-weight:700;cursor:pointer;" onClick="{{img.onDelete}}">刪除</button>
+                <div style="border:1px solid #E4E5DD;border-radius:12px;padding:8px;">
+                  <img src="{{img.data}}" style="width:100%;aspect-ratio:1/1;object-fit:contain;border-radius:8px;background:#FAF8F2;">
+                  <input value="{{img.name}}" onChange="{{img.onNameChange}}" style="width:100%;box-sizing:border-box;margin-top:6px;padding:6px;border:1px solid #E4E5DD;border-radius:8px;">
+                  <button style="border:0;border-radius:8px;padding:6px;width:100%;margin-top:6px;background:#FDEBE4;color:#B9533A;font-weight:700;cursor:pointer;" onClick="{{img.onDelete}}">刪除</button>
                 </div>
               </sc-for>
             </div>
@@ -96,7 +97,7 @@
         <div style="padding:10px 12px;border-radius:12px;background:{{statusBg}};color:{{statusColor}};font-size:14px;margin-top:8px;">目前題庫：{{itemCount}} 題｜此尺寸至少需要 {{neededCount}} 題</div>
       </section>
 
-      <section style="background:#fff;border:1px solid #e5e6e2;border-radius:20px;padding:22px;box-shadow:0 8px 24px rgba(0,0,0,.08);">
+      <section style="background:#fff;border:1px solid #E8E6D9;border-radius:20px;padding:22px;box-shadow:0 8px 24px rgba(38,78,71,.08);">
         <h2 style="margin-top:0;">② 賓果設定</h2>
         <div style="margin:14px 0;">
           <label style="font-weight:700;font-size:14px;">卡片尺寸</label>
@@ -116,10 +117,10 @@
         <div style="margin:14px 0;">
           <label style="font-weight:700;font-size:14px;">產生份數</label>
           <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:6px;">
-            <input type="number" min="1" max="60" value="{{cardCount}}" onChange="{{onCardCountChange}}" style="width:110px;padding:11px;border:1px solid #d9dfdf;border-radius:12px;">
+            <input type="number" min="1" max="60" value="{{cardCount}}" onChange="{{onCardCountChange}}" style="width:110px;padding:11px;border:1px solid #E4E5DD;border-radius:12px;">
             <div style="display:flex;gap:8px;flex-wrap:wrap;">
               <sc-for list="{{quickCounts}}" as="qc" hint-placeholder-count="5">
-                <button class="bg-chip" style="border:1px solid #d9dfdf;background:#fff;border-radius:999px;padding:8px 12px;cursor:pointer;" onClick="{{qc.onClick}}">{{qc.label}}</button>
+                <button class="bg-chip" style="border:1px solid #E4E5DD;background:#fff;border-radius:999px;padding:8px 12px;cursor:pointer;" onClick="{{qc.onClick}}">{{qc.label}}</button>
               </sc-for>
             </div>
           </div>
@@ -131,26 +132,26 @@
 
         <div style="margin:14px 0;">
           <label style="font-weight:700;font-size:14px;">列印每頁</label>
-          <select value="{{perPage}}" onChange="{{onPerPageChange}}" style="width:100%;box-sizing:border-box;padding:11px;border:1px solid #d9dfdf;border-radius:12px;margin-top:6px;">
+          <select value="{{perPage}}" onChange="{{onPerPageChange}}" style="width:100%;box-sizing:border-box;padding:11px;border:1px solid #E4E5DD;border-radius:12px;margin-top:6px;">
             <option value="one">1 張</option><option value="two">2 張</option><option value="four">4 張</option>
           </select>
         </div>
 
-        <button style="border:0;border-radius:12px;padding:11px 16px;font-weight:700;cursor:pointer;background:#557c83;color:#fff;" onClick="{{generateCards}}">✨ 產生賓果卡</button>
+        <button style="border:0;border-radius:12px;padding:11px 16px;font-weight:700;cursor:pointer;background:#254E47;color:#fff;" onClick="{{generateCards}}">✨ 產生賓果卡</button>
         <div style="padding:10px 12px;border-radius:12px;background:{{genStatusBg}};color:{{genStatusColor}};font-size:14px;margin-top:8px;">{{genStatus}}</div>
       </section>
 
-      <section style="background:#fff;border:1px solid #e5e6e2;border-radius:20px;padding:22px;box-shadow:0 8px 24px rgba(0,0,0,.08);">
+      <section style="background:#fff;border:1px solid #E8E6D9;border-radius:20px;padding:22px;box-shadow:0 8px 24px rgba(38,78,71,.08);">
         <h2 style="margin-top:0;">③ 卡片預覽</h2>
         <div style="overflow:auto;">
-          <div style="width:100%;max-width:520px;margin:auto;background:#fff;border:2px solid #2f3a3b;border-radius:16px;padding:14px;">
+          <div style="width:100%;max-width:520px;margin:auto;background:#fff;border:2px solid #263B37;border-radius:16px;padding:14px;">
             <sc-if value="{{previewHasSeat}}">
-              <div style="text-align:right;font-size:13px;color:#6d7778;">{{previewSeatLabel}}</div>
+              <div style="text-align:right;font-size:13px;color:#66766D;">{{previewSeatLabel}}</div>
             </sc-if>
             <div style="text-align:center;font-size:24px;font-weight:900;letter-spacing:4px;margin-bottom:10px;">BINGO</div>
             <div style="display:grid;gap:4px;grid-template-columns:{{gridCols}};">
               <sc-for list="{{previewCells}}" as="cell" hint-placeholder-count="16">
-                <div style="aspect-ratio:1/1;border:1px solid #4a5657;border-radius:8px;display:flex;align-items:center;justify-content:center;text-align:center;padding:5px;font-weight:700;overflow:hidden;background:{{cell.bg}};font-size:13px;">
+                <div style="aspect-ratio:1/1;border:1px solid #456C65;border-radius:8px;display:flex;align-items:center;justify-content:center;text-align:center;padding:5px;font-weight:700;overflow:hidden;background:{{cell.bg}};font-size:13px;">
                   <sc-if value="{{cell.isImage}}"><img src="{{cell.image}}" style="max-width:100%;max-height:100%;object-fit:contain;"></sc-if>
                   <sc-if value="{{!cell.isImage}}">{{cell.text}}</sc-if>
                 </div>
@@ -159,13 +160,13 @@
           </div>
         </div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;align-items:center;">
-          <button style="border:0;border-radius:12px;padding:11px 16px;font-weight:700;cursor:pointer;background:#eef1f1;color:#2f3a3b;" onClick="{{prevCard}}">← 上一張</button>
-          <button style="border:0;border-radius:12px;padding:11px 16px;font-weight:700;cursor:pointer;background:#eef1f1;color:#2f3a3b;" onClick="{{nextCard}}">下一張 →</button>
-          <span style="font-size:13px;color:#6d7778;">{{previewIndexLabel}}</span>
+          <button style="border:0;border-radius:12px;padding:11px 16px;font-weight:700;cursor:pointer;background:#ECEEE6;color:#263B37;" onClick="{{prevCard}}">← 上一張</button>
+          <button style="border:0;border-radius:12px;padding:11px 16px;font-weight:700;cursor:pointer;background:#ECEEE6;color:#263B37;" onClick="{{nextCard}}">下一張 →</button>
+          <span style="font-size:13px;color:#66766D;">{{previewIndexLabel}}</span>
         </div>
       </section>
 
-      <section style="background:#fff;border:1px solid #e5e6e2;border-radius:20px;padding:22px;box-shadow:0 8px 24px rgba(0,0,0,.08);">
+      <section style="background:#fff;border:1px solid #E8E6D9;border-radius:20px;padding:22px;box-shadow:0 8px 24px rgba(38,78,71,.08);">
         <h2 style="margin-top:0;">④ 線上抽題</h2>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px;">
           <sc-for list="{{drawTabs}}" as="dt" hint-placeholder-count="5">
@@ -174,64 +175,64 @@
         </div>
 
         <sc-if value="{{tabSingle}}">
-          <div style="min-height:220px;border:2px dashed #b9c7c8;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;background:#fbfdfd;">
+          <div style="min-height:220px;border:2px dashed #B9DED1;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;background:#FFFCF4;">
             <sc-if value="{{singleImage}}"><img src="{{singleImage}}" style="max-width:180px;max-height:180px;object-fit:contain;"></sc-if>
             <sc-if value="{{!singleImage}}"><div style="font-size:clamp(38px,7vw,76px);font-weight:900;">{{singleMain}}</div></sc-if>
-            <div style="color:#6d7778;margin-top:8px;">{{singleSub}}</div>
+            <div style="color:#66766D;margin-top:8px;">{{singleSub}}</div>
           </div>
-          <div style="margin-top:16px;"><button style="border:0;border-radius:12px;padding:11px 16px;font-weight:700;cursor:pointer;background:#e8b879;color:#4b3a23;" onClick="{{drawSingle}}">抽一題</button></div>
+          <div style="margin-top:16px;"><button style="border:0;border-radius:12px;padding:11px 16px;font-weight:700;cursor:pointer;background:#F4C65D;color:#594936;" onClick="{{drawSingle}}">抽一題</button></div>
         </sc-if>
 
         <sc-if value="{{tabMulti}}">
           <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-            <label style="font-weight:700;font-size:14px;">一次抽 <input type="number" min="2" max="6" value="{{multiCount}}" onChange="{{onMultiCountChange}}" style="width:80px;padding:9px;border:1px solid #d9dfdf;border-radius:10px;"> 題</label>
+            <label style="font-weight:700;font-size:14px;">一次抽 <input type="number" min="2" max="6" value="{{multiCount}}" onChange="{{onMultiCountChange}}" style="width:80px;padding:9px;border:1px solid #E4E5DD;border-radius:10px;"> 題</label>
           </div>
           <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:14px;">
             <sc-for list="{{multiResults}}" as="mr" hint-placeholder-count="0">
-              <div style="padding:18px;border-radius:16px;background:#edf3f3;min-width:110px;font-weight:800;text-align:center;">{{mr.text}}</div>
+              <div style="padding:18px;border-radius:16px;background:#E0F2EC;min-width:110px;font-weight:800;text-align:center;">{{mr.text}}</div>
             </sc-for>
           </div>
-          <div style="margin-top:16px;"><button style="border:0;border-radius:12px;padding:11px 16px;font-weight:700;cursor:pointer;background:#e8b879;color:#4b3a23;" onClick="{{drawMulti}}">🔥 連抽</button></div>
+          <div style="margin-top:16px;"><button style="border:0;border-radius:12px;padding:11px 16px;font-weight:700;cursor:pointer;background:#F4C65D;color:#594936;" onClick="{{drawMulti}}">🔥 連抽</button></div>
         </sc-if>
 
         <sc-if value="{{tabWheel}}">
           <div style="display:flex;justify-content:center;margin:10px 0;">
             <canvas ref="{{wheelRef}}" width="420" height="420" style="max-width:100%;background:#fff;border-radius:50%;"></canvas>
           </div>
-          <div style="text-align:center;"><button style="border:0;border-radius:12px;padding:11px 16px;font-weight:700;cursor:pointer;background:#e8b879;color:#4b3a23;" onClick="{{spinWheel}}">🎡 轉！</button></div>
+          <div style="text-align:center;"><button style="border:0;border-radius:12px;padding:11px 16px;font-weight:700;cursor:pointer;background:#F4C65D;color:#594936;" onClick="{{spinWheel}}">🎡 轉！</button></div>
         </sc-if>
 
         <sc-if value="{{tabAuto}}">
           <div style="display:flex;gap:10px;align-items:center;">
-            <label style="font-weight:700;font-size:14px;">每 <input type="number" value="{{autoSec}}" onChange="{{onAutoSecChange}}" min="2" max="60" style="width:80px;padding:9px;border:1px solid #d9dfdf;border-radius:10px;"> 秒抽一題</label>
+            <label style="font-weight:700;font-size:14px;">每 <input type="number" value="{{autoSec}}" onChange="{{onAutoSecChange}}" min="2" max="60" style="width:80px;padding:9px;border:1px solid #E4E5DD;border-radius:10px;"> 秒抽一題</label>
           </div>
-          <div style="min-height:220px;border:2px dashed #b9c7c8;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;background:#fbfdfd;margin-top:10px;">
+          <div style="min-height:220px;border:2px dashed #B9DED1;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;background:#FFFCF4;margin-top:10px;">
             <div style="font-size:clamp(38px,7vw,76px);font-weight:900;">{{autoMain}}</div>
-            <div style="color:#6d7778;margin-top:8px;">{{autoSub}}</div>
+            <div style="color:#66766D;margin-top:8px;">{{autoSub}}</div>
           </div>
           <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;">
-            <button style="border:0;border-radius:12px;padding:11px 16px;font-weight:700;cursor:pointer;background:#e8b879;color:#4b3a23;" onClick="{{startAuto}}">▶ 開始</button>
-            <button style="border:0;border-radius:12px;padding:11px 16px;font-weight:700;cursor:pointer;background:#eef1f1;color:#2f3a3b;" onClick="{{pauseAuto}}">{{autoPauseLabel}}</button>
-            <button style="border:0;border-radius:12px;padding:11px 16px;font-weight:700;cursor:pointer;background:#fbe7e7;color:#c76666;" onClick="{{stopAuto}}">⏹ 結束</button>
+            <button style="border:0;border-radius:12px;padding:11px 16px;font-weight:700;cursor:pointer;background:#F4C65D;color:#594936;" onClick="{{startAuto}}">▶ 開始</button>
+            <button style="border:0;border-radius:12px;padding:11px 16px;font-weight:700;cursor:pointer;background:#ECEEE6;color:#263B37;" onClick="{{pauseAuto}}">{{autoPauseLabel}}</button>
+            <button style="border:0;border-radius:12px;padding:11px 16px;font-weight:700;cursor:pointer;background:#FDEBE4;color:#B9533A;" onClick="{{stopAuto}}">⏹ 結束</button>
           </div>
         </sc-if>
 
-        <hr style="border:none;border-top:1px solid #d9dfdf;margin:20px 0;">
-        <h3>📋 已抽題目 <span style="font-size:13px;color:#6d7778;">{{historyCountLabel}}</span></h3>
+        <hr style="border:none;border-top:1px solid #E4E5DD;margin:20px 0;">
+        <h3>📋 已抽題目 <span style="font-size:13px;color:#66766D;">{{historyCountLabel}}</span></h3>
         <div style="display:flex;gap:8px;flex-wrap:wrap;max-height:170px;overflow:auto;">
           <sc-for list="{{historyChips}}" as="h" hint-placeholder-count="0">
-            <span style="padding:7px 10px;border-radius:999px;background:#eef2f2;font-size:13px;">✓ {{h}}</span>
+            <span style="padding:7px 10px;border-radius:999px;background:#ECEEE6;font-size:13px;">✓ {{h}}</span>
           </sc-for>
         </div>
-        <div style="margin-top:16px;"><button style="border:0;border-radius:12px;padding:11px 16px;font-weight:700;cursor:pointer;background:#fbe7e7;color:#c76666;" onClick="{{resetDraw}}">重設抽題紀錄</button></div>
+        <div style="margin-top:16px;"><button style="border:0;border-radius:12px;padding:11px 16px;font-weight:700;cursor:pointer;background:#FDEBE4;color:#B9533A;" onClick="{{resetDraw}}">重設抽題紀錄</button></div>
       </section>
     </div>
 
-    <section style="background:#fff;border:1px solid #e5e6e2;border-radius:20px;padding:22px;box-shadow:0 8px 24px rgba(0,0,0,.08);margin-top:20px;">
+    <section style="background:#fff;border:1px solid #E8E6D9;border-radius:20px;padding:22px;box-shadow:0 8px 24px rgba(38,78,71,.08);margin-top:20px;">
       <h2 style="margin-top:0;">🖨️ 列印區</h2>
-      <p style="font-size:13px;color:#6d7778;">產生卡片後按下列印。</p>
+      <p style="font-size:13px;color:#66766D;">產生卡片後按下列印。</p>
       <div ref="{{printRef}}" style="display:grid;gap:16px;grid-template-columns:{{printCols}};"></div>
-      <button style="border:0;border-radius:12px;padding:11px 16px;font-weight:700;cursor:pointer;background:#557c83;color:#fff;" onClick="{{printCards}}">列印賓果卡</button>
+      <button style="border:0;border-radius:12px;padding:11px 16px;font-weight:700;cursor:pointer;background:#254E47;color:#fff;" onClick="{{printCards}}">列印賓果卡</button>
     </section>
 
   </div>
@@ -253,7 +254,7 @@ const PRESETS = {
   dice:['⚀','⚁','⚂','⚃','⚄','⚅'],
 };
 function shuffle(a) { return [...a].sort(() => Math.random() - 0.5); }
-function escapeHTML(s) { return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m])); }
+function escapeHTML(s) { return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#254E47;'}[m])); }
 
 class Component extends DCLogic {
   state = {
@@ -356,11 +357,11 @@ class Component extends DCLogic {
     const r = 190, cx = 210, cy = 210, step = Math.PI * 2 / items.length;
     items.forEach((x, i) => {
       ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, r, i * step, (i + 1) * step); ctx.closePath();
-      ctx.fillStyle = i % 2 ? '#edf4f2' : '#fff4e5'; ctx.fill(); ctx.strokeStyle = '#b8c2c3'; ctx.stroke();
-      ctx.save(); ctx.translate(cx, cy); ctx.rotate((i + 0.5) * step); ctx.textAlign = 'right'; ctx.font = '14px sans-serif'; ctx.fillStyle = '#2f3a3b';
+      ctx.fillStyle = i % 2 ? '#E0F2EC' : '#FFF6EC'; ctx.fill(); ctx.strokeStyle = '#D8E3D8'; ctx.stroke();
+      ctx.save(); ctx.translate(cx, cy); ctx.rotate((i + 0.5) * step); ctx.textAlign = 'right'; ctx.font = '14px sans-serif'; ctx.fillStyle = '#263B37';
       ctx.fillText(String(x.text).slice(0, 10), r - 14, 5); ctx.restore();
     });
-    ctx.beginPath(); ctx.moveTo(210, 8); ctx.lineTo(198, 32); ctx.lineTo(222, 32); ctx.closePath(); ctx.fillStyle = '#c76666'; ctx.fill();
+    ctx.beginPath(); ctx.moveTo(210, 8); ctx.lineTo(198, 32); ctx.lineTo(222, 32); ctx.closePath(); ctx.fillStyle = '#B9533A'; ctx.fill();
   }
   spinWheel() {
     const avail = this.available();
@@ -395,13 +396,13 @@ class Component extends DCLogic {
     window.print();
   }
   cardHtml(card, index) {
-    const seat = this.state.showSeat ? `<div style="text-align:right;font-size:13px;color:#6d7778;">第 ${String(index + 1).padStart(2, '0')} 號</div>` : '';
+    const seat = this.state.showSeat ? `<div style="text-align:right;font-size:13px;color:#66766D;">第 ${String(index + 1).padStart(2, '0')} 號</div>` : '';
     const cells = card.map(item => {
-      if (item.free) return `<div style="aspect-ratio:1/1;border:1px solid #4a5657;border-radius:8px;display:flex;align-items:center;justify-content:center;background:#f4e7d1;font-weight:700;">FREE</div>`;
-      if (item.image) return `<div style="aspect-ratio:1/1;border:1px solid #4a5657;border-radius:8px;display:flex;align-items:center;justify-content:center;background:#fff;"><img src="${item.image}" style="max-width:100%;max-height:100%;object-fit:contain;"></div>`;
-      return `<div style="aspect-ratio:1/1;border:1px solid #4a5657;border-radius:8px;display:flex;align-items:center;justify-content:center;background:#fff;font-weight:700;padding:5px;text-align:center;font-size:13px;">${escapeHTML(item.text)}</div>`;
+      if (item.free) return `<div style="aspect-ratio:1/1;border:1px solid #456C65;border-radius:8px;display:flex;align-items:center;justify-content:center;background:#FFF3D8;font-weight:700;">FREE</div>`;
+      if (item.image) return `<div style="aspect-ratio:1/1;border:1px solid #456C65;border-radius:8px;display:flex;align-items:center;justify-content:center;background:#fff;"><img src="${item.image}" style="max-width:100%;max-height:100%;object-fit:contain;"></div>`;
+      return `<div style="aspect-ratio:1/1;border:1px solid #456C65;border-radius:8px;display:flex;align-items:center;justify-content:center;background:#fff;font-weight:700;padding:5px;text-align:center;font-size:13px;">${escapeHTML(item.text)}</div>`;
     }).join('');
-    return `<div style="background:#fff;border:2px solid #2f3a3b;border-radius:16px;padding:14px;">${seat}<div style="text-align:center;font-size:24px;font-weight:900;letter-spacing:4px;margin-bottom:10px;">BINGO</div><div style="display:grid;gap:4px;grid-template-columns:repeat(${this.state.size},1fr);">${cells}</div></div>`;
+    return `<div style="background:#fff;border:2px solid #263B37;border-radius:16px;padding:14px;">${seat}<div style="text-align:center;font-size:24px;font-weight:900;letter-spacing:4px;margin-bottom:10px;">BINGO</div><div style="display:grid;gap:4px;grid-template-columns:repeat(${this.state.size},1fr);">${cells}</div></div>`;
   }
 
   renderVals() {
@@ -410,12 +411,12 @@ class Component extends DCLogic {
     const need = this.needed();
     const modes = MODES.map(([id, icon, name]) => {
       const active = s.mode === id;
-      return { icon, name, onClick: () => this.selectMode(id), style: `border:1px solid ${active ? '#557c83' : '#d9dfdf'};background:${active ? '#dfeaec' : '#fff'};border-radius:14px;padding:14px 8px;cursor:pointer;text-align:center;font-size:14px;` };
+      return { icon, name, onClick: () => this.selectMode(id), style: `border:1px solid ${active ? '#254E47' : '#E4E5DD'};background:${active ? '#E0F2EC' : '#fff'};border-radius:14px;padding:14px 8px;cursor:pointer;text-align:center;font-size:14px;` };
     });
 
     const sizeChips = [3, 4, 5, 6].map(sz => {
       const active = s.size === sz;
-      return { label: `${sz}×${sz}`, onClick: () => this.setState({ size: sz, freeCenter: sz === 5 ? s.freeCenter : false }), style: `border:1px solid ${active ? '#557c83' : '#d9dfdf'};background:${active ? '#557c83' : '#fff'};color:${active ? '#fff' : '#2f3a3b'};border-radius:999px;padding:8px 14px;cursor:pointer;font-weight:700;` };
+      return { label: `${sz}×${sz}`, onClick: () => this.setState({ size: sz, freeCenter: sz === 5 ? s.freeCenter : false }), style: `border:1px solid ${active ? '#254E47' : '#E4E5DD'};background:${active ? '#254E47' : '#fff'};color:${active ? '#fff' : '#263B37'};border-radius:999px;padding:8px 14px;cursor:pointer;font-weight:700;` };
     });
 
     const quickCounts = [10, 20, 30, 35, 40].map(n => ({ label: String(n), onClick: () => this.setState({ cardCount: n }) }));
@@ -423,12 +424,12 @@ class Component extends DCLogic {
     const drawTabDefs = [['single', '🎯 抽一個'], ['multi', '🚀 連抽'], ['wheel', '🎡 轉盤'], ['auto', '⏱️ 自動抽']];
     const drawTabs = drawTabDefs.map(([id, label]) => {
       const active = s.drawTab === id;
-      return { label, onClick: () => this.setState({ drawTab: id }, () => this.drawWheelCanvas()), style: `padding:9px 12px;border-radius:10px;border:1px solid ${active ? '#557c83' : '#d9dfdf'};background:${active ? '#557c83' : '#fff'};color:${active ? '#fff' : '#2f3a3b'};cursor:pointer;font-weight:700;font-family:inherit;` };
+      return { label, onClick: () => this.setState({ drawTab: id }, () => this.drawWheelCanvas()), style: `padding:9px 12px;border-radius:10px;border:1px solid ${active ? '#254E47' : '#E4E5DD'};background:${active ? '#254E47' : '#fff'};color:${active ? '#fff' : '#263B37'};cursor:pointer;font-weight:700;font-family:inherit;` };
     });
 
     const x = s.cards[s.previewIndex] || [];
     const previewCells = x.map(item => ({
-      isImage: !!item.image, image: item.image, text: item.free ? 'FREE' : item.text, bg: item.free ? '#f4e7d1' : '#fff',
+      isImage: !!item.image, image: item.image, text: item.free ? 'FREE' : item.text, bg: item.free ? '#FFF3D8' : '#fff',
     }));
 
     return {
@@ -440,7 +441,7 @@ class Component extends DCLogic {
       numMax: s.numMax, onNumMaxChange: (e) => this.setState({ numMax: e.target.value }),
       onImageUpload: (e) => this.onImageUpload(e.target.files),
       imageList: s.images.map((img, i) => ({ data: img.data, name: img.name, onNameChange: (e) => this.updateImageName(i, e.target.value), onDelete: () => this.deleteImage(i) })),
-      statusBg: items.length >= need ? '#eaf5ec' : '#fff3df', statusColor: items.length >= need ? '#3e6c49' : '#835a1a',
+      statusBg: items.length >= need ? '#E3F5E9' : '#FFF3D8', statusColor: items.length >= need ? '#176452' : '#8A5A33',
       itemCount: items.length, neededCount: need,
       sizeChips, is5x5: s.size === 5,
       freeCenter: s.freeCenter, onFreeCenterChange: (e) => this.setState({ freeCenter: e.target.checked }),
@@ -449,7 +450,7 @@ class Component extends DCLogic {
       showSeat: s.showSeat, onShowSeatChange: (e) => this.setState({ showSeat: e.target.checked }),
       perPage: s.perPage, onPerPageChange: (e) => this.setState({ perPage: e.target.value }),
       generateCards: () => this.generateCards(),
-      genStatus: s.genStatus, genStatusBg: s.genOk ? '#eaf5ec' : '#fff3df', genStatusColor: s.genOk ? '#3e6c49' : '#835a1a',
+      genStatus: s.genStatus, genStatusBg: s.genOk ? '#E3F5E9' : '#FFF3D8', genStatusColor: s.genOk ? '#176452' : '#8A5A33',
       previewHasSeat: s.showSeat && s.cards.length > 0, previewSeatLabel: `第 ${String(s.previewIndex + 1).padStart(2, '0')} 號`,
       gridCols: `repeat(${s.size},1fr)`, previewCells,
       prevCard: () => this.prevCard(), nextCard: () => this.nextCard(),

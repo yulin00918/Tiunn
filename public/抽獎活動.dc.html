@@ -30,22 +30,23 @@
   .lottery-ball:hover{transform:scale(1.15);z-index:10;}
   .lottery-winner{animation:popOut 0.8s ease-out forwards;z-index:100;}
   .lottery-winner-item{animation:bounceIn 0.5s ease-out;}
+  button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #F4C65D;outline-offset:2px;}
 </style>
 </helmet>
-<div ref="{{rootRef}}" oncontextmenu="{{preventContext}}" style="font-family:'Nunito',sans-serif;background:radial-gradient(circle at 10% 10%, rgba(255,255,255,.95), transparent 28%),radial-gradient(circle at 90% 15%, rgba(255,205,150,.8), transparent 30%),linear-gradient(135deg, #ffe4c4, #fff3e2);min-height:100vh;color:#26304a;padding:20px;-webkit-user-select:none;user-select:none;">
-  <a href="首頁.dc.html" style="display:inline-block;margin-bottom:14px;color:#b56319;font-weight:700;text-decoration:none;white-space:nowrap;">← 回首頁</a>
+<div ref="{{rootRef}}" oncontextmenu="{{preventContext}}" style="font-family:'Nunito',sans-serif;background:radial-gradient(circle at 7% 9%,rgba(244,198,93,.23),transparent 26%),radial-gradient(circle at 95% 17%,rgba(85,169,156,.17),transparent 28%),#FAF8F2;min-height:100vh;color:#263B37;padding:20px;-webkit-user-select:none;user-select:none;">
+  <a href="首頁.dc.html" style="display:inline-block;margin-bottom:14px;color:#B15F2A;font-weight:700;text-decoration:none;white-space:nowrap;">← 回首頁</a>
   <div style="max-width:1600px;margin:0 auto;display:flex;flex-wrap:wrap;gap:24px;">
 
     <div style="flex:1 1 420px;display:flex;flex-direction:column;gap:16px;">
-      <div style="background:rgba(255,255,255,0.75);backdrop-filter:blur(20px);border:2px solid rgba(180,150,110,0.25);border-radius:24px;padding:20px;box-shadow:0 8px 32px rgba(0,0,0,0.25);display:flex;flex-direction:column;min-height:340px;">
-        <div style="font-size:1.1rem;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:8px;text-transform:uppercase;letter-spacing:1px;color:#26304a;"><span style="width:4px;height:20px;background:#fb923c;border-radius:2px;display:inline-block;"></span>🎁 抽獎活動</div>
+      <div style="background:rgba(255,255,255,0.75);backdrop-filter:blur(20px);border:2px solid rgba(38,78,71,.12);border-radius:24px;padding:20px;box-shadow:0 8px 32px rgba(0,0,0,0.25);display:flex;flex-direction:column;min-height:340px;">
+        <div style="font-size:1.1rem;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:8px;text-transform:uppercase;letter-spacing:1px;color:#263B37;"><span style="width:4px;height:20px;background:#E88B4A;border-radius:2px;display:inline-block;"></span>🎁 抽獎活動</div>
         <div ref="{{poolRef}}" style="flex:1;background:radial-gradient(ellipse at center, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.5) 100%);border-radius:16px;position:relative;overflow:hidden;box-shadow:inset 0 10px 40px rgba(0,0,0,0.4);min-height:280px;"></div>
       </div>
       <div style="background:linear-gradient(135deg, rgba(251,146,60,0.2) 0%, rgba(234,88,12,0.1) 100%);border:2px solid rgba(251,146,60,0.4);border-radius:24px;padding:20px;">
-        <div style="font-size:1.1rem;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:8px;text-transform:uppercase;letter-spacing:1px;color:#26304a;"><span style="width:4px;height:20px;background:#fb923c;border-radius:2px;display:inline-block;"></span>🎉 恭喜中獎</div>
+        <div style="font-size:1.1rem;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:8px;text-transform:uppercase;letter-spacing:1px;color:#263B37;"><span style="width:4px;height:20px;background:#E88B4A;border-radius:2px;display:inline-block;"></span>🎉 恭喜中獎</div>
         <div style="display:flex;flex-wrap:wrap;gap:10px;min-height:60px;align-items:flex-start;">
           <sc-for list="{{winners}}" as="w" hint-placeholder-count="0">
-            <div class="lottery-winner-item" style="background:linear-gradient(135deg, #fb923c 0%, #ea580c 100%);color:#1a1a2e;padding:8px 16px;border-radius:50px;font-weight:700;font-size:0.9rem;display:flex;align-items:center;gap:8px;box-shadow:0 4px 12px rgba(251,146,60,0.4);">
+            <div class="lottery-winner-item" style="background:linear-gradient(135deg, #E88B4A 0%, #B15F2A 100%);color:#263B37;padding:8px 16px;border-radius:50px;font-weight:700;font-size:0.9rem;display:flex;align-items:center;gap:8px;box-shadow:0 4px 12px rgba(251,146,60,0.4);">
               <span style="background:rgba(0,0,0,0.15);padding:2px 8px;border-radius:20px;font-size:0.85rem;">{{w.number}}</span>
               {{w.name}}
             </div>
@@ -55,53 +56,53 @@
     </div>
 
     <div style="flex:1 1 300px;display:flex;flex-direction:column;gap:16px;">
-      <div style="background:rgba(255,255,255,0.75);backdrop-filter:blur(20px);border:2px solid rgba(180,150,110,0.25);border-radius:24px;padding:20px;">
-        <div style="font-size:1.1rem;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:8px;text-transform:uppercase;letter-spacing:1px;color:#26304a;"><span style="width:4px;height:20px;background:#fb923c;border-radius:2px;display:inline-block;"></span>⚙️ 模式選擇</div>
+      <div style="background:rgba(255,255,255,0.75);backdrop-filter:blur(20px);border:2px solid rgba(38,78,71,.12);border-radius:24px;padding:20px;">
+        <div style="font-size:1.1rem;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:8px;text-transform:uppercase;letter-spacing:1px;color:#263B37;"><span style="width:4px;height:20px;background:#E88B4A;border-radius:2px;display:inline-block;"></span>⚙️ 模式選擇</div>
         <div style="display:flex;gap:8px;margin-bottom:8px;">
           <button style="{{numberTabStyle}}" onClick="{{selectNumberMode}}">僅號碼</button>
           <button style="{{nameTabStyle}}" onClick="{{selectNameMode}}">號碼+姓名</button>
         </div>
         <sc-if value="{{isNumberMode}}">
           <div style="margin-bottom:6px;">
-            <label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:4px;color:rgba(38,48,74,0.75);">號碼範圍</label>
+            <label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:4px;color:rgba(38,59,55,.75);">號碼範圍</label>
             <div style="display:flex;gap:8px;align-items:center;">
-              <input type="number" value="{{minNumber}}" onChange="{{onMinChange}}" min="1" style="flex:1;padding:8px 12px;border:2px solid #dfe4f2;background:#fff;color:#26304a;border-radius:12px;font-family:inherit;font-size:0.95rem;font-weight:600;outline:none;">
+              <input type="number" value="{{minNumber}}" onChange="{{onMinChange}}" min="1" style="flex:1;padding:8px 12px;border:2px solid #E4E5DD;background:#fff;color:#263B37;border-radius:12px;font-family:inherit;font-size:0.95rem;font-weight:600;outline:none;">
               <span style="font-weight:700;">至</span>
-              <input type="number" value="{{maxNumber}}" onChange="{{onMaxChange}}" min="1" style="flex:1;padding:8px 12px;border:2px solid #dfe4f2;background:#fff;color:#26304a;border-radius:12px;font-family:inherit;font-size:0.95rem;font-weight:600;outline:none;">
+              <input type="number" value="{{maxNumber}}" onChange="{{onMaxChange}}" min="1" style="flex:1;padding:8px 12px;border:2px solid #E4E5DD;background:#fff;color:#263B37;border-radius:12px;font-family:inherit;font-size:0.95rem;font-weight:600;outline:none;">
             </div>
           </div>
         </sc-if>
         <sc-if value="{{isNameMode}}">
           <div style="margin-bottom:6px;">
-            <label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:4px;color:rgba(38,48,74,0.75);">貼上號碼及姓名資料(最多300筆)</label>
-            <textarea placeholder="01 方大同&#10;02 王曉明&#10;03 李小花" value="{{nameDataText}}" onChange="{{onNameDataChange}}" style="width:100%;height:80px;padding:10px;border:2px solid #dfe4f2;background:#fff;color:#26304a;border-radius:12px;font-family:inherit;font-size:0.9rem;resize:none;outline:none;"></textarea>
-            <div style="font-size:0.8rem;color:rgba(38,48,74,0.75);margin-top:4px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;">
+            <label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:4px;color:rgba(38,59,55,.75);">貼上號碼及姓名資料(最多300筆)</label>
+            <textarea placeholder="01 方大同&#10;02 王曉明&#10;03 李小花" value="{{nameDataText}}" onChange="{{onNameDataChange}}" style="width:100%;height:80px;padding:10px;border:2px solid #E4E5DD;background:#fff;color:#263B37;border-radius:12px;font-family:inherit;font-size:0.9rem;resize:none;outline:none;"></textarea>
+            <div style="font-size:0.8rem;color:rgba(38,59,55,.75);margin-top:4px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;">
               <span>已輸入:{{participantCount}} / 300 筆</span>
               <div style="display:flex;gap:6px;">
-                <button onClick="{{loadFromRoster}}" style="padding:4px 12px;background:rgba(94,110,231,0.15);border:1px solid rgba(94,110,231,0.4);border-radius:6px;color:#4650cc;cursor:pointer;font-size:0.8rem;font-weight:600;">📥 從學生名單載入</button>
-                <button onClick="{{toggleExample}}" style="padding:4px 12px;background:rgba(251,146,60,0.25);border:1px solid rgba(251,146,60,0.5);border-radius:6px;color:#b56319;cursor:pointer;font-size:0.8rem;font-weight:600;">{{exampleLabel}}</button>
+                <button onClick="{{loadFromRoster}}" style="padding:4px 12px;background:rgba(85,169,156,.15);border:1px solid rgba(85,169,156,.45);border-radius:6px;color:#236B60;cursor:pointer;font-size:0.8rem;font-weight:600;">📥 從學生名單載入</button>
+                <button onClick="{{toggleExample}}" style="padding:4px 12px;background:rgba(251,146,60,0.25);border:1px solid rgba(251,146,60,0.5);border-radius:6px;color:#B15F2A;cursor:pointer;font-size:0.8rem;font-weight:600;">{{exampleLabel}}</button>
               </div>
             </div>
           </div>
         </sc-if>
       </div>
 
-      <div style="background:rgba(255,255,255,0.75);backdrop-filter:blur(20px);border:2px solid rgba(180,150,110,0.25);border-radius:24px;padding:20px;display:flex;flex-direction:column;gap:8px;">
-        <div style="font-size:1.1rem;font-weight:800;margin-bottom:4px;display:flex;align-items:center;gap:8px;text-transform:uppercase;letter-spacing:1px;color:#26304a;"><span style="width:4px;height:20px;background:#fb923c;border-radius:2px;display:inline-block;"></span>🎯 抽獎設定</div>
+      <div style="background:rgba(255,255,255,0.75);backdrop-filter:blur(20px);border:2px solid rgba(38,78,71,.12);border-radius:24px;padding:20px;display:flex;flex-direction:column;gap:8px;">
+        <div style="font-size:1.1rem;font-weight:800;margin-bottom:4px;display:flex;align-items:center;gap:8px;text-transform:uppercase;letter-spacing:1px;color:#263B37;"><span style="width:4px;height:20px;background:#E88B4A;border-radius:2px;display:inline-block;"></span>🎯 抽獎設定</div>
         <div style="display:flex;gap:8px;">
           <button style="{{repeatOnStyle}}" onClick="{{selectRepeatOn}}">重複中獎</button>
           <button style="{{repeatOffStyle}}" onClick="{{selectRepeatOff}}">不重複中獎</button>
         </div>
         <div style="display:flex;align-items:center;gap:10px;">
-          <label style="font-weight:600;font-size:0.9rem;white-space:nowrap;color:#26304a;">中獎人數</label>
-          <select value="{{winnerCount}}" onChange="{{onWinnerCountChange}}" style="flex:1;padding:8px 12px;border:2px solid #dfe4f2;background:#fff;color:#26304a;border-radius:12px;font-family:inherit;font-size:0.95rem;font-weight:600;outline:none;">
+          <label style="font-weight:600;font-size:0.9rem;white-space:nowrap;color:#263B37;">中獎人數</label>
+          <select value="{{winnerCount}}" onChange="{{onWinnerCountChange}}" style="flex:1;padding:8px 12px;border:2px solid #E4E5DD;background:#fff;color:#263B37;border-radius:12px;font-family:inherit;font-size:0.95rem;font-weight:600;outline:none;">
             <sc-for list="{{countOptions}}" as="n" hint-placeholder-count="0">
               <option value="{{n}}">{{n}} 位</option>
             </sc-for>
           </select>
         </div>
         <div style="display:flex;gap:10px;margin-top:auto;">
-          <button onClick="{{resetGame}}" style="flex:1;padding:12px 16px;border:2px solid #dfe4f2;border-radius:16px;font-family:inherit;font-weight:800;font-size:1rem;cursor:pointer;text-transform:uppercase;letter-spacing:1px;background:#eef0ff;color:#4650cc;">重置</button>
+          <button onClick="{{resetGame}}" style="flex:1;padding:12px 16px;border:2px solid #E4E5DD;border-radius:16px;font-family:inherit;font-weight:800;font-size:1rem;cursor:pointer;text-transform:uppercase;letter-spacing:1px;background:#E0F2EC;color:#236B60;">重置</button>
           <button onClick="{{startDraw}}" disabled="{{isDrawing}}" style="{{startBtnStyle}}">開始抽獎</button>
         </div>
       </div>
@@ -113,10 +114,10 @@
 
   <sc-if value="{{modalShow}}">
     <div style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;z-index:2000;backdrop-filter:blur(5px);">
-      <div style="background:#fff;padding:32px;border-radius:24px;text-align:center;max-width:400px;width:90%;border:3px solid #ffe0bb;box-shadow:0 20px 60px rgba(0,0,0,0.2);color:#26304a;">
+      <div style="background:#fff;padding:32px;border-radius:24px;text-align:center;max-width:400px;width:90%;border:3px solid #F4D9BC;box-shadow:0 20px 60px rgba(0,0,0,0.2);color:#263B37;">
         <h2 style="font-size:1.5rem;margin-bottom:16px;">{{modalTitle}}</h2>
-        <p style="margin-bottom:24px;color:#6f7890;">{{modalMessage}}</p>
-        <button onClick="{{closeModal}}" style="width:100%;padding:12px 16px;border:none;border-radius:16px;font-family:inherit;font-weight:800;font-size:1rem;cursor:pointer;text-transform:uppercase;letter-spacing:1px;background:linear-gradient(135deg, #2dd4bf 0%, #0d9488 100%);color:#1a1a2e;">確定</button>
+        <p style="margin-bottom:24px;color:#66766D;">{{modalMessage}}</p>
+        <button onClick="{{closeModal}}" style="width:100%;padding:12px 16px;border:none;border-radius:16px;font-family:inherit;font-weight:800;font-size:1rem;cursor:pointer;text-transform:uppercase;letter-spacing:1px;background:linear-gradient(135deg, #55A99C 0%, #278777 100%);color:#263B37;">確定</button>
       </div>
     </div>
   </sc-if>
@@ -210,7 +211,7 @@ class Component extends DCLogic {
       Object.assign(ball.style, {
         position: 'absolute', width: '42px', height: '42px', borderRadius: '50%',
         display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '800',
-        fontSize: '0.75rem', color: '#1a1a2e', cursor: 'pointer', left: `${x}px`, top: `${y}px`,
+        fontSize: '0.75rem', color: '#263B37', cursor: 'pointer', left: `${x}px`, top: `${y}px`,
         background: BALL_GRADIENTS[index % 8],
         boxShadow: 'inset -3px -3px 8px rgba(0,0,0,0.3), inset 3px 3px 8px rgba(255,255,255,0.4), 0 4px 8px rgba(0,0,0,0.3)',
       });
@@ -332,8 +333,8 @@ class Component extends DCLogic {
   renderVals() {
     const s = this.state;
     const isNumberMode = s.mode === 'number';
-    const tabStyle = (active) => `flex:1;padding:8px 12px;border:2px solid ${active ? '#fb923c' : '#dfe4f2'};background:${active ? '#fb923c' : '#fff'};color:${active ? '#1a1a2e' : '#26304a'};border-radius:12px;font-family:inherit;font-weight:700;font-size:0.85rem;cursor:pointer;`;
-    const repeatStyle = (active) => `flex:1;padding:8px 8px;border:2px solid ${active ? '#2dd4bf' : '#dfe4f2'};background:${active ? '#2dd4bf' : '#fff'};color:${active ? '#1a1a2e' : '#26304a'};border-radius:12px;font-family:inherit;font-weight:700;font-size:0.8rem;cursor:pointer;`;
+    const tabStyle = (active) => `flex:1;padding:8px 12px;border:2px solid ${active ? '#E88B4A' : '#E4E5DD'};background:${active ? '#E88B4A' : '#fff'};color:${active ? '#263B37' : '#263B37'};border-radius:12px;font-family:inherit;font-weight:700;font-size:0.85rem;cursor:pointer;`;
+    const repeatStyle = (active) => `flex:1;padding:8px 8px;border:2px solid ${active ? '#55A99C' : '#E4E5DD'};background:${active ? '#55A99C' : '#fff'};color:${active ? '#263B37' : '#263B37'};border-radius:12px;font-family:inherit;font-weight:700;font-size:0.8rem;cursor:pointer;`;
 
     return {
       winners: s.winners,
@@ -363,7 +364,7 @@ class Component extends DCLogic {
       onWinnerCountChange: (e) => this.setState({ winnerCount: e.target.value }),
       countOptions: Array.from({ length: 30 }, (_, i) => i + 1),
       isDrawing: s.isDrawing,
-      startBtnStyle: `flex:1;padding:12px 16px;border:none;border-radius:16px;font-family:inherit;font-weight:800;font-size:1rem;text-transform:uppercase;letter-spacing:1px;background:linear-gradient(135deg, #2dd4bf 0%, #0d9488 100%);color:#1a1a2e;cursor:${s.isDrawing ? 'not-allowed' : 'pointer'};opacity:${s.isDrawing ? 0.5 : 1};`,
+      startBtnStyle: `flex:1;padding:12px 16px;border:none;border-radius:16px;font-family:inherit;font-weight:800;font-size:1rem;text-transform:uppercase;letter-spacing:1px;background:linear-gradient(135deg, #55A99C 0%, #278777 100%);color:#263B37;cursor:${s.isDrawing ? 'not-allowed' : 'pointer'};opacity:${s.isDrawing ? 0.5 : 1};`,
       startDraw: () => this.startDraw(),
       resetGame: () => this.resetGame(),
       modalShow: s.modalShow, modalTitle: s.modalTitle, modalMessage: s.modalMessage,

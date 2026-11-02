@@ -226,7 +226,7 @@ function tokenizeSegment(text) {
 }
 
 class Component extends DCLogic {
-  state = { current: 0, playing: false, continuous: false, progressPct: 0, status: '尚未播放', speed: 1, playingVocabIdx: null, popupIdx: null, showRom: true, showTone: true, sel: null };
+  state = { current: 0, playing: false, continuous: false, progressPct: 0, status: '尚未播放', speed: 1, playingVocabIdx: null, popupIdx: null, showRom: false, showTone: false, sel: null };
   audioEl = Object.assign(new Audio(), { preload: 'none' });
 
   componentDidMount() {

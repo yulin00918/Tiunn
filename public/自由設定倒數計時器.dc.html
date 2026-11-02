@@ -29,81 +29,82 @@
   .ct-time-red{animation:ct-pulse .8s infinite alternate;}
   .ct-toast.show{opacity:1 !important;transform:translateX(-50%) translateY(0) !important;}
   .ct-input{box-sizing:border-box;}
+  button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #F4C65D;outline-offset:2px;}
 </style>
 </helmet>
-<div style="font-family:'Noto Sans TC',sans-serif;color:#26304a;min-height:100vh;padding:20px;transition:background .35s ease;background:{{bodyBg}};">
+<div style="font-family:'Noto Sans TC',sans-serif;color:#263B37;min-height:100vh;padding:20px;transition:background .35s ease;background:{{bodyBg}};">
   <div style="width:min(1180px,100%);margin:0 auto;">
 
     <sc-if value="{{!isFullscreen}}">
       <header style="text-align:center;margin-bottom:18px;">
         <h1 style="margin:0 0 6px;font-size:clamp(30px,5vw,48px);">⏳ 自由設定倒數計時器</h1>
-        <p style="margin:0;color:#6f7890;">自訂倒數時間與顏色提醒門檻,適合課堂投影使用。</p>
+        <p style="margin:0;color:#66766D;">自訂倒數時間與顏色提醒門檻,適合課堂投影使用。</p>
       </header>
     </sc-if>
 
     <div style="display:{{layoutDisplay}};grid-template-columns:360px 1fr;gap:18px;align-items:start;">
 
       <sc-if value="{{!isFullscreen}}">
-        <aside style="background:rgba(255,255,255,.94);border:1px solid rgba(255,255,255,.9);border-radius:24px;box-shadow:0 18px 45px rgba(66,77,140,.16);backdrop-filter:blur(12px);padding:18px;">
+        <aside style="background:rgba(255,255,255,.94);border:1px solid rgba(255,255,255,.9);border-radius:24px;box-shadow:0 18px 45px rgba(38,78,71,.12);backdrop-filter:blur(12px);padding:18px;">
           <label style="display:block;font-weight:800;margin:14px 0 7px;">活動名稱</label>
-          <input class="ct-input" value="{{activityName}}" onChange="{{onActivityNameChange}}" placeholder="例如：個人思考、小組討論" style="width:100%;padding:11px 12px;border:1px solid #dfe4f2;border-radius:12px;background:#fff;font:inherit;color:#26304a;outline:none;">
+          <input class="ct-input" value="{{activityName}}" onChange="{{onActivityNameChange}}" placeholder="例如：個人思考、小組討論" style="width:100%;padding:11px 12px;border:1px solid #E4E5DD;border-radius:12px;background:#fff;font:inherit;color:#263B37;outline:none;">
 
           <label style="display:block;font-weight:800;margin:14px 0 7px;">快速設定</label>
           <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px;">
             <sc-for list="{{quickMinutes}}" as="q" hint-placeholder-count="8">
-              <button style="border:0;border-radius:12px;padding:11px 12px;font:inherit;font-weight:800;cursor:pointer;background:#eef0ff;color:#4650cc;" onClick="{{q.onClick}}">{{q.label}}</button>
+              <button style="border:0;border-radius:12px;padding:11px 12px;font:inherit;font-weight:800;cursor:pointer;background:#E0F2EC;color:#236B60;" onClick="{{q.onClick}}">{{q.label}}</button>
             </sc-for>
           </div>
 
           <label style="display:block;font-weight:800;margin:14px 0 7px;">自由設定時間</label>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-            <input class="ct-input" type="number" min="0" max="999" value="{{minutes}}" onChange="{{onMinutesChange}}" placeholder="分鐘" style="width:100%;padding:11px 12px;border:1px solid #dfe4f2;border-radius:12px;background:#fff;font:inherit;color:#26304a;outline:none;">
-            <input class="ct-input" type="number" min="0" max="59" value="{{seconds}}" onChange="{{onSecondsChange}}" placeholder="秒數" style="width:100%;padding:11px 12px;border:1px solid #dfe4f2;border-radius:12px;background:#fff;font:inherit;color:#26304a;outline:none;">
+            <input class="ct-input" type="number" min="0" max="999" value="{{minutes}}" onChange="{{onMinutesChange}}" placeholder="分鐘" style="width:100%;padding:11px 12px;border:1px solid #E4E5DD;border-radius:12px;background:#fff;font:inherit;color:#263B37;outline:none;">
+            <input class="ct-input" type="number" min="0" max="59" value="{{seconds}}" onChange="{{onSecondsChange}}" placeholder="秒數" style="width:100%;padding:11px 12px;border:1px solid #E4E5DD;border-radius:12px;background:#fff;font:inherit;color:#263B37;outline:none;">
           </div>
 
           <label style="display:block;font-weight:800;margin:14px 0 7px;">顏色提醒門檻(剩餘分鐘)</label>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
             <div>
-              <input class="ct-input" type="number" min="0" value="{{yellowAt}}" onChange="{{onYellowAtChange}}" style="width:100%;padding:11px 12px;border:1px solid #dfe4f2;border-radius:12px;background:#fff;font:inherit;color:#26304a;outline:none;">
-              <small style="color:#6f7890;">黃色提醒</small>
+              <input class="ct-input" type="number" min="0" value="{{yellowAt}}" onChange="{{onYellowAtChange}}" style="width:100%;padding:11px 12px;border:1px solid #E4E5DD;border-radius:12px;background:#fff;font:inherit;color:#263B37;outline:none;">
+              <small style="color:#66766D;">黃色提醒</small>
             </div>
             <div>
-              <input class="ct-input" type="number" min="0" value="{{orangeAt}}" onChange="{{onOrangeAtChange}}" style="width:100%;padding:11px 12px;border:1px solid #dfe4f2;border-radius:12px;background:#fff;font:inherit;color:#26304a;outline:none;">
-              <small style="color:#6f7890;">橘色提醒</small>
+              <input class="ct-input" type="number" min="0" value="{{orangeAt}}" onChange="{{onOrangeAtChange}}" style="width:100%;padding:11px 12px;border:1px solid #E4E5DD;border-radius:12px;background:#fff;font:inherit;color:#263B37;outline:none;">
+              <small style="color:#66766D;">橘色提醒</small>
             </div>
             <div>
-              <input class="ct-input" type="number" min="0" value="{{redAt}}" onChange="{{onRedAtChange}}" style="width:100%;padding:11px 12px;border:1px solid #dfe4f2;border-radius:12px;background:#fff;font:inherit;color:#26304a;outline:none;">
-              <small style="color:#6f7890;">紅色提醒</small>
+              <input class="ct-input" type="number" min="0" value="{{redAt}}" onChange="{{onRedAtChange}}" style="width:100%;padding:11px 12px;border:1px solid #E4E5DD;border-radius:12px;background:#fff;font:inherit;color:#263B37;outline:none;">
+              <small style="color:#66766D;">紅色提醒</small>
             </div>
             <div>
-              <input class="ct-input" type="number" min="0" max="59" value="{{finalSeconds}}" onChange="{{onFinalSecondsChange}}" style="width:100%;padding:11px 12px;border:1px solid #dfe4f2;border-radius:12px;background:#fff;font:inherit;color:#26304a;outline:none;">
-              <small style="color:#6f7890;">最後幾秒跳動</small>
+              <input class="ct-input" type="number" min="0" max="59" value="{{finalSeconds}}" onChange="{{onFinalSecondsChange}}" style="width:100%;padding:11px 12px;border:1px solid #E4E5DD;border-radius:12px;background:#fff;font:inherit;color:#263B37;outline:none;">
+              <small style="color:#66766D;">最後幾秒跳動</small>
             </div>
           </div>
 
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px;">
-            <button style="grid-column:1 / -1;border:0;border-radius:12px;padding:11px 12px;font:inherit;font-weight:800;cursor:pointer;background:linear-gradient(135deg, #5b67f1, #7f86ff);color:#fff;" onClick="{{startTimer}}">▶ 開始</button>
-            <button style="border:0;border-radius:12px;padding:11px 12px;font:inherit;font-weight:800;cursor:pointer;background:#fff0df;color:#b36b18;" onClick="{{pauseTimer}}">⏸ 暫停</button>
-            <button style="border:0;border-radius:12px;padding:11px 12px;font:inherit;font-weight:800;cursor:pointer;background:#ffe8eb;color:#eb5757;" onClick="{{resetTimer}}">↺ 重設</button>
-            <button style="border:0;border-radius:12px;padding:11px 12px;font:inherit;font-weight:800;cursor:pointer;background:#eef0ff;color:#4650cc;" onClick="{{plus30}}">＋30 秒</button>
-            <button style="border:0;border-radius:12px;padding:11px 12px;font:inherit;font-weight:800;cursor:pointer;background:#eef0ff;color:#4650cc;" onClick="{{minus30}}">－30 秒</button>
-            <button style="grid-column:1 / -1;border:0;border-radius:12px;padding:11px 12px;font:inherit;font-weight:800;cursor:pointer;background:#eef0ff;color:#4650cc;" onClick="{{toggleFullscreen}}">⛶ 全螢幕投影</button>
+            <button style="grid-column:1 / -1;border:0;border-radius:12px;padding:11px 12px;font:inherit;font-weight:800;cursor:pointer;background:linear-gradient(110deg,#E88B4A,#DA753B);color:#fff;" onClick="{{startTimer}}">▶ 開始</button>
+            <button style="border:0;border-radius:12px;padding:11px 12px;font:inherit;font-weight:800;cursor:pointer;background:#FFF3D8;color:#B15F2A;" onClick="{{pauseTimer}}">⏸ 暫停</button>
+            <button style="border:0;border-radius:12px;padding:11px 12px;font:inherit;font-weight:800;cursor:pointer;background:#FDEBE4;color:#B9533A;" onClick="{{resetTimer}}">↺ 重設</button>
+            <button style="border:0;border-radius:12px;padding:11px 12px;font:inherit;font-weight:800;cursor:pointer;background:#E0F2EC;color:#236B60;" onClick="{{plus30}}">＋30 秒</button>
+            <button style="border:0;border-radius:12px;padding:11px 12px;font:inherit;font-weight:800;cursor:pointer;background:#E0F2EC;color:#236B60;" onClick="{{minus30}}">－30 秒</button>
+            <button style="grid-column:1 / -1;border:0;border-radius:12px;padding:11px 12px;font:inherit;font-weight:800;cursor:pointer;background:#E0F2EC;color:#236B60;" onClick="{{toggleFullscreen}}">⛶ 全螢幕投影</button>
           </div>
 
-          <p style="margin-top:12px;color:#6f7890;font-size:13px;line-height:1.7;">顏色會依序變成黃色、橘色、紅色;「最後幾秒跳動」可自行設定。時間到會播放提示音。</p>
+          <p style="margin-top:12px;color:#66766D;font-size:13px;line-height:1.7;">顏色會依序變成黃色、橘色、紅色;「最後幾秒跳動」可自行設定。時間到會播放提示音。</p>
         </aside>
       </sc-if>
 
-      <section style="background:{{isFullscreen ? '#fff' : 'rgba(255,255,255,.94)'}};border:1px solid rgba(255,255,255,.9);border-radius:{{isFullscreen ? '0' : '24px'}};box-shadow:{{isFullscreen ? 'none' : '0 18px 45px rgba(66,77,140,.16)'}};backdrop-filter:blur(12px);min-height:{{displayMinHeight}};padding:24px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative;overflow:hidden;">
+      <section style="background:{{isFullscreen ? '#fff' : 'rgba(255,255,255,.94)'}};border:1px solid rgba(255,255,255,.9);border-radius:{{isFullscreen ? '0' : '24px'}};box-shadow:{{isFullscreen ? 'none' : '0 18px 45px rgba(38,78,71,.12)'}};backdrop-filter:blur(12px);min-height:{{displayMinHeight}};padding:24px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative;overflow:hidden;">
         <div style="font-size:clamp(24px,4vw,42px);font-weight:900;margin-bottom:10px;">{{activityDisplay}}</div>
-        <div style="font-size:18px;font-weight:800;color:#6f7890;min-height:26px;">{{statusText}}</div>
+        <div style="font-size:18px;font-weight:800;color:#66766D;min-height:26px;">{{statusText}}</div>
         <div class="{{timeClass}}" style="font-size:clamp(96px,18vw,220px);line-height:.95;font-weight:1000;letter-spacing:-.05em;margin:22px 0 28px;color:{{timeColor}};font-variant-numeric:tabular-nums;transition:color .3s, transform .3s;">{{timeText}}</div>
-        <div style="width:min(820px,90%);height:18px;background:#edf0f7;border-radius:999px;overflow:hidden;border:1px solid #dfe4f2;">
+        <div style="width:min(820px,90%);height:18px;background:#E8E8D9;border-radius:999px;overflow:hidden;border:1px solid #E4E5DD;">
           <div style="height:100%;width:{{percent}}%;background:{{barBg}};transition:width .3s linear, background .3s;"></div>
         </div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:18px;">
-          <span style="background:#f7f8fc;border:1px solid #dfe4f2;border-radius:999px;padding:8px 12px;color:#6f7890;font-size:14px;">{{stateChipText}}</span>
-          <span style="background:#f7f8fc;border:1px solid #dfe4f2;border-radius:999px;padding:8px 12px;color:#6f7890;font-size:14px;">剩餘 {{percentDisplay}}%</span>
+          <span style="background:#F7F6F0;border:1px solid #E4E5DD;border-radius:999px;padding:8px 12px;color:#66766D;font-size:14px;">{{stateChipText}}</span>
+          <span style="background:#F7F6F0;border:1px solid #E4E5DD;border-radius:999px;padding:8px 12px;color:#66766D;font-size:14px;">剩餘 {{percentDisplay}}%</span>
         </div>
       </section>
 
@@ -122,7 +123,7 @@ function formatTime(seconds) {
 }
 const QUICK_MINUTES = [1, 3, 5, 10, 15, 20, 30, 60];
 const BODY_BG = {
-  normal: 'linear-gradient(135deg, #f2ecff, #faf5ff)',
+  normal: 'radial-gradient(circle at 7% 9%,rgba(244,198,93,.23),transparent 26%),radial-gradient(circle at 95% 17%,rgba(85,169,156,.17),transparent 28%),#FAF8F2',
   yellow: 'linear-gradient(135deg, #fff9db, #fff1bd)',
   orange: 'linear-gradient(135deg, #ffe7cf, #ffd3a7)',
   red: 'linear-gradient(135deg, #ffe2e2, #ffc7c7)',
@@ -220,7 +221,7 @@ class Component extends DCLogic {
     const bgKey = colorState === 'red-final' ? 'red' : colorState;
     const percent = s.totalSeconds > 0 ? Math.max(0, Math.min(100, s.remainingSeconds / s.totalSeconds * 100)) : 0;
 
-    let timeColor = '#5b67f1', barBg = 'linear-gradient(90deg, #5b67f1, #7f86ff)', timeClass = '', stateChipText = '一般倒數';
+    let timeColor = '#254E47', barBg = 'linear-gradient(90deg, #55A99C, #278777)', timeClass = '', stateChipText = '一般倒數';
     if (colorState === 'yellow') { timeColor = '#c89500'; barBg = 'linear-gradient(90deg, #f2c94c, #e5b800)'; stateChipText = '黃色提醒'; }
     else if (colorState === 'orange') { timeColor = '#dc7415'; barBg = 'linear-gradient(90deg, #f2994a, #dc7415)'; stateChipText = '橘色提醒'; }
     else if (colorState === 'red' || colorState === 'red-final') { timeColor = '#eb5757'; barBg = 'linear-gradient(90deg, #eb5757, #c93d3d)'; timeClass = 'ct-time-red'; stateChipText = colorState === 'red-final' ? '最後倒數' : '紅色提醒'; }
@@ -245,7 +246,7 @@ class Component extends DCLogic {
       statusText: s.status, timeText: formatTime(Math.max(0, s.remainingSeconds)),
       timeClass, timeColor, barBg, percent, percentDisplay: Math.ceil(percent), stateChipText,
       toastMessage: s.toastMessage,
-      toastStyle: `position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(${s.toastVisible ? '0' : '20px'});background:#232a3f;color:#fff;padding:10px 16px;border-radius:999px;opacity:${s.toastVisible ? 1 : 0};pointer-events:none;transition:.25s;z-index:20;`,
+      toastStyle: `position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(${s.toastVisible ? '0' : '20px'});background:#263B37;color:#fff;padding:10px 16px;border-radius:999px;opacity:${s.toastVisible ? 1 : 0};pointer-events:none;transition:.25s;z-index:20;`,
     };
   }
 }

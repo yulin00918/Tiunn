@@ -28,30 +28,31 @@
   @keyframes pop { from{opacity:0;transform:translateY(10px) scale(.98);} to{opacity:1;transform:translateY(0) scale(1);} }
   .rg-group-card{animation:pop .35s ease both;}
   .rg-toast.show{opacity:1 !important;transform:translateX(-50%) translateY(0) !important;}
+  button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #F4C65D;outline-offset:2px;}
 </style>
 </helmet>
-<div style="font-family:'Noto Sans TC',sans-serif;color:#26304a;background:radial-gradient(circle at 10% 10%, rgba(255,255,255,.95), transparent 28%),radial-gradient(circle at 90% 20%, rgba(190,210,255,.7), transparent 30%),linear-gradient(135deg, #dbe6ff, #eef2ff);min-height:100vh;padding:28px 16px 48px;">
+<div style="font-family:'Noto Sans TC',sans-serif;color:#263B37;background:radial-gradient(circle at 7% 9%,rgba(244,198,93,.23),transparent 26%),radial-gradient(circle at 95% 17%,rgba(85,169,156,.17),transparent 28%),#FAF8F2;min-height:100vh;padding:28px 16px 48px;">
   <div style="width:min(1180px,100%);margin:0 auto;">
 
     <header style="text-align:center;margin-bottom:22px;">
       <h1 style="margin:0 0 8px;font-size:clamp(28px,5vw,46px);letter-spacing:.04em;">🎲 隨機分組小幫手</h1>
-      <p style="margin:0;color:#6f7890;font-size:16px;">貼上學生名單,選擇分組方式,一鍵完成公平分組。</p>
+      <p style="margin:0;color:#66766D;font-size:16px;">貼上學生名單,選擇分組方式,一鍵完成公平分組。</p>
     </header>
 
     <div style="display:grid;grid-template-columns:390px 1fr;gap:22px;align-items:start;">
 
-      <aside style="background:rgba(255,255,255,.92);border:1px solid rgba(255,255,255,.9);border-radius:24px;box-shadow:0 18px 45px rgba(66,77,140,.16);backdrop-filter:blur(12px);padding:22px;position:sticky;top:18px;">
+      <aside style="background:rgba(255,255,255,.92);border:1px solid rgba(255,255,255,.9);border-radius:24px;box-shadow:0 18px 45px rgba(38,78,71,.12);backdrop-filter:blur(12px);padding:22px;position:sticky;top:18px;">
         <h2 style="margin:0 0 12px;font-size:18px;display:flex;align-items:center;gap:8px;">👩‍🏫 班級設定</h2>
 
         <label style="display:block;font-weight:700;margin:15px 0 8px;">班級名稱</label>
-        <input type="text" placeholder="例如：九年一班" value="{{className}}" onChange="{{onClassNameChange}}" style="width:100%;border:1px solid #dfe4f2;border-radius:14px;padding:12px 14px;font:inherit;color:#26304a;background:#fff;outline:none;box-sizing:border-box;">
+        <input type="text" placeholder="例如：九年一班" value="{{className}}" onChange="{{onClassNameChange}}" style="width:100%;border:1px solid #E4E5DD;border-radius:14px;padding:12px 14px;font:inherit;color:#263B37;background:#fff;outline:none;box-sizing:border-box;">
 
         <label style="display:block;font-weight:700;margin:15px 0 8px;">學生名單</label>
-        <textarea placeholder="請一行輸入一位學生，例如：&#10;王小明&#10;李小華&#10;陳美玲" value="{{namesText}}" onChange="{{onNamesChange}}" style="width:100%;min-height:230px;resize:vertical;line-height:1.7;border:1px solid #dfe4f2;border-radius:14px;padding:12px 14px;font:inherit;color:#26304a;background:#fff;outline:none;box-sizing:border-box;"></textarea>
+        <textarea placeholder="請一行輸入一位學生，例如：&#10;王小明&#10;李小華&#10;陳美玲" value="{{namesText}}" onChange="{{onNamesChange}}" style="width:100%;min-height:230px;resize:vertical;line-height:1.7;border:1px solid #E4E5DD;border-radius:14px;padding:12px 14px;font:inherit;color:#263B37;background:#fff;outline:none;box-sizing:border-box;"></textarea>
 
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;">
-          <span style="background:#f7f8fc;border:1px solid #dfe4f2;border-radius:999px;padding:7px 11px;color:#6f7890;font-size:14px;">目前人數：<strong>{{studentCount}}</strong></span>
-          <span style="background:#f7f8fc;border:1px solid #dfe4f2;border-radius:999px;padding:7px 11px;color:#6f7890;font-size:14px;">重複姓名會自動保留一次</span>
+          <span style="background:#F7F6F0;border:1px solid #E4E5DD;border-radius:999px;padding:7px 11px;color:#66766D;font-size:14px;">目前人數：<strong>{{studentCount}}</strong></span>
+          <span style="background:#F7F6F0;border:1px solid #E4E5DD;border-radius:999px;padding:7px 11px;color:#66766D;font-size:14px;">重複姓名會自動保留一次</span>
         </div>
 
         <label style="display:block;font-weight:700;margin:15px 0 8px;">分組方式</label>
@@ -62,52 +63,52 @@
 
         <sc-if value="{{isByGroups}}">
           <label style="display:block;font-weight:700;margin:15px 0 8px;">要分成幾組？</label>
-          <input type="number" min="1" value="{{groupCount}}" onChange="{{onGroupCountChange}}" style="width:100%;border:1px solid #dfe4f2;border-radius:14px;padding:12px 14px;font:inherit;color:#26304a;background:#fff;outline:none;box-sizing:border-box;">
+          <input type="number" min="1" value="{{groupCount}}" onChange="{{onGroupCountChange}}" style="width:100%;border:1px solid #E4E5DD;border-radius:14px;padding:12px 14px;font:inherit;color:#263B37;background:#fff;outline:none;box-sizing:border-box;">
         </sc-if>
         <sc-if value="{{isBySize}}">
           <label style="display:block;font-weight:700;margin:15px 0 8px;">每組幾人？</label>
-          <input type="number" min="1" value="{{groupSize}}" onChange="{{onGroupSizeChange}}" style="width:100%;border:1px solid #dfe4f2;border-radius:14px;padding:12px 14px;font:inherit;color:#26304a;background:#fff;outline:none;box-sizing:border-box;">
+          <input type="number" min="1" value="{{groupSize}}" onChange="{{onGroupSizeChange}}" style="width:100%;border:1px solid #E4E5DD;border-radius:14px;padding:12px 14px;font:inherit;color:#263B37;background:#fff;outline:none;box-sizing:border-box;">
         </sc-if>
 
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;">
-          <button style="grid-column:1 / -1;border:0;border-radius:14px;padding:12px 14px;font:inherit;font-weight:800;cursor:pointer;background:linear-gradient(135deg, #5b67f1, #7f86ff);color:#fff;" onClick="{{createGroups}}">✨ 開始隨機分組</button>
-          <button style="grid-column:1 / -1;border:0;border-radius:14px;padding:12px 14px;font:inherit;font-weight:800;cursor:pointer;background:#e6f7ef;color:#2da66f;" onClick="{{loadFromRoster}}">📥 從學生名單載入</button>
-          <button style="border:0;border-radius:14px;padding:12px 14px;font:inherit;font-weight:800;cursor:pointer;background:#eef0ff;color:#414bd0;" onClick="{{saveList}}">💾 儲存名單</button>
-          <button style="border:0;border-radius:14px;padding:12px 14px;font:inherit;font-weight:800;cursor:pointer;background:#fff0df;color:#b56319;" onClick="{{loadList}}">📂 載入名單</button>
-          <button style="grid-column:1 / -1;border:0;border-radius:14px;padding:12px 14px;font:inherit;font-weight:800;cursor:pointer;background:#ffe8eb;color:#e45d68;" onClick="{{clearAll}}">🗑️ 清除</button>
+          <button style="grid-column:1 / -1;border:0;border-radius:14px;padding:12px 14px;font:inherit;font-weight:800;cursor:pointer;background:linear-gradient(110deg,#E88B4A,#DA753B);color:#fff;" onClick="{{createGroups}}">✨ 開始隨機分組</button>
+          <button style="grid-column:1 / -1;border:0;border-radius:14px;padding:12px 14px;font:inherit;font-weight:800;cursor:pointer;background:#E3F5E9;color:#278777;" onClick="{{loadFromRoster}}">📥 從學生名單載入</button>
+          <button style="border:0;border-radius:14px;padding:12px 14px;font:inherit;font-weight:800;cursor:pointer;background:#E0F2EC;color:#236B60;" onClick="{{saveList}}">💾 儲存名單</button>
+          <button style="border:0;border-radius:14px;padding:12px 14px;font:inherit;font-weight:800;cursor:pointer;background:#FFF3D8;color:#B15F2A;" onClick="{{loadList}}">📂 載入名單</button>
+          <button style="grid-column:1 / -1;border:0;border-radius:14px;padding:12px 14px;font:inherit;font-weight:800;cursor:pointer;background:#FDEBE4;color:#B9533A;" onClick="{{clearAll}}">🗑️ 清除</button>
         </div>
 
-        <p style="margin-top:10px;font-size:13px;color:#6f7890;line-height:1.6;">名單會儲存在目前瀏覽器中,不會上傳到網路。分組後可直接修改組名。</p>
+        <p style="margin-top:10px;font-size:13px;color:#66766D;line-height:1.6;">名單會儲存在目前瀏覽器中,不會上傳到網路。分組後可直接修改組名。</p>
       </aside>
 
-      <section style="background:rgba(255,255,255,.92);border:1px solid rgba(255,255,255,.9);border-radius:24px;box-shadow:0 18px 45px rgba(66,77,140,.16);backdrop-filter:blur(12px);padding:22px;min-height:520px;">
+      <section style="background:rgba(255,255,255,.92);border:1px solid rgba(255,255,255,.9);border-radius:24px;box-shadow:0 18px 45px rgba(38,78,71,.12);backdrop-filter:blur(12px);padding:22px;min-height:520px;">
         <div style="display:flex;justify-content:space-between;gap:14px;align-items:center;margin-bottom:16px;flex-wrap:wrap;">
           <div>
             <h2 style="margin:0;font-size:24px;">{{resultTitle}}</h2>
             <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;">
               <sc-if value="{{hasGroups}}">
-                <span style="background:#f7f8fc;border:1px solid #dfe4f2;border-radius:999px;padding:7px 11px;color:#6f7890;font-size:14px;">共 {{groupsCount}} 組</span>
-                <span style="background:#f7f8fc;border:1px solid #dfe4f2;border-radius:999px;padding:7px 11px;color:#6f7890;font-size:14px;">共 {{totalPeople}} 人</span>
+                <span style="background:#F7F6F0;border:1px solid #E4E5DD;border-radius:999px;padding:7px 11px;color:#66766D;font-size:14px;">共 {{groupsCount}} 組</span>
+                <span style="background:#F7F6F0;border:1px solid #E4E5DD;border-radius:999px;padding:7px 11px;color:#66766D;font-size:14px;">共 {{totalPeople}} 人</span>
               </sc-if>
             </div>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;min-width:260px;">
-            <button style="border:0;border-radius:14px;padding:12px 14px;font:inherit;font-weight:800;cursor:pointer;background:#eef0ff;color:#414bd0;" onClick="{{createGroups}}">🔄 重新分組</button>
-            <button style="border:0;border-radius:14px;padding:12px 14px;font:inherit;font-weight:800;cursor:pointer;background:#fff0df;color:#b56319;" onClick="{{copyResult}}">📋 複製結果</button>
+            <button style="border:0;border-radius:14px;padding:12px 14px;font:inherit;font-weight:800;cursor:pointer;background:#E0F2EC;color:#236B60;" onClick="{{createGroups}}">🔄 重新分組</button>
+            <button style="border:0;border-radius:14px;padding:12px 14px;font:inherit;font-weight:800;cursor:pointer;background:#FFF3D8;color:#B15F2A;" onClick="{{copyResult}}">📋 複製結果</button>
           </div>
         </div>
 
         <sc-if value="{{hasGroups}}">
           <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(210px,1fr));gap:16px;">
             <sc-for list="{{groups}}" as="g" hint-placeholder-count="0">
-              <article class="rg-group-card" style="background:#fff;border:1px solid #dfe4f2;border-radius:18px;padding:16px;box-shadow:0 10px 25px rgba(78,87,140,.08);">
+              <article class="rg-group-card" style="background:#fff;border:1px solid #E4E5DD;border-radius:18px;padding:16px;box-shadow:0 10px 25px rgba(38,78,71,.08);">
                 <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px;">
-                  <input value="{{g.name}}" onChange="{{g.onNameChange}}" style="font-weight:800;font-size:17px;padding:8px 10px;background:#f8f9ff;border:1px solid #dfe4f2;border-radius:14px;font-family:inherit;color:#26304a;outline:none;width:65%;">
-                  <span style="white-space:nowrap;color:#414bd0;background:#eef0ff;border-radius:999px;padding:6px 9px;font-size:13px;font-weight:800;">{{g.count}} 人</span>
+                  <input value="{{g.name}}" onChange="{{g.onNameChange}}" style="font-weight:800;font-size:17px;padding:8px 10px;background:#FAF8F2;border:1px solid #E4E5DD;border-radius:14px;font-family:inherit;color:#263B37;outline:none;width:65%;">
+                  <span style="white-space:nowrap;color:#236B60;background:#E0F2EC;border-radius:999px;padding:6px 9px;font-size:13px;font-weight:800;">{{g.count}} 人</span>
                 </div>
                 <div>
                   <sc-for list="{{g.members}}" as="name" hint-placeholder-count="3">
-                    <div style="padding:9px 10px;background:#fafbff;border:1px solid #edf0f8;border-radius:11px;margin-top:8px;font-weight:650;">{{name}}</div>
+                    <div style="padding:9px 10px;background:#FAF8F2;border:1px solid #ECEBE1;border-radius:11px;margin-top:8px;font-weight:650;">{{name}}</div>
                   </sc-for>
                 </div>
               </article>
@@ -115,7 +116,7 @@
           </div>
         </sc-if>
         <sc-if value="{{!hasGroups}}">
-          <div style="min-height:400px;display:grid;place-items:center;text-align:center;color:#6f7890;padding:30px;">
+          <div style="min-height:400px;display:grid;place-items:center;text-align:center;color:#66766D;padding:30px;">
             <div>
               <div style="font-size:64px;margin-bottom:10px;">🧩</div>
               <h3>尚未產生分組</h3>
@@ -223,7 +224,7 @@ class Component extends DCLogic {
   renderVals() {
     const s = this.state;
     const isByGroups = s.mode === 'groups';
-    const tabStyle = (active) => `border:1px solid ${active ? '#5b67f1' : '#dfe4f2'};background:${active ? '#5b67f1' : '#fff'};color:${active ? '#fff' : '#26304a'};padding:11px 8px;border-radius:12px;cursor:pointer;font-weight:700;font-family:inherit;`;
+    const tabStyle = (active) => `border:1px solid ${active ? '#254E47' : '#E4E5DD'};background:${active ? '#254E47' : '#fff'};color:${active ? '#fff' : '#263B37'};padding:11px 8px;border-radius:12px;cursor:pointer;font-weight:700;font-family:inherit;`;
     const groups = s.groups.map((members, i) => ({
       name: s.groupNames[i] || `第 ${i + 1} 組`,
       count: members.length,
@@ -248,7 +249,7 @@ class Component extends DCLogic {
       hasGroups: groups.length > 0, groupsCount: groups.length, totalPeople, groups,
       copyResult: () => this.copyResult(),
       toastMessage: s.toastMessage,
-      toastStyle: `position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(${s.toastVisible ? '0' : '20px'});background:#232a3f;color:#fff;padding:11px 17px;border-radius:999px;opacity:${s.toastVisible ? 1 : 0};pointer-events:none;transition:.25s;z-index:20;`,
+      toastStyle: `position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(${s.toastVisible ? '0' : '20px'});background:#263B37;color:#fff;padding:11px 17px;border-radius:999px;opacity:${s.toastVisible ? 1 : 0};pointer-events:none;transition:.25s;z-index:20;`,
     };
   }
 }

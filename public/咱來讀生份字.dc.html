@@ -93,6 +93,47 @@ Copyright © 張鈺聆. All rights reserved.
 @media(max-width:820px){.selectors{grid-template-columns:1fr 1fr}}
 @media(max-width:640px){.topIn{min-height:60px;padding:10px 14px;gap:8px}.topIn b{font-size:18px}.topIn .sub{font-size:11.5px}.topSpacer{display:none}.taskIn{padding:14px 14px 18px}.wrap{padding:16px 14px}.panel{padding:18px;border-radius:20px}.card{padding:24px 18px;border-radius:20px}.pageFoot{padding:6px 14px 30px}}
 @media(max-width:520px){.selectors{grid-template-columns:1fr}.modes{grid-template-columns:1fr}.opts{grid-template-columns:1fr}.amounts button{flex:1;padding:12px 10px}.primary{width:100%}}
+
+/* ===== 鈺見台語 V2 視覺覆寫（只改顏色與外觀，不動功能）===== */
+html{background:#FAF8F2}
+body{color:#263B37;background:radial-gradient(circle at 7% 9%,rgba(244,198,93,.23),transparent 26%),radial-gradient(circle at 95% 17%,rgba(85,169,156,.17),transparent 28%),#FAF8F2}
+.top{background:linear-gradient(110deg,#254E47,#316E62 78%,#37877B);border-bottom:4px solid #F4C65D}
+.topIn .home{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.22);color:#fff}
+.topIn .sub{color:#E7F2E9}
+.taskBand{background:linear-gradient(105deg,#FFF1D4 0%,#FFE1CA 51%,#DDF1E9 100%);border-bottom-color:#F1DDBF}
+.bubble{border-color:#F4C990;box-shadow:0 5px 14px rgba(177,95,42,.08)}
+.bubble .todayTag{color:#B15F2A}.bubble .todayTxt{color:#594936}
+.back{color:#254E47}
+.panel{border-color:#E8E6D9;box-shadow:0 10px 26px rgba(38,78,71,.08)}
+.stepNo{background:#254E47}.modeTitle{color:#254E47}.stepHint{color:#66766D}
+.stepBlock{border-top-color:#E8E6D9}
+.modeBtn{border-color:#E4E5DD;background:#FFFEFA;color:#385A53}
+.modeBtn.on{background:#254E47;border-color:#254E47;color:#fff;box-shadow:0 7px 16px rgba(37,78,71,.22)}
+.field label{color:#456C65}
+.field select{border-color:#E4E5DD;color:#263B37}
+.scopeNote{color:#B15F2A;background:#FFF3D8;border-color:#F2E1BC}
+.lessonInfo{color:#66766D}
+.amounts button{border-color:#E4E5DD;background:#FFFEFA;color:#385A53}
+.amounts button.on{background:#278777;border-color:#278777;color:#fff}
+.primary{background:linear-gradient(110deg,#E88B4A,#DA753B);box-shadow:0 9px 20px rgba(232,139,74,.25)}
+.warn{color:#77847C}
+.meta{color:#456C65}
+.bar{background:#E8E8D9}.bar i{background:linear-gradient(90deg,#55A99C,#F4C65D)}
+.card{border-color:#E8E6D9;box-shadow:0 12px 30px rgba(38,78,71,.09)}
+.tag{background:#E0F2EC;color:#236B60}
+.prompt{color:#254E47}
+.card .sub{color:#66766D}
+.audioBtn{background:#254E47;box-shadow:0 8px 18px rgba(37,78,71,.22)}
+.opt{border-color:#E4E5DD;background:#FFFEFA;color:#263B37}
+.opt.good{background:#E3F5E9;border-color:#278777;color:#176452}
+.opt.bad{background:#FDEBE4;border-color:#CF8166;color:#9A462E}
+.feedback{color:#456C65}
+.result .score{color:#278777}
+#again{background:#278777;box-shadow:0 9px 20px rgba(39,135,119,.22)}
+#choose{background:#fff;color:#385A53;border-color:#E4E5DD}
+.pageFoot{color:#77847C}.pageFoot span{color:#456C65}
+@media(hover:hover){.topIn .home:hover{background:rgba(255,255,255,.24)}.modeBtn:hover,.amounts button:hover,.opt:not(:disabled):hover{border-color:#55A99C}.primary:not(:disabled):hover{box-shadow:0 12px 24px rgba(232,139,74,.32)}}
+button:focus-visible,a:focus-visible,select:focus-visible{outline:3px solid #F4C65D;outline-offset:2px}
 </style><!-- Google Analytics 4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-H3X7ZH5XL6"></script>
 <script>
@@ -103,7 +144,7 @@ Copyright © 張鈺聆. All rights reserved.
 </script>
 </head><body>
 <div class="top"><div class="topIn"><a class="home" href="首頁.dc.html">← 回首頁</a><div class="titleBox"><b>🔎 課文解碼站</b><div class="sub">聽音・認字・看台羅，把課文語詞真正解開</div></div><div class="topSpacer"></div></div></div>
-<div class="taskBand"><div class="taskIn"><span class="leaf">🌿</span><div class="bubble"><div class="todayTag">今日任務</div><div class="todayTxt">聽一聽、看一看，你認得這个詞無？</div></div></div><svg class="taskWave" viewBox="0 0 1440 16" preserveAspectRatio="none"><path d="M0,10 C240,2 480,15 720,8 C960,2 1200,14 1440,7 L1440,16 L0,16 Z" fill="#fbf8f2"></path></svg></div>
+<div class="taskBand"><div class="taskIn"><span class="leaf">🌿</span><div class="bubble"><div class="todayTag">今日任務</div><div class="todayTxt">聽一聽、看一看，你認得這个詞無？</div></div></div><svg class="taskWave" viewBox="0 0 1440 16" preserveAspectRatio="none"><path d="M0,10 C240,2 480,15 720,8 C960,2 1200,14 1440,7 L1440,16 L0,16 Z" fill="#FAF8F2"></path></svg></div>
 <div class="wrap" id="selectScreen"><div class="panel">
 <div class="stepHead"><span class="stepNo">1</span><div><p class="modeTitle">選擇練習模式</p><p class="stepHint">四種練習方向，揀你今介日想練的</p></div></div>
 <div class="modes" id="modes">

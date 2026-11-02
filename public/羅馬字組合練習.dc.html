@@ -24,47 +24,48 @@
 <x-dc>
 <helmet>
 <style>
+  button:focus-visible,a:focus-visible{outline:3px solid #F4C65D;outline-offset:2px;}
   @keyframes pulse { 0%{opacity:1;} 50%{opacity:0.5;} 100%{opacity:1;} }
 </style>
 </helmet>
-<div class="rc-wrap" style="font-family:'Noto Sans TC','Microsoft JhengHei','PingFang TC',sans-serif;background:#F5F3EE;color:#243337;padding:20px 14px 40px;">
-  <div style="max-width:1000px;margin:0 auto 18px;background:#FFFEFA;border:1px solid #e4dece;border-radius:22px;padding:18px 20px;box-shadow:0 8px 20px rgba(49,92,99,.07);display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
-    <span style="flex:0 0 auto;width:46px;height:46px;border-radius:14px;background:#E7EFEF;display:inline-flex;align-items:center;justify-content:center;font-size:24px;">🎧</span>
+<div class="rc-wrap" style="font-family:'Noto Sans TC','Microsoft JhengHei','PingFang TC',sans-serif;background:transparent;color:#263B37;padding:20px 14px 40px;">
+  <div style="max-width:1000px;margin:0 auto 18px;background:#FFFEFA;border:1px solid #E4E5DD;border-radius:22px;padding:18px 20px;box-shadow:0 8px 20px rgba(38,78,71,.07);display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+    <span style="flex:0 0 auto;width:46px;height:46px;border-radius:14px;background:#E0F2EC;display:inline-flex;align-items:center;justify-content:center;font-size:24px;">🎧</span>
     <div style="min-width:0;flex:1;">
       <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;">
-        <span style="flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;padding:5px 11px;border-radius:999px;background:#315C63;color:#fff;font-size:11.5px;font-weight:900;white-space:nowrap;">臺羅練功房</span>
+        <span style="flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;padding:5px 11px;border-radius:999px;background:#254E47;color:#fff;font-size:11.5px;font-weight:900;white-space:nowrap;">臺羅練功房</span>
         <h1 style="margin:0;font-size:clamp(19px,3vw,23px);font-weight:900;letter-spacing:.04em;line-height:1.3;">台語拼音練習</h1>
       </div>
-      <div style="margin-top:5px;font-size:12.5px;color:#7d8a8b;font-weight:700;line-height:1.6;">揀聲母＋韻母＋聲調，組成音節，聽看覓按怎唸</div>
+      <div style="margin-top:5px;font-size:12.5px;color:#66766D;font-weight:700;line-height:1.6;">揀聲母＋韻母＋聲調，組成音節，聽看覓按怎唸</div>
     </div>
   </div>
 
   <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:14px;max-width:1000px;margin:0 auto;">
 
-    <div style="border-radius:16px;padding:14px;border:1px solid #e4dece;background:#FFFEFA;box-shadow:0 6px 16px rgba(49,92,99,.05);">
-      <h2 style="font-size:0.95rem;margin:0 0 10px;text-align:center;letter-spacing:0.15em;color:#7A8F6B;">聲母</h2>
+    <div style="border-radius:16px;padding:14px;border:1px solid #E4E5DD;background:#FFFEFA;box-shadow:0 6px 16px rgba(38,78,71,.05);">
+      <h2 style="font-size:0.95rem;margin:0 0 10px;text-align:center;letter-spacing:0.15em;color:#278777;">聲母</h2>
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;">
         <sc-for list="{{siannButtons}}" as="btn" hint-placeholder-count="18">
           <button style="{{btn.style}}" onClick="{{btn.onClick}}">
             {{btn.label}}
             <sc-if value="{{btn.hasAudio}}">
-              <span style="position:absolute;top:-6px;right:-6px;font-size:0.65rem;background:#fff;border:1px solid #d9d3c4;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;line-height:1;cursor:pointer;z-index:2;" onClick="{{btn.playAudio}}">🔊</span>
+              <span style="position:absolute;top:-6px;right:-6px;font-size:0.65rem;background:#fff;border:1px solid #E7DCC9;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;line-height:1;cursor:pointer;z-index:2;" onClick="{{btn.playAudio}}">🔊</span>
             </sc-if>
           </button>
         </sc-for>
       </div>
     </div>
 
-    <div style="border-radius:16px;padding:14px;border:1px solid #e4dece;background:#FFFEFA;box-shadow:0 6px 16px rgba(49,92,99,.05);">
-      <h2 style="font-size:0.95rem;margin:0 0 10px;text-align:center;letter-spacing:0.15em;color:#315C63;">韻母</h2>
+    <div style="border-radius:16px;padding:14px;border:1px solid #E4E5DD;background:#FFFEFA;box-shadow:0 6px 16px rgba(38,78,71,.05);">
+      <h2 style="font-size:0.95rem;margin:0 0 10px;text-align:center;letter-spacing:0.15em;color:#254E47;">韻母</h2>
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;max-height:340px;overflow-y:auto;padding-right:4px;">
         <sc-for list="{{unGroups}}" as="grp" hint-placeholder-count="14">
-          <div style="grid-column:1 / -1;font-size:0.7rem;color:#7d8a8b;margin-top:6px;margin-bottom:-2px;">{{grp.label}}</div>
+          <div style="grid-column:1 / -1;font-size:0.7rem;color:#66766D;margin-top:6px;margin-bottom:-2px;">{{grp.label}}</div>
           <sc-for list="{{grp.items}}" as="btn" hint-placeholder-count="6">
             <button style="{{btn.style}}" onClick="{{btn.onClick}}">
               {{btn.label}}
               <sc-if value="{{btn.hasAudio}}">
-                <span style="position:absolute;top:-6px;right:-6px;font-size:0.65rem;background:#fff;border:1px solid #d9d3c4;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;line-height:1;cursor:pointer;z-index:2;" onClick="{{btn.playAudio}}">🔊</span>
+                <span style="position:absolute;top:-6px;right:-6px;font-size:0.65rem;background:#fff;border:1px solid #E7DCC9;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;line-height:1;cursor:pointer;z-index:2;" onClick="{{btn.playAudio}}">🔊</span>
               </sc-if>
             </button>
           </sc-for>
@@ -72,8 +73,8 @@
       </div>
     </div>
 
-    <div style="border-radius:16px;padding:14px;border:1px solid #e4dece;background:#FFFEFA;box-shadow:0 6px 16px rgba(49,92,99,.05);">
-      <h2 style="font-size:0.95rem;margin:0 0 10px;text-align:center;letter-spacing:0.15em;color:#B07B4F;">聲調</h2>
+    <div style="border-radius:16px;padding:14px;border:1px solid #E4E5DD;background:#FFFEFA;box-shadow:0 6px 16px rgba(38,78,71,.05);">
+      <h2 style="font-size:0.95rem;margin:0 0 10px;text-align:center;letter-spacing:0.15em;color:#C96E2F;">聲調</h2>
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;">
         <sc-for list="{{tiauButtons}}" as="btn" hint-placeholder-count="8">
           <button style="{{btn.style}}" onClick="{{btn.onClick}}" disabled="{{btn.disabled}}">{{btn.label}}</button>
@@ -83,28 +84,28 @@
 
   </div>
 
-  <div style="max-width:1000px;margin:18px auto 0;background:#FFFEFA;border:1px solid #e4dece;border-radius:18px;padding:18px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+  <div style="max-width:1000px;margin:18px auto 0;background:#FFFEFA;border:1px solid #E4E5DD;border-radius:18px;padding:18px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
     <div>
       <div style="font-size:2.4rem;font-weight:700;letter-spacing:0.03em;min-width:140px;">{{previewSyll}}</div>
-      <div style="font-size:0.8rem;color:#7d8a8b;">{{previewParts}}</div>
+      <div style="font-size:0.8rem;color:#66766D;">{{previewParts}}</div>
     </div>
     <div style="display:flex;gap:10px;flex-wrap:wrap;">
-      <button style="font-family:inherit;font-size:0.95rem;padding:10px 20px;border-radius:999px;border:none;cursor:pointer;font-weight:600;background:#F0EBE0;color:#6b6152;" onClick="{{clearAll}}">清除</button>
-      <button style="font-family:inherit;font-size:0.95rem;padding:10px 20px;border-radius:999px;border:none;cursor:pointer;font-weight:600;background:#E7EFEF;color:#315C63;" onClick="{{goBack}}">返回</button>
+      <button style="font-family:inherit;font-size:0.95rem;padding:10px 20px;border-radius:999px;border:none;cursor:pointer;font-weight:600;background:#ECEEE6;color:#456C65;" onClick="{{clearAll}}">清除</button>
+      <button style="font-family:inherit;font-size:0.95rem;padding:10px 20px;border-radius:999px;border:none;cursor:pointer;font-weight:600;background:#E0F2EC;color:#254E47;" onClick="{{goBack}}">返回</button>
       <button style="{{submitStyle}}" onClick="{{submit}}" disabled="{{submitDisabled}}">送出</button>
     </div>
   </div>
 
   <sc-if value="{{resultShow}}">
-    <div style="max-width:1000px;margin:16px auto 0;background:#fff;border-radius:18px;border:1px solid #e4dece;padding:16px 18px;">
+    <div style="max-width:1000px;margin:16px auto 0;background:#fff;border-radius:18px;border:1px solid #E4E5DD;padding:16px 18px;">
       <sc-if value="{{hasMatches}}">
-        <h3 style="margin:0 0 10px;font-size:0.95rem;color:#7d8a8b;">找到 {{matchCount}} 個字,點擊播放</h3>
+        <h3 style="margin:0 0 10px;font-size:0.95rem;color:#66766D;">找到 {{matchCount}} 個字,點擊播放</h3>
         <sc-for list="{{matches}}" as="m" hint-placeholder-count="2">
-          <div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid #e9e4d8;">
+          <div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid #ECEEE6;">
             <div style="font-size:1.5rem;font-weight:700;">{{m.hanji}}</div>
-            <div style="color:#7d8a8b;font-size:0.95rem;">{{m.lomaji}}</div>
-            <sc-if value="{{m.hasAudio}}"><button style="margin-left:auto;background:#315C63;color:#fff;border:none;border-radius:999px;width:38px;height:38px;font-size:1rem;cursor:pointer;" onClick="{{m.play}}">▶</button></sc-if>
-            <sc-if value="{{m.noAudio}}"><span style="margin-left:auto;flex:0 0 auto;font-size:0.8rem;font-weight:700;color:#7d8a8b;background:#F0EBE0;border-radius:999px;padding:7px 12px;white-space:nowrap;">目前無發音</span></sc-if>
+            <div style="color:#66766D;font-size:0.95rem;">{{m.lomaji}}</div>
+            <sc-if value="{{m.hasAudio}}"><button style="margin-left:auto;background:#278777;color:#fff;border:none;border-radius:999px;width:38px;height:38px;font-size:1rem;cursor:pointer;" onClick="{{m.play}}">▶</button></sc-if>
+            <sc-if value="{{m.noAudio}}"><span style="margin-left:auto;flex:0 0 auto;font-size:0.8rem;font-weight:700;color:#66766D;background:#ECEEE6;border-radius:999px;padding:7px 12px;white-space:nowrap;">目前無發音</span></sc-if>
           </div>
         </sc-for>
       </sc-if>
@@ -112,7 +113,7 @@
         <div style="text-align:center;padding:10px 0;">
           本站沒有「{{noMatchKey}}」的音檔,幫你連到教育部臺灣台語常用詞辭典查詢:
           <br>
-          <a href="{{dictUrl}}" target="_blank" rel="noopener" style="display:inline-block;margin-top:8px;background:#315C63;color:#fff;text-decoration:none;padding:10px 22px;border-radius:999px;font-weight:600;">前往辭典查詢 →</a>
+          <a href="{{dictUrl}}" target="_blank" rel="noopener" style="display:inline-block;margin-top:8px;background:#254E47;color:#fff;text-decoration:none;padding:10px 22px;border-radius:999px;font-weight:600;">前往辭典查詢 →</a>
         </div>
       </sc-if>
     </div>
@@ -232,7 +233,7 @@ class Component extends DCLogic {
   renderVals() {
     const { siann, un, tiau, result } = this.state;
 
-    const siannButtons = [{ label: '（無聲母）', style: `grid-column:1 / -1;font-size:0.8rem;position:relative;font-family:inherit;padding:8px 4px;border-radius:8px;border:1.5px solid #ddd0bd;background:${siann===''?'#7A8F6B':'#fff'};color:${siann===''?'#fff':'#243337'};cursor:pointer;`, onClick: () => this.select('siann',''), hasAudio: false, playAudio: null }]
+    const siannButtons = [{ label: '（無聲母）', style: `grid-column:1 / -1;font-size:0.8rem;position:relative;font-family:inherit;padding:8px 4px;border-radius:8px;border:1.5px solid #E7DCC9;background:${siann===''?'#278777':'#fff'};color:${siann===''?'#fff':'#263B37'};cursor:pointer;`, onClick: () => this.select('siann',''), hasAudio: false, playAudio: null }]
       .concat(SIANN_LIST.map(s => {
         const selected = siann === s;
         const customUrl = CUSTOM_SIANN_AUDIO[s];
@@ -241,7 +242,7 @@ class Component extends DCLogic {
         const hasAudio = !!(customUrl || moeUrl || ex);
         return {
           label: s,
-          style: `position:relative;font-family:inherit;font-size:0.95rem;padding:8px 4px;border-radius:8px;border:1.5px solid #ddd0bd;background:${selected?'#7A8F6B':'#fff'};color:${selected?'#fff':'#243337'};cursor:pointer;`,
+          style: `position:relative;font-family:inherit;font-size:0.95rem;padding:8px 4px;border-radius:8px;border:1.5px solid #E7DCC9;background:${selected?'#278777':'#fff'};color:${selected?'#fff':'#263B37'};cursor:pointer;`,
           onClick: () => this.select('siann', s),
           hasAudio,
           playAudio: (e) => { e.stopPropagation(); if (customUrl) playUrl(customUrl); else if (moeUrl) playUrl(moeUrl); else if (ex) playFile(ex[0]); },
@@ -256,7 +257,7 @@ class Component extends DCLogic {
         const customUrl = CUSTOM_UN_AUDIO[u];
         return {
           label: u,
-          style: `position:relative;font-family:inherit;font-size:0.95rem;padding:8px 4px;border-radius:8px;border:1.5px solid #ddd0bd;background:${selected?'#315C63':'#fff'};color:${selected?'#fff':'#243337'};cursor:pointer;`,
+          style: `position:relative;font-family:inherit;font-size:0.95rem;padding:8px 4px;border-radius:8px;border:1.5px solid #E7DCC9;background:${selected?'#254E47':'#fff'};color:${selected?'#fff':'#263B37'};cursor:pointer;`,
           onClick: () => this.select('un', u),
           hasAudio: !!(customUrl || ex),
           playAudio: (customUrl || ex) ? (e) => { e.stopPropagation(); if (customUrl) playUrl(customUrl); else playFile(ex[0]); } : null,
@@ -270,7 +271,7 @@ class Component extends DCLogic {
       return {
         label: String(t),
         disabled,
-        style: `font-family:inherit;font-size:0.95rem;padding:8px 4px;border-radius:8px;border:1.5px solid #ddd0bd;background:${selected?'#B07B4F':'#fff'};color:${selected?'#fff':'#243337'};cursor:${disabled?'not-allowed':'pointer'};opacity:${disabled?0.35:1};`,
+        style: `font-family:inherit;font-size:0.95rem;padding:8px 4px;border-radius:8px;border:1.5px solid #E7DCC9;background:${selected?'#E88B4A':'#fff'};color:${selected?'#fff':'#263B37'};cursor:${disabled?'not-allowed':'pointer'};opacity:${disabled?0.35:1};`,
         onClick: disabled ? null : () => this.select('tiau', t),
       };
     });
@@ -284,7 +285,7 @@ class Component extends DCLogic {
 
     return {
       siannButtons, unGroups, tiauButtons, previewSyll, previewParts, submitDisabled,
-      submitStyle: `font-family:inherit;font-size:0.95rem;padding:10px 20px;border-radius:999px;border:none;font-weight:600;background:#315C63;color:#fff;cursor:${submitDisabled?'not-allowed':'pointer'};opacity:${submitDisabled?0.4:1};`,
+      submitStyle: `font-family:inherit;font-size:0.95rem;padding:10px 20px;border-radius:999px;border:none;font-weight:700;background:linear-gradient(110deg,#E88B4A,#DA753B);color:#fff;cursor:${submitDisabled?'not-allowed':'pointer'};opacity:${submitDisabled?0.4:1};`,
       clearAll: () => this.clearAll(),
       goBack: () => this.goBack(),
       submit: () => this.submit(),

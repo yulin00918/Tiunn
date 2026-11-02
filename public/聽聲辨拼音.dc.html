@@ -84,6 +84,46 @@
 html,body{overflow-x:hidden}
 @media(max-width:520px){.siteHeadIn{padding:8px 12px}.siteSpacer{display:none}}
 @media(hover:hover){.homeBtn:hover{background:rgba(255,255,255,.18)}}
+
+/* 鈺見台語｜聽聲辨拼音 V2：溫暖活潑版（僅視覺覆寫，同形音義挑戰） */
+:root{--navy:#254E47;--ink:#263B37;--mint:#55A99C;--coral:#E88B4A;--sun:#F4C65D;--lav:#278777;--sky:#55A99C;--line:#E4E5DD}
+body{background:radial-gradient(circle at 7% 9%,rgba(244,198,93,.23),transparent 26%),radial-gradient(circle at 95% 17%,rgba(85,169,156,.17),transparent 28%),#FAF8F2;min-height:100vh}
+html{background:#FAF8F2}
+.siteHead{background:linear-gradient(110deg,#254E47,#316E62 78%,#37877B);border-bottom:4px solid #F4C65D}
+.siteHeadIn{max-width:1080px;padding:12px 22px;min-height:66px}
+.homeBtn{color:#fff;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.22)}
+@media(hover:hover){.homeBtn:hover{background:rgba(255,255,255,.24)}}
+.siteTitle small{display:block;margin-top:3px;font-size:12.5px;font-weight:700;letter-spacing:0;color:#E7F2E9}
+.top{display:none}
+.wrap{padding-top:22px}
+.card{background:linear-gradient(180deg,#FFFFFF,#FFFCF4);border-color:#E8E6D9;box-shadow:0 12px 32px rgba(38,78,71,.10)}
+.card:before{background:#E0F2EC}.card:after{background:#FCE6C6}
+.kicker{background:#E0F2EC;color:#236B60;border:1px solid #B9DED1}
+.trail{stroke:#E5C27A}
+.island{box-shadow:0 9px 0 rgba(38,78,71,.10),0 15px 25px rgba(38,78,71,.09)}
+.i1{background:#E0F2EC}.i2{background:#FFF3D8}.i3{background:#FFE4CF}.i4{background:#E3ECEA}.i5{background:#DDF1E9}.i6{background:#FCEBC0}
+.pill,.carryChip,.resultCard{border-color:#E4E5DD}
+.primary{background:linear-gradient(110deg,#E88B4A,#DA753B);box-shadow:0 7px 0 #B5602D,0 13px 22px rgba(215,110,49,.20)}
+.primary:active{box-shadow:0 2px 0 #B5602D}
+.trackStep{background:#E8E8D9}
+.trackStep.on:nth-child(1){background:#55A99C}.trackStep.on:nth-child(2){background:#F4C65D}.trackStep.on:nth-child(3){background:#E88B4A}.trackStep.on:nth-child(4){background:#278777}.trackStep.on:nth-child(5){background:#DA753B}.trackStep.on:nth-child(6){background:#254E47}
+.hud>div{border-color:#E4E5DD}
+.lifeMeta{color:#B15F2A}
+.timerWrap{background:#E8E8D9}.timer{background:linear-gradient(90deg,#55A99C,#F4C65D)}.timer.danger{background:#DA753B}
+.wave{border-color:rgba(85,169,156,.35)}
+.listen{background:#254E47;box-shadow:0 8px 0 #1A3833,0 15px 25px rgba(37,78,71,.22)}.listen:active{box-shadow:0 3px 0 #1A3833}
+.opt{background:#FFFEFA;border-color:#DBE4D9;box-shadow:0 6px 0 #DBE4D9}
+@media(hover:hover){.opt:not(:disabled):hover{border-color:#55A99C}}
+.opt:active{box-shadow:0 2px 0 #DBE4D9}
+.good{color:#278777}.bad{color:#C96E2F}.combo{color:#DA753B}
+.revivePanel{background:#FFF3D8;border-color:#F4DDA7;box-shadow:0 10px 0 #EFCB7A}
+.stateBurst:before,.stateBurst:after{border-color:rgba(244,198,93,.40)}
+.clearSub,.finalSub{color:#B15F2A}
+.nextPreview{border-color:#E5C27A}
+.confusions{background:#FFF3D8}
+.gameoverTitle{color:#9A462E}
+.pageFoot{text-align:center;padding:6px 0 30px;font-size:12px;font-weight:700;color:#77847C}
+button:focus-visible,a:focus-visible{outline:3px solid #F4C65D;outline-offset:2px}
 </style>
 
 <!-- Google Analytics 4 -->
@@ -98,7 +138,7 @@ html,body{overflow-x:hidden}
 <body>
 <div class="siteHead"><div class="siteHeadIn">
   <a class="homeBtn" href="index.html">← 回首頁</a>
-  <div class="siteTitle">🎧 聽聲辨拼音</div>
+  <div class="siteTitle">🎧 聽聲辨拼音<small>聽聲音，揀出正確的台羅拼音</small></div>
   <div class="siteSpacer"></div>
 </div></div>
 
@@ -193,6 +233,7 @@ html,body{overflow-x:hidden}
   <div id="resultBadge" style="display:none"></div><div id="resultTitle" style="display:none"></div><div id="resultStat" style="display:none"></div><div id="confusions" style="display:none"></div>
   <button id="restartBtn" style="display:none"></button>
 </section>
+<div class="pageFoot">張鈺聆 製｜鈺見台語</div>
 </div>
 
 <audio id="player" preload="auto"></audio>

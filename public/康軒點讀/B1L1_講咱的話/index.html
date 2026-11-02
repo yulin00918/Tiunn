@@ -4,15 +4,15 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>康軒 B1L1｜講咱的話</title>
 <style>
-*{box-sizing:border-box} body{margin:0;font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;color:#4d4438;background:linear-gradient(180deg,#f8f0df,#fbf7ef);min-height:100vh}
+*{box-sizing:border-box} body{margin:0;font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;color:#263B37;background:linear-gradient(180deg,#f8f0df,#fbf7ef);min-height:100vh}
 .wrap{max-width:980px;margin:auto;padding:28px 18px 70px}.head{display:flex;justify-content:space-between;gap:20px;align-items:flex-end;flex-wrap:wrap}.tag{display:inline-flex;padding:7px 12px;border-radius:999px;background:#ead9bd;color:#765c3c;font-size:13px}
-h1{margin:10px 0 6px;font-size:clamp(27px,5vw,34px);letter-spacing:.05em}.muted{color:#877a69;font-size:14px}.tabs{display:flex;gap:8px;margin:18px 0}.tab{border:1px solid #e8dac2;background:#fffaf3;color:#4d4438;padding:10px 15px;border-radius:12px;cursor:pointer}.tab.on{background:#4d4438;color:#fff}
-.controls{position:sticky;top:8px;z-index:5;display:flex;flex-wrap:wrap;gap:9px;align-items:center;background:#fffaf1ee;border:1px solid #e8dac2;border-radius:16px;padding:12px;box-shadow:0 12px 34px #58432a14;margin-bottom:16px}.controls button,.controls select{border:1px solid #e8dac2;background:#fffaf3;color:#4d4438;padding:9px 12px;border-radius:10px}.controls .primary{background:#4d4438;color:white}.bar{height:6px;background:#efe4d2;border-radius:99px;overflow:hidden;flex:1;min-width:120px}.fill{height:100%;background:#b78652;width:0}
+h1{margin:10px 0 6px;font-size:clamp(27px,5vw,34px);letter-spacing:.05em}.muted{color:#877a69;font-size:14px}.tabs{display:flex;gap:8px;margin:18px 0}.tab{border:1px solid #e8dac2;background:#fffaf3;color:#263B37;padding:10px 15px;border-radius:12px;cursor:pointer}.tab.on{background:#263B37;color:#fff}
+.controls{position:sticky;top:8px;z-index:5;display:flex;flex-wrap:wrap;gap:9px;align-items:center;background:#fffaf1ee;border:1px solid #e8dac2;border-radius:16px;padding:12px;box-shadow:0 12px 34px #58432a14;margin-bottom:16px}.controls button,.controls select{border:1px solid #e8dac2;background:#fffaf3;color:#263B37;padding:9px 12px;border-radius:10px}.controls .primary{background:#263B37;color:white}.bar{height:6px;background:#efe4d2;border-radius:99px;overflow:hidden;flex:1;min-width:120px}.fill{height:100%;background:#b78652;width:0}
 .panel{background:#ffffffad;border:1px solid #e8dac2;border-radius:22px;padding:18px;box-shadow:0 12px 34px #58432a14}.seg{display:grid;grid-template-columns:42px 1fr;gap:12px;padding:17px 14px;border-radius:15px;cursor:pointer;margin-bottom:6px;border:1px solid transparent}.seg:hover{background:#faf0df}.seg.playing{background:#fff1cf;border-color:#e8c88c}.num{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:700;background:#f3e4cd;color:#7d5b37}.seg.playing .num{background:#b78652;color:#fff}.text{font-size:18px;line-height:2.05;letter-spacing:.02em}.vw{color:#b7642e;font-weight:700;text-decoration:underline dotted;cursor:pointer}.hint{font-size:12px;color:#877a69;margin-top:5px}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.card{background:#ffffffb8;border:1px solid #e8dac2;border-radius:18px;padding:16px;display:grid;grid-template-columns:44px 1fr auto;gap:12px}.roman{color:#936f4b;margin-top:2px}.gloss{color:#877a69;margin-top:6px;line-height:1.65}.speak{border:0;background:#4d4438;color:#fff;border-radius:12px;width:40px;height:40px;cursor:pointer}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.card{background:#ffffffb8;border:1px solid #e8dac2;border-radius:18px;padding:16px;display:grid;grid-template-columns:44px 1fr auto;gap:12px}.roman{color:#936f4b;margin-top:2px}.gloss{color:#877a69;margin-top:6px;line-height:1.65}.speak{border:0;background:#263B37;color:#fff;border-radius:12px;width:40px;height:40px;cursor:pointer}
 .hidden{display:none}.modal{position:fixed;inset:0;background:#3c2d1966;display:flex;align-items:center;justify-content:center;z-index:20;padding:16px}.modalCard{background:#fffaf3;border:1px solid #e8dac2;border-radius:20px;padding:22px;max-width:420px;width:100%;box-shadow:0 20px 50px #3c2d1940;display:grid;grid-template-columns:44px 1fr auto;gap:14px}.status{margin-left:auto;color:#877a69;font-size:13px}
 @media(max-width:680px){.grid{grid-template-columns:1fr}.wrap{padding:20px 12px 60px}.panel{padding:10px}.seg{padding:14px 8px}.text{font-size:17px}.controls{top:4px}.status{width:100%;margin:0}}
-.sw{border:1px solid #e8dac2;background:#fffaf3;color:#4d4438;padding:9px 12px;border-radius:10px;cursor:pointer;white-space:nowrap}.sw.on{background:#b78652;border-color:#b78652;color:#fff}
+.sw{border:1px solid #e8dac2;background:#fffaf3;color:#263B37;padding:9px 12px;border-radius:10px;cursor:pointer;white-space:nowrap}.sw.on{background:#b78652;border-color:#b78652;color:#fff}
 .legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12.5px;color:#765c3c;margin:0 0 12px;padding:0 4px}.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
 .atext{display:flex;flex-wrap:wrap;align-items:flex-end;row-gap:8px;line-height:1.2}.ag{display:inline-flex;flex-wrap:nowrap;gap:1px;margin:0 5px 0 0;padding-bottom:2px;border-bottom:1px solid #d8c8ad}.ap{font-size:18px;padding:0 1px 16px}
 .ac{display:inline-flex;flex-direction:column;align-items:center;cursor:pointer;padding:2px 1px;border-radius:6px}.ac.sel{background:#fff0c9;box-shadow:0 0 0 2px #e8b84a}.ac .r{font-size:11px;font-weight:700;color:#877a69;white-space:nowrap}.ac .h{font-size:19px}.ac .t{font-size:11px;font-weight:800;white-space:nowrap}.ac.v .h{font-weight:800;border-bottom:2px dotted #b7642e}.ac.light .h{font-size:16px}
@@ -20,6 +20,40 @@ h1{margin:10px 0 6px;font-size:clamp(27px,5vw,34px);letter-spacing:.05em}.muted{
 .scard{position:relative;margin-top:12px;padding:16px 18px;border-radius:16px;background:#fff;border:2px solid #e8dac2;box-shadow:0 6px 16px #58432a14;cursor:default}.scard .x{position:absolute;top:6px;right:8px;width:32px;height:32px;border:0;background:none;font-size:20px;color:#877a69;cursor:pointer}.scard .big{font-size:40px;font-weight:900;line-height:1.1}.scard .lab{font-size:12.5px;font-weight:900;color:#fff;border-radius:999px;padding:4px 10px}.scard .alt{color:#a99b88;font-size:13.5px;margin-top:6px}.scard .vb{margin-top:12px;border:1px solid #e8c88c;background:#fffaef;color:#845f36;border-radius:999px;padding:8px 16px;cursor:pointer;font-weight:700}
 .annot .seg{cursor:default}.annot .seg .num{cursor:pointer}
 @media(max-width:680px){.controls{gap:7px}.ac .h{font-size:17px}.ap{font-size:16px}.scard .big{font-size:32px}}
+
+.v2top{background:linear-gradient(110deg,#254E47,#316E62 78%,#37877B);border-bottom:4px solid #F4C65D;color:#fff}
+.v2topIn{max-width:1080px;margin:auto;min-height:66px;padding:12px 22px;display:flex;align-items:center;gap:14px}
+.v2home{flex:0 0 auto;display:inline-flex;align-items:center;min-height:44px;padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.22);color:#fff!important;font-size:14px;font-weight:800;text-decoration:none;white-space:nowrap;font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif}
+.v2home:hover{background:rgba(255,255,255,.24)}
+.v2title{min-width:0;flex:1;text-align:center;font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif}
+.v2title b{display:block;font-size:clamp(19px,3.4vw,22px);font-weight:900;letter-spacing:.08em;color:#fff}
+.v2title small{display:block;margin-top:3px;font-size:12.5px;color:#E7F2E9;font-weight:700}
+.v2spacer{flex:0 0 auto;width:110px}
+@media(max-width:640px){.v2topIn{padding:10px 14px;gap:8px}.v2spacer{display:none}}
+button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:3px solid #F4C65D;outline-offset:2px}
+
+/* 鈺見台語 V2：康軒課文頁（僅視覺覆寫） */
+body{background:radial-gradient(circle at 7% 9%,rgba(244,198,93,.23),transparent 26%),radial-gradient(circle at 95% 17%,rgba(85,169,156,.17),transparent 28%),#FAF8F2;color:#263B37}
+.wrap{padding-top:22px}
+.tag{background:#E0F2EC;color:#236B60;border:1px solid #B9DED1;font-weight:800}
+h1{color:#254E47}.muted,.hint,.status{color:#66766D}
+.tab{border:2px solid #E7DCC9;background:#FFFCF4;color:#385A53;border-radius:999px;font-weight:800}
+.tab:hover{border-color:#55A99C}.tab.on{background:#254E47;border-color:#254E47;color:#fff}
+.controls{background:rgba(255,252,244,.95);border-color:#E8E6D9;box-shadow:0 12px 34px rgba(38,78,71,.08)}
+.controls button,.controls select,.sw{border-color:#E4E5DD;background:#FFFEFA;color:#385A53}
+.controls .primary{background:linear-gradient(110deg,#E88B4A,#DA753B);border-color:transparent;color:#fff;font-weight:800}
+.sw.on{background:#254E47;border-color:#254E47;color:#fff}
+.bar{background:#E8E8D9}.fill{background:linear-gradient(90deg,#55A99C,#F4C65D)}
+.panel{background:rgba(255,255,255,.88);border-color:#E8E6D9;box-shadow:0 12px 32px rgba(38,78,71,.08)}
+.seg:hover{background:#FFFCF4}.seg.playing{background:#FFF3D8;border-color:#F4C65D}
+.num{background:#E0F2EC;color:#236B60}.seg.playing .num{background:#278777;color:#fff}
+.vw{color:#B15F2A}
+.card{background:#FFFEFA;border-color:#E4E5DD}.roman{color:#B15F2A}.gloss{color:#66766D}.speak{background:#254E47}
+.modal{background:rgba(37,78,71,.40)}.modalCard{background:#fff;border-color:#E8E6D9;box-shadow:0 20px 50px rgba(38,78,71,.25)}
+.legend{color:#456C65}
+.ag{border-bottom-color:#D8E3D8}.ac .r{color:#66766D}.ac.sel{background:#FFF3D8;box-shadow:0 0 0 2px #F4C65D}.ac.v .h{border-bottom-color:#B15F2A}
+.scard{box-shadow:0 6px 16px rgba(38,78,71,.10)}.scard .x{color:#66766D}.scard .alt{color:#77847C}
+.scard .vb{border-color:#F2C29A;background:#FFF6EC;color:#B15F2A}
 </style>
 <meta name="author" content="張鈺聆">
 <meta name="copyright" content="© 張鈺聆">
@@ -27,13 +61,13 @@ h1{margin:10px 0 6px;font-size:clamp(27px,5vw,34px);letter-spacing:.05em}.muted{
 <!-- 網站介面、功能與教學整合設計／製作：張鈺聆　Copyright © 張鈺聆. All rights reserved.
      教材、課文、語詞、台羅、音檔等第三方素材之著作權仍屬原權利人所有。完整宣告見 author-credit.js。 -->
 </head><body>
+<div class="v2top"><div class="v2topIn"><a class="v2home" href="../../台語點讀.dc.html">← 回課文目錄</a><div class="v2title"><b>📖 咱來讀課文</b><small>康軒版・第一冊</small></div><div class="v2spacer"></div></div></div>
 <div class="wrap">
-<a href="../../台語點讀.dc.html" style="display:inline-block;margin-bottom:14px;color:#8f2035;font-weight:700;text-decoration:none;white-space:nowrap;">← 回台語點讀目錄</a>
 <div class="head"><div><span class="tag">🎧 康軒版・第一冊</span><h1>第一課｜講咱的話</h1><div class="muted">散文・段落式｜點段落播放；點彩色語詞查看解說與發音。</div></div><div class="muted">正式出版社教材音檔</div></div>
 <div class="tabs"><button class="tab on" data-tab="reading">📖 課文點讀</button><button class="tab" data-tab="vocab">🗣️ 語詞點讀</button></div>
 <section id="reading">
 <div class="controls"><button class="primary" id="all">▶ 全文連續播放</button><button id="full">🎙 出版社全文</button><button id="pause">⏸ 暫停</button><button id="restart">↺ 重新開始</button><label>速度 <select id="speed"><option>.75</option><option selected>1</option><option>1.25</option></select></label><div class="bar"><div class="fill" id="fill"></div></div><button class="sw" id="swRom">拼音</button><button class="sw" id="swTone">調號與顏色</button><div class="status" id="status">尚未播放</div></div>
-<div class="legend hidden" id="legend"><span><i style="background:#2f7d4a"></i>本調</span><span><i style="background:#2b6cb0"></i>一般變調</span><span><i style="background:#d9731f"></i>再變調</span><span><i style="background:#7b4fb0"></i>仔前變調</span><span><i style="background:#8a8f94"></i>輕聲</span></div>
+<div class="legend hidden" id="legend"><span><i style="background:#2f7d5a"></i>本調</span><span><i style="background:#2b6cb0"></i>一般變調</span><span><i style="background:#d9771f"></i>再變調</span><span><i style="background:#7b4fb5"></i>仔前變調</span><span><i style="background:#8a8f8c"></i>輕聲</span></div>
 <div class="panel" id="segments"></div></section>
 <section id="vocab" class="hidden"><div class="grid" id="vocabGrid"></div></section>
 </div><div id="modalRoot"></div>
@@ -47,7 +81,7 @@ const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const esc=s=>s.replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
 const vocabSorted=VOCAB.map((v,i)=>({w:v[0],i})).sort((a,b)=>b.w.length-a.w.length);
 function marked(text){let out='',i=0;while(i<text.length){let m=vocabSorted.find(v=>text.startsWith(v.w,i));if(m){out+=`<span class="vw" data-v="${m.i}">${esc(m.w)}</span>`;i+=m.w.length}else{out+=esc(text[i++])}}return out}
-const STYPES={base:['本調','#2f7d4a'],reg:['一般變調','#2b6cb0'],zai:['再變調','#d9731f'],apre:['仔前變調','#7b4fb0'],light:['輕聲','#8a8f94'],pre:['輕聲前讀本調','#2f7d4a']};
+const STYPES={base:['本調','#2f7d5a'],reg:['一般變調','#2b6cb0'],zai:['再變調','#d9771f'],apre:['仔前變調','#7b4fb5'],light:['輕聲','#8a8f8c'],pre:['輕聲前讀本調','#2f7d5a']};
 let showRom=false,showTone=false,sel=null;
 function vocabIndexMap(text){const a=[];let i=0;while(i<text.length){const m=vocabSorted.find(v=>text.startsWith(v.w,i));if(m){for(const ch of [...m.w])a.push(m.i);i+=m.w.length}else{const ch=String.fromCodePoint(text.codePointAt(i));a.push(null);i+=ch.length}}return a}
 function annotSeg(i){const vmap=vocabIndexMap(SEGMENTS[i]);let pos=0;const adv=t=>{const n=[...t].length;const v=vmap[pos];pos+=n;return v};
@@ -55,7 +89,7 @@ let html='';(SANDHI[i]||[]).forEach((x,g)=>{if(typeof x==='string'){adv(x);html+
 html+='<span class="ag">'+x.map((c,k)=>{const[han,rom,tone,act,type]=c;const v=adv(han);const col=(STYPES[type]||STYPES.base)[1];const tl=act===0?'輕':(tone===act?String(tone):tone+'→'+act);const s=sel&&sel.i===i&&sel.g===g&&sel.k===k;
 return '<span class="ac'+(type==='light'?' light':'')+(v!==null&&v!==undefined?' v':'')+(s?' sel':'')+'" data-g="'+g+'" data-k="'+k+'"'+(v!==null&&v!==undefined?' data-vi="'+v+'"':'')+'><span class="r">'+esc(rom)+'</span><span class="h" style="color:'+col+'">'+esc(han)+'</span><span class="t" style="color:'+col+'">'+tl+'</span></span>'}).join('')+'</span>'});
 let card='';if(sel&&sel.i===i){const c=(SANDHI[i][sel.g]||[])[sel.k];if(c){const[han,rom,tone,act,type,note,alt]=c;const T=STYPES[type]||STYPES.base;const line=act===0?'本調 第'+tone+'調 → 輕聲':(tone===act?'本調 第'+tone+'調・不變':'本調 第'+tone+'調 → 實際 第'+act+'調');
-card='<div class="scard" style="border-color:'+T[1]+'"><button class="x" aria-label="關閉">×</button><div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;padding-right:30px"><span class="big" style="color:'+T[1]+'">'+esc(han)+'</span><span style="font-size:18px;font-weight:700;color:#4d4438">'+esc(rom)+'</span><span class="lab" style="background:'+T[1]+'">'+T[0]+'</span></div><div style="margin-top:8px;font-weight:700">'+line+'</div><div style="margin-top:6px;line-height:1.7;color:#4d4438">'+esc(note||'')+'</div>'+(alt?'<div class="alt">另讀：'+esc(alt)+'</div>':'')+(sel.vi!==null&&sel.vi!==undefined?'<button class="vb">看語詞解說</button>':'')+'</div>'}}
+card='<div class="scard" style="border-color:'+T[1]+'"><button class="x" aria-label="關閉">×</button><div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;padding-right:30px"><span class="big" style="color:'+T[1]+'">'+esc(han)+'</span><span style="font-size:18px;font-weight:700;color:#263B37">'+esc(rom)+'</span><span class="lab" style="background:'+T[1]+'">'+T[0]+'</span></div><div style="margin-top:8px;font-weight:700">'+line+'</div><div style="margin-top:6px;line-height:1.7;color:#263B37">'+esc(note||'')+'</div>'+(alt?'<div class="alt">另讀：'+esc(alt)+'</div>':'')+(sel.vi!==null&&sel.vi!==undefined?'<button class="vb">看語詞解說</button>':'')+'</div>'}}
 return '<div class="atext">'+html+'</div>'+card}
 function renderSegments(){ if(showRom||showTone){ const p=$('#segments');p.classList.add('annot');p.classList.toggle('noR',!showRom);p.classList.toggle('noT',!showTone);p.innerHTML=SEGMENTS.map((t,i)=>`<article class="seg" data-i="${i}"><div class="num">${i+1}</div><div>${annotSeg(i)}</div></article>`).join('');bindAnnot();setActive();return } $('#segments').classList.remove('annot','noR','noT'); $('#segments').innerHTML=SEGMENTS.map((t,i)=>`<article class="seg" data-i="${i}"><div class="num">${i+1}</div><div><div class="text">${marked(t)}</div><div class="hint">🔊 點這一段播放；點彩色詞語看解釋</div></div></article>`).join(''); bind(); setActive(); }
 function bindAnnot(){ $$('#segments .seg').forEach(x=>{const i=+x.dataset.i;x.querySelector('.num').onclick=e=>{e.stopPropagation();playSegment(i,false)};x.querySelectorAll('.ac').forEach(c=>c.onclick=e=>{e.stopPropagation();sel={i,g:+c.dataset.g,k:+c.dataset.k,vi:c.dataset.vi!==undefined?+c.dataset.vi:null};renderSegments()});const card=x.querySelector('.scard');if(card){card.onclick=e=>e.stopPropagation();card.querySelector('.x').onclick=e=>{e.stopPropagation();sel=null;renderSegments()};const vb=card.querySelector('.vb');if(vb)vb.onclick=e=>{e.stopPropagation();openVocab(sel.vi)}}}); }

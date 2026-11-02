@@ -22,15 +22,25 @@
   :root{
     --bg:#FAF8F2; --card:#ffffff; --ink:#254E47; --muted:#687D76;
     --red:#254E47; --red-d:#193C36; --indigo:#327F75; --line:#DFE8E2;
-    --ok:#328A68; --bad:#C95046;
+    --ok:#278777; --bad:#CF6A45;
     --amber:#F4C65D; --t1:#D85F4D; --t2:#E88B4A; --t3:#B38A24; --t4:#64944A;
     --t5:#55A99C; --t6:#E88B4A; --t7:#536EAF; --t8:#9564AD;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--ink);
-       min-height:100vh;padding:16px;line-height:1.6}
+  body{font-family:'Noto Sans TC',sans-serif;background:radial-gradient(circle at 7% 9%,rgba(244,198,93,.23),transparent 26%),radial-gradient(circle at 95% 17%,rgba(85,169,156,.17),transparent 28%),var(--bg);color:var(--ink);
+       min-height:100vh;padding:0;line-height:1.6}
   .lo{font-family:'Noto Sans','Noto Sans TC',sans-serif}
-  .wrap{max-width:860px;margin:0 auto}
+  .wrap{max-width:860px;margin:0 auto;padding:20px 16px 16px}
+  /* 鈺見台語 V2 頁首（同形音義挑戰） */
+  .v2top{background:linear-gradient(110deg,#254E47,#316E62 78%,#37877B);border-bottom:4px solid #F4C65D;color:#fff}
+  .v2topIn{max-width:1080px;margin:auto;min-height:66px;padding:12px 22px;display:flex;align-items:center;gap:14px}
+  .v2home{flex:0 0 auto;display:inline-flex;align-items:center;min-height:44px;padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.22);color:#fff;font-size:14px;font-weight:800;text-decoration:none;white-space:nowrap}
+  .v2home:hover{background:rgba(255,255,255,.24)}
+  .v2title{min-width:0;flex:1;text-align:center}
+  .v2title h1{margin:0;font-size:clamp(19px,3.4vw,22px);font-weight:900;letter-spacing:.08em;color:#fff}
+  .v2title p{margin:3px 0 0;font-size:12.5px;color:#E7F2E9;font-weight:700;line-height:1.5}
+  .v2spacer{flex:0 0 auto;width:96px}
+  @media(max-width:640px){.v2topIn{padding:10px 14px;gap:8px}.v2spacer{display:none}}
   header{text-align:center;margin:8px 0 18px}
   header h1{font-weight:900;font-size:clamp(1.6rem,6vw,2.4rem);color:var(--red);letter-spacing:.06em}
   header p{color:var(--muted);font-size:.95rem}
@@ -67,6 +77,7 @@
   .detail ul{list-style:none;color:var(--muted);font-size:.95rem}
   .detail ul li::before{content:"・"}
   .contour-box{display:flex;flex-direction:column;align-items:center;gap:8px}
+  .start #startBtn,.play.next{background:linear-gradient(110deg,#E88B4A,#DA753B);box-shadow:0 3px 0 #B5602D}
   .play{border:none;background:var(--red);color:#fff;font:inherit;font-weight:700;font-size:1rem;
         border-radius:999px;padding:10px 22px;cursor:pointer;box-shadow:0 3px 0 var(--red-d)}
   .play:active{transform:translateY(2px);box-shadow:0 1px 0 var(--red-d)}
@@ -86,8 +97,8 @@
   .combo{color:var(--red)}
   .q{background:#fff;border-radius:20px;padding:22px;text-align:center;box-shadow:0 3px 0 var(--line);margin-bottom:14px}
   .q .speaker{width:96px;height:96px;border-radius:50%;border:none;background:var(--indigo);color:#fff;
-              font-size:2.4rem;cursor:pointer;box-shadow:0 4px 0 #1d3257}
-  .q .speaker:active{transform:translateY(3px);box-shadow:0 1px 0 #1d3257}
+              font-size:2.4rem;cursor:pointer;box-shadow:0 4px 0 #1A3833}
+  .q .speaker:active{transform:translateY(3px);box-shadow:0 1px 0 #1A3833}
   .q .hint{color:var(--muted);margin-top:8px;font-size:.9rem}
   .reveal{min-height:48px;margin-top:10px;font-size:1.3rem;font-weight:700}
   .reveal .lo{color:var(--indigo)}
@@ -105,6 +116,7 @@
   .result table{margin:14px auto;border-collapse:collapse}
   .result td{padding:4px 12px;border-bottom:1px solid var(--line)}
   footer{text-align:center;color:var(--muted);font-size:.75rem;margin:28px 0 8px}
+  footer .credit{display:block;margin-top:8px;font-size:12px;font-weight:700;color:#77847C}
   .brand{font-size:.85rem;color:#55A99C;font-weight:700;letter-spacing:.08em;margin-bottom:6px}
   .chant-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:-5px 0 18px}
   .play.secondary{background:#fff;color:#254E47;border:1px solid #DFE8E2;box-shadow:0 3px 0 #DFE8E2}
@@ -122,13 +134,8 @@
 </script>
 </head>
 <body>
+<div class="v2top"><div class="v2topIn"><a class="v2home" href="index.html">← 回首頁</a><div class="v2title"><h1>🎵 台語聲調大挑戰</h1><p>獅虎豹鱉、東黨棟督，八聲一次學起來！</p></div><div class="v2spacer"></div></div></div>
 <div class="wrap">
-<nav style="display:flex;justify-content:flex-start;margin-bottom:6px;"><a href="index.html" style="display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:8px 16px;border-radius:999px;background:#fff;border:2px solid #DFE8E2;color:#254E47;font-weight:800;text-decoration:none;white-space:nowrap;">← 回首頁</a></nav>
-  <header>
-    <div class="brand">鈺見台語 · 台羅拼音學習</div>
-    <h1>🎵 台語聲調大挑戰</h1>
-    <p>獅虎豹鱉、東黨棟督，八聲一次學起來！</p>
-  </header>
 
   <div class="tabs">
     <button class="tab active" data-p="learn">第一關・認識八聲</button>
@@ -149,7 +156,7 @@
     <div class="start" id="qStart">
       <h2>聽聽看，這是第幾調？</h2>
       <p>可選擇 10、20 或 30 題，連續答對有連擊加分！本關僅使用真人錄音。</p>
-      <label for="questionCount" style="display:inline-block;margin:10px 8px 10px 0;font-weight:700">挑戰題數</label><select id="questionCount" style="padding:8px 14px;border-radius:12px;border:2px solid #d9cbb9;background:#fff;color:#254E47;font-size:1rem"><option value="10">10 題・快速練習</option><option value="20" selected>20 題・標準挑戰</option><option value="30">30 題・進階挑戰</option></select><br>
+      <label for="questionCount" style="display:inline-block;margin:10px 8px 10px 0;font-weight:700">挑戰題數</label><select id="questionCount" style="padding:8px 14px;border-radius:12px;border:2px solid #E7DCC9;background:#fff;color:#254E47;font-size:1rem"><option value="10">10 題・快速練習</option><option value="20" selected>20 題・標準挑戰</option><option value="30">30 題・進階挑戰</option></select><br>
       <label class="toggle"><input type="checkbox" id="showShape" checked>選項顯示調型提示（拿掉就是困難模式）</label><br>
       <button class="play" id="startBtn">開始挑戰 ▶</button>
     </div>
@@ -167,7 +174,7 @@
     <div class="result" id="qResult" style="display:none"></div>
   </section>
 
-  <footer>本頁練習本調；調型為教學示意，實際發音可能因腔口而異。<br>音檔來源：<a href="https://sutian.moe.edu.tw/" target="_blank" rel="noopener">教育部臺灣台語常用詞辭典</a>（第四調 tok 採同音字「啄」的本調錄音；其餘音檔為外部連結，部署前仍需驗證）</footer>
+  <footer>本頁練習本調；調型為教學示意，實際發音可能因腔口而異。<br>音檔來源：<a href="https://sutian.moe.edu.tw/" target="_blank" rel="noopener">教育部臺灣台語常用詞辭典</a>（第四調 tok 採同音字「啄」的本調錄音；其餘音檔為外部連結，部署前仍需驗證）<span class="credit">張鈺聆 製｜鈺見台語</span></footer>
 </div>
 
 <script>
@@ -314,7 +321,7 @@ const cache={};
 function warn(msg){
   let w=document.getElementById('audioWarn');
   if(!w){ w=document.createElement('div'); w.id='audioWarn';
-    w.style.cssText='position:fixed;left:12px;right:12px;bottom:12px;max-width:640px;margin:0 auto;background:#fff3cd;border:2px solid #e0b84c;color:#5c4400;border-radius:12px;padding:10px 14px;font-size:.9rem;z-index:9;box-shadow:0 4px 12px rgba(0,0,0,.12)';
+    w.style.cssText='position:fixed;left:12px;right:12px;bottom:12px;max-width:640px;margin:0 auto;background:#FFF3D8;border:2px solid #F4C65D;color:#5E3F0E;border-radius:12px;padding:10px 14px;font-size:.9rem;z-index:9;box-shadow:0 4px 12px rgba(0,0,0,.12)';
     w.onclick=()=>w.remove(); document.body.appendChild(w); }
   w.textContent=msg+'（點此關閉）';
 }
@@ -480,7 +487,7 @@ function finish(){
     ${rows?`<p style="margin-top:12px;color:var(--muted)">最需要加強的聲調：</p><table>${rows}</table>`
           :'<p style="margin-top:12px">全部答對，太厲害了！</p>'}
     <button class="play" id="retry" style="margin-top:12px">再玩一次 ↻</button>
-    <button class="play" id="review" style="margin-top:12px;background:var(--indigo);box-shadow:0 3px 0 #1d3257">回第一關複習</button>`;
+    <button class="play" id="review" style="margin-top:12px;background:var(--indigo);box-shadow:0 3px 0 #1A3833">回第一關複習</button>`;
   $('retry').onclick=()=>{ $('qStart').style.display='block'; $('qResult').style.display='none'; $('qGame').style.display='none'; }; 
   $('review').onclick=()=>document.querySelector('.tab[data-p="learn"]').click();
 }

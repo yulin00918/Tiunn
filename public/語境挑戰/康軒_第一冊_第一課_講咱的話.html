@@ -6,6 +6,42 @@
      教材、課文、語詞、台羅、音檔等第三方素材之著作權仍屬原權利人所有。完整宣告見 author-credit.js。 --><title>康軒第一冊｜第一課｜講咱的話</title><style>
 :root{--ink:#33453f;--muted:#72827b;--line:#e1e8e4;--accent:#5f8583;--shadow:0 10px 28px #31473e14}
 *{box-sizing:border-box}body{margin:0;background:linear-gradient(#fafcfb,#eef4f2);font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;color:var(--ink)}button{font:inherit}.app{max-width:1180px;margin:auto;padding:28px 22px 60px}.top{display:flex;justify-content:space-between;margin-bottom:25px}.pill{border:0;background:#fff;padding:10px 16px;border-radius:999px;box-shadow:var(--shadow)}.hero{text-align:center;margin:12px 0 34px}.hero h1{font-size:39px;margin:0 0 8px}.hero p{color:var(--muted);margin:6px}.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:15px}.card{background:#fff;border:1px solid var(--line);border-radius:23px;padding:24px;box-shadow:var(--shadow)}.level{text-align:center}.icon{font-size:40px}.num{font-weight:900;color:#bcc5c0}.level h3{margin:8px}.level p{min-height:50px;color:var(--muted);line-height:1.55}.extra{background:linear-gradient(145deg,#fff,#eef7f7)}.btn{width:100%;border:0;border-radius:14px;padding:12px 16px;background:#354d46;color:#fff;font-weight:800;cursor:pointer}.hidden{display:none!important}.quiz,.activity{max-width:850px;margin:auto}.title{text-align:center}.title h2{font-size:31px;margin-bottom:5px}.title p{color:var(--muted)}.bar{height:11px;background:#e5ebe8;border-radius:99px;overflow:hidden}.fill{height:100%;background:var(--accent)}.meta{display:flex;justify-content:space-between;color:var(--muted);font-size:14px;margin:8px 0 14px}.qcard{padding:32px}.kicker{font-weight:800;color:#8e755f}.q{font-size:26px;font-weight:800;line-height:1.55;margin:10px 0 24px}.opts{display:grid;gap:12px}.opt{padding:16px;text-align:left;border:1px solid #dce4df;background:white;border-radius:15px;font-weight:700;cursor:pointer}.correct{background:#edf8f1;border-color:#8ebaa0}.wrong{background:#fff0ef;border-color:#d7a09a}.feedback{margin-top:18px;padding:16px;border-radius:15px;line-height:1.6}.ok{background:#edf8f1}.bad{background:#fff0ef}.hint{background:#fff8e7}.next{width:auto;margin-top:14px}.result{max-width:720px;margin:auto;text-align:center}.score{font-size:62px;font-weight:900;color:var(--accent)}.weak{background:#f3f6f4;border-radius:14px;padding:14px;margin:18px 0}.steps{display:grid;gap:10px}.step{display:flex;align-items:center;gap:10px;padding:13px;border:1px solid var(--line);background:#fff;border-radius:14px}.step span{flex:1;font-weight:700}.step button{border:0;background:#eef2f0;border-radius:9px;padding:7px 10px}.status{padding:15px;background:#eef5f2;border-radius:14px;line-height:1.6}@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:520px){.grid{grid-template-columns:1fr}.hero h1{font-size:30px}}
+
+/* ===== 鈺見台語 V2 語境挑戰：視覺覆寫（只改顏色，不動題目與功能）===== */
+:root{--text:#263B37;--ink:#263B37;--muted:#66766D;--line:#E4E5DD;--green:#278777;--accent:#278777;--sea:#278777;--orange:#E88B4A;--sand:#E88B4A;--soft:#E0F2EC;--warm:#FFF6EC;--shadow:0 10px 28px rgba(38,78,71,.08)}
+html{background:#FAF8F2}
+body{background:radial-gradient(circle at 7% 9%,rgba(244,198,93,.23),transparent 26%),radial-gradient(circle at 95% 17%,rgba(85,169,156,.17),transparent 28%),#FAF8F2!important;color:#263B37;min-height:100vh}
+.top .pill,.top button{background:#fff;color:#254E47;border:1px solid #E4E5DD;font-weight:800;box-shadow:0 6px 16px rgba(38,78,71,.08)}
+.top>button:first-child:hover{border-color:#55A99C}
+.top>:last-child:not(:first-child){background:#E0F2EC;color:#236B60;border-color:#B9DED1}
+.hero h1,.title h2,.result h2{color:#254E47}
+.hero p b{color:#B15F2A}
+.card{border-color:#E8E6D9}
+.num{color:#B9C4BE}.kicker{color:#B15F2A}.q{color:#263B37}
+.extra{background:linear-gradient(145deg,#fff,#FFF3D8)!important;border-color:#F2E1BC}
+.btn{background:#254E47;color:#fff}
+.btn:hover{filter:brightness(1.08)}
+.actions .btn,.btn.next,#retry,#result .btn:first-of-type,#checkSteps{background:linear-gradient(110deg,#E88B4A,#DA753B)}
+.btn[style*="background"]{background:#ECEEE6!important;color:#254E47!important}
+.bar{background:#E8E8D9}.fill{background:linear-gradient(90deg,#55A99C,#F4C65D)!important}
+.opt{border-color:#E4E5DD;color:#263B37}.opt:hover{border-color:#55A99C}
+.opt.correct,.correct{background:#E3F5E9;border-color:#278777;color:#176452}
+.opt.wrong,.wrong{background:#FDEBE4;border-color:#CF8166;color:#9A462E}
+.ok{background:#E3F5E9}.hint{background:#FFF3D8}.bad{background:#FDEBE4}
+.seqitem,.step{border-color:#E4E5DD}
+.seqitem button,.step button{background:#E0F2EC;color:#236B60}
+.score{color:#278777}
+.progress{background:#E8E8D9}.progress .bar{background:linear-gradient(90deg,#55A99C,#F4C65D)}
+.opt.ok{background:#E3F5E9!important;border-color:#278777!important;color:#176452}
+.opt.bad{background:#FDEBE4!important;border-color:#CF8166!important;color:#9A462E}
+.fb{background:#F4F6F1}.small{color:#77847C}.card p{color:#66766D}
+.back{color:#254E47;font-weight:800}
+.top .pill{text-decoration:none}
+.weak{background:#F4F6F1}.status{background:#E0F2EC}
+.line,.memory-line,.step-zone{background:#FAF8F2}
+.slot{border-bottom-color:#E5B547;color:#236B60}
+textarea,select,input{border-color:#E4E5DD}
+button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #F4C65D;outline-offset:2px}
 </style></head><body><div class="app"><div class="top"><button class="pill" id="back">← 返回課文</button><button class="pill">📚 康軒・第一冊</button></div>
 <section id="lesson"><div class="hero"><h1>📘 第一課｜講咱的話</h1><p><b>課文語詞 × 生活語境 × 理解思考 × 實際應用</b></p><p>課文語詞 × 語境運用 × 閱讀理解 × 綜合挑戰</p></div><div class="grid">
 <div class="card level"><div class="num">01</div><div class="icon">🔤</div><h3>課文語詞</h3><p>教材重點語詞與課文用法</p><small id="s-vocab">未挑戰</small><br><br><button class="btn start" data-b="vocab">開始 →</button></div>

@@ -18,6 +18,42 @@
 .seq{display:grid;gap:10px}.seqitem{display:flex;gap:10px;align-items:center;border:1px solid #dde3de;border-radius:14px;padding:12px}.seqitem span{flex:1;font-weight:800}.seqitem button{border:0;background:#eef1ee;border-radius:10px;padding:8px 10px}
 textarea{width:100%;min-height:120px;border:1px solid #ddd;border-radius:16px;padding:14px}.result{max-width:720px;margin:auto;text-align:center}.score{font-size:64px;font-weight:900;color:#5f8f7b}
 @media(max-width:850px){.grid{grid-template-columns:1fr 1fr}}@media(max-width:520px){.grid{grid-template-columns:1fr}}
+
+/* ===== 鈺見台語 V2 語境挑戰：視覺覆寫（只改顏色，不動題目與功能）===== */
+:root{--text:#263B37;--ink:#263B37;--muted:#66766D;--line:#E4E5DD;--green:#278777;--accent:#278777;--sea:#278777;--orange:#E88B4A;--sand:#E88B4A;--soft:#E0F2EC;--warm:#FFF6EC;--shadow:0 10px 28px rgba(38,78,71,.08)}
+html{background:#FAF8F2}
+body{background:radial-gradient(circle at 7% 9%,rgba(244,198,93,.23),transparent 26%),radial-gradient(circle at 95% 17%,rgba(85,169,156,.17),transparent 28%),#FAF8F2!important;color:#263B37;min-height:100vh}
+.top .pill,.top button{background:#fff;color:#254E47;border:1px solid #E4E5DD;font-weight:800;box-shadow:0 6px 16px rgba(38,78,71,.08)}
+.top>button:first-child:hover{border-color:#55A99C}
+.top>:last-child:not(:first-child){background:#E0F2EC;color:#236B60;border-color:#B9DED1}
+.hero h1,.title h2,.result h2{color:#254E47}
+.hero p b{color:#B15F2A}
+.card{border-color:#E8E6D9}
+.num{color:#B9C4BE}.kicker{color:#B15F2A}.q{color:#263B37}
+.extra{background:linear-gradient(145deg,#fff,#FFF3D8)!important;border-color:#F2E1BC}
+.btn{background:#254E47;color:#fff}
+.btn:hover{filter:brightness(1.08)}
+.actions .btn,.btn.next,#retry,#result .btn:first-of-type,#checkSteps{background:linear-gradient(110deg,#E88B4A,#DA753B)}
+.btn[style*="background"]{background:#ECEEE6!important;color:#254E47!important}
+.bar{background:#E8E8D9}.fill{background:linear-gradient(90deg,#55A99C,#F4C65D)!important}
+.opt{border-color:#E4E5DD;color:#263B37}.opt:hover{border-color:#55A99C}
+.opt.correct,.correct{background:#E3F5E9;border-color:#278777;color:#176452}
+.opt.wrong,.wrong{background:#FDEBE4;border-color:#CF8166;color:#9A462E}
+.ok{background:#E3F5E9}.hint{background:#FFF3D8}.bad{background:#FDEBE4}
+.seqitem,.step{border-color:#E4E5DD}
+.seqitem button,.step button{background:#E0F2EC;color:#236B60}
+.score{color:#278777}
+.progress{background:#E8E8D9}.progress .bar{background:linear-gradient(90deg,#55A99C,#F4C65D)}
+.opt.ok{background:#E3F5E9!important;border-color:#278777!important;color:#176452}
+.opt.bad{background:#FDEBE4!important;border-color:#CF8166!important;color:#9A462E}
+.fb{background:#F4F6F1}.small{color:#77847C}.card p{color:#66766D}
+.back{color:#254E47;font-weight:800}
+.top .pill{text-decoration:none}
+.weak{background:#F4F6F1}.status{background:#E0F2EC}
+.line,.memory-line,.step-zone{background:#FAF8F2}
+.slot{border-bottom-color:#E5B547;color:#236B60}
+textarea,select,input{border-color:#E4E5DD}
+button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #F4C65D;outline-offset:2px}
 </style></head><body><div class="app">
 <div class="top"><button class="pill" onclick="location.href='../語境填空.dc.html'">← 返回課文</button><button class="pill">📕 育達・第一冊</button></div>
 <section id="lesson"><div class="hero"><h1>🧨 第4課｜燒銀紙佮放炮仔</h1><p><b>傳統慣勢、環境影響佮較環保的新做法</b></p><p>課文語詞 × 語境運用 × 閱讀理解 × 綜合挑戰</p></div>

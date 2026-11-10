@@ -10,6 +10,7 @@
 <!-- 網站介面、功能與教學整合設計／製作：張鈺聆　Copyright © 張鈺聆.
      教材、音檔等第三方素材之著作權仍屬原權利人所有。完整宣告見 author-credit.js。
      本頁遊戲核心整合自「聽聲辨拼音 V1.5 完整遊戲狀態版」；題庫、六關、HP10＋重生×1、錯題追擊、計時、COMBO 未變動。
+     V2.1（2026-11）：依教學進度開放聲母（TAUGHT）、關卡依發音部位細分、齒音預留、錯題存入瀏覽器供「練功坊」使用。
      整合調整：①音檔路徑（Lv.1–3 → audio/tailo-listening/，Lv.4–6 → audio/{id}.mp3）②網站導覽列 ③hover 僅限滑鼠裝置 ④第一題在點擊當下播放。 -->
 
 <style>
@@ -124,6 +125,12 @@ html{background:#FAF8F2}
 .gameoverTitle{color:#9A462E}
 .pageFoot{text-align:center;padding:6px 0 30px;font-size:12px;font-weight:700;color:#77847C}
 button:focus-visible,a:focus-visible{outline:3px solid #F4C65D;outline-offset:2px}
+/* V2.1：多關卡島嶼地圖（依教學進度自動開放） */
+.map{height:auto!important;display:flex;flex-wrap:wrap;justify-content:center;gap:16px 12px;max-width:760px;margin:18px auto 16px}
+.map .island{position:relative;left:auto;right:auto;top:auto;width:128px;min-height:102px}
+.island.locked{background:#EEEDE6!important;opacity:.62;box-shadow:none}
+.island .done{font-size:11px;color:#278777;font-weight:900;margin-top:2px}
+@media(max-width:720px){.map{max-width:420px;gap:12px 8px}.map .island{width:calc(33.3% - 8px);min-height:94px;padding:10px 4px}.island b{font-size:12.5px}.island .ico{font-size:26px}}
 </style>
 
 <!-- Google Analytics 4 -->
@@ -149,17 +156,8 @@ button:focus-visible,a:focus-visible{outline:3px solid #F4C65D;outline-offset:2p
 <section id="start" class="screen active card center">
 <div class="kicker">🧭 聲音冒險島</div>
 <div class="heroTitle">聽聲辨拼音</div>
-<p class="sub">戴上耳朵，沿著聲音航線前進。從最簡單的單元音出發，一路闖到聲母＋複元音！</p>
-<div class="map">
-<svg viewBox="0 0 720 430" aria-hidden="true"><path class="trail" d="M45 345 C130 355,120 200,220 185 S330 355,405 300 S430 130,525 125 S570 290,635 250 S640 95,690 70"/></svg>
-<div class="startFlag">🚩</div><div class="goal">🏆</div>
-<div class="island i1"><div class="ico">👂</div><b>Lv.1 單元音</b><small>18題</small></div>
-<div class="island i2"><div class="ico">🌊</div><b>Lv.2 複元音</b><small>30題</small></div>
-<div class="island i3"><div class="ico">🎙️</div><b>Lv.3 聲母初階</b><small>24題</small></div>
-<div class="island i4"><div class="ico">🧩</div><b>Lv.4 聲母＋單元音</b><small>24題</small></div>
-<div class="island i5"><div class="ico">✨</div><b>Lv.5 進階聲母</b><small>24題</small></div>
-<div class="island i6"><div class="ico">🏆</div><b>Lv.6 最終挑戰</b><small>24題</small></div>
-</div>
+<p class="sub">戴上耳朵，沿著聲音航線前進。從單元音出發，依照上課學過的聲母一島一島前進，一路闖到最終挑戰！</p>
+<div id="map" class="map"></div>
 <div class="lifeDock"><div class="pill">❤️ HP 10 / 10</div><div class="pill">✨ 重生石 ×1</div></div>
 <button id="startBtn" class="primary">🚀 出發冒險</button>
 <div class="note">答錯或超時會扣 1 HP，錯過的音會偷偷在後面再出現。第一次 HP 歸零時，重生石會讓你原地復活一次！</div>
@@ -214,9 +212,9 @@ button:focus-visible,a:focus-visible{outline:3px solid #F4C65D;outline-offset:2p
 <section id="result" class="screen card center">
   <div id="successResult" class="finalScene" style="display:none">
     <div class="trophyWrap"><span class="spark s1">✨</span><span class="spark s2">⭐</span><span class="spark s3">✨</span><span class="spark s4">⭐</span><div class="trophy">🏆</div></div>
-    <div class="kicker">六座島嶼全部完成</div>
+    <div id="allClearKicker" class="kicker">所有島嶼全部完成</div>
     <div class="finalTitle">冒險完成！</div>
-    <div class="finalSub">你成功走完聽聲辨拼音的六關航線</div>
+    <div class="finalSub">你成功走完聽聲辨拼音的冒險航線</div>
     <div id="successStats" class="resultCards"></div>
     <div id="successConfusions" class="confusions" style="display:none"></div>
     <button class="primary restartAction">🔁 再挑戰一次</button>
@@ -225,7 +223,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #F4C65D;outline-offset:2p
     <div class="gameoverIcon">🌧️</div>
     <div class="kicker">冒險暫時中止</div>
     <div class="gameoverTitle">GAME OVER</div>
-    <div class="gameoverSub">兩條生命都用完了</div>
+    <div class="gameoverSub">HP 和重生石都用完了</div>
     <div id="failStats" class="resultCards"></div>
     <div id="failConfusions" class="confusions" style="display:none"></div>
     <button class="primary restartAction">↻ 從 Lv.1 重新出發</button>
@@ -238,19 +236,32 @@ button:focus-visible,a:focus-visible{outline:3px solid #F4C65D;outline-offset:2p
 
 <audio id="player" preload="auto"></audio>
 <script>
-const levels=[
- {id:1,name:"單元音",sounds:["a","i","u","e","o","oo"],baseCount:18,
-  phases:[{until:6,name:"熟悉",sec:null},{until:12,name:"加速",sec:8},{until:18,name:"快攻",sec:5}],retrySec:4},
- {id:2,name:"複元音",sounds:["ia","iau","io","iu","ua","uai","ue","ui","ai","au"],baseCount:30,
-  phases:[{until:10,name:"熟悉",sec:null},{until:20,name:"加速",sec:8},{until:30,name:"快攻",sec:5}],retrySec:4},
- {id:3,name:"聲母初階",sounds:["p","ph","t","th","k","kh","ts","tsh"],baseCount:24,
-  phases:[{until:8,name:"熟悉",sec:null},{until:16,name:"送氣辨音",sec:8},{until:24,name:"快攻",sec:5}],retrySec:4},
- {id:4,name:"聲母＋單元音",sounds:["pa","pi","poo","pha","phu","pho","ta","te","to","thi","the","thoo","ka","ku","ko","kha","khi","khoo","tsa","tsu","tse","tsha","tsho","tshoo"],baseCount:24,
-  phases:[{until:8,name:"拼起來",sec:null},{until:16,name:"送氣對決",sec:8},{until:24,name:"混合快攻",sec:5}],retrySec:4},
- {id:5,name:"聲母進階＋單元音",sounds:["ma","mi","moo","bi","bu","be","bo","na","ni","ne","li","lu","lo","ngoo","ga","gu","ge","goo","ha","hi","ho","si","su","so"],baseCount:24,
-  phases:[{until:8,name:"新聲母熟悉",sec:null},{until:16,name:"辨音加速",sec:8},{until:24,name:"混合快攻",sec:5}],retrySec:4},
- {id:6,name:"聲母＋複元音",sounds:["pai","pue","phai","phue","tai","tiau","thai","thiau","kai","kiau","khai","khiau","tsai","tsiau","tshai","tshiau","mia","nia","lai","gua","hue","siau","bai","niau"],baseCount:24,
-  phases:[{until:8,name:"慢速拼合",sec:null},{until:16,name:"送氣辨音",sec:8},{until:24,name:"全混合快攻",sec:5}],retrySec:4}
+/* ================== 教學進度開關（老師只要改這裡） ==================
+   TAUGHT：已經教過的聲母。沒教過的聲母，相關題目會自動從所有關卡移除。
+   之後教到齒音，加入 "ts","tsh","s"（和 "j"）就好：
+   Lv.3 會自動加入 ts／tsh，「齒音」島會解鎖，複元音關和最終挑戰也會加入齒音題。 */
+const TAUGHT=["p","ph","b","m","t","th","n","l","k","kh","g","ng","h","ts","tsh","s","j"];
+/* ================================================================== */
+
+const ALL_LEVELS=[
+ {key:"v1",name:"單元音",ico:"👂",rep:3,opt:"all",sounds:["a","i","u","e","o","oo"],
+  phaseNames:["熟悉","加速","快攻"],note:"6 個單元音 a、i、u、e、o、oo，先把耳朵打開。"},
+ {key:"v2",name:"複元音",ico:"🌊",rep:3,opt:"random",sounds:["ia","iau","io","iu","ua","uai","ue","ui","ai","au"],
+  phaseNames:["熟悉","加速","快攻"],note:"10 個複元音，選項變多，後段反應時間也會縮短。"},
+ {key:"c1",name:"送氣分辨",ico:"🎙️",rep:3,opt:"all",sounds:["p","ph","t","th","k","kh","ts","tsh"],
+  phaseNames:["熟悉","送氣辨音","快攻"],note:lv=>`送氣大考驗：${pairText(lv.sounds)}。留意有沒有一口氣噴出來！`},
+ {key:"s1",name:"雙唇音",ico:"👄",rep:2,opt:"pair",syll:true,sounds:["pa","pi","poo","pha","phu","pho","ma","mi","moo","bi","bu","be","bo"],
+  phaseNames:["拼起來","送氣對決","混合快攻"],note:"雙唇音 p、ph、b、m 和單元音拼起來聽。特別注意 b／m 的差別！"},
+ {key:"s2",name:"舌尖音",ico:"👅",rep:2,opt:"pair",syll:true,sounds:["ta","te","to","thi","the","thoo","na","ni","ne","li","lu","lo"],
+  phaseNames:["拼起來","送氣對決","混合快攻"],note:"舌尖音 t、th、n、l 拼起來聽。n／l 很容易混，要專心！"},
+ {key:"s3",name:"舌根＋喉音",ico:"🌀",rep:2,opt:"pair",syll:true,sounds:["ka","ku","ko","kha","khi","khoo","ga","gu","ge","goo","ngoo","ha","hi","ho"],
+  phaseNames:["拼起來","辨音加速","混合快攻"],note:"舌根音 k、kh、g、ng，加上喉音 h。g／ng 是這關的魔王！"},
+ {key:"s4",name:"齒音",ico:"🦷",rep:2,opt:"pair",syll:true,sounds:["tsa","tsu","tse","tsha","tsho","tshoo","si","su","so"],
+  phaseNames:["拼起來","送氣對決","混合快攻"],note:"齒音 ts、tsh、s 拼起來聽。ts／tsh 要分清楚！"},
+ {key:"s5",name:"聲母＋複元音",ico:"🧩",rep:1,opt:"pair",syll:true,sounds:["pai","pue","phai","phue","tai","tiau","thai","thiau","kai","kiau","khai","khiau","tsai","tsiau","tshai","tshiau","mia","nia","lai","gua","hue","siau","bai","niau"],
+  phaseNames:["慢速拼合","送氣辨音","全混合快攻"],note:"把學過的聲母和複元音拼起來。先慢速拼合，再進入快攻。"},
+ {key:"final",name:"最終挑戰",ico:"🏆",final:true,take:24,opt:"pair",sounds:[],secs:[8,6,5],
+  phaseNames:["暖身","辨音加速","全混合快攻"],note:"所有學過的拼音大混合，隨機出題。通過就完成整趟冒險！"}
 ];
 const lv4Audio={
  pa:{id:5217,hanji:"疤",lomaji:"pa"},pi:{id:7073,hanji:"埤",lomaji:"pi"},poo:{id:5857,hanji:"埔",lomaji:"poo"},
@@ -272,7 +283,6 @@ const lv5Audio={
  ha:{id:168,hanji:"下",lomaji:"hā"},hi:{id:12139,hanji:"戲",lomaji:"hì"},ho:{id:2272,hanji:"好",lomaji:"hó"},
  si:{id:2282,hanji:"寺",lomaji:"sī"},su:{id:3128,hanji:"序",lomaji:"sū"},so:{id:7234,hanji:"挲",lomaji:"so"}
 };
-
 const lv6Audio={
  pai:{id:9103,hanji:"跛",lomaji:"pái"},pue:{id:4186,hanji:"杯",lomaji:"pue"},phai:{id:5167,hanji:"派",lomaji:"phài"},phue:{id:3195,hanji:"批",lomaji:"phue"},
  tai:{id:3014,hanji:"呆",lomaji:"tai"},tiau:{id:51,hanji:"刁",lomaji:"tiau"},thai:{id:5374,hanji:"胎",lomaji:"thai"},thiau:{id:10137,hanji:"跳",lomaji:"thiàu"},
@@ -281,54 +291,83 @@ const lv6Audio={
  mia:{id:2117,hanji:"名",lomaji:"miâ"},nia:{id:10916,hanji:"領",lomaji:"niá"},lai:{id:3529,hanji:"來",lomaji:"lâi"},gua:{id:3139,hanji:"我",lomaji:"guá"},
  hue:{id:4426,hanji:"花",lomaji:"hue"},siau:{id:6224,hanji:"消",lomaji:"siau"},bai:{id:13516,hanji:"䆀",lomaji:"bái"},niau:{id:11905,hanji:"貓",lomaji:"niau"}
 };
+const sylAudio={...lv4Audio,...lv5Audio,...lv6Audio};
 const audioMap={};
-levels.slice(0,3).flatMap(x=>x.sounds).forEach(x=>audioMap[x]=`audio/tailo-listening/${x}.mp3`);
-Object.entries(lv4Audio).forEach(([k,v])=>audioMap[k]=`audio/${v.id}.mp3`);
-Object.entries(lv5Audio).forEach(([k,v])=>audioMap[k]=`audio/${v.id}.mp3`);
-Object.entries(lv6Audio).forEach(([k,v])=>audioMap[k]=`audio/${v.id}.mp3`);
+["a","i","u","e","o","oo","ia","iau","io","iu","ua","uai","ue","ui","ai","au","p","ph","t","th","k","kh","ts","tsh"].forEach(x=>audioMap[x]=`audio/tailo-listening/${x}.mp3`);
+Object.entries(sylAudio).forEach(([k,v])=>audioMap[k]=`audio/${v.id}.mp3`);
+
+const PAIRS={p:"ph",ph:"p",t:"th",th:"t",k:"kh",kh:"k",ts:"tsh",tsh:"ts",m:"b",b:"m",n:"l",l:"n",g:"ng",ng:"g",h:"s",s:"h"};
+const onsetOf=x=>(x.match(/^(tsh|ts|ph|th|kh|ng|p|t|k|m|b|n|l|g|h|s|j)/)||[""])[0];
+const splitSyl=x=>{const o=onsetOf(x);return {onset:o,vowel:x.slice(o.length)}};
+const isTaught=x=>{const o=onsetOf(x);return !o||TAUGHT.includes(o)};
+function pairText(arr){const out=[];arr.forEach(x=>{const y=PAIRS[x];if(y&&arr.includes(y)&&!out.some(t=>t.includes(y)))out.push(`${x}／${y}`)});return out.join("、")}
+
+/* 依教學進度建立關卡 */
+const levels=ALL_LEVELS.map(lv=>({...lv,sounds:lv.sounds.filter(isTaught)}));
+levels.forEach(lv=>{if(lv.final)lv.sounds=[...new Set(levels.filter(x=>x.syll).flatMap(x=>x.sounds))]});
+levels.forEach(lv=>{lv.open=lv.sounds.length>0;lv.baseCount=lv.final?Math.min(lv.take,lv.sounds.length):lv.sounds.length*lv.rep});
+const playable=levels.filter(l=>l.open);playable.forEach((l,i)=>l.id=i+1);
+const BG=["#E0F2EC","#FFF3D8","#FFE4CF","#E3ECEA","#DDF1E9","#FCEBC0","#F3E6DA","#E0F2EC","#FCEBC0"];
+const TRACK=["#55A99C","#F4C65D","#E88B4A","#278777","#DA753B","#37877B","#B15F2A","#316E62","#254E47"];
+const noteOf=lv=>typeof lv.note==="function"?lv.note(lv):lv.note;
+
+/* 瀏覽器紀錄（給「練功坊」木人樁使用） */
+const WEAK_KEY="yjty_listen_weak_v1",PROG_KEY="yjty_listen_progress_v1";
+function loadJSON(k,d){try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}}
+function saveJSON(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+function recordResult(sound,ok,choice,levelKey){
+ const d=loadJSON(WEAK_KEY,{});const r=d[sound]||{w:0,c:0,mix:{}};
+ if(ok)r.c++;else{r.w++;const k=choice||"超時";r.mix[k]=(r.mix[k]||0)+1}
+ r.lv=levelKey;r.t=Date.now();d[sound]=r;saveJSON(WEAK_KEY,d);
+}
+function markCleared(key){const p=loadJSON(PROG_KEY,{cleared:[]});if(!p.cleared.includes(key))p.cleared.push(key);p.t=Date.now();saveJSON(PROG_KEY,p)}
 
 let levelIndex=0,queue=[],index=0,lives=10,revives=1,combo=0,totalCorrect=0,totalWrong=0,timeouts=0;
 let locked=false,current=null,timerId=null,deadline=0,confusion={},unresolved=new Set();
 
 const $=s=>document.querySelector(s);
 function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}
- for(let i=2;i<a.length;i++){if(a[i].answer===a[i-1].answer&&a[i].answer===a[i-2].answer){let j=a.findIndex((q,k)=>k>i&&q.answer!==a[i].answer);if(j>i)[a[i],a[j]]=[a[j],a[i]]}}return a}
+ for(let i=2;i<a.length;i++){if(a[i].answer&&a[i].answer===a[i-1].answer&&a[i].answer===a[i-2].answer){let j=a.findIndex((q,k)=>k>i&&q.answer!==a[i].answer);if(j>i)[a[i],a[j]]=[a[j],a[i]]}}return a}
 function screen(id){document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));$("#"+id).classList.add("active")}
+function renderMap(){
+ const cleared=loadJSON(PROG_KEY,{cleared:[]}).cleared;
+ $("#map").innerHTML=levels.map((lv,i)=>lv.open
+  ?`<div class="island" style="background:${BG[i%BG.length]}"><div class="ico">${lv.ico}</div><b>Lv.${lv.id} ${lv.name}</b><small>${lv.baseCount}題</small>${cleared.includes(lv.key)?'<div class="done">✓ 已通過</div>':""}</div>`
+  :`<div class="island locked"><div class="ico">🔒</div><b>${lv.name}</b><small>教到再開放</small></div>`).join("");
+}
 function makeBase(level){
- if(level.id===4||level.id===5||level.id===6)return shuffle(level.sounds.map(s=>({answer:s,retry:false})));
- return shuffle(level.sounds.flatMap(s=>Array.from({length:3},()=>({answer:s,retry:false}))));
+ if(level.final)return shuffle(level.sounds).slice(0,level.baseCount).map(s=>({answer:s,retry:false}));
+ return shuffle(level.sounds.flatMap(s=>Array.from({length:level.rep},()=>({answer:s,retry:false}))));
 }
 function beginAll(){levelIndex=0;lives=10;revives=1;combo=0;totalCorrect=0;totalWrong=0;timeouts=0;confusion={};beginLevel()}
-function beginLevel(){queue=makeBase(levels[levelIndex]);index=0;unresolved=new Set();locked=false;screen("game");nextQuestion()}
+function beginLevel(){queue=makeBase(playable[levelIndex]);index=0;unresolved=new Set();locked=false;screen("game");nextQuestion()}
 function phaseFor(level){
- if(index>=level.baseCount)return {name:"追擊",sec:level.retrySec};
- return level.phases.find(p=>index<p.until)||level.phases[level.phases.length-1];
+ if(index>=level.baseCount)return {name:"追擊",sec:4};
+ const n=level.baseCount,secs=level.secs||[null,8,5];
+ const cuts=[Math.round(n/3),Math.round(n*2/3),n];
+ const k=cuts.findIndex(c=>index<c);const i=k<0?2:k;
+ return {name:level.phaseNames[i],sec:secs[i]};
 }
 function renderHearts(){
  $("#hearts").textContent=`❤️ HP ${lives} / 10`;
  $("#revivesHud").textContent=`✨ 重生 ×${revives}`;
 }
 function renderLevelTrack(){
- $("#levelTrack").innerHTML=levels.map((lv,i)=>`<div class="trackStep ${i<=levelIndex?"on":""}" title="Lv.${lv.id} ${lv.name}"></div>`).join("");
+ $("#levelTrack").innerHTML=playable.map((lv,i)=>`<div class="trackStep" title="Lv.${lv.id} ${lv.name}" style="${i<=levelIndex?`background:${TRACK[i%TRACK.length]}`:""}"></div>`).join("");
 }
 function playAudio(){if(!current)return;const p=$("#player");p.src=audioMap[current.answer];p.currentTime=0;p.play().catch(()=>{})}
 function renderOptions(level){
- let choices;
- if(level.id===1){choices=level.sounds}
- else if(level.id===2){
-   const distract=shuffle(level.sounds.filter(x=>x!==current.answer)).slice(0,5);
+ let choices;const pool=level.sounds;
+ if(level.opt==="all"){choices=pool}
+ else if(level.opt==="random"){
+   const distract=shuffle(pool.filter(x=>x!==current.answer)).slice(0,5);
    choices=shuffle([current.answer,...distract]);
- }else if(level.id===3){
-   choices=level.sounds;
  }else{
-   const onsetPairs=level.id===4?{p:"ph",ph:"p",t:"th",th:"t",k:"kh",kh:"k",ts:"tsh",tsh:"ts"}:level.id===5?{m:"b",b:"m",n:"l",l:"n",g:"ng",ng:"g",h:"s",s:"h"}:{p:"ph",ph:"p",t:"th",th:"t",k:"kh",kh:"k",ts:"tsh",tsh:"ts",m:"b",b:"m",n:"l",l:"n",g:"ng",ng:"g",h:"s",s:"h"};
-   const split=x=>{const m=x.match(/^(tsh|ts|ph|th|kh|ng|p|t|k|m|b|n|l|g|h|s|j)(iau|uai|ai|au|ia|io|iu|ua|ue|ui|oo|a|i|u|e|o)$/);return m?{onset:m[1],vowel:m[2]}:{onset:"",vowel:""}};
-   const cur=split(current.answer), paired=(onsetPairs[cur.onset]||"")+cur.vowel;
-   let pool=level.sounds.filter(x=>x!==current.answer);
-   let sameVowel=shuffle(pool.filter(x=>split(x).vowel===cur.vowel));
-   let picks=[]; if(level.sounds.includes(paired))picks.push(paired);
-   picks.push(...sameVowel.filter(x=>!picks.includes(x)).slice(0,3-picks.length));
-   if(picks.length<3)picks.push(...shuffle(pool.filter(x=>!picks.includes(x))).slice(0,3-picks.length));
+   const cur=splitSyl(current.answer),paired=(PAIRS[cur.onset]||"")+cur.vowel;
+   const rest=pool.filter(x=>x!==current.answer);
+   const picks=[];if(PAIRS[cur.onset]&&rest.includes(paired))picks.push(paired);
+   picks.push(...shuffle(rest.filter(x=>splitSyl(x).vowel===cur.vowel&&!picks.includes(x))).slice(0,3-picks.length));
+   if(picks.length<3)picks.push(...shuffle(rest.filter(x=>!picks.includes(x))).slice(0,3-picks.length));
    choices=shuffle([current.answer,...picks]);
  }
  $("#opts").innerHTML=choices.map(x=>`<button class="opt" data-a="${x}">${x}</button>`).join("");
@@ -337,7 +376,7 @@ function renderOptions(level){
 function nextQuestion(){
  clearInterval(timerId);locked=false;$("#feedback").textContent="";$("#feedback").className="feedback";$("#combo").textContent=combo>=2?`🔥 COMBO ×${combo}`:"";
  if(lives<=0){if(revives>0){showRevive();return}else{finish(false);return}}
- const level=levels[levelIndex];
+ const level=playable[levelIndex];
  if(index>=queue.length){
    if(unresolved.size===0){levelClear();return}
    [...unresolved].forEach(x=>queue.push({answer:x,retry:true}));
@@ -359,52 +398,34 @@ function scheduleRetry(sound){
 function answer(choice,isTimeout){
  if(locked)return;locked=true;clearInterval(timerId);document.querySelectorAll(".opt").forEach(b=>b.disabled=true);
  const ok=!isTimeout&&choice===current.answer;
+ const src=sylAudio[current.answer];const extra=src?`｜例字：${src.hanji}（${src.lomaji}）`:"";
+ recordResult(current.answer,ok,isTimeout?null:choice,playable[levelIndex].key);
  if(ok){
    totalCorrect++;combo++;if(current.retry)unresolved.delete(current.answer);
    $("#feedback").className="feedback good";
-   const src=levels[levelIndex].id===4?lv4Audio[current.answer]:levels[levelIndex].id===5?lv5Audio[current.answer]:levels[levelIndex].id===6?lv6Audio[current.answer]:null;
-   $("#feedback").textContent=src?`✓ ${current.answer}｜例字：${src.hanji}（${src.lomaji}）`:(current.retry?`✓ ${current.answer}｜追擊成功`:"✓ 答對了");
+   $("#feedback").textContent=src?`✓ ${current.answer}${extra}`:(current.retry?`✓ ${current.answer}｜追擊成功`:"✓ 答對了");
  }else{
    totalWrong++;combo=0;lives--;scheduleRetry(current.answer);
    const key=isTimeout?`超時 → ${current.answer}`:`${current.answer} → ${choice}`;confusion[key]=(confusion[key]||0)+1;
    if(isTimeout)timeouts++;
    $("#feedback").className="feedback bad";
-   const src=levels[levelIndex].id===4?lv4Audio[current.answer]:levels[levelIndex].id===5?lv5Audio[current.answer]:levels[levelIndex].id===6?lv6Audio[current.answer]:null; const extra=src?`｜例字：${src.hanji}（${src.lomaji}）`:"";
    $("#feedback").textContent=isTimeout?`⌛ 超時｜答案：${current.answer}${extra}｜❤️ −1`:`✕ 答案：${current.answer}${extra}｜❤️ −1`;renderHearts();
  }
  index++;setTimeout(nextQuestion,ok?650:1100)
 }
 
-function showRevive(){
- clearInterval(timerId);
- revives--;
- lives=10;
- combo=0;
- renderHearts();
- screen("revive");
-}
-function continueAfterRevive(){
- screen("game");
- locked=false;
- nextQuestion();
-}
+function showRevive(){clearInterval(timerId);revives--;lives=10;combo=0;renderHearts();screen("revive")}
+function continueAfterRevive(){screen("game");locked=false;nextQuestion()}
 
 function levelClear(){
- if(levelIndex<levels.length-1){
-   const currentLevel=levels[levelIndex], nextLevel=levels[levelIndex+1];
+ const currentLevel=playable[levelIndex];markCleared(currentLevel.key);
+ if(levelIndex<playable.length-1){
+   const nextLevel=playable[levelIndex+1];
    screen("transition");
    $("#transitionBadge").textContent=`Lv.${currentLevel.id} CLEAR`;
    $("#transitionTitle").textContent=`準備進入${nextLevel.name}`;
    $("#carry").innerHTML=`<div class="carryChip">❤️ HP ${lives} / 10</div><div class="carryChip">✨ 重生石 ×${revives}</div><div class="carryChip">🗺️ Lv.${nextLevel.id} 已解鎖</div>`;
-   $("#transitionNote").textContent=nextLevel.id===2
-     ?"Lv.2 有 10 個複元音、30 題基本題。題目選項會更多，後段反應時間也會縮短。"
-     :nextLevel.id===3
-       ?"Lv.3 練習 p／ph、t／th、k／kh、ts／tsh，共 24 題。留意送氣與不送氣的差別。"
-       :nextLevel.id===4
-         ?"Lv.4 把初階聲母和單元音真正拼起來聽。使用臺羅組合練習既有的真實詞條音檔，共 24 題。"
-         :nextLevel.id===5
-           ?"Lv.5 加入 m／b、n／l、ng／g、h／s 等進階聲母，再和單元音拼起來聽，共 24 題。"
-           :"Lv.6 把前面學過的聲母和複元音真正拼起來。先慢速拼合，再做送氣辨音，最後進入 5 秒混合快攻，共 24 題。";
+   $("#transitionNote").textContent=`Lv.${nextLevel.id}｜${noteOf(nextLevel)}（共 ${nextLevel.baseCount} 題）`;
    $("#nextLevelBtn").textContent=`前往 Lv.${nextLevel.id}｜${nextLevel.name} ➜`;
  }else finish(true);
 }
@@ -412,21 +433,24 @@ function finish(clear){
  clearInterval(timerId);screen("result");
  $("#successResult").style.display=clear?"block":"none";
  $("#failResult").style.display=clear?"none":"block";
+ $("#allClearKicker").textContent=`${playable.length} 座島嶼全部完成`;
  const accuracy=(totalCorrect+totalWrong)>0?Math.round(totalCorrect/(totalCorrect+totalWrong)*100):0;
  const stats=`<div class="resultCard"><span class="small">答對</span><strong>${totalCorrect}</strong>題</div>
  <div class="resultCard"><span class="small">正確率</span><strong>${accuracy}%</strong></div>
- <div class="resultCard"><span class="small">${clear?"剩餘 HP":"抵達關卡"}</span><strong>${clear?lives:"Lv."+levels[levelIndex].id}</strong></div>`;
+ <div class="resultCard"><span class="small">${clear?"剩餘 HP":"抵達關卡"}</span><strong>${clear?lives:"Lv."+playable[levelIndex].id}</strong></div>`;
  const box=clear?$("#successStats"):$("#failStats"); box.innerHTML=stats;
  const cbox=clear?$("#successConfusions"):$("#failConfusions");
  const keys=Object.keys(confusion);
  if(keys.length){cbox.style.display="block";cbox.innerHTML="<b>🎯 本輪易混淆／超時</b><br>"+keys.sort((a,b)=>confusion[b]-confusion[a]).map(k=>`${k}：${confusion[k]} 次`).join("<br>")}
  else cbox.style.display="none";
+ renderMap();
 }
 /* 行動裝置自動播放限制：在點擊當下直接播放第一題 */
 let gesturePlayed=false;
 function startWithGesture(fn){fn();if(current&&$("#game").classList.contains("active")){gesturePlayed=true;playAudio()}}
 $("#startBtn").onclick=()=>startWithGesture(beginAll);$("#reviveBtn").onclick=()=>startWithGesture(continueAfterRevive);$("#restartBtn").onclick=()=>startWithGesture(beginAll);
-document.querySelectorAll(".restartAction").forEach(b=>b.onclick=beginAll);$("#nextLevelBtn").onclick=()=>startWithGesture(()=>{levelIndex++;beginLevel()});$("#listen").onclick=playAudio;
+document.querySelectorAll(".restartAction").forEach(b=>b.onclick=()=>startWithGesture(beginAll));$("#nextLevelBtn").onclick=()=>startWithGesture(()=>{levelIndex++;beginLevel()});$("#listen").onclick=playAudio;
+renderMap();
 </script>
 </body>
 </html>

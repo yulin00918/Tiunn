@@ -47,7 +47,7 @@ button{font-family:inherit}
 /* 徒弟卡 */
 .disciple{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center}
 .avatar{width:104px;height:104px;border-radius:28px;background:linear-gradient(160deg,#FFF3D8,#FCE6C6);display:grid;place-items:center;font-size:58px;position:relative;box-shadow:inset 0 -6px 0 rgba(0,0,0,.05)}
-.avatar>span{transform:translateY(-10px);font-size:52px}.avatar .belt{position:absolute;left:10px;right:10px;bottom:12px;height:11px;border-radius:4px;box-shadow:0 2px 0 rgba(0,0,0,.15)}
+.avatar .belt{position:absolute;left:28px;right:28px;bottom:13px;height:11px;border-radius:4px;box-shadow:0 2px 0 rgba(0,0,0,.15)}
 .avatar .belt:after{content:"";position:absolute;right:16px;top:-3px;width:10px;height:22px;background:inherit;border-radius:3px;transform:rotate(18deg)}
 .rankName{font-size:24px;font-weight:1000;color:var(--green)}
 .rankBelt{font-size:13px;font-weight:900;color:#B15F2A;margin-top:2px}
@@ -71,7 +71,7 @@ button{font-family:inherit}
 .seal.on{background:#C4452D;border-color:#C4452D;box-shadow:inset 0 0 0 2px #fff}
 @media(max-width:560px){.room{padding:13px}.room .ri{font-size:28px}.room b{font-size:16px}.room small{font-size:12px}.seal{width:18px;height:18px}}
 .shop{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:#FFF3D8;border:2px dashed #EFCB7A;border-radius:20px;padding:14px 16px}
-.shop .ico{font-size:30px}.shop div{flex:1;min-width:180px;line-height:1.55}
+.shop .ico{font-size:30px}.shop>div:not(.ico){flex:1;min-width:180px;line-height:1.55}
 .toLink{display:block;text-align:center;margin:18px auto 0;color:#236B60;font-weight:900}
 
 /* 對招房列表 */
@@ -108,7 +108,7 @@ button{font-family:inherit}
 .timer{height:100%;width:100%;background:linear-gradient(90deg,#55A99C,#F4C65D);transition:width .1s linear}.timer.danger{background:#DA753B}
 .stage{position:relative;text-align:center;padding:10px 0 0}
 .dummy{position:relative;width:170px;height:150px;margin:6px auto 0;display:grid;place-items:center}
-.dummy .post{position:absolute;font-size:96px;line-height:1;filter:drop-shadow(0 8px 5px rgba(38,78,71,.15))}
+.dummy .post{position:absolute;line-height:0;filter:drop-shadow(0 8px 5px rgba(38,78,71,.15))}
 .listen{position:relative;z-index:2;width:86px;height:86px;border:0;border-radius:50%;background:var(--green);color:#fff;font-size:36px;cursor:pointer;box-shadow:0 8px 0 #1A3833,0 15px 25px rgba(37,78,71,.22)}
 .listen:active{transform:translateY(5px);box-shadow:0 3px 0 #1A3833}
 .hit{position:absolute;z-index:3;top:-6px;right:-8px;font-size:30px;font-weight:1000;color:#C4452D;opacity:0;pointer-events:none}
@@ -144,15 +144,117 @@ button{font-family:inherit}
 .pageFoot{text-align:center;padding:6px 0 30px;font-size:12px;font-weight:700;color:#77847C}
 button:focus-visible,a:focus-visible{outline:3px solid #F4C65D;outline-offset:2px}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* 自繪圖示 */
+.ic{display:inline-block;width:1.15em;height:1.15em;vertical-align:-.2em;margin-right:.3em;flex:0 0 auto}
+.ic.xs{width:18px;height:18px;vertical-align:-4px}.ic.md{width:26px;height:26px;vertical-align:-6px}.ic.lg{width:44px;height:44px;margin:0}.ic.xl{width:46px;height:46px;margin:0}
+.ic.hd{width:26px;height:26px;vertical-align:-6px}.ic.hero{width:110px;height:110px;margin:0 auto;display:block}
+.kicker .ic,.chip .ic{margin-right:5px}
+.avatar .kid{width:100px;height:100px;margin-top:4px}
+.postSvg{width:150px;height:150px}.dummy .post{filter:none}
+.spk{width:44px;height:44px;color:#fff;margin:0;vertical-align:middle}
+.demoBtn .ic{color:inherit}
+@media(max-width:560px){.ic.xl{width:38px;height:38px}}
+/* 插畫素材 */
+#hall>.card{background:linear-gradient(180deg,rgba(255,252,244,.80),rgba(255,252,244,.96) 62%),url(img/dojo/bg-hall.webp) center top/cover}
+.avatar{width:132px;height:132px;background:radial-gradient(circle at 50% 60%,#fff 0,#FFF3D8 70%);border:3px solid #fff;box-shadow:0 8px 20px rgba(38,78,71,.15)}
+.kidImg{width:122px;height:122px;object-fit:contain;margin-top:6px}
+.roomImg{width:72px;height:72px;object-fit:contain;display:block}
+.dailyImg{width:58px;height:58px;object-fit:contain;flex:0 0 auto}
+.shopImg{width:64px;height:64px;object-fit:contain}
+.secImg{width:28px;height:28px;object-fit:contain;vertical-align:-7px;margin-right:6px}
+.chipImg{width:18px;height:18px;object-fit:contain;vertical-align:-4px;margin-right:5px}
+.heroImg{width:130px;height:130px;object-fit:contain;display:block;margin:0 auto}
+.postImg{height:150px;width:auto;filter:drop-shadow(0 8px 6px rgba(38,78,71,.15))}
+.dummy{width:auto;height:auto;display:flex;align-items:center;justify-content:center;gap:22px}
+.masterRow{display:flex;align-items:flex-end;gap:10px;max-width:600px;margin:14px auto 4px}
+.masterImg{width:110px;height:110px;object-fit:contain;flex:0 0 auto}
+.masterRow .mantra{margin:0;flex:1;position:relative}
+.masterRow .mantra:before{content:"";position:absolute;left:-12px;bottom:22px;border:8px solid transparent;border-right-color:#FFF8E8}
+.doneKid{width:110px;height:110px;object-fit:contain;margin-bottom:4px}
+@media(max-width:560px){.roomImg{width:58px;height:58px}.masterImg{width:84px;height:84px}.avatar{margin:auto}}
 </style>
 <!-- Google Analytics 4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-H3X7ZH5XL6"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-H3X7ZH5XL6');</script>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-kid" viewBox="0 0 100 100">
+ <path d="M22 100C22 78 32 68 50 68S78 78 78 100Z" fill="#fff" stroke="#E2D9C3" stroke-width="2"/>
+ <path d="M40 69L52 90M60 69L46 84" fill="none" stroke="#E2D9C3" stroke-width="3" stroke-linecap="round"/>
+ <rect x="44" y="56" width="12" height="13" rx="4" fill="#F2C29A"/>
+ <circle cx="50" cy="44" r="20" fill="#FAD7B0"/>
+ <circle cx="29.5" cy="46" r="4" fill="#F2C29A"/><circle cx="70.5" cy="46" r="4" fill="#F2C29A"/>
+ <circle cx="50" cy="15" r="7.5" fill="#2E2A28"/>
+ <path d="M29 44C29 27 39 21 50 21S71 27 71 44C67 35 59 31.5 50 31.5S33 35 29 44Z" fill="#2E2A28"/>
+ <rect x="29.5" y="31" width="41" height="5.5" rx="2.7" fill="#E88B4A"/>
+ <path d="M69 33L80 27L78 35L82 41L69 36Z" fill="#DA753B"/>
+ <path d="M38.5 40.5L45 42M61.5 40.5L55 42" stroke="#2E2A28" stroke-width="2.4" stroke-linecap="round"/>
+ <circle cx="43" cy="47" r="2.6" fill="#2E2A28"/><circle cx="57" cy="47" r="2.6" fill="#2E2A28"/>
+ <circle cx="38" cy="53" r="3.2" fill="#F4A48C" opacity=".55"/><circle cx="62" cy="53" r="3.2" fill="#F4A48C" opacity=".55"/>
+ <path d="M45 54.5Q50 58.5 55 54.5" fill="none" stroke="#9A4B32" stroke-width="2.2" stroke-linecap="round"/>
+</symbol>
+<symbol id="i-glove" viewBox="0 0 64 64">
+ <rect x="20" y="44" width="26" height="13" rx="4" fill="#F4C65D"/><path d="M20 49H46" stroke="#E0A93A" stroke-width="2"/>
+ <rect x="14" y="10" width="38" height="36" rx="15" fill="#E88B4A"/>
+ <path d="M25 13V27M34 11.5V27M43 13V27" stroke="#C4652E" stroke-width="2.4" stroke-linecap="round"/>
+ <rect x="8" y="28" width="22" height="13" rx="6.5" fill="#DA753B"/>
+ <path d="M20 17Q24 14 28 16" stroke="#FFD7B5" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+</symbol>
+<symbol id="i-dummy" viewBox="0 0 64 64">
+ <ellipse cx="32" cy="58" rx="19" ry="4" fill="#D9C79F"/>
+ <rect x="35" y="35" width="20" height="5.5" rx="2.7" fill="#8E5527" transform="rotate(28 35 37)"/>
+ <rect x="6" y="20" width="22" height="5.5" rx="2.7" fill="#8E5527" transform="rotate(-14 28 22)"/>
+ <rect x="36" y="20" width="22" height="5.5" rx="2.7" fill="#8E5527" transform="rotate(14 36 22)"/>
+ <rect x="23" y="6" width="18" height="52" rx="8" fill="#B9783F"/>
+ <path d="M27 14V50M37 18V44" stroke="#9A5F2D" stroke-width="1.6" stroke-linecap="round" opacity=".7"/>
+ <rect x="23" y="29" width="18" height="3" fill="#8E5527" opacity=".55"/>
+ <ellipse cx="32" cy="8" rx="9" ry="2.6" fill="#D49A5E"/>
+</symbol>
+<symbol id="i-scroll" viewBox="0 0 64 64">
+ <rect x="14" y="13" width="36" height="38" fill="#FFF3D8" stroke="#E5C27A" stroke-width="2"/>
+ <path d="M20 23H44M20 30H44M20 37H36" stroke="#E5C27A" stroke-width="2.4" stroke-linecap="round"/>
+ <rect x="37" y="38" width="8" height="8" rx="1.5" fill="#C4452D"/>
+ <rect x="9" y="8" width="46" height="7" rx="3.5" fill="#316E62"/><rect x="9" y="49" width="46" height="7" rx="3.5" fill="#316E62"/>
+</symbol>
+<symbol id="i-bolt" viewBox="0 0 64 64">
+ <circle cx="32" cy="32" r="27" fill="#FFF3D8"/>
+ <path d="M37 7L17 36H30L25 57L47 26H34Z" fill="#F4C65D" stroke="#DA753B" stroke-width="2.5" stroke-linejoin="round"/>
+</symbol>
+<symbol id="i-lantern" viewBox="0 0 64 64">
+ <path d="M32 2V8" stroke="#254E47" stroke-width="2.5"/>
+ <rect x="24" y="7" width="16" height="6" rx="2" fill="#254E47"/>
+ <ellipse cx="32" cy="32" rx="19" ry="20" fill="#C4452D"/>
+ <ellipse cx="32" cy="32" rx="9" ry="20" fill="none" stroke="#A33A26" stroke-width="2"/>
+ <path d="M13 32H51" stroke="#F4C65D" stroke-width="3"/>
+ <rect x="24" y="51" width="16" height="6" rx="2" fill="#254E47"/>
+ <path d="M32 57V63" stroke="#F4C65D" stroke-width="3" stroke-linecap="round"/>
+ <ellipse cx="25" cy="23" rx="3" ry="6" fill="#fff" opacity=".22"/>
+</symbol>
+<symbol id="i-stone" viewBox="0 0 64 64">
+ <path d="M32 6L54 22L46 56H18L10 22Z" fill="#F4C65D" stroke="#DA753B" stroke-width="2.5" stroke-linejoin="round"/>
+ <path d="M10 22H54M32 6L24 22L32 56L40 22Z" fill="none" stroke="#E0A93A" stroke-width="1.8" stroke-linejoin="round"/>
+ <path d="M50 4L52 9L57 11L52 13L50 18L48 13L43 11L48 9Z" fill="#fff" stroke="#F4C65D" stroke-width="1"/>
+</symbol>
+<symbol id="i-temple" viewBox="0 0 64 64">
+ <path d="M3 25Q32 4 61 25Q55 24 52 27H12Q9 24 3 25Z" fill="#254E47"/>
+ <rect x="10" y="27" width="44" height="5" fill="#B5563A"/>
+ <rect x="15" y="32" width="6" height="21" fill="#C4452D"/><rect x="43" y="32" width="6" height="21" fill="#C4452D"/>
+ <rect x="27" y="36" width="10" height="17" rx="5" fill="#F4C65D"/>
+ <rect x="7" y="53" width="50" height="6" rx="2" fill="#D9C79F"/>
+</symbol>
+<symbol id="i-qi" viewBox="0 0 64 64">
+ <path d="M32 4C36 18 50 22 50 40A18 18 0 0 1 14 40C14 30 20 26 22 18C26 26 28 28 30 28C30 18 28 12 32 4Z" fill="#E88B4A"/>
+ <path d="M32 30C34 38 41 40 41 47A9 9 0 0 1 23 47C23 41 28 38 32 30Z" fill="#F4C65D"/>
+</symbol>
+<symbol id="i-speaker" viewBox="0 0 64 64">
+ <path d="M10 24H21L34 13V51L21 40H10Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+ <path d="M42 24Q47 32 42 40M48 18Q57 32 48 46" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+</symbol>
+</defs></svg>
 <div class="siteHead"><div class="siteHeadIn">
   <a class="homeBtn" href="index.html">← 回首頁</a>
-  <div class="siteTitle">🥋 聽聲練功坊<small>鈺見拳頭館｜耳朵練予利，拼音就會準</small></div>
+  <div class="siteTitle"><svg class="ic hd" aria-hidden="true"><use href="#i-glove"/></svg>聽聲練功坊<small>鈺見拳頭館｜耳朵練予利，拼音就會準</small></div>
   <div class="siteSpacer"></div>
 </div></div>
 <div class="brick"></div>
@@ -163,9 +265,9 @@ button:focus-visible,a:focus-visible{outline:3px solid #F4C65D;outline-offset:2p
 <section id="hall" class="screen active">
   <div class="card">
     <div class="disciple">
-      <div class="avatar"><span>🧒</span><div id="beltBand" class="belt"></div></div>
+      <div class="avatar"><img id="kidImg" class="kidImg" src="img/dojo/kid-white.webp" alt="小徒弟"></div>
       <div>
-        <div class="kicker">🏮 鈺見拳頭館</div>
+        <div class="kicker"><svg class="ic xs" aria-hidden="true"><use href="#i-lantern"/></svg>鈺見拳頭館</div>
         <div id="rankName" class="rankName"></div>
         <div id="rankBelt" class="rankBelt"></div>
         <div class="bar"><i id="rankBar"></i></div>
@@ -173,32 +275,32 @@ button:focus-visible,a:focus-visible{outline:3px solid #F4C65D;outline-offset:2p
       </div>
     </div>
     <div class="daily">
-      <div class="ico">📿</div>
+      <img class="dailyImg" src="img/dojo/lantern.webp" alt="">
       <div><b id="dailyTitle">今日功課</b><small id="dailySub"></small></div>
       <button id="dailyBtn" class="primary">開始練功</button>
     </div>
   </div>
 
-  <div class="secTitle">🏯 練功房</div>
+  <div class="secTitle"><svg class="ic md" aria-hidden="true"><use href="#i-temple"/></svg>練功房</div>
   <div class="rooms">
-    <button class="room" data-go="pairs"><div class="ri">🥊</div><b>對招房</b><small>兩個很像的音一對一對練。先聽師父喝聲，再出招。</small><div id="sealPairs" class="seals"></div></button>
-    <button class="room" data-go="dummy"><div class="ri">🪵</div><b>木人樁</b><small>專打你的弱點：冒險島和練功坊答錯的音，都會在這裡等你。</small><div id="sealDummy" class="seals"></div></button>
-    <button class="room" data-go="custom"><div class="ri">📜</div><b>自選套路</b><small>想練哪幾類音自己挑，練到順為止。</small><div id="sealCustom" class="seals"></div></button>
-    <button class="room" data-go="fast"><div class="ri">⚡</div><b>快拳房</b><small>60 秒內答對越多越好，挑戰自己的紀錄。</small><div id="sealFast" class="seals"></div></button>
+    <button class="room" data-go="pairs"><img class="roomImg" src="img/dojo/room-pair.webp" alt=""><b>對招房</b><small>兩個很像的音一對一對練。先聽師父喝聲，再出招。</small><div id="sealPairs" class="seals"></div></button>
+    <button class="room" data-go="dummy"><img class="roomImg" src="img/dojo/dummy.webp" alt=""><b>木人樁</b><small>專打你的弱點：冒險島和練功坊答錯的音，都會在這裡等你。</small><div id="sealDummy" class="seals"></div></button>
+    <button class="room" data-go="custom"><img class="roomImg" src="img/dojo/room-scroll.webp" alt=""><b>自選套路</b><small>想練哪幾類音自己挑，練到順為止。</small><div id="sealCustom" class="seals"></div></button>
+    <button class="room" data-go="fast"><img class="roomImg" src="img/dojo/room-fast.webp" alt=""><b>快拳房</b><small>60 秒內答對越多越好，挑戰自己的紀錄。</small><div id="sealFast" class="seals"></div></button>
   </div>
 
-  <div class="secTitle">🎁 換寶物</div>
+  <div class="secTitle"><img class="secImg" src="img/dojo/stone.webp" alt="">換寶物</div>
   <div class="shop">
-    <div class="ico">✨</div>
+    <img class="shopImg" src="img/dojo/stone.webp" alt="">
     <div><b>重生石</b>：<span id="stoneCost"></span> 點內力換 1 顆，帶到冒險島，HP 歸零時可以多復活一次（最多存 3 顆）。</div>
     <button id="buyStone" class="ghost">換一顆</button>
   </div>
-  <a class="toLink" href="聽聲辨拼音.dc.html">🏝 去聲音冒險島闖關 →</a>
+  <a class="toLink" href="聽聲辨拼音.dc.html">去聲音冒險島闖關 →</a>
 </section>
 
 <!-- 對招房：選招 -->
 <section id="pairs" class="screen card">
-  <div class="kicker">🥊 對招房</div>
+  <div class="kicker"><svg class="ic xs" aria-hidden="true"><use href="#i-glove"/></svg>對招房</div>
   <div class="h1">選一招來練</div>
   <p class="sub">每一招都是兩個容易聽錯的音。答對 9 題以上，就能蓋滿 3 個拳印。</p>
   <div id="pairList" class="pairs"></div>
@@ -207,18 +309,18 @@ button:focus-visible,a:focus-visible{outline:3px solid #F4C65D;outline-offset:2p
 
 <!-- 喝聲（示範，不計分） -->
 <section id="demo" class="screen card center">
-  <div class="kicker">📣 聽師父喝聲（不計分）</div>
+  <div class="kicker">聽師父喝聲・不計分</div>
   <div id="demoTitle" class="h1"></div>
   <p class="sub">點兩邊的按鈕，多聽幾次，聽出差別再開始。</p>
   <div id="demoGrid" class="demoGrid"></div>
-  <div id="mantra" class="mantra"></div>
+  <div class="masterRow"><img class="masterImg" src="img/dojo/master.webp" alt="師父"><div id="mantra" class="mantra"></div></div>
   <div id="demoExamples" class="examples"></div>
-  <div class="row"><button class="ghost" id="demoBack">← 換一招</button><button id="demoStart" class="primary">🥊 開始對招</button></div>
+  <div class="row"><button class="ghost" id="demoBack">← 換一招</button><button id="demoStart" class="primary">開始對招</button></div>
 </section>
 
 <!-- 自選套路 -->
 <section id="custom" class="screen card">
-  <div class="kicker">📜 自選套路</div>
+  <div class="kicker"><svg class="ic xs" aria-hidden="true"><use href="#i-scroll"/></svg>自選套路</div>
   <div class="h1">今天想練哪些？</div>
   <p class="sub">可以複選，一輪 12 題。</p>
   <div id="groupList" class="groupList"></div>
@@ -227,10 +329,10 @@ button:focus-visible,a:focus-visible{outline:3px solid #F4C65D;outline-offset:2p
 
 <!-- 木人樁沒有弱點 -->
 <section id="noWeak" class="screen card center">
-  <div style="font-size:72px">🪵</div>
+  <img class="heroImg" src="img/dojo/dummy.webp" alt="">
   <div class="h1">木人樁還很乾淨</div>
   <p class="sub">目前還沒有常錯的音。先去冒險島闖幾關，或練練對招房，<br>答錯的音會自動送來這裡。</p>
-  <div class="row"><button class="ghost backHall">← 回館口</button><a class="primary" style="text-decoration:none" href="聽聲辨拼音.dc.html">🏝 去冒險島</a></div>
+  <div class="row"><button class="ghost backHall">← 回館口</button><a class="primary" style="text-decoration:none" href="聽聲辨拼音.dc.html">去冒險島</a></div>
 </section>
 
 <!-- 練功中 -->
@@ -243,7 +345,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #F4C65D;outline-offset:2p
   <div id="timerWrap" class="timerWrap" style="display:none"><div id="timer" class="timer"></div></div>
   <div class="stage">
     <div class="small" id="pHint">仔細聽，這是哪一個拼音？</div>
-    <div class="dummy"><span class="post">🪵</span><button id="listen" class="listen" aria-label="再聽一次">🔊</button><span id="hit" class="hit">啪！</span></div>
+    <div class="dummy"><img class="postImg" src="img/dojo/dummy.webp" alt=""><button id="listen" class="listen" aria-label="再聽一次"><svg class="spk" aria-hidden="true"><use href="#i-speaker"/></svg></button><span id="hit" class="hit">啪！</span></div>
     <div class="small">點喇叭可以再聽一次</div>
   </div>
   <div id="opts" class="opts"></div>
@@ -254,13 +356,13 @@ button:focus-visible,a:focus-visible{outline:3px solid #F4C65D;outline-offset:2p
 
 <!-- 收功 -->
 <section id="done" class="screen card center">
-  <div class="kicker" id="dRoom"></div>
+  <img id="dKid" class="doneKid" src="img/dojo/kid-white.webp" alt=""><br><div class="kicker" id="dRoom"></div>
   <div class="h1" id="dTitle">收功！</div>
   <div class="sealBig" id="dSeals"></div>
   <div class="gain" id="dGain"></div>
   <div class="levelUp" id="dLevelUp"></div>
   <div class="weakBox" id="dWeak" style="display:none"></div>
-  <div class="row"><button class="ghost" id="dHall">🏮 回館口</button><button class="primary" id="dAgain">🔁 再練一次</button></div>
+  <div class="row"><button class="ghost" id="dHall">回館口</button><button class="primary" id="dAgain">再練一次</button></div>
 </section>
 
 <div class="pageFoot">張鈺聆 製｜鈺見台語</div>
@@ -357,12 +459,12 @@ function weakList(){
 
 /* ===== 腰帶 ===== */
 const BELTS=[
- {at:0,color:"#F6F3EA",name:"白帶",title:"入門徒弟"},
- {at:100,color:"#F4C65D",name:"黃帶",title:"紮馬學徒"},
- {at:300,color:"#55A99C",name:"綠帶",title:"出拳弟子"},
- {at:600,color:"#3C79B5",name:"藍帶",title:"套路高手"},
- {at:1000,color:"#C4452D",name:"紅帶",title:"拳館教頭"},
- {at:1500,color:"#222",name:"黑帶",title:"出師大師"}
+ {at:0,color:"#F6F3EA",name:"白帶",img:"white",title:"入門徒弟"},
+ {at:100,color:"#F4C65D",name:"黃帶",img:"yellow",title:"紮馬學徒"},
+ {at:300,color:"#55A99C",name:"綠帶",img:"green",title:"出拳弟子"},
+ {at:600,color:"#3C79B5",name:"藍帶",img:"blue",title:"套路高手"},
+ {at:1000,color:"#C4452D",name:"紅帶",img:"red",title:"拳館教頭"},
+ {at:1500,color:"#222",name:"黑帶",img:"black",title:"出師大師"}
 ];
 const beltIndex=t=>BELTS.reduce((k,b,i)=>t>=b.at?i:k,0);
 const STONE_COST=150,STONE_MAX=3;
@@ -379,11 +481,11 @@ function play(s){if(!s||!audioMap[s])return;player.src=audioMap[s];player.curren
 /* ===== 館口 ===== */
 function renderHall(){
  const bi=beltIndex(dojo.total),b=BELTS[bi],nb=BELTS[bi+1];
- $("#rankName").textContent=b.title;$("#rankBelt").textContent=`🥋 ${b.name}`;
- $("#beltBand").style.background=b.color;$("#beltBand").style.border=bi===0?"1px solid #D9D3C2":"0";
+ $("#rankName").textContent=b.title;$("#rankBelt").textContent=b.name;
+ $("#kidImg").src=`img/dojo/kid-${b.img}.webp`;
  $("#rankBar").style.width=nb?`${Math.round((dojo.total-b.at)/(nb.at-b.at)*100)}%`:"100%";
  $("#nextInfo").textContent=nb?`再 ${nb.at-dojo.total} 點內力升${nb.name}`:"已經是黑帶！";
- $("#qiInfo").textContent=`💪 可用內力 ${dojo.qi}`;$("#stoneInfo").textContent=`✨ 重生石 ${dojo.stones}/${STONE_MAX}`;
+ $("#qiInfo").innerHTML=`<svg class="ic xs" aria-hidden="true"><use href="#i-qi"/></svg>可用內力 ${dojo.qi}`;$("#stoneInfo").innerHTML=`<img class="chipImg" src="img/dojo/stone.webp" alt="">重生石 ${dojo.stones}/${STONE_MAX}`;
  const done=dojo.daily.date===todayStr();
  $("#dailyTitle").textContent=done?"今日功課完成 ✓":"今日功課";
  $("#dailySub").textContent=done?`連續練功 ${dojo.daily.streak} 天｜想多練可以再來一輪`:`10 題，弱點優先｜完成 +20 內力${dojo.daily.streak?`｜已連續 ${dojo.daily.streak} 天`:""}`;
@@ -399,7 +501,7 @@ function renderHall(){
 $("#buyStone").onclick=()=>{
  if(dojo.stones>=STONE_MAX){toast("重生石最多存 3 顆");return}
  if(dojo.qi<STONE_COST){toast("內力還不夠，再練一下！");return}
- dojo.qi-=STONE_COST;dojo.stones++;saveDojo();renderHall();toast("✨ 換到 1 顆重生石，冒險島見！");
+ dojo.qi-=STONE_COST;dojo.stones++;saveDojo();renderHall();toast("換到 1 顆重生石，冒險島見！");
 };
 
 /* ===== 對招房 ===== */
@@ -413,9 +515,9 @@ function openDemo(p){
  const ea=p.items.a[0],eb=p.items.b[0];
  $("#demoTitle").textContent=`${p.a} 對 ${p.b}`;
  const label=x=>sylAudio[x]?`例字：${sylAudio[x].hanji}`:"單獨發音";
- $("#demoGrid").innerHTML=`<button class="demoBtn" data-s="${ea}"><b>${ea}</b><span>🔊 ${label(ea)}</span></button><button class="demoBtn" data-s="${eb}"><b>${eb}</b><span>🔊 ${label(eb)}</span></button>`;
+ $("#demoGrid").innerHTML=`<button class="demoBtn" data-s="${ea}"><b>${ea}</b><span><svg class="ic xs" aria-hidden="true"><use href="#i-speaker"/></svg>${label(ea)}</span></button><button class="demoBtn" data-s="${eb}"><b>${eb}</b><span><svg class="ic xs" aria-hidden="true"><use href="#i-speaker"/></svg>${label(eb)}</span></button>`;
  document.querySelectorAll(".demoBtn").forEach(b=>b.onclick=()=>play(b.dataset.s));
- $("#mantra").innerHTML="🧓 師父講："+p.mantra;
+ $("#mantra").innerHTML="<b>師父講：</b>"+p.mantra;
  const more=p.items.a.slice(1).map((x,i)=>`${x}／${p.items.b[i+1]}`);
  $("#demoExamples").textContent=more.length?`這招還會考：${more.join("、")}`:"";
  show("demo");
@@ -478,7 +580,7 @@ function nextQ(gesture){
  $("#opts").className="opts"+(R.n===2?" two":"");
  $("#opts").innerHTML=ch.map(x=>`<button class="opt" data-a="${x}">${x}</button>`).join("");
  document.querySelectorAll(".opt").forEach(b=>b.onclick=()=>answer(b));
- if(gesture)play(R.cur);else setTimeout(()=>play(R.cur),160);
+ const cur=R.cur;if(gesture)play(cur);else setTimeout(()=>{if(R&&R.cur===cur)play(cur)},160);
 }
 function answer(btn){
  if(R.locked)return;R.locked=true;
@@ -487,11 +589,11 @@ function answer(btn){
  recordResult(R.cur,ok,choice);
  if(ok){
   R.correct++;R.combo++;R.maxCombo=Math.max(R.maxCombo,R.combo);R.qi+=2;
-  let extra="";if(R.combo%5===0){R.qi+=5;extra=R.combo>=10?"🌪 旋風腿！+5":"👊 連環拳！+5"}
+  let extra="";if(R.combo%5===0){R.qi+=5;extra=R.combo>=10?"旋風腿！內力 +5":"連環拳！內力 +5"}
   const h=$("#hit");h.textContent=["啪！","喝！","哈！","嘿！"][R.combo%4];h.classList.remove("show");void h.offsetWidth;h.classList.add("show");
   $("#feedback").className="feedback good";
   $("#feedback").textContent=`✓ ${R.cur}${src?`｜例字：${src.hanji}（${src.lomaji}）`:""}`;
-  $("#combo").textContent=extra||(R.combo>=2?`🔥 連擊 ×${R.combo}`:"");
+  $("#combo").textContent=extra||(R.combo>=2?`連擊 ×${R.combo}`:"");
  }else{
   R.wrong++;R.combo=0;R.miss[R.cur]=(R.miss[R.cur]||0)+1;btn.classList.add("wrong");
   $("#play").classList.remove("shake");void $("#play").offsetWidth;$("#play").classList.add("shake");
@@ -520,17 +622,17 @@ function finishRound(){
  }
  let record=false;if(R.room==="fast"&&R.correct>(dojo.best.fast||0)){dojo.best.fast=R.correct;record=true}
  const gain=R.qi+bonus+dailyBonus;dojo.total+=gain;dojo.qi+=gain;saveDojo();
- const after=beltIndex(dojo.total);
+ const after=beltIndex(dojo.total);$("#dKid").src=`img/dojo/kid-${BELTS[after].img}.webp`;
  $("#dRoom").textContent=R.name;
  $("#dTitle").textContent=seals===3?"功夫到家！":seals===2?"有架勢喔！":seals===1?"慢慢有感覺":"再練一下下";
  $("#dSeals").innerHTML=[0,1,2].map(i=>`<span class="seal ${i<seals?"on":""}">${i<seals?"拳":""}</span>`).join("");
  const acc=Math.round(R.correct/Math.max(1,R.correct+R.wrong)*100);
- $("#dGain").innerHTML=(R.timed?`<span class="chip">⚡ 60 秒答對 ${R.correct} 題${record?"｜新紀錄！":""}</span>`:`<span class="chip">🎯 正確率 ${acc}%</span>`)+
-  `<span class="chip">💪 內力 +${gain}</span>`+(R.maxCombo>=3?`<span class="chip">🔥 最高連擊 ${R.maxCombo}</span>`:"")+(dailyBonus?`<span class="chip">📿 今日功課 +20｜連續 ${dojo.daily.streak} 天</span>`:"")+(bonus?`<span class="chip">🆕 新拳印 +${bonus}</span>`:"");
+ $("#dGain").innerHTML=(R.timed?`<span class="chip">60 秒答對 ${R.correct} 題${record?"｜新紀錄！":""}</span>`:`<span class="chip">正確率 ${acc}%</span>`)+
+  `<span class="chip"><svg class="ic xs" aria-hidden="true"><use href="#i-qi"/></svg>內力 +${gain}</span>`+(R.maxCombo>=3?`<span class="chip">最高連擊 ${R.maxCombo}</span>`:"")+(dailyBonus?`<span class="chip">今日功課 +20｜連續 ${dojo.daily.streak} 天</span>`:"")+(bonus?`<span class="chip">新拳印 +${bonus}</span>`:"");
  const lu=$("#dLevelUp");
- if(after>before){lu.textContent=`🎉 升級！你綁上了${BELTS[after].name}，成為「${BELTS[after].title}」`;lu.classList.add("show")}else lu.classList.remove("show");
+ if(after>before){lu.textContent=`升級！你綁上了${BELTS[after].name}，成為「${BELTS[after].title}」`;lu.classList.add("show")}else lu.classList.remove("show");
  const miss=Object.entries(R.miss).sort((a,b)=>b[1]-a[1]);
- if(miss.length){$("#dWeak").style.display="block";$("#dWeak").innerHTML="<b>🪵 這些音送去木人樁加強：</b><br>"+miss.map(([s,n])=>`${s}${pairOf(s)?`（容易和 ${pairOf(s)} 混）`:""} × ${n}`).join("<br>")}
+ if(miss.length){$("#dWeak").style.display="block";$("#dWeak").innerHTML="<b>這些音送去木人樁加強：</b><br>"+miss.map(([s,n])=>`${s}${pairOf(s)?`（容易和 ${pairOf(s)} 混）`:""} × ${n}`).join("<br>")}
  else $("#dWeak").style.display="none";
  R=null;show("done");
 }

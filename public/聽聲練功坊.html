@@ -1,0 +1,568 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>聽聲練功坊｜鈺見台語</title>
+<meta name="author" content="張鈺聆">
+<meta name="copyright" content="© 張鈺聆">
+<script src="./author-credit.js"></script>
+<!-- 網站介面、功能與教學整合設計／製作：張鈺聆　Copyright © 張鈺聆.
+     教材、音檔等第三方素材之著作權仍屬原權利人所有。完整宣告見 author-credit.js。
+     鈺見拳頭館・聽聲練功坊 V1（2026-11）：與「聽聲辨拼音」冒險島共用音檔與瀏覽器紀錄。
+     共用紀錄：yjty_listen_weak_v1（每個音的對錯）、yjty_dojo_v1（內力、腰帶、拳印、重生石）。 -->
+<style>
+:root{--green:#254E47;--green2:#316E62;--cream:#FAF8F2;--orange:#E88B4A;--orange2:#DA753B;--amber:#F4C65D;--teal:#55A99C;--ink:#263B37;--brick:#B5563A;--line:#E4E5DD}
+*{box-sizing:border-box}html{background:var(--cream)}
+body{margin:0;font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;color:var(--ink);min-height:100vh;
+ background:radial-gradient(circle at 8% 8%,rgba(244,198,93,.22),transparent 26%),radial-gradient(circle at 95% 18%,rgba(85,169,156,.16),transparent 28%),var(--cream);overflow-x:hidden}
+button{font-family:inherit}
+.siteHead{background:linear-gradient(110deg,#254E47,#316E62 78%,#37877B);color:#fff}
+.siteHeadIn{max-width:1000px;margin:auto;min-height:64px;padding:10px 18px;display:flex;align-items:center;gap:12px}
+.homeBtn{flex:0 0 auto;display:inline-flex;align-items:center;min-height:42px;padding:9px 14px;border-radius:999px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.22);color:#fff;font-size:14px;font-weight:800;text-decoration:none;white-space:nowrap}
+.siteTitle{flex:1;min-width:0;text-align:center;font-size:clamp(18px,3.4vw,21px);font-weight:900;letter-spacing:.06em}
+.siteTitle small{display:block;margin-top:3px;font-size:12.5px;font-weight:700;letter-spacing:0;color:#E7F2E9}
+.siteSpacer{flex:0 0 auto;width:92px}
+/* 紅磚牆腰帶 */
+.brick{height:14px;background:
+ repeating-linear-gradient(90deg,transparent 0 46px,#F3E3CF 46px 48px),
+ linear-gradient(#B5563A,#A34B32);border-bottom:3px solid var(--amber);position:relative}
+.brick:after{content:"";position:absolute;left:0;right:0;top:6px;height:2px;background:#F3E3CF;opacity:.7}
+@media(max-width:520px){.siteHeadIn{padding:8px 12px}.siteSpacer{display:none}}
+.wrap{max-width:900px;margin:auto;padding:18px 14px 30px}
+.screen{display:none}.screen.active{display:block;animation:fadeIn .25s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}}
+.card{position:relative;background:linear-gradient(180deg,#fff,#FFFCF4);border:1px solid #E8E6D9;border-radius:26px;padding:22px;box-shadow:0 12px 32px rgba(38,78,71,.10)}
+.kicker{display:inline-block;background:#E0F2EC;color:#236B60;border:1px solid #B9DED1;padding:6px 13px;border-radius:999px;font-weight:900;font-size:13px}
+.h1{font-size:clamp(28px,5.5vw,44px);font-weight:1000;color:var(--green);letter-spacing:.05em;margin:8px 0 2px}
+.sub{opacity:.72;line-height:1.7;margin:4px 0 0}
+.center{text-align:center}
+.primary{border:0;background:linear-gradient(110deg,#E88B4A,#DA753B);color:#fff;padding:15px 30px;border-radius:999px;font-size:18px;font-weight:1000;cursor:pointer;box-shadow:0 7px 0 #B5602D,0 13px 22px rgba(215,110,49,.2);transition:.12s}
+.primary:active{transform:translateY(5px);box-shadow:0 2px 0 #B5602D}
+.ghost{border:2px solid #DBE4D9;background:#fff;color:var(--green);padding:12px 20px;border-radius:999px;font-size:15px;font-weight:900;cursor:pointer;box-shadow:0 4px 0 #DBE4D9}
+.ghost:active{transform:translateY(3px);box-shadow:0 1px 0 #DBE4D9}
+@media(hover:hover){.primary:hover{transform:translateY(-2px)}.ghost:hover{border-color:var(--teal)}}
+.row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:16px}
+
+/* 徒弟卡 */
+.disciple{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center}
+.avatar{width:104px;height:104px;border-radius:28px;background:linear-gradient(160deg,#FFF3D8,#FCE6C6);display:grid;place-items:center;font-size:58px;position:relative;box-shadow:inset 0 -6px 0 rgba(0,0,0,.05)}
+.avatar>span{transform:translateY(-10px);font-size:52px}.avatar .belt{position:absolute;left:10px;right:10px;bottom:12px;height:11px;border-radius:4px;box-shadow:0 2px 0 rgba(0,0,0,.15)}
+.avatar .belt:after{content:"";position:absolute;right:16px;top:-3px;width:10px;height:22px;background:inherit;border-radius:3px;transform:rotate(18deg)}
+.rankName{font-size:24px;font-weight:1000;color:var(--green)}
+.rankBelt{font-size:13px;font-weight:900;color:#B15F2A;margin-top:2px}
+.bar{height:12px;background:#E8E8D9;border-radius:99px;overflow:hidden;margin:10px 0 4px}
+.bar>i{display:block;height:100%;background:linear-gradient(90deg,#55A99C,#F4C65D);border-radius:99px;transition:width .6s}
+.statLine{display:flex;gap:8px;flex-wrap:wrap;font-size:13px;font-weight:800}
+.chip{background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 11px}
+.daily{margin-top:16px;display:flex;align-items:center;gap:14px;background:#254E47;color:#fff;border-radius:22px;padding:16px 18px}
+.daily .ico{font-size:34px}.daily b{font-size:18px;display:block}.daily small{opacity:.8}
+.daily .primary{margin-left:auto;padding:12px 22px;font-size:16px}
+@media(max-width:560px){.disciple{grid-template-columns:1fr;text-align:center}.avatar{margin:auto}.statLine{justify-content:center}.daily{flex-wrap:wrap;text-align:center;justify-content:center}.daily .primary{margin:4px auto 0}}
+
+.secTitle{font-size:18px;font-weight:1000;color:var(--green);margin:24px 4px 10px}
+.rooms{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.room{text-align:left;border:1px solid #E8E6D9;background:#fff;border-radius:22px;padding:16px;cursor:pointer;box-shadow:0 6px 0 #EDEBDF;transition:.12s;color:var(--ink)}
+.room:active{transform:translateY(4px);box-shadow:0 2px 0 #EDEBDF}
+@media(hover:hover){.room:hover{border-color:var(--teal);transform:translateY(-2px)}}
+.room .ri{font-size:34px}.room b{display:block;font-size:18px;color:var(--green);margin-top:4px}.room small{display:block;opacity:.7;line-height:1.55;margin-top:3px}
+.seals{margin-top:8px;font-size:17px;letter-spacing:2px}
+.seal{display:inline-block;width:22px;height:22px;border-radius:6px;border:2px solid #E3C9BC;margin-right:3px;vertical-align:middle;background:#fff}
+.seal.on{background:#C4452D;border-color:#C4452D;box-shadow:inset 0 0 0 2px #fff}
+@media(max-width:560px){.room{padding:13px}.room .ri{font-size:28px}.room b{font-size:16px}.room small{font-size:12px}.seal{width:18px;height:18px}}
+.shop{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:#FFF3D8;border:2px dashed #EFCB7A;border-radius:20px;padding:14px 16px}
+.shop .ico{font-size:30px}.shop div{flex:1;min-width:180px;line-height:1.55}
+.toLink{display:block;text-align:center;margin:18px auto 0;color:#236B60;font-weight:900}
+
+/* 對招房列表 */
+.pairs{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:14px}
+.pair{border:1px solid #E8E6D9;background:#fff;border-radius:18px;padding:14px 10px;text-align:center;cursor:pointer;box-shadow:0 5px 0 #EDEBDF;color:var(--ink)}
+.pair:active{transform:translateY(3px);box-shadow:0 2px 0 #EDEBDF}
+.pair .vs{font-size:24px;font-weight:1000;color:var(--green)}.pair .vs i{font-style:normal;color:var(--orange);font-size:15px;margin:0 6px}
+.pair small{display:block;opacity:.65;margin:3px 0 6px}
+.pair .seal{width:16px;height:16px;border-radius:4px}
+
+/* 喝聲（示範） */
+.demoGrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:520px;margin:18px auto 6px}
+.demoBtn{border:0;border-radius:24px;padding:18px 8px;cursor:pointer;background:#E0F2EC;color:var(--green);box-shadow:0 7px 0 #B9DED1}
+.demoBtn:nth-child(2){background:#FFE4CF;box-shadow:0 7px 0 #F2C29F}
+.demoBtn:active{transform:translateY(5px);box-shadow:none}
+.demoBtn b{display:block;font-size:34px;font-weight:1000}.demoBtn span{font-size:13px;font-weight:800;opacity:.8}
+.mantra{max-width:560px;margin:14px auto 4px;background:#FFF8E8;border-left:6px solid var(--amber);border-radius:14px;padding:13px 16px;line-height:1.75;text-align:left}
+.mantra b{color:#B15F2A}
+.examples{font-size:13px;opacity:.7;margin-top:8px}
+
+/* 自選套路 */
+.groupList{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;margin-top:14px}
+.grp{display:flex;gap:10px;align-items:flex-start;border:2px solid #E4E5DD;background:#fff;border-radius:16px;padding:12px;cursor:pointer;text-align:left;color:var(--ink)}
+.grp.on{border-color:var(--teal);background:#EFF8F4}
+.grp .box{flex:0 0 22px;height:22px;border-radius:6px;border:2px solid #C9D3CC;display:grid;place-items:center;font-weight:1000;color:#fff}
+.grp.on .box{background:var(--teal);border-color:var(--teal)}
+.grp b{display:block;color:var(--green)}.grp small{opacity:.6;word-break:break-all}
+
+/* 練功中 */
+.hud{display:flex;gap:8px;flex-wrap:wrap;align-items:stretch}
+.hud>div{flex:1;min-width:90px;background:rgba(255,255,255,.85);border:1px solid var(--line);border-radius:16px;padding:8px;text-align:center}
+.small{font-size:12px;opacity:.6}.big{white-space:nowrap;font-size:18px;font-weight:1000;color:var(--green);margin-top:2px}
+.timerWrap{height:10px;background:#E8E8D9;border-radius:99px;overflow:hidden;margin:12px 0 0}
+.timer{height:100%;width:100%;background:linear-gradient(90deg,#55A99C,#F4C65D);transition:width .1s linear}.timer.danger{background:#DA753B}
+.stage{position:relative;text-align:center;padding:10px 0 0}
+.dummy{position:relative;width:170px;height:150px;margin:6px auto 0;display:grid;place-items:center}
+.dummy .post{position:absolute;font-size:96px;line-height:1;filter:drop-shadow(0 8px 5px rgba(38,78,71,.15))}
+.listen{position:relative;z-index:2;width:86px;height:86px;border:0;border-radius:50%;background:var(--green);color:#fff;font-size:36px;cursor:pointer;box-shadow:0 8px 0 #1A3833,0 15px 25px rgba(37,78,71,.22)}
+.listen:active{transform:translateY(5px);box-shadow:0 3px 0 #1A3833}
+.hit{position:absolute;z-index:3;top:-6px;right:-8px;font-size:30px;font-weight:1000;color:#C4452D;opacity:0;pointer-events:none}
+.hit.show{animation:hitPop .6s ease-out}
+@keyframes hitPop{0%{opacity:0;transform:scale(.4)}30%{opacity:1;transform:scale(1.25)}100%{opacity:0;transform:translateY(-34px) scale(1)}}
+.opts{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:560px;margin:16px auto 0}
+.opts.two .opt{min-height:84px;font-size:30px}
+.opt{min-height:64px;border:2px solid #DBE4D9;background:#FFFEFA;border-radius:18px;font-size:23px;font-weight:1000;color:var(--green);cursor:pointer;box-shadow:0 6px 0 #DBE4D9;transition:.1s}
+.opt:active{transform:translateY(4px);box-shadow:0 2px 0 #DBE4D9}
+.opt.right{background:#E0F2EC;border-color:#55A99C;box-shadow:0 6px 0 #9FD0C4}
+.opt.wrong{background:#FFE4CF;border-color:#E88B4A;box-shadow:0 6px 0 #F2C29F}
+@media(hover:hover){.opt:not(:disabled):hover{border-color:#55A99C}}
+.opt:disabled{cursor:default}
+.feedback{min-height:46px;text-align:center;font-size:18px;font-weight:1000;padding:10px 4px 0}
+.good{color:#278777}.bad{color:#C96E2F}
+.combo{text-align:center;min-height:28px;color:#DA753B;font-size:20px;font-weight:1000}
+.shake{animation:shake .32s linear}@keyframes shake{25%{transform:translateX(-6px)}50%{transform:translateX(6px)}75%{transform:translateX(-3px)}}
+.stopBtn{display:block;margin:14px auto 0;background:none;border:0;color:#77847C;font-weight:800;text-decoration:underline;cursor:pointer}
+
+/* 收功 */
+.sealBig{display:flex;justify-content:center;gap:12px;margin:14px 0 8px}
+.sealBig .seal{width:58px;height:58px;border-radius:14px;border-width:3px;display:grid;place-items:center;font-size:24px;font-weight:1000;color:#fff}
+.sealBig .seal.on{animation:stamp .45s cubic-bezier(.2,1.6,.4,1) both}
+.sealBig .seal.on:nth-child(2){animation-delay:.25s}.sealBig .seal.on:nth-child(3){animation-delay:.5s}
+@keyframes stamp{0%{transform:scale(2.2) rotate(-14deg);opacity:0}100%{transform:scale(1) rotate(-4deg);opacity:1}}
+.gain{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:12px 0}
+.gain .chip{font-size:15px;padding:9px 15px}
+.weakBox{max-width:480px;margin:12px auto 0;background:#FFF3D8;border-radius:16px;padding:12px 16px;text-align:left;line-height:1.8}
+.levelUp{display:none;margin:12px auto;max-width:440px;background:#254E47;color:#fff;border-radius:18px;padding:14px;font-weight:900}
+.levelUp.show{display:block;animation:fadeIn .4s}
+.toast{visibility:hidden;position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(120px);background:#254E47;color:#fff;padding:12px 20px;border-radius:999px;font-weight:900;transition:.3s;z-index:9;box-shadow:0 10px 25px rgba(0,0,0,.2)}
+.toast.show{visibility:visible;transform:translateX(-50%) translateY(0)}
+.pageFoot{text-align:center;padding:6px 0 30px;font-size:12px;font-weight:700;color:#77847C}
+button:focus-visible,a:focus-visible{outline:3px solid #F4C65D;outline-offset:2px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H3X7ZH5XL6"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-H3X7ZH5XL6');</script>
+</head>
+<body>
+<div class="siteHead"><div class="siteHeadIn">
+  <a class="homeBtn" href="index.html">← 回首頁</a>
+  <div class="siteTitle">🥋 聽聲練功坊<small>鈺見拳頭館｜耳朵練予利，拼音就會準</small></div>
+  <div class="siteSpacer"></div>
+</div></div>
+<div class="brick"></div>
+
+<div class="wrap">
+
+<!-- 館口 -->
+<section id="hall" class="screen active">
+  <div class="card">
+    <div class="disciple">
+      <div class="avatar"><span>🧒</span><div id="beltBand" class="belt"></div></div>
+      <div>
+        <div class="kicker">🏮 鈺見拳頭館</div>
+        <div id="rankName" class="rankName"></div>
+        <div id="rankBelt" class="rankBelt"></div>
+        <div class="bar"><i id="rankBar"></i></div>
+        <div class="statLine"><span id="nextInfo" class="chip"></span><span id="qiInfo" class="chip"></span><span id="stoneInfo" class="chip"></span></div>
+      </div>
+    </div>
+    <div class="daily">
+      <div class="ico">📿</div>
+      <div><b id="dailyTitle">今日功課</b><small id="dailySub"></small></div>
+      <button id="dailyBtn" class="primary">開始練功</button>
+    </div>
+  </div>
+
+  <div class="secTitle">🏯 練功房</div>
+  <div class="rooms">
+    <button class="room" data-go="pairs"><div class="ri">🥊</div><b>對招房</b><small>兩個很像的音一對一對練。先聽師父喝聲，再出招。</small><div id="sealPairs" class="seals"></div></button>
+    <button class="room" data-go="dummy"><div class="ri">🪵</div><b>木人樁</b><small>專打你的弱點：冒險島和練功坊答錯的音，都會在這裡等你。</small><div id="sealDummy" class="seals"></div></button>
+    <button class="room" data-go="custom"><div class="ri">📜</div><b>自選套路</b><small>想練哪幾類音自己挑，練到順為止。</small><div id="sealCustom" class="seals"></div></button>
+    <button class="room" data-go="fast"><div class="ri">⚡</div><b>快拳房</b><small>60 秒內答對越多越好，挑戰自己的紀錄。</small><div id="sealFast" class="seals"></div></button>
+  </div>
+
+  <div class="secTitle">🎁 換寶物</div>
+  <div class="shop">
+    <div class="ico">✨</div>
+    <div><b>重生石</b>：<span id="stoneCost"></span> 點內力換 1 顆，帶到冒險島，HP 歸零時可以多復活一次（最多存 3 顆）。</div>
+    <button id="buyStone" class="ghost">換一顆</button>
+  </div>
+  <a class="toLink" href="聽聲辨拼音.dc.html">🏝 去聲音冒險島闖關 →</a>
+</section>
+
+<!-- 對招房：選招 -->
+<section id="pairs" class="screen card">
+  <div class="kicker">🥊 對招房</div>
+  <div class="h1">選一招來練</div>
+  <p class="sub">每一招都是兩個容易聽錯的音。答對 9 題以上，就能蓋滿 3 個拳印。</p>
+  <div id="pairList" class="pairs"></div>
+  <div class="row"><button class="ghost backHall">← 回館口</button></div>
+</section>
+
+<!-- 喝聲（示範，不計分） -->
+<section id="demo" class="screen card center">
+  <div class="kicker">📣 聽師父喝聲（不計分）</div>
+  <div id="demoTitle" class="h1"></div>
+  <p class="sub">點兩邊的按鈕，多聽幾次，聽出差別再開始。</p>
+  <div id="demoGrid" class="demoGrid"></div>
+  <div id="mantra" class="mantra"></div>
+  <div id="demoExamples" class="examples"></div>
+  <div class="row"><button class="ghost" id="demoBack">← 換一招</button><button id="demoStart" class="primary">🥊 開始對招</button></div>
+</section>
+
+<!-- 自選套路 -->
+<section id="custom" class="screen card">
+  <div class="kicker">📜 自選套路</div>
+  <div class="h1">今天想練哪些？</div>
+  <p class="sub">可以複選，一輪 12 題。</p>
+  <div id="groupList" class="groupList"></div>
+  <div class="row"><button class="ghost backHall">← 回館口</button><button id="customStart" class="primary">開始練</button></div>
+</section>
+
+<!-- 木人樁沒有弱點 -->
+<section id="noWeak" class="screen card center">
+  <div style="font-size:72px">🪵</div>
+  <div class="h1">木人樁還很乾淨</div>
+  <p class="sub">目前還沒有常錯的音。先去冒險島闖幾關，或練練對招房，<br>答錯的音會自動送來這裡。</p>
+  <div class="row"><button class="ghost backHall">← 回館口</button><a class="primary" style="text-decoration:none" href="聽聲辨拼音.dc.html">🏝 去冒險島</a></div>
+</section>
+
+<!-- 練功中 -->
+<section id="play" class="screen card">
+  <div class="hud">
+    <div><div class="small">練功房</div><div id="pRoom" class="big"></div></div>
+    <div><div id="pProgLabel" class="small">進度</div><div id="pProg" class="big"></div></div>
+    <div><div class="small">連擊</div><div id="pCombo" class="big">0</div></div>
+  </div>
+  <div id="timerWrap" class="timerWrap" style="display:none"><div id="timer" class="timer"></div></div>
+  <div class="stage">
+    <div class="small" id="pHint">仔細聽，這是哪一個拼音？</div>
+    <div class="dummy"><span class="post">🪵</span><button id="listen" class="listen" aria-label="再聽一次">🔊</button><span id="hit" class="hit">啪！</span></div>
+    <div class="small">點喇叭可以再聽一次</div>
+  </div>
+  <div id="opts" class="opts"></div>
+  <div id="combo" class="combo"></div>
+  <div id="feedback" class="feedback"></div>
+  <button id="stopBtn" class="stopBtn">先收功</button>
+</section>
+
+<!-- 收功 -->
+<section id="done" class="screen card center">
+  <div class="kicker" id="dRoom"></div>
+  <div class="h1" id="dTitle">收功！</div>
+  <div class="sealBig" id="dSeals"></div>
+  <div class="gain" id="dGain"></div>
+  <div class="levelUp" id="dLevelUp"></div>
+  <div class="weakBox" id="dWeak" style="display:none"></div>
+  <div class="row"><button class="ghost" id="dHall">🏮 回館口</button><button class="primary" id="dAgain">🔁 再練一次</button></div>
+</section>
+
+<div class="pageFoot">張鈺聆 製｜鈺見台語</div>
+</div>
+<div id="toast" class="toast"></div>
+<audio id="player" preload="auto"></audio>
+
+<script>
+/* ===== 教學進度開關（和冒險島保持一致） ===== */
+const TAUGHT=["p","ph","b","m","t","th","n","l","k","kh","g","ng","h","ts","tsh","s","j"];
+
+/* ===== 音檔（和冒險島相同） ===== */
+const sylAudio={
+ pa:{id:5217,hanji:"疤",lomaji:"pa"},pi:{id:7073,hanji:"埤",lomaji:"pi"},poo:{id:5857,hanji:"埔",lomaji:"poo"},
+ pha:{id:3953,hanji:"拋",lomaji:"pha"},phu:{id:6154,hanji:"浮",lomaji:"phû"},pho:{id:4312,hanji:"泡",lomaji:"pho"},
+ ta:{id:186,hanji:"大",lomaji:"ta"},te:{id:5174,hanji:"炱",lomaji:"te"},to:{id:50,hanji:"刀",lomaji:"to"},
+ thi:{id:5951,hanji:"恥",lomaji:"thí"},the:{id:5375,hanji:"胎",lomaji:"the"},thoo:{id:184,hanji:"土",lomaji:"thóo"},
+ ka:{id:1381,hanji:"加",lomaji:"ka"},ku:{id:6341,hanji:"痀",lomaji:"ku"},ko:{id:5792,hanji:"哥",lomaji:"ko"},
+ kha:{id:10059,hanji:"跤",lomaji:"kha"},khi:{id:6671,hanji:"起",lomaji:"khí"},khoo:{id:5452,hanji:"苦",lomaji:"khóo"},
+ tsa:{id:2435,hanji:"早",lomaji:"tsá"},tsu:{id:2440,hanji:"朱",lomaji:"tsu"},tse:{id:3329,hanji:"災",lomaji:"tse"},
+ tsha:{id:5890,hanji:"差",lomaji:"tsha"},tsho:{id:11647,hanji:"操",lomaji:"tsho"},tshoo:{id:3589,hanji:"初",lomaji:"tshoo"},
+ ma:{id:6799,hanji:"馬",lomaji:"má"},mi:{id:8478,hanji:"棉",lomaji:"mî"},moo:{id:812,hanji:"毛",lomaji:"môo"},
+ bi:{id:3688,hanji:"味",lomaji:"bī"},bu:{id:1659,hanji:"母",lomaji:"bú"},be:{id:6798,hanji:"馬",lomaji:"bé"},bo:{id:8322,hanji:"帽",lomaji:"bō"},
+ na:{id:5451,hanji:"若",lomaji:"nā"},ni:{id:2288,hanji:"年",lomaji:"nî"},ne:{id:13609,hanji:"奶",lomaji:"ne"},
+ li:{id:2868,hanji:"你",lomaji:"lí"},lu:{id:190,hanji:"女",lomaji:"lú"},lo:{id:8159,hanji:"勞",lomaji:"lô"},
+ ngoo:{id:566,hanji:"五",lomaji:"ngóo"},
+ ga:{id:1216,hanji:"牙",lomaji:"gâ"},gu:{id:1218,hanji:"牛",lomaji:"gû"},ge:{id:1217,hanji:"牙",lomaji:"gê"},goo:{id:565,hanji:"五",lomaji:"gōo"},
+ ha:{id:168,hanji:"下",lomaji:"hā"},hi:{id:12139,hanji:"戲",lomaji:"hì"},ho:{id:2272,hanji:"好",lomaji:"hó"},
+ si:{id:2282,hanji:"寺",lomaji:"sī"},su:{id:3128,hanji:"序",lomaji:"sū"},so:{id:7234,hanji:"挲",lomaji:"so"},
+ pai:{id:9103,hanji:"跛",lomaji:"pái"},pue:{id:4186,hanji:"杯",lomaji:"pue"},phai:{id:5167,hanji:"派",lomaji:"phài"},phue:{id:3195,hanji:"批",lomaji:"phue"},
+ tai:{id:3014,hanji:"呆",lomaji:"tai"},tiau:{id:51,hanji:"刁",lomaji:"tiau"},thai:{id:5374,hanji:"胎",lomaji:"thai"},thiau:{id:10137,hanji:"跳",lomaji:"thiàu"},
+ kai:{id:5221,hanji:"皆",lomaji:"kai"},kiau:{id:2040,hanji:"交",lomaji:"kiau"},khai:{id:9144,hanji:"開",lomaji:"khai"},khiau:{id:2436,hanji:"曲",lomaji:"khiau"},
+ tsai:{id:3328,hanji:"災",lomaji:"tsai"},tsiau:{id:3967,hanji:"招",lomaji:"tsiau"},tshai:{id:7574,hanji:"猜",lomaji:"tshai"},tshiau:{id:9478,hanji:"搜",lomaji:"tshiau"},
+ mia:{id:2117,hanji:"名",lomaji:"miâ"},nia:{id:10916,hanji:"領",lomaji:"niá"},lai:{id:3529,hanji:"來",lomaji:"lâi"},gua:{id:3139,hanji:"我",lomaji:"guá"},
+ hue:{id:4426,hanji:"花",lomaji:"hue"},siau:{id:6224,hanji:"消",lomaji:"siau"},bai:{id:13516,hanji:"䆀",lomaji:"bái"},niau:{id:11905,hanji:"貓",lomaji:"niau"}
+};
+const BASIC=["a","i","u","e","o","oo","ia","iau","io","iu","ua","uai","ue","ui","ai","au","p","ph","t","th","k","kh","ts","tsh"];
+const audioMap={};BASIC.forEach(x=>audioMap[x]=`audio/tailo-listening/${x}.mp3`);
+Object.entries(sylAudio).forEach(([k,v])=>audioMap[k]=`audio/${v.id}.mp3`);
+
+const onsetOf=x=>(x.match(/^(tsh|ts|ph|th|kh|ng|p|t|k|m|b|n|l|g|h|s|j)/)||[""])[0];
+const vowelOf=x=>x.slice(onsetOf(x).length);
+const isTaught=x=>{const o=onsetOf(x);return !o||TAUGHT.includes(o)};
+const ALL=Object.keys(audioMap).filter(isTaught);
+
+const GROUPS=[
+ {name:"單元音",sounds:["a","i","u","e","o","oo"]},
+ {name:"複元音",sounds:["ia","iau","io","iu","ua","uai","ue","ui","ai","au"]},
+ {name:"聲母（單獨）",sounds:["p","ph","t","th","k","kh","ts","tsh"]},
+ {name:"雙唇音",sounds:["pa","pi","poo","pha","phu","pho","ma","mi","moo","bi","bu","be","bo"]},
+ {name:"舌尖音",sounds:["ta","te","to","thi","the","thoo","na","ni","ne","li","lu","lo"]},
+ {name:"舌根＋喉音",sounds:["ka","ku","ko","kha","khi","khoo","ga","gu","ge","goo","ngoo","ha","hi","ho"]},
+ {name:"齒音",sounds:["tsa","tsu","tse","tsha","tsho","tshoo","si","su","so"]},
+ {name:"聲母＋複元音",sounds:["pai","pue","phai","phue","tai","tiau","thai","thiau","kai","kiau","khai","khiau","tsai","tsiau","tshai","tshiau","mia","nia","lai","gua","hue","siau","bai","niau"]}
+].map(g=>({...g,sounds:g.sounds.filter(isTaught)})).filter(g=>g.sounds.length);
+
+/* 對招：a、b 兩邊的「音」 */
+const PAIR_DEFS=[
+ {a:"p",b:"ph",name:"不送氣 vs 送氣",mantra:"手掌放在嘴巴前面。<b>ph</b> 會噴出一口風，<b>p</b> 幾乎沒有風。"},
+ {a:"t",b:"th",name:"不送氣 vs 送氣",mantra:"舌尖頂上排牙齒後面。<b>th</b> 放開時會噴風，<b>t</b> 不噴風。"},
+ {a:"k",b:"kh",name:"不送氣 vs 送氣",mantra:"舌根頂住上面。<b>kh</b> 像咳一下有風，<b>k</b> 乾淨俐落。"},
+ {a:"ts",b:"tsh",name:"不送氣 vs 送氣",mantra:"<b>tsh</b> 會「嘶」出一陣風，<b>ts</b> 短短的、不噴風。"},
+ {a:"b",b:"m",name:"濁音 vs 鼻音",mantra:"捏住鼻子念念看：<b>m</b> 會念不出來（氣從鼻子出），<b>b</b> 還念得出來。"},
+ {a:"n",b:"l",name:"鼻音 vs 邊音",mantra:"捏住鼻子：<b>n</b> 會卡住（鼻音），<b>l</b> 的氣從舌頭兩邊出來。"},
+ {a:"g",b:"ng",name:"濁音 vs 鼻音",mantra:"<b>ng</b> 是鼻音，聲音在鼻子裡嗡嗡響；<b>g</b> 比較硬、不在鼻子共鳴。"},
+ {a:"h",b:"s",name:"喉音 vs 齒音",mantra:"<b>h</b> 像哈一口氣，從喉嚨出來；<b>s</b> 是舌尖靠近牙齒的「嘶」聲。"},
+ {a:"o",b:"oo",name:"o vs oo",mantra:"<b>o</b> 嘴巴比較扁、像「蚵」的 o；<b>oo</b> 嘴巴張大變圓，像「烏」的 oo。",vowel:true}
+];
+function pairItems(def){
+ if(def.vowel)return {a:[def.a].filter(x=>ALL.includes(x)),b:[def.b].filter(x=>ALL.includes(x))};
+ const A=[],B=[];
+ ALL.forEach(x=>{if(onsetOf(x)===def.a){const y=def.b+vowelOf(x);if(ALL.includes(y)){A.push(x);B.push(y)}}});
+ return {a:A,b:B};
+}
+const PAIRS=PAIR_DEFS.filter(d=>isTaught(d.a+"a")&&isTaught(d.b+"a")).map(d=>({...d,key:`${d.a}-${d.b}`,items:pairItems(d)})).filter(d=>d.items.a.length);
+const pairOf=x=>{const o=onsetOf(x),v=vowelOf(x);for(const d of PAIRS){if(d.vowel){if(x===d.a)return d.b;if(x===d.b)return d.a;continue}
+ if(o===d.a&&ALL.includes(d.b+v))return d.b+v;if(o===d.b&&ALL.includes(d.a+v))return d.a+v}return null};
+
+/* ===== 紀錄 ===== */
+const WEAK_KEY="yjty_listen_weak_v1",DOJO_KEY="yjty_dojo_v1";
+function loadJSON(k,d){try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}}
+function saveJSON(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+let dojo=Object.assign({total:0,qi:0,stones:0,seals:{},best:{fast:0},daily:{date:"",streak:0}},loadJSON(DOJO_KEY,{}));
+const saveDojo=()=>saveJSON(DOJO_KEY,dojo);
+function recordResult(sound,ok,choice){
+ const d=loadJSON(WEAK_KEY,{});const r=d[sound]||{w:0,c:0,mix:{}};r.mix=r.mix||{};
+ if(ok)r.c++;else{r.w++;const k=choice||"超時";r.mix[k]=(r.mix[k]||0)+1}
+ r.lv=r.lv||"dojo";r.t=Date.now();d[sound]=r;saveJSON(WEAK_KEY,d);
+}
+function weakList(){
+ const d=loadJSON(WEAK_KEY,{});
+ return Object.entries(d).filter(([s,r])=>ALL.includes(s)&&r.w>0&&r.w*2>=r.c).sort((a,b)=>(b[1].w*2-b[1].c)-(a[1].w*2-a[1].c)).map(([s])=>s);
+}
+
+/* ===== 腰帶 ===== */
+const BELTS=[
+ {at:0,color:"#F6F3EA",name:"白帶",title:"入門徒弟"},
+ {at:100,color:"#F4C65D",name:"黃帶",title:"紮馬學徒"},
+ {at:300,color:"#55A99C",name:"綠帶",title:"出拳弟子"},
+ {at:600,color:"#3C79B5",name:"藍帶",title:"套路高手"},
+ {at:1000,color:"#C4452D",name:"紅帶",title:"拳館教頭"},
+ {at:1500,color:"#222",name:"黑帶",title:"出師大師"}
+];
+const beltIndex=t=>BELTS.reduce((k,b,i)=>t>=b.at?i:k,0);
+const STONE_COST=150,STONE_MAX=3;
+const todayStr=()=>{const d=new Date();return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`};
+
+const $=s=>document.querySelector(s);
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function show(id){document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));$("#"+id).classList.add("active");window.scrollTo(0,0)}
+function toast(t){const e=$("#toast");e.textContent=t;e.classList.add("show");clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove("show"),1800)}
+const sealHTML=n=>[0,1,2].map(i=>`<span class="seal ${i<n?"on":""}"></span>`).join("");
+const player=$("#player");
+function play(s){if(!s||!audioMap[s])return;player.src=audioMap[s];player.currentTime=0;player.play().catch(()=>{})}
+
+/* ===== 館口 ===== */
+function renderHall(){
+ const bi=beltIndex(dojo.total),b=BELTS[bi],nb=BELTS[bi+1];
+ $("#rankName").textContent=b.title;$("#rankBelt").textContent=`🥋 ${b.name}`;
+ $("#beltBand").style.background=b.color;$("#beltBand").style.border=bi===0?"1px solid #D9D3C2":"0";
+ $("#rankBar").style.width=nb?`${Math.round((dojo.total-b.at)/(nb.at-b.at)*100)}%`:"100%";
+ $("#nextInfo").textContent=nb?`再 ${nb.at-dojo.total} 點內力升${nb.name}`:"已經是黑帶！";
+ $("#qiInfo").textContent=`💪 可用內力 ${dojo.qi}`;$("#stoneInfo").textContent=`✨ 重生石 ${dojo.stones}/${STONE_MAX}`;
+ const done=dojo.daily.date===todayStr();
+ $("#dailyTitle").textContent=done?"今日功課完成 ✓":"今日功課";
+ $("#dailySub").textContent=done?`連續練功 ${dojo.daily.streak} 天｜想多練可以再來一輪`:`10 題，弱點優先｜完成 +20 內力${dojo.daily.streak?`｜已連續 ${dojo.daily.streak} 天`:""}`;
+ $("#dailyBtn").textContent=done?"再練一輪":"開始練功";
+ const pairSum=PAIRS.reduce((s,p)=>s+(dojo.seals["pair:"+p.key]||0),0);
+ $("#sealPairs").innerHTML=`<span class="small">拳印 ${pairSum} / ${PAIRS.length*3}</span>`;
+ $("#sealDummy").innerHTML=sealHTML(dojo.seals.dummy||0)+` <span class="small">弱點 ${weakList().length} 個</span>`;
+ $("#sealCustom").innerHTML=sealHTML(dojo.seals.custom||0);
+ $("#sealFast").innerHTML=sealHTML(dojo.seals.fast||0)+` <span class="small">紀錄 ${dojo.best.fast||0} 題</span>`;
+ $("#stoneCost").textContent=STONE_COST;
+ $("#buyStone").disabled=dojo.qi<STONE_COST||dojo.stones>=STONE_MAX;$("#buyStone").style.opacity=$("#buyStone").disabled?.5:1;
+}
+$("#buyStone").onclick=()=>{
+ if(dojo.stones>=STONE_MAX){toast("重生石最多存 3 顆");return}
+ if(dojo.qi<STONE_COST){toast("內力還不夠，再練一下！");return}
+ dojo.qi-=STONE_COST;dojo.stones++;saveDojo();renderHall();toast("✨ 換到 1 顆重生石，冒險島見！");
+};
+
+/* ===== 對招房 ===== */
+function renderPairs(){
+ $("#pairList").innerHTML=PAIRS.map((p,i)=>`<button class="pair" data-i="${i}"><div class="vs">${p.a}<i>VS</i>${p.b}</div><small>${p.name}</small>${sealHTML(dojo.seals["pair:"+p.key]||0)}</button>`).join("");
+ document.querySelectorAll(".pair").forEach(b=>b.onclick=()=>openDemo(PAIRS[+b.dataset.i]));
+}
+let demoPair=null;
+function openDemo(p){
+ demoPair=p;
+ const ea=p.items.a[0],eb=p.items.b[0];
+ $("#demoTitle").textContent=`${p.a} 對 ${p.b}`;
+ const label=x=>sylAudio[x]?`例字：${sylAudio[x].hanji}`:"單獨發音";
+ $("#demoGrid").innerHTML=`<button class="demoBtn" data-s="${ea}"><b>${ea}</b><span>🔊 ${label(ea)}</span></button><button class="demoBtn" data-s="${eb}"><b>${eb}</b><span>🔊 ${label(eb)}</span></button>`;
+ document.querySelectorAll(".demoBtn").forEach(b=>b.onclick=()=>play(b.dataset.s));
+ $("#mantra").innerHTML="🧓 師父講："+p.mantra;
+ const more=p.items.a.slice(1).map((x,i)=>`${x}／${p.items.b[i+1]}`);
+ $("#demoExamples").textContent=more.length?`這招還會考：${more.join("、")}`:"";
+ show("demo");
+}
+$("#demoBack").onclick=()=>{renderPairs();show("pairs")};
+$("#demoStart").onclick=()=>startPair(demoPair);
+
+/* ===== 自選套路 ===== */
+let picked=new Set([0]);
+function renderGroups(){
+ $("#groupList").innerHTML=GROUPS.map((g,i)=>`<button class="grp ${picked.has(i)?"on":""}" data-i="${i}"><span class="box">${picked.has(i)?"✓":""}</span><span><b>${g.name}</b><small>${g.sounds.join(" ")}</small></span></button>`).join("");
+ document.querySelectorAll(".grp").forEach(b=>b.onclick=()=>{const i=+b.dataset.i;picked.has(i)?picked.delete(i):picked.add(i);renderGroups()});
+}
+$("#customStart").onclick=()=>{
+ if(!picked.size){toast("至少選一類喔");return}
+ const pool=[...picked].flatMap(i=>GROUPS[i].sounds);
+ startRound({room:"custom",name:"自選套路",items:makeSeq(pool,12),pool,n:4});
+};
+
+/* ===== 出題 ===== */
+function makeSeq(pool,n){const out=[];let bag=[];while(out.length<n){if(!bag.length)bag=shuffle(pool);let x=bag.shift();if(pool.length>1&&x===out[out.length-1]){bag.push(x);x=bag.shift()}out.push(x)}return out}
+const kindOf=x=>!onsetOf(x)?"v":vowelOf(x)===""?"c":"s";
+function choicesFor(ans,pool,n){
+ const w=loadJSON(WEAK_KEY,{})[ans];const picks=[],k=kindOf(ans),v=vowelOf(ans),o=onsetOf(ans);
+ const add=x=>{if(x&&x!==ans&&ALL.includes(x)&&kindOf(x)===k&&!picks.includes(x)&&picks.length<n-1)picks.push(x)};
+ add(pairOf(ans));
+ if(w&&w.mix)Object.entries(w.mix).sort((a,b)=>b[1]-a[1]).slice(0,1).forEach(([x])=>add(x));
+ if(k==="s"){shuffle(pool.filter(x=>vowelOf(x)===v)).forEach(add);shuffle(pool.filter(x=>onsetOf(x)===o)).forEach(add)}
+ shuffle(pool).forEach(add);
+ if(k==="s"){shuffle(ALL.filter(x=>vowelOf(x)===v)).forEach(add)}
+ shuffle(ALL).forEach(add);
+ return shuffle([ans,...picks]);
+}
+
+/* ===== 練功引擎 ===== */
+let R=null,timerId=null,lastRound=null;
+function startRound(cfg){
+ lastRound=cfg;
+ R={...cfg,items:[...cfg.items],base:cfg.base||cfg.items.length,i:0,correct:0,wrong:0,combo:0,maxCombo:0,qi:0,miss:{},locked:false};
+ $("#pRoom").textContent=cfg.short||cfg.name;$("#pHint").textContent=cfg.pair?`仔細聽，是 ${cfg.pair.a} 還是 ${cfg.pair.b}？`:"仔細聽，這是哪一個拼音？";$("#timerWrap").style.display=cfg.timed?"block":"none";
+ $("#pProgLabel").textContent=cfg.timed?"答對":"進度";$("#stopBtn").style.display=cfg.timed?"none":"block";
+ show("play");
+ if(cfg.timed){R.end=performance.now()+cfg.timed*1000;clearInterval(timerId);timerId=setInterval(tick,100)}
+ nextQ(true);
+}
+function tick(){
+ const left=Math.max(0,R.end-performance.now()),pct=left/(R.timed*1000)*100;
+ $("#timer").style.width=pct+"%";$("#timer").classList.toggle("danger",pct<25);
+ if(left<=0){clearInterval(timerId);finishRound()}
+}
+function nextQ(gesture){
+ if(!R)return;
+ if(!R.timed&&R.i>=R.items.length){finishRound();return}
+ if(R.timed&&R.i>=R.items.length)R.items.push(...makeSeq(R.pool,20));
+ R.locked=false;R.cur=R.items[R.i];
+ $("#pProg").textContent=R.timed?R.correct:`${R.i+1} / ${R.items.length}`;
+ $("#pCombo").textContent=R.combo;
+ $("#feedback").textContent="";$("#feedback").className="feedback";
+ const ch=R.n===2?shuffle([R.cur,pairOf(R.cur)||R.pool.find(x=>x!==R.cur)]):choicesFor(R.cur,R.pool,R.n);
+ $("#opts").className="opts"+(R.n===2?" two":"");
+ $("#opts").innerHTML=ch.map(x=>`<button class="opt" data-a="${x}">${x}</button>`).join("");
+ document.querySelectorAll(".opt").forEach(b=>b.onclick=()=>answer(b));
+ if(gesture)play(R.cur);else setTimeout(()=>play(R.cur),160);
+}
+function answer(btn){
+ if(R.locked)return;R.locked=true;
+ const choice=btn.dataset.a,ok=choice===R.cur,src=sylAudio[R.cur];
+ document.querySelectorAll(".opt").forEach(b=>{b.disabled=true;if(b.dataset.a===R.cur)b.classList.add("right")});
+ recordResult(R.cur,ok,choice);
+ if(ok){
+  R.correct++;R.combo++;R.maxCombo=Math.max(R.maxCombo,R.combo);R.qi+=2;
+  let extra="";if(R.combo%5===0){R.qi+=5;extra=R.combo>=10?"🌪 旋風腿！+5":"👊 連環拳！+5"}
+  const h=$("#hit");h.textContent=["啪！","喝！","哈！","嘿！"][R.combo%4];h.classList.remove("show");void h.offsetWidth;h.classList.add("show");
+  $("#feedback").className="feedback good";
+  $("#feedback").textContent=`✓ ${R.cur}${src?`｜例字：${src.hanji}（${src.lomaji}）`:""}`;
+  $("#combo").textContent=extra||(R.combo>=2?`🔥 連擊 ×${R.combo}`:"");
+ }else{
+  R.wrong++;R.combo=0;R.miss[R.cur]=(R.miss[R.cur]||0)+1;btn.classList.add("wrong");
+  $("#play").classList.remove("shake");void $("#play").offsetWidth;$("#play").classList.add("shake");
+  $("#feedback").className="feedback bad";
+  $("#feedback").textContent=`✕ 是 ${R.cur}${src?`｜例字：${src.hanji}（${src.lomaji}）`:""}`;
+  $("#combo").textContent="";
+  if(!R.timed&&R.items.length<R.base+6){const pos=Math.min(R.items.length,R.i+3);R.items.splice(pos,0,R.cur)}
+ }
+ $("#pCombo").textContent=R.combo;R.i++;
+ setTimeout(()=>nextQ(false),ok?(R.timed?450:700):(R.timed?900:1400));
+}
+function sealsFor(){
+ if(R.room==="fast")return R.correct>=24?3:R.correct>=16?2:R.correct>=8?1:0;
+ const rate=R.correct/Math.max(1,R.correct+R.wrong);
+ return rate>=.9?3:rate>=.75?2:rate>=.55?1:0;
+}
+function finishRound(){
+ clearInterval(timerId);if(!R)return;
+ const before=beltIndex(dojo.total),seals=sealsFor(),key=R.sealKey||R.room;
+ const prev=dojo.seals[key]||0;let bonus=0;
+ if(seals>prev){bonus=(seals-prev)*10;dojo.seals[key]=seals}
+ let dailyBonus=0;
+ if(R.room==="daily"&&dojo.daily.date!==todayStr()){
+   const y=new Date(Date.now()-864e5),ys=`${y.getFullYear()}-${y.getMonth()+1}-${y.getDate()}`;
+   dojo.daily.streak=dojo.daily.date===ys?dojo.daily.streak+1:1;dojo.daily.date=todayStr();dailyBonus=20;
+ }
+ let record=false;if(R.room==="fast"&&R.correct>(dojo.best.fast||0)){dojo.best.fast=R.correct;record=true}
+ const gain=R.qi+bonus+dailyBonus;dojo.total+=gain;dojo.qi+=gain;saveDojo();
+ const after=beltIndex(dojo.total);
+ $("#dRoom").textContent=R.name;
+ $("#dTitle").textContent=seals===3?"功夫到家！":seals===2?"有架勢喔！":seals===1?"慢慢有感覺":"再練一下下";
+ $("#dSeals").innerHTML=[0,1,2].map(i=>`<span class="seal ${i<seals?"on":""}">${i<seals?"拳":""}</span>`).join("");
+ const acc=Math.round(R.correct/Math.max(1,R.correct+R.wrong)*100);
+ $("#dGain").innerHTML=(R.timed?`<span class="chip">⚡ 60 秒答對 ${R.correct} 題${record?"｜新紀錄！":""}</span>`:`<span class="chip">🎯 正確率 ${acc}%</span>`)+
+  `<span class="chip">💪 內力 +${gain}</span>`+(R.maxCombo>=3?`<span class="chip">🔥 最高連擊 ${R.maxCombo}</span>`:"")+(dailyBonus?`<span class="chip">📿 今日功課 +20｜連續 ${dojo.daily.streak} 天</span>`:"")+(bonus?`<span class="chip">🆕 新拳印 +${bonus}</span>`:"");
+ const lu=$("#dLevelUp");
+ if(after>before){lu.textContent=`🎉 升級！你綁上了${BELTS[after].name}，成為「${BELTS[after].title}」`;lu.classList.add("show")}else lu.classList.remove("show");
+ const miss=Object.entries(R.miss).sort((a,b)=>b[1]-a[1]);
+ if(miss.length){$("#dWeak").style.display="block";$("#dWeak").innerHTML="<b>🪵 這些音送去木人樁加強：</b><br>"+miss.map(([s,n])=>`${s}${pairOf(s)?`（容易和 ${pairOf(s)} 混）`:""} × ${n}`).join("<br>")}
+ else $("#dWeak").style.display="none";
+ R=null;show("done");
+}
+$("#stopBtn").onclick=()=>{if(R&&R.i>0)finishRound();else{clearInterval(timerId);R=null;renderHall();show("hall")}};
+$("#listen").onclick=()=>R&&play(R.cur);
+$("#dHall").onclick=()=>{renderHall();show("hall")};
+$("#dAgain").onclick=()=>{const c=lastRound;if(c.room==="dummy"){openDummy();return}if(c.room==="daily"){openDaily();return}
+ startRound({...c,items:c.room==="pair"?pairSeq(c.pair):makeSeq(c.pool,c.room==="fast"?30:12)})};
+
+/* 各房間開場 */
+function pairSeq(p){const pool=[...p.items.a,...p.items.b];return makeSeq(pool,10)}
+function startPair(p){const pool=[...p.items.a,...p.items.b];startRound({room:"pair",sealKey:"pair:"+p.key,pair:p,name:`對招 ${p.a}／${p.b}`,short:"對招房",items:pairSeq(p),pool,n:2,base:10})}
+function openDummy(){
+ const weak=weakList().slice(0,8);
+ if(!weak.length){show("noWeak");return}
+ startRound({room:"dummy",name:"木人樁",items:makeSeq(weak,10),pool:weak.length>=4?weak:ALL,n:4,base:10});
+}
+function openDaily(){
+ const weak=weakList().slice(0,5),rest=shuffle(ALL).slice(0,10-Math.min(weak.length,5));
+ startRound({room:"daily",name:"今日功課",items:shuffle([...weak,...rest]).slice(0,10),pool:ALL,n:4,base:10});
+}
+function openFast(){startRound({room:"fast",name:"快拳房",items:makeSeq(ALL,30),pool:ALL,n:4,timed:60})}
+document.querySelectorAll(".room").forEach(b=>b.onclick=()=>{
+ const g=b.dataset.go;
+ if(g==="pairs"){renderPairs();show("pairs")}
+ else if(g==="custom"){renderGroups();show("custom")}
+ else if(g==="dummy")openDummy();
+ else if(g==="fast")openFast();
+});
+document.querySelectorAll(".backHall").forEach(b=>b.onclick=()=>{renderHall();show("hall")});
+$("#dailyBtn").onclick=openDaily;
+renderHall();
+</script>
+</body>
+</html>

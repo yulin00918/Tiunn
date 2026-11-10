@@ -129,6 +129,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #F4C65D;outline-offset:2p
 .map{height:auto!important;display:flex;flex-wrap:wrap;justify-content:center;gap:16px 12px;max-width:760px;margin:18px auto 16px}
 .map .island{position:relative;left:auto;right:auto;top:auto;width:128px;min-height:102px}
 .island.locked{background:#EEEDE6!important;opacity:.62;box-shadow:none}
+.dojoLink{position:relative;z-index:2;display:inline-block;margin-top:16px;padding:10px 18px;border-radius:999px;background:#E0F2EC;border:1px solid #B9DED1;color:#236B60;font-weight:900;text-decoration:none}
 .island .done{font-size:11px;color:#278777;font-weight:900;margin-top:2px}
 @media(max-width:720px){.map{max-width:420px;gap:12px 8px}.map .island{width:calc(33.3% - 8px);min-height:94px;padding:10px 4px}.island b{font-size:12.5px}.island .ico{font-size:26px}}
 </style>
@@ -158,9 +159,10 @@ button:focus-visible,a:focus-visible{outline:3px solid #F4C65D;outline-offset:2p
 <div class="heroTitle">聽聲辨拼音</div>
 <p class="sub">戴上耳朵，沿著聲音航線前進。從單元音出發，依照上課學過的聲母一島一島前進，一路闖到最終挑戰！</p>
 <div id="map" class="map"></div>
-<div class="lifeDock"><div class="pill">❤️ HP 10 / 10</div><div class="pill">✨ 重生石 ×1</div></div>
+<div class="lifeDock"><div class="pill">❤️ HP 10 / 10</div><div class="pill" id="stonePill">✨ 重生石 ×1</div></div>
 <button id="startBtn" class="primary">🚀 出發冒險</button>
-<div class="note">答錯或超時會扣 1 HP，錯過的音會偷偷在後面再出現。第一次 HP 歸零時，重生石會讓你原地復活一次！</div>
+<div class="note">答錯或超時會扣 1 HP，錯過的音會偷偷在後面再出現。HP 歸零時，重生石會讓你原地復活！在練功坊用內力可以換更多重生石。</div>
+<a class="dojoLink" href="聽聲練功坊.html">🥋 先去練功坊練練耳朵</a>
 </section>
 
 
@@ -191,8 +193,8 @@ button:focus-visible,a:focus-visible{outline:3px solid #F4C65D;outline-offset:2p
   <div class="revivePanel">
     <div class="reviveStone">✨</div>
     <div class="reviveTitle">重生石發動！</div>
-    <div class="reviveText">HP 歸零，但你還有最後一次機會。<br>重生石化成能量，讓你留在目前關卡繼續冒險！</div>
-    <div class="carryBox"><div class="carryChip">❤️ HP 回復 10 / 10</div><div class="carryChip">🪨 重生石 ×0</div></div>
+    <div class="reviveText">HP 歸零，但你還有重生石！<br>重生石化成能量，讓你留在目前關卡繼續冒險！</div>
+    <div class="carryBox"><div class="carryChip">❤️ HP 回復 10 / 10</div><div class="carryChip" id="reviveLeft">🪨 重生石 ×0</div></div>
     <button id="reviveBtn" class="primary">✨ 原地復活，繼續！</button>
   </div>
 </section>
@@ -227,6 +229,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #F4C65D;outline-offset:2p
     <div id="failStats" class="resultCards"></div>
     <div id="failConfusions" class="confusions" style="display:none"></div>
     <button class="primary restartAction">↻ 從 Lv.1 重新出發</button>
+    <a class="dojoLink" href="聽聲練功坊.html">🪵 去練功坊的木人樁，把錯的音練起來</a>
   </div>
   <div id="resultBadge" style="display:none"></div><div id="resultTitle" style="display:none"></div><div id="resultStat" style="display:none"></div><div id="confusions" style="display:none"></div>
   <button id="restartBtn" style="display:none"></button>
@@ -330,6 +333,7 @@ function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Ma
  for(let i=2;i<a.length;i++){if(a[i].answer&&a[i].answer===a[i-1].answer&&a[i].answer===a[i-2].answer){let j=a.findIndex((q,k)=>k>i&&q.answer!==a[i].answer);if(j>i)[a[i],a[j]]=[a[j],a[i]]}}return a}
 function screen(id){document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));$("#"+id).classList.add("active")}
 function renderMap(){
+ const st=$("#stonePill");if(st)st.textContent=`✨ 重生石 ×${1+stonesWaiting()}`;
  const cleared=loadJSON(PROG_KEY,{cleared:[]}).cleared;
  $("#map").innerHTML=levels.map((lv,i)=>lv.open
   ?`<div class="island" style="background:${BG[i%BG.length]}"><div class="ico">${lv.ico}</div><b>Lv.${lv.id} ${lv.name}</b><small>${lv.baseCount}題</small>${cleared.includes(lv.key)?'<div class="done">✓ 已通過</div>':""}</div>`
@@ -339,7 +343,9 @@ function makeBase(level){
  if(level.final)return shuffle(level.sounds).slice(0,level.baseCount).map(s=>({answer:s,retry:false}));
  return shuffle(level.sounds.flatMap(s=>Array.from({length:level.rep},()=>({answer:s,retry:false}))));
 }
-function beginAll(){levelIndex=0;lives=10;revives=1;combo=0;totalCorrect=0;totalWrong=0;timeouts=0;confusion={};beginLevel()}
+function takeDojoStones(){const d=loadJSON("yjty_dojo_v1",null);if(!d||!d.stones)return 0;const n=d.stones;d.stones=0;saveJSON("yjty_dojo_v1",d);return n}
+function stonesWaiting(){const d=loadJSON("yjty_dojo_v1",null);return d&&d.stones?d.stones:0}
+function beginAll(){levelIndex=0;lives=10;revives=1+takeDojoStones();combo=0;totalCorrect=0;totalWrong=0;timeouts=0;confusion={};beginLevel()}
 function beginLevel(){queue=makeBase(playable[levelIndex]);index=0;unresolved=new Set();locked=false;screen("game");nextQuestion()}
 function phaseFor(level){
  if(index>=level.baseCount)return {name:"追擊",sec:4};
@@ -414,7 +420,7 @@ function answer(choice,isTimeout){
  index++;setTimeout(nextQuestion,ok?650:1100)
 }
 
-function showRevive(){clearInterval(timerId);revives--;lives=10;combo=0;renderHearts();screen("revive")}
+function showRevive(){clearInterval(timerId);revives--;lives=10;combo=0;renderHearts();$("#reviveLeft").textContent=`🪨 重生石 ×${revives}`;screen("revive")}
 function continueAfterRevive(){screen("game");locked=false;nextQuestion()}
 
 function levelClear(){

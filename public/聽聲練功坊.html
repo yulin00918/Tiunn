@@ -157,12 +157,13 @@ button:focus-visible,a:focus-visible{outline:3px solid #F4C65D;outline-offset:2p
 /* 插畫素材 */
 .gate{position:relative;aspect-ratio:1672/941;border-radius:26px 26px 0 0;overflow:hidden;box-shadow:0 12px 32px rgba(38,78,71,.12)}
 .gateBg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
-.plaque{position:absolute;left:50%;top:23.4%;transform:translate(-50%,-50%);width:28%;text-align:center;font-weight:1000;color:#254E47;font-size:clamp(14px,3.6vw,34px);letter-spacing:.12em;white-space:nowrap;text-shadow:0 1px 0 #fff8e0}
-.gateKid{position:absolute;left:50%;bottom:22%;transform:translateX(-50%);height:40%;filter:drop-shadow(0 6px 5px rgba(38,78,71,.25));animation:kidBob 2.4s ease-in-out infinite}
+.plaque{position:absolute;left:49.9%;top:23.6%;transform:translate(-50%,-50%);width:27%;height:auto;mix-blend-mode:multiply;opacity:.95}
+.kidShadow{position:absolute;left:50%;bottom:21%;width:15%;height:4%;transform:translateX(-50%);background:radial-gradient(ellipse,rgba(80,55,35,.28),transparent 70%)}
+.gateKid{position:absolute;left:50%;bottom:22.5%;transform:translateX(-50%);height:40%;filter:saturate(.92);animation:kidBob 2.4s ease-in-out infinite}
 @keyframes kidBob{50%{transform:translateX(-50%) translateY(-4px)}}
 .hallCard{border-radius:0 0 26px 26px;border-top:0}
 .hallCard .avatar,.hallCard .kicker{display:none}.hallCard .disciple{grid-template-columns:1fr}
-@media(min-width:700px){.gate{aspect-ratio:16/7}.gateBg{object-position:50% 25%}.gateKid{bottom:9%;height:46%}.plaque{top:23%}}
+@media(min-width:700px){.gate{aspect-ratio:16/7}.gateBg{object-position:50% 25%}.gateKid{bottom:9.5%;height:46%}.kidShadow{bottom:8%}.plaque{top:23.2%}}
 .avatar{width:132px;height:132px;background:radial-gradient(circle at 50% 60%,#fff 0,#FFF3D8 70%);border:3px solid #fff;box-shadow:0 8px 20px rgba(38,78,71,.15)}
 .kidImg{width:122px;height:122px;object-fit:contain;margin-top:6px}
 .roomImg{width:72px;height:72px;object-fit:contain;display:block}
@@ -270,7 +271,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #F4C65D;outline-offset:2p
 
 <!-- 館口 -->
 <section id="hall" class="screen active">
-  <div class="gate"><img class="gateBg" src="img/dojo/bg-hall.webp" alt="鈺見拳頭館大門"><div class="plaque">鈺見拳頭館</div><img id="gateKid" class="gateKid" src="img/dojo/kid-white.webp" alt=""></div>
+  <div class="gate"><img class="gateBg" src="img/dojo/bg-hall.webp" alt="鈺見拳頭館大門"><img class="plaque" src="img/dojo/logo.webp" alt="鈺見拳頭館"><div class="kidShadow"></div><img id="gateKid" class="gateKid" src="img/dojo/kid-white.webp" alt=""></div>
   <div class="card hallCard">
     <div class="disciple">
       <div class="avatar"><img id="kidImg" class="kidImg" src="img/dojo/kid-white.webp" alt="小徒弟"></div>

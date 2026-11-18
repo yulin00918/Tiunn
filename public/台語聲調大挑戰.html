@@ -65,6 +65,9 @@
   .card .num{display:inline-block;background:var(--tc);color:#fff;border-radius:999px;font-weight:700;
              font-size:.8rem;padding:0 10px}
   .card .emo{font-size:2rem;line-height:1.3}
+  .card .emo img{width:72px;height:72px;display:block;margin:2px auto 0;object-fit:contain}
+  .detail .big img{width:110px;height:110px;display:block;object-fit:contain}
+  .card:hover .emo img{transform:scale(1.08) rotate(-3deg);transition:transform .2s}
   .card .han{font-size:1.5rem;font-weight:900}
   .card .lo{font-size:1.05rem;color:var(--indigo);font-weight:700}
   .card.dim{opacity:.6}
@@ -234,7 +237,7 @@ const TONES = {
   5:{name:'低升調', c:[2,4], checked:false, mark:'ˆ（像屋頂的符號）', desc:'由低往上揚，像在問問題'},
   6:{name:'已合併', c:[5,1], checked:false, mark:'—', desc:''},
   7:{name:'中平調', c:[3,3], checked:false, mark:'¯（橫線）', desc:'中間高度、平平地拉長'},
-  8:{name:'高促調', c:[5,5], checked:true,  mark:'̍（直線，標在母音上方）', desc:'短短的、高音，很快就收住'}
+  8:{name:'高促調', c:[5,5], checked:true,  mark:'a̍ 這種直線（標在母音上方）', desc:'短短的、高音，很快就收住'}
 };
 const tc = t => `var(--t${t})`;
 
@@ -242,7 +245,7 @@ const tc = t => `var(--t${t})`;
 const SETS = {
   animal:{
     label:'獅虎豹鱉', hint:'點動物卡片，聽聲音、看調型',
-    six:'大部分腔口的第 6 調已經和第 2 調合併，所以口訣用第 2 調的「狗 káu」來代表，唸起來和「虎 hóo」同一個調。',
+    six:'大部分腔口已經沒有第 6 調了（原本第 6 調的字，現在多半唸成第 7 調）。唸口訣時，第 6 調的位置習慣借第 2 調的音補上，所以用「狗 káu」，唸起來和「虎 hóo」同一個調。',
     items:[
       {id:'sai',     han:'獅', lo:'sai',     tone:1, emo:'🦁'},
       {id:'hoo',     han:'虎', lo:'hóo',     tone:2, emo:'🐯'},
@@ -269,7 +272,9 @@ const SETS = {
 };
 let curSet='animal';
 let chantToken=0;
-const real = it => it.as || it.tone;   // 實際的聲調（聲音與調型）
+const real = it => it.as || it.tone;
+/* 動物插圖：Microsoft Fluent Emoji 3D（MIT 授權）；圖檔載不到時改顯示原本的 emoji */
+const pic = a => `<img src="images/tone-animals/${a.id}.webp" alt="${a.han}" onerror="this.replaceWith(document.createTextNode('${a.emo}'))">`;   // 實際的聲調（聲音與調型）
 
 /* 測驗題庫：兩組口訣＋「君滾棍骨」組＋教育部聲調練習字。可自行加題 {id, han, lo, tone} */
 const POOL = [...SETS.animal.items, ...SETS.tong.items].filter(a=>a.tone!==6 && AUDIO[a.id]).concat([
@@ -358,7 +363,7 @@ function loadSet(k){
   S.items.forEach((a,i)=>{
     const b=document.createElement('button');
     b.className='card'+(a.tone===6?' dim':''); b.style.setProperty('--tc',tc(a.tone));
-    b.innerHTML=`<span class="num">第${a.tone}調</span>${a.emo?`<div class="emo">${a.emo}</div>`:''}
+    b.innerHTML=`<span class="num">第${a.tone}調</span>${a.emo?`<div class="emo">${pic(a)}</div>`:''}
       <div class="han">${a.han}</div><div class="lo">${a.lo}</div>`;
     b.onclick=()=>select(i,true);
     grid.appendChild(b);
@@ -372,9 +377,9 @@ function select(i,sound){
   detail.innerHTML=`<div class="contour-box">${contour(t,160,100)}
       <button class="play" id="again">🔊 再聽一次</button>
       <span class="src">${kind==='real'?'真人錄音':'合成調型示意音'}</span></div>
-    <div><div class="big">${a.emo||a.han}</div>
+    <div><div class="big">${a.emo?pic(a):a.han}</div>
       <h2>${a.emo?a.han:''}<span class="lo">${a.lo}</span></h2>
-      <span class="tag" style="background:${tc(a.tone)}">第 ${a.tone} 調・${six?`今同第 ${t} 調`:T.name}</span>
+      <span class="tag" style="background:${tc(a.tone)}">第 ${a.tone} 調・${six?(curSet==='animal'?`口訣借第 ${t} 調的音`:`今同第 ${t} 調`):T.name}</span>
       <ul>${six?`<li>${S.six}</li><li>聽起來和第 ${t} 調一模一樣，按下去比較看看！</li>`
         :`<li>${T.desc}</li><li>調號：${T.mark}</li>${T.checked?'<li>入聲：聲音短促，尾巴要收住</li>':''}`}</ul></div>`;
   document.getElementById('again').onclick=()=>select(i,true);

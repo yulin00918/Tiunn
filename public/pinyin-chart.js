@@ -34,11 +34,7 @@
 
   var TONES = [
     ['1', 'a', '（不標）', '獅 sai'], ['2', 'á', 'ˋ', '虎 hóo'], ['3', 'à', '˪', '豹 pà'],
-<<<<<<< HEAD
     ['4', 'ah', '（不標）', '鱉 pih'], ['5', 'â', 'ˊ', '猴 kâu'], ['7', 'ā', '˫', '象 tshiūnn'],
-=======
-    ['4', 'ah', '（不標）', '鴨 ah'], ['5', 'â', 'ˊ', '猴 kâu'], ['7', 'ā', '˫', '象 tshiūnn'],
->>>>>>> c034028d61e4b564505c994a61dcee4e87f93d7f
     ['8', 'a̍h', '˙', '鹿 lo̍k']
   ];
 
@@ -115,7 +111,7 @@ td.z{color:' + C.orange + ';font-size:20px}\
     '聲母': function () { return cards(INITIALS, false); },
     '韻母': function () {
       return cards(FINALS, false) +
-        '<div class="tip">⚠️ 台羅的 <b>o</b> 是 <b>ㄜ</b>，<b>oo</b> 才是 <b>ㆦ</b>。入聲韻尾寫成小字，接在韻母後面，例如 tsia̍h → ㄐㄧㄚㆷ。</div>';
+        '<div class="tip">台羅的 <b>o</b> 是 <b>ㄜ</b>，<b>oo</b> 才是 <b>ㆦ</b>。入聲韻尾寫成小字，接在韻母後面，例如 tsia̍h → ㄐㄧㄚㆷ。</div>';
     },
     '聲調': function () {
       return '<table><tr><th>調</th><th>台羅</th><th>方音</th><th>例字</th></tr>' +
@@ -133,7 +129,7 @@ td.z{color:' + C.orange + ';font-size:20px}\
   var root = host.attachShadow({ mode: 'open' });
 
   root.innerHTML = '<style>' + css + '</style>' +
-    (SHOW_BTN ? '<button class="fab" type="button" aria-label="開啟拼音對照表">📖 拼音表</button>' : '') +
+    (SHOW_BTN ? '<button class="fab" type="button" aria-label="開啟拼音對照表"><img src="/images/emoji3d/1f4d6.webp" alt="" style="width:1.3em;height:1.3em;vertical-align:-0.3em;margin-right:4px">拼音表</button>' : '') +
     '<div class="wrap ' + MODE + '" role="dialog" aria-modal="' + (MODE === 'modal') + '" aria-label="台羅與方音符號對照表"><div class="panel">' +
     '<div class="head"><h2>台羅 ↔ 方音符號</h2><button class="x" type="button" aria-label="關閉">×</button></div>' +
     '<div class="tabs">' + Object.keys(PAGES).map(function (k, i) { return '<button class="tab' + (i ? '' : ' on') + '" data-k="' + k + '">' + k + '</button>'; }).join('') + '</div>' +

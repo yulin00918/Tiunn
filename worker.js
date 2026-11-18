@@ -17,22 +17,27 @@ export default {
       headers
     });
 
-    if (!shouldAddChart(request, response)) return out;
+    if (!isHtmlPage(response)) return out;
+    const addChart = shouldAddChart(request, response);
 
     return new HTMLRewriter()
       .on("body", {
         element(el) {
-          el.append('<script src="/pinyin-chart.js"></script>', { html: true });
+          // 每一頁：把 emoji 換成立體插圖
+          el.append('<script src="/emoji3d.js"></script>', { html: true });
+          // 學台語的頁面：加上拼音對照表
+          if (addChart) el.append('<script src="/pinyin-chart.js"></script>', { html: true });
         }
       })
       .transform(out);
   }
 };
 
+function isHtmlPage(response) {
+  return response.status === 200 && (response.headers.get("content-type") || "").includes("text/html");
+}
+
 function shouldAddChart(request, response) {
-  if (response.status !== 200) return false;
-  const type = response.headers.get("content-type") || "";
-  if (!type.includes("text/html")) return false;
   let path;
   try {
     path = decodeURIComponent(new URL(request.url).pathname);

@@ -53,7 +53,7 @@
   var css = '\
 :host{all:initial}\
 *{box-sizing:border-box;font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}\
-.fab{position:fixed;right:18px;bottom:18px;z-index:2147483000;border:0;border-radius:999px;padding:12px 18px;background:' + C.green + ';color:' + C.cream + ';font-size:16px;font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,.25);cursor:pointer}\
+.fab{position:fixed;right:18px;bottom:calc(42px + env(safe-area-inset-bottom));z-index:2147483000;border:0;border-radius:999px;padding:12px 18px;background:' + C.green + ';color:' + C.cream + ';font-size:16px;font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,.25);cursor:pointer}\
 .fab:hover{background:' + C.teal + '}\
 .fab.hide{display:none}\
 .panel{background:' + C.cream + ';color:' + C.green + ';display:flex;flex-direction:column;overflow:hidden}\

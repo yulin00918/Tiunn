@@ -49,18 +49,14 @@
       <span style="flex:0 0 auto;background:#278777;color:#fff;border-radius:999px;padding:7px 14px;font-weight:900;font-size:13px;line-height:1.4;white-space:nowrap;">{{statusLabel}}</span>
     </div>
 
-    <div style="position:relative;width:100%;aspect-ratio:1665/952;border:1px solid #E4E5DD;border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 10px 26px rgba(38,78,71,.10);">
-      <img src="images/tone-template-2.png" alt="聲母韻母聲調對照表" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block;">
-
-      <div style="position:absolute;left:2%;top:6%;width:56%;height:76%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2%;">
-        <div style="position:relative;width:72%;max-width:400px;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;overflow:hidden;">
-          <sc-for list="{{allSlides}}" as="slide" hint-placeholder-count="50">
-            <img src="{{slide.src}}" alt="" style="{{slide.style}}">
-          </sc-for>
-          <sc-if value="{{!hasImage}}">
-            <div style="width:100%;height:100%;border:2px dashed #D8E3D8;border-radius:16px;display:flex;align-items:center;justify-content:center;color:#77847C;font-size:14px;font-weight:700;text-align:center;padding:10px;">按「開始」開始走馬燈</div>
-          </sc-if>
-        </div>
+    <div style="position:relative;width:100%;aspect-ratio:16/9;max-height:68vh;border:1px solid #E4E5DD;border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 10px 26px rgba(38,78,71,.10);display:flex;align-items:center;justify-content:center;">
+      <div style="position:relative;height:94%;aspect-ratio:1/1;max-width:94%;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+        <sc-for list="{{allSlides}}" as="slide" hint-placeholder-count="50">
+          <img src="{{slide.src}}" alt="" style="{{slide.style}}">
+        </sc-for>
+        <sc-if value="{{!hasImage}}">
+          <div style="width:100%;height:100%;border:2px dashed #D8E3D8;border-radius:16px;display:flex;align-items:center;justify-content:center;color:#77847C;font-size:14px;font-weight:700;text-align:center;padding:10px;">按「開始」開始走馬燈</div>
+        </sc-if>
       </div>
     </div>
 
@@ -68,6 +64,7 @@
       <button class="rl-btn" style="{{mainBtnStyle}}" onClick="{{toggleRun}}">{{mainBtnLabel}}</button>
       <sc-if value="{{canListen}}"><button class="rl-btn" style="border:2px solid #F4C65D;border-radius:16px;padding:13px 20px;font-weight:900;background:#FFF6DC;color:#7A5A10;cursor:pointer;font-family:inherit;font-size:15px;" onClick="{{playVoice}}">{{voiceLabel}}</button></sc-if>
       <button class="rl-btn rl-btn-ghost" style="border:2px solid #B6CFC3;border-radius:16px;padding:13px 20px;font-weight:900;background:#fff;color:#278777;cursor:pointer;font-family:inherit;font-size:15px;" onClick="{{reveal}}">👀 看華語佮台文</button>
+      <button class="rl-btn rl-btn-ghost" style="border:2px solid #254E47;border-radius:16px;padding:13px 20px;font-weight:900;background:#fff;color:#254E47;cursor:pointer;font-family:inherit;font-size:15px;" onClick="{{openChart}}">📖 拼音表</button>
       <button class="rl-btn rl-btn-ghost" style="border:2px solid #B6CFC3;border-radius:16px;padding:13px 20px;font-weight:900;background:#fff;color:#278777;cursor:pointer;font-family:inherit;font-size:15px;" onClick="{{resetAll}}">↻ 重設</button>
       <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;color:#456C65;min-height:52px;">
         速度
@@ -96,7 +93,7 @@
     </sc-if>
 
     <div style="width:100%;max-width:760px;margin:16px auto 0;background:#FFF3D8;border:1px solid #F4DDA7;border-radius:14px;padding:14px 16px;font-size:13px;color:#755832;line-height:1.8;">
-      <strong>💡 玩法</strong>：按「開始」，蔬果佮台羅會做伙隨機走馬燈；閣按一擺（停止）就定落來，予學生看台羅、參考右側的聲母、韻母佮聲調表，唸出這个蔬果。欲對照華語佮台文，就按「看華語佮台文」。家己唸了，閣按「🔊 聽發音」聽看唸了著毋著。
+      <strong>💡 玩法</strong>：按「開始」，蔬果佮台羅會做伙隨機走馬燈；閣按一擺（停止）就定落來，予學生看台羅唸出這个蔬果。袂記得拼音，就按「📖 拼音表」看聲母、韻母、聲調佮變調。欲對照華語佮台文，就按「看華語佮台文」。家己唸了，閣按「🔊 聽發音」聽看唸了著毋著。
     </div>
 
   </div>
@@ -179,6 +176,11 @@ class Component extends DCLogic {
     const p = a.play();
     if (p && p.catch) p.catch(() => { if (this.voice === a) this.setState({ voicePlaying: false }); });
   }
+  openChart() {
+    const go = () => window.TaigiChart && window.TaigiChart.show('聲母');
+    if (window.TaigiChart) return go();
+    const sc = document.createElement('script'); sc.src = '/pinyin-chart.js'; sc.onload = go; document.body.appendChild(sc);
+  }
   componentWillUnmount() { this.stopVoice();  this.isRunning = false; cancelAnimationFrame(this.rafId); }
 
   start() {
@@ -223,6 +225,7 @@ class Component extends DCLogic {
       showAnswer: s.showAnswer && !!cur,
       voiceLabel: s.voiceMissing ? '🔇 這个詞猶未有音檔' : (s.voicePlaying ? '🔊 播放中…' : '🔊 聽發音'),
       voiceBtnStyle: `display:flex;align-items:center;justify-content:center;gap:6px;width:100%;border:2px solid ${s.voiceMissing ? '#E4E5DD' : '#F4C65D'};border-radius:14px;padding:12px;min-height:50px;margin-bottom:10px;font-weight:900;font-size:15.5px;background:${s.voiceMissing ? '#F4F4EF' : '#FFF6DC'};color:${s.voiceMissing ? '#8A948E' : '#7A5A10'};cursor:pointer;font-family:inherit;`,
+      openChart: () => this.openChart(),
       canListen: !s.running && !!cur, playVoice: () => this.playVoice(cur, false),
       answerZh: cur ? cur.zh : '', answerWord: cur ? cur.word : '', answerRoman: cur ? cur.roman : '',
     };

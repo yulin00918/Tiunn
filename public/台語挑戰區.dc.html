@@ -145,6 +145,12 @@
       <sc-if value="{{tab.activeVeggieRoulette}}">
         <dc-import name="蔬果走馬燈" hint-size="100%,900px"></dc-import>
       </sc-if>
+      <sc-if value="{{tab.activeClothGame}}">
+        <dc-import name="衫仔褲大挑戰" hint-size="100%,900px"></dc-import>
+      </sc-if>
+      <sc-if value="{{tab.activeClothRoulette}}">
+        <dc-import name="衫仔褲走馬燈" hint-size="100%,900px"></dc-import>
+      </sc-if>
 
     </sc-for>
 
@@ -163,12 +169,14 @@ const GAME_META = {
   color:       { pics: ['palette', 'tshirt'], icon: '🎨👕', name: '色水大挑戰',     how: '看色水 → 選出台羅' },
   roulette:    { pics: ['ferris-wheel', 'tshirt'], icon: '🎡👕', name: '色水走馬燈',     how: '停格 → 看台羅講色水' },
   vegRoulette: { pics: ['ferris-wheel', 'leafy-green'], icon: '🎡🥬', name: '蔬果走馬燈',     how: '停格 → 看台羅講蔬果' },
+  cloth:       { pics: ['coat', 'jeans'], icon: '🧥👖', name: '衫仔褲大挑戰',   how: '看圖 → 選出台羅' },
+  clothRoulette: { pics: ['ferris-wheel', 'jeans'], icon: '🎡👖', name: '衫仔褲走馬燈', how: '停格 → 看台羅講衫仔褲' },
 };
 
 const GROUPS = [
-  { step: '關卡 1', title: '看圖挑戰', hint: '看著圖，揀出正確的台羅', tone: '#278777', keys: ['veggie', 'color'],
+  { step: '關卡 1', title: '看圖挑戰', hint: '看著圖，揀出正確的台羅', tone: '#278777', keys: ['veggie', 'color', 'cloth'],
     cardBg: 'linear-gradient(150deg,#F4FAF5,#E0F2EC)', cardBorder: '#CBE9DD', ctaBg: '#278777' },
-  { step: '關卡 2', title: '開喙挑戰', hint: '看著台羅，家己講出來', tone: '#E88B4A', keys: ['roulette', 'vegRoulette'],
+  { step: '關卡 2', title: '開喙挑戰', hint: '看著台羅，家己講出來', tone: '#E88B4A', keys: ['roulette', 'vegRoulette', 'clothRoulette'],
     cardBg: 'linear-gradient(150deg,#FFFCF4,#FFF1D7)', cardBorder: '#F3DFB9', ctaBg: 'linear-gradient(110deg,#E88B4A,#DA753B)' },
 ];
 
@@ -193,6 +201,8 @@ class Component extends DCLogic {
         activeColorGame: isBasicTab && activeGame === 'color',
         activeColorRoulette: isBasicTab && activeGame === 'roulette',
         activeVeggieRoulette: isBasicTab && activeGame === 'vegRoulette',
+        activeClothGame: isBasicTab && activeGame === 'cloth',
+        activeClothRoulette: isBasicTab && activeGame === 'clothRoulette',
         activeAdvanced: active && d.isAdvanced,
         onClick: () => this.setState({ activeTab: i, activeGame: null }),
         btnStyle: `display:flex;align-items:center;padding:16px 18px;border-radius:20px;border:2px solid ${active ? '#254E47' : '#E7DCC9'};font-family:inherit;cursor:pointer;min-height:76px;text-align:left;transition:.16s ease;background:${active ? '#254E47' : '#FFFCF4'};color:${active ? '#fff' : '#385A53'};box-shadow:${active ? '0 10px 22px rgba(37,78,71,.20)' : '0 6px 16px rgba(38,78,71,.05)'};`,

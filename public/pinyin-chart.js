@@ -5,7 +5,7 @@
  * 預設為「側邊面板」：從右邊滑出（窄螢幕從下方滑出），不遮罩，課文照樣能看能點。
  * 想改回置中彈窗：<script src="/pinyin-chart.js" data-mode="modal"></script>
  * 不要右下角浮動按鈕：加上 data-button="off"
- * 用自己的按鈕叫出：TaigiChart.open() / close() / toggle() / show('聲調')
+ * 用自己的按鈕叫出：TaigiChart.open() / close() / toggle() / show('聲調') / show('變調')
  */
 (function () {
   if (window.TaigiChart) return;
@@ -117,6 +117,20 @@ td.z{color:' + C.orange + ';font-size:20px}\
       return '<table><tr><th>調</th><th>台羅</th><th>方音</th><th>例字</th></tr>' +
         TONES.map(function (t) { return '<tr><td>' + t[0] + '</td><td>' + t[1] + '</td><td class="z">' + t[2] + '</td><td>' + t[3] + '</td></tr>'; }).join('') +
         '</table><div class="tip">台語沒有第 6 調（已和第 7 調合併），所以編號跳過 6。</div>';
+    },
+    '變調': function () {
+      return '<div class="tip" style="margin-top:4px">詞的<b>上尾字</b>唸本調，<b>前面的字</b>大部分攏愛變調。</div>' +
+        '<h3 style="margin:12px 0 6px;font-size:15px">非入聲調的變調循環</h3>' +
+        '<svg viewBox="0 0 440 340" style="width:100%;height:auto;background:#fff;border:3px solid #F4C65D;border-radius:16px;display:block"> <defs> <marker id="pc-arrow-pink" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"> <path d="M0,0 L10,5 L0,10 z" fill="#E88B4A"></path> </marker> <marker id="pc-arrow-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"> <path d="M0,0 L10,5 L0,10 z" fill="#278777"></path> </marker> <marker id="pc-arrow-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"> <path d="M0,0 L10,5 L0,10 z" fill="#8A9A92"></path> </marker> </defs> <text x="325" y="45" text-anchor="middle" font-size="17" fill="#278777" font-weight="900">h</text> <line x1="345" y1="60" x2="255" y2="60" stroke="#278777" stroke-width="4" marker-end="url(#pc-arrow-green)"></line> <line x1="195" y1="60" x2="105" y2="60" stroke="#E88B4A" stroke-width="4" marker-end="url(#pc-arrow-pink)"></line> <line x1="70" y1="95" x2="70" y2="265" stroke="#E88B4A" stroke-width="4" marker-end="url(#pc-arrow-pink)"></line> <line x1="220" y1="265" x2="220" y2="95" stroke="#E88B4A" stroke-width="4" marker-end="url(#pc-arrow-pink)"></line> <line x1="370" y1="95" x2="370" y2="265" stroke="#278777" stroke-width="4" marker-end="url(#pc-arrow-green)" marker-start="url(#pc-arrow-green)"></line> <text x="300" y="185" text-anchor="middle" font-size="18" fill="#278777" font-weight="900">p, t, k</text> <text x="150" y="180" text-anchor="middle" font-size="26" fill="#263B37" font-weight="900">5</text> <line x1="140" y1="200" x2="90" y2="270" stroke="#8A9A92" stroke-width="3.5" marker-end="url(#pc-arrow-gray)"></line> <text x="95" y="230" text-anchor="middle" font-size="17" fill="#8A9A92" font-weight="900">南</text> <line x1="165" y1="200" x2="205" y2="270" stroke="#8A9A92" stroke-width="3.5" marker-end="url(#pc-arrow-gray)"></line> <text x="205" y="230" text-anchor="middle" font-size="17" fill="#8A9A92" font-weight="900">北</text> <line x1="100" y1="300" x2="190" y2="300" stroke="#E88B4A" stroke-width="4" marker-end="url(#pc-arrow-pink)"></line> <text x="325" y="330" text-anchor="middle" font-size="17" fill="#278777" font-weight="900">h</text> <line x1="345" y1="300" x2="255" y2="300" stroke="#278777" stroke-width="4" marker-end="url(#pc-arrow-green)"></line> <text x="70" y="72" text-anchor="middle" font-size="40" font-weight="900" fill="#263B37">1</text> <text x="220" y="72" text-anchor="middle" font-size="40" font-weight="900" fill="#263B37">2</text> <text x="370" y="72" text-anchor="middle" font-size="40" font-weight="900" fill="#263B37">4</text> <text x="70" y="322" text-anchor="middle" font-size="40" font-weight="900" fill="#263B37">7</text> <text x="220" y="322" text-anchor="middle" font-size="40" font-weight="900" fill="#263B37">3</text> <text x="370" y="322" text-anchor="middle" font-size="40" font-weight="900" fill="#263B37">8</text> </svg>' +
+        '<div style="font-size:13px;line-height:1.7;color:#4b5f5a;margin-top:8px">' +
+        '<span style="color:#E88B4A;font-weight:700">橘色</span>：1→7→3→2→1<br>' +
+        '<span style="color:#8A9A92;font-weight:700">灰色</span>：第 5 調，南部腔變 7、北部腔變 3<br>' +
+        '<span style="color:#278777;font-weight:700">綠色</span>：入聲調，看結尾（下表）</div>' +
+        '<table><tr><th>結尾</th><th>第4調變做</th><th>第8調變做</th></tr>' +
+        '<tr><td>-p -t -k</td><td>第 8 調</td><td>第 4 調</td></tr>' +
+        '<tr><td>-h</td><td>第 2 調</td><td>第 3 調</td></tr></table>' +
+        '<div class="tip">例：「花」hue 本調第 1 調，講「花矸」hue-kan 的時，「花」變做第 7 調。<br>' +
+        '<a href="/羅馬字發音.dc" target="_blank" style="color:#254E47;font-weight:700">完整說明（含輕聲、仔前變調）→</a></div>';
     },
     '範例': function () {
       return '<table><tr><th>漢字</th><th>台羅</th><th>方音</th></tr>' +

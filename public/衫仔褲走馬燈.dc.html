@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<meta name="author" content="張鈺聆">
+<meta name="copyright" content="© 張鈺聆">
+<script src="./author-credit.js"></script>
+<!-- 網站介面、功能與教學整合設計／製作：張鈺聆　Copyright © 張鈺聆. All rights reserved.
+     「張鈺聆 製」係指介面設計、功能整合、互動設計與教學資源整合；
+     教材、課文、音檔、圖片、辭典資料等第三方素材之著作權仍屬原權利人所有。
+     完整版權宣告見 author-credit.js。 -->
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H3X7ZH5XL6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-H3X7ZH5XL6');
+</script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  .rl-wrap,.rl-wrap *{box-sizing:border-box;}
+  .rl-btn{min-height:52px;}
+  @media(hover:hover){
+    .rl-btn:hover{filter:brightness(1.05);}
+    .rl-btn-ghost:hover{border-color:#55A99C;}
+  }
+  button:focus-visible,select:focus-visible{outline:3px solid #F4C65D;outline-offset:2px;}
+  @media(max-width:640px){
+    .rl-title{font-size:19px !important;}
+    .rl-btn{flex:1 1 auto;}
+  }
+</style>
+</helmet>
+<div class="rl-wrap" style="font-family:'Noto Sans TC',sans-serif;color:#263B37;width:100%;">
+  <div style="width:100%;max-width:1240px;margin:auto;padding:4px 0 8px;">
+
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap;background:#fff;border:1px solid #E8E6D9;border-radius:18px;padding:12px 16px;box-shadow:0 6px 16px rgba(38,78,71,.06);">
+      <div style="display:flex;align-items:center;gap:10px;min-width:0;flex:1 1 auto;">
+        <span style="font-size:24px;line-height:1.2;flex:0 0 auto;">🎡👖</span>
+        <span class="rl-title" style="font-size:21px;font-weight:900;color:#254E47;line-height:1.35;overflow-wrap:anywhere;">衫仔褲走馬燈</span>
+      </div>
+      <span style="flex:0 0 auto;background:#278777;color:#fff;border-radius:999px;padding:7px 14px;font-weight:900;font-size:13px;line-height:1.4;white-space:nowrap;">{{statusLabel}}</span>
+    </div>
+
+    <div style="position:relative;width:100%;aspect-ratio:16/9;max-height:68vh;border:1px solid #E4E5DD;border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 10px 26px rgba(38,78,71,.10);display:flex;align-items:center;justify-content:center;">
+      <div style="position:relative;height:94%;aspect-ratio:1/1;max-width:94%;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+        <sc-for list="{{allSlides}}" as="slide" hint-placeholder-count="50">
+          <img src="{{slide.src}}" alt="" style="{{slide.style}}">
+        </sc-for>
+        <sc-if value="{{!hasImage}}">
+          <div style="width:100%;height:100%;border:2px dashed #D8E3D8;border-radius:16px;display:flex;align-items:center;justify-content:center;color:#77847C;font-size:14px;font-weight:700;text-align:center;padding:10px;">按「開始」開始走馬燈</div>
+        </sc-if>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center;margin-top:16px;">
+      <button class="rl-btn" style="{{mainBtnStyle}}" onClick="{{toggleRun}}">{{mainBtnLabel}}</button>
+      <sc-if value="{{canListen}}"><button class="rl-btn" style="border:2px solid #F4C65D;border-radius:16px;padding:13px 20px;font-weight:900;background:#FFF6DC;color:#7A5A10;cursor:pointer;font-family:inherit;font-size:15px;" onClick="{{playVoice}}">{{voiceLabel}}</button></sc-if>
+      <button class="rl-btn rl-btn-ghost" style="border:2px solid #B6CFC3;border-radius:16px;padding:13px 20px;font-weight:900;background:#fff;color:#278777;cursor:pointer;font-family:inherit;font-size:15px;" onClick="{{reveal}}">👀 看華語佮台文</button>
+      <button class="rl-btn rl-btn-ghost" style="border:2px solid #254E47;border-radius:16px;padding:13px 20px;font-weight:900;background:#fff;color:#254E47;cursor:pointer;font-family:inherit;font-size:15px;" onClick="{{openChart}}">📖 拼音表</button>
+      <button class="rl-btn rl-btn-ghost" style="border:2px solid #B6CFC3;border-radius:16px;padding:13px 20px;font-weight:900;background:#fff;color:#278777;cursor:pointer;font-family:inherit;font-size:15px;" onClick="{{resetAll}}">↻ 重設</button>
+      <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;color:#456C65;min-height:52px;">
+        速度
+        <select value="{{speed}}" onChange="{{onSpeedChange}}" style="border:1px solid #D8E3D8;border-radius:10px;padding:11px 12px;font-family:inherit;min-height:44px;">
+          <option value="25">超快</option>
+          <option value="50">快</option>
+          <option value="90">中</option>
+          <option value="160">慢</option>
+        </select>
+      </label>
+    </div>
+
+    <sc-if value="{{showAnswer}}">
+      <div style="width:100%;max-width:520px;margin:16px auto 0;border:1px solid #E4E5DD;border-radius:18px;overflow:hidden;">
+        <div style="background:#278777;color:#fff;padding:12px;text-align:center;font-weight:900;">✅ 對照</div>
+        <div style="padding:16px;background:#fff;">
+          <div style="font-size:12px;color:#236B60;font-weight:800;margin-bottom:4px;">華語</div>
+          <div style="border:2px solid #55A99C;border-radius:10px;padding:10px 12px;font-weight:800;font-size:17px;margin-bottom:12px;">{{answerZh}}</div>
+          <div style="font-size:12px;color:#B15F2A;font-weight:800;margin-bottom:4px;">台文</div>
+          <div style="border:2px solid #E88B4A;border-radius:10px;padding:10px 12px;font-weight:800;font-size:17px;margin-bottom:12px;">{{answerWord}}</div>
+          <div style="font-size:12px;color:#8A6418;font-weight:800;margin-bottom:4px;">台羅</div>
+          <div style="border:2px solid #E5B547;border-radius:10px;padding:10px 12px;font-weight:800;font-size:17px;">{{answerRoman}}</div>
+          <div style="margin-top:12px;"><button style="{{voiceBtnStyle}}" onClick="{{playVoice}}">{{voiceLabel}}</button></div>
+        </div>
+      </div>
+    </sc-if>
+
+    <div style="width:100%;max-width:760px;margin:16px auto 0;background:#FFF3D8;border:1px solid #F4DDA7;border-radius:14px;padding:14px 16px;font-size:13px;color:#755832;line-height:1.8;">
+      <strong>💡 玩法</strong>：按「開始」，衫仔褲佮台羅會做伙隨機走馬燈；閣按一擺（停止）就定落來，予學生看台羅唸出這項衫仔褲。袂記得拼音，就按「📖 拼音表」看聲母、韻母、聲調佮變調。欲對照華語佮台文，就按「看華語佮台文」。家己唸了，閣按「🔊 聽發音」聽看唸了著毋著。
+    </div>
+
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const VEGGIES = [
+  { zh:'外套', word:'外套', roman:'guā-thò', image:'images/sannr-01.webp' },
+  { zh:'毛衣', word:'膨紗衫', roman:'phòng-se-sann', image:'images/sannr-02.webp' },
+  { zh:'雨衣', word:'雨衫', roman:'hōo-sann', image:'images/sannr-03.webp' },
+  { zh:'睡衣', word:'睏衫', roman:'khùn-sann', image:'images/sannr-04.webp' },
+  { zh:'制服', word:'制服', roman:'tsè-ho̍k', image:'images/sannr-05.webp' },
+  { zh:'西裝', word:'西裝', roman:'se-tsong', image:'images/sannr-06.webp' },
+  { zh:'洋裝', word:'洋裝', roman:'iûnn-tsong', image:'images/sannr-07.webp' },
+  { zh:'短褲', word:'短褲', roman:'té-khòo', image:'images/sannr-08.webp' },
+  { zh:'長褲', word:'長褲', roman:'tn̂g-khòo', image:'images/sannr-09.webp' },
+  { zh:'牛仔褲', word:'牛仔褲', roman:'gû-á-khòo', image:'images/sannr-10.webp' },
+  { zh:'裙子', word:'裙', roman:'kûn', image:'images/sannr-11.webp' },
+  { zh:'襪子', word:'襪仔', roman:'bue̍h-á', image:'images/sannr-12.webp' },
+  { zh:'皮鞋', word:'皮鞋', roman:'phuê-ê', image:'images/sannr-13.webp' },
+  { zh:'布鞋', word:'布鞋', roman:'pòo-ê', image:'images/sannr-14.webp' },
+  { zh:'雨鞋', word:'雨鞋', roman:'hōo-ê', image:'images/sannr-15.webp' },
+  { zh:'夾腳拖', word:'淺拖仔', roman:'tshián-thua-á', image:'images/sannr-16.webp' },
+  { zh:'帽子', word:'帽仔', roman:'bō-á', image:'images/sannr-17.webp' },
+  { zh:'眼鏡', word:'目鏡', roman:'ba̍k-kiànn', image:'images/sannr-18.webp' },
+  { zh:'手套', word:'手套', roman:'tshiú-thò', image:'images/sannr-19.webp' },
+  { zh:'手錶', word:'手錶', roman:'tshiú-pió', image:'images/sannr-20.webp' },
+  { zh:'圍巾', word:'圍巾', roman:'uî-kin', image:'images/sannr-21.webp' },
+  { zh:'領帶', word:'領帶', roman:'niá-tuà', image:'images/sannr-22.webp' },
+  { zh:'皮帶', word:'褲帶', roman:'khòo-tuà', image:'images/sannr-23.webp' },
+  { zh:'鈕扣', word:'鈕仔', roman:'liú-á', image:'images/sannr-24.webp' },
+  { zh:'雨傘', word:'雨傘', roman:'hōo-suànn', image:'images/sannr-25.webp' },
+];
+
+// ── 讀音：教育部《臺灣台語常用詞辭典》音檔，放佇 audio/tshai-sik/，檔名就是台文（例：西瓜.mp3）。
+// 辭典無收的詞，老師家己錄音，用仝款的檔名囥入去就會自動播。
+const AUDIO_DIR = 'audio/tshai-sik/';
+function audioFor(x) { return x ? AUDIO_DIR + x.word.split('／')[0].trim() + '.mp3' : ''; }
+
+class Component extends DCLogic {
+  state = { running: false, index: null, speed: 50, showAnswer: false };
+  rafId = null;
+  isRunning = false;
+
+  voice = null;
+  stopVoice() { try { if (this.voice) { this.voice.onended = this.voice.onerror = null; this.voice.pause(); } } catch (e) {} this.voice = null; }
+  playVoice(x, auto) {
+    if (!x || (auto && this.state.soundOn === false)) return;
+    this.stopVoice();
+    const a = new Audio(audioFor(x)); this.voice = a;
+    this.setState({ voicePlaying: true, voiceMissing: false });
+    a.onended = () => { if (this.voice === a) this.setState({ voicePlaying: false }); };
+    a.onerror = () => { if (this.voice === a) this.setState({ voicePlaying: false, voiceMissing: true }); };
+    const p = a.play();
+    if (p && p.catch) p.catch(() => { if (this.voice === a) this.setState({ voicePlaying: false }); });
+  }
+  openChart() {
+    const go = () => window.TaigiChart && window.TaigiChart.show('聲母');
+    if (window.TaigiChart) return go();
+    const sc = document.createElement('script'); sc.src = '/pinyin-chart.js'; sc.onload = go; document.body.appendChild(sc);
+  }
+  componentWillUnmount() { this.stopVoice();  this.isRunning = false; cancelAnimationFrame(this.rafId); }
+
+  start() {
+    cancelAnimationFrame(this.rafId);
+    this.stopVoice(); this.setState({ voicePlaying: false, voiceMissing: false });
+    this.isRunning = true;
+    const interval = Number(this.state.speed);
+    let last = 0;
+    this.setState({ running: true, showAnswer: false, index: Math.floor(Math.random() * VEGGIES.length) }, () => {
+      const tick = (now) => {
+        if (!this.isRunning) return;
+        if (now - last >= interval) {
+          last = now;
+          let next;
+          do { next = Math.floor(Math.random() * VEGGIES.length); } while (VEGGIES.length > 1 && next === this.state.index);
+          this.setState({ index: next });
+        }
+        this.rafId = requestAnimationFrame(tick);
+      };
+      this.rafId = requestAnimationFrame(tick);
+    });
+  }
+  stop() { this.isRunning = false; cancelAnimationFrame(this.rafId); this.setState({ running: false }); }
+  toggleRun() { if (this.state.running) this.stop(); else this.start(); }
+  reveal() { if (this.state.index !== null) { this.stop(); this.setState({ showAnswer: true }); } }
+  resetAll() { this.stopVoice(); this.setState({ voicePlaying: false, voiceMissing: false }); this.isRunning = false; cancelAnimationFrame(this.rafId); this.setState({ running: false, index: null, showAnswer: false }); }
+
+  renderVals() {
+    const s = this.state;
+    const cur = s.index !== null ? VEGGIES[s.index] : null;
+    return {
+      statusLabel: s.running ? '走馬燈進行中…' : (cur ? '已停落來，請學生唸出來' : '準備開始'),
+      hasImage: !!cur,
+      allSlides: VEGGIES.map((v, i) => ({
+        src: v.image,
+        style: `position:absolute;inset:0;margin:auto;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;opacity:${i === s.index ? 1 : 0};`,
+      })),
+      mainBtnLabel: s.running ? '⏹ 停止' : '▶ 開始',
+      mainBtnStyle: `border:0;border-radius:16px;padding:13px 26px;font-weight:900;font-size:16px;cursor:pointer;font-family:inherit;background:${s.running ? 'linear-gradient(110deg,#E88B4A,#DA753B)' : '#278777'};color:#fff;box-shadow:0 6px 14px rgba(39,135,119,.20);`,
+      toggleRun: () => this.toggleRun(), reveal: () => this.reveal(), resetAll: () => this.resetAll(),
+      speed: s.speed, onSpeedChange: (e) => { this.setState({ speed: e.target.value }, () => { if (this.state.running) this.start(); }); },
+      showAnswer: s.showAnswer && !!cur,
+      voiceLabel: s.voiceMissing ? '🔇 這个詞猶未有音檔' : (s.voicePlaying ? '🔊 播放中…' : '🔊 聽發音'),
+      voiceBtnStyle: `display:flex;align-items:center;justify-content:center;gap:6px;width:100%;border:2px solid ${s.voiceMissing ? '#E4E5DD' : '#F4C65D'};border-radius:14px;padding:12px;min-height:50px;margin-bottom:10px;font-weight:900;font-size:15.5px;background:${s.voiceMissing ? '#F4F4EF' : '#FFF6DC'};color:${s.voiceMissing ? '#8A948E' : '#7A5A10'};cursor:pointer;font-family:inherit;`,
+      openChart: () => this.openChart(),
+      canListen: !s.running && !!cur, playVoice: () => this.playVoice(cur, false),
+      answerZh: cur ? cur.zh : '', answerWord: cur ? cur.word : '', answerRoman: cur ? cur.roman : '',
+    };
+  }
+}
+
+</script>
+</body>
+</html>

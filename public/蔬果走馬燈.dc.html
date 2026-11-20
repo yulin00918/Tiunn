@@ -66,6 +66,7 @@
 
     <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center;margin-top:16px;">
       <button class="rl-btn" style="{{mainBtnStyle}}" onClick="{{toggleRun}}">{{mainBtnLabel}}</button>
+      <sc-if value="{{canListen}}"><button class="rl-btn" style="border:2px solid #F4C65D;border-radius:16px;padding:13px 20px;font-weight:900;background:#FFF6DC;color:#7A5A10;cursor:pointer;font-family:inherit;font-size:15px;" onClick="{{playVoice}}">{{voiceLabel}}</button></sc-if>
       <button class="rl-btn rl-btn-ghost" style="border:2px solid #B6CFC3;border-radius:16px;padding:13px 20px;font-weight:900;background:#fff;color:#278777;cursor:pointer;font-family:inherit;font-size:15px;" onClick="{{reveal}}">👀 看華語佮台文</button>
       <button class="rl-btn rl-btn-ghost" style="border:2px solid #B6CFC3;border-radius:16px;padding:13px 20px;font-weight:900;background:#fff;color:#278777;cursor:pointer;font-family:inherit;font-size:15px;" onClick="{{resetAll}}">↻ 重設</button>
       <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;color:#456C65;min-height:52px;">
@@ -89,12 +90,13 @@
           <div style="border:2px solid #E88B4A;border-radius:10px;padding:10px 12px;font-weight:800;font-size:17px;margin-bottom:12px;">{{answerWord}}</div>
           <div style="font-size:12px;color:#8A6418;font-weight:800;margin-bottom:4px;">台羅</div>
           <div style="border:2px solid #E5B547;border-radius:10px;padding:10px 12px;font-weight:800;font-size:17px;">{{answerRoman}}</div>
+          <div style="margin-top:12px;"><button style="{{voiceBtnStyle}}" onClick="{{playVoice}}">{{voiceLabel}}</button></div>
         </div>
       </div>
     </sc-if>
 
     <div style="width:100%;max-width:760px;margin:16px auto 0;background:#FFF3D8;border:1px solid #F4DDA7;border-radius:14px;padding:14px 16px;font-size:13px;color:#755832;line-height:1.8;">
-      <strong>💡 玩法</strong>：按「開始」，蔬果佮台羅會做伙隨機走馬燈；閣按一擺（停止）就定落來，予學生看台羅、參考右側的聲母、韻母佮聲調表，唸出這个蔬果。欲對照華語佮台文，就按「看華語佮台文」。
+      <strong>💡 玩法</strong>：按「開始」，蔬果佮台羅會做伙隨機走馬燈；閣按一擺（停止）就定落來，予學生看台羅、參考右側的聲母、韻母佮聲調表，唸出這个蔬果。欲對照華語佮台文，就按「看華語佮台文」。家己唸了，閣按「🔊 聽發音」聽看唸了著毋著。
     </div>
 
   </div>
@@ -124,7 +126,7 @@ const VEGGIES = [
   { zh:'菠菜', word:'菠薐仔', roman:'pue-lîng-á', image:'images/vegr-19.png' },
   { zh:'芭樂', word:'菝仔', roman:'pua̍t-á', image:'images/vegr-20.png' },
   { zh:'青椒', word:'大同仔', roman:'tāi-tông-á', image:'images/vegr-21.png' },
-  { zh:'蓮霧', word:'蓮霧', roman:'liân-bū', image:'images/vegr-22.png' },
+  { zh:'蓮霧', word:'蓮霧', roman:'lián-bū', image:'images/vegr-22.png' },
   { zh:'匏瓜', word:'匏仔', roman:'pû-á', image:'images/vegr-23.png' },
   { zh:'嫩薑', word:'茈薑', roman:'tsínn-kiunn', image:'images/vegr-24.png' },
   { zh:'葡萄', word:'葡萄', roman:'phû-tô', image:'images/vegr-25.png' },
@@ -155,15 +157,33 @@ const VEGGIES = [
   { zh:'橘子', word:'柑仔', roman:'kam-á', image:'images/vegr-50.png' },
 ];
 
+// ── 讀音：教育部《臺灣台語常用詞辭典》音檔，放佇 audio/tshai-sik/，檔名就是台文（例：西瓜.mp3）。
+// 辭典無收的詞，老師家己錄音，用仝款的檔名囥入去就會自動播。
+const AUDIO_DIR = 'audio/tshai-sik/';
+function audioFor(x) { return x ? AUDIO_DIR + x.word.split('／')[0].trim() + '.mp3' : ''; }
+
 class Component extends DCLogic {
   state = { running: false, index: null, speed: 50, showAnswer: false };
   rafId = null;
   isRunning = false;
 
-  componentWillUnmount() { this.isRunning = false; cancelAnimationFrame(this.rafId); }
+  voice = null;
+  stopVoice() { try { if (this.voice) { this.voice.onended = this.voice.onerror = null; this.voice.pause(); } } catch (e) {} this.voice = null; }
+  playVoice(x, auto) {
+    if (!x || (auto && this.state.soundOn === false)) return;
+    this.stopVoice();
+    const a = new Audio(audioFor(x)); this.voice = a;
+    this.setState({ voicePlaying: true, voiceMissing: false });
+    a.onended = () => { if (this.voice === a) this.setState({ voicePlaying: false }); };
+    a.onerror = () => { if (this.voice === a) this.setState({ voicePlaying: false, voiceMissing: true }); };
+    const p = a.play();
+    if (p && p.catch) p.catch(() => { if (this.voice === a) this.setState({ voicePlaying: false }); });
+  }
+  componentWillUnmount() { this.stopVoice();  this.isRunning = false; cancelAnimationFrame(this.rafId); }
 
   start() {
     cancelAnimationFrame(this.rafId);
+    this.stopVoice(); this.setState({ voicePlaying: false, voiceMissing: false });
     this.isRunning = true;
     const interval = Number(this.state.speed);
     let last = 0;
@@ -184,7 +204,7 @@ class Component extends DCLogic {
   stop() { this.isRunning = false; cancelAnimationFrame(this.rafId); this.setState({ running: false }); }
   toggleRun() { if (this.state.running) this.stop(); else this.start(); }
   reveal() { if (this.state.index !== null) { this.stop(); this.setState({ showAnswer: true }); } }
-  resetAll() { this.isRunning = false; cancelAnimationFrame(this.rafId); this.setState({ running: false, index: null, showAnswer: false }); }
+  resetAll() { this.stopVoice(); this.setState({ voicePlaying: false, voiceMissing: false }); this.isRunning = false; cancelAnimationFrame(this.rafId); this.setState({ running: false, index: null, showAnswer: false }); }
 
   renderVals() {
     const s = this.state;
@@ -201,6 +221,9 @@ class Component extends DCLogic {
       toggleRun: () => this.toggleRun(), reveal: () => this.reveal(), resetAll: () => this.resetAll(),
       speed: s.speed, onSpeedChange: (e) => { this.setState({ speed: e.target.value }, () => { if (this.state.running) this.start(); }); },
       showAnswer: s.showAnswer && !!cur,
+      voiceLabel: s.voiceMissing ? '🔇 這个詞猶未有音檔' : (s.voicePlaying ? '🔊 播放中…' : '🔊 聽發音'),
+      voiceBtnStyle: `display:flex;align-items:center;justify-content:center;gap:6px;width:100%;border:2px solid ${s.voiceMissing ? '#E4E5DD' : '#F4C65D'};border-radius:14px;padding:12px;min-height:50px;margin-bottom:10px;font-weight:900;font-size:15.5px;background:${s.voiceMissing ? '#F4F4EF' : '#FFF6DC'};color:${s.voiceMissing ? '#8A948E' : '#7A5A10'};cursor:pointer;font-family:inherit;`,
+      canListen: !s.running && !!cur, playVoice: () => this.playVoice(cur, false),
       answerZh: cur ? cur.zh : '', answerWord: cur ? cur.word : '', answerRoman: cur ? cur.roman : '',
     };
   }

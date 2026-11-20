@@ -161,6 +161,7 @@
                   <div style="border:2px solid #E5B547;border-radius:10px;padding:10px 12px;font-weight:800;font-size:16.5px;">{{resultRoman}}</div>
                 </div>
               </div>
+              <button style="{{voiceBtnStyle}}" onClick="{{playVoiceQ}}">{{voiceLabel}}</button>
               <button style="width:100%;border:0;border-radius:14px;padding:14px;min-height:50px;font-weight:900;font-size:15.5px;background:#278777;color:#fff;cursor:pointer;font-family:inherit;" onClick="{{nextQuestion}}">下一題 →</button>
             </div>
           </div>
@@ -193,6 +194,7 @@
               <div style="font-size:30px;font-weight:900;">{{rapidWord}}</div>
               <div style="font-size:24px;color:#278777;font-weight:900;margin-top:4px;">{{rapidRoman}}</div>
               <div style="margin-top:8px;color:#66766D;">{{rapidZh}}</div>
+              <div style="max-width:260px;margin:14px auto 0;"><button style="{{voiceBtnStyle}}" onClick="{{playVoiceR}}">{{voiceLabel}}</button></div>
             </div>
           </sc-if>
           <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:18px;">
@@ -256,6 +258,11 @@ function buildOptions(round, x) {
   return shuffle([x.roman, wrong.roman]);
 }
 
+// ── 讀音：教育部《臺灣台語常用詞辭典》音檔，放佇 audio/tshai-sik/，檔名就是台文（例：西瓜.mp3）。
+// 辭典無收的詞，老師家己錄音，用仝款的檔名囥入去就會自動播。
+const AUDIO_DIR = 'audio/tshai-sik/';
+function audioFor(x) { return x ? AUDIO_DIR + x.word.split('／')[0].trim() + '.mp3' : ''; }
+
 class Component extends DCLogic {
   state = {
     currentRound: 1, screen: 'quiz', Q: questionsForRound(1), soundOn: true, currentOptions: buildOptions(1, questionsForRound(1)[0]),
@@ -265,6 +272,18 @@ class Component extends DCLogic {
   };
   timerId = null;
   audioCtx = null;
+  voice = null;
+  stopVoice() { try { if (this.voice) { this.voice.onended = this.voice.onerror = null; this.voice.pause(); } } catch (e) {} this.voice = null; }
+  playVoice(x, auto) {
+    if (!x || (auto && this.state.soundOn === false)) return;
+    this.stopVoice();
+    const a = new Audio(audioFor(x)); this.voice = a;
+    this.setState({ voicePlaying: true, voiceMissing: false });
+    a.onended = () => { if (this.voice === a) this.setState({ voicePlaying: false }); };
+    a.onerror = () => { if (this.voice === a) this.setState({ voicePlaying: false, voiceMissing: true }); };
+    const p = a.play();
+    if (p && p.catch) p.catch(() => { if (this.voice === a) this.setState({ voicePlaying: false }); });
+  }
 
   componentWillUnmount() { clearInterval(this.timerId); }
 
@@ -301,6 +320,7 @@ class Component extends DCLogic {
 
   selectRound(round) {
     if (this.state.playLocked) return;
+    this.stopVoice(); this.setState({ voicePlaying: false, voiceMissing: false });
     clearInterval(this.timerId);
     const Q = questionsForRound(round);
     this.setState({
@@ -318,6 +338,8 @@ class Component extends DCLogic {
   }
   quizTimeout() {
     if (this.state.locked) return;
+    const tx = this.state.Q[this.state.i];
+    setTimeout(() => this.playVoice(tx, true), 600);
     this.setState({ locked: true, phase: 'feedback', playLocked: false, correctlyAnswered: false });
   }
   choose(roman) {
@@ -327,6 +349,7 @@ class Component extends DCLogic {
     if (roman === x.roman) {
       clearInterval(this.timerId);
       this.correctSound();
+      setTimeout(() => this.playVoice(x, true), 450);
       this.setState({ locked: true, score: this.state.score + 1, phase: 'feedback', playLocked: false, correctlyAnswered: true });
     } else {
       this.wrongSound();
@@ -336,6 +359,7 @@ class Component extends DCLogic {
   }
   nextQuestion() {
     clearInterval(this.timerId);
+    this.stopVoice(); this.setState({ voicePlaying: false, voiceMissing: false });
     if (this.state.i < this.state.Q.length - 1) {
       const nextX = this.state.Q[this.state.i + 1];
       this.setState({ i: this.state.i + 1, locked: false, wrongPick: null, phase: 'start', timeLeft: QUIZ_SECONDS, correctlyAnswered: false, currentOptions: buildOptions(this.state.currentRound, nextX) });
@@ -352,9 +376,10 @@ class Component extends DCLogic {
     this.setState({ rapidPhase: 'waiting', playLocked: true });
     this.startTimer(RAPID_SECONDS, () => this.revealRapid(), true);
   }
-  revealRapid() { clearInterval(this.timerId); this.setState({ rapidPhase: 'revealed', playLocked: false }); }
+  revealRapid() { clearInterval(this.timerId); this.playVoice(this.state.rapidList[this.state.ri], true); this.setState({ rapidPhase: 'revealed', playLocked: false }); }
   nextRapid() {
     clearInterval(this.timerId);
+    this.stopVoice(); this.setState({ voicePlaying: false, voiceMissing: false });
     if (this.state.ri < 1) this.setState({ ri: this.state.ri + 1, rapidPhase: 'start', rapidTimeLeft: RAPID_SECONDS });
     else this.setState({ screen: 'done', playLocked: false });
   }
@@ -426,6 +451,10 @@ class Component extends DCLogic {
       doneTitle: `🏆 第${s.currentRound}回合完成`,
       showNextRoundBtn: s.currentRound < TOTAL_ROUNDS, nextRound: () => this.nextRound(),
       restartRound: () => this.restartRound(),
+      voiceLabel: s.voiceMissing ? '🔇 這个詞猶未有音檔' : (s.voicePlaying ? '🔊 播放中…' : '🔊 聽發音'),
+      voiceBtnStyle: `display:flex;align-items:center;justify-content:center;gap:6px;width:100%;border:2px solid ${s.voiceMissing ? '#E4E5DD' : '#F4C65D'};border-radius:14px;padding:12px;min-height:50px;margin-bottom:10px;font-weight:900;font-size:15.5px;background:${s.voiceMissing ? '#F4F4EF' : '#FFF6DC'};color:${s.voiceMissing ? '#8A948E' : '#7A5A10'};cursor:pointer;font-family:inherit;`,
+      playVoiceQ: () => this.playVoice(x, false),
+      playVoiceR: () => this.playVoice(rx, false),
       showResultPanel: showFeedbackNow && x,
       resultHeaderBg: s.correctlyAnswered ? '#278777' : '#C96E2F',
       resultHeaderText: s.correctlyAnswered ? '🎨 答對囉！ 🎉' : '⏰ 時間到！',

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<meta name="author" content="張鈺聆">
+<meta name="copyright" content="© 張鈺聆">
+<script src="./author-credit.js"></script>
+<!-- 網站介面、功能與教學整合設計／製作：張鈺聆　Copyright © 張鈺聆. All rights reserved.
+     「張鈺聆 製」係指介面設計、功能整合、互動設計與教學資源整合；
+     教材、課文、音檔、圖片、辭典資料等第三方素材之著作權仍屬原權利人所有。
+     完整版權宣告見 author-credit.js。 -->
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H3X7ZH5XL6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-H3X7ZH5XL6');
+</script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  .ls-wrap,.ls-wrap *{box-sizing:border-box;}
+  .ls-opt{transition:.15s ease;}
+  @media(hover:hover){ .ls-opt:hover:not(:disabled){transform:translateY(-3px);border-color:#55A99C;} .ls-round:hover{border-color:#55A99C;} }
+  button:focus-visible{outline:3px solid #F4C65D;outline-offset:2px;}
+  @keyframes ls-shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+  @keyframes ls-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+  .ls-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;}
+  @media(min-width:900px){ .ls-grid{grid-template-columns:repeat(4,minmax(0,1fr));} }
+</style>
+</helmet>
+<div class="ls-wrap" style="font-family:'Noto Sans TC',sans-serif;color:#263B37;width:100%;">
+  <div style="width:100%;max-width:1240px;margin:auto;padding:4px 0 8px;">
+
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap;background:#fff;border:1px solid #E8E6D9;border-radius:18px;padding:12px 16px;box-shadow:0 6px 16px rgba(38,78,71,.06);">
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+        <span style="font-size:24px;line-height:1.2;">👂🥬</span>
+        <span style="font-size:21px;font-weight:900;color:#254E47;">菜蔬果子聽聲挑戰</span>
+        <span style="background:#55A99C;color:#fff;border-radius:999px;padding:5px 13px;font-weight:900;font-size:13px;">{{roundBadge}}</span>
+      </div>
+      <span style="background:#FFF6DC;color:#7A5A10;border:2px solid #F4C65D;border-radius:999px;padding:6px 14px;font-weight:900;font-size:14px;">⭐ {{scoreText}}</span>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;align-items:center;">
+      <span style="font-size:12.5px;font-weight:900;letter-spacing:.1em;color:#456C65;margin-right:4px;">選擇回合</span>
+      <sc-for list="{{roundBtns}}" as="rb" hint-placeholder-count="5">
+        <button class="ls-round" style="{{rb.style}}" onClick="{{rb.onClick}}">{{rb.label}}</button>
+      </sc-for>
+    </div>
+
+    <sc-if value="{{screenPlay}}">
+      <div style="background:#fff;border:1px solid #E4E5DD;border-radius:22px;padding:22px;box-shadow:0 10px 26px rgba(38,78,71,.10);">
+        <div style="display:flex;justify-content:center;gap:7px;margin-bottom:14px;">
+          <sc-for list="{{dots}}" as="d" hint-placeholder-count="5"><span style="{{d.style}}"></span></sc-for>
+        </div>
+        <div style="text-align:center;font-weight:800;color:#456C65;margin-bottom:12px;">👂 聽發音，揀出正確的圖</div>
+        <div style="display:flex;justify-content:center;margin-bottom:20px;">
+          <button style="{{playBtnStyle}}" onClick="{{playNow}}">{{playLabel}}</button>
+        </div>
+        <div class="ls-grid">
+          <sc-for list="{{opts}}" as="o" hint-placeholder-count="4">
+            <button class="ls-opt" style="{{o.style}}" onClick="{{o.onClick}}" disabled="{{o.disabled}}">
+              <img src="{{o.src}}" alt="" style="width:100%;aspect-ratio:6/5;object-fit:contain;display:block;border-radius:12px;background:#fff;">
+              <sc-if value="{{o.showLabel}}"><div style="{{o.labelStyle}}">{{o.label}}</div></sc-if>
+            </button>
+          </sc-for>
+        </div>
+        <sc-if value="{{showFeedback}}">
+          <div style="margin:18px auto 0;max-width:560px;border:2px solid #55A99C;background:#EAF6F1;border-radius:18px;padding:14px 18px;text-align:center;">
+            <div style="font-size:18px;font-weight:900;color:#236B60;">{{feedbackTitle}}</div>
+            <div style="margin-top:6px;font-size:22px;font-weight:900;color:#254E47;">{{answerWord}}　<span style="color:#B15F2A;">{{answerRoman}}</span></div>
+            <div style="margin-top:2px;color:#66766D;font-weight:700;">{{answerZh}}</div>
+            <button style="margin-top:12px;border:0;border-radius:14px;padding:13px 26px;min-height:50px;font-weight:900;font-size:15.5px;background:#278777;color:#fff;cursor:pointer;font-family:inherit;" onClick="{{next}}">{{nextLabel}}</button>
+          </div>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{screenDone}}">
+      <div style="background:#fff;border:1px solid #E4E5DD;border-radius:22px;padding:30px 22px;text-align:center;box-shadow:0 10px 26px rgba(38,78,71,.10);">
+        <div style="font-size:44px;">🎉</div>
+        <div style="font-size:22px;font-weight:900;color:#254E47;margin-top:6px;">{{doneTitle}}</div>
+        <div style="color:#66766D;font-weight:700;margin-top:6px;">{{doneText}}</div>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px;">
+          <button style="border:2px solid #B6CFC3;border-radius:16px;padding:13px 20px;font-weight:900;background:#fff;color:#278777;cursor:pointer;font-family:inherit;" onClick="{{again}}">↻ 閣聽一擺</button>
+          <sc-if value="{{hasNextRound}}"><button style="border:0;border-radius:16px;padding:13px 20px;font-weight:900;background:#278777;color:#fff;cursor:pointer;font-family:inherit;" onClick="{{nextRound}}">下一回合 →</button></sc-if>
+        </div>
+      </div>
+    </sc-if>
+
+    <div style="width:100%;max-width:760px;margin:16px auto 0;background:#FFF3D8;border:1px solid #F4DDA7;border-radius:14px;padding:14px 16px;font-size:13px;color:#755832;line-height:1.8;">
+      <strong>💡 玩法</strong>：每題會先唸一擺，聽無清楚就閣按「🔊 閣聽一擺」。佇四張圖內底揀出你聽著的物件，揀毋著會使閣揀；一擺就揀著才算分。
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+// 聽聲挑戰：聽教育部辭典音檔 → 揀出正確的圖。題目資料對「菜蔬果子大挑戰」來。
+const AUDIO_DIR = 'audio/tshai-sik/';
+const BANK = [{"round": 1, "zh": "西瓜", "word": "西瓜", "roman": "si-kue", "image": "images/veg-01.png"}, {"round": 1, "zh": "青江菜", "word": "湯匙仔菜", "roman": "thng-sî-á-tshài", "image": "images/veg-02.png"}, {"round": 1, "zh": "番茄", "word": "臭柿仔", "roman": "tshàu-khī-á", "image": "images/veg-03.png"}, {"round": 1, "zh": "小黃瓜", "word": "瓜仔哖", "roman": "kue-á-nî", "image": "images/veg-04.png"}, {"round": 1, "zh": "香蕉", "word": "弓蕉", "roman": "king-tsio", "image": "images/veg-05.png"}, {"round": 2, "zh": "高麗菜", "word": "高麗菜", "roman": "ko-lê-tshài", "image": "images/veg-06.png"}, {"round": 2, "zh": "百香果", "word": "時計果", "roman": "sî-kè-kó", "image": "images/veg-07.png"}, {"round": 2, "zh": "茄子", "word": "茄", "roman": "kiô", "image": "images/veg-08.png"}, {"round": 2, "zh": "香菜", "word": "芫荽", "roman": "iân-sui", "image": "images/veg-09.png"}, {"round": 2, "zh": "鳳梨", "word": "王梨", "roman": "ông-lâi", "image": "images/veg-10.png"}, {"round": 3, "zh": "大黃瓜", "word": "刺瓜仔", "roman": "tshì-kue-á", "image": "images/veg-11.png"}, {"round": 3, "zh": "荔枝", "word": "荔枝", "roman": "nāi-tsi", "image": "images/veg-12.png"}, {"round": 3, "zh": "四季豆", "word": "菜豆", "roman": "tshài-tāu", "image": "images/veg-13.png"}, {"round": 3, "zh": "白蘿蔔", "word": "菜頭", "roman": "tshài-thâu", "image": "images/veg-14.png"}, {"round": 3, "zh": "芒果", "word": "檨仔", "roman": "suāinn-á", "image": "images/veg-15.png"}, {"round": 4, "zh": "空心菜", "word": "蕹菜", "roman": "ìng-tshài", "image": "images/veg-16.png"}, {"round": 4, "zh": "龍眼", "word": "龍眼", "roman": "lîng-gíng", "image": "images/veg-17.png"}, {"round": 4, "zh": "苦瓜", "word": "苦瓜", "roman": "khóo-kue", "image": "images/veg-18.png"}, {"round": 4, "zh": "菠菜", "word": "菠薐仔", "roman": "pue-lîng-á", "image": "images/veg-19.png"}, {"round": 4, "zh": "芭樂", "word": "菝仔", "roman": "pua̍t-á", "image": "images/veg-20.png"}, {"round": 5, "zh": "青椒", "word": "大同仔", "roman": "tāi-tông-á", "image": "images/veg-21.png"}, {"round": 5, "zh": "蓮霧", "word": "蓮霧", "roman": "lián-bū", "image": "images/veg-22.png"}, {"round": 5, "zh": "匏瓜", "word": "匏仔", "roman": "pû-á", "image": "images/veg-23.png"}, {"round": 5, "zh": "嫩薑", "word": "茈薑", "roman": "tsínn-kiunn", "image": "images/veg-24.png"}, {"round": 5, "zh": "葡萄", "word": "葡萄", "roman": "phû-tô", "image": "images/veg-25.png"}, {"round": 6, "zh": "辣椒", "word": "番薑仔", "roman": "huan-kiunn-á", "image": "images/veg-26.png"}, {"round": 6, "zh": "香瓜", "word": "芳瓜", "roman": "phang-kue", "image": "images/veg-27.png"}, {"round": 6, "zh": "冬瓜", "word": "冬瓜", "roman": "tang-kue", "image": "images/veg-28.png"}, {"round": 6, "zh": "茼蒿", "word": "苳蒿", "roman": "tang-o", "image": "images/veg-29.png"}, {"round": 6, "zh": "柳丁", "word": "柳丁", "roman": "liú-ting", "image": "images/veg-30.png"}, {"round": 7, "zh": "老薑", "word": "薑母", "roman": "kiunn-bó", "image": "images/veg-31.png"}, {"round": 7, "zh": "奇異果", "word": "猴頭果", "roman": "kâu-thâu-kó", "image": "images/veg-32.png"}, {"round": 7, "zh": "南瓜", "word": "金瓜", "roman": "kim-kue", "image": "images/veg-33.png"}, {"round": 7, "zh": "牛蒡", "word": "疼某菜", "roman": "thiànn-bóo-tshài", "image": "images/veg-34.png"}, {"round": 7, "zh": "蘋果", "word": "蘋果", "roman": "phông-kó", "image": "images/veg-35.png"}, {"round": 8, "zh": "秋葵", "word": "角豆", "roman": "kak-tāu", "image": "images/veg-36.png"}, {"round": 8, "zh": "絲瓜", "word": "菜瓜", "roman": "tshài-kue", "image": "images/veg-37.png"}, {"round": 8, "zh": "花生", "word": "塗豆", "roman": "thôo-tāu", "image": "images/veg-38.png"}, {"round": 8, "zh": "水梨", "word": "水梨仔", "roman": "tsuí-lâi-á", "image": "images/veg-39.png"}, {"round": 8, "zh": "竹筍", "word": "竹筍", "roman": "tik-sún", "image": "images/veg-40.png"}, {"round": 9, "zh": "韭菜", "word": "韭菜", "roman": "kú-tshài", "image": "images/veg-41.png"}, {"round": 9, "zh": "木瓜", "word": "木瓜", "roman": "bo̍k-kue", "image": "images/veg-42.png"}, {"round": 9, "zh": "芹菜", "word": "芹菜", "roman": "khîn-tshài", "image": "images/veg-43.png"}, {"round": 9, "zh": "地瓜", "word": "番薯", "roman": "han-tsî", "image": "images/veg-44.png"}, {"round": 9, "zh": "草莓", "word": "草莓", "roman": "tsháu-m̂", "image": "images/veg-45.png"}, {"round": 10, "zh": "花椰菜", "word": "花菜", "roman": "hue-tshài", "image": "images/veg-46.png"}, {"round": 10, "zh": "芋頭", "word": "芋", "roman": "ōo", "image": "images/veg-47.png"}, {"round": 10, "zh": "玉米", "word": "番麥", "roman": "huan-be̍h", "image": "images/veg-48.png"}, {"round": 10, "zh": "胡蘿蔔", "word": "紅菜頭", "roman": "âng-tshài-thâu", "image": "images/veg-49.png"}, {"round": 10, "zh": "橘子", "word": "柑仔", "roman": "kam-á", "image": "images/veg-50.png"}];
+const PER_ROUND = 5;
+const ROUNDS = Math.max(...BANK.map(x => x.round));
+const shuffle = a => { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
+function makeQuestions(round) {
+  return shuffle(BANK.filter(x => x.round === round)).slice(0, PER_ROUND).map(x => ({
+    x, opts: shuffle([x, ...shuffle(BANK.filter(y => y.word !== x.word)).slice(0, 3)]),
+  }));
+}
+
+class Component extends DCLogic {
+  state = { round: 1, Q: makeQuestions(1), i: 0, score: 0, wrong: [], solved: false, firstTry: true, done: false, playing: false, missing: false };
+  voice = null;
+  componentDidMount() { this.autoPlay(); }
+  componentWillUnmount() { this.stop(); clearTimeout(this.t); }
+  stop() { try { if (this.voice) { this.voice.onended = this.voice.onerror = null; this.voice.pause(); } } catch (e) {} this.voice = null; }
+  play() {
+    const q = this.state.Q[this.state.i]; if (!q) return;
+    this.stop();
+    const a = new Audio(AUDIO_DIR + q.x.word + '.mp3'); this.voice = a;
+    this.setState({ playing: true, missing: false });
+    a.onended = () => { if (this.voice === a) this.setState({ playing: false }); };
+    a.onerror = () => { if (this.voice === a) this.setState({ playing: false, missing: true }); };
+    const p = a.play(); if (p && p.catch) p.catch(() => { if (this.voice === a) this.setState({ playing: false }); });
+  }
+  autoPlay() { clearTimeout(this.t); this.t = setTimeout(() => this.play(), 350); }
+  pick(o) {
+    const s = this.state, q = s.Q[s.i];
+    if (s.solved || s.wrong.includes(o.word)) return;
+    if (o.word === q.x.word) this.setState({ solved: true, score: s.score + (s.firstTry ? 1 : 0) });
+    else this.setState({ wrong: [...s.wrong, o.word], firstTry: false });
+  }
+  next() {
+    const s = this.state;
+    if (s.i + 1 >= s.Q.length) { this.stop(); return this.setState({ done: true }); }
+    this.setState({ i: s.i + 1, wrong: [], solved: false, firstTry: true }, () => this.autoPlay());
+  }
+  start(round) { this.stop(); this.setState({ round, Q: makeQuestions(round), i: 0, score: 0, wrong: [], solved: false, firstTry: true, done: false }, () => this.autoPlay()); }
+
+  renderVals() {
+    const s = this.state, q = s.Q[s.i];
+    const opts = q ? q.opts.map(o => {
+      const isAns = o.word === q.x.word, isWrong = s.wrong.includes(o.word);
+      const border = s.solved && isAns ? '#278777' : (isWrong ? '#E2A28A' : '#E4E5DD');
+      const bg = s.solved && isAns ? '#EAF6F1' : (isWrong ? '#FBEDE7' : '#fff');
+      return {
+        src: o.image, onClick: () => this.pick(o), disabled: s.solved || isWrong,
+        showLabel: (s.solved && isAns) || isWrong, label: isWrong ? '✗ ' + o.word : '✓ ' + o.word,
+        labelStyle: `margin-top:8px;font-weight:900;font-size:15px;color:${isWrong ? '#B15F2A' : '#236B60'};`,
+        style: `display:block;width:100%;border:3px solid ${border};background:${bg};border-radius:18px;padding:10px;cursor:${s.solved || isWrong ? 'default' : 'pointer'};font-family:inherit;opacity:${isWrong ? .55 : 1};${isWrong ? 'animation:ls-shake .3s;' : ''}`,
+      };
+    }) : [];
+    return {
+      roundBadge: `第${s.round}回合`,
+      scoreText: `${s.score} / ${s.Q.length}`,
+      roundBtns: Array.from({ length: ROUNDS }, (_, k) => ({
+        label: `第${k + 1}回合`, onClick: () => this.start(k + 1),
+        style: `border:2px solid ${k + 1 === s.round ? '#55A99C' : '#E4E5DD'};background:${k + 1 === s.round ? '#EAF6F1' : '#fff'};color:#254E47;border-radius:12px;padding:9px 14px;min-height:44px;font-weight:900;font-size:13.5px;cursor:pointer;font-family:inherit;`,
+      })),
+      dots: s.Q.map((_, k) => ({ style: `width:12px;height:12px;border-radius:50%;background:${k < s.i || (k === s.i && s.solved) ? '#55A99C' : (k === s.i ? '#F4C65D' : '#E4E5DD')};` })),
+      screenPlay: !s.done, screenDone: s.done,
+      playNow: () => this.play(),
+      playLabel: s.missing ? '🔇 這个詞猶未有音檔' : (s.playing ? '🔊 播放中…' : '🔊 閣聽一擺'),
+      playBtnStyle: `border:0;border-radius:999px;padding:16px 34px;min-height:60px;font-weight:900;font-size:19px;background:${s.missing ? '#E4E5DD' : 'linear-gradient(110deg,#F4C65D,#E8B03E)'};color:${s.missing ? '#66766D' : '#4A3A0E'};cursor:pointer;font-family:inherit;box-shadow:0 8px 18px rgba(232,176,62,.30);${s.playing ? 'animation:ls-pulse .8s infinite;' : ''}`,
+      opts,
+      showFeedback: s.solved,
+      feedbackTitle: s.firstTry ? '✅ 一擺就揀著，讚！' : '✅ 揀著矣！',
+      answerWord: q ? q.x.word : '', answerRoman: q ? q.x.roman : '', answerZh: q ? q.x.zh : '',
+      next: () => this.next(),
+      nextLabel: s.i + 1 >= s.Q.length ? '看結果 →' : '下一題 →',
+      doneTitle: `第${s.round}回合完成！`,
+      doneText: `一擺就揀著 ${s.score} 題，總共 ${s.Q.length} 題。`,
+      again: () => this.start(s.round),
+      hasNextRound: s.round < ROUNDS, nextRound: () => this.start(s.round + 1),
+    };
+  }
+}
+</script>
+</body>
+</html>

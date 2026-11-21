@@ -97,6 +97,14 @@
 
       <sc-if value="{{tab.activeBasic}}">
         <div style="background:#fff;border:1px solid #E8E6D9;border-radius:26px;padding:26px;box-shadow:0 12px 32px rgba(38,78,71,.10);">
+          <div style="font-size:13px;font-weight:900;letter-spacing:.12em;color:#456C65;margin-bottom:10px;">① 揀主題</div>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:24px;">
+            <sc-for list="{{themes}}" as="th" hint-placeholder-count="7">
+              <button class="ca-tab" style="{{th.style}}" onClick="{{th.onClick}}"><img src="{{th.src}}" alt="" style="width:32px;height:32px;object-fit:contain;">{{th.label}}</button>
+            </sc-for>
+          </div>
+          <div style="font-size:13px;font-weight:900;letter-spacing:.12em;color:#456C65;margin-bottom:12px;padding-top:20px;border-top:1px dashed #E8DAC6;">② 揀關卡</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;">
           <sc-for list="{{groups}}" as="grp" hint-placeholder-count="2">
             <div style="{{grp.wrapStyle}}">
               <div style="display:flex;align-items:center;gap:10px;margin-bottom:13px;">
@@ -118,9 +126,49 @@
               </div>
             </div>
           </sc-for>
+          </div>
         </div>
       </sc-if>
 
+      <sc-if value="{{tab.activeHomeGame}}">
+        <dc-import name="厝內大挑戰" hint-size="100%,900px"></dc-import>
+      </sc-if>
+      <sc-if value="{{tab.activeHomeRoulette}}">
+        <dc-import name="厝內走馬燈" hint-size="100%,900px"></dc-import>
+      </sc-if>
+      <sc-if value="{{tab.activeSchoolGame}}">
+        <dc-import name="學校大挑戰" hint-size="100%,900px"></dc-import>
+      </sc-if>
+      <sc-if value="{{tab.activeSchoolRoulette}}">
+        <dc-import name="學校走馬燈" hint-size="100%,900px"></dc-import>
+      </sc-if>
+      <sc-if value="{{tab.activeSportGame}}">
+        <dc-import name="運動大挑戰" hint-size="100%,900px"></dc-import>
+      </sc-if>
+      <sc-if value="{{tab.activeSportRoulette}}">
+        <dc-import name="運動走馬燈" hint-size="100%,900px"></dc-import>
+      </sc-if>
+      <sc-if value="{{tab.activeVegListen}}">
+        <dc-import name="菜蔬果子聽聲挑戰" hint-size="100%,900px"></dc-import>
+      </sc-if>
+      <sc-if value="{{tab.activeColorListen}}">
+        <dc-import name="色水聽聲挑戰" hint-size="100%,900px"></dc-import>
+      </sc-if>
+      <sc-if value="{{tab.activeClothListen}}">
+        <dc-import name="衫仔褲聽聲挑戰" hint-size="100%,900px"></dc-import>
+      </sc-if>
+      <sc-if value="{{tab.activeKitchenListen}}">
+        <dc-import name="灶跤聽聲挑戰" hint-size="100%,900px"></dc-import>
+      </sc-if>
+      <sc-if value="{{tab.activeHomeListen}}">
+        <dc-import name="厝內聽聲挑戰" hint-size="100%,900px"></dc-import>
+      </sc-if>
+      <sc-if value="{{tab.activeSchoolListen}}">
+        <dc-import name="學校聽聲挑戰" hint-size="100%,900px"></dc-import>
+      </sc-if>
+      <sc-if value="{{tab.activeSportListen}}">
+        <dc-import name="運動聽聲挑戰" hint-size="100%,900px"></dc-import>
+      </sc-if>
       <sc-if value="{{tab.activeAdvanced}}">
         <div style="background:#fff;border:1px solid #E8E6D9;border-radius:26px;padding:26px;box-shadow:0 12px 32px rgba(38,78,71,.10);">
           <a class="ca-boss" href="進階綜合挑戰.html" style="position:relative;display:flex;flex-direction:column;background:linear-gradient(140deg,#FFF0B9,#FFE0AD);border:2px solid #F0BB60;border-radius:24px;padding:30px 26px 26px;box-shadow:0 12px 28px rgba(215,110,49,.14);cursor:pointer;overflow:hidden;">
@@ -151,6 +199,12 @@
       <sc-if value="{{tab.activeClothRoulette}}">
         <dc-import name="衫仔褲走馬燈" hint-size="100%,900px"></dc-import>
       </sc-if>
+      <sc-if value="{{tab.activeKitchenGame}}">
+        <dc-import name="灶跤大挑戰" hint-size="100%,900px"></dc-import>
+      </sc-if>
+      <sc-if value="{{tab.activeKitchenRoulette}}">
+        <dc-import name="灶跤走馬燈" hint-size="100%,900px"></dc-import>
+      </sc-if>
 
     </sc-for>
 
@@ -171,17 +225,50 @@ const GAME_META = {
   vegRoulette: { pics: ['ferris-wheel', 'leafy-green'], icon: '🎡🥬', name: '蔬果走馬燈',     how: '停格 → 看台羅講蔬果' },
   cloth:       { pics: ['coat', 'jeans'], icon: '🧥👖', name: '衫仔褲大挑戰',   how: '看圖 → 選出台羅' },
   clothRoulette: { pics: ['ferris-wheel', 'jeans'], icon: '🎡👖', name: '衫仔褲走馬燈', how: '停格 → 看台羅講衫仔褲' },
+  kitchen: { pics: ['cooking', 'chopsticks'], icon: '🍳🥢', name: '灶跤大挑戰', how: '看圖 → 選出台羅' },
+  kitchenRoulette: { pics: ['ferris-wheel', 'chopsticks'], icon: '🎡🥢', name: '灶跤走馬燈', how: '停格 → 看台羅講灶跤物件' },
+  home: { pics: ['house', 'bed'], icon: '🏠🛏️', name: '厝內大挑戰', how: '看圖 → 選出台羅' },
+  homeRoulette: { pics: ['ferris-wheel', 'bed'], icon: '🎡🛏️', name: '厝內走馬燈', how: '停格 → 看台羅講厝內物件' },
+  school: { pics: ['books', 'pencil'], icon: '📚✏️', name: '學校大挑戰', how: '看圖 → 選出台羅' },
+  schoolRoulette: { pics: ['ferris-wheel', 'pencil'], icon: '🎡✏️', name: '學校走馬燈', how: '停格 → 看台羅講學校物件' },
+  sport: { pics: ['basketball', 'sports-medal'], icon: '🏀🏅', name: '運動大挑戰', how: '看圖 → 選出台羅' },
+  sportRoulette: { pics: ['ferris-wheel', 'sports-medal'], icon: '🎡🏅', name: '運動走馬燈', how: '停格 → 看台羅講運動物件' },
+  vegListen: { pics: ['headphone', 'leafy-green'], icon: '🎧', name: '菜蔬果子聽聲挑戰', how: '聽發音 → 揀出正確的圖' },
+  colorListen: { pics: ['headphone', 'palette'], icon: '🎧', name: '色水聽聲挑戰', how: '聽發音 → 揀出正確的圖' },
+  clothListen: { pics: ['headphone', 'coat'], icon: '🎧', name: '衫仔褲聽聲挑戰', how: '聽發音 → 揀出正確的圖' },
+  kitchenListen: { pics: ['headphone', 'cooking'], icon: '🎧', name: '灶跤聽聲挑戰', how: '聽發音 → 揀出正確的圖' },
+  homeListen: { pics: ['headphone', 'house'], icon: '🎧', name: '厝內聽聲挑戰', how: '聽發音 → 揀出正確的圖' },
+  schoolListen: { pics: ['headphone', 'books'], icon: '🎧', name: '學校聽聲挑戰', how: '聽發音 → 揀出正確的圖' },
+  sportListen: { pics: ['headphone', 'basketball'], icon: '🎧', name: '運動聽聲挑戰', how: '聽發音 → 揀出正確的圖' },
 };
 
+// ── 草稿：GAME_META 裡有 draft: true 的遊戲，學生看袂著。
+// 老師欲先看草稿，網址後壁加 ?draft （例：台語挑戰區.dc?draft）。照片換好了，共 draft: true 刪掉就上線。
+const SHOW_DRAFT = (() => { try { return /[?&]draft\b/.test(window.location.search); } catch (e) { return false; } })();
+
+// ── 主題：挑戰區先揀主題，才看彼个主題的關卡。欲加新主題，佇遮加一逝。
+const THEMES = [
+  { label: '菜蔬果子', pic: 'leafy-green', games: ['veggie', 'vegRoulette', 'vegListen'] },
+  { label: '色水',     pic: 'palette',     games: ['color', 'roulette', 'colorListen'] },
+  { label: '衫仔褲',   pic: 'coat',        games: ['cloth', 'clothRoulette', 'clothListen'] },
+  { label: '灶跤',     pic: 'cooking',     games: ['kitchen', 'kitchenRoulette', 'kitchenListen'] },
+  { label: '厝內',     pic: 'house',       games: ['home', 'homeRoulette', 'homeListen'] },
+  { label: '學校',     pic: 'books',       games: ['school', 'schoolRoulette', 'schoolListen'] },
+  { label: '運動',     pic: 'basketball',  games: ['sport', 'sportRoulette', 'sportListen'] },
+];
+const visibleThemes = () => THEMES.filter(t => SHOW_DRAFT || t.games.some(k => !GAME_META[k].draft));
+
 const GROUPS = [
-  { step: '關卡 1', title: '看圖挑戰', hint: '看著圖，揀出正確的台羅', tone: '#278777', keys: ['veggie', 'color', 'cloth'],
+  { step: '關卡 1', title: '看圖挑戰', hint: '看著圖，揀出正確的台羅', tone: '#278777', keys: ['veggie', 'color', 'cloth', 'kitchen', 'home', 'school', 'sport'],
     cardBg: 'linear-gradient(150deg,#F4FAF5,#E0F2EC)', cardBorder: '#CBE9DD', ctaBg: '#278777' },
-  { step: '關卡 2', title: '開喙挑戰', hint: '看著台羅，家己講出來', tone: '#E88B4A', keys: ['roulette', 'vegRoulette', 'clothRoulette'],
+  { step: '關卡 2', title: '開喙挑戰', hint: '看著台羅，家己講出來', tone: '#E88B4A', keys: ['roulette', 'vegRoulette', 'clothRoulette', 'kitchenRoulette', 'homeRoulette', 'schoolRoulette', 'sportRoulette'],
     cardBg: 'linear-gradient(150deg,#FFFCF4,#FFF1D7)', cardBorder: '#F3DFB9', ctaBg: 'linear-gradient(110deg,#E88B4A,#DA753B)' },
+  { step: '關卡 3', title: '聽聲挑戰', hint: '聽著發音，揀出正確的圖', tone: '#55A99C', keys: ['vegListen', 'colorListen', 'clothListen', 'kitchenListen', 'homeListen', 'schoolListen', 'sportListen'],
+    cardBg: 'linear-gradient(150deg,#F2FAF8,#DDF0EB)', cardBorder: '#BFE3DA', ctaBg: '#3E9486' },
 ];
 
 class Component extends DCLogic {
-  state = { activeTab: 0, activeGame: null };
+  state = { activeTab: 0, activeGame: null, activeTheme: 0 };
 
   renderVals() {
     const data = [
@@ -203,6 +290,21 @@ class Component extends DCLogic {
         activeVeggieRoulette: isBasicTab && activeGame === 'vegRoulette',
         activeClothGame: isBasicTab && activeGame === 'cloth',
         activeClothRoulette: isBasicTab && activeGame === 'clothRoulette',
+        activeKitchenGame: isBasicTab && activeGame === 'kitchen',
+        activeKitchenRoulette: isBasicTab && activeGame === 'kitchenRoulette',
+        activeHomeGame: isBasicTab && activeGame === 'home',
+        activeHomeRoulette: isBasicTab && activeGame === 'homeRoulette',
+        activeSchoolGame: isBasicTab && activeGame === 'school',
+        activeSchoolRoulette: isBasicTab && activeGame === 'schoolRoulette',
+        activeSportGame: isBasicTab && activeGame === 'sport',
+        activeSportRoulette: isBasicTab && activeGame === 'sportRoulette',
+        activeVegListen: isBasicTab && activeGame === 'vegListen',
+        activeColorListen: isBasicTab && activeGame === 'colorListen',
+        activeClothListen: isBasicTab && activeGame === 'clothListen',
+        activeKitchenListen: isBasicTab && activeGame === 'kitchenListen',
+        activeHomeListen: isBasicTab && activeGame === 'homeListen',
+        activeSchoolListen: isBasicTab && activeGame === 'schoolListen',
+        activeSportListen: isBasicTab && activeGame === 'sportListen',
         activeAdvanced: active && d.isAdvanced,
         onClick: () => this.setState({ activeTab: i, activeGame: null }),
         btnStyle: `display:flex;align-items:center;padding:16px 18px;border-radius:20px;border:2px solid ${active ? '#254E47' : '#E7DCC9'};font-family:inherit;cursor:pointer;min-height:76px;text-align:left;transition:.16s ease;background:${active ? '#254E47' : '#FFFCF4'};color:${active ? '#fff' : '#385A53'};box-shadow:${active ? '0 10px 22px rgba(37,78,71,.20)' : '0 6px 16px rgba(38,78,71,.05)'};`,
@@ -210,13 +312,25 @@ class Component extends DCLogic {
     });
 
     const goto = (key) => () => this.setState({ activeGame: key });
+    const vt = visibleThemes();
+    const ti = Math.min(this.state.activeTheme, vt.length - 1);
+    const curTheme = vt[ti];
+    const themes = vt.map((t, i) => {
+      const on = i === ti;
+      const draft = t.games.every(k => GAME_META[k].draft);
+      return {
+        label: t.label + (draft ? '（草稿）' : ''), src: `images/icons3d/${t.pic}.webp`,
+        onClick: () => this.setState({ activeTheme: i }),
+        style: `display:flex;align-items:center;gap:8px;padding:9px 16px 9px 10px;min-height:52px;border-radius:999px;border:2px solid ${on ? '#254E47' : '#E7DCC9'};background:${on ? '#254E47' : '#FFFCF4'};color:${on ? '#fff' : '#385A53'};font-family:inherit;font-size:15.5px;font-weight:900;cursor:pointer;transition:.16s ease;box-shadow:${on ? '0 8px 18px rgba(37,78,71,.20)' : 'none'};`,
+      };
+    });
     const groups = GROUPS.map(grp => ({
       step: grp.step, title: grp.title, hint: grp.hint, tone: grp.tone,
-      wrapStyle: grp === GROUPS[0] ? '' : 'margin-top:26px;padding-top:24px;border-top:1px dashed #E8DAC6;',
-      games: grp.keys.map(key => {
+      wrapStyle: '',
+      games: grp.keys.filter(key => curTheme.games.includes(key) && (SHOW_DRAFT || !GAME_META[key].draft)).map(key => {
         const m = GAME_META[key];
         return {
-          icon: m.icon, name: m.name, how: m.how,
+          icon: m.icon, name: m.name + (m.draft ? '（草稿）' : ''), how: m.how,
           pics: m.pics.map(n => ({ src: `images/icons3d/${n}.webp` })),
           onClick: goto(key),
           cardStyle: `background:${grp.cardBg};border:2px solid ${grp.cardBorder};border-radius:22px;padding:24px;box-shadow:0 8px 20px rgba(38,78,71,.06);cursor:pointer;display:flex;flex-direction:column;`,
@@ -228,6 +342,7 @@ class Component extends DCLogic {
     return {
       tabs,
       groups,
+      themes,
       playing: !!activeGame,
       playingName: activeGame ? GAME_META[activeGame].name : '',
       bandText: activeGame

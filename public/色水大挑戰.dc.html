@@ -170,7 +170,7 @@
 
       <sc-if value="{{screenMid}}">
         <div style="text-align:center;padding:40px 10px;">
-          <h2 style="font-size:clamp(28px,4vw,40px);margin:0 0 10px;">🎉 5題完成！</h2>
+          <h2 style="font-size:clamp(28px,4vw,40px);margin:0 0 10px;">🎉 這回合完成！</h2>
           <p style="color:#66766D;margin:0 0 16px;">接落來入去搶答複習。</p>
           <button style="border:0;border-radius:16px;padding:13px 20px;font-weight:900;background:linear-gradient(110deg,#E88B4A,#DA753B);color:#fff;cursor:pointer;font-family:inherit;" onClick="{{enterRapid}}">⚡ 搶答時間！</button>
         </div>
@@ -211,7 +211,7 @@
       <sc-if value="{{screenDone}}">
         <div style="text-align:center;padding:40px 10px;">
           <h2 style="font-size:clamp(28px,4vw,40px);margin:0 0 12px;">{{doneTitle}}</h2>
-          <p style="color:#66766D;">完成 5 題辨識＋2 題搶答。</p>
+          <p style="color:#66766D;">完成這回合的辨識＋2 題搶答。</p>
           <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:18px;">
             <button style="border:2px solid #B6CFC3;border-radius:16px;padding:13px 20px;font-weight:900;background:#fff;color:#278777;cursor:pointer;font-family:inherit;" onClick="{{restartRound}}">↻ 閣耍本回合</button>
             <sc-if value="{{showNextRoundBtn}}">
@@ -237,17 +237,16 @@ const QUESTION_BANK = [
   { round:2, zh:'橘色', word:'柑仔色', roman:'kam-á-sik', image:'images/color-07.png' },
   { round:2, zh:'紫色', word:'紫色', roman:'tsí-sik', image:'images/color-08.png' },
   { round:2, zh:'咖啡色', word:'咖啡色', roman:'ka-pi-sik', image:'images/color-09.png' },
-  { round:2, zh:'粉紅色', word:'粉紅仔色', roman:'hún-âng-á-sik', image:'images/color-10.png' },
-  { round:3, zh:'灰色', word:'鉛色', roman:'iân-sik', image:'images/color-11.png' },
+  { round:2, zh:'粉紅色', word:'粉紅色', roman:'hún-âng-sik', image:'images/color-10.png' },
+  { round:3, zh:'灰色', word:'殕色', roman:'phú-sik', image:'images/color-11.png' },
   { round:3, zh:'水藍色', word:'水色', roman:'tsuí-sik', image:'images/color-12.png' },
   { round:3, zh:'淺綠色', word:'草仔色', roman:'tsháu-á-sik', image:'images/color-13.png' },
   { round:3, zh:'深紫色', word:'茄仔色', roman:'kiô-á-sik', image:'images/color-14.png' },
   { round:3, zh:'膚色／肉色', word:'肉色', roman:'bah-sik', image:'images/color-15.png' },
   { round:4, zh:'米色', word:'米色', roman:'bí-sik', image:'images/color-16.png' },
-  { round:4, zh:'卡其色', word:'卡其色', roman:'khah-khih-sik', image:'images/color-17.png' },
-  { round:4, zh:'靛色／深藍色', word:'靛色', roman:'tīnn-sik', image:'images/color-18.png' },
+  { round:4, zh:'土黃色', word:'塗色', roman:'thôo-sik', image:'images/color-17.png' },
+  { round:4, zh:'深藍色', word:'紺色', roman:'khóng-sik', image:'images/color-18.png' },
   { round:4, zh:'豬肝色', word:'豬肝色', roman:'ti-kuann-sik', image:'images/color-19.png' },
-  { round:4, zh:'鵝黃色', word:'鵝仔黃', roman:'gô-á-n̂g', image:'images/color-20.png' },
 ];
 const QUIZ_SECONDS = 8, RAPID_SECONDS = 5, TOTAL_ROUNDS = 10;
 function shuffle(arr) { return [...arr].sort(() => Math.random() - 0.5); }

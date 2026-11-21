@@ -7,6 +7,7 @@
 <meta name="author" content="張鈺聆">
 <meta name="copyright" content="© 張鈺聆">
 <script src="./author-credit.js"></script>
+<script src="./pass-code.js"></script>
 <!-- 網站介面、功能與教學整合設計／製作：張鈺聆　Copyright © 張鈺聆.
      教材、音檔等第三方素材之著作權仍屬原權利人所有。完整宣告見 author-credit.js。
      本頁遊戲核心整合自「聽聲辨拼音 V1.5 完整遊戲狀態版」；題庫、六關、HP10＋重生×1、錯題追擊、計時、COMBO 未變動。
@@ -436,7 +437,7 @@ function levelClear(){
  }else finish(true);
 }
 function finish(clear){
- clearInterval(timerId);screen("result");
+ clearInterval(timerId);screen("result");if(clear&&window.YJPass)setTimeout(()=>YJPass.award("TS","冒險航線全部完成"),900);
  $("#successResult").style.display=clear?"block":"none";
  $("#failResult").style.display=clear?"none":"block";
  $("#allClearKicker").textContent=`${playable.length} 座島嶼全部完成`;

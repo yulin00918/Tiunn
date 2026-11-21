@@ -119,9 +119,11 @@ function progMark(game, item, goal) {
   try {
     const d = JSON.parse(localStorage.getItem(PROG_KEY) || '{}');
     const g = d[game] || { done: [], goal };
+    const was = g.done.length >= goal;
     if (!g.done.includes(String(item))) g.done.push(String(item));
     g.goal = goal; d[game] = g;
     localStorage.setItem(PROG_KEY, JSON.stringify(d));
+    if (!was && g.done.length >= goal) import('./pass-code.js').then(() => window.YJPass && window.YJPass.award('TZ', game + '　收著 ⭐')).catch(() => {});
   } catch (e) {}
 }
 

@@ -59,6 +59,7 @@ button{appearance:none;-webkit-appearance:none}
 <meta name="project" content="鈺見台語">
 <meta name="source-reference" content="詹宗龍老師｜宗龍的台語課">
 <script src="./author-credit.js"></script>
+<script src="./pass-code.js"></script>
 <!-- 網站介面、功能與教學整合設計／製作：張鈺聆　Copyright © 張鈺聆.
      「張鈺聆 製」係指介面設計、功能整合、互動設計與教學資源整合；
      教材、課文、音檔、圖片、辭典資料等第三方素材之著作權仍屬原權利人所有。
@@ -236,7 +237,7 @@ document.getElementById('drawBtn').onclick=()=>{status.textContent='';autoDraw()
 function renderCards(){cards.innerHTML='';drawnCards.forEach(c=>{const cfg=categoryCfg[c.type],v=c.word,el=document.createElement('div');el.className='word-card'+(c.locked?' locked':'');el.style.setProperty('--cardColor',cfg.color);el.innerHTML=`<div class="type-label">${cfg.icon} ${cfg.name}</div><div class="word-main"><div class="word">${v.word}</div><div class="romanization">${v.romanization}</div><div class="meaning">${v.meaning}</div><div class="badge-row"><span class="mini-badge">${v.difficulty||''}</span></div></div><div class="card-actions"><button class="small-btn lock-btn ${c.locked?'active':''}">${c.locked?'🔒 已鎖定':'🔓 鎖定'}</button><button class="small-btn change-btn">↻ 換一張</button></div>`;el.querySelector('.lock-btn').onclick=()=>{c.locked=!c.locked;renderCards()};el.querySelector('.change-btn').onclick=()=>redrawSingle(c.id);cards.appendChild(el)})}
 function redrawSingle(id){const c=drawnCards.find(x=>x.id===id);if(!c||c.locked)return;const used=new Set(drawnCards.filter(x=>x.type===c.type&&x.id!==id).map(x=>x.word.word));const a=pick(c.type,1,used);if(a[0]){c.word=a[0];renderCards()}}
 document.getElementById('redrawBtn').onclick=()=>{drawnCards.filter(c=>!c.locked).forEach(c=>redrawSingle(c.id));sentenceCheck.textContent=''};
-document.getElementById('checkBtn').onclick=()=>{const s=sentenceInput.value.replace(/\s/g,'');const miss=drawnCards.filter(c=>!s.includes(c.word.word)).map(c=>c.word.word);sentenceCheck.classList.toggle('warn',miss.length>0);sentenceCheck.textContent=miss.length?`閣有詞仔猶未用著：${miss.join('、')}`:'🎉 真𠢕！抽著的詞攏有用著。答案毋是干焦一種，會使閣唸看覓！'};
+document.getElementById('checkBtn').onclick=()=>{const s=sentenceInput.value.replace(/\s/g,'');const miss=drawnCards.filter(c=>!s.includes(c.word.word)).map(c=>c.word.word);sentenceCheck.classList.toggle('warn',miss.length>0);sentenceCheck.textContent=miss.length?`閣有詞仔猶未用著：${miss.join('、')}`:'🎉 真𠢕！抽著的詞攏有用著。答案毋是干焦一種，會使閣唸看覓！';if(!miss.length&&s&&window.YJPass){const r=YJPass.track('DK',s,5,'今仔日鬥好 5 句');if(!r.done)sentenceCheck.textContent+=`（今仔日已經鬥好 ${r.count} / 5 句，鬥滿 5 句就有通關碼 🎫）`;}};
 document.getElementById('clearSentenceBtn').onclick=()=>{sentenceInput.value='';sentenceInput.focus();sentenceCheck.textContent=''};
 document.getElementById('resetBtn').onclick=()=>{Object.keys(selected).forEach(k=>{selected[k].active=false;selected[k].count=1});document.querySelectorAll('.category').forEach(x=>x.classList.remove('active'));updateCounts();drawnCards=[];cards.innerHTML='';pattern='';patternWrap.innerHTML='';sentenceInput.value='';sentenceCheck.textContent='';resultPanel.classList.add('hidden');sentencePanel.classList.add('hidden');window.scrollTo({top:0,behavior:'smooth'})};
 </script></body></html>

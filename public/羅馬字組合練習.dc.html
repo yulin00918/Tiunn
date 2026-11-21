@@ -229,6 +229,7 @@ class Component extends DCLogic {
     const key = (siann || '') + un + tiau;
     const matches = lookup ? lookup[key] : null;
     this.setState({ result: { key, matches: matches || null } });
+    if (matches) import('./pass-code.js').then(() => window.YJPass && window.YJPass.track('TL', key, 10, '今仔日組出 10 个無仝的音節'));
   }
   renderVals() {
     const { siann, un, tiau, result } = this.state;

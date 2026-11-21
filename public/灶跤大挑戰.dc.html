@@ -274,6 +274,18 @@ function questionsForRound(round) { return QUESTION_BANK.filter(x => x.round ===
 const AUDIO_DIR = 'audio/tshai-sik/';
 function audioFor(x) { return x ? AUDIO_DIR + x.word.split('／')[0].trim() + '.mp3' : ''; }
 
+// ── 學習紀錄（星星收集）：存佇這台電腦的瀏覽器，挑戰區會讀來顯示星星。
+const PROG_KEY = 'yjtg-progress-v1';
+function progMark(game, item, goal) {
+  try {
+    const d = JSON.parse(localStorage.getItem(PROG_KEY) || '{}');
+    const g = d[game] || { done: [], goal };
+    if (!g.done.includes(String(item))) g.done.push(String(item));
+    g.goal = goal; d[game] = g;
+    localStorage.setItem(PROG_KEY, JSON.stringify(d));
+  } catch (e) {}
+}
+
 class Component extends DCLogic {
   state = {
     currentRound: 1, screen: 'quiz', Q: questionsForRound(1), soundOn: true, currentOptions: buildOptions(1, questionsForRound(1)[0]),
@@ -374,6 +386,7 @@ class Component extends DCLogic {
       const nextX = this.state.Q[this.state.i + 1];
       this.setState({ i: this.state.i + 1, locked: false, wrongPick: null, phase: 'start', timeLeft: QUIZ_SECONDS, correctlyAnswered: false, lastAnswered: null, currentOptions: buildOptions(this.state.currentRound, nextX) });
     } else {
+      progMark('灶跤大挑戰', this.state.currentRound, TOTAL_ROUNDS);
       this.setState({ screen: 'mid', playLocked: false });
     }
   }

@@ -97,10 +97,16 @@
 
       <sc-if value="{{tab.activeBasic}}">
         <div style="background:#fff;border:1px solid #E8E6D9;border-radius:26px;padding:26px;box-shadow:0 12px 32px rgba(38,78,71,.10);">
-          <div style="font-size:13px;font-weight:900;letter-spacing:.12em;color:#456C65;margin-bottom:10px;">① 揀主題</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px;">
+            <div style="font-size:13px;font-weight:900;letter-spacing:.12em;color:#456C65;">① 揀主題</div>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+              <span style="background:#FFF6DC;color:#7A5A10;border:1.5px solid #F4C65D;border-radius:999px;padding:5px 13px;font-size:13.5px;font-weight:900;">{{totalStars}}</span>
+              <button style="{{resetStyle}}" onClick="{{resetProg}}">{{resetLabel}}</button>
+            </div>
+          </div>
           <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:24px;">
             <sc-for list="{{themes}}" as="th" hint-placeholder-count="7">
-              <button class="ca-tab" style="{{th.style}}" onClick="{{th.onClick}}"><img src="{{th.src}}" alt="" style="width:32px;height:32px;object-fit:contain;">{{th.label}}</button>
+              <button class="ca-tab" style="{{th.style}}" onClick="{{th.onClick}}"><img src="{{th.src}}" alt="" style="width:32px;height:32px;object-fit:contain;">{{th.label}}<span style="font-size:13px;letter-spacing:1px;margin-left:2px;">{{th.stars}}</span></button>
             </sc-for>
           </div>
           <div style="font-size:13px;font-weight:900;letter-spacing:.12em;color:#456C65;margin-bottom:12px;padding-top:20px;border-top:1px dashed #E8DAC6;">② 揀關卡</div>
@@ -120,6 +126,7 @@
                     <div style="display:flex;gap:6px;line-height:1;"><sc-for list="{{g.pics}}" as="p" hint-placeholder-count="2"><img src="{{p.src}}" alt="" style="width:56px;height:56px;object-fit:contain;"></sc-for></div>
                     <h3 style="margin:11px 0 7px;font-size:clamp(19px,2.6vw,21px);font-weight:900;line-height:1.35;color:#254E47;">{{g.name}}</h3>
                     <p style="margin:0;color:#66766D;font-size:13.5px;font-weight:700;line-height:1.7;flex-grow:1;">{{g.how}}</p>
+                    <span style="{{g.progStyle}}">{{g.progText}}</span>
                     <span style="{{g.ctaStyle}}">開始挑戰 →</span>
                   </article>
                 </sc-for>
@@ -258,6 +265,11 @@ const THEMES = [
 ];
 const visibleThemes = () => THEMES.filter(t => SHOW_DRAFT || t.games.some(k => !GAME_META[k].draft));
 
+// ── 學習紀錄：各遊戲完成時會寫入 localStorage（yjtg-progress-v1），遮讀出來顯示星星。
+const PROG_KEY = 'yjtg-progress-v1';
+function readProg() { try { return JSON.parse(localStorage.getItem(PROG_KEY) || '{}'); } catch (e) { return {}; } }
+function progOf(d, name) { const g = d[name]; if (!g || !g.goal) return { n: 0, goal: 0, star: false }; const n = Math.min(g.done.length, g.goal); return { n, goal: g.goal, star: n >= g.goal }; }
+
 const GROUPS = [
   { step: '關卡 1', title: '看圖挑戰', hint: '看著圖，揀出正確的台羅', tone: '#278777', keys: ['veggie', 'color', 'cloth', 'kitchen', 'home', 'school', 'sport'],
     cardBg: 'linear-gradient(150deg,#F4FAF5,#E0F2EC)', cardBorder: '#CBE9DD', ctaBg: '#278777' },
@@ -268,7 +280,7 @@ const GROUPS = [
 ];
 
 class Component extends DCLogic {
-  state = { activeTab: 0, activeGame: null, activeTheme: 0 };
+  state = { activeTab: 0, activeGame: null, activeTheme: 0, resetArmed: false };
 
   renderVals() {
     const data = [
@@ -315,11 +327,13 @@ class Component extends DCLogic {
     const vt = visibleThemes();
     const ti = Math.min(this.state.activeTheme, vt.length - 1);
     const curTheme = vt[ti];
+    const prog = readProg();
     const themes = vt.map((t, i) => {
       const on = i === ti;
+      const stars = t.games.filter(k => !GAME_META[k].draft).map(k => progOf(prog, GAME_META[k].name).star ? '⭐' : '☆').join('');
       const draft = t.games.every(k => GAME_META[k].draft);
       return {
-        label: t.label + (draft ? '（草稿）' : ''), src: `images/icons3d/${t.pic}.webp`,
+        label: t.label + (draft ? '（草稿）' : ''), stars, src: `images/icons3d/${t.pic}.webp`,
         onClick: () => this.setState({ activeTheme: i }),
         style: `display:flex;align-items:center;gap:8px;padding:9px 16px 9px 10px;min-height:52px;border-radius:999px;border:2px solid ${on ? '#254E47' : '#E7DCC9'};background:${on ? '#254E47' : '#FFFCF4'};color:${on ? '#fff' : '#385A53'};font-family:inherit;font-size:15.5px;font-weight:900;cursor:pointer;transition:.16s ease;box-shadow:${on ? '0 8px 18px rgba(37,78,71,.20)' : 'none'};`,
       };
@@ -331,6 +345,8 @@ class Component extends DCLogic {
         const m = GAME_META[key];
         return {
           icon: m.icon, name: m.name + (m.draft ? '（草稿）' : ''), how: m.how,
+          progText: (p => p.star ? '⭐ 完成' : (p.goal ? `進度 ${p.n}/${p.goal}` : '未開始'))(progOf(prog, m.name)),
+          progStyle: (p => `align-self:flex-start;margin-top:10px;border-radius:999px;padding:4px 12px;font-size:12.5px;font-weight:900;${p.star ? 'background:#FFF6DC;color:#7A5A10;border:1.5px solid #F4C65D;' : (p.goal ? 'background:#EAF6F1;color:#236B60;border:1.5px solid #BFE3DA;' : 'background:#F4F4EF;color:#8A948E;border:1.5px solid #E4E5DD;')}`)(progOf(prog, m.name)),
           pics: m.pics.map(n => ({ src: `images/icons3d/${n}.webp` })),
           onClick: goto(key),
           cardStyle: `background:${grp.cardBg};border:2px solid ${grp.cardBorder};border-radius:22px;padding:24px;box-shadow:0 8px 20px rgba(38,78,71,.06);cursor:pointer;display:flex;flex-direction:column;`,
@@ -343,6 +359,14 @@ class Component extends DCLogic {
       tabs,
       groups,
       themes,
+      totalStars: `⭐ ${THEMES.flatMap(t => t.games).filter(k => !GAME_META[k].draft && progOf(prog, GAME_META[k].name).star).length} / ${THEMES.flatMap(t => t.games).filter(k => !GAME_META[k].draft).length}`,
+      resetLabel: this.state.resetArmed ? '確定欲清除？閣按一擺' : '清除這台電腦的紀錄',
+      resetStyle: `border:1.5px solid ${this.state.resetArmed ? '#E2A28A' : '#E4E5DD'};background:${this.state.resetArmed ? '#FBEDE7' : '#fff'};color:${this.state.resetArmed ? '#B15F2A' : '#8A948E'};border-radius:999px;padding:6px 14px;font-size:12.5px;font-weight:800;cursor:pointer;font-family:inherit;`,
+      resetProg: () => {
+        if (!this.state.resetArmed) { this.setState({ resetArmed: true }); clearTimeout(this._rt); this._rt = setTimeout(() => this.setState({ resetArmed: false }), 4000); return; }
+        try { localStorage.removeItem(PROG_KEY); } catch (e) {}
+        this.setState({ resetArmed: false });
+      },
       playing: !!activeGame,
       playingName: activeGame ? GAME_META[activeGame].name : '',
       bandText: activeGame

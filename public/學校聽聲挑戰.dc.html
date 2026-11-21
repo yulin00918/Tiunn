@@ -113,6 +113,18 @@ function makeQuestions(round) {
   }));
 }
 
+// ── 學習紀錄（星星收集）：存佇這台電腦的瀏覽器，挑戰區會讀來顯示星星。
+const PROG_KEY = 'yjtg-progress-v1';
+function progMark(game, item, goal) {
+  try {
+    const d = JSON.parse(localStorage.getItem(PROG_KEY) || '{}');
+    const g = d[game] || { done: [], goal };
+    if (!g.done.includes(String(item))) g.done.push(String(item));
+    g.goal = goal; d[game] = g;
+    localStorage.setItem(PROG_KEY, JSON.stringify(d));
+  } catch (e) {}
+}
+
 class Component extends DCLogic {
   state = { round: 1, Q: makeQuestions(1), i: 0, score: 0, wrong: [], solved: false, firstTry: true, done: false, playing: false, missing: false };
   voice = null;
@@ -137,7 +149,7 @@ class Component extends DCLogic {
   }
   next() {
     const s = this.state;
-    if (s.i + 1 >= s.Q.length) { this.stop(); return this.setState({ done: true }); }
+    if (s.i + 1 >= s.Q.length) { this.stop(); progMark('學校聽聲挑戰', s.round, ROUNDS); return this.setState({ done: true }); }
     this.setState({ i: s.i + 1, wrong: [], solved: false, firstTry: true }, () => this.autoPlay());
   }
   start(round) { this.stop(); this.setState({ round, Q: makeQuestions(round), i: 0, score: 0, wrong: [], solved: false, firstTry: true, done: false }, () => this.autoPlay()); }

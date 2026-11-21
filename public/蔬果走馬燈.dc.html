@@ -159,6 +159,19 @@ const VEGGIES = [
 const AUDIO_DIR = 'audio/tshai-sik/';
 function audioFor(x) { return x ? AUDIO_DIR + x.word.split('／')[0].trim() + '.mp3' : ''; }
 
+// ── 學習紀錄（星星收集）：存佇這台電腦的瀏覽器，挑戰區會讀來顯示星星。
+const PROG_KEY = 'yjtg-progress-v1';
+function progMark(game, item, goal) {
+  try {
+    const d = JSON.parse(localStorage.getItem(PROG_KEY) || '{}');
+    const g = d[game] || { done: [], goal };
+    if (!g.done.includes(String(item))) g.done.push(String(item));
+    g.goal = goal; d[game] = g;
+    localStorage.setItem(PROG_KEY, JSON.stringify(d));
+  } catch (e) {}
+}
+const PROG_GOAL = Math.min(10, VEGGIES.length);
+
 class Component extends DCLogic {
   state = { running: false, index: null, speed: 50, showAnswer: false };
   rafId = null;
@@ -168,6 +181,7 @@ class Component extends DCLogic {
   stopVoice() { try { if (this.voice) { this.voice.onended = this.voice.onerror = null; this.voice.pause(); } } catch (e) {} this.voice = null; }
   playVoice(x, auto) {
     if (!x || (auto && this.state.soundOn === false)) return;
+    if (!auto) progMark('蔬果走馬燈', x.word, PROG_GOAL);
     this.stopVoice();
     const a = new Audio(audioFor(x)); this.voice = a;
     this.setState({ voicePlaying: true, voiceMissing: false });
@@ -205,7 +219,7 @@ class Component extends DCLogic {
   }
   stop() { this.isRunning = false; cancelAnimationFrame(this.rafId); this.setState({ running: false }); }
   toggleRun() { if (this.state.running) this.stop(); else this.start(); }
-  reveal() { if (this.state.index !== null) { this.stop(); this.setState({ showAnswer: true }); } }
+  reveal() { if (this.state.index !== null) { this.stop(); progMark('蔬果走馬燈', VEGGIES[this.state.index].word, PROG_GOAL); this.setState({ showAnswer: true }); } }
   resetAll() { this.stopVoice(); this.setState({ voicePlaying: false, voiceMissing: false }); this.isRunning = false; cancelAnimationFrame(this.rafId); this.setState({ running: false, index: null, showAnswer: false }); }
 
   renderVals() {

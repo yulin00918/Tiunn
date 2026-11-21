@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<meta name="author" content="張鈺聆">
+<meta name="copyright" content="© 張鈺聆">
+<script src="./author-credit.js"></script>
+<!-- 網站介面、功能與教學整合設計／製作：張鈺聆　Copyright © 張鈺聆. All rights reserved.
+     「張鈺聆 製」係指介面設計、功能整合、互動設計與教學資源整合；
+     教材、課文、音檔、圖片、辭典資料等第三方素材之著作權仍屬原權利人所有。
+     完整版權宣告見 author-credit.js。 -->
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H3X7ZH5XL6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-H3X7ZH5XL6');
+</script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  .ar,.ar *{box-sizing:border-box;}
+  .ar button{font-family:inherit;cursor:pointer;}
+  .ar button:focus-visible{outline:3px solid #F4C65D;outline-offset:2px;}
+  @keyframes ar-pop{0%{transform:scale(.6);opacity:0}100%{transform:scale(1);opacity:1}}
+  @keyframes ar-bump{0%,100%{transform:scale(1)}40%{transform:scale(1.12)}}
+  .ar-grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;}
+  @media(max-width:760px){ .ar-grid4{grid-template-columns:repeat(2,minmax(0,1fr));} }
+</style>
+</helmet>
+<div class="ar" style="font-family:'Noto Sans TC',sans-serif;color:#263B37;min-height:100vh;background:linear-gradient(160deg,#F6F3EA,#EAF3EE);padding:12px clamp(12px,2.5vw,32px) 16px;">
+
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:10px;">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <a href="台語挑戰區.dc" style="text-decoration:none;color:#254E47;border:2px solid #B6CFC3;background:#fff;border-radius:999px;padding:9px 16px;font-weight:900;font-size:14px;">← 挑戰區</a>
+      <span style="font-size:clamp(22px,2.6vw,32px);font-weight:900;color:#254E47;">📣 台語搶答擂台</span>
+    </div>
+    <sc-if value="{{screenPlay}}">
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <span style="background:#254E47;color:#fff;border-radius:999px;padding:8px 16px;font-weight:900;font-size:16px;">第 {{qNo}} / {{qTotal}} 題</span>
+        <button style="border:2px solid #E4E5DD;background:#fff;color:#66766D;border-radius:999px;padding:8px 14px;font-weight:800;font-size:13px;" onClick="{{endGame}}">結束比賽</button>
+      </div>
+    </sc-if>
+  </div>
+
+  <!-- ── 設定 ── -->
+  <sc-if value="{{screenSetup}}">
+    <div style="max-width:1100px;margin:0 auto;background:#fff;border-radius:26px;padding:clamp(18px,3vw,32px);box-shadow:0 12px 32px rgba(38,78,71,.10);">
+      <div style="font-weight:900;color:#456C65;letter-spacing:.1em;margin-bottom:10px;">① 揀主題（會使揀幾若个）</div>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:22px;">
+        <sc-for list="{{themeChips}}" as="t" hint-placeholder-count="9">
+          <button style="{{t.style}}" onClick="{{t.onClick}}"><img src="{{t.src}}" alt="" style="width:30px;height:30px;object-fit:contain;">{{t.label}}</button>
+        </sc-for>
+      </div>
+      <div style="font-weight:900;color:#456C65;letter-spacing:.1em;margin-bottom:10px;">② 揀玩法</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:22px;">
+        <sc-for list="{{modeCards}}" as="m" hint-placeholder-count="3">
+          <button style="{{m.style}}" onClick="{{m.onClick}}"><div style="font-size:28px;">{{m.icon}}</div><div style="font-size:18px;font-weight:900;margin-top:4px;">{{m.name}}</div><div style="font-size:13.5px;color:#66766D;font-weight:700;margin-top:4px;line-height:1.6;">{{m.how}}</div></button>
+        </sc-for>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin-bottom:22px;">
+        <div>
+          <div style="font-weight:900;color:#456C65;letter-spacing:.1em;margin-bottom:10px;">③ 幾組</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;">
+            <sc-for list="{{groupBtns}}" as="b" hint-placeholder-count="7"><button style="{{b.style}}" onClick="{{b.onClick}}">{{b.label}}</button></sc-for>
+          </div>
+        </div>
+        <div>
+          <div style="font-weight:900;color:#456C65;letter-spacing:.1em;margin-bottom:10px;">④ 幾題</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;">
+            <sc-for list="{{countBtns}}" as="b" hint-placeholder-count="4"><button style="{{b.style}}" onClick="{{b.onClick}}">{{b.label}}</button></sc-for>
+          </div>
+        </div>
+        <div>
+          <div style="font-weight:900;color:#456C65;letter-spacing:.1em;margin-bottom:10px;">⑤ 每題秒數</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;">
+            <sc-for list="{{secBtns}}" as="b" hint-placeholder-count="4"><button style="{{b.style}}" onClick="{{b.onClick}}">{{b.label}}</button></sc-for>
+          </div>
+        </div>
+      </div>
+      <div style="font-weight:900;color:#456C65;letter-spacing:.1em;margin-bottom:10px;">⑥ 組名（會使改）</div>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:24px;">
+        <sc-for list="{{nameInputs}}" as="n" hint-placeholder-count="4">
+          <input value="{{n.value}}" onChange="{{n.onInput}}" style="{{n.style}}">
+        </sc-for>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-top:1px dashed #E8DAC6;padding-top:18px;">
+        <div style="color:#66766D;font-weight:700;">{{poolText}}</div>
+        <button style="{{startStyle}}" onClick="{{startGame}}">▶ 開始比賽</button>
+      </div>
+      <div style="margin-top:14px;font-size:13px;color:#8A948E;line-height:1.8;">⌨️ 快速鍵：空白鍵＝揭曉答案／下一題　1～8＝替彼組加 1 分　Shift＋1～8＝扣 1 分　P＝重播發音</div>
+    </div>
+  </sc-if>
+
+  <!-- ── 比賽 ── -->
+  <sc-if value="{{screenPlay}}">
+    <div style="background:#fff;border-radius:26px;padding:clamp(14px,2vw,24px);box-shadow:0 12px 32px rgba(38,78,71,.10);">
+      <div style="display:flex;justify-content:center;align-items:center;gap:14px;margin-bottom:12px;flex-wrap:wrap;">
+        <span style="font-size:clamp(18px,2vw,24px);font-weight:900;color:#456C65;">{{promptText}}</span>
+        <sc-if value="{{showTimer}}"><span style="{{timerStyle}}">⏱ {{timeLeft}}</span></sc-if>
+      </div>
+
+      <sc-if value="{{modePic}}">
+        <div style="display:flex;justify-content:center;">
+          <img src="{{qImage}}" alt="" style="height:min(40vh,480px);aspect-ratio:6/5;object-fit:contain;border-radius:18px;border:1px solid #E4E5DD;background:#fff;">
+        </div>
+      </sc-if>
+      <sc-if value="{{modeRoman}}">
+        <div style="display:flex;justify-content:center;align-items:center;min-height:min(34vh,380px);">
+          <div style="font-size:clamp(64px,10vw,150px);font-weight:900;color:#254E47;letter-spacing:.02em;animation:ar-pop .3s;">{{qRoman}}</div>
+        </div>
+      </sc-if>
+      <sc-if value="{{modeListen}}">
+        <div style="display:flex;justify-content:center;margin-bottom:12px;">
+          <button style="border:0;border-radius:999px;padding:10px 28px;font-weight:900;font-size:19px;background:linear-gradient(110deg,#F4C65D,#E8B03E);color:#4A3A0E;box-shadow:0 8px 18px rgba(232,176,62,.30);" onClick="{{playQ}}">🔊 閣聽一擺</button>
+        </div>
+        <div class="ar-grid4" style="max-width:min(1300px,140vh);margin:0 auto;">
+          <sc-for list="{{choices}}" as="c" hint-placeholder-count="4">
+            <div style="{{c.style}}">
+              <div style="position:absolute;top:8px;left:10px;width:44px;height:44px;border-radius:50%;background:#254E47;color:#fff;font-size:24px;font-weight:900;display:flex;align-items:center;justify-content:center;">{{c.no}}</div>
+              <img src="{{c.src}}" alt="" style="width:100%;aspect-ratio:6/5;object-fit:contain;display:block;border-radius:12px;">
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{revealed}}">
+        <div style="margin:12px auto 0;max-width:900px;background:#EAF6F1;border:3px solid #55A99C;border-radius:22px;padding:8px 20px;text-align:center;animation:ar-pop .25s;">
+          <div style="font-size:clamp(28px,3.4vw,46px);font-weight:900;color:#254E47;">{{aWord}}　<span style="color:#B15F2A;">{{aRoman}}</span></div>
+          <div style="font-size:clamp(16px,1.8vw,22px);color:#66766D;font-weight:800;margin-top:2px;">{{aZh}}{{aChoice}}</div>
+        </div>
+      </sc-if>
+
+      <div style="display:flex;justify-content:center;gap:12px;margin-top:12px;flex-wrap:wrap;">
+        <sc-if value="{{canStartTimer}}"><button style="border:2px solid #F4C65D;background:#FFF6DC;color:#7A5A10;border-radius:16px;padding:14px 22px;font-weight:900;font-size:18px;" onClick="{{startTimer}}">⏱ 開始倒數</button></sc-if>
+        <button style="{{mainBtnStyle}}" onClick="{{mainAction}}">{{mainBtnLabel}}</button>
+      </div>
+    </div>
+
+    <div style="{{boardStyle}}">
+      <sc-for list="{{teams}}" as="t" hint-placeholder-count="4">
+        <div style="{{t.style}}">
+          <div style="font-weight:900;font-size:clamp(15px,1.6vw,20px);color:#254E47;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{t.name}}</div>
+          <div style="{{t.scoreStyle}}">{{t.score}}</div>
+          <div style="display:flex;gap:8px;justify-content:center;">
+            <button style="border:2px solid #E4E5DD;background:#fff;color:#8A948E;border-radius:12px;width:48px;height:44px;font-weight:900;font-size:20px;" onClick="{{t.minus}}">−</button>
+            <button style="border:0;background:#278777;color:#fff;border-radius:12px;width:72px;height:44px;font-weight:900;font-size:20px;" onClick="{{t.plus}}">＋1</button>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </sc-if>
+
+  <!-- ── 結果 ── -->
+  <sc-if value="{{screenEnd}}">
+    <div style="max-width:900px;margin:0 auto;background:#fff;border-radius:26px;padding:30px;text-align:center;box-shadow:0 12px 32px rgba(38,78,71,.10);">
+      <div style="font-size:64px;">🏆</div>
+      <div style="font-size:clamp(28px,3.5vw,44px);font-weight:900;color:#254E47;">{{winnerText}}</div>
+      <div style="display:flex;flex-direction:column;gap:10px;margin:22px auto 0;max-width:560px;">
+        <sc-for list="{{ranking}}" as="r" hint-placeholder-count="4">
+          <div style="{{r.style}}"><span style="font-size:26px;width:44px;">{{r.medal}}</span><span style="flex:1;text-align:left;font-weight:900;font-size:20px;">{{r.name}}</span><span style="font-weight:900;font-size:26px;color:#254E47;">{{r.score}} 分</span></div>
+        </sc-for>
+      </div>
+      <div style="display:flex;gap:12px;justify-content:center;margin-top:24px;flex-wrap:wrap;">
+        <button style="border:2px solid #B6CFC3;background:#fff;color:#278777;border-radius:16px;padding:14px 22px;font-weight:900;font-size:17px;" onClick="{{backSetup}}">⚙️ 改設定</button>
+        <button style="border:0;background:#278777;color:#fff;border-radius:16px;padding:14px 22px;font-weight:900;font-size:17px;" onClick="{{startGame}}">↻ 閣比一場</button>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+// 台語搶答擂台：老師投影用的分組搶答。題目對挑戰區 9 个主題來（重新產生：build_arena.py）。
+const DATA = [{"label": "菜蔬果子", "pic": "leafy-green", "items": [{"zh": "西瓜", "word": "西瓜", "roman": "si-kue", "image": "images/veg-01.png", "audio": true}, {"zh": "青江菜", "word": "湯匙仔菜", "roman": "thng-sî-á-tshài", "image": "images/veg-02.png", "audio": true}, {"zh": "番茄", "word": "臭柿仔", "roman": "tshàu-khī-á", "image": "images/veg-03.png", "audio": true}, {"zh": "小黃瓜", "word": "瓜仔哖", "roman": "kue-á-nî", "image": "images/veg-04.png", "audio": true}, {"zh": "香蕉", "word": "弓蕉", "roman": "king-tsio", "image": "images/veg-05.png", "audio": true}, {"zh": "高麗菜", "word": "高麗菜", "roman": "ko-lê-tshài", "image": "images/veg-06.png", "audio": true}, {"zh": "百香果", "word": "時計果", "roman": "sî-kè-kó", "image": "images/veg-07.png", "audio": true}, {"zh": "茄子", "word": "茄", "roman": "kiô", "image": "images/veg-08.png", "audio": true}, {"zh": "香菜", "word": "芫荽", "roman": "iân-sui", "image": "images/veg-09.png", "audio": true}, {"zh": "鳳梨", "word": "王梨", "roman": "ông-lâi", "image": "images/veg-10.png", "audio": true}, {"zh": "大黃瓜", "word": "刺瓜仔", "roman": "tshì-kue-á", "image": "images/veg-11.png", "audio": true}, {"zh": "荔枝", "word": "荔枝", "roman": "nāi-tsi", "image": "images/veg-12.png", "audio": true}, {"zh": "四季豆", "word": "菜豆", "roman": "tshài-tāu", "image": "images/veg-13.png", "audio": true}, {"zh": "白蘿蔔", "word": "菜頭", "roman": "tshài-thâu", "image": "images/veg-14.png", "audio": true}, {"zh": "芒果", "word": "檨仔", "roman": "suāinn-á", "image": "images/veg-15.png", "audio": true}, {"zh": "空心菜", "word": "蕹菜", "roman": "ìng-tshài", "image": "images/veg-16.png", "audio": true}, {"zh": "龍眼", "word": "龍眼", "roman": "lîng-gíng", "image": "images/veg-17.png", "audio": true}, {"zh": "苦瓜", "word": "苦瓜", "roman": "khóo-kue", "image": "images/veg-18.png", "audio": true}, {"zh": "菠菜", "word": "菠薐仔", "roman": "pue-lîng-á", "image": "images/veg-19.png", "audio": true}, {"zh": "芭樂", "word": "菝仔", "roman": "pua̍t-á", "image": "images/veg-20.png", "audio": true}, {"zh": "青椒", "word": "大同仔", "roman": "tāi-tông-á", "image": "images/veg-21.png", "audio": true}, {"zh": "蓮霧", "word": "蓮霧", "roman": "lián-bū", "image": "images/veg-22.png", "audio": true}, {"zh": "匏瓜", "word": "匏仔", "roman": "pû-á", "image": "images/veg-23.png", "audio": true}, {"zh": "嫩薑", "word": "茈薑", "roman": "tsínn-kiunn", "image": "images/veg-24.png", "audio": true}, {"zh": "葡萄", "word": "葡萄", "roman": "phû-tô", "image": "images/veg-25.png", "audio": true}, {"zh": "辣椒", "word": "番薑仔", "roman": "huan-kiunn-á", "image": "images/veg-26.png", "audio": true}, {"zh": "香瓜", "word": "芳瓜", "roman": "phang-kue", "image": "images/veg-27.png", "audio": true}, {"zh": "冬瓜", "word": "冬瓜", "roman": "tang-kue", "image": "images/veg-28.png", "audio": true}, {"zh": "茼蒿", "word": "苳蒿", "roman": "tang-o", "image": "images/veg-29.png", "audio": true}, {"zh": "柳丁", "word": "柳丁", "roman": "liú-ting", "image": "images/veg-30.png", "audio": true}, {"zh": "老薑", "word": "薑母", "roman": "kiunn-bó", "image": "images/veg-31.png", "audio": true}, {"zh": "奇異果", "word": "猴頭果", "roman": "kâu-thâu-kó", "image": "images/veg-32.png", "audio": true}, {"zh": "南瓜", "word": "金瓜", "roman": "kim-kue", "image": "images/veg-33.png", "audio": true}, {"zh": "牛蒡", "word": "疼某菜", "roman": "thiànn-bóo-tshài", "image": "images/veg-34.png", "audio": true}, {"zh": "蘋果", "word": "蘋果", "roman": "phông-kó", "image": "images/veg-35.png", "audio": true}, {"zh": "秋葵", "word": "角豆", "roman": "kak-tāu", "image": "images/veg-36.png", "audio": true}, {"zh": "絲瓜", "word": "菜瓜", "roman": "tshài-kue", "image": "images/veg-37.png", "audio": true}, {"zh": "花生", "word": "塗豆", "roman": "thôo-tāu", "image": "images/veg-38.png", "audio": true}, {"zh": "水梨", "word": "水梨仔", "roman": "tsuí-lâi-á", "image": "images/veg-39.png", "audio": true}, {"zh": "竹筍", "word": "竹筍", "roman": "tik-sún", "image": "images/veg-40.png", "audio": true}, {"zh": "韭菜", "word": "韭菜", "roman": "kú-tshài", "image": "images/veg-41.png", "audio": true}, {"zh": "木瓜", "word": "木瓜", "roman": "bo̍k-kue", "image": "images/veg-42.png", "audio": true}, {"zh": "芹菜", "word": "芹菜", "roman": "khîn-tshài", "image": "images/veg-43.png", "audio": true}, {"zh": "地瓜", "word": "番薯", "roman": "han-tsî", "image": "images/veg-44.png", "audio": true}, {"zh": "草莓", "word": "草莓", "roman": "tsháu-m̂", "image": "images/veg-45.png", "audio": true}, {"zh": "花椰菜", "word": "花菜", "roman": "hue-tshài", "image": "images/veg-46.png", "audio": true}, {"zh": "芋頭", "word": "芋", "roman": "ōo", "image": "images/veg-47.png", "audio": true}, {"zh": "玉米", "word": "番麥", "roman": "huan-be̍h", "image": "images/veg-48.png", "audio": true}, {"zh": "胡蘿蔔", "word": "紅菜頭", "roman": "âng-tshài-thâu", "image": "images/veg-49.png", "audio": true}, {"zh": "橘子", "word": "柑仔", "roman": "kam-á", "image": "images/veg-50.png", "audio": true}]}, {"label": "色水", "pic": "palette", "items": [{"zh": "黑色", "word": "烏色", "roman": "oo-sik", "image": "images/color-01.png", "audio": true}, {"zh": "白色", "word": "白色", "roman": "pe̍h-sik", "image": "images/color-02.png", "audio": true}, {"zh": "紅色", "word": "紅色", "roman": "âng-sik", "image": "images/color-03.png", "audio": true}, {"zh": "黃色", "word": "黃色", "roman": "n̂g-sik", "image": "images/color-04.png", "audio": true}, {"zh": "藍色", "word": "藍色", "roman": "nâ-sik", "image": "images/color-05.png", "audio": true}, {"zh": "綠色", "word": "青色", "roman": "tshenn-sik", "image": "images/color-06.png", "audio": true}, {"zh": "橘色", "word": "柑仔色", "roman": "kam-á-sik", "image": "images/color-07.png", "audio": true}, {"zh": "紫色", "word": "紫色", "roman": "tsí-sik", "image": "images/color-08.png", "audio": true}, {"zh": "咖啡色", "word": "咖啡色", "roman": "ka-pi-sik", "image": "images/color-09.png", "audio": true}, {"zh": "粉紅色", "word": "粉紅色", "roman": "hún-âng-sik", "image": "images/color-10.png", "audio": true}, {"zh": "灰色", "word": "殕色", "roman": "phú-sik", "image": "images/color-11.png", "audio": true}, {"zh": "水藍色", "word": "水色", "roman": "tsuí-sik", "image": "images/color-12.png", "audio": true}, {"zh": "淺綠色", "word": "草仔色", "roman": "tsháu-á-sik", "image": "images/color-13.png", "audio": true}, {"zh": "深紫色", "word": "茄仔色", "roman": "kiô-á-sik", "image": "images/color-14.png", "audio": true}, {"zh": "膚色／肉色", "word": "肉色", "roman": "bah-sik", "image": "images/color-15.png", "audio": true}, {"zh": "米色", "word": "米色", "roman": "bí-sik", "image": "images/color-16.png", "audio": true}, {"zh": "土黃色", "word": "塗色", "roman": "thôo-sik", "image": "images/color-17.png", "audio": true}, {"zh": "深藍色", "word": "紺色", "roman": "khóng-sik", "image": "images/color-18.png", "audio": true}, {"zh": "豬肝色", "word": "豬肝色", "roman": "ti-kuann-sik", "image": "images/color-19.png", "audio": true}]}, {"label": "衫仔褲", "pic": "coat", "items": [{"zh": "外套", "word": "外套", "roman": "guā-thò", "image": "images/sann-01.webp", "audio": true}, {"zh": "毛衣", "word": "膨紗衫", "roman": "phòng-se-sann", "image": "images/sann-02.webp", "audio": true}, {"zh": "雨衣", "word": "雨衫", "roman": "hōo-sann", "image": "images/sann-03.webp", "audio": true}, {"zh": "睡衣", "word": "睏衫", "roman": "khùn-sann", "image": "images/sann-04.webp", "audio": true}, {"zh": "制服", "word": "制服", "roman": "tsè-ho̍k", "image": "images/sann-05.webp", "audio": true}, {"zh": "西裝", "word": "西裝", "roman": "se-tsong", "image": "images/sann-06.webp", "audio": true}, {"zh": "洋裝", "word": "洋裝", "roman": "iûnn-tsong", "image": "images/sann-07.webp", "audio": true}, {"zh": "短褲", "word": "短褲", "roman": "té-khòo", "image": "images/sann-08.webp", "audio": true}, {"zh": "長褲", "word": "長褲", "roman": "tn̂g-khòo", "image": "images/sann-09.webp", "audio": true}, {"zh": "牛仔褲", "word": "牛仔褲", "roman": "gû-á-khòo", "image": "images/sann-10.webp", "audio": true}, {"zh": "裙子", "word": "裙", "roman": "kûn", "image": "images/sann-11.webp", "audio": true}, {"zh": "襪子", "word": "襪仔", "roman": "bue̍h-á", "image": "images/sann-12.webp", "audio": true}, {"zh": "皮鞋", "word": "皮鞋", "roman": "phuê-ê", "image": "images/sann-13.webp", "audio": true}, {"zh": "布鞋", "word": "布鞋", "roman": "pòo-ê", "image": "images/sann-14.webp", "audio": true}, {"zh": "雨鞋", "word": "雨鞋", "roman": "hōo-ê", "image": "images/sann-15.webp", "audio": true}, {"zh": "夾腳拖", "word": "淺拖仔", "roman": "tshián-thua-á", "image": "images/sann-16.webp", "audio": true}, {"zh": "帽子", "word": "帽仔", "roman": "bō-á", "image": "images/sann-17.webp", "audio": true}, {"zh": "眼鏡", "word": "目鏡", "roman": "ba̍k-kiànn", "image": "images/sann-18.webp", "audio": true}, {"zh": "手套", "word": "手套", "roman": "tshiú-thò", "image": "images/sann-19.webp", "audio": true}, {"zh": "手錶", "word": "手錶", "roman": "tshiú-pió", "image": "images/sann-20.webp", "audio": true}, {"zh": "圍巾", "word": "圍巾", "roman": "uî-kin", "image": "images/sann-21.webp", "audio": true}, {"zh": "領帶", "word": "領帶", "roman": "niá-tuà", "image": "images/sann-22.webp", "audio": true}, {"zh": "皮帶", "word": "褲帶", "roman": "khòo-tuà", "image": "images/sann-23.webp", "audio": true}, {"zh": "鈕扣", "word": "鈕仔", "roman": "liú-á", "image": "images/sann-24.webp", "audio": true}, {"zh": "雨傘", "word": "雨傘", "roman": "hōo-suànn", "image": "images/sann-25.webp", "audio": true}]}, {"label": "灶跤", "pic": "cooking", "items": [{"zh": "炒菜鍋", "word": "鼎", "roman": "tiánn", "image": "images/tsau-01.webp", "audio": true}, {"zh": "鍋蓋", "word": "鼎蓋", "roman": "tiánn-kuà", "image": "images/tsau-02.webp", "audio": true}, {"zh": "小湯鍋", "word": "鍋仔", "roman": "ue-á", "image": "images/tsau-03.webp", "audio": true}, {"zh": "電鍋", "word": "電鍋", "roman": "tiān-ko", "image": "images/tsau-04.webp", "audio": true}, {"zh": "蒸籠", "word": "籠床", "roman": "lâng-sn̂g", "image": "images/tsau-05.webp", "audio": true}, {"zh": "炭爐", "word": "烘爐", "roman": "hang-lôo", "image": "images/tsau-06.webp", "audio": true}, {"zh": "冰箱", "word": "冰箱", "roman": "ping-siunn", "image": "images/tsau-07.webp", "audio": true}, {"zh": "微波爐", "word": "微波爐", "roman": "bî-pho-lôo", "image": "images/tsau-08.webp", "audio": true}, {"zh": "水龍頭", "word": "水道頭", "roman": "tsuí-tō-thâu", "image": "images/tsau-09.webp", "audio": true}, {"zh": "菜刀", "word": "菜刀", "roman": "tshài-to", "image": "images/tsau-10.webp", "audio": true}, {"zh": "砧板", "word": "砧", "roman": "tiam", "image": "images/tsau-11.webp", "audio": true}, {"zh": "剪刀", "word": "鉸刀", "roman": "ka-to", "image": "images/tsau-12.webp", "audio": true}, {"zh": "鍋鏟", "word": "煎匙", "roman": "tsian-sî", "image": "images/tsau-13.webp", "audio": true}, {"zh": "飯匙", "word": "飯匙", "roman": "pn̄g-sî", "image": "images/tsau-14.webp", "audio": true}, {"zh": "湯匙", "word": "湯匙仔", "roman": "thng-sî-á", "image": "images/tsau-15.webp", "audio": true}, {"zh": "筷子", "word": "箸", "roman": "tī", "image": "images/tsau-16.webp", "audio": true}, {"zh": "碗", "word": "碗", "roman": "uánn", "image": "images/tsau-17.webp", "audio": true}, {"zh": "盤子", "word": "盤仔", "roman": "puânn-á", "image": "images/tsau-18.webp", "audio": true}, {"zh": "茶壺", "word": "茶鈷", "roman": "tê-kóo", "image": "images/tsau-19.webp", "audio": true}, {"zh": "杯子", "word": "杯仔", "roman": "pue-á", "image": "images/tsau-20.webp", "audio": true}, {"zh": "菜瓜布", "word": "菜瓜布", "roman": "tshài-kue-pòo", "image": "images/tsau-21.webp", "audio": true}, {"zh": "菜籃", "word": "菜籃", "roman": "tshài-nâ", "image": "images/tsau-22.webp", "audio": true}, {"zh": "篩子", "word": "篩仔", "roman": "thai-á", "image": "images/tsau-23.webp", "audio": true}, {"zh": "罐子", "word": "罐仔", "roman": "kuàn-á", "image": "images/tsau-24.webp", "audio": true}, {"zh": "盆子", "word": "盆", "roman": "phûn", "image": "images/tsau-25.webp", "audio": true}]}, {"label": "厝內", "pic": "house", "items": [{"zh": "床", "word": "眠床", "roman": "bîn-tshn̂g", "image": "images/tshu-01.webp", "audio": true}, {"zh": "枕頭", "word": "枕頭", "roman": "tsím-thâu", "image": "images/tshu-02.webp", "audio": true}, {"zh": "棉被", "word": "棉被", "roman": "mî-phuē", "image": "images/tshu-03.webp", "audio": true}, {"zh": "椅子", "word": "椅仔", "roman": "í-á", "image": "images/tshu-04.webp", "audio": true}, {"zh": "桌子", "word": "桌仔", "roman": "toh-á", "image": "images/tshu-05.webp", "audio": true}, {"zh": "沙發", "word": "膨椅", "roman": "phòng-í", "image": "images/tshu-06.webp", "audio": true}, {"zh": "窗戶", "word": "窗仔", "roman": "thang-á", "image": "images/tshu-07.webp", "audio": true}, {"zh": "門", "word": "門", "roman": "mn̂g", "image": "images/tshu-08.webp", "audio": true}, {"zh": "時鐘", "word": "時鐘", "roman": "sî-tsing", "image": "images/tshu-09.webp", "audio": true}, {"zh": "電燈", "word": "電火", "roman": "tiān-hué", "image": "images/tshu-10.webp", "audio": true}, {"zh": "電風扇", "word": "電風", "roman": "tiān-hong", "image": "images/tshu-11.webp", "audio": true}, {"zh": "冷氣", "word": "冷氣", "roman": "líng-khì", "image": "images/tshu-12.webp", "audio": true}, {"zh": "電視", "word": "電視", "roman": "tiān-sī", "image": "images/tshu-13.webp", "audio": true}, {"zh": "電話", "word": "電話", "roman": "tiān-uē", "image": "images/tshu-14.webp", "audio": true}, {"zh": "鏡子", "word": "鏡", "roman": "kiànn", "image": "images/tshu-15.webp", "audio": true}, {"zh": "抽屜", "word": "屜仔", "roman": "thuah-á", "image": "images/tshu-16.webp", "audio": true}, {"zh": "樓梯", "word": "樓梯", "roman": "lâu-thui", "image": "images/tshu-17.webp", "audio": true}, {"zh": "牙刷", "word": "齒抿仔", "roman": "khí-bín-á", "image": "images/tshu-18.webp", "audio": true}, {"zh": "牙膏", "word": "齒膏", "roman": "khí-ko", "image": "images/tshu-19.webp", "audio": true}, {"zh": "肥皂", "word": "雪文", "roman": "sap-bûn", "image": "images/tshu-20.webp", "audio": true}, {"zh": "毛巾", "word": "面巾", "roman": "bīn-kin", "image": "images/tshu-21.webp", "audio": true}, {"zh": "鑰匙", "word": "鎖匙", "roman": "só-sî", "image": "images/tshu-22.webp", "audio": true}, {"zh": "掃把", "word": "掃帚", "roman": "sàu-tshiú", "image": "images/tshu-23.webp", "audio": true}, {"zh": "畚箕", "word": "畚斗", "roman": "pùn-táu", "image": "images/tshu-24.webp", "audio": true}, {"zh": "垃圾桶", "word": "糞埽桶", "roman": "pùn-sò-tháng", "image": "images/tshu-25.webp", "audio": true}]}, {"label": "學校", "pic": "books", "items": [{"zh": "黑板", "word": "烏枋", "roman": "oo-pang", "image": "images/hak-01.webp", "audio": true}, {"zh": "粉筆", "word": "粉筆", "roman": "hún-pit", "image": "images/hak-02.webp", "audio": true}, {"zh": "鉛筆", "word": "鉛筆", "roman": "iân-pit", "image": "images/hak-03.webp", "audio": true}, {"zh": "原子筆", "word": "原子筆", "roman": "guân-tsú-pit", "image": "images/hak-04.webp", "audio": true}, {"zh": "毛筆", "word": "毛筆", "roman": "môo-pit", "image": "images/hak-05.webp", "audio": true}, {"zh": "尺", "word": "尺", "roman": "tshioh", "image": "images/hak-06.webp", "audio": true}, {"zh": "橡皮擦", "word": "拭仔", "roman": "tshit-á", "image": "images/hak-07.webp", "audio": true}, {"zh": "簿子", "word": "簿仔", "roman": "phōo-á", "image": "images/hak-08.webp", "audio": true}, {"zh": "書", "word": "冊", "roman": "tsheh", "image": "images/hak-09.webp", "audio": true}, {"zh": "書包", "word": "冊包", "roman": "tsheh-pau", "image": "images/hak-10.webp", "audio": true}, {"zh": "膠水", "word": "糊仔", "roman": "kôo-á", "image": "images/hak-11.webp", "audio": true}, {"zh": "字典", "word": "字典", "roman": "jī-tián", "image": "images/hak-12.webp", "audio": true}, {"zh": "地圖", "word": "地圖", "roman": "tē-tôo", "image": "images/hak-13.webp", "audio": true}, {"zh": "日曆", "word": "曆日", "roman": "la̍h-ji̍t", "image": "images/hak-14.webp", "audio": true}, {"zh": "墨水", "word": "墨水", "roman": "ba̍k-tsuí", "image": "images/hak-15.webp", "audio": true}, {"zh": "教室", "word": "教室", "roman": "kàu-sik", "image": "images/hak-16.webp", "audio": true}, {"zh": "操場", "word": "運動埕", "roman": "ūn-tōng-tiânn", "image": "images/hak-17.webp", "audio": true}, {"zh": "剪刀", "word": "鉸刀", "roman": "ka-to", "image": "images/hak-18.webp", "audio": true}, {"zh": "電腦", "word": "電腦", "roman": "tiān-náu", "image": "images/hak-19.webp", "audio": true}, {"zh": "鐘", "word": "鐘", "roman": "tsing", "image": "images/hak-20.webp", "audio": true}]}, {"label": "運動", "pic": "basketball", "items": [{"zh": "籃球", "word": "籃球", "roman": "nâ-kiû", "image": "images/un-01.webp", "audio": true}, {"zh": "排球", "word": "排球", "roman": "pâi-kiû", "image": "images/un-02.webp", "audio": true}, {"zh": "足球", "word": "跤球", "roman": "kha-kiû", "image": "images/un-03.webp", "audio": true}, {"zh": "棒球", "word": "棒球", "roman": "pāng-kiû", "image": "images/un-04.webp", "audio": true}, {"zh": "網球", "word": "網球", "roman": "bāng-kiû", "image": "images/un-05.webp", "audio": true}, {"zh": "桌球", "word": "桌球", "roman": "toh-kiû", "image": "images/un-06.webp", "audio": true}, {"zh": "球棒", "word": "球箠", "roman": "kiû-tshuê", "image": "images/un-07.webp", "audio": true}, {"zh": "球鞋", "word": "球鞋", "roman": "kiû-ê", "image": "images/un-08.webp", "audio": true}, {"zh": "跳繩", "word": "跳索仔", "roman": "thiàu-soh-á", "image": "images/un-09.webp", "audio": true}, {"zh": "毽子", "word": "毽子", "roman": "kiàn-tsí", "image": "images/un-10.webp", "audio": true}, {"zh": "游泳圈", "word": "泅水箍仔", "roman": "siû-tsuí-khoo-á", "image": "images/un-11.webp", "audio": true}, {"zh": "腳踏車", "word": "跤踏車", "roman": "kha-ta̍h-tshia", "image": "images/un-12.webp", "audio": true}, {"zh": "獎牌", "word": "獎牌", "roman": "tsióng-pâi", "image": "images/un-13.webp", "audio": true}, {"zh": "獎盃", "word": "球桮", "roman": "kiû-pue", "image": "images/un-14.webp", "audio": true}, {"zh": "哨子", "word": "呼噓仔", "roman": "khoo-si-á", "image": "images/un-15.webp", "audio": true}, {"zh": "橄欖球", "word": "橄欖球", "roman": "kan-ná-kiû", "image": "images/un-16.webp", "audio": true}, {"zh": "撞球", "word": "撞球", "roman": "tōng-kiû", "image": "images/un-17.webp", "audio": true}, {"zh": "球場", "word": "球場", "roman": "kiû-tiûnn", "image": "images/un-18.webp", "audio": true}, {"zh": "跳遠", "word": "跳遠", "roman": "thiàu-hn̄g", "image": "images/un-19.webp", "audio": true}, {"zh": "跳高", "word": "跳懸", "roman": "thiàu-kuân", "image": "images/un-20.webp", "audio": true}]}, {"label": "煮食動作", "pic": "shallow-pan-of-food", "items": [{"zh": "煎", "word": "煎", "roman": "tsian", "image": "images/tsu-01.webp", "audio": true}, {"zh": "炒", "word": "炒", "roman": "tshá", "image": "images/tsu-02.webp", "audio": true}, {"zh": "燙青菜", "word": "煠", "roman": "sa̍h", "image": "images/tsu-03.webp", "audio": true}, {"zh": "炸", "word": "炸", "roman": "tsà", "image": "images/tsu-04.webp", "audio": true}, {"zh": "燒開", "word": "滾", "roman": "kún", "image": "images/tsu-05.webp", "audio": true}, {"zh": "蒸", "word": "炊", "roman": "tshue", "image": "images/tsu-06.webp", "audio": true}, {"zh": "烤", "word": "烘", "roman": "hang", "image": "images/tsu-07.webp", "audio": true}, {"zh": "滷", "word": "滷", "roman": "lóo", "image": "images/tsu-08.webp", "audio": true}, {"zh": "切", "word": "切", "roman": "tshiat", "image": "images/tsu-09.webp", "audio": true}, {"zh": "削皮", "word": "削", "roman": "siah", "image": "images/tsu-10.webp", "audio": true}, {"zh": "攪拌", "word": "攪", "roman": "kiáu", "image": "images/tsu-11.webp", "audio": true}, {"zh": "撒", "word": "撒", "roman": "suah", "image": "images/tsu-12.webp", "audio": true}, {"zh": "包", "word": "包", "roman": "pau", "image": "images/tsu-13.webp", "audio": true}, {"zh": "捏", "word": "捏", "roman": "lia̍p", "image": "images/tsu-14.webp", "audio": true}, {"zh": "裝(盛)", "word": "貯", "roman": "té", "image": "images/tsu-15.webp", "audio": true}, {"zh": "掀開", "word": "掀", "roman": "hian", "image": "images/tsu-16.webp", "audio": true}, {"zh": "蓋上", "word": "蓋", "roman": "kah", "image": "images/tsu-17.webp", "audio": true}, {"zh": "生火", "word": "起火", "roman": "khí-hué", "image": "images/tsu-18.webp", "audio": true}, {"zh": "試味道", "word": "試鹹汫", "roman": "tshì kiâm-tsiánn", "image": "images/tsu-19.webp", "audio": true}, {"zh": "塗抹", "word": "抹", "roman": "buah", "image": "images/tsu-20.webp", "audio": true}]}, {"label": "身軀動作", "pic": "person-running", "items": [{"zh": "站", "word": "徛", "roman": "khiā", "image": "images/sin-01.webp", "audio": true}, {"zh": "坐", "word": "坐", "roman": "tsē", "image": "images/sin-02.webp", "audio": true}, {"zh": "蹲", "word": "跔", "roman": "ku", "image": "images/sin-03.webp", "audio": true}, {"zh": "跌倒", "word": "跋倒", "roman": "pua̍h-tó", "image": "images/sin-04.webp", "audio": true}, {"zh": "跑", "word": "走", "roman": "tsáu", "image": "images/sin-05.webp", "audio": true}, {"zh": "走路", "word": "行", "roman": "kiânn", "image": "images/sin-06.webp", "audio": true}, {"zh": "跳", "word": "跳", "roman": "thiàu", "image": "images/sin-07.webp", "audio": true}, {"zh": "踢", "word": "踢", "roman": "that", "image": "images/sin-08.webp", "audio": true}, {"zh": "拍手", "word": "拍噗仔", "roman": "phah-pho̍k-á", "image": "images/sin-09.webp", "audio": true}, {"zh": "揮手", "word": "擛手", "roman": "ia̍t-tshiú", "image": "images/sin-10.webp", "audio": true}, {"zh": "爬", "word": "爬", "roman": "pê", "image": "images/sin-11.webp", "audio": true}, {"zh": "游泳", "word": "泅水", "roman": "siû-tsuí", "image": "images/sin-12.webp", "audio": true}, {"zh": "伸展", "word": "伸", "roman": "tshun", "image": "images/sin-13.webp", "audio": true}, {"zh": "跪", "word": "跪", "roman": "kuī", "image": "images/sin-14.webp", "audio": true}, {"zh": "抱", "word": "抱", "roman": "phō", "image": "images/sin-15.webp", "audio": true}, {"zh": "躲", "word": "覕", "roman": "bih", "image": "images/sin-16.webp", "audio": true}, {"zh": "笑", "word": "笑", "roman": "tshiò", "image": "images/sin-17.webp", "audio": true}, {"zh": "哭", "word": "吼", "roman": "háu", "image": "images/sin-18.webp", "audio": true}, {"zh": "唱歌", "word": "唱歌", "roman": "tshiùnn-kua", "image": "images/sin-19.webp", "audio": true}, {"zh": "跳舞", "word": "跳舞", "roman": "thiàu-bú", "image": "images/sin-20.webp", "audio": true}]}];
+const AUDIO_DIR = 'audio/tshai-sik/';
+const MODES = [
+  { key: 'pic',    icon: '🖼️', name: '看圖講台語', how: '出一張圖，各組搶講台語，老師揭曉答案' },
+  { key: 'listen', icon: '🎧', name: '聽聲揀圖',   how: '播發音，四張圖內底搶講號碼' },
+  { key: 'roman',  icon: '🔤', name: '看台羅唸',   how: '出台羅，各組搶唸出來，揭曉時播標準音' },
+];
+const TEAM_COLORS = ['#278777', '#E88B4A', '#4A7FC1', '#C5534F', '#8A6BBE', '#D4A017', '#2E9E9E', '#B0607E'];
+const shuffle = a => { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
+const chip = on => `display:flex;align-items:center;gap:8px;padding:9px 16px 9px 10px;min-height:50px;border-radius:999px;border:2px solid ${on ? '#254E47' : '#E7DCC9'};background:${on ? '#254E47' : '#FFFCF4'};color:${on ? '#fff' : '#385A53'};font-size:16px;font-weight:900;`;
+const pill = on => `min-width:58px;min-height:46px;padding:8px 16px;border-radius:14px;border:2px solid ${on ? '#254E47' : '#E4E5DD'};background:${on ? '#254E47' : '#fff'};color:${on ? '#fff' : '#385A53'};font-size:16px;font-weight:900;`;
+
+class Component extends DCLogic {
+  state = { screen: 'setup', themes: [0], mode: 'pic', nTeams: 4, nQ: 10, secs: 10,
+            names: Array.from({ length: 8 }, (_, i) => `第 ${i + 1} 組`),
+            Q: [], qi: 0, revealed: false, scores: [], timeLeft: 0, timing: false, bump: -1 };
+  componentDidMount() { this._key = e => this.onKey(e); window.addEventListener('keydown', this._key); }
+  componentWillUnmount() { window.removeEventListener('keydown', this._key); clearInterval(this._t); this.stopAudio(); }
+
+  pool() {
+    const items = this.state.themes.flatMap(i => DATA[i].items);
+    return this.state.mode === 'pic' ? items : items.filter(x => x.audio);
+  }
+  stopAudio() { try { if (this._a) this._a.pause(); } catch (e) {} this._a = null; }
+  play(x) { if (!x || !x.audio) return; this.stopAudio(); const a = new Audio(AUDIO_DIR + x.word + '.mp3'); this._a = a; const p = a.play(); if (p && p.catch) p.catch(() => {}); }
+
+  startGame() {
+    const pool = this.pool(); if (pool.length < 4) return;
+    const picks = shuffle(pool).slice(0, Math.min(this.state.nQ, pool.length));
+    const Q = picks.map(x => {
+      if (this.state.mode !== 'listen') return { x };
+      const others = shuffle(pool.filter(y => y.word !== x.word && y.image !== x.image)).slice(0, 3);
+      return { x, opts: shuffle([x, ...others]) };
+    });
+    clearInterval(this._t);
+    this.setState({ screen: 'play', Q, qi: 0, revealed: false, timing: false, timeLeft: this.state.secs, scores: Array(this.state.nTeams).fill(0) }, () => this.onShow());
+  }
+  onShow() { const q = this.state.Q[this.state.qi]; if (this.state.mode === 'listen') setTimeout(() => this.play(q.x), 300); }
+  startTimer() {
+    if (this.state.timing || this.state.revealed || !this.state.secs) return;
+    clearInterval(this._t);
+    this.setState({ timing: true, timeLeft: this.state.secs });
+    this._t = setInterval(() => {
+      const t = this.state.timeLeft - 1;
+      if (t <= 0) { clearInterval(this._t); this.setState({ timeLeft: 0, timing: false }); this.beep(); }
+      else this.setState({ timeLeft: t });
+    }, 1000);
+  }
+  beep() { try { const C = window.AudioContext || window.webkitAudioContext; const c = this._ctx || (this._ctx = new C()); const o = c.createOscillator(), g = c.createGain(); o.frequency.value = 520; g.gain.value = .15; o.connect(g); g.connect(c.destination); o.start(); o.stop(c.currentTime + .35); } catch (e) {} }
+  reveal() { clearInterval(this._t); this.setState({ revealed: true, timing: false }); const q = this.state.Q[this.state.qi]; if (this.state.mode !== 'listen') this.play(q.x); }
+  next() {
+    if (this.state.qi + 1 >= this.state.Q.length) return this.endGame();
+    this.stopAudio(); clearInterval(this._t);
+    this.setState({ qi: this.state.qi + 1, revealed: false, timing: false, timeLeft: this.state.secs }, () => this.onShow());
+  }
+  endGame() { clearInterval(this._t); this.stopAudio(); this.setState({ screen: 'end' }); }
+  addScore(i, d) {
+    if (this.state.screen !== 'play' || i >= this.state.nTeams) return;
+    const s = this.state.scores.slice(); s[i] = Math.max(0, s[i] + d);
+    this.setState({ scores: s, bump: d > 0 ? i : -1 }); clearTimeout(this._b); this._b = setTimeout(() => this.setState({ bump: -1 }), 500);
+  }
+  onKey(e) {
+    if (this.state.screen !== 'play' || /INPUT|TEXTAREA/.test((e.target || {}).tagName || '')) return;
+    const n = parseInt(e.code && e.code.startsWith('Digit') ? e.code.slice(5) : e.key, 10);
+    if (n >= 1 && n <= 8) { e.preventDefault(); return this.addScore(n - 1, e.shiftKey ? -1 : 1); }
+    if (e.key === ' ') { e.preventDefault(); return this.state.revealed ? this.next() : this.reveal(); }
+    if (e.key === 'p' || e.key === 'P') this.play(this.state.Q[this.state.qi].x);
+  }
+
+  renderVals() {
+    const s = this.state, pool = this.pool(), q = s.Q[s.qi];
+    const toggleTheme = i => { const t = s.themes.includes(i) ? s.themes.filter(k => k !== i) : [...s.themes, i]; this.setState({ themes: t.length ? t : [i] }); };
+    const teams = s.scores.map((sc, i) => {
+      const lead = Math.max(...s.scores) > 0 && sc === Math.max(...s.scores);
+      return {
+        name: s.names[i], score: sc, plus: () => this.addScore(i, 1), minus: () => this.addScore(i, -1),
+        style: `background:#fff;border-radius:18px;padding:8px 10px;text-align:center;border:3px solid ${TEAM_COLORS[i]};box-shadow:0 6px 16px rgba(38,78,71,.08);${lead ? 'background:#FFFBEA;' : ''}`,
+        scoreStyle: `font-size:clamp(34px,4.2vw,56px);font-weight:900;line-height:1.05;margin:2px 0 6px;color:${TEAM_COLORS[i]};${s.bump === i ? 'animation:ar-bump .45s;' : ''}`,
+      };
+    });
+    const ranked = s.scores.map((sc, i) => ({ sc, i })).sort((a, b) => b.sc - a.sc);
+    const top = ranked.length ? ranked[0].sc : 0;
+    const winners = ranked.filter(r => r.sc === top).map(r => s.names[r.i]);
+    let place = 0, prev = null;
+    const ranking = ranked.map((r, k) => { if (r.sc !== prev) { place = k + 1; prev = r.sc; } return {
+      medal: ['🥇', '🥈', '🥉'][place - 1] || `${place}`, name: s.names[r.i], score: r.sc,
+      style: `display:flex;align-items:center;gap:12px;padding:12px 18px;border-radius:16px;border:2px solid ${TEAM_COLORS[r.i]};background:${place === 1 ? '#FFFBEA' : '#fff'};` }; });
+    const modeName = (MODES.find(m => m.key === s.mode) || {}).name;
+    return {
+      screenSetup: s.screen === 'setup', screenPlay: s.screen === 'play', screenEnd: s.screen === 'end',
+      themeChips: DATA.map((d, i) => ({ label: d.label, src: `images/icons3d/${d.pic}.webp`, style: chip(s.themes.includes(i)), onClick: () => toggleTheme(i) })),
+      modeCards: MODES.map(m => ({ icon: m.icon, name: m.name, how: m.how, onClick: () => this.setState({ mode: m.key }),
+        style: `text-align:left;border-radius:18px;padding:14px 16px;border:3px solid ${s.mode === m.key ? '#278777' : '#E4E5DD'};background:${s.mode === m.key ? '#EAF6F1' : '#fff'};color:#254E47;` })),
+      groupBtns: [2, 3, 4, 5, 6, 7, 8].map(n => ({ label: n, style: pill(s.nTeams === n), onClick: () => this.setState({ nTeams: n }) })),
+      countBtns: [5, 10, 15, 20].map(n => ({ label: n, style: pill(s.nQ === n), onClick: () => this.setState({ nQ: n }) })),
+      secBtns: [[0, '免計時'], [5, '5'], [10, '10'], [15, '15']].map(([n, l]) => ({ label: l, style: pill(s.secs === n), onClick: () => this.setState({ secs: n }) })),
+      nameInputs: s.names.slice(0, s.nTeams).map((v, i) => ({ value: v, onInput: e => { const a = s.names.slice(); a[i] = e.target.value; this.setState({ names: a }); },
+        style: `width:150px;min-height:46px;border-radius:12px;border:2px solid ${TEAM_COLORS[i]};padding:8px 12px;font-size:16px;font-weight:800;font-family:inherit;color:#254E47;` })),
+      poolText: `題庫：${pool.length} 个詞，這場出 ${Math.min(s.nQ, pool.length)} 題（${modeName}）`,
+      startStyle: `border:0;border-radius:18px;padding:16px 30px;font-weight:900;font-size:20px;background:${pool.length >= 4 ? 'linear-gradient(110deg,#E88B4A,#DA753B)' : '#E4E5DD'};color:#fff;box-shadow:0 10px 22px rgba(232,139,74,.25);`,
+      startGame: () => this.startGame(),
+      qNo: s.qi + 1, qTotal: s.Q.length, endGame: () => this.endGame(),
+      promptText: s.mode === 'pic' ? '🖼️ 這是啥物？用台語講！' : (s.mode === 'listen' ? '🎧 聽著的是第幾號？' : '🔤 唸看覓！'),
+      modePic: s.mode === 'pic', modeRoman: s.mode === 'roman', modeListen: s.mode === 'listen',
+      qImage: q ? q.x.image : '', qRoman: q ? q.x.roman : '',
+      choices: q && q.opts ? q.opts.map((o, k) => ({ no: k + 1, src: o.image,
+        style: `position:relative;border-radius:18px;padding:8px;border:4px solid ${s.revealed ? (o === q.x ? '#278777' : '#EFEFEA') : '#E4E5DD'};background:${s.revealed && o === q.x ? '#EAF6F1' : '#fff'};opacity:${s.revealed && o !== q.x ? .35 : 1};transition:.2s;` })) : [],
+      playQ: () => q && this.play(q.x),
+      showTimer: s.secs > 0, timeLeft: s.timeLeft, canStartTimer: s.secs > 0 && !s.timing && !s.revealed && s.timeLeft === s.secs, startTimer: () => this.startTimer(),
+      timerStyle: `border-radius:999px;padding:6px 16px;font-weight:900;font-size:clamp(20px,2.2vw,28px);background:${s.timeLeft <= 3 && s.secs ? '#FBEDE7' : '#FFF6DC'};color:${s.timeLeft <= 3 && s.secs ? '#C5534F' : '#7A5A10'};border:2px solid ${s.timeLeft <= 3 && s.secs ? '#E2A28A' : '#F4C65D'};`,
+      revealed: s.revealed, aWord: q ? q.x.word : '', aRoman: q ? q.x.roman : '', aZh: q ? q.x.zh : '',
+      aChoice: q && q.opts ? `　（第 ${q.opts.indexOf(q.x) + 1} 號）` : '',
+      mainAction: () => (s.revealed ? this.next() : this.reveal()),
+      mainBtnLabel: s.revealed ? (s.qi + 1 >= s.Q.length ? '🏆 看結果' : '下一題 →') : '👀 揭曉答案',
+      mainBtnStyle: `border:0;border-radius:16px;padding:14px 30px;font-weight:900;font-size:20px;color:#fff;background:${s.revealed ? '#278777' : 'linear-gradient(110deg,#E88B4A,#DA753B)'};`,
+      boardStyle: `display:grid;grid-template-columns:repeat(${Math.min(s.nTeams, 8)},minmax(0,1fr));gap:12px;margin-top:12px;`,
+      teams,
+      winnerText: winners.length > 1 ? `${winners.join('、')} 平手！` : `${winners[0] || ''} 贏矣！`,
+      ranking, backSetup: () => this.setState({ screen: 'setup' }),
+    };
+  }
+}
+</script>
+</body>
+</html>

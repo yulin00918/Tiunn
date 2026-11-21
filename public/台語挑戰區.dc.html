@@ -110,7 +110,10 @@
               <button class="ca-tab" style="{{th.style}}" onClick="{{th.onClick}}"><img src="{{th.src}}" alt="" style="width:32px;height:32px;object-fit:contain;">{{th.label}}<span style="font-size:13px;letter-spacing:1px;margin-left:2px;">{{th.stars}}</span></button>
             </sc-for>
           </div>
-          <div style="font-size:13px;font-weight:900;letter-spacing:.12em;color:#456C65;margin-bottom:12px;padding-top:20px;border-top:1px dashed #E8DAC6;">② 揀關卡</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px;padding-top:20px;border-top:1px dashed #E8DAC6;">
+            <div style="font-size:13px;font-weight:900;letter-spacing:.12em;color:#456C65;">② 揀關卡</div>
+            <a href="{{wsHref}}" target="_blank" style="text-decoration:none;border:1.5px solid #55A99C;background:#EAF6F1;color:#236B60;border-radius:999px;padding:7px 15px;font-size:13.5px;font-weight:900;">📄 下載{{wsLabel}}學習單（PDF）</a>
+          </div>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;">
           <sc-for list="{{groups}}" as="grp" hint-placeholder-count="2">
             <div style="{{grp.wrapStyle}}">
@@ -392,6 +395,7 @@ class Component extends DCLogic {
       tabs,
       groups,
       themes,
+      wsHref: `worksheets/${curTheme.label}學習單.pdf`, wsLabel: curTheme.label,
       totalStars: `⭐ ${THEMES.flatMap(t => t.games).filter(k => !GAME_META[k].draft && progOf(prog, GAME_META[k].name).star).length} / ${THEMES.flatMap(t => t.games).filter(k => !GAME_META[k].draft).length}`,
       resetLabel: this.state.resetArmed ? '確定欲清除？閣按一擺' : '清除這台電腦的紀錄',
       resetStyle: `border:1.5px solid ${this.state.resetArmed ? '#E2A28A' : '#E4E5DD'};background:${this.state.resetArmed ? '#FBEDE7' : '#fff'};color:${this.state.resetArmed ? '#B15F2A' : '#8A948E'};border-radius:999px;padding:6px 14px;font-size:12.5px;font-weight:800;cursor:pointer;font-family:inherit;`,

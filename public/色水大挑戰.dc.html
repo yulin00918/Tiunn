@@ -248,7 +248,7 @@ const QUESTION_BANK = [
   { round:4, zh:'深藍色', word:'紺色', roman:'khóng-sik', image:'images/color-18.png' },
   { round:4, zh:'豬肝色', word:'豬肝色', roman:'ti-kuann-sik', image:'images/color-19.png' },
 ];
-const QUIZ_SECONDS = 8, RAPID_SECONDS = 5, TOTAL_ROUNDS = 10;
+const QUIZ_SECONDS = 8, RAPID_SECONDS = 5, TOTAL_ROUNDS = Math.max(...QUESTION_BANK.map(q => q.round));
 function shuffle(arr) { return [...arr].sort(() => Math.random() - 0.5); }
 function questionsForRound(round) { return QUESTION_BANK.filter(x => x.round === round); }
 function buildOptions(round, x) {

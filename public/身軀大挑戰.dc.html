@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<meta name="author" content="張鈺聆">
+<meta name="copyright" content="© 張鈺聆">
+<script src="./author-credit.js"></script>
+<!-- 網站介面、功能與教學整合設計／製作：張鈺聆　Copyright © 張鈺聆. All rights reserved.
+     「張鈺聆 製」係指介面設計、功能整合、互動設計與教學資源整合；
+     教材、課文、音檔、圖片、辭典資料等第三方素材之著作權仍屬原權利人所有。
+     完整版權宣告見 author-credit.js。 -->
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H3X7ZH5XL6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-H3X7ZH5XL6');
+</script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  @media(hover:hover){
+    .vg-round:hover:not(:disabled){border-color:#55A99C;}
+    .vg-opt:hover:not(:disabled){transform:translateY(-2px);border-color:#55A99C;}
+  }
+  button:focus-visible{outline:3px solid #F4C65D;outline-offset:2px;}
+  .vg-shell{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap;width:100%;}
+  .vg-side{flex:0 0 208px;}
+  .vg-main{flex:1;min-width:290px;}
+  .vg-result{flex:0 0 268px;}
+  .vg-rounds{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .vg-steps{display:flex;flex-direction:column;gap:8px;}
+  .vg-answers{display:block;}
+  @media(max-width:1180px){
+    .vg-side{flex:0 0 190px;}
+    .vg-result{flex:0 0 244px;}
+  }
+  @media(max-width:1000px){
+    .vg-side{flex:1 1 100%;}
+    .vg-result{flex:1 1 100%;}
+    .vg-main{flex:1 1 100%;}
+    .vg-rounds{display:flex;flex-wrap:wrap;gap:8px;}
+    .vg-rounds > button{flex:0 0 auto;min-height:46px;}
+    .vg-steps{flex-direction:row;flex-wrap:wrap;}
+    .vg-steps > div{flex:0 0 auto;}
+  }
+  @media(max-width:640px){
+    .vg-rounds{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;-webkit-overflow-scrolling:touch;}
+    .vg-choices{grid-template-columns:1fr !important;}
+    .vg-answers{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+    .vg-answers .vg-ans-full{grid-column:1 / -1;}
+  }
+</style>
+</helmet>
+<div style="font-family:'Noto Sans TC',sans-serif;color:#263B37;">
+
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;background:#fff;border:1px solid #E4E5DD;border-radius:20px;padding:13px 18px;box-shadow:0 8px 20px rgba(38,78,71,.07);margin-bottom:16px;">
+    <div style="display:flex;align-items:center;gap:10px;min-width:0;flex-wrap:wrap;">
+      <span style="font-size:23px;line-height:1;">🏃🙌</span>
+      <span style="font-size:clamp(17px,2.4vw,20px);font-weight:900;color:#254E47;">身軀大挑戰</span>
+      <span style="background:#278777;color:#fff;border-radius:999px;padding:5px 13px;font-weight:900;font-size:13px;white-space:nowrap;">{{roundBadge}}</span>
+    </div>
+    <button style="flex:0 0 auto;border:1px solid #F2C29A;background:#FFF6EC;color:#B15F2A;border-radius:999px;padding:9px 16px;min-height:44px;font-weight:800;font-size:13px;cursor:pointer;font-family:inherit;" onClick="{{toggleSound}}">🔊 音效：{{soundLabel}}</button>
+  </div>
+
+  <div class="vg-shell">
+
+    <aside class="vg-side" style="background:#fff;border:1px solid #E4E5DD;border-radius:20px;padding:15px;box-shadow:0 10px 26px rgba(38,78,71,.08);">
+      <div style="font-size:12px;font-weight:900;letter-spacing:.1em;color:#456C65;margin-bottom:9px;">本回合進度</div>
+      <div class="vg-steps">
+        <sc-for list="{{questionListButtons}}" as="qb" hint-placeholder-count="5">
+          <div style="{{qb.style}}">
+            <span style="width:26px;height:26px;border-radius:50%;background:{{qb.badgeBg}};color:#fff;display:grid;place-items:center;font-weight:900;font-size:13px;flex-shrink:0;">{{qb.num}}</span>
+            <span style="font-weight:800;font-size:13.5px;white-space:nowrap;">第 {{qb.num}} 題</span>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="margin-top:13px;padding-top:13px;border-top:1px solid #ECEEE6;font-size:12px;color:#66766D;line-height:1.7;">
+        💡 看圖片選出台語；答對後進入下一題，每題 8 秒。
+      </div>
+
+      <div style="margin-top:13px;padding-top:13px;border-top:1px solid #ECEEE6;">
+        <div style="font-size:12px;font-weight:900;letter-spacing:.1em;color:#456C65;margin-bottom:9px;">選擇回合</div>
+        <div class="vg-rounds">
+          <sc-for list="{{roundNavButtons}}" as="rb" hint-placeholder-count="10">
+            <button class="vg-round" style="{{rb.style}}" disabled="{{rb.disabled}}" onClick="{{rb.onClick}}">
+              <span>第{{rb.num}}回合</span><span style="font-size:10.5px;opacity:.75;">{{rb.status}}</span>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+    </aside>
+
+    <section class="vg-main" style="background:#fff;border:1px solid #E4E5DD;border-radius:20px;padding:22px;box-shadow:0 10px 26px rgba(38,78,71,.08);">
+      <sc-if value="{{screenEmpty}}">
+        <div style="text-align:center;padding:40px 10px;">
+          <h2 style="margin:0 0 10px;">📚 {{emptyTitle}}</h2>
+          <p style="color:#66766D;">這個回合的題目之後加入即可，程式架構已經準備好。</p>
+          <button style="border:2px solid #9CCFC4;border-radius:16px;padding:13px 20px;font-weight:900;background:#fff;color:#278777;cursor:pointer;font-family:inherit;" onClick="{{backToFirst}}">← 回到第1回合</button>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{screenQuiz}}">
+        <div style="text-align:center;font-weight:800;color:#456C65;margin-bottom:16px;display:flex;align-items:center;justify-content:center;gap:6px;">👀 請看圖片，選出正確的台語名稱</div>
+        <div style="max-width:420px;margin:0 auto;border:2px solid #E4E5DD;border-radius:20px;padding:18px;position:relative;">
+          <span style="position:absolute;top:10px;right:14px;background:#278777;color:#fff;border-radius:999px;padding:4px 10px;font-weight:900;font-size:12px;">{{qIndex}}</span>
+          <div style="height:min(46vh,320px);min-height:220px;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+            <img src="{{currentImage}}" alt="" style="max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block;">
+          </div>
+        </div>
+
+        <div style="max-width:420px;margin:14px auto 0;display:flex;align-items:center;gap:10px;">
+          <span style="font-size:13px;color:#66766D;">⏱ 剩餘時間</span>
+          <div style="flex:1;height:12px;background:#E8E8D9;border-radius:999px;overflow:hidden;">
+            <div style="height:100%;background:linear-gradient(90deg,#55A99C,#F4C65D);width:{{timerPct}}%;transition:1s linear;"></div>
+          </div>
+          <span style="font-weight:900;font-size:14px;color:#278777;white-space:nowrap;">{{timeLeft}} 秒</span>
+        </div>
+
+        <sc-if value="{{showStart}}">
+          <div style="display:flex;justify-content:center;margin-top:18px;">
+            <button style="border:0;border-radius:16px;padding:13px 20px;font-weight:900;background:#278777;color:#fff;cursor:pointer;font-family:inherit;" onClick="{{startQuestion}}">▶ 開始作答</button>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{showChoices}}">
+          <div class="vg-choices" style="max-width:420px;margin:18px auto 0;display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+            <sc-for list="{{choices}}" as="c" hint-placeholder-count="2">
+              <button class="vg-opt" style="{{c.style}}" disabled="{{c.disabled}}" onClick="{{c.onClick}}">
+                <span style="width:26px;height:26px;border-radius:50%;background:{{c.badgeBg}};color:#fff;display:grid;place-items:center;font-weight:900;font-size:13px;">{{c.num}}</span>
+                <span style="flex:1;text-align:left;">{{c.text}}</span>
+              </button>
+            </sc-for>
+          </div>
+          <div style="text-align:center;margin-top:14px;color:#B15F2A;font-weight:700;font-size:13px;">⭐ 請選擇 1 或 2</div>
+        </sc-if>
+      </sc-if>
+
+      <sc-if value="{{screenMid}}">
+        <div style="text-align:center;padding:40px 10px;">
+          <h2 style="font-size:clamp(28px,4vw,40px);margin:0 0 10px;">🎉 5題完成！</h2>
+          <p style="color:#66766D;margin:0 0 16px;">接下來進入搶答複習。</p>
+          <button style="border:0;border-radius:16px;padding:13px 20px;font-weight:900;background:linear-gradient(110deg,#E88B4A,#DA753B);color:#fff;cursor:pointer;font-family:inherit;" onClick="{{enterRapid}}">⚡ 搶答時間！</button>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{screenRapid}}">
+        <div style="text-align:center;">
+          <div style="display:inline-block;background:#FFF3D8;color:#7A5A10;border-radius:999px;padding:8px 14px;font-weight:900;">⚡ 搶答時間！</div>
+          <h2 style="margin:14px 0;">{{rapidIndex}}</h2>
+          <div style="width:min(420px,92%);height:min(46vh,320px);min-height:220px;margin:14px auto;border-radius:20px;border:2px solid #E4E5DD;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+            <img src="{{rapidImage}}" alt="" style="max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block;">
+          </div>
+          <div style="display:flex;justify-content:center;align-items:center;gap:8px;margin:4px 0 16px;font-weight:800;color:#66766D;">
+            <span>{{rapidTimeLeft}} 秒</span>
+          </div>
+          <sc-if value="{{showRapidStart}}">
+            <button style="border:0;border-radius:16px;padding:13px 20px;font-weight:900;background:linear-gradient(110deg,#E88B4A,#DA753B);color:#fff;cursor:pointer;font-family:inherit;" onClick="{{startRapid}}">⚡ 開始搶答</button>
+          </sc-if>
+          <sc-if value="{{showRapidAnswer}}">
+            <div style="max-width:420px;margin:18px auto 0;padding:18px;border:1px solid #E4E5DD;border-radius:20px;background:#F4FAF5;">
+              <div style="font-size:30px;font-weight:900;">{{rapidWord}}</div>
+              <div style="font-size:24px;color:#278777;font-weight:900;margin-top:4px;">{{rapidRoman}}</div>
+              <div style="margin-top:8px;color:#66766D;">{{rapidZh}}</div>
+              <div style="max-width:260px;margin:14px auto 0;"><button style="{{voiceBtnStyle}}" onClick="{{playVoiceR}}">{{voiceLabel}}</button></div>
+            </div>
+          </sc-if>
+          <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:18px;">
+            <sc-if value="{{showRevealBtn}}">
+              <button style="border:0;border-radius:16px;padding:13px 20px;font-weight:900;background:linear-gradient(110deg,#E88B4A,#DA753B);color:#fff;cursor:pointer;font-family:inherit;" onClick="{{revealRapid}}">👀 公布答案</button>
+            </sc-if>
+            <sc-if value="{{showRapidNext}}">
+              <button style="border:0;border-radius:16px;padding:13px 20px;font-weight:900;background:#278777;color:#fff;cursor:pointer;font-family:inherit;" onClick="{{nextRapid}}">下一題 →</button>
+            </sc-if>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{screenDone}}">
+        <div style="text-align:center;padding:40px 10px;">
+          <h2 style="font-size:clamp(28px,4vw,40px);margin:0 0 12px;">{{doneTitle}}</h2>
+          <p style="color:#66766D;">完成 5 題辨識＋2 題搶答。</p>
+          <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:18px;">
+            <button style="border:2px solid #9CCFC4;border-radius:16px;padding:13px 20px;font-weight:900;background:#fff;color:#278777;cursor:pointer;font-family:inherit;" onClick="{{restartRound}}">↻ 再玩本回合</button>
+            <sc-if value="{{showNextRoundBtn}}">
+              <button style="border:0;border-radius:16px;padding:13px 20px;font-weight:900;background:#278777;color:#fff;cursor:pointer;font-family:inherit;" onClick="{{nextRound}}">下一回合 →</button>
+            </sc-if>
+          </div>
+        </div>
+      </sc-if>
+    </section>
+
+    <aside class="vg-result" style="background:#fff;border:1px solid #E4E5DD;border-radius:20px;overflow:hidden;box-shadow:0 10px 26px rgba(38,78,71,.08);">
+      <sc-if value="{{showResultPanel}}">
+        <div style="background:{{resultHeaderBg}};color:#fff;padding:13px;text-align:center;font-weight:900;font-size:15.5px;">{{resultHeaderText}}</div>
+        <div style="padding:16px;">
+          <div style="background:{{resultBoxBg}};border-radius:14px;padding:14px;text-align:center;font-weight:900;font-size:19px;margin-bottom:13px;">{{resultBoxText}}</div>
+          <div class="vg-answers">
+            <div style="margin-bottom:11px;">
+              <div style="font-size:12px;color:#456C65;font-weight:800;margin-bottom:4px;">華語</div>
+              <div style="border:2px solid #55A99C;border-radius:10px;padding:10px 12px;font-weight:800;font-size:16.5px;">{{resultZh}}</div>
+            </div>
+            <div style="margin-bottom:11px;">
+              <div style="font-size:12px;color:#B15F2A;font-weight:800;margin-bottom:4px;">台文</div>
+              <div style="border:2px solid #E88B4A;border-radius:10px;padding:10px 12px;font-weight:800;font-size:16.5px;">{{resultWord}}</div>
+            </div>
+            <div class="vg-ans-full" style="margin-bottom:14px;">
+              <div style="font-size:12px;color:#8A6418;font-weight:800;margin-bottom:4px;">台羅</div>
+              <div style="border:2px solid #E5B547;border-radius:10px;padding:10px 12px;font-weight:800;font-size:16.5px;">{{resultRoman}}</div>
+            </div>
+          </div>
+          <button style="{{voiceBtnStyle}}" onClick="{{playVoiceQ}}">{{voiceLabel}}</button>
+          <button style="width:100%;border:0;border-radius:14px;padding:14px;min-height:50px;font-weight:900;font-size:15.5px;background:#278777;color:#fff;cursor:pointer;font-family:inherit;" onClick="{{nextQuestion}}">下一題 →</button>
+        </div>
+      </sc-if>
+      <sc-if value="{{!showResultPanel}}">
+        <div style="padding:34px 20px;text-align:center;color:#8A9A92;">
+          <div style="font-size:36px;margin-bottom:8px;">🏃</div>
+          作答後這裡會顯示結果
+        </div>
+      </sc-if>
+    </aside>
+
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const QUESTION_BANK = [
+  { round:1, zh:'站', word:'徛', roman:'khiā', image:'images/sin-01.webp' },
+  { round:1, zh:'坐', word:'坐', roman:'tsē', image:'images/sin-02.webp' },
+  { round:1, zh:'蹲', word:'跔', roman:'ku', image:'images/sin-03.webp' },
+  { round:1, zh:'跌倒', word:'跋倒', roman:'pua̍h-tó', image:'images/sin-04.webp' },
+  { round:1, zh:'跑', word:'走', roman:'tsáu', image:'images/sin-05.webp' },
+  { round:2, zh:'走路', word:'行', roman:'kiânn', image:'images/sin-06.webp' },
+  { round:2, zh:'跳', word:'跳', roman:'thiàu', image:'images/sin-07.webp' },
+  { round:2, zh:'踢', word:'踢', roman:'that', image:'images/sin-08.webp' },
+  { round:2, zh:'拍手', word:'拍噗仔', roman:'phah-pho̍k-á', image:'images/sin-09.webp' },
+  { round:2, zh:'揮手', word:'擛手', roman:'ia̍t-tshiú', image:'images/sin-10.webp' },
+  { round:3, zh:'爬', word:'爬', roman:'pê', image:'images/sin-11.webp' },
+  { round:3, zh:'游泳', word:'泅水', roman:'siû-tsuí', image:'images/sin-12.webp' },
+  { round:3, zh:'伸展', word:'伸', roman:'tshun', image:'images/sin-13.webp' },
+  { round:3, zh:'跪', word:'跪', roman:'kuī', image:'images/sin-14.webp' },
+  { round:3, zh:'抱', word:'抱', roman:'phō', image:'images/sin-15.webp' },
+  { round:4, zh:'躲', word:'覕', roman:'bih', image:'images/sin-16.webp' },
+  { round:4, zh:'笑', word:'笑', roman:'tshiò', image:'images/sin-17.webp' },
+  { round:4, zh:'哭', word:'吼', roman:'háu', image:'images/sin-18.webp' },
+  { round:4, zh:'唱歌', word:'唱歌', roman:'tshiùnn-kua', image:'images/sin-19.webp' },
+  { round:4, zh:'跳舞', word:'跳舞', roman:'thiàu-bú', image:'images/sin-20.webp' },
+];
+function buildOptions(round, x) {
+  const pool = QUESTION_BANK.filter(q => q.round <= round && q.roman !== x.roman);
+  const wrong = pool.length ? pool[Math.floor(Math.random() * pool.length)] : x;
+  return shuffle([x.roman, wrong.roman]);
+}
+const QUIZ_SECONDS = 8, RAPID_SECONDS = 5, TOTAL_ROUNDS = Math.max(...QUESTION_BANK.map(q => q.round));
+function shuffle(arr) { return [...arr].sort(() => Math.random() - 0.5); }
+function questionsForRound(round) { return QUESTION_BANK.filter(x => x.round === round); }
+
+// ── 讀音：教育部《臺灣台語常用詞辭典》音檔，放佇 audio/tshai-sik/，檔名就是台文（例：西瓜.mp3）。
+// 辭典無收的詞，老師家己錄音，用仝款的檔名囥入去就會自動播。
+const AUDIO_DIR = 'audio/tshai-sik/';
+function audioFor(x) { return x ? AUDIO_DIR + x.word.split('／')[0].trim() + '.mp3' : ''; }
+
+// ── 學習紀錄（星星收集）：存佇這台電腦的瀏覽器，挑戰區會讀來顯示星星。
+const PROG_KEY = 'yjtg-progress-v1';
+function progMark(game, item, goal) {
+  try {
+    const d = JSON.parse(localStorage.getItem(PROG_KEY) || '{}');
+    const g = d[game] || { done: [], goal };
+    if (!g.done.includes(String(item))) g.done.push(String(item));
+    g.goal = goal; d[game] = g;
+    localStorage.setItem(PROG_KEY, JSON.stringify(d));
+  } catch (e) {}
+}
+
+class Component extends DCLogic {
+  state = {
+    currentRound: 1, screen: 'quiz', Q: questionsForRound(1), soundOn: true, currentOptions: buildOptions(1, questionsForRound(1)[0]),
+    i: 0, score: 0, locked: false, phase: 'start', timeLeft: QUIZ_SECONDS, wrongPick: null, correctlyAnswered: false,
+    playLocked: false, lastAnswered: null,
+    rapidList: [], ri: 0, rapidPhase: 'start', rapidTimeLeft: RAPID_SECONDS,
+  };
+  timerId = null;
+  audioCtx = null;
+  voice = null;
+  stopVoice() { try { if (this.voice) { this.voice.onended = this.voice.onerror = null; this.voice.pause(); } } catch (e) {} this.voice = null; }
+  playVoice(x, auto) {
+    if (!x || (auto && this.state.soundOn === false)) return;
+    this.stopVoice();
+    const a = new Audio(audioFor(x)); this.voice = a;
+    this.setState({ voicePlaying: true, voiceMissing: false });
+    a.onended = () => { if (this.voice === a) this.setState({ voicePlaying: false }); };
+    a.onerror = () => { if (this.voice === a) this.setState({ voicePlaying: false, voiceMissing: true }); };
+    const p = a.play();
+    if (p && p.catch) p.catch(() => { if (this.voice === a) this.setState({ voicePlaying: false }); });
+  }
+
+  componentWillUnmount() { clearInterval(this.timerId); }
+
+  ensureAudio() {
+    if (!this.state.soundOn) return;
+    if (!this.audioCtx) this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (this.audioCtx.state === 'suspended') this.audioCtx.resume();
+  }
+  tone(freq, dur = 0.08, type = 'sine', vol = 0.04, delay = 0) {
+    if (!this.state.soundOn || !this.audioCtx) return;
+    const o = this.audioCtx.createOscillator(), g = this.audioCtx.createGain();
+    const t = this.audioCtx.currentTime + delay;
+    o.type = type; o.frequency.value = freq;
+    g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+    o.connect(g); g.connect(this.audioCtx.destination); o.start(t); o.stop(t + dur);
+  }
+  tickSound() { this.tone(950, 0.03, 'square', 0.02); }
+  correctSound() { this.tone(660, 0.08, 'sine', 0.05); this.tone(880, 0.11, 'sine', 0.05, 0.09); this.tone(1100, 0.14, 'sine', 0.045, 0.20); }
+  wrongSound() { this.tone(220, 0.12, 'sawtooth', 0.035); this.tone(165, 0.18, 'sawtooth', 0.035, 0.11); }
+  timeoutSound() { this.tone(440, 0.10, 'square', 0.04); this.tone(330, 0.13, 'square', 0.04, 0.12); this.tone(220, 0.20, 'square', 0.04, 0.28); }
+
+  startTimer(seconds, onTimeout, isRapid) {
+    clearInterval(this.timerId);
+    if (isRapid) this.setState({ rapidTimeLeft: seconds }); else this.setState({ timeLeft: seconds });
+    this.tickSound();
+    let left = seconds;
+    this.timerId = setInterval(() => {
+      left--;
+      if (isRapid) this.setState({ rapidTimeLeft: left }); else this.setState({ timeLeft: left });
+      if (left > 0) this.tickSound();
+      if (left <= 0) { clearInterval(this.timerId); this.timeoutSound(); onTimeout(); }
+    }, 1000);
+  }
+
+  selectRound(round) {
+    if (this.state.playLocked) return;
+    this.stopVoice(); this.setState({ voicePlaying: false, voiceMissing: false });
+    clearInterval(this.timerId);
+    const Q = questionsForRound(round);
+    this.setState({
+      currentRound: round, Q, i: 0, score: 0, locked: false, phase: 'start', timeLeft: QUIZ_SECONDS, wrongPick: null, correctlyAnswered: false,
+      rapidList: [], ri: 0, rapidPhase: 'start', playLocked: false, lastAnswered: null,
+      currentOptions: Q.length ? buildOptions(round, Q[0]) : [],
+      screen: Q.length === 0 ? 'empty' : 'quiz',
+    });
+  }
+  startQuestion() {
+    this.ensureAudio();
+    this.setState({ phase: 'answering', playLocked: true });
+    this.startTimer(QUIZ_SECONDS, () => this.quizTimeout(), false);
+  }
+  quizTimeout() {
+    if (this.state.locked) return;
+    const tx = this.state.Q[this.state.i];
+    setTimeout(() => this.playVoice(tx, true), 600);
+    this.setState({ locked: true, phase: 'feedback', playLocked: false, correctlyAnswered: false, lastAnswered: null });
+  }
+  choose(roman) {
+    if (this.state.locked) return;
+    this.ensureAudio();
+    const x = this.state.Q[this.state.i];
+    if (roman === x.roman) {
+      clearInterval(this.timerId);
+      this.correctSound();
+      setTimeout(() => this.playVoice(x, true), 450);
+      this.setState({ locked: true, score: this.state.score + 1, phase: 'feedback', playLocked: false, correctlyAnswered: true, lastAnswered: roman });
+    } else {
+      this.wrongSound();
+      this.setState({ wrongPick: roman, phase: 'wrongTry' });
+      setTimeout(() => this.setState({ wrongPick: null, phase: this.state.locked ? this.state.phase : 'answering' }), 400);
+    }
+  }
+  nextQuestion() {
+    clearInterval(this.timerId);
+    this.stopVoice(); this.setState({ voicePlaying: false, voiceMissing: false });
+    if (this.state.i < this.state.Q.length - 1) {
+      const nextX = this.state.Q[this.state.i + 1];
+      this.setState({ i: this.state.i + 1, locked: false, wrongPick: null, phase: 'start', timeLeft: QUIZ_SECONDS, correctlyAnswered: false, lastAnswered: null, currentOptions: buildOptions(this.state.currentRound, nextX) });
+    } else {
+      progMark('身軀大挑戰', this.state.currentRound, TOTAL_ROUNDS);
+      this.setState({ screen: 'mid', playLocked: false });
+    }
+  }
+  enterRapid() {
+    const rapidList = shuffle(this.state.Q).slice(0, 2);
+    this.setState({ screen: 'rapid', rapidList, ri: 0, rapidPhase: 'start', rapidTimeLeft: RAPID_SECONDS });
+  }
+  startRapid() {
+    this.ensureAudio();
+    this.setState({ rapidPhase: 'waiting', playLocked: true });
+    this.startTimer(RAPID_SECONDS, () => this.revealRapid(), true);
+  }
+  revealRapid() { clearInterval(this.timerId); this.playVoice(this.state.rapidList[this.state.ri], true); this.setState({ rapidPhase: 'revealed', playLocked: false }); }
+  nextRapid() {
+    clearInterval(this.timerId);
+    this.stopVoice(); this.setState({ voicePlaying: false, voiceMissing: false });
+    if (this.state.ri < 1) this.setState({ ri: this.state.ri + 1, rapidPhase: 'start', rapidTimeLeft: RAPID_SECONDS });
+    else this.setState({ screen: 'done', playLocked: false });
+  }
+  restartRound() { this.selectRound(this.state.currentRound); }
+  nextRound() { if (this.state.currentRound < TOTAL_ROUNDS) this.selectRound(this.state.currentRound + 1); }
+  backToFirst() { this.selectRound(1); }
+  toggleSound() { this.setState({ soundOn: !this.state.soundOn }); }
+
+  renderVals() {
+    const s = this.state;
+    const x = s.Q[s.i];
+
+    const questionListButtons = s.Q.map((q, idx) => {
+      const active = idx === s.i && s.screen === 'quiz';
+      const done = idx < s.i;
+      return {
+        num: idx + 1,
+        badgeBg: active ? '#278777' : done ? '#9CCFC4' : '#C9CFC6',
+        style: `display:flex;align-items:center;gap:8px;border:2px solid ${active ? '#55A99C' : '#E4E5DD'};background:${active ? '#E3F5E9' : '#fff'};border-radius:12px;padding:8px 10px;font-family:inherit;`,
+      };
+    });
+
+    const roundNavButtons = Array.from({ length: TOTAL_ROUNDS }, (_, idx) => {
+      const num = idx + 1;
+      const count = questionsForRound(num).length;
+      const active = num === s.currentRound;
+      return {
+        num, status: count ? `${count}題` : '待加入', disabled: s.playLocked,
+        onClick: () => this.selectRound(num),
+        style: `display:flex;justify-content:space-between;align-items:center;text-align:left;border:2px solid ${active ? '#55A99C' : '#E4E5DD'};background:${active ? '#E3F5E9' : '#fff'};color:#263B37;border-radius:12px;padding:9px 12px;font-weight:800;font-size:13px;cursor:${s.playLocked ? 'not-allowed' : 'pointer'};opacity:${s.playLocked && !active ? 0.5 : 1};font-family:inherit;`,
+      };
+    });
+
+    const choices = (x && (s.phase === 'answering' || s.phase === 'feedback' || s.phase === 'wrongTry')) ? s.currentOptions.map((opt, idx) => {
+      let bg = '#fff', border = '#DBE4D9', color = '#263B37';
+      if (s.locked) { if (opt === x.roman) { bg = '#E3F5E9'; border = '#278777'; color = '#176452'; } }
+      else if (opt === s.wrongPick) { bg = '#FDEBE4'; border = '#CF8166'; color = '#9A462E'; }
+      return {
+        num: idx + 1, text: opt, disabled: s.locked, badgeBg: idx === 0 ? '#55A99C' : '#E88B4A',
+        style: `display:flex;align-items:center;gap:10px;min-height:72px;border:2px solid ${border};border-radius:16px;background:${bg};font-size:clamp(18px,2.4vw,24px);font-weight:900;color:${color};cursor:${s.locked ? 'default' : 'pointer'};font-family:inherit;padding:0 14px;`,
+        onClick: () => this.choose(opt),
+      };
+    }) : [];
+
+    let feedbackBig = '', feedbackDetail = '';
+    const showFeedbackNow = s.phase === 'feedback';
+    if (showFeedbackNow && x) {
+      feedbackBig = s.correctlyAnswered ? '🎉 著矣！' : '⏰ 時間到！';
+      feedbackDetail = s.correctlyAnswered ? `<strong>${x.word}</strong>　${x.roman}<br>華語：${x.zh}` : `正確答案：<strong>${x.word}</strong>　${x.roman}<br>華語：${x.zh}`;
+    }
+    if (s.phase === 'wrongTry') { feedbackBig = '💡 閣想看覓！'; feedbackDetail = '答案猶未公布，你閣會使選一擺。'; }
+
+    const rx = s.rapidList[s.ri];
+
+    return {
+      roundBadge: `第${s.currentRound}回合`,
+      soundLabel: s.soundOn ? '開' : '關', toggleSound: () => this.toggleSound(),
+      questionListButtons, roundNavButtons,
+      screenEmpty: s.screen === 'empty', emptyTitle: `第${s.currentRound}回合尚未建立`, backToFirst: () => this.backToFirst(),
+      screenQuiz: s.screen === 'quiz', screenMid: s.screen === 'mid', screenRapid: s.screen === 'rapid', screenDone: s.screen === 'done',
+      qIndex: x ? `${s.i + 1}:${s.Q.length}` : '',
+      currentImage: x ? x.image : '',
+      timeLeft: s.timeLeft, timerPct: (s.timeLeft / QUIZ_SECONDS) * 100,
+      showStart: s.phase === 'start', startQuestion: () => this.startQuestion(),
+      showChoices: choices.length > 0, choices,
+      nextQuestion: () => this.nextQuestion(),
+      enterRapid: () => this.enterRapid(),
+      rapidIndex: rx ? `第 ${s.ri + 1} 題 / 2` : '',
+      rapidImage: rx ? rx.image : '',
+      rapidTimeLeft: s.rapidTimeLeft,
+      showRapidStart: s.rapidPhase === 'start', startRapid: () => this.startRapid(),
+      showRapidAnswer: s.rapidPhase === 'revealed',
+      rapidWord: rx ? rx.word : '', rapidRoman: rx ? rx.roman : '', rapidZh: rx ? `華語：${rx.zh}` : '',
+      showRevealBtn: s.rapidPhase === 'waiting', revealRapid: () => this.revealRapid(),
+      showRapidNext: s.rapidPhase === 'revealed', nextRapid: () => this.nextRapid(),
+      doneTitle: `🏆 第${s.currentRound}回合完成`,
+      showNextRoundBtn: s.currentRound < TOTAL_ROUNDS, nextRound: () => this.nextRound(),
+      restartRound: () => this.restartRound(),
+      voiceLabel: s.voiceMissing ? '🔇 這个詞猶未有音檔' : (s.voicePlaying ? '🔊 播放中…' : '🔊 聽發音'),
+      voiceBtnStyle: `display:flex;align-items:center;justify-content:center;gap:6px;width:100%;border:2px solid ${s.voiceMissing ? '#E4E5DD' : '#F4C65D'};border-radius:14px;padding:12px;min-height:50px;margin-bottom:10px;font-weight:900;font-size:15.5px;background:${s.voiceMissing ? '#F4F4EF' : '#FFF6DC'};color:${s.voiceMissing ? '#8A948E' : '#7A5A10'};cursor:pointer;font-family:inherit;`,
+      playVoiceQ: () => this.playVoice(x, false),
+      playVoiceR: () => this.playVoice(rx, false),
+      showResultPanel: showFeedbackNow && x,
+      resultHeaderBg: s.correctlyAnswered ? '#278777' : '#C96E2F',
+      resultHeaderText: s.correctlyAnswered ? '🏃 答對囉！ 🎉' : '⏰ 時間到！',
+      resultBoxBg: s.correctlyAnswered ? '#E3F5E9' : '#FDEBE4',
+      resultBoxText: s.correctlyAnswered ? '著矣！' : '猶差一點！',
+      resultZh: x ? x.zh : '', resultWord: x ? x.word : '', resultRoman: x ? x.roman : '',
+    };
+  }
+}
+
+</script>
+</body>
+</html>

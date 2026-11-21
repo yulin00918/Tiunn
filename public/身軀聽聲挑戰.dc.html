@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<meta name="author" content="張鈺聆">
+<meta name="copyright" content="© 張鈺聆">
+<script src="./author-credit.js"></script>
+<!-- 網站介面、功能與教學整合設計／製作：張鈺聆　Copyright © 張鈺聆. All rights reserved.
+     「張鈺聆 製」係指介面設計、功能整合、互動設計與教學資源整合；
+     教材、課文、音檔、圖片、辭典資料等第三方素材之著作權仍屬原權利人所有。
+     完整版權宣告見 author-credit.js。 -->
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H3X7ZH5XL6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-H3X7ZH5XL6');
+</script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  .ls-wrap,.ls-wrap *{box-sizing:border-box;}
+  .ls-opt{transition:.15s ease;}
+  @media(hover:hover){ .ls-opt:hover:not(:disabled){transform:translateY(-3px);border-color:#55A99C;} .ls-round:hover{border-color:#55A99C;} }
+  button:focus-visible{outline:3px solid #F4C65D;outline-offset:2px;}
+  @keyframes ls-shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+  @keyframes ls-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+  .ls-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;}
+  @media(min-width:900px){ .ls-grid{grid-template-columns:repeat(4,minmax(0,1fr));} }
+</style>
+</helmet>
+<div class="ls-wrap" style="font-family:'Noto Sans TC',sans-serif;color:#263B37;width:100%;">
+  <div style="width:100%;max-width:1240px;margin:auto;padding:4px 0 8px;">
+
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap;background:#fff;border:1px solid #E8E6D9;border-radius:18px;padding:12px 16px;box-shadow:0 6px 16px rgba(38,78,71,.06);">
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+        <span style="font-size:24px;line-height:1.2;">👂🏃</span>
+        <span style="font-size:21px;font-weight:900;color:#254E47;">身軀聽聲挑戰</span>
+        <span style="background:#55A99C;color:#fff;border-radius:999px;padding:5px 13px;font-weight:900;font-size:13px;">{{roundBadge}}</span>
+      </div>
+      <span style="background:#FFF6DC;color:#7A5A10;border:2px solid #F4C65D;border-radius:999px;padding:6px 14px;font-weight:900;font-size:14px;">⭐ {{scoreText}}</span>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;align-items:center;">
+      <span style="font-size:12.5px;font-weight:900;letter-spacing:.1em;color:#456C65;margin-right:4px;">選擇回合</span>
+      <sc-for list="{{roundBtns}}" as="rb" hint-placeholder-count="5">
+        <button class="ls-round" style="{{rb.style}}" onClick="{{rb.onClick}}">{{rb.label}}</button>
+      </sc-for>
+    </div>
+
+    <sc-if value="{{screenPlay}}">
+      <div style="background:#fff;border:1px solid #E4E5DD;border-radius:22px;padding:22px;box-shadow:0 10px 26px rgba(38,78,71,.10);">
+        <div style="display:flex;justify-content:center;gap:7px;margin-bottom:14px;">
+          <sc-for list="{{dots}}" as="d" hint-placeholder-count="5"><span style="{{d.style}}"></span></sc-for>
+        </div>
+        <div style="text-align:center;font-weight:800;color:#456C65;margin-bottom:12px;">👂 聽發音，揀出正確的圖</div>
+        <div style="display:flex;justify-content:center;margin-bottom:20px;">
+          <button style="{{playBtnStyle}}" onClick="{{playNow}}">{{playLabel}}</button>
+        </div>
+        <div class="ls-grid">
+          <sc-for list="{{opts}}" as="o" hint-placeholder-count="4">
+            <button class="ls-opt" style="{{o.style}}" onClick="{{o.onClick}}" disabled="{{o.disabled}}">
+              <img src="{{o.src}}" alt="" style="width:100%;aspect-ratio:6/5;object-fit:contain;display:block;border-radius:12px;background:#fff;">
+              <sc-if value="{{o.showLabel}}"><div style="{{o.labelStyle}}">{{o.label}}</div></sc-if>
+            </button>
+          </sc-for>
+        </div>
+        <sc-if value="{{showFeedback}}">
+          <div style="margin:18px auto 0;max-width:560px;border:2px solid #55A99C;background:#EAF6F1;border-radius:18px;padding:14px 18px;text-align:center;">
+            <div style="font-size:18px;font-weight:900;color:#236B60;">{{feedbackTitle}}</div>
+            <div style="margin-top:6px;font-size:22px;font-weight:900;color:#254E47;">{{answerWord}}　<span style="color:#B15F2A;">{{answerRoman}}</span></div>
+            <div style="margin-top:2px;color:#66766D;font-weight:700;">{{answerZh}}</div>
+            <button style="margin-top:12px;border:0;border-radius:14px;padding:13px 26px;min-height:50px;font-weight:900;font-size:15.5px;background:#278777;color:#fff;cursor:pointer;font-family:inherit;" onClick="{{next}}">{{nextLabel}}</button>
+          </div>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{screenDone}}">
+      <div style="background:#fff;border:1px solid #E4E5DD;border-radius:22px;padding:30px 22px;text-align:center;box-shadow:0 10px 26px rgba(38,78,71,.10);">
+        <div style="font-size:44px;">🎉</div>
+        <div style="font-size:22px;font-weight:900;color:#254E47;margin-top:6px;">{{doneTitle}}</div>
+        <div style="color:#66766D;font-weight:700;margin-top:6px;">{{doneText}}</div>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px;">
+          <button style="border:2px solid #B6CFC3;border-radius:16px;padding:13px 20px;font-weight:900;background:#fff;color:#278777;cursor:pointer;font-family:inherit;" onClick="{{again}}">↻ 閣聽一擺</button>
+          <sc-if value="{{hasNextRound}}"><button style="border:0;border-radius:16px;padding:13px 20px;font-weight:900;background:#278777;color:#fff;cursor:pointer;font-family:inherit;" onClick="{{nextRound}}">下一回合 →</button></sc-if>
+        </div>
+      </div>
+    </sc-if>
+
+    <div style="width:100%;max-width:760px;margin:16px auto 0;background:#FFF3D8;border:1px solid #F4DDA7;border-radius:14px;padding:14px 16px;font-size:13px;color:#755832;line-height:1.8;">
+      <strong>💡 玩法</strong>：每題會先唸一擺，聽無清楚就閣按「🔊 閣聽一擺」。佇四張圖內底揀出你聽著的物件，揀毋著會使閣揀；一擺就揀著才算分。
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+// 聽聲挑戰：聽教育部辭典音檔 → 揀出正確的圖。題目資料對「身軀大挑戰」來。
+const AUDIO_DIR = 'audio/tshai-sik/';
+const BANK = [{"round": 1, "zh": "站", "word": "徛", "roman": "khiā", "image": "images/sin-01.webp"}, {"round": 1, "zh": "坐", "word": "坐", "roman": "tsē", "image": "images/sin-02.webp"}, {"round": 1, "zh": "蹲", "word": "跔", "roman": "ku", "image": "images/sin-03.webp"}, {"round": 1, "zh": "跌倒", "word": "跋倒", "roman": "pua̍h-tó", "image": "images/sin-04.webp"}, {"round": 1, "zh": "跑", "word": "走", "roman": "tsáu", "image": "images/sin-05.webp"}, {"round": 2, "zh": "走路", "word": "行", "roman": "kiânn", "image": "images/sin-06.webp"}, {"round": 2, "zh": "跳", "word": "跳", "roman": "thiàu", "image": "images/sin-07.webp"}, {"round": 2, "zh": "踢", "word": "踢", "roman": "that", "image": "images/sin-08.webp"}, {"round": 2, "zh": "拍手", "word": "拍噗仔", "roman": "phah-pho̍k-á", "image": "images/sin-09.webp"}, {"round": 2, "zh": "揮手", "word": "擛手", "roman": "ia̍t-tshiú", "image": "images/sin-10.webp"}, {"round": 3, "zh": "爬", "word": "爬", "roman": "pê", "image": "images/sin-11.webp"}, {"round": 3, "zh": "游泳", "word": "泅水", "roman": "siû-tsuí", "image": "images/sin-12.webp"}, {"round": 3, "zh": "伸展", "word": "伸", "roman": "tshun", "image": "images/sin-13.webp"}, {"round": 3, "zh": "跪", "word": "跪", "roman": "kuī", "image": "images/sin-14.webp"}, {"round": 3, "zh": "抱", "word": "抱", "roman": "phō", "image": "images/sin-15.webp"}, {"round": 4, "zh": "躲", "word": "覕", "roman": "bih", "image": "images/sin-16.webp"}, {"round": 4, "zh": "笑", "word": "笑", "roman": "tshiò", "image": "images/sin-17.webp"}, {"round": 4, "zh": "哭", "word": "吼", "roman": "háu", "image": "images/sin-18.webp"}, {"round": 4, "zh": "唱歌", "word": "唱歌", "roman": "tshiùnn-kua", "image": "images/sin-19.webp"}, {"round": 4, "zh": "跳舞", "word": "跳舞", "roman": "thiàu-bú", "image": "images/sin-20.webp"}];
+const PER_ROUND = 5;
+const ROUNDS = Math.max(...BANK.map(x => x.round));
+const shuffle = a => { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
+function makeQuestions(round) {
+  return shuffle(BANK.filter(x => x.round === round)).slice(0, PER_ROUND).map(x => ({
+    x, opts: shuffle([x, ...shuffle(BANK.filter(y => y.word !== x.word)).slice(0, 3)]),
+  }));
+}
+
+// ── 學習紀錄（星星收集）：存佇這台電腦的瀏覽器，挑戰區會讀來顯示星星。
+const PROG_KEY = 'yjtg-progress-v1';
+function progMark(game, item, goal) {
+  try {
+    const d = JSON.parse(localStorage.getItem(PROG_KEY) || '{}');
+    const g = d[game] || { done: [], goal };
+    if (!g.done.includes(String(item))) g.done.push(String(item));
+    g.goal = goal; d[game] = g;
+    localStorage.setItem(PROG_KEY, JSON.stringify(d));
+  } catch (e) {}
+}
+
+class Component extends DCLogic {
+  state = { round: 1, Q: makeQuestions(1), i: 0, score: 0, wrong: [], solved: false, firstTry: true, done: false, playing: false, missing: false };
+  voice = null;
+  componentDidMount() { this.autoPlay(); }
+  componentWillUnmount() { this.stop(); clearTimeout(this.t); }
+  stop() { try { if (this.voice) { this.voice.onended = this.voice.onerror = null; this.voice.pause(); } } catch (e) {} this.voice = null; }
+  play() {
+    const q = this.state.Q[this.state.i]; if (!q) return;
+    this.stop();
+    const a = new Audio(AUDIO_DIR + q.x.word + '.mp3'); this.voice = a;
+    this.setState({ playing: true, missing: false });
+    a.onended = () => { if (this.voice === a) this.setState({ playing: false }); };
+    a.onerror = () => { if (this.voice === a) this.setState({ playing: false, missing: true }); };
+    const p = a.play(); if (p && p.catch) p.catch(() => { if (this.voice === a) this.setState({ playing: false }); });
+  }
+  autoPlay() { clearTimeout(this.t); this.t = setTimeout(() => this.play(), 350); }
+  pick(o) {
+    const s = this.state, q = s.Q[s.i];
+    if (s.solved || s.wrong.includes(o.word)) return;
+    if (o.word === q.x.word) this.setState({ solved: true, score: s.score + (s.firstTry ? 1 : 0) });
+    else this.setState({ wrong: [...s.wrong, o.word], firstTry: false });
+  }
+  next() {
+    const s = this.state;
+    if (s.i + 1 >= s.Q.length) { this.stop(); progMark('身軀聽聲挑戰', s.round, ROUNDS); return this.setState({ done: true }); }
+    this.setState({ i: s.i + 1, wrong: [], solved: false, firstTry: true }, () => this.autoPlay());
+  }
+  start(round) { this.stop(); this.setState({ round, Q: makeQuestions(round), i: 0, score: 0, wrong: [], solved: false, firstTry: true, done: false }, () => this.autoPlay()); }
+
+  renderVals() {
+    const s = this.state, q = s.Q[s.i];
+    const opts = q ? q.opts.map(o => {
+      const isAns = o.word === q.x.word, isWrong = s.wrong.includes(o.word);
+      const border = s.solved && isAns ? '#278777' : (isWrong ? '#E2A28A' : '#E4E5DD');
+      const bg = s.solved && isAns ? '#EAF6F1' : (isWrong ? '#FBEDE7' : '#fff');
+      return {
+        src: o.image, onClick: () => this.pick(o), disabled: s.solved || isWrong,
+        showLabel: (s.solved && isAns) || isWrong, label: isWrong ? '✗ ' + o.word : '✓ ' + o.word,
+        labelStyle: `margin-top:8px;font-weight:900;font-size:15px;color:${isWrong ? '#B15F2A' : '#236B60'};`,
+        style: `display:block;width:100%;border:3px solid ${border};background:${bg};border-radius:18px;padding:10px;cursor:${s.solved || isWrong ? 'default' : 'pointer'};font-family:inherit;opacity:${isWrong ? .55 : 1};${isWrong ? 'animation:ls-shake .3s;' : ''}`,
+      };
+    }) : [];
+    return {
+      roundBadge: `第${s.round}回合`,
+      scoreText: `${s.score} / ${s.Q.length}`,
+      roundBtns: Array.from({ length: ROUNDS }, (_, k) => ({
+        label: `第${k + 1}回合`, onClick: () => this.start(k + 1),
+        style: `border:2px solid ${k + 1 === s.round ? '#55A99C' : '#E4E5DD'};background:${k + 1 === s.round ? '#EAF6F1' : '#fff'};color:#254E47;border-radius:12px;padding:9px 14px;min-height:44px;font-weight:900;font-size:13.5px;cursor:pointer;font-family:inherit;`,
+      })),
+      dots: s.Q.map((_, k) => ({ style: `width:12px;height:12px;border-radius:50%;background:${k < s.i || (k === s.i && s.solved) ? '#55A99C' : (k === s.i ? '#F4C65D' : '#E4E5DD')};` })),
+      screenPlay: !s.done, screenDone: s.done,
+      playNow: () => this.play(),
+      playLabel: s.missing ? '🔇 這个詞猶未有音檔' : (s.playing ? '🔊 播放中…' : '🔊 閣聽一擺'),
+      playBtnStyle: `border:0;border-radius:999px;padding:16px 34px;min-height:60px;font-weight:900;font-size:19px;background:${s.missing ? '#E4E5DD' : 'linear-gradient(110deg,#F4C65D,#E8B03E)'};color:${s.missing ? '#66766D' : '#4A3A0E'};cursor:pointer;font-family:inherit;box-shadow:0 8px 18px rgba(232,176,62,.30);${s.playing ? 'animation:ls-pulse .8s infinite;' : ''}`,
+      opts,
+      showFeedback: s.solved,
+      feedbackTitle: s.firstTry ? '✅ 一擺就揀著，讚！' : '✅ 揀著矣！',
+      answerWord: q ? q.x.word : '', answerRoman: q ? q.x.roman : '', answerZh: q ? q.x.zh : '',
+      next: () => this.next(),
+      nextLabel: s.i + 1 >= s.Q.length ? '看結果 →' : '下一題 →',
+      doneTitle: `第${s.round}回合完成！`,
+      doneText: `一擺就揀著 ${s.score} 題，總共 ${s.Q.length} 題。`,
+      again: () => this.start(s.round),
+      hasNextRound: s.round < ROUNDS, nextRound: () => this.start(s.round + 1),
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -176,6 +176,24 @@
       <sc-if value="{{tab.activeSportListen}}">
         <dc-import name="運動聽聲挑戰" hint-size="100%,900px"></dc-import>
       </sc-if>
+      <sc-if value="{{tab.activeCookGame}}">
+        <dc-import name="煮食大挑戰" hint-size="100%,900px"></dc-import>
+      </sc-if>
+      <sc-if value="{{tab.activeCookRoulette}}">
+        <dc-import name="煮食走馬燈" hint-size="100%,900px"></dc-import>
+      </sc-if>
+      <sc-if value="{{tab.activeBodyGame}}">
+        <dc-import name="身軀大挑戰" hint-size="100%,900px"></dc-import>
+      </sc-if>
+      <sc-if value="{{tab.activeBodyRoulette}}">
+        <dc-import name="身軀走馬燈" hint-size="100%,900px"></dc-import>
+      </sc-if>
+      <sc-if value="{{tab.activeCookListen}}">
+        <dc-import name="煮食聽聲挑戰" hint-size="100%,900px"></dc-import>
+      </sc-if>
+      <sc-if value="{{tab.activeBodyListen}}">
+        <dc-import name="身軀聽聲挑戰" hint-size="100%,900px"></dc-import>
+      </sc-if>
       <sc-if value="{{tab.activeAdvanced}}">
         <div style="background:#fff;border:1px solid #E8E6D9;border-radius:26px;padding:26px;box-shadow:0 12px 32px rgba(38,78,71,.10);">
           <a class="ca-boss" href="進階綜合挑戰.html" style="position:relative;display:flex;flex-direction:column;background:linear-gradient(140deg,#FFF0B9,#FFE0AD);border:2px solid #F0BB60;border-radius:24px;padding:30px 26px 26px;box-shadow:0 12px 28px rgba(215,110,49,.14);cursor:pointer;overflow:hidden;">
@@ -247,6 +265,12 @@ const GAME_META = {
   homeListen: { pics: ['headphone', 'house'], icon: '🎧', name: '厝內聽聲挑戰', how: '聽發音 → 揀出正確的圖' },
   schoolListen: { pics: ['headphone', 'books'], icon: '🎧', name: '學校聽聲挑戰', how: '聽發音 → 揀出正確的圖' },
   sportListen: { pics: ['headphone', 'basketball'], icon: '🎧', name: '運動聽聲挑戰', how: '聽發音 → 揀出正確的圖' },
+  cookListen: { pics: ['headphone', 'shallow-pan-of-food'], icon: '🎧', name: '煮食聽聲挑戰', how: '聽發音 → 揀出正確的圖' },
+  bodyListen: { pics: ['headphone', 'person-running'], icon: '🎧', name: '身軀聽聲挑戰', how: '聽發音 → 揀出正確的圖' },
+  cook: { pics: ['shallow-pan-of-food', 'fire'], icon: '🍳🔥', name: '煮食大挑戰', how: '看圖 → 選出台羅' },
+  cookRoulette: { pics: ['ferris-wheel', 'fire'], icon: '🎡🔥', name: '煮食走馬燈', how: '停格 → 看台羅講煮食動作' },
+  body: { pics: ['person-running', 'raising-hands'], icon: '🏃🙌', name: '身軀大挑戰', how: '看圖 → 選出台羅' },
+  bodyRoulette: { pics: ['ferris-wheel', 'raising-hands'], icon: '🎡🙌', name: '身軀走馬燈', how: '停格 → 看台羅講身軀動作' },
 };
 
 // ── 草稿：GAME_META 裡有 draft: true 的遊戲，學生看袂著。
@@ -262,6 +286,8 @@ const THEMES = [
   { label: '厝內',     pic: 'house',       games: ['home', 'homeRoulette', 'homeListen'] },
   { label: '學校',     pic: 'books',       games: ['school', 'schoolRoulette', 'schoolListen'] },
   { label: '運動',     pic: 'basketball',  games: ['sport', 'sportRoulette', 'sportListen'] },
+  { label: '煮食動作', pic: 'shallow-pan-of-food', games: ['cook', 'cookRoulette', 'cookListen'] },
+  { label: '身軀動作', pic: 'person-running', games: ['body', 'bodyRoulette', 'bodyListen'] },
 ];
 const visibleThemes = () => THEMES.filter(t => SHOW_DRAFT || t.games.some(k => !GAME_META[k].draft));
 
@@ -271,11 +297,11 @@ function readProg() { try { return JSON.parse(localStorage.getItem(PROG_KEY) || 
 function progOf(d, name) { const g = d[name]; if (!g || !g.goal) return { n: 0, goal: 0, star: false }; const n = Math.min(g.done.length, g.goal); return { n, goal: g.goal, star: n >= g.goal }; }
 
 const GROUPS = [
-  { step: '關卡 1', title: '看圖挑戰', hint: '看著圖，揀出正確的台羅', tone: '#278777', keys: ['veggie', 'color', 'cloth', 'kitchen', 'home', 'school', 'sport'],
+  { step: '關卡 1', title: '看圖挑戰', hint: '看著圖，揀出正確的台羅', tone: '#278777', keys: ['veggie', 'color', 'cloth', 'kitchen', 'home', 'school', 'sport', 'cook', 'body'],
     cardBg: 'linear-gradient(150deg,#F4FAF5,#E0F2EC)', cardBorder: '#CBE9DD', ctaBg: '#278777' },
-  { step: '關卡 2', title: '開喙挑戰', hint: '看著台羅，家己講出來', tone: '#E88B4A', keys: ['roulette', 'vegRoulette', 'clothRoulette', 'kitchenRoulette', 'homeRoulette', 'schoolRoulette', 'sportRoulette'],
+  { step: '關卡 2', title: '開喙挑戰', hint: '看著台羅，家己講出來', tone: '#E88B4A', keys: ['roulette', 'vegRoulette', 'clothRoulette', 'kitchenRoulette', 'homeRoulette', 'schoolRoulette', 'sportRoulette', 'cookRoulette', 'bodyRoulette'],
     cardBg: 'linear-gradient(150deg,#FFFCF4,#FFF1D7)', cardBorder: '#F3DFB9', ctaBg: 'linear-gradient(110deg,#E88B4A,#DA753B)' },
-  { step: '關卡 3', title: '聽聲挑戰', hint: '聽著發音，揀出正確的圖', tone: '#55A99C', keys: ['vegListen', 'colorListen', 'clothListen', 'kitchenListen', 'homeListen', 'schoolListen', 'sportListen'],
+  { step: '關卡 3', title: '聽聲挑戰', hint: '聽著發音，揀出正確的圖', tone: '#55A99C', keys: ['vegListen', 'colorListen', 'clothListen', 'kitchenListen', 'homeListen', 'schoolListen', 'sportListen', 'cookListen', 'bodyListen'],
     cardBg: 'linear-gradient(150deg,#F2FAF8,#DDF0EB)', cardBorder: '#BFE3DA', ctaBg: '#3E9486' },
 ];
 
@@ -317,6 +343,12 @@ class Component extends DCLogic {
         activeHomeListen: isBasicTab && activeGame === 'homeListen',
         activeSchoolListen: isBasicTab && activeGame === 'schoolListen',
         activeSportListen: isBasicTab && activeGame === 'sportListen',
+        activeCookGame: isBasicTab && activeGame === 'cook',
+        activeCookRoulette: isBasicTab && activeGame === 'cookRoulette',
+        activeBodyGame: isBasicTab && activeGame === 'body',
+        activeBodyRoulette: isBasicTab && activeGame === 'bodyRoulette',
+        activeCookListen: isBasicTab && activeGame === 'cookListen',
+        activeBodyListen: isBasicTab && activeGame === 'bodyListen',
         activeAdvanced: active && d.isAdvanced,
         onClick: () => this.setState({ activeTab: i, activeGame: null }),
         btnStyle: `display:flex;align-items:center;padding:16px 18px;border-radius:20px;border:2px solid ${active ? '#254E47' : '#E7DCC9'};font-family:inherit;cursor:pointer;min-height:76px;text-align:left;transition:.16s ease;background:${active ? '#254E47' : '#FFFCF4'};color:${active ? '#fff' : '#385A53'};box-shadow:${active ? '0 10px 22px rgba(37,78,71,.20)' : '0 6px 16px rgba(38,78,71,.05)'};`,

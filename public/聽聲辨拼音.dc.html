@@ -163,6 +163,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #F4C65D;outline-offset:2p
 <div class="lifeDock"><div class="pill">❤️ HP 10 / 10</div><div class="pill" id="stonePill">✨ 重生石 ×1</div></div>
 <button id="startBtn" class="primary">🚀 出發冒險</button>
 <div class="note">答錯或超時會扣 1 HP，錯過的音會偷偷在後面再出現。HP 歸零時，重生石會讓你原地復活！在練功坊用內力可以換更多重生石。</div>
+<div class="note" style="margin-top:6px;font-weight:900;color:#B15F2A">🎫 過 Lv.3、Lv.6、Lv.9 攏會得著通關碼，會使交予老師換星星！</div>
 <a class="dojoLink" href="聽聲練功坊.html">🥋 先去練功坊練練耳朵</a>
 </section>
 
@@ -426,6 +427,8 @@ function continueAfterRevive(){screen("game");locked=false;nextQuestion()}
 
 function levelClear(){
  const currentLevel=playable[levelIndex];markCleared(currentLevel.key);
+ const passAct=currentLevel.id===3?"TA":currentLevel.id===6?"TB":"";
+ if(passAct&&levelIndex<playable.length-1&&window.YJPass)setTimeout(()=>YJPass.award(passAct,`Lv.${currentLevel.id} ${currentLevel.name} 過關`),700);
  if(levelIndex<playable.length-1){
    const nextLevel=playable[levelIndex+1];
    screen("transition");
@@ -437,7 +440,7 @@ function levelClear(){
  }else finish(true);
 }
 function finish(clear){
- clearInterval(timerId);screen("result");if(clear&&window.YJPass)setTimeout(()=>YJPass.award("TS","冒險航線全部完成"),900);
+ clearInterval(timerId);screen("result");if(clear&&window.YJPass)setTimeout(()=>YJPass.award("TS","Lv.9 最終挑戰完成，冒險航線全破！"),900);
  $("#successResult").style.display=clear?"block":"none";
  $("#failResult").style.display=clear?"none":"block";
  $("#allClearKicker").textContent=`${playable.length} 座島嶼全部完成`;

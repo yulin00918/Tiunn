@@ -987,7 +987,7 @@ function miniWorld(c){const k=c.theme,th=T[k],st=ts(c,k),nx=nextInfo(c,k);
  <div class="bar"><i style="width:${nx.pct}%"></i></div>
  <p class="small" style="margin:8px 0 0">${nx.done?SI('trophy')+' 12 項內容全部解鎖！':`下一個：<b>${preview(k,nx.m)}</b><br><span class="muted">還差 ${EN(th)} ${nx.left}（約全班 ${(nx.left/Math.max(1,c.students.length)).toFixed(1)} 次任務）</span>`}</p></div>`}
 /* ================= 通關碼打卡（鈺見台語活動） ================= */
-const PASS_ACTS={TL:'🎵 台羅練功房',TS:'🎧 聽聲辨拼音',DK:'🧩 台語組句任務',HY:'🕵️ 形音義挑戰',TZ:'⭐ 台語挑戰區'};
+const PASS_ACTS={TL:'🎵 台羅練功房',TA:'🎧 聽聲辨拼音 Lv.3',TB:'🎧 聽聲辨拼音 Lv.6',TS:'🎧 聽聲辨拼音 Lv.9',DK:'🧩 台語組句任務',HY:'🕵️ 形音義挑戰',TZ:'⭐ 台語挑戰區',KW:'🔎 課文解碼站'};
 const PABC='23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
 function pFnv(str){let h=2166136261;for(let i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619)>>>0}return h>>>0}
 function pChk(act,seat2,day){let h=pFnv(act+'|'+seat2+'|'+day+'|yjtg-pass-v1'),s='';for(let i=0;i<4;i++){s+=PABC[h%32];h=Math.floor(h/32)}return s}
@@ -1039,7 +1039,7 @@ function kioskOpen(){const c=cls();if(!c)return;kioskCss();kioskHist=[];let k=$(
  <div class="kb"><div class="kc"><h1>🎫 輸入你的通關碼</h1><p class="ks">完成鈺見台語的活動，會得著一組通關碼（例：TS07-K3M2）。<br>輸入了後揤「打卡」，你的星星就會加起來！</p>
  <input id="kIn" maxlength="12" autocomplete="off" spellcheck="false" placeholder="TS07-K3M2"><button class="kgo" onclick="kioskGo()">⭐ 打卡</button>
  <div id="kFb" class="kfb">輸入一組通關碼，一擺一个人。</div>
- <div class="kacts">${Object.values(PASS_ACTS).map(n=>`<span>${n}</span>`).join('')}</div></div>
+ <div class="kacts">${[...new Set(Object.values(PASS_ACTS).map(n=>n.replace(/ Lv\.\d$/,'')))].map(n=>`<span>${n}</span>`).join('')}</div></div>
  <div class="kc"><div id="kWorld">${miniWorld(c)}</div><h2 style="margin:16px 0 0;font-size:18px">今仔日自助打卡</h2><ul class="khist" id="kHist"><li class="muted">猶未有人打卡</li></ul></div></div>`;
  const inp=$('#kIn');inp.onkeydown=e=>{if(e.key==='Enter')kioskGo()};setTimeout(()=>inp.focus(),60)}
 function kioskGo(){const c=cls(),inp=$('#kIn'),fb=$('#kFb'),v=(inp.value||'').toUpperCase().replace(/\s+/g,'');if(!v){inp.focus();return}

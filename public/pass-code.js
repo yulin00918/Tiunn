@@ -6,10 +6,13 @@
   if (window.YJPass) return;
   var ACTS = {
     TL: { name: '台羅練功房', icon: '🎵' },
-    TS: { name: '聽聲辨拼音', icon: '🎧' },
+    TA: { name: '聽聲辨拼音 Lv.3', icon: '🎧' },
+    TB: { name: '聽聲辨拼音 Lv.6', icon: '🎧' },
+    TS: { name: '聽聲辨拼音 Lv.9', icon: '🎧' },
     DK: { name: '台語組句任務', icon: '🧩' },
     HY: { name: '形音義挑戰', icon: '🕵️' },
-    TZ: { name: '台語挑戰區', icon: '⭐' }
+    TZ: { name: '台語挑戰區', icon: '⭐' },
+    KW: { name: '課文解碼站', icon: '🔎' }
   };
   var ABC = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
   var SEAT_KEY = 'yjtg-pass-seat', TRACK_KEY = 'yjtg-pass-track-v1';

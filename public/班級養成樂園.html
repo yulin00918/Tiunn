@@ -995,29 +995,64 @@ function pYmd(d){return d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate()}
 function passVerify(act,seat2,chk){for(let k=0;k<7;k++){const d=new Date();d.setDate(d.getDate()-k);const y=pYmd(d);if(pChk(act,seat2,y)===chk)return y}return 0}
 function passTask(c,act){let t=c.tasks.find(x=>x.pass===act);if(!t){t={id:uid(),name:PASS_ACTS[act],stars:1,energy:1,pass:act};c.tasks.push(t)}return t}
 function passEntry(){modal(`<h2>🎫 通關碼打卡</h2><p class="small muted" style="line-height:1.7;margin:4px 0 10px">學生完成鈺見台語的活動會得著通關碼（例：<b>TS07-K3M2</b>）。<br>一擺會使貼濟濟組，用空格抑換行隔開。七工內的通關碼攏有效，仝一組碼袂當重複使用。<br>系統會自動建立對應的任務（教師管理內底會使改星星數）。</p><textarea id="pcIn" rows="6" style="width:100%;box-sizing:border-box;font-size:18px;font-family:Consolas,'Courier New',monospace;padding:10px;border-radius:12px;border:2px solid #cfd8d5" placeholder="TS07-K3M2&#10;HY12-8PQA"></textarea>`,passApply,'送出打卡');setTimeout(()=>{const x=$('#pcIn');x&&x.focus()},60)}
-function passApply(){const c=cls(),raw=(($('#pcIn')||{}).value||'').toUpperCase();const toks=raw.split(/[\s,，、;；]+/).filter(Boolean);if(!toks.length)return;
+function passProcess(c,toks){
  c.passUsed=c.passUsed||{};const cut=pYmd(new Date(Date.now()-14*864e5));Object.keys(c.passUsed).forEach(k=>{if(c.passUsed[k]<cut)delete c.passUsed[k]});
  const ok={},bad=[],dup=[],noSeat=[],seen=new Set();
  toks.forEach(tok=>{const m=tok.match(/^([A-Z]{2})(\d{2})-?([2-9A-HJ-NP-Z]{4})$/);if(!m||!PASS_ACTS[m[1]]){bad.push(tok);return}
   const code=m[1]+m[2]+'-'+m[3],day=passVerify(m[1],m[2],m[3]);if(!day){bad.push(tok);return}
   if(c.passUsed[code]||seen.has(code)){dup.push(code);return}
   const st=c.students.find(x=>Number(x.seat)===parseInt(m[2],10));if(!st){noSeat.push(code);return}
-  seen.add(code);(ok[m[1]]=ok[m[1]]||[]).push({code,day,id:st.id,seat:st.seat})});
- const lines=[];
+  seen.add(code);(ok[m[1]]=ok[m[1]]||[]).push({code,day,id:st.id,seat:st.seat,name:st.name})});
+ const lines=[],done=[];
  Object.entries(ok).forEach(([act,list])=>{const t=passTask(c,act);let rest=list.slice();
   while(rest.length){const ids=new Set(),next=[];rest.forEach(x=>ids.has(x.id)?next.push(x):ids.add(x.id));sel.task=t.id;sel.seats=new Set(ids);doCheck();rest=next}
-  list.forEach(x=>c.passUsed[x.code]=x.day);lines.push(`<li>${esc(t.name)}：${list.map(x=>x.seat).sort((a,b)=>a-b).join('、')} 號（${list.length} 組）</li>`)});
- save();render();
- const okN=Object.values(ok).reduce((a,l)=>a+l.length,0);
- let h=`<h2>🎫 通關碼打卡結果</h2><p style="margin:6px 0">✅ 成功 <b>${okN}</b> 組</p>`+(lines.length?`<ul style="margin:4px 0 10px;line-height:1.8">${lines.join('')}</ul>`:'');
- if(dup.length)h+=`<p class="small" style="margin:6px 0">♻️ 已經用過：${dup.map(esc).join('、')}</p>`;
- if(noSeat.length)h+=`<p class="small" style="margin:6px 0">🪑 這班無這个座號：${noSeat.map(esc).join('、')}</p>`;
- if(bad.length)h+=`<p class="small" style="margin:6px 0;color:#b0453a">❌ 通關碼毋著抑超過七工：${bad.map(esc).join('、')}</p>`;
+  list.forEach(x=>{c.passUsed[x.code]=x.day;done.push({...x,task:t})});lines.push(`<li>${esc(t.name)}：${list.map(x=>x.seat).sort((a,b)=>a-b).join('、')} 號（${list.length} 組）</li>`)});
+ save();render();return{done,lines,bad,dup,noSeat}}
+function passApply(){const c=cls(),raw=(($('#pcIn')||{}).value||'').toUpperCase();const toks=raw.split(/[\s,，、;；]+/).filter(Boolean);if(!toks.length)return;
+ const r=passProcess(c,toks),okN=r.done.length;
+ let h=`<h2>🎫 通關碼打卡結果</h2><p style="margin:6px 0">✅ 成功 <b>${okN}</b> 組</p>`+(r.lines.length?`<ul style="margin:4px 0 10px;line-height:1.8">${r.lines.join('')}</ul>`:'');
+ if(r.dup.length)h+=`<p class="small" style="margin:6px 0">♻️ 已經用過：${r.dup.map(esc).join('、')}</p>`;
+ if(r.noSeat.length)h+=`<p class="small" style="margin:6px 0">🪑 這班無這个座號：${r.noSeat.map(esc).join('、')}</p>`;
+ if(r.bad.length)h+=`<p class="small" style="margin:6px 0;color:#b0453a">❌ 通關碼毋著抑超過七工：${r.bad.map(esc).join('、')}</p>`;
  setTimeout(()=>modal(h,null,'好'),okN?400:0)}
+/* ---------- 學生自助打卡（全螢幕） ---------- */
+let kioskHist=[];
+function kioskCss(){if($('#kioskCss'))return;const st=document.createElement('style');st.id='kioskCss';st.textContent=`
+#kiosk{position:fixed;inset:0;z-index:45;background:linear-gradient(135deg,#FAF8F2,#EAF3EF);overflow:auto;display:flex;flex-direction:column}
+#kiosk .kh{display:flex;justify-content:space-between;align-items:center;padding:14px 22px;background:#254E47;color:#fff}
+#kiosk .kh b{font-size:22px}#kiosk .kh button{background:rgba(255,255,255,.16);color:#fff;border:0;border-radius:999px;padding:8px 16px;font:inherit;font-weight:700;cursor:pointer}
+#kiosk .kb{flex:1;display:grid;grid-template-columns:minmax(320px,1fr) minmax(300px,1fr);gap:22px;padding:22px;max-width:1300px;width:100%;margin:0 auto;box-sizing:border-box}
+@media(max-width:860px){#kiosk .kb{grid-template-columns:1fr}}
+#kiosk .kc{background:#fff;border-radius:24px;padding:24px;box-shadow:0 10px 30px rgba(37,78,71,.10)}
+#kiosk h1{margin:0 0 6px;font-size:30px;color:#254E47}#kiosk .ks{color:#5b6b66;line-height:1.7;margin:0 0 16px}
+#kiosk input{width:100%;box-sizing:border-box;font-size:40px;font-weight:900;letter-spacing:.08em;text-align:center;padding:16px 10px;border:3px solid #55A99C;border-radius:18px;font-family:Consolas,'Courier New',monospace;text-transform:uppercase}
+#kiosk .kgo{width:100%;margin-top:12px;font-size:24px;font-weight:900;padding:14px;border:0;border-radius:18px;background:#E88B4A;color:#fff;cursor:pointer}
+#kiosk .kfb{margin-top:16px;min-height:96px;border-radius:18px;padding:16px;font-size:20px;line-height:1.6;text-align:center}
+#kiosk .kfb.ok{background:#E3F3EC;color:#1F5C46;animation:kpop .4s}#kiosk .kfb.no{background:#FBEAE6;color:#9A3A2C;animation:kshake .4s}
+#kiosk .kfb .big{font-size:30px;font-weight:900;display:block}
+@keyframes kpop{from{transform:scale(.9)}to{transform:scale(1)}}@keyframes kshake{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+#kiosk .kacts{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}#kiosk .kacts span{background:#F4EFE3;border-radius:999px;padding:6px 12px;font-size:14px;font-weight:700;color:#385A53}
+#kWorld button,#kWorld a{display:none!important}
+#kiosk .khist{margin:10px 0 0;padding:0;list-style:none;font-size:15px;line-height:1.9;color:#385A53}`;document.head.appendChild(st)}
+function kioskOpen(){const c=cls();if(!c)return;kioskCss();kioskHist=[];let k=$('#kiosk');if(!k){k=document.createElement('div');k.id='kiosk';document.body.appendChild(k)}
+ k.innerHTML=`<div class="kh"><b>🙋 ${esc(c.name)}・學生自助打卡</b><button onclick="kioskClose()">老師結束 ✕</button></div>
+ <div class="kb"><div class="kc"><h1>🎫 輸入你的通關碼</h1><p class="ks">完成鈺見台語的活動，會得著一組通關碼（例：TS07-K3M2）。<br>輸入了後揤「打卡」，你的星星就會加起來！</p>
+ <input id="kIn" maxlength="12" autocomplete="off" spellcheck="false" placeholder="TS07-K3M2"><button class="kgo" onclick="kioskGo()">⭐ 打卡</button>
+ <div id="kFb" class="kfb">輸入一組通關碼，一擺一个人。</div>
+ <div class="kacts">${Object.values(PASS_ACTS).map(n=>`<span>${n}</span>`).join('')}</div></div>
+ <div class="kc"><div id="kWorld">${miniWorld(c)}</div><h2 style="margin:16px 0 0;font-size:18px">今仔日自助打卡</h2><ul class="khist" id="kHist"><li class="muted">猶未有人打卡</li></ul></div></div>`;
+ const inp=$('#kIn');inp.onkeydown=e=>{if(e.key==='Enter')kioskGo()};setTimeout(()=>inp.focus(),60)}
+function kioskGo(){const c=cls(),inp=$('#kIn'),fb=$('#kFb'),v=(inp.value||'').toUpperCase().replace(/\s+/g,'');if(!v){inp.focus();return}
+ const r=passProcess(c,[v]);fb.classList.remove('ok','no');void fb.offsetWidth;
+ if(r.done.length){const x=r.done[0];fb.classList.add('ok');fb.innerHTML=`<span class="big">✅ ${x.seat} 號 ${esc(x.name)}</span>${esc(x.task.name)}　${STAR} +${x.task.stars}　打卡成功！`;
+  kioskHist.unshift(`${new Date().toTimeString().slice(0,5)}　${x.seat} 號　${esc(x.task.name)}`);$('#kHist').innerHTML=kioskHist.slice(0,12).map(h=>`<li>${h}</li>`).join('');$('#kWorld').innerHTML=miniWorld(c)}
+ else{fb.classList.add('no');fb.innerHTML=r.dup.length?`<span class="big">♻️ 這組碼已經用過矣</span>仝一組通關碼干焦會使打卡一擺。`:r.noSeat.length?`<span class="big">🪑 這班無這个座號</span>請確認你的座號，抑是問老師敢揀著班級。`:`<span class="big">❌ 通關碼毋著</span>請閣確認一擺（後壁四碼袂出現 0、1、O、I）。`}
+ inp.value='';inp.focus()}
+function kioskClose(){confirmBox('確定欲結束學生自助打卡？',()=>{const k=$('#kiosk');k&&k.remove()},'結束')}
 function pgCheck(c){if(!c.tasks.find(t=>t.id===sel.task))sel.task=c.tasks[0]?.id;const t=c.tasks.find(x=>x.id===sel.task),th=T[c.theme],n=sel.seats.size,done=todayDone(c,sel.task);
  return `<div class="grid2"><div class="card"><h2>① 選擇任務</h2>
  <div class="tasks">${c.tasks.map(x=>`<button class="task ${x.id===sel.task?'on':''}" onclick="pickTask('${x.id}')">${esc(x.name)}<small>${STAR}+${x.stars}・${EN(th)}+${x.energy}／人</small></button>`).join('')||'<span class="muted">請到「教師管理」新增任務</span>'}</div>
- <div class="row sp"><h2 style="margin:0">② 點選完成的學生</h2><div class="row"><button class="ghost" onclick="passEntry()" title="輸入學生佇鈺見台語得著的通關碼">🎫 通關碼打卡</button><button class="ghost" onclick="selAll()">全選</button><button class="ghost" onclick="selNotDone()">選今日未完成</button><button class="ghost" onclick="selNone()">清除</button></div></div>
+ <div class="row sp"><h2 style="margin:0">② 點選完成的學生</h2><div class="row"><button class="ghost" onclick="kioskOpen()" title="投影或放佇教室，予學生家己輸入通關碼">🙋 學生自助打卡</button><button class="ghost" onclick="passEntry()" title="輸入學生佇鈺見台語得著的通關碼">🎫 通關碼打卡</button><button class="ghost" onclick="selAll()">全選</button><button class="ghost" onclick="selNotDone()">選今日未完成</button><button class="ghost" onclick="selNone()">清除</button></div></div>
  <p class="small muted" style="margin:6px 0 10px">底部綠線＝今天已完成這個任務</p>
  <div class="seats">${c.students.map(s=>`<button class="seat ${sel.seats.has(s.id)?'on':''} ${done.has(s.id)?'done':''}" onclick="tog('${s.id}')"><b>${s.seat}</b>${esc(s.name)}<span class="${s.stars<0?'neg':''}">${STAR} ${s.stars}</span></button>`).join('')}</div>
  <div class="stickybar row sp"><div>已選 <b>${n}</b> 人${t&&n?`　→ 每人 ${STAR}+${t.stars}，班級 ${EN(th)}+${t.energy*n}`:''}</div>

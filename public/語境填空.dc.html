@@ -86,7 +86,7 @@ Copyright © 張鈺聆. All rights reserved.
     <svg viewBox="0 0 1440 16" preserveAspectRatio="none" style="position:absolute;left:0;right:0;bottom:-1px;width:100%;height:16px;display:block;"><path d="M0,10 C240,2 480,15 720,8 C960,2 1200,14 1440,7 L1440,16 L0,16 Z" fill="#FAF8F2"></path></svg>
   </div>
 
-  <div style="max-width:1160px;margin:auto;padding:22px 22px 8px;">
+  <div style="{{crumbWrapStyle}}">
     <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;min-height:46px;">
       <button class="lc-btn lc-back" style="{{backBtnStyle}}" onClick="{{goBack}}">← 返回</button>
       <div style="font-size:13px;font-weight:800;color:#66766D;">{{crumb}}</div>
@@ -97,24 +97,53 @@ Copyright © 張鈺聆. All rights reserved.
 
     <sc-if value="{{isHome}}" hint-placeholder-val="{{true}}">
       <div style="background:#fff;border:1px solid #E8E6D9;border-radius:26px;padding:28px;box-shadow:0 12px 32px rgba(38,78,71,.10);">
-        <div style="text-align:center;margin-bottom:24px;">
+        <div style="text-align:center;margin-bottom:18px;">
           <h1 style="font-size:clamp(26px,4.4vw,36px);margin:0 0 8px;font-weight:900;letter-spacing:.03em;color:#254E47;">揀一个語境開始挑戰</h1>
-          <p style="margin:0;color:#66766D;font-size:14.5px;font-weight:700;line-height:1.75;">先揀一種練習方式，對你熟悉的情境開始。</p>
+          <p style="margin:0;color:#66766D;font-size:14.5px;font-weight:700;line-height:1.75;">對你熟悉的情境開始，看詞語佇句內底按怎用。</p>
         </div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:18px;">
-          <article class="lc-click" style="background:linear-gradient(150deg,#F4FAF5,#E0F2EC);border:2px solid #CBE9DD;border-radius:22px;padding:26px;box-shadow:0 8px 20px rgba(38,78,71,.07);cursor:pointer;display:flex;flex-direction:column;" onClick="{{goLife}}">
-            <div style="font-size:46px;line-height:1;">🌿</div>
-            <h2 style="font-size:clamp(23px,3.2vw,28px);margin:12px 0 8px;font-weight:900;color:#254E47;">生活語境</h2>
-            <p style="margin:0;color:#66766D;line-height:1.8;font-size:14.5px;flex-grow:1;">從日常生活情境理解詞語怎麼用。</p>
-            <span style="display:inline-flex;align-items:center;justify-content:center;gap:7px;margin-top:18px;min-height:50px;border-radius:999px;background:#278777;color:#fff;box-shadow:0 8px 18px rgba(39,135,119,.22);font-size:15.5px;font-weight:900;padding:13px 20px;">開始挑戰 →</span>
+        <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:20px;">
+          <span style="background:#FFF3D8;border:1px solid #F4DDA7;border-radius:999px;padding:8px 16px;font-size:14px;font-weight:900;color:#7A5418;">📚 課文 {{lessonCount}} 課</span>
+          <span style="background:#E0F2EC;border:1px solid #B9DED1;border-radius:999px;padding:8px 16px;font-size:14px;font-weight:900;color:#236B60;">🌿 生活 8 个主題</span>
+          <span style="background:#F1ECF8;border:1px solid #DCCFEE;border-radius:999px;padding:8px 16px;font-size:14px;font-weight:900;color:#5B3F86;">✍️ 題庫 2,400 題以上</span>
+        </div>
+        <sc-if value="{{hasLast}}">
+          <a class="lc-click" href="{{lastHref}}" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:linear-gradient(105deg,#254E47,#2F6A5F);color:#fff;border-radius:20px;padding:14px 20px;margin-bottom:18px;box-shadow:0 10px 22px rgba(37,78,71,.18);">
+            <span style="font-size:26px;">📌</span>
+            <span style="flex:1;min-width:0;"><span style="display:block;font-size:12px;font-weight:900;letter-spacing:.12em;color:#F4C65D;">上次練到</span><b style="font-size:16.5px;font-weight:900;line-height:1.5;">{{lastLabel}}</b></span>
+            <span style="background:#E88B4A;border-radius:999px;padding:10px 18px;font-size:15px;font-weight:900;white-space:nowrap;">繼續練 →</span>
+          </a>
+        </sc-if>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;">
+          <article class="lc-click" style="background:linear-gradient(150deg,#F4FAF5,#E0F2EC);border:2px solid #CBE9DD;border-radius:22px;padding:24px;box-shadow:0 8px 20px rgba(38,78,71,.07);cursor:pointer;display:flex;flex-direction:column;" onClick="{{goLife}}">
+            <div style="display:flex;align-items:center;gap:14px;">
+              <img src="images/icons3d/house.webp" alt="" style="width:62px;height:62px;object-fit:contain;flex:none;">
+              <div><h2 style="font-size:clamp(23px,3.2vw,28px);margin:0;font-weight:900;color:#254E47;">生活語境</h2><div style="font-size:13px;font-weight:800;color:#3E8476;margin-top:3px;">8 个主題・320 題</div></div>
+            </div>
+            <p style="margin:12px 0 14px;color:#66766D;line-height:1.75;font-size:14.5px;">佇學校、餐桌、車站、店頭……想看覓這款時陣台語按怎講。</p>
+            <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;flex-grow:1;align-content:start;">
+              <sc-for list="{{lifeChips}}" as="lc" hint-placeholder-count="8">
+                <span style="display:flex;flex-direction:column;align-items:center;gap:3px;background:rgba(255,255,255,.75);border:1px solid #CFE7DD;border-radius:14px;padding:9px 4px;font-size:12.5px;font-weight:800;color:#2D5E55;text-align:center;"><span style="font-size:22px;line-height:1;">{{lc.icon}}</span>{{lc.name}}</span>
+              </sc-for>
+            </div>
+            <span style="flex:0 0 auto;box-sizing:border-box;height:54px;display:inline-flex;align-items:center;justify-content:center;gap:7px;margin-top:18px;border-radius:999px;background:#278777;color:#fff;box-shadow:0 8px 18px rgba(39,135,119,.22);font-size:15.5px;font-weight:900;padding:13px 20px;">開始挑戰 →</span>
           </article>
-          <article class="lc-click" style="background:linear-gradient(150deg,#FFFCF4,#FFF1D7);border:2px solid #F3DFB9;border-radius:22px;padding:26px;box-shadow:0 8px 20px rgba(38,78,71,.07);cursor:pointer;display:flex;flex-direction:column;" onClick="{{goTextbook}}">
-            <div style="font-size:46px;line-height:1;">📚</div>
-            <h2 style="font-size:clamp(23px,3.2vw,28px);margin:12px 0 8px;font-weight:900;color:#254E47;">課文挑戰</h2>
-            <p style="margin:0;color:#66766D;line-height:1.8;font-size:14.5px;flex-grow:1;">依出版社、冊次、課次進入正式語境練習。</p>
-            <span style="display:inline-flex;align-items:center;justify-content:center;gap:7px;margin-top:18px;min-height:50px;border-radius:999px;background:linear-gradient(110deg,#E88B4A,#DA753B);color:#fff;box-shadow:0 9px 20px rgba(215,110,49,.25);font-size:15.5px;font-weight:900;padding:13px 20px;">選擇課本 →</span>
+          <article style="background:linear-gradient(150deg,#FFFCF4,#FFF1D7);border:2px solid #F3DFB9;border-radius:22px;padding:24px;box-shadow:0 8px 20px rgba(38,78,71,.07);display:flex;flex-direction:column;">
+            <div style="display:flex;align-items:center;gap:14px;">
+              <img src="images/icons3d/books.webp" alt="" style="width:62px;height:62px;object-fit:contain;flex:none;">
+              <div><h2 style="font-size:clamp(23px,3.2vw,28px);margin:0;font-weight:900;color:#254E47;">課文挑戰</h2><div style="font-size:13px;font-weight:800;color:#B15F2A;margin-top:3px;">3 家出版社・{{lessonCount}} 課</div></div>
+            </div>
+            <p style="margin:12px 0 14px;color:#66766D;line-height:1.75;font-size:14.5px;">揀你的課本，一課一課練語詞、語境、讀文佮綜合挑戰。</p>
+            <div style="display:grid;gap:9px;flex-grow:1;align-content:start;">
+              <sc-for list="{{pubRows}}" as="pr" hint-placeholder-count="3">
+                <button class="lc-btn" onClick="{{pr.onClick}}" style="display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:rgba(255,255,255,.85);border:1.5px solid #EBD8B4;border-radius:16px;padding:11px 14px;cursor:pointer;font-family:inherit;transition:.16s;">
+                  <span style="font-size:24px;line-height:1;">{{pr.icon}}</span>
+                  <span style="flex:1;min-width:0;"><b style="font-size:16px;font-weight:900;color:#254E47;">{{pr.name}}</b><span style="display:block;font-size:12.5px;font-weight:700;color:#8A7350;">{{pr.info}}</span></span>
+                  <span style="font-size:18px;font-weight:900;color:#DA753B;">›</span>
+                </button>
+              </sc-for>
+            </div>
+            <button class="lc-btn" onClick="{{goTextbook}}" style="flex:0 0 auto;box-sizing:border-box;height:54px;display:inline-flex;align-items:center;justify-content:center;gap:7px;margin-top:18px;min-height:50px;border:0;border-radius:999px;background:linear-gradient(110deg,#E88B4A,#DA753B);color:#fff;box-shadow:0 9px 20px rgba(215,110,49,.25);font-family:inherit;font-size:15.5px;font-weight:900;padding:13px 20px;cursor:pointer;">選擇課本 →</button>
           </article>
-          
         </div>
       </div>
     </sc-if>
@@ -181,7 +210,7 @@ Copyright © 張鈺聆. All rights reserved.
         <div style="display:grid;gap:12px;">
           <sc-for list="{{lessons}}" as="ls" hint-placeholder-count="3">
             <sc-if value="{{ls.hasLink}}">
-              <a class="lc-lesson lc-lessonRow" href="{{ls.href}}" style="display:flex;align-items:center;gap:16px;padding:18px 20px;background:#FFFEFA;border:2px solid #E4E5DD;border-radius:20px;box-shadow:0 8px 20px rgba(38,78,71,.06);">
+              <a class="lc-lesson lc-lessonRow" href="{{ls.href}}" onClick="{{ls.remember}}" style="display:flex;align-items:center;gap:16px;padding:18px 20px;background:#FFFEFA;border:2px solid #E4E5DD;border-radius:20px;box-shadow:0 8px 20px rgba(38,78,71,.06);">
                 <div style="width:50px;height:50px;border-radius:15px;display:grid;place-items:center;background:#E0F2EC;font-size:19px;font-weight:900;color:#236B60;flex-shrink:0;">{{ls.no}}</div>
                 <div style="flex:1;min-width:0;">
                   <h3 style="margin:0 0 5px;font-size:clamp(17px,2.4vw,20px);font-weight:900;line-height:1.4;color:#254E47;">{{ls.title}}</h3>
@@ -215,6 +244,8 @@ Copyright © 張鈺聆. All rights reserved.
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 const BASE = '語境挑戰/';
+const LAST_KEY = 'yjtg-ctx-last-v1';
+const LIFE_CHIPS = [['🏫','校園'],['🍜','飲食'],['🏠','家庭'],['🚌','交通'],['🛍️','買物'],['🌦️','天氣'],['🎉','節慶'],['👥','人際']];
 const LIFE_TOPICS = [
   ['🏫','校園生活','上課、落課、同學、考試、活動','題庫待加入'],
   ['🍜','飲食生活','食物、味道、用餐、料理','題庫待加入'],
@@ -335,14 +366,26 @@ class Component extends DCLogic {
       publisher: '揀冊次，閣揀課次，就會使開始挑戰。',
     };
     const crumbs = {
-      home: '語境判讀所',
+      home: '',
       life: '語境判讀所 › 生活語境',
       textbook: '語境判讀所 › 課文挑戰',
       publisher: `語境判讀所 › 課文挑戰 › ${pub ? pub.name : ''}`,
     };
 
+    const numZh = ['一','二','三','四','五','六'];
+    let last = null; try { last = JSON.parse(localStorage.getItem(LAST_KEY) || 'null'); } catch (e) {}
+    const lessonCount = Object.values(PUBLISHERS).reduce((a, p) => a + Object.values(p.books).reduce((b, rows) => b + rows.filter(r => r.file).length, 0), 0);
     return {
-      isHome: s.view === 'home', isLife: s.view === 'life', isTextbook: s.view === 'textbook', isPublisher: s.view === 'publisher',
+      lessonCount,
+      hasLast: !!(last && last.href), lastHref: last ? last.href : '', lastLabel: last ? last.label : '',
+      lifeChips: LIFE_CHIPS.map(([icon, name]) => ({ icon, name })),
+      pubRows: Object.entries(PUBLISHERS).map(([key, p]) => {
+        const ns = Object.keys(p.books).map(Number).sort((a, b) => a - b);
+        const n = ns.reduce((b, k) => b + p.books[k].filter(r => r.file).length, 0);
+        return { icon: p.icon, name: p.name, info: `第${numZh[ns[0] - 1]}冊～第${numZh[ns[ns.length - 1] - 1]}冊・${n} 課`, onClick: () => this.openPublisher(key) };
+      }),
+      isHome: s.view === 'home',
+      crumbWrapStyle: `max-width:1160px;margin:auto;padding:22px 22px 8px;display:${s.view === 'home' ? 'none' : 'block'};`, isLife: s.view === 'life', isTextbook: s.view === 'textbook', isPublisher: s.view === 'publisher',
       bandText: bandTexts[s.view] || bandTexts.home,
       crumb: crumbs[s.view] || crumbs.home,
       backBtnStyle: `border:2px solid #B6CFC3;background:#fff;color:#254E47;padding:11px 18px;border-radius:999px;min-height:46px;cursor:pointer;font-family:inherit;font-size:15px;font-weight:800;transition:.16s;visibility:${s.view === 'home' ? 'hidden' : 'visible'};`,
@@ -365,10 +408,12 @@ class Component extends DCLogic {
           style: `border:2px solid ${active ? '#278777' : '#E7DCC9'};background:${active ? '#278777' : '#FFFCF4'};border-radius:999px;padding:12px 20px;min-height:48px;cursor:pointer;font-family:inherit;font-size:15px;font-weight:900;color:${active ? '#fff' : '#385A53'};transition:.16s;`,
         };
       }) : [],
-      lessons: lessonRows.map(l => ({
-        no: l.no, title: l.title, desc: l.desc,
-        hasLink: !!l.file, href: l.file ? (l.path ? l.path + l.file : BASE + l.file) : '',
-      })),
+      lessons: lessonRows.map(l => {
+        const href = l.file ? (l.path ? l.path + l.file : BASE + l.file) : '';
+        const label = `${pub ? pub.name : ''} 第${numZh[s.book - 1]}冊　${l.title.replace(/^\S+\s/, '')}`;
+        return { no: l.no, title: l.title, desc: l.desc, hasLink: !!l.file, href,
+          remember: () => { try { localStorage.setItem(LAST_KEY, JSON.stringify({ href, label })); } catch (e) {} } };
+      }),
     };
   }
 }

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-Hant">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./support.js"></script>
+<title>華台雙語翻譯｜鈺見台語</title>
 <!-- Google Analytics 4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-H3X7ZH5XL6"></script>
 <script>
@@ -12,164 +12,281 @@
   gtag('js', new Date());
   gtag('config', 'G-H3X7ZH5XL6');
 </script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<!--
+  華台雙語翻譯
+  網站介面、功能與教學整合設計／製作：張鈺聆
+  Copyright © 張鈺聆
+-->
+<style>
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'Noto Sans TC',sans-serif;color:#263B37;background:radial-gradient(circle at 6% 4%,rgba(244,198,93,.23),transparent 22%),radial-gradient(circle at 95% 10%,rgba(85,169,156,.17),transparent 24%),#FAF8F2;min-height:100vh;}
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;}
+  .top{background:linear-gradient(110deg,#254E47,#316E62 78%,#37877B);border-bottom:4px solid #F4C65D;color:#fff;}
+  .top-in{max-width:1120px;margin:auto;min-height:66px;padding:12px 22px;display:flex;align-items:center;gap:14px;}
+  .home{flex:0 0 auto;display:inline-flex;align-items:center;min-height:44px;padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.22);color:#fff;font-size:14px;font-weight:800;white-space:nowrap;}
+  .home:hover{background:rgba(255,255,255,.24);}
+  .hero{position:relative;background:linear-gradient(105deg,#FFF1D4 0%,#FFE1CA 51%,#DDF1E9 100%);border-bottom:1px solid #F1DDBF;overflow:hidden;}
+  .hero-in{max-width:1120px;margin:auto;padding:16px 22px 20px;display:flex;align-items:center;gap:14px;position:relative;z-index:1;}
+  .bubble{background:#fff;border:1px solid #F4C990;border-radius:16px 16px 16px 4px;padding:11px 16px;box-shadow:0 5px 14px rgba(177,95,42,.08);}
+  main{max-width:1120px;margin:auto;padding:22px 22px 0;}
+  .desk{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:18px;align-items:start;}
+  @media(max-width:860px){.desk{grid-template-columns:1fr;}}
+  .card{background:#fff;border:1px solid #E8E6D9;border-radius:26px;padding:22px;box-shadow:0 10px 26px rgba(38,78,71,.08);}
+  .ctitle{display:flex;align-items:center;gap:10px;margin:0 0 12px;}
+  .ctitle h2{margin:0;font-size:19px;font-weight:900;letter-spacing:.03em;}
+  .tag{display:inline-flex;align-items:center;justify-content:center;padding:4px 11px;border-radius:999px;font-size:12px;font-weight:900;color:#fff;white-space:nowrap;}
+  textarea{width:100%;min-height:150px;resize:vertical;border:2px solid #D8E6DF;border-radius:18px;padding:14px 16px;font:inherit;font-size:18px;line-height:1.7;color:#263B37;background:#FBFDFC;outline:none;}
+  textarea:focus{border-color:#55A99C;background:#fff;}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+  .btn{min-height:46px;padding:10px 18px;border-radius:999px;border:none;font-size:15px;font-weight:900;cursor:pointer;display:inline-flex;align-items:center;gap:6px;}
+  .btn-go{background:linear-gradient(110deg,#E88B4A,#DA753B);color:#fff;box-shadow:0 6px 14px rgba(218,117,59,.25);padding:10px 26px;font-size:16px;}
+  .btn-go:hover{filter:brightness(1.06);}
+  .btn-soft{background:#EEF1EA;color:#4E5F57;}
+  .btn-line{background:#fff;color:#254E47;border:1.5px solid #CFE3DB;}
+  .btn-line:hover{background:#F2FAF7;}
+  .btn:disabled{opacity:.45;cursor:not-allowed;}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+  .chip{border:1px dashed #E3C9A6;background:#FFFBF3;color:#7A5634;border-radius:12px;padding:7px 11px;font-size:13.5px;font-weight:700;cursor:pointer;}
+  .chip:hover{background:#FFF1DC;border-style:solid;}
+  .hint{font-size:12.5px;color:#7C8A83;font-weight:700;line-height:1.7;}
+  .out-han{font-size:clamp(22px,3vw,28px);font-weight:900;line-height:1.6;letter-spacing:.04em;min-height:46px;word-break:break-all;}
+  .out-tl{font-family:'Times New Roman','Noto Serif',serif;font-size:clamp(18px,2.4vw,22px);line-height:1.6;color:#2F6E62;min-height:36px;margin-top:4px;}
+  .empty{color:#A9B3AE;font-weight:700;font-size:16px;}
+  .result-box{border-radius:20px;background:linear-gradient(160deg,#F5FBF8,#FFFDF7);border:1px solid #DCEBE4;padding:18px 18px 16px;}
+  .tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;}
+  .tbtn{min-height:40px;padding:8px 14px;border-radius:12px;border:1.5px solid #D6E5DE;background:#fff;color:#254E47;font-size:13.5px;font-weight:900;cursor:pointer;}
+  .tbtn:hover{background:#F2FAF7;}
+  .tbtn.on{background:#254E47;color:#fff;border-color:#254E47;}
+  .say{background:linear-gradient(110deg,#2F7D6E,#254E47);color:#fff;border:none;}
+  .say:hover{filter:brightness(1.1);background:linear-gradient(110deg,#2F7D6E,#254E47);}
+  .msg{margin-top:10px;font-size:13px;font-weight:800;color:#B15F2A;min-height:0;}
+  .words{display:flex;flex-wrap:wrap;gap:10px 8px;margin-top:6px;}
+  .w{position:relative;min-width:58px;padding:8px 10px 7px;border-radius:14px;background:#fff;border:1.5px solid #E1E7E2;border-bottom-width:4px;text-align:center;cursor:pointer;transition:.15s;}
+  .w:hover{transform:translateY(-2px);}
+  .w .zh{font-size:11.5px;color:#8C9A93;font-weight:700;}
+  .w .hj{font-size:20px;font-weight:900;line-height:1.35;}
+  .w .tl{font-family:'Times New Roman',serif;font-size:14px;color:#2F6E62;}
+  .w .more{position:absolute;top:3px;right:6px;font-size:10px;color:#C3CCC7;}
+  .w.s2{border-bottom-color:#E88B4A;}
+  .w.s0{border-bottom-color:#55A99C;}
+  .w.s1{border-bottom-color:#8E8AD6;}
+  .w.raw{border-style:dashed;border-bottom-color:#D96A6A;}
+  .w.p{background:none;border:none;min-width:auto;padding:8px 2px;cursor:default;}
+  .w.p:hover{transform:none;}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:14px;font-size:12.5px;font-weight:800;color:#6D7B74;}
+  .legend i{display:inline-block;width:18px;height:6px;border-radius:3px;margin-right:5px;vertical-align:middle;}
+  .pop{position:absolute;z-index:50;background:#fff;border:1px solid #DCE6E1;border-radius:16px;box-shadow:0 18px 40px rgba(38,78,71,.2);padding:10px;min-width:230px;max-width:320px;}
+  .pop h4{margin:2px 6px 8px;font-size:13px;color:#7C8A83;}
+  .opt{display:flex;align-items:center;gap:8px;width:100%;border:none;background:#F7FAF8;border-radius:10px;padding:8px 10px;margin-bottom:6px;cursor:pointer;text-align:left;}
+  .opt:hover{background:#E9F4EF;}
+  .opt.cur{background:#254E47;color:#fff;}
+  .opt.cur .otl{color:#CFEDE4;}
+  .opt b{font-size:17px;}
+  .otl{font-family:'Times New Roman',serif;font-size:14px;color:#2F6E62;flex:1;}
+  .sp{flex:0 0 auto;width:30px;height:30px;border-radius:50%;border:none;background:#FFE9D6;cursor:pointer;font-size:14px;}
+  .pop a{display:block;margin-top:4px;padding:7px 10px;border-radius:10px;font-size:13px;font-weight:800;color:#B15F2A;background:#FFF6EC;}
+  .res{display:flex;flex-wrap:wrap;gap:10px;}
+  .res a{padding:10px 14px;border-radius:14px;border:1px solid #EADBC6;background:#FFFDF8;font-size:14px;font-weight:800;color:#6B4E33;}
+  .res a:hover{background:#FFF4E6;border-color:#E8B98E;}
+  .foot{text-align:center;font-size:12px;color:#8A968F;font-weight:700;padding:26px 16px 30px;line-height:1.8;}
+  button:focus-visible,a:focus-visible,textarea:focus-visible{outline:3px solid #F4C65D;outline-offset:2px;}
+</style>
 </head>
 <body>
-<x-dc>
-<helmet>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;800;900&display=swap" rel="stylesheet">
-<style>
-  a{color:inherit;text-decoration:none;}
-  .ht-wrap,.ht-wrap *{box-sizing:border-box;}
-  .ht-tool{transition:.18s ease;}
-  @media(max-width:760px){
-    [data-ht-flow]{grid-template-columns:1fr !important;}
-    [data-ht-flow] > div:not(.ht-tool){transform:rotate(90deg);height:30px;}
-  }
-  @media(hover:hover){
-    .ht-tool:hover{transform:translateY(-3px);box-shadow:0 16px 32px rgba(38,78,71,.14) !important;}
-    .ht-open:hover{filter:brightness(1.06);}
-    .ht-res:hover{background:#FFF8EE !important;border-color:#E8B98E !important;}
-    .ht-home:hover{background:rgba(255,255,255,.24) !important;}
-  }
-  a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid #F4C65D;outline-offset:2px;}
-</style>
-</helmet>
-<div class="ht-wrap" style="font-family:'Noto Sans TC',sans-serif;color:#263B37;min-height:100vh;background:radial-gradient(circle at 6% 4%,rgba(244,198,93,.23),transparent 22%),radial-gradient(circle at 95% 10%,rgba(85,169,156,.17),transparent 24%),#FAF8F2;">
+<div class="top"><div class="top-in">
+  <a class="home" href="首頁.dc.html">🏠 回首頁</a>
+  <div style="min-width:0;text-align:center;flex:1;">
+    <div style="font-size:clamp(19px,3.4vw,22px);font-weight:900;letter-spacing:.08em;line-height:1.35;">🗣️ 華台雙語翻譯</div>
+    <div style="margin-top:3px;font-size:12.5px;color:#E7F2E9;font-weight:700;line-height:1.5;">華語轉台語，閣聽發音、看羅馬字</div>
+  </div>
+  <div style="flex:0 0 auto;width:104px;"></div>
+</div></div>
 
-  <div style="background:linear-gradient(110deg,#254E47,#316E62 78%,#37877B);border-bottom:4px solid #F4C65D;color:#fff;">
-    <div style="max-width:1120px;margin:auto;min-height:66px;padding:12px 22px;display:flex;align-items:center;gap:14px;">
-      <a class="ht-home" href="首頁.dc.html" style="flex:0 0 auto;display:inline-flex;align-items:center;min-height:44px;padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.22);color:#fff;font-size:14px;font-weight:800;white-space:nowrap;">🏠 回首頁</a>
-      <div style="min-width:0;text-align:center;flex:1;">
-        <div style="font-size:clamp(19px,3.4vw,22px);font-weight:900;letter-spacing:.08em;line-height:1.35;">🗣️ 華台雙語翻課</div>
-        <div style="margin-top:3px;font-size:12.5px;color:#E7F2E9;font-weight:700;line-height:1.5;">華語轉台語，閣聽發音、看羅馬字</div>
-      </div>
-      <div style="flex:0 0 auto;width:104px;"></div>
+<div class="hero">
+  <div class="hero-in">
+    <span style="flex:0 0 auto;font-size:24px;transform:rotate(-8deg);">💬</span>
+    <div class="bubble">
+      <div style="font-size:11.5px;font-weight:900;letter-spacing:.14em;color:#B15F2A;">雙語工作台</div>
+      <div style="margin-top:4px;font-size:14.5px;font-weight:800;color:#594936;line-height:1.6;">寫一句華語，看台語按怎講；點詞閣會使換另外一種講法。</div>
     </div>
   </div>
-
-  <div style="position:relative;background:linear-gradient(105deg,#FFF1D4 0%,#FFE1CA 51%,#DDF1E9 100%);border-bottom:1px solid #F1DDBF;overflow:hidden;">
-    <div style="max-width:1120px;margin:auto;padding:16px 22px 20px;display:flex;align-items:center;gap:14px;position:relative;z-index:1;">
-      <span style="flex:0 0 auto;font-size:24px;transform:rotate(-8deg);">💬</span>
-      <div style="background:#fff;border:1px solid #F4C990;border-radius:16px 16px 16px 4px;padding:11px 16px;box-shadow:0 5px 14px rgba(177,95,42,.08);">
-        <div style="font-size:11.5px;font-weight:900;letter-spacing:.14em;color:#B15F2A;">雙語工作台</div>
-        <div style="margin-top:4px;font-size:14.5px;font-weight:800;color:#594936;line-height:1.6;">先翻譯，閣聽發音——兩步就完成。</div>
-      </div>
-    </div>
-    <svg viewBox="0 0 1440 16" preserveAspectRatio="none" style="position:absolute;left:0;right:0;bottom:-1px;width:100%;height:16px;display:block;"><path d="M0,10 C240,2 480,15 720,8 C960,2 1200,14 1440,7 L1440,16 L0,16 Z" fill="#FAF8F2"></path></svg>
-  </div>
-
-  <main style="max-width:1120px;margin:auto;padding:22px 22px 0;">
-
-    <section style="background:#fff;border:1px solid #E8E6D9;border-radius:26px;padding:26px;box-shadow:0 10px 26px rgba(38,78,71,.08);">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
-        <span style="flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:30px;padding:0 10px;border-radius:999px;background:#254E47;color:#fff;font-size:12.5px;font-weight:900;white-space:nowrap;">工作台</span>
-        <h2 style="margin:0;font-size:clamp(18px,2.4vw,20px);font-weight:900;line-height:1.35;">兩步完成華語轉台語</h2>
-      </div>
-      <p style="margin:0 0 18px 0;font-size:13px;color:#66766D;font-weight:700;line-height:1.7;">工具攏會佇新分頁拍開，兩个工具互相獨立，袂因為內嵌一直重新載入。</p>
-
-      <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:stretch;" data-ht-flow>
-        <sc-for list="{{tools}}" as="t" hint-placeholder-count="2">
-          <sc-if value="{{t.showArrow}}">
-            <div style="display:flex;align-items:center;justify-content:center;color:#B15F2A;font-size:26px;font-weight:900;">→</div>
-          </sc-if>
-          <article class="ht-tool" style="{{t.cardStyle}}">
-            <div style="display:flex;align-items:center;gap:11px;margin-bottom:10px;">
-              <span style="flex:0 0 auto;width:36px;height:36px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:{{t.numBg}};color:#fff;font-size:15px;font-weight:900;">{{t.num}}</span>
-              <h3 style="margin:0;font-size:18px;font-weight:900;line-height:1.35;overflow-wrap:anywhere;">{{t.title}}</h3>
-            </div>
-            <p style="margin:0 0 14px;font-size:13px;color:#66766D;font-weight:700;line-height:1.65;">{{t.sub}}</p>
-            <div style="display:grid;gap:7px;margin-bottom:16px;">
-              <sc-for list="{{t.steps}}" as="s" hint-placeholder-count="3">
-                <div style="{{t.stepStyle}}">{{s}}</div>
-              </sc-for>
-            </div>
-            <a class="ht-open" href="{{t.url}}" target="_blank" rel="noopener" style="{{t.ctaStyle}}">{{t.cta}}</a>
-          </article>
-        </sc-for>
-      </div>
-
-      <div style="margin-top:16px;background:#FFF3D8;border:1px solid #F2E1BC;border-radius:16px;padding:13px 16px;font-size:13px;color:#6B5536;line-height:1.8;">
-        <strong>💡 建議操作</strong>：先開第一个工具完成翻譯並複製結果，才閣轉來這頁開第二个工具。
-      </div>
-    </section>
-
-    <section style="margin-top:20px;background:#fff;border:1px solid #E8E6D9;border-radius:26px;padding:24px;box-shadow:0 10px 26px rgba(38,78,71,.08);">
-      <div style="font-size:16px;font-weight:900;margin-bottom:14px;">📖 使用流程指南</div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:9px;">
-        <sc-for list="{{guides}}" as="g" hint-placeholder-count="5">
-          <div style="display:flex;align-items:center;gap:9px;background:#F7FCFA;border:1px solid #D8EDE5;border-radius:14px;padding:12px 13px;min-height:52px;">
-            <span style="flex:0 0 auto;width:24px;height:24px;border-radius:50%;background:#278777;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;">{{g.n}}</span>
-            <span style="font-size:13.5px;font-weight:800;color:#385A53;line-height:1.5;overflow-wrap:anywhere;">{{g.text}}</span>
-          </div>
-        </sc-for>
-      </div>
-    </section>
-
-    <section style="margin-top:20px;background:#fff;border:1px solid #E8E6D9;border-radius:26px;padding:24px;box-shadow:0 10px 26px rgba(38,78,71,.08);">
-      <div style="font-size:16px;font-weight:900;margin-bottom:14px;">🔗 相關資源</div>
-      <div style="display:flex;flex-wrap:wrap;gap:10px;">
-        <sc-for list="{{resources}}" as="r" hint-placeholder-count="6">
-          <a class="ht-res" href="{{r.url}}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;min-height:48px;padding:12px 18px;border-radius:999px;background:#FFFCF4;border:1px solid #F4D9BC;color:#B15F2A;font-size:14px;font-weight:900;white-space:nowrap;">{{r.name}} ↗</a>
-        </sc-for>
-      </div>
-    </section>
-
-  </main>
-
-  <div style="max-width:1120px;margin:22px auto 0;padding:0 22px 34px;font-size:12px;color:#77847C;font-weight:700;text-align:center;">
-    <span style="color:#456C65;">張鈺聆 製</span>｜鈺見台語
-  </div>
-
+  <svg viewBox="0 0 1440 16" preserveAspectRatio="none" style="position:absolute;left:0;right:0;bottom:-1px;width:100%;height:16px;display:block;"><path d="M0,10 C240,2 480,15 720,8 C960,2 1200,14 1440,7 L1440,16 L0,16 Z" fill="#FAF8F2"></path></svg>
 </div>
 
-</x-dc>
-<script type="text/x-dc" data-dc-script>
-const TOOLS = [
-  {
-    num: '1', title: '華語轉台語翻譯', sub: '先共華語內容轉做台語，提著會使複製的台語文字。',
-    steps: ['輸入華語內容', '按「華翻閩」', '按「複製＋刪空格」'],
-    cta: '開始翻譯 ↗', url: 'https://gnisew.github.io/tools/turn/g2m2.html',
-    tone: '#254E47', bg: 'linear-gradient(150deg,#F2FAF7,#E0F2EC)', border: '#CDE8DF', stepBg: '#F7FCFA', stepBorder: '#D8EDE5', stepColor: '#385A53',
-  },
-  {
-    num: '2', title: '合成台語語音及羅馬字', sub: '共拄才的台語貼上，產生語音閣看羅馬字。',
-    steps: ['貼上拄才複製的台語', '按「查」', '聽發音、看羅馬字'],
-    cta: '產生語音 ↗', url: 'https://suisiann.ithuan.tw/',
-    tone: '#B15F2A', bg: 'linear-gradient(150deg,#FFF8EE,#FFEEDD)', border: '#F4D9BC', stepBg: '#FFFCF4', stepBorder: '#F4E2CC', stepColor: '#8A5A33',
-  },
-];
+<main>
+  <div class="desk">
+    <section class="card">
+      <div class="ctitle"><span class="tag" style="background:#254E47;">華語</span><h2>寫你想欲講的話</h2></div>
+      <textarea id="src" placeholder="例：下課了，我們一起去福利社。&#10;（一擺寫一、兩句上好）"></textarea>
+      <div class="row" style="margin-top:12px;">
+        <button class="btn btn-go" id="go">翻做台語 ➜</button>
+        <button class="btn btn-soft" id="clr">清掉</button>
+        <span class="hint">按 Enter 就翻譯；Shift＋Enter 換行</span>
+      </div>
+      <div class="chips" id="chips"></div>
+    </section>
 
-const GUIDES = [
-  { n: 1, text: '輸入華語' },
-  { n: 2, text: '按「華翻閩」' },
-  { n: 3, text: '按「複製＋刪空格」' },
-  { n: 4, text: '開啟語音工具並貼上' },
-  { n: 5, text: '按「查」聽發音' },
-];
+    <section class="card">
+      <div class="ctitle"><span class="tag" style="background:#DA753B;">台語</span><h2>台語按呢講</h2></div>
+      <div class="result-box">
+        <div class="out-han" id="han"><span class="empty">翻譯結果會出現佇遮</span></div>
+        <div class="out-tl" id="tl"></div>
+      </div>
+      <div class="tools">
+        <button class="tbtn say" id="say" disabled>🔊 聽整句</button>
+        <button class="tbtn" id="cpH" disabled>📋 複製漢字</button>
+        <button class="tbtn" id="cpT" disabled>📋 複製羅馬字</button>
+        <button class="tbtn" id="num" disabled>數字調</button>
+      </div>
+      <div class="msg" id="msg"></div>
+      <div class="hint" style="margin-top:10px;">⚠️ 這是用辭典逐詞對換的結果，句型無一定自然，請老師、同學閣斟酌。整句語音用意傳科技的免費展示服務，有時會較慢抑是暫時無法度用。</div>
+    </section>
+  </div>
 
-const RESOURCES = [
-  { name: '陽明交大語音合成', url: 'http://tts001.ivoice.tw:8804/' },
-  { name: '長問翻譯器', url: 'https://translate.bronci.com.tw/#' },
-  { name: '教育部台語辭典', url: 'https://sutian.moe.edu.tw/zh-hant/' },
-  { name: 'iTaigi 愛台語', url: 'https://itaigi.tw/k/%E5%8F%B0%E8%AA%9E/' },
-  { name: '公視台語新詞', url: 'https://www.taigitv.org.tw/taigi-words' },
-  { name: 'Tâi-gí 做伙耍', url: 'https://www.taigi-domiso.com/' },
-];
+  <section class="card" style="margin-top:18px;">
+    <div class="ctitle"><span class="tag" style="background:#55A99C;">斟酌</span><h2>一詞一詞看</h2></div>
+    <div class="hint">點一个詞，會使換別種講法、聽單詞發音，抑是去教育部辭典查。</div>
+    <div class="words" id="words"><span class="empty" style="font-size:14px;">翻譯了後，詞會一个一个排佇遮。</span></div>
+    <div class="legend">
+      <span><i style="background:#E88B4A"></i>常用講法</span>
+      <span><i style="background:#55A99C"></i>教育部辭典</span>
+      <span><i style="background:#8E8AD6"></i>iTaigi 詞庫</span>
+      <span><i style="background:#D96A6A"></i>查無，先保留原字</span>
+    </div>
+  </section>
 
-class Component extends DCLogic {
-  renderVals() {
-    const tools = TOOLS.map((t, i) => ({
-      num: t.num, title: t.title, sub: t.sub, steps: t.steps, cta: t.cta, url: t.url,
-      showArrow: i > 0,
-      numBg: t.tone,
-      cardStyle: `background:${t.bg};border:2px solid ${t.border};border-radius:22px;padding:22px;box-shadow:0 8px 20px rgba(38,78,71,.06);display:flex;flex-direction:column;`,
-      stepStyle: `background:${t.stepBg};border:1px solid ${t.stepBorder};border-radius:12px;padding:10px 12px;font-size:13px;font-weight:700;color:${t.stepColor};line-height:1.55;`,
-      ctaStyle: `margin-top:auto;display:inline-flex;align-items:center;justify-content:center;min-height:50px;border-radius:999px;background:${t.tone};color:#fff;font-size:15px;font-weight:900;padding:13px 20px;`,
-    }));
-    return { tools, guides: GUIDES, resources: RESOURCES };
-  }
+  <section class="card" style="margin-top:18px;">
+    <div class="ctitle"><span class="tag" style="background:#B15F2A;">另外</span><h2>想欲閣較準？試看覓別的工具</h2></div>
+    <div class="res">
+      <a href="https://gnisew.github.io/tools/turn/g2m2.html" target="_blank" rel="noopener">華翻閩工具 ↗</a>
+      <a href="https://suisiann.ithuan.tw/" target="_blank" rel="noopener">意傳鬥拍字 ↗</a>
+      <a href="https://translate.bronci.com.tw/#" target="_blank" rel="noopener">長問翻譯器 ↗</a>
+      <a href="http://tts001.ivoice.tw:8804/" target="_blank" rel="noopener">陽明交大語音合成 ↗</a>
+      <a href="https://sutian.moe.edu.tw/zh-hant/" target="_blank" rel="noopener">教育部台語辭典 ↗</a>
+      <a href="https://itaigi.tw/k/%E5%8F%B0%E8%AA%9E/" target="_blank" rel="noopener">iTaigi 愛台語 ↗</a>
+      <a href="https://www.taigitv.org.tw/taigi-words" target="_blank" rel="noopener">公視台語新詞 ↗</a>
+      <a href="https://www.taigi-domiso.com/" target="_blank" rel="noopener">Tâi-gí 做伙耍 ↗</a>
+    </div>
+  </section>
+</main>
+
+<div class="foot">
+  詞庫來源：教育部《臺灣台語常用詞辭典》（CC BY-ND 3.0 TW）、iTaigi 華台對照典（CC0），經 ChhoeTaigi 台語字詞資料庫整理；整句語音：意傳科技。<br>
+  <span>張鈺聆 製</span>｜鈺見台語
+</div>
+
+<div class="pop" id="pop" hidden></div>
+
+<script type="module">
+import { segment, render, entry, toNumeric } from './hoatai-engine.js';
+
+const EXAMPLES = ['下課了，我們一起去福利社。', '阿嬤煮的飯很好吃。', '你明天幾點要去學校？', '外面在下雨，記得帶雨傘。', '我聽不懂，可以再說一次嗎？', '謝謝老師，再見！'];
+const TTS = 'https://hapsing.ithuan.tw/bangtsam?taibun=';
+const $ = id => document.getElementById(id);
+let D = null, toks = [], numeric = false, audio = null, lastSay = '';
+
+async function load() {
+  if (D) return D;
+  $('han').innerHTML = '<span class="empty">詞庫載入中，請等一下…</span>';
+  D = (await import('./hoatai-data.js')).default;
+  return D;
+}
+function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+function audioSrc(id) { return `audio/${id}.mp3`; }
+
+async function translate() {
+  const text = $('src').value.trim();
+  if (!text) { $('src').focus(); return; }
+  await load();
+  toks = segment(text, D);
+  draw();
+  try { gtag('event', 'hoatai_translate'); } catch (e) {}
 }
 
+function draw() {
+  const r = render(toks, D, numeric);
+  $('han').textContent = r.han || '';
+  $('tl').textContent = r.tl || '';
+  ['say', 'cpH', 'cpT', 'num'].forEach(id => $(id).disabled = !toks.length);
+  $('msg').textContent = '';
+  const box = $('words');
+  box.innerHTML = '';
+  toks.forEach((t, k) => {
+    const d = document.createElement('div');
+    if (t.kind === 'punct' || t.kind === 'other') {
+      if (/^\s+$/.test(t.zh)) return;
+      d.className = 'w p'; d.innerHTML = `<div class="zh">&nbsp;</div><div class="hj">${esc(t.zh)}</div>`;
+      box.appendChild(d); return;
+    }
+    const e = entry(t, D);
+    const cls = !e ? 'raw' : 's' + e[3];
+    const tl = e ? (numeric ? toNumeric(e[1]) : e[1]) : '？';
+    d.className = 'w ' + cls;
+    d.tabIndex = 0;
+    d.innerHTML = `<div class="zh">${esc(t.zh)}</div><div class="hj">${esc(e ? e[0] : t.zh)}</div><div class="tl">${esc(tl)}</div>${t.cands.length > 1 ? '<span class="more">▾</span>' : ''}`;
+    d.onclick = ev => { ev.stopPropagation(); openPop(k, d); };
+    d.onkeydown = ev => { if (ev.key === 'Enter') { ev.preventDefault(); openPop(k, d); } };
+    box.appendChild(d);
+  });
+}
+
+function openPop(k, el) {
+  const t = toks[k], pop = $('pop');
+  let h = `<h4>「${esc(t.zh)}」的講法</h4>`;
+  t.cands.forEach((ci, j) => {
+    const e = D.E[ci];
+    h += `<div style="display:flex;gap:6px;align-items:center;"><button class="opt ${j === t.pick ? 'cur' : ''}" data-j="${j}"><b>${esc(e[0])}</b><span class="otl">${esc(numeric ? toNumeric(e[1]) : e[1])}</span></button>${e[2] ? `<button class="sp" data-a="${esc(e[2])}" title="聽發音">🔊</button>` : ''}</div>`;
+  });
+  if (!t.cands.length) h += `<div class="hint" style="margin:0 6px 6px;">辭典內底揣無這个詞，先保留原字。</div>`;
+  const q = t.cands.length ? D.E[t.cands[t.pick]][0] : t.zh;
+  h += `<a href="https://sutian.moe.edu.tw/zh-hant/tshiau/?lui=${t.cands.length ? 'tai_su' : 'hua_ku'}&tsha=${encodeURIComponent(t.cands.length ? q : t.zh)}" target="_blank" rel="noopener">📖 去教育部辭典查「${esc(t.cands.length ? q : t.zh)}」↗</a>`;
+  pop.innerHTML = h;
+  pop.hidden = false;
+  const r = el.getBoundingClientRect(), pw = pop.offsetWidth, ph = pop.offsetHeight;
+  let x = Math.min(Math.max(8, r.left), innerWidth - pw - 8), y = r.bottom + 8;
+  if (y + ph > innerHeight - 8) y = Math.max(8, r.top - ph - 8);
+  pop.style.left = (x + scrollX) + 'px'; pop.style.top = (y + scrollY) + 'px';
+  pop.querySelectorAll('.opt').forEach(b => b.onclick = ev => { ev.stopPropagation(); t.pick = +b.dataset.j; pop.hidden = true; draw(); });
+  pop.querySelectorAll('.sp').forEach(b => b.onclick = ev => { ev.stopPropagation(); new Audio(audioSrc(b.dataset.a)).play().catch(() => {}); });
+}
+document.addEventListener('click', e => { if (!$('pop').contains(e.target)) $('pop').hidden = true; });
+
+function say() {
+  const r = render(toks, D, false);
+  const text = r.tl;
+  if (!text) return;
+  if (audio && lastSay === text && audio.src) { audio.currentTime = 0; audio.play().catch(fail); return; }
+  if (audio) audio.pause();
+  lastSay = text;
+  $('msg').textContent = '🔊 語音合成中…';
+  audio = new Audio(TTS + encodeURIComponent(text));
+  audio.oncanplay = () => { $('msg').textContent = ''; };
+  audio.onerror = fail;
+  audio.play().catch(() => {});
+}
+function fail() {
+  lastSay = '';
+  $('msg').textContent = '😥 整句語音這馬無法度用（可能是一分鐘內用傷濟擺），請小等一下閣試，抑是先點下面的詞聽單詞發音。';
+}
+
+async function copy(text, label) {
+  try { await navigator.clipboard.writeText(text); }
+  catch (e) { const a = document.createElement('textarea'); a.value = text; document.body.appendChild(a); a.select(); document.execCommand('copy'); a.remove(); }
+  $('msg').textContent = `✅ ${label}已經複製`;
+  setTimeout(() => { if ($('msg').textContent.startsWith('✅')) $('msg').textContent = ''; }, 1800);
+}
+
+$('go').onclick = translate;
+$('clr').onclick = () => { $('src').value = ''; toks = []; $('han').innerHTML = '<span class="empty">翻譯結果會出現佇遮</span>'; $('tl').textContent = ''; $('words').innerHTML = '<span class="empty" style="font-size:14px;">翻譯了後，詞會一个一个排佇遮。</span>'; ['say', 'cpH', 'cpT', 'num'].forEach(id => $(id).disabled = true); $('msg').textContent = ''; $('src').focus(); };
+$('src').addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); translate(); } });
+$('say').onclick = say;
+$('cpH').onclick = () => copy($('han').textContent, '台語漢字');
+$('cpT').onclick = () => copy($('tl').textContent, '羅馬字');
+$('num').onclick = () => { numeric = !numeric; $('num').classList.toggle('on', numeric); draw(); };
+$('chips').innerHTML = EXAMPLES.map(s => `<button class="chip">${esc(s)}</button>`).join('');
+$('chips').querySelectorAll('.chip').forEach(b => b.onclick = () => { $('src').value = b.textContent; translate(); });
 </script>
 </body>
 </html>

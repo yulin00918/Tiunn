@@ -33,17 +33,7 @@
 </helmet>
 <div class="rn-wrap" style="margin:0;font-family:'Noto Sans TC','Microsoft JhengHei','PingFang TC',sans-serif;background:transparent;color:#263B37;padding:20px 14px 40px;">
   <div style="max-width:960px;margin:0 auto;">
-    <div style="background:#FFFEFA;border:1px solid #E4E5DD;border-radius:22px;padding:18px 20px;box-shadow:0 8px 20px rgba(38,78,71,.07);margin-bottom:18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
-      <span style="flex:0 0 auto;width:46px;height:46px;border-radius:14px;background:#E0F2EC;display:inline-flex;align-items:center;justify-content:center;font-size:24px;">📖</span>
-      <div style="min-width:0;flex:1;">
-        <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;">
-          <span style="flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;padding:5px 11px;border-radius:999px;background:#254E47;color:#fff;font-size:11.5px;font-weight:900;white-space:nowrap;">臺羅練功房</span>
-          <h1 style="margin:0;font-size:clamp(19px,3vw,23px);font-weight:900;letter-spacing:.04em;line-height:1.3;">聲母・韻母・聲調複習</h1>
-        </div>
-        <div style="margin-top:5px;font-size:12.5px;color:#66766D;font-weight:700;line-height:1.6;">點擊有例字的卡片就會使聽發音</div>
-      </div>
-    </div>
-
+    <div style="text-align:center;margin:0 0 12px;font-size:13.5px;font-weight:800;color:#66766D;">🔊 點有例字的卡片，就會使聽發音</div>
     <div style="display:flex;justify-content:center;gap:8px;margin-bottom:20px;flex-wrap:wrap;">
       <sc-for list="{{tabs}}" as="tab" hint-placeholder-count="6">
         <button style="{{tab.style}}" onClick="{{tab.onClick}}">{{tab.label}}</button>
@@ -52,39 +42,39 @@
 
     <sc-if value="{{introActive}}">
     <div style="background:#FFFEFA;border:1px solid #E4E5DD;border-radius:24px;padding:26px 24px;box-shadow:0 10px 26px rgba(38,78,71,.08);">
-      <p>台語羅馬字(台羅拼音)的每一個音節,都是由三個部分組成:</p>
+      <p>台語羅馬字（台羅拼音）的每一個音節，都是由三個部分組成：</p>
       <div style="display:flex;justify-content:center;align-items:center;gap:10px;margin:20px 0;font-size:1.3rem;font-weight:700;flex-wrap:wrap;">
         <div style="background:#fff;border:2px dashed #55A99C;color:#236B60;border-radius:12px;padding:10px 20px;">聲母</div><div>+</div>
         <div style="background:#fff;border:2px dashed #254E47;color:#254E47;border-radius:12px;padding:10px 20px;">韻母</div><div>+</div>
         <div style="background:#fff;border:2px dashed #E88B4A;color:#B15F2A;border-radius:12px;padding:10px 20px;">聲調</div><div>=</div>
-        <div style="background:#FFFEFA;border:2px dashed #D8E3D8;border-radius:12px;padding:10px 20px;">一个音節</div>
+        <div style="background:#FFFEFA;border:2px dashed #D8E3D8;border-radius:12px;padding:10px 20px;">一個音節</div>
       </div>
-      <p>「聲母」是音節開頭的子音(也有可能沒有,叫做零聲母);「韻母」是母音為主的部分;「聲調」是音節唸起來的高低升降。</p>
-      <p>用一個真實名字來看看:<b>張鈺聆</b> 這个名,臺羅拼音寫做 <b>Tiunn Gio̍k-lîng</b>,拆開來看:</p>
+      <p>「聲母」是音節開頭的子音（也有可能沒有，叫做零聲母）；「韻母」是母音為主的部分；「聲調」是音節唸起來的高低升降。</p>
+      <p>用一個真實名字來看看：<b>張鈺聆</b> 這個名，臺羅拼音寫做 <b>Tiunn Gio̍k-lîng</b>，拆開來看：</p>
       <div style="display:flex;justify-content:center;gap:18px;margin:20px 0;flex-wrap:wrap;">
         <div style="background:#FFFEFA;border:2px solid #E4E5DD;border-radius:16px;padding:16px 18px;text-align:center;min-width:110px;">
           <div style="font-size:1.3rem;margin-bottom:4px;">張</div>
           <div style="font-size:1.6rem;font-weight:700;color:#263B37;">Tiunn</div>
-          <div style="font-size:0.75rem;color:#66766D;margin-top:6px;line-height:1.5;">聲母:t<br>韻母:iunn<br>聲調:第1調</div>
+          <div style="font-size:0.75rem;color:#66766D;margin-top:6px;line-height:1.5;">聲母：t<br>韻母：iunn<br>聲調：第1調</div>
         </div>
         <div style="background:#FFFEFA;border:2px solid #E4E5DD;border-radius:16px;padding:16px 18px;text-align:center;min-width:110px;">
           <div style="font-size:1.3rem;margin-bottom:4px;">鈺</div>
           <div style="font-size:1.6rem;font-weight:700;color:#263B37;">Gio̍k</div>
-          <div style="font-size:0.75rem;color:#66766D;margin-top:6px;line-height:1.5;">聲母:g<br>韻母:iok<br>聲調:第8調(入聲)</div>
+          <div style="font-size:0.75rem;color:#66766D;margin-top:6px;line-height:1.5;">聲母：g<br>韻母：iok<br>聲調：第8調（入聲）</div>
         </div>
         <div style="background:#FFFEFA;border:2px solid #E4E5DD;border-radius:16px;padding:16px 18px;text-align:center;min-width:110px;">
           <div style="font-size:1.3rem;margin-bottom:4px;">聆</div>
           <div style="font-size:1.6rem;font-weight:700;color:#263B37;">Lîng</div>
-          <div style="font-size:0.75rem;color:#66766D;margin-top:6px;line-height:1.5;">聲母:l<br>韻母:ing<br>聲調:第5調</div>
+          <div style="font-size:0.75rem;color:#66766D;margin-top:6px;line-height:1.5;">聲母：l<br>韻母：ing<br>聲調：第5調</div>
         </div>
       </div>
-      <p style="font-size:0.8rem;color:#66766D;margin-top:16px;line-height:1.6;">這个例子剛好示範了三種不同的聲調類型:平調(張)、入聲短促調(鈺)、升調(聆)。你也可以試試看,把自己的名字拆成「聲母＋韻母＋聲調」,去教育部臺灣台語常用詞辭典的「姓名唸法查詢」附錄查詢正式的臺羅拼寫。</p>
+      <p style="font-size:0.8rem;color:#66766D;margin-top:16px;line-height:1.6;">這個例子剛好示範了三種不同的聲調類型：平調（張）、入聲短促調（鈺）、升調（聆）。你也可以試試看，把自己的名字拆成「聲母＋韻母＋聲調」，去教育部臺灣台語常用詞辭典的「姓名唸法查詢」附錄查詢正式的臺羅拼寫。</p>
     </div>
     </sc-if>
 
     <sc-if value="{{siannActive}}">
     <div style="background:#FFFEFA;border:1px solid #E4E5DD;border-radius:24px;padding:26px 24px;box-shadow:0 10px 26px rgba(38,78,71,.08);">
-      <p>台語總共有 17 個聲母,加上「零聲母」(無聲母,字直接以母音開頭)。下面依發音部位分組:</p>
+      <p>台語總共有 17 個聲母，加上「零聲母」（無聲母，字直接以母音開頭）。下面依發音部位分組：</p>
       <sc-for list="{{siannGroups}}" as="grp" hint-placeholder-count="5">
         <div style="font-weight:700;color:#254E47;margin:18px 0 10px;font-size:1rem;">{{grp.label}}</div>
         <div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(150px,1fr));gap:10px;">
@@ -99,20 +89,20 @@
           </sc-for>
         </div>
       </sc-for>
-      <p style="font-size:0.8rem;color:#66766D;margin-top:16px;line-height:1.6;">「j」在現代台語較少獨立使用,部分腔口會併入「l」或「g」,所以辭典裡幾乎找不到以「j」起首、有收錄音檔的單字。</p>
+      <p style="font-size:0.8rem;color:#66766D;margin-top:16px;line-height:1.6;">「j」在現代台語較少獨立使用，部分腔口會併入「l」或「g」，所以辭典裡幾乎找不到以「j」起首、有收錄音檔的單字。</p>
     </div>
     </sc-if>
 
     <sc-if value="{{unActive}}">
     <div style="background:#FFFEFA;border:1px solid #E4E5DD;border-radius:24px;padding:26px 24px;box-shadow:0 10px 26px rgba(38,78,71,.08);">
-      <p>韻母是音節裡聲母以外的部分,依語言學上的性質分做六大類:</p>
+      <p>韻母是音節裡聲母以外的部分，依語言學上的性質分做六大類：</p>
       <ol style="padding-left:20px;line-height:1.9;">
-        <li><b>單母音</b>:發音時口形固定不變,共 6 個基本口部元音</li>
-        <li><b>複母音</b>:由兩三個單母音組合而成,發音時口形會滑動</li>
-        <li><b>鼻化元音</b>:氣流同時從口腔佮鼻腔出來,台羅拼音在母音後加 -nn 表示</li>
-        <li><b>聲化韻母</b>:由輔音單獨充當韻母,台語主要有 m 佮 ng 兩個</li>
-        <li><b>鼻音韻尾</b>:以鼻音 -m、-n、-ng 收尾</li>
-        <li><b>入聲韻尾</b>:以短促的閉口或喉塞音 -p、-t、-k、-h 收尾</li>
+        <li><b>單母音</b>：發音時口形固定不變，共 6 個基本口部元音</li>
+        <li><b>複母音</b>：由兩三個單母音組合而成，發音時口形會滑動</li>
+        <li><b>鼻化元音</b>：氣流同時從口腔佮鼻腔出來，台羅拼音在母音後加 -nn 表示</li>
+        <li><b>聲化韻母</b>：由輔音單獨充當韻母，台語主要有 m 佮 ng 兩個</li>
+        <li><b>鼻音韻尾</b>：以鼻音 -m、-n、-ng 收尾</li>
+        <li><b>入聲韻尾</b>：以短促的閉口或喉塞音 -p、-t、-k、-h 收尾</li>
       </ol>
       <sc-for list="{{unGroups}}" as="grp" hint-placeholder-count="14">
         <div style="font-weight:700;color:#254E47;margin:18px 0 10px;font-size:1rem;">{{grp.label}}</div>
@@ -132,7 +122,7 @@
 
     <sc-if value="{{tiauActive}}">
     <div style="background:#FFFEFA;border:1px solid #E4E5DD;border-radius:24px;padding:26px 24px;box-shadow:0 10px 26px rgba(38,78,71,.08);">
-      <p>台語傳統上算有 8 個聲調,但現代台語第 2 調佮第 6 調發音仝款,所以臺羅拼音實際上只標 7 個調號(1、2、3、4、5、7、8)。傳統教學常用「8調」的方式來排列例字,方便對照:</p>
+      <p>台語傳統上算有 8 個聲調，但現代台語第 2 調佮第 6 調發音仝款，所以臺羅拼音實際上只標 7 個調號（1、2、3、4、5、7、8）。傳統教學常用「8調」的方式來排列例字，方便對照：</p>
       <sc-for list="{{toneSets}}" as="set" hint-placeholder-count="3">
         <div style="font-weight:700;color:#254E47;margin:18px 0 10px;font-size:1rem;">{{set.name}}</div>
         <table style="width:100%;border-collapse:collapse;margin-top:4px;">
@@ -145,19 +135,19 @@
               <td style="padding:10px 8px;text-align:center;border-bottom:1px solid #ECEEE6;">{{t.desc}}</td>
               <td style="padding:10px 8px;text-align:center;border-bottom:1px solid #ECEEE6;">
                 <sc-if value="{{t.hasAudio}}"><span style="cursor:pointer;font-weight:700;font-size:1.2rem;" onClick="{{t.onClick}}">▶</span></sc-if>
-                <sc-if value="{{t.noAudio}}"><span style="color:#66766D;font-size:0.75rem;">(辭典查無音檔)</span></sc-if>
+                <sc-if value="{{t.noAudio}}"><span style="color:#66766D;font-size:0.75rem;">（辭典查無音檔）</span></sc-if>
               </td>
             </tr>
           </sc-for>
         </table>
       </sc-for>
-      <p style="font-size:0.8rem;color:#66766D;margin-top:16px;line-height:1.6;">調型括號裡的數字是五度標調法(1最低、5最高),例如「55」表示從高到高的平調,「51」表示從高降到低。第4、8調結尾是 p/t/k/h,發音短促,叫做入聲。現代台羅拼音不會另外標第6調,因為它跟第2調唸法相同。</p>
+      <p style="font-size:0.8rem;color:#66766D;margin-top:16px;line-height:1.6;">調型括號裡的數字是五度標調法（1最低、5最高），例如「55」表示從高到高的平調，「51」表示從高降到低。第4、8調結尾是 p/t/k/h，發音短促，叫做入聲。現代台羅拼音不會另外標第6調，因為它跟第2調唸法相同。</p>
     </div>
     </sc-if>
 
     <sc-if value="{{piantiauActive}}">
     <div style="background:#FFFEFA;border:1px solid #E4E5DD;border-radius:24px;padding:26px 24px;box-shadow:0 10px 26px rgba(38,78,71,.08);">
-      <p>台語的詞,除了「詞的最後一個字」以外,前面的每一個字大部分都要「變調」(唸成另一個調),這是台語很重要的特色。</p>
+      <p>台語的詞，除了「詞的最後一個字」以外，前面的每一個字大部分都要「變調」（唸成另一個調），這是台語很重要的特色。</p>
       <div style="font-weight:700;color:#254E47;margin:18px 0 10px;font-size:1rem;">非入聲調的變調循環</div>
       <div style="text-align:center;margin:10px 0 16px;">
         <svg viewBox="0 0 440 340" style="width:100%;max-width:420px;height:auto;background:transparent;border:3px solid #F4C65D;border-radius:20px;">
@@ -200,15 +190,15 @@
 
         </svg>
       </div>
-      <p style="font-size:0.8rem;color:#66766D;text-align:center;margin-top:-8px;">橘色箭頭＝非入聲調變調循環(1→7→3→2→1);綠色箭頭＝入聲對應(4↔8,依p/t/k或h結尾走不同規則,詳見下表);灰色箭頭＝第5調依腔口分做「南」(變第7調)佮「北」(變第3調)兩種變化。</p>
-      <p>意思是:如果一个字後面還有字(毋是詞的上尾字),它的調就會照這个循環變過去。例如「花」(hue)本調是第1調,若是講「花矸」(hue-kan,花瓶),前字「花」就會變調唸做第7調的調值。</p>
-      <div style="font-weight:700;color:#254E47;margin:18px 0 10px;font-size:1rem;">入聲調(第4調佮第8調)的變調</div>
+      <p style="font-size:0.8rem;color:#66766D;text-align:center;margin-top:-8px;">橘色箭頭＝非入聲調變調循環（1→7→3→2→1）；綠色箭頭＝入聲對應（4↔8，依p/t/k或h結尾走不同規則，詳見下表）；灰色箭頭＝第5調依腔口分做「南」（變第7調）佮「北」（變第3調）兩種變化。</p>
+      <p>意思是：如果一個字後面還有字（毋是詞的上尾字），它的調就會照這個循環變過去。例如「花」（hue）本調是第1調，若是講「花矸」（hue-kan，花瓶），前字「花」就會變調唸做第7調的調值。</p>
+      <div style="font-weight:700;color:#254E47;margin:18px 0 10px;font-size:1rem;">入聲調（第4調佮第8調）的變調</div>
       <table style="width:100%;border-collapse:collapse;margin-top:4px;">
         <tr><th style="padding:10px 8px;text-align:center;border-bottom:1px solid #ECEEE6;color:#254E47;font-size:0.85rem;">結尾</th><th style="padding:10px 8px;text-align:center;border-bottom:1px solid #ECEEE6;color:#254E47;font-size:0.85rem;">第4調變做</th><th style="padding:10px 8px;text-align:center;border-bottom:1px solid #ECEEE6;color:#254E47;font-size:0.85rem;">第8調變做</th></tr>
         <tr><td style="padding:10px 8px;text-align:center;border-bottom:1px solid #ECEEE6;">-p / -t / -k 結尾</td><td style="padding:10px 8px;text-align:center;border-bottom:1px solid #ECEEE6;">第8調</td><td style="padding:10px 8px;text-align:center;border-bottom:1px solid #ECEEE6;">第4調</td></tr>
         <tr><td style="padding:10px 8px;text-align:center;border-bottom:1px solid #ECEEE6;">-h 結尾</td><td style="padding:10px 8px;text-align:center;border-bottom:1px solid #ECEEE6;">第2調</td><td style="padding:10px 8px;text-align:center;border-bottom:1px solid #ECEEE6;">第3調</td></tr>
       </table>
-      <p style="font-size:0.8rem;color:#66766D;margin-top:16px;line-height:1.6;">入聲調(4、8調)結尾一定是 p、t、k、h 其中一个子音,發音短促。變調規則比較特別:p/t/k結尾的4調佮8調會互相對調;h結尾的則是分別變做2調佮3調。</p>
+      <p style="font-size:0.8rem;color:#66766D;margin-top:16px;line-height:1.6;">入聲調（4、8調）結尾一定是 p、t、k、h 其中一個子音，發音短促。變調規則比較特別：p/t/k結尾的4調佮8調會互相對調；h結尾的則是分別變做2調佮3調。</p>
     </div>
     </sc-if>
 
@@ -225,7 +215,7 @@
         </table></div>
       <p style="font-size:0.8rem;color:#66766D;margin-top:12px;line-height:1.6;">固定低調輕聲毋管前字是啥物調，攏唸低低、輕輕；隨前變調輕聲的高低，會綴前一字的調走，例如「予--你」唸做（7,7），「看--伊」唸做（3,3）。</p>
 
-      <div style="font-weight:700;color:#254E47;margin:26px 0 10px;font-size:1rem;">二、「仔」(á) 前變調</div>
+      <div style="font-weight:700;color:#254E47;margin:26px 0 10px;font-size:1rem;">二、「仔」（á） 前變調</div>
       <p>詞的後壁若接「仔」（á，表示小、可愛或者是名詞化），仔前面彼字有家己的變調規則：</p>
         <div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;margin-top:4px;">
         <tr><th style="padding:10px 8px;text-align:center;border-bottom:1px solid #ECEEE6;color:#254E47;font-size:0.85rem;">本調</th><th style="padding:10px 8px;text-align:center;border-bottom:1px solid #ECEEE6;color:#254E47;font-size:0.85rem;">仔前變做</th><th style="padding:10px 8px;text-align:center;border-bottom:1px solid #ECEEE6;color:#254E47;font-size:0.85rem;">一般變調</th><th style="padding:10px 8px;text-align:center;border-bottom:1px solid #ECEEE6;color:#254E47;font-size:0.85rem;">範例</th></tr>

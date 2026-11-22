@@ -261,7 +261,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #F4C65D;outline-offset:2p
 </symbol>
 </defs></svg>
 <div class="siteHead"><div class="siteHeadIn">
-  <a class="homeBtn" href="index.html">← 回首頁</a>
+  <a class="homeBtn" href="index.html">🏠 回首頁</a>
   <div class="siteTitle"><svg class="ic hd" aria-hidden="true"><use href="#i-glove"/></svg>聽聲練功坊<small>鈺見拳頭館｜耳朵練予利，拼音就會準</small></div>
   <div class="siteSpacer"></div>
 </div></div>
@@ -370,7 +370,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #F4C65D;outline-offset:2p
   <div class="sealBig" id="dSeals"></div>
   <div class="gain" id="dGain"></div>
   <div class="levelUp" id="dLevelUp"></div>
-  <div class="weakBox" id="dWeak" style="display:none"></div>
+  <div id="dPass" style="margin:10px 0;font-weight:900;color:#B15F2A;text-align:center"></div><div class="weakBox" id="dWeak" style="display:none"></div>
   <div class="row"><button class="ghost" id="dHall">回館口</button><button class="primary" id="dAgain">再練一次</button></div>
 </section>
 
@@ -619,6 +619,7 @@ function sealsFor(){
  const rate=R.correct/Math.max(1,R.correct+R.wrong);
  return rate>=.9?3:rate>=.75?2:rate>=.55?1:0;
 }
+function yjAward(act,detail){if(window.YJPass)return setTimeout(()=>YJPass.award(act,detail),700);const s=document.createElement('script');s.src='./pass-code.js';s.onload=()=>setTimeout(()=>window.YJPass&&YJPass.award(act,detail),500);document.head.appendChild(s)}
 function finishRound(){
  clearInterval(timerId);if(!R)return;
  const before=beltIndex(dojo.total),seals=sealsFor(),key=R.sealKey||R.room;
@@ -643,6 +644,9 @@ function finishRound(){
  const miss=Object.entries(R.miss).sort((a,b)=>b[1]-a[1]);
  if(miss.length){$("#dWeak").style.display="block";$("#dWeak").innerHTML="<b>這些音送去木人樁加強：</b><br>"+miss.map(([s,n])=>`${s}${pairOf(s)?`（容易和 ${pairOf(s)} 混）`:""} × ${n}`).join("<br>")}
  else $("#dWeak").style.display="none";
+ const passOk=R.room==="daily"&&acc>=70;
+ $("#dPass").textContent=R.room==="daily"?(passOk?"🎫 今日功課正確率 70% 以上，通關碼送你！":"🎫 今日功課正確率 70% 以上就有通關碼，閣練一擺！"):"🎫 完成「今日功課」、正確率 70% 以上，就有通關碼";
+ if(passOk)yjAward("LG",`今日功課完成｜正確率 ${acc}%`);
  R=null;show("done");
 }
 $("#stopBtn").onclick=()=>{if(R&&R.i>0)finishRound();else{clearInterval(timerId);R=null;renderHall();show("hall")}};

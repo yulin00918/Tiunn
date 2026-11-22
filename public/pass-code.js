@@ -12,7 +12,10 @@
     DK: { name: '台語組句任務', icon: '🧩' },
     HY: { name: '形音義挑戰', icon: '🕵️' },
     TZ: { name: '台語挑戰區', icon: '⭐' },
-    KW: { name: '課文解碼站', icon: '🔎' }
+    KW: { name: '課文解碼站', icon: '🔎' },
+    SD: { name: '台語聲調大挑戰', icon: '🎼' },
+    LG: { name: '聽聲練功坊', icon: '🥋' },
+    PK: { name: '排句仔', icon: '🧱' }
   };
   var ABC = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
   var SEAT_KEY = 'yjtg-pass-seat', TRACK_KEY = 'yjtg-pass-track-v1';

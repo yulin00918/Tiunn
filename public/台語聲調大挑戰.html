@@ -138,7 +138,7 @@
 </script>
 </head>
 <body>
-<div class="v2top"><div class="v2topIn"><a class="v2home" href="index.html">← 回首頁</a><div class="v2title"><div class="v2brand">鈺見台語 · 台羅拼音學習</div><h1>🎵 台語聲調大挑戰</h1><p>獅虎豹鱉、東黨棟督，八聲一次學起來！</p></div><div class="v2spacer"></div></div></div>
+<div class="v2top"><div class="v2topIn"><a class="v2home" href="index.html">🏠 回首頁</a><div class="v2title"><div class="v2brand">鈺見台語 · 台羅拼音學習</div><h1>🎵 台語聲調大挑戰</h1><p>獅虎豹鱉、東黨棟督，八聲一次學起來！</p></div><div class="v2spacer"></div></div></div>
 <div class="wrap">
 
   <div class="tabs">
@@ -480,6 +480,7 @@ function answer(t,btn){
   $('nextBtn').textContent = qi===N-1 ? '看成績 →' : '下一題 →';
 }
 $('nextBtn').onclick=()=>{ qi++; qi<N ? showQ() : finish(); };
+function yjAward(act,detail){if(window.YJPass)return setTimeout(()=>YJPass.award(act,detail),700);const s=document.createElement('script');s.src='./pass-code.js';s.onload=()=>setTimeout(()=>window.YJPass&&YJPass.award(act,detail),500);document.head.appendChild(s)}
 function finish(){
   $('prog').style.width='100%';
   $('qGame').style.display='none';
@@ -492,9 +493,11 @@ function finish(){
     <p>答對 ${correct} / ${N} 題　${stars}</p>
     ${rows?`<p style="margin-top:12px;color:var(--muted)">最需要加強的聲調：</p><table>${rows}</table>`
           :'<p style="margin-top:12px">全部答對，太厲害了！</p>'}
+    <p style="margin-top:10px;font-weight:800;color:#B15F2A">${N>=10&&rate>=.7?'🎫 答對 70% 以上，通關碼送你！':(N>=10?'🎫 答對 70% 以上就有通關碼，閣拚一擺！':'🎫 揀 10 題以上、答對 70%，就有通關碼')}</p>
     <button class="play" id="retry" style="margin-top:12px">再玩一次 ↻</button>
     <button class="play" id="review" style="margin-top:12px;background:var(--indigo);box-shadow:0 3px 0 #1A3833">回第一關複習</button>`;
   $('retry').onclick=()=>{ $('qStart').style.display='block'; $('qResult').style.display='none'; $('qGame').style.display='none'; }; 
+  if(N>=10&&rate>=.7) yjAward('SD',`答對 ${correct} / ${N} 題`);
   $('review').onclick=()=>document.querySelector('.tab[data-p="learn"]').click();
 }
 </script>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>排句仔｜鈺見台語</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H3X7ZH5XL6"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-H3X7ZH5XL6');</script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<!--
+  排句仔
+  網站介面、功能與教學整合設計／製作：張鈺聆
+  Copyright © 張鈺聆
+-->
+<script src="./author-credit.js"></script>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Noto Sans TC',sans-serif;color:#263B37;background:radial-gradient(circle at 6% 4%,rgba(244,198,93,.23),transparent 22%),radial-gradient(circle at 95% 10%,rgba(85,169,156,.17),transparent 24%),#FAF8F2;min-height:100vh}
+  a{color:inherit;text-decoration:none}
+  button{font-family:inherit}
+  .top{background:linear-gradient(110deg,#254E47,#316E62 78%,#37877B);border-bottom:4px solid #F4C65D;color:#fff}
+  .top-in{max-width:1120px;margin:auto;min-height:66px;padding:12px 22px;display:flex;align-items:center;gap:14px}
+  .home{flex:0 0 auto;display:inline-flex;align-items:center;min-height:44px;padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.22);color:#fff;font-size:14px;font-weight:800;white-space:nowrap}
+  .home:hover{background:rgba(255,255,255,.24)}
+  .ttl{flex:1;min-width:0;text-align:center}
+  .ttl b{display:block;font-size:clamp(19px,3.4vw,22px);font-weight:900;letter-spacing:.08em;line-height:1.35}
+  .ttl small{display:block;margin-top:3px;font-size:12.5px;color:#E7F2E9;font-weight:700}
+  .sp{flex:0 0 auto;width:104px}
+  @media(max-width:560px){.sp{display:none}}
+  .hero{background:linear-gradient(105deg,#FFF1D4 0%,#FFE1CA 51%,#DDF1E9 100%);border-bottom:1px solid #F1DDBF}
+  .hero-in{max-width:1120px;margin:auto;padding:16px 22px 20px;display:flex;align-items:center;gap:14px}
+  .bubble{background:#fff;border:1px solid #F4C990;border-radius:16px 16px 16px 4px;padding:11px 16px;box-shadow:0 5px 14px rgba(177,95,42,.08)}
+  .tag{font-size:11.5px;font-weight:900;letter-spacing:.14em;color:#B15F2A}
+  .txt{margin-top:4px;font-size:14.5px;font-weight:800;color:#594936;line-height:1.6}
+  main{max-width:900px;margin:auto;padding:22px 18px 10px}
+  .card{background:#fff;border:1px solid #E8E6D9;border-radius:26px;padding:24px;box-shadow:0 10px 26px rgba(38,78,71,.08)}
+  .center{text-align:center}
+  h2{margin:0 0 6px;font-size:21px;font-weight:900}
+  .muted{color:#7C8A83;font-weight:700;font-size:14px;line-height:1.7}
+  .levels{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+  @media(max-width:560px){.levels{grid-template-columns:1fr}}
+  .lv{border:2px solid #E4E5DD;background:#FFFDF8;border-radius:20px;padding:18px;cursor:pointer;text-align:left;transition:.15s}
+  .lv:hover{transform:translateY(-2px);border-color:#55A99C}
+  .lv.on{border-color:#254E47;background:#F2FAF7;box-shadow:0 0 0 3px rgba(85,169,156,.25)}
+  .lv b{display:block;font-size:18px;font-weight:900;margin-bottom:4px}
+  .lv span{font-size:13.5px;color:#6D7B74;font-weight:700}
+  .go{min-height:52px;padding:12px 34px;border-radius:999px;border:none;font-size:17px;font-weight:900;cursor:pointer;background:linear-gradient(110deg,#E88B4A,#DA753B);color:#fff;box-shadow:0 6px 14px rgba(218,117,59,.25)}
+  .go:disabled{opacity:.45;cursor:not-allowed}
+  .soft{min-height:46px;padding:10px 20px;border-radius:999px;border:1.5px solid #CFE3DB;background:#fff;color:#254E47;font-size:15px;font-weight:900;cursor:pointer}
+  .meta{display:flex;justify-content:space-between;align-items:center;font-weight:900;color:#456C65;margin-bottom:10px;gap:10px;flex-wrap:wrap}
+  .bar{height:8px;border-radius:999px;background:#EEF1EA;overflow:hidden;margin-bottom:16px}
+  .bar i{display:block;height:100%;background:linear-gradient(90deg,#55A99C,#254E47);transition:width .3s}
+  .zh{background:#FFF8EC;border:1.5px dashed #EBCB9F;border-radius:16px;padding:12px 16px;font-size:16px;font-weight:800;color:#7A4A1E;margin-bottom:14px}
+  .zh small{display:block;font-size:12px;color:#B08860;letter-spacing:.1em;margin-bottom:2px}
+  .slot{min-height:92px;border-radius:18px;background:#F5FBF8;border:2px solid #D8EBE3;padding:10px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px}
+  .slot.empty::before{content:'點下面的詞卡，排佇遮';color:#A9B8B1;font-weight:800;font-size:14px;margin:auto}
+  .slot.ok{border-color:#55A99C;background:#E9F7F1}
+  .slot.no{border-color:#E39A9A;background:#FFF3F3;animation:shake .35s}
+  @keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+  .pool{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;min-height:70px;margin-bottom:16px}
+  .tile{border:1.5px solid #DCE6E1;border-bottom-width:4px;border-bottom-color:#55A99C;background:#fff;border-radius:14px;padding:8px 12px 6px;cursor:pointer;text-align:center;min-width:56px;transition:transform .12s}
+  .tile:hover{transform:translateY(-2px)}
+  .tile:active{transform:scale(.95)}
+  .tile .h{font-size:22px;font-weight:900;line-height:1.3}
+  .tile .r{font-family:'Times New Roman',serif;font-size:14px;color:#2F6E62}
+  .slot .tile{border-bottom-color:#E88B4A}
+  .tile.bad{border-color:#E39A9A;border-bottom-color:#D96A6A;background:#FFF6F6}
+  .end{font-size:24px;font-weight:900;color:#B15F2A;padding:0 4px}
+  .fb{min-height:26px;font-weight:900;font-size:15px;text-align:center;margin-bottom:10px}
+  .fb.ok{color:#2F7D6E}.fb.no{color:#C0504D}
+  .ans{display:none;text-align:center;margin-bottom:14px}
+  .ans .a1{font-size:22px;font-weight:900}
+  .ans .a2{font-family:'Times New Roman',serif;font-size:18px;color:#2F6E62;margin-top:4px}
+  .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  .score{font-size:52px;font-weight:900;color:#254E47;margin:10px 0}
+  .pass{margin:10px 0 16px;font-weight:900;color:#B15F2A}
+  .rev{text-align:left;margin:14px auto;max-width:620px}
+  .rev div{padding:9px 12px;border-bottom:1px solid #EEF1EA;font-size:15px}
+  .rev b{font-size:17px}
+  .rev span{display:block;font-family:'Times New Roman',serif;color:#2F6E62}
+  .foot{text-align:center;font-size:12px;color:#8A968F;font-weight:700;padding:22px 16px 30px;line-height:1.8}
+  button:focus-visible{outline:3px solid #F4C65D;outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="top"><div class="top-in">
+  <a class="home" href="index.html">🏠 回首頁</a>
+  <div class="ttl"><b>🧱 排句仔</b><small>共詞卡排做一句正確的台語</small></div>
+  <div class="sp"></div>
+</div></div>
+<div class="hero"><div class="hero-in">
+  <span style="font-size:24px;transform:rotate(-8deg)">🧩</span>
+  <div class="bubble"><div class="tag">今日任務</div><div class="txt">看華語的意思，共台語詞卡排予著。一輪 5 句，排著 4 句以上就有通關碼！</div></div>
+</div></div>
+
+<main>
+  <section class="card center" id="home">
+    <h2>揀難度</h2>
+    <div class="muted">句仔攏是教育部《臺灣台語常用詞辭典》的例句。</div>
+    <div class="levels">
+      <button class="lv on" data-lv="easy"><b>🌱 入門</b><span>4～5 張詞卡，較短的句仔</span></button>
+      <button class="lv" data-lv="hard"><b>🌳 進階</b><span>6～7 張詞卡，較長的句仔</span></button>
+    </div>
+    <button class="go" id="start">開始排句仔 ➜</button>
+    <div style="margin-top:16px"><a class="muted" href="咱來鬥句.dc.html" style="text-decoration:underline">想家己造句？去「咱來鬥句」</a></div>
+  </section>
+
+  <section class="card" id="play" hidden>
+    <div class="meta"><span id="qn"></span><span id="sc"></span></div>
+    <div class="bar"><i id="bar"></i></div>
+    <div class="zh"><small>華語意思</small><span id="zh"></span></div>
+    <div class="slot empty" id="slot"></div>
+    <div class="fb" id="fb"></div>
+    <div class="ans" id="ans"><div class="a1" id="a1"></div><div class="a2" id="a2"></div></div>
+    <div class="pool" id="pool"></div>
+    <div class="row">
+      <button class="soft" id="say" hidden>🔊 聽這句</button>
+      <button class="soft" id="clear">↺ 重排</button>
+      <button class="go" id="check" disabled>✅ 檢查</button>
+      <button class="go" id="next" hidden>下一句 ➜</button>
+    </div>
+    <div style="text-align:center;margin-top:14px"><button class="soft" id="quit" style="min-height:38px;font-size:13px">← 返回</button></div>
+  </section>
+
+  <section class="card center" id="done" hidden>
+    <h2>🎉 這輪完成！</h2>
+    <div class="score" id="final"></div>
+    <div class="pass" id="pass"></div>
+    <div class="rev" id="rev"></div>
+    <div class="row"><button class="go" id="again">閣來一輪</button><button class="soft" id="back">換難度</button></div>
+  </section>
+</main>
+<div class="foot">句仔來源：教育部《臺灣台語常用詞辭典》例句（CC BY-ND 3.0 TW）；整句語音：意傳科技。<br><span>張鈺聆 製</span>｜鈺見台語</div>
+
+<script src="./pk-data.js"></script>
+<script>
+(function(){
+  const $=id=>document.getElementById(id);
+  const ROUND=5, TTS='https://hapsing.ithuan.tw/bangtsam?taibun=';
+  let level='easy', set=[], qi=0, score=0, tries=0, picked=[], pool=[], log=[], audio=null;
+  const show=id=>['home','play','done'].forEach(x=>$(x).hidden=x!==id);
+  const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+  const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+  document.querySelectorAll('.lv').forEach(b=>b.onclick=()=>{level=b.dataset.lv;document.querySelectorAll('.lv').forEach(x=>x.classList.toggle('on',x===b))});
+  function start(){
+    const src=PK_DATA[level]; set=[]; const used=new Set();
+    while(set.length<ROUND&&used.size<src.length){const i=Math.floor(Math.random()*src.length);if(!used.has(i)){used.add(i);set.push(src[i])}}
+    qi=0;score=0;log=[];show('play');load();
+    try{gtag('event','paiku_start',{level})}catch(e){}
+  }
+  function load(){
+    const q=set[qi]; tries=0; picked=[];
+    let order=shuffle(q[0].map((t,i)=>i)); let guard=0;
+    while(order.every((v,i)=>v===i)&&guard++<10)order=shuffle(order);
+    pool=order.map(i=>({i,h:q[0][i][0],r:q[0][i][1],used:false}));
+    $('qn').textContent=`第 ${qi+1} / ${set.length} 句`;$('sc').textContent=`排著 ${score} 句`;
+    $('bar').style.width=(qi/set.length*100)+'%';
+    $('zh').textContent=q[2];$('fb').textContent='';$('fb').className='fb';
+    $('ans').style.display='none';$('next').hidden=true;$('say').hidden=true;$('check').hidden=false;$('clear').hidden=false;
+    render();
+  }
+  function tileHTML(t){return `<div class="h">${esc(t.h)}</div><div class="r">${esc(t.r)}</div>`}
+  function render(done){
+    const q=set[qi], slot=$('slot'), pl=$('pool');
+    slot.className='slot'+(picked.length?'':' empty')+(done===true?' ok':'');
+    slot.innerHTML='';
+    picked.forEach((t,k)=>{const b=document.createElement('button');b.className='tile'+(t.bad?' bad':'');b.innerHTML=tileHTML(t);
+      if(done===undefined)b.onclick=()=>{t.used=false;t.bad=false;picked.splice(k,1);clearBad();render()};slot.appendChild(b)});
+    if(picked.length===pool.length){const e=document.createElement('span');e.className='end';e.textContent=q[1];slot.appendChild(e)}
+    pl.innerHTML='';
+    pool.forEach(t=>{if(t.used)return;const b=document.createElement('button');b.className='tile';b.innerHTML=tileHTML(t);
+      b.onclick=()=>{t.used=true;picked.push(t);clearBad();render()};pl.appendChild(b)});
+    $('check').disabled=picked.length!==pool.length;
+  }
+  function clearBad(){picked.forEach(t=>t.bad=false);$('fb').textContent='';$('fb').className='fb'}
+  function check(){
+    const q=set[qi];
+    // 比較文字（仝款的詞對調嘛算著）
+    const ok=picked.every((t,k)=>t.h===q[0][k][0]);
+    tries++;
+    if(ok){ if(tries<=2)score++; finishQ(true); return; }
+    let k=picked.findIndex((t,k)=>t.h!==q[0][k][0]);
+    picked.forEach((t,j)=>t.bad=j>=k);
+    const slot=$('slot');slot.classList.remove('no');void slot.offsetWidth;
+    if(tries>=2){ finishQ(false); return; }
+    render();slot.classList.add('no');
+    $('fb').className='fb no';$('fb').textContent=`差一點仔！對第 ${k+1} 張詞卡開始無對，閣試一擺。`;
+  }
+  function finishQ(ok){
+    const q=set[qi];
+    log.push({ok,q});
+    if(!ok){picked=q[0].map((t,i)=>({i,h:t[0],r:t[1],used:true}));pool.forEach(t=>t.used=true)}
+    render(ok?true:false);
+    $('fb').className='fb '+(ok?'ok':'no');
+    $('fb').textContent=ok?(tries===1?'🎉 一擺就排著，真𠢕！':'👍 排著矣！'):'這句較難，正確答案是：';
+    $('a1').textContent=q[0].map(t=>t[0]).join('')+q[1];$('a2').textContent=q[3];$('ans').style.display='block';
+    $('check').hidden=true;$('clear').hidden=true;$('next').hidden=false;$('say').hidden=false;
+    $('next').textContent=qi+1>=set.length?'看結果 ➜':'下一句 ➜';
+    $('sc').textContent=`排著 ${score} 句`;
+  }
+  function say(){
+    const q=set[qi]; if(audio)audio.pause();
+    audio=new Audio(TTS+encodeURIComponent(q[3]));
+    audio.onerror=()=>{$('fb').className='fb no';$('fb').textContent='😥 語音暫時無法度用，請小等一下閣試。'};
+    audio.play().catch(()=>{});
+  }
+  function next(){
+    qi++; if(qi<set.length)return load();
+    $('bar').style.width='100%';
+    show('done'); $('final').textContent=`${score} / ${set.length}`;
+    $('rev').innerHTML=log.map(x=>`<div>${x.ok?'✅':'❌'} <b>${esc(x.q[0].map(t=>t[0]).join('')+x.q[1])}</b><span>${esc(x.q[3])}</span><small class="muted">${esc(x.q[2])}</small></div>`).join('');
+    const pass=score>=4;
+    $('pass').textContent=pass?'🎫 排著 4 句以上，通關碼送你！':'🎫 一輪排著 4 句以上就有通關碼，閣拚一擺！';
+    if(pass){const go=()=>setTimeout(()=>window.YJPass&&YJPass.award('PK',`${level==='easy'?'入門':'進階'}　排著 ${score} / ${set.length} 句`),600);
+      if(window.YJPass)go();else{const s=document.createElement('script');s.src='./pass-code.js';s.onload=go;document.head.appendChild(s)}}
+  }
+  $('start').onclick=start;$('again').onclick=start;$('back').onclick=()=>show('home');
+  $('check').onclick=check;$('next').onclick=next;$('say').onclick=say;
+  $('clear').onclick=()=>{pool.forEach(t=>{t.used=false;t.bad=false});picked=[];clearBad();render()};
+  $('quit').onclick=()=>show('home');
+})();
+</script>
+</body>
+</html>

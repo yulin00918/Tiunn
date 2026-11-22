@@ -987,7 +987,7 @@ function miniWorld(c){const k=c.theme,th=T[k],st=ts(c,k),nx=nextInfo(c,k);
  <div class="bar"><i style="width:${nx.pct}%"></i></div>
  <p class="small" style="margin:8px 0 0">${nx.done?SI('trophy')+' 12 項內容全部解鎖！':`下一個：<b>${preview(k,nx.m)}</b><br><span class="muted">還差 ${EN(th)} ${nx.left}（約全班 ${(nx.left/Math.max(1,c.students.length)).toFixed(1)} 次任務）</span>`}</p></div>`}
 /* ================= 通關碼打卡（鈺見台語活動） ================= */
-const PASS_ACTS={TL:'🎵 台羅練功房',TA:'🎧 聽聲辨拼音 Lv.3',TB:'🎧 聽聲辨拼音 Lv.6',TS:'🎧 聽聲辨拼音 Lv.9',DK:'🧩 台語組句任務',HY:'🕵️ 形音義挑戰',TZ:'⭐ 台語挑戰區',KW:'🔎 課文解碼站'};
+const PASS_ACTS={TL:'🎵 台羅練功房',TA:'🎧 聽聲辨拼音 Lv.3',TB:'🎧 聽聲辨拼音 Lv.6',TS:'🎧 聽聲辨拼音 Lv.9',DK:'🧩 台語組句任務',HY:'🕵️ 形音義挑戰',TZ:'⭐ 台語挑戰區',KW:'🔎 課文解碼站',SD:'🎼 台語聲調大挑戰',LG:'🥋 聽聲練功坊',PK:'🧱 排句仔'};
 const PABC='23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
 function pFnv(str){let h=2166136261;for(let i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619)>>>0}return h>>>0}
 function pChk(act,seat2,day){let h=pFnv(act+'|'+seat2+'|'+day+'|yjtg-pass-v1'),s='';for(let i=0;i<4;i++){s+=PABC[h%32];h=Math.floor(h/32)}return s}

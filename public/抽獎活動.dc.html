@@ -196,8 +196,8 @@ class Component extends DCLogic {
     }
 
     const rect = pool.getBoundingClientRect();
-    const poolWidth = rect.width || 300;
-    const poolHeight = rect.height || 280;
+    const poolWidth = pool.clientWidth || rect.width || 300;
+    const poolHeight = pool.clientHeight || rect.height || 280;
     const ballSize = 42, padding = 5;
     this.floatingBalls = [];
 

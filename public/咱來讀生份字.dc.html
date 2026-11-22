@@ -146,12 +146,12 @@ button:focus-visible,a:focus-visible,select:focus-visible{outline:3px solid #F4C
 <div class="top"><div class="topIn"><a class="home" href="首頁.dc.html">🏠 回首頁</a><div class="titleBox"><b>🔎 課文解碼站</b><div class="sub">聽音・認字・看台羅，把課文語詞真正解開</div></div><div class="topSpacer"></div></div></div>
 <div class="taskBand"><div class="taskIn"><span class="leaf">🌿</span><div class="bubble"><div class="todayTag">今日任務</div><div class="todayTxt">聽一聽、看一看，你認得這個詞無？</div></div></div><svg class="taskWave" viewBox="0 0 1440 16" preserveAspectRatio="none"><path d="M0,10 C240,2 480,15 720,8 C960,2 1200,14 1440,7 L1440,16 L0,16 Z" fill="#FAF8F2"></path></svg></div>
 <div class="wrap" id="selectScreen"><div class="panel">
-<div class="stepHead"><span class="stepNo">1</span><div><p class="modeTitle">選擇練習模式</p><p class="stepHint">四種練習方向，揀你今介日想練的</p></div></div>
+<div class="stepHead"><span class="stepNo">1</span><div><p class="modeTitle">揀解碼方式</p><p class="stepHint">四種解碼方式，揀你今仔日想練的</p></div></div>
 <div class="modes" id="modes">
-<button class="modeBtn on" data-mode="audioHanji">👂 聽讀音選台語</button>
-<button class="modeBtn" data-mode="audioTailo">🎧 聽讀音選台羅</button>
-<button class="modeBtn" data-mode="hanjiTailo">🔤 看台語選台羅</button>
-<button class="modeBtn" data-mode="tailoHanji">🀄 看台羅選台語</button>
+<button class="modeBtn on" data-mode="audioHanji">👂 聽音揣漢字</button>
+<button class="modeBtn" data-mode="audioTailo">🎧 聽音揣台羅</button>
+<button class="modeBtn" data-mode="hanjiTailo">🔤 看漢字揣台羅</button>
+<button class="modeBtn" data-mode="tailoHanji">🀄 看台羅揣漢字</button>
 </div>
 <div class="stepBlock"><div class="stepHead"><span class="stepNo">2</span><div><p class="modeTitle">揀課本</p><p class="stepHint">版本 → 冊別 → 課次</p></div></div>
 <div class="selectors">
@@ -179,7 +179,7 @@ function updateInfo(){currentRow=row();if(!currentRow?.words){$('info').textCont
 /* 干擾項不足時，從同一出版社其他課次的同類欄位补足，使選項不少於4個。只补干擾項，不影響正確答案。 */
 function publisherPool(){const g=GROUPS_DEF[+$('pub').value];return g.cards.flatMap(b=>b.rows.filter(r=>r.words).flatMap(r=>r.words))}
 function distract(pool,key,correct,n=3){const grab=src=>[...new Set(src.flatMap(w=>key==='tailo'?cleanTailo(w[key]):[w[key]]).filter(Boolean).filter(x=>x!==correct))];let vals=shuffle(grab(pool)).slice(0,n);if(vals.length<n){const extra=shuffle(grab(publisherPool()).filter(x=>!vals.includes(x)));vals=vals.concat(extra.slice(0,n-vals.length))}return vals}
-function makeQ(w,pool,type){let answer,prompt,tag,sub,audio=false;if(type==='audioHanji'){answer=w.hanji;prompt='聽讀音，選出台語漢字';tag='👂 聽讀音選台語';sub='按「🔊 播放語音」聽讀音';audio=true}else if(type==='audioTailo'){answer=cleanTailo(w.tailo)[0];prompt='聽讀音，選出台羅';tag='🎧 聽讀音選台羅';sub='按「🔊 播放語音」聽讀音';audio=true}else if(type==='hanjiTailo'){answer=cleanTailo(w.tailo)[0];prompt=w.hanji;tag='🔤 看台語選台羅';sub='這個詞按怎讀？'}else{answer=w.hanji;prompt=cleanTailo(w.tailo)[0];tag='🀄 看台羅選台語';sub='這個台羅對應佗一個詞？'}let key=(type==='audioTailo'||type==='hanjiTailo')?'tailo':'hanji';return{w,type,answer,prompt,tag,sub,audio,opts:shuffle([answer,...distract(pool,key,answer)])}}
+function makeQ(w,pool,type){let answer,prompt,tag,sub,audio=false;if(type==='audioHanji'){answer=w.hanji;prompt='聽讀音，選出台語漢字';tag='👂 聽音揣漢字';sub='按「🔊 播放語音」聽讀音';audio=true}else if(type==='audioTailo'){answer=cleanTailo(w.tailo)[0];prompt='聽讀音，選出台羅';tag='🎧 聽音揣台羅';sub='按「🔊 播放語音」聽讀音';audio=true}else if(type==='hanjiTailo'){answer=cleanTailo(w.tailo)[0];prompt=w.hanji;tag='🔤 看漢字揣台羅';sub='這個詞按怎讀？'}else{answer=w.hanji;prompt=cleanTailo(w.tailo)[0];tag='🀄 看台羅揣漢字';sub='這個台羅對應佗一個詞？'}let key=(type==='audioTailo'||type==='hanjiTailo')?'tailo':'hanji';return{w,type,answer,prompt,tag,sub,audio,opts:shuffle([answer,...distract(pool,key,answer)])}}
 function buildQuestions(words,n){let eligible=(mode==='audioHanji'||mode==='audioTailo')?words.filter(hasAudio):words;let chosen=n==='all'?shuffle(eligible):shuffle(eligible).slice(0,Math.min(n,eligible.length));return chosen.map(w=>makeQ(w,eligible,mode))}
 function start(){currentRow=row();if(!currentRow?.words)return;questions=buildQuestions(currentRow.words,amount);if(!questions.length)return;qi=0;score=0;$('selectScreen').style.display='none';$('resultScreen').style.display='none';$('quizScreen').style.display='block';renderQ()}
 function renderQ(){locked=false;let q=questions[qi];$('qnum').textContent=`第 ${qi+1} / ${questions.length} 題`;$('scoreNow').textContent=`答對 ${score} 題`;$('bar').style.width=`${qi/questions.length*100}%`;$('typeTag').textContent=q.tag;$('prompt').textContent=q.prompt;$('sub').textContent=q.sub;$('feedback').textContent='';$('next').style.display='none';$('audioBtn').style.display=q.audio?'inline-block':'none';if(q.audio){const p=$('player');const src=q.w.audio;p.onerror=null;p.pause();p.src=src;p.load();const play=()=>{p.currentTime=0;const r=p.play();if(r&&r.catch)r.catch(()=>{$('sub').textContent='請按「🔊 播放語音」聽讀音'})};p.onerror=()=>{$('sub').textContent='⚠ 音檔載入失敗：'+src};$('audioBtn').onclick=play;$('audioBtn').textContent='🔊 播放語音';setTimeout(play,200)}$('opts').innerHTML='';q.opts.forEach(o=>{let b=document.createElement('button');b.className='opt';b.textContent=o;b.onclick=()=>answer(b,o);$('opts').appendChild(b)})}

@@ -244,10 +244,14 @@ function openPop(k, el) {
   h += `<a href="https://sutian.moe.edu.tw/zh-hant/tshiau/?lui=${t.cands.length ? 'tai_su' : 'hua_ku'}&tsha=${encodeURIComponent(t.cands.length ? q : t.zh)}" target="_blank" rel="noopener">📖 去教育部辭典查「${esc(t.cands.length ? q : t.zh)}」↗</a>`;
   pop.innerHTML = h;
   pop.hidden = false;
+  // 用 offset 座標（袂受大螢幕放大影響）
+  const z = document.documentElement.currentCSSZoom || parseFloat(document.documentElement.style.zoom) || 1;
   const r = el.getBoundingClientRect(), pw = pop.offsetWidth, ph = pop.offsetHeight;
-  let x = Math.min(Math.max(8, r.left), innerWidth - pw - 8), y = r.bottom + 8;
-  if (y + ph > innerHeight - 8) y = Math.max(8, r.top - ph - 8);
-  pop.style.left = (x + scrollX) + 'px'; pop.style.top = (y + scrollY) + 'px';
+  let dx = 0, dy = 0; for (let n = el; n; n = n.offsetParent) { dx += n.offsetLeft; dy += n.offsetTop; }
+  const vw = innerWidth / z, vh = innerHeight / z;
+  const x = Math.min(Math.max(8, dx), vw - pw - 8);
+  const y = (r.bottom / z + ph + 8 > vh) ? Math.max(8, dy - ph - 8) : dy + el.offsetHeight + 8;
+  pop.style.left = x + 'px'; pop.style.top = y + 'px';
   pop.querySelectorAll('.opt').forEach(b => b.onclick = ev => { ev.stopPropagation(); t.pick = +b.dataset.j; pop.hidden = true; draw(); });
   pop.querySelectorAll('.sp').forEach(b => b.onclick = ev => { ev.stopPropagation(); new Audio(audioSrc(b.dataset.a)).play().catch(() => {}); });
 }

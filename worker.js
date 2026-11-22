@@ -25,6 +25,8 @@ export default {
         element(el) {
           // 每一頁：把 emoji 換成立體插圖
           el.append('<script src="/emoji3d.js"></script>', { html: true });
+          // 每一頁：大螢幕自動放大＋全螢幕按鈕
+          el.append('<script src="/bigscreen.js"></script>', { html: true });
           // 學台語的頁面：加上拼音對照表
           if (addChart) el.append('<script src="/pinyin-chart.js"></script>', { html: true });
         }

@@ -18,7 +18,8 @@
     PK: { name: '排句仔', icon: '🧱' }
   };
   var ABC = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
-  var SEAT_KEY = 'yjtg-pass-seat', TRACK_KEY = 'yjtg-pass-track-v1';
+  var SEAT_KEY = 'yjtg-pass-seat', TRACK_KEY = 'yjtg-pass-track-v1', GOT_KEY = 'yjtg-pass-got-v1';
+  function pagePath() { try { return decodeURIComponent(location.pathname).replace(/\.html$/, ''); } catch (e) { return location.pathname; } }
 
   function ymd(d) { d = d || new Date(); return d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate(); }
   function fnv(str) { var h = 2166136261; for (var i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619) >>> 0; } return h >>> 0; }
@@ -51,7 +52,48 @@
       '#yjpass .yp-note{font-size:12.5px;color:#7a8783;margin-top:10px;line-height:1.6}';
     document.head.appendChild(st);
   }
-  function close() { var o = document.getElementById('yjpass'); if (o) o.remove(); }
+  function close() { var o = document.getElementById('yjpass'); if (o) o.remove(); recallBtn(); }
+
+  /* 記錄這台裝置今仔日領過的通關碼（換平板就看無） */
+  function getGot() { try { return JSON.parse(localStorage.getItem(GOT_KEY)) || []; } catch (e) { return []; } }
+  function remember(act, seat, detail) {
+    var day = ymd(), list = getGot().filter(function (r) { return r.day >= ymd(new Date(Date.now() - 14 * 864e5)); });
+    list = list.filter(function (r) { return !(r.act === act && r.seat === seat && r.day === day); });
+    list.push({ act: act, seat: seat, day: day, path: pagePath(), detail: detail || '' });
+    try { localStorage.setItem(GOT_KEY, JSON.stringify(list.slice(-60))); } catch (e) {}
+  }
+  function todayHere() {
+    var day = ymd(), p = pagePath();
+    return getGot().filter(function (r) { return r.day === day && r.path === p && ACTS[r.act]; });
+  }
+  function recall() {
+    var list = todayHere(); if (!list.length) return;
+    css(); var old = document.getElementById('yjpass'); if (old) old.remove();
+    var o = document.createElement('div'); o.id = 'yjpass'; document.body.appendChild(o);
+    var d = new Date();
+    o.innerHTML = '<div class="yp-box"><div class="yp-k">🎫 今仔日的通關碼</div><h3>' + (d.getMonth() + 1) + '/' + d.getDate() + '　這台裝置領過的</h3>' +
+      list.slice().reverse().map(function (r) {
+        var a = ACTS[r.act];
+        return '<div class="yp-sub" style="margin-top:12px">' + a.icon + ' ' + a.name + '｜' + r.seat + ' 號' + (r.detail ? '<br>' + r.detail : '') + '</div>' +
+          '<div class="yp-code" style="font-size:28px;margin:6px auto 4px">' + makeCode(r.act, r.seat) + '</div>';
+      }).join('') +
+      '<div class="yp-row"><button class="yp-pri" id="yp-x">好</button></div>' +
+      '<div class="yp-note">仝一工、仝一个座號，通關碼攏仝款。</div></div>';
+    o.querySelector('#yp-x').onclick = close;
+    o.addEventListener('click', function (e) { if (e.target === o) close(); });
+  }
+  function recallBtn() {
+    if (!document.body) return;
+    var list = todayHere(), b = document.getElementById('yjpassBtn');
+    if (!list.length) { if (b) b.remove(); return; }
+    if (!b) {
+      b = document.createElement('button'); b.id = 'yjpassBtn'; b.type = 'button';
+      b.style.cssText = 'position:fixed;left:12px;z-index:2147481000;font:800 14px "Noto Sans TC","Microsoft JhengHei",sans-serif;border:2px solid #F4C65D;background:#FFF8E6;color:#8A4B17;border-radius:999px;padding:8px 14px;min-height:42px;cursor:pointer;box-shadow:0 4px 12px rgba(177,95,42,.18)';
+      b.onclick = recall; document.body.appendChild(b);
+    }
+    b.style.bottom = (document.getElementById('yjBig') && document.getElementById('yjBig').style.display !== 'none') ? '58px' : '12px';
+    b.textContent = '🎫 閣看通關碼' + (list.length > 1 ? '（' + list.length + '）' : '');
+  }
 
   function award(act, detail) {
     var a = ACTS[act]; if (!a) return;
@@ -76,6 +118,7 @@
   }
   function showCode(o, act, detail, seat) {
     var a = ACTS[act], code = makeCode(act, seat), d = new Date();
+    remember(act, seat, detail);
     o.innerHTML = '<div class="yp-box"><div class="yp-k">🎫 通關碼</div><h3>' + a.icon + ' ' + a.name + '　完成！</h3>' +
       '<div class="yp-sub">' + (detail ? detail + '<br>' : '') + seat + ' 號・' + (d.getMonth() + 1) + '/' + d.getDate() + '</div>' +
       '<div class="yp-code">' + code + '</div>' +
@@ -100,5 +143,7 @@
     if (first) award(act, detail);
     return { count: Math.min(r.items.length, need), need: need, done: reached };
   }
-  window.YJPass = { award: award, track: track, makeCode: makeCode, ACTS: ACTS };
+  window.YJPass = { award: award, track: track, makeCode: makeCode, ACTS: ACTS, recall: recall };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { setTimeout(recallBtn, 300); });
+  else setTimeout(recallBtn, 300);
 })();

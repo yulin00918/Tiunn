@@ -130,18 +130,24 @@ function progMark(game, item, goal) {
 class Component extends DCLogic {
   state = { round: 1, Q: makeQuestions(1), i: 0, score: 0, wrong: [], solved: false, firstTry: true, done: false, playing: false, missing: false };
   voice = null;
-  componentDidMount() { this.autoPlay(); }
-  componentWillUnmount() { this.stop(); clearTimeout(this.t); }
+  componentDidMount() { this.preload(this.state.Q); this.autoPlay(); }
+  componentWillUnmount() { this.stop(); clearTimeout(this.t); clearTimeout(this.rt); }
   stop() { try { if (this.voice) { this.voice.onended = this.voice.onerror = null; this.voice.pause(); } } catch (e) {} this.voice = null; }
-  play() {
+  play(attempt = 0) {
     const q = this.state.Q[this.state.i]; if (!q) return;
     this.stop();
-    const a = new Audio(AUDIO_DIR + q.x.word + '.mp3'); this.voice = a;
-    this.setState({ playing: true, missing: false });
+    // 網路較慢（規班同齊載入）時會失敗：自動閣試 2 擺
+    const a = new Audio(AUDIO_DIR + q.x.word + '.mp3' + (attempt ? '?r=' + attempt + Date.now() : '')); this.voice = a;
+    this.setState({ playing: true, missing: false, blocked: false });
     a.onended = () => { if (this.voice === a) this.setState({ playing: false }); };
-    a.onerror = () => { if (this.voice === a) this.setState({ playing: false, missing: true }); };
-    const p = a.play(); if (p && p.catch) p.catch(() => { if (this.voice === a) this.setState({ playing: false }); });
+    a.onerror = () => {
+      if (this.voice !== a) return;
+      if (attempt < 2) { clearTimeout(this.rt); this.rt = setTimeout(() => { if (this.voice === a) this.play(attempt + 1); }, 700); }
+      else this.setState({ playing: false, missing: true });
+    };
+    const p = a.play(); if (p && p.catch) p.catch(err => { if (this.voice === a && err && err.name === 'NotAllowedError') this.setState({ playing: false, blocked: true }); });
   }
+  preload(Q) { try { this.pre = (Q || []).map(q => { const a = new Audio(); a.preload = 'auto'; a.src = AUDIO_DIR + q.x.word + '.mp3'; return a; }); } catch (e) {} }
   autoPlay() { clearTimeout(this.t); this.t = setTimeout(() => this.play(), 350); }
   pick(o) {
     const s = this.state, q = s.Q[s.i];
@@ -154,7 +160,7 @@ class Component extends DCLogic {
     if (s.i + 1 >= s.Q.length) { this.stop(); progMark('灶跤聽聲挑戰', s.round, ROUNDS); return this.setState({ done: true }); }
     this.setState({ i: s.i + 1, wrong: [], solved: false, firstTry: true }, () => this.autoPlay());
   }
-  start(round) { this.stop(); this.setState({ round, Q: makeQuestions(round), i: 0, score: 0, wrong: [], solved: false, firstTry: true, done: false }, () => this.autoPlay()); }
+  start(round) { this.stop(); const Q = makeQuestions(round); this.preload(Q); this.setState({ round, Q, i: 0, score: 0, wrong: [], solved: false, firstTry: true, done: false }, () => this.autoPlay()); }
 
   renderVals() {
     const s = this.state, q = s.Q[s.i];
@@ -179,7 +185,7 @@ class Component extends DCLogic {
       dots: s.Q.map((_, k) => ({ style: `width:12px;height:12px;border-radius:50%;background:${k < s.i || (k === s.i && s.solved) ? '#55A99C' : (k === s.i ? '#F4C65D' : '#E4E5DD')};` })),
       screenPlay: !s.done, screenDone: s.done,
       playNow: () => this.play(),
-      playLabel: s.missing ? '🔇 這个詞猶未有音檔' : (s.playing ? '🔊 播放中…' : '🔊 閣聽一擺'),
+      playLabel: s.missing ? '🔁 音檔載入失敗，按我閣試' : s.blocked ? '▶ 按我聽題目' : (s.playing ? '🔊 播放中…' : '🔊 閣聽一擺'),
       playBtnStyle: `border:0;border-radius:999px;padding:16px 34px;min-height:60px;font-weight:900;font-size:19px;background:${s.missing ? '#E4E5DD' : 'linear-gradient(110deg,#F4C65D,#E8B03E)'};color:${s.missing ? '#66766D' : '#4A3A0E'};cursor:pointer;font-family:inherit;box-shadow:0 8px 18px rgba(232,176,62,.30);${s.playing ? 'animation:ls-pulse .8s infinite;' : ''}`,
       opts,
       showFeedback: s.solved,

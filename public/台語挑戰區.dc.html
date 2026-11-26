@@ -83,6 +83,16 @@
     </sc-if>
 
     <sc-if value="{{!playing}}" hint-placeholder-val="{{true}}">
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:#FFF8EC;border:1.5px solid #F2D7B3;border-radius:18px;padding:12px 16px;margin-bottom:16px;">
+        <span style="font-size:24px;flex:0 0 auto;">🎫</span>
+        <div style="flex:1;min-width:220px;">
+          <div style="font-size:14.5px;font-weight:900;color:#7A4A1E;">{{tzText}}</div>
+          <div style="display:flex;gap:6px;margin-top:8px;">
+            <sc-for list="{{tzSteps}}" as="st"><span style="{{st.style}}">{{st.label}}</span></sc-for>
+          </div>
+          <div style="margin-top:6px;font-size:12px;color:#8A7560;font-weight:700;">基礎挑戰今仔日完成 1、3、6 个遊戲，各有一組通關碼；進階關卡、BOSS 閣另外有。</div>
+        </div>
+      </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-bottom:20px;">
         <sc-for list="{{tabs}}" as="tab" hint-placeholder-count="2">
           <button class="ca-tab" style="{{tab.btnStyle}}" onClick="{{tab.onClick}}">
@@ -339,6 +349,10 @@ class Component extends DCLogic {
   state = { activeTab: 0, activeGame: null, activeTheme: 0, resetArmed: false };
 
   renderVals() {
+    let tzN = 0;
+    try { const d = JSON.parse(localStorage.getItem('yjtg-tz-today-v1') || '{}'); const t = new Date(); if (d.day === t.getFullYear()*10000+(t.getMonth()+1)*100+t.getDate()) tzN = (d.done || []).length; } catch (e) {}
+    const tzSteps = [1, 3, 6].map(n => ({ label: (tzN >= n ? '✅ ' : '') + n + ' 个', style: `flex:1;text-align:center;padding:6px 0;border-radius:999px;font-size:13px;font-weight:900;${tzN >= n ? 'background:#55A99C;color:#fff;' : 'background:#F6E6CF;color:#9A7A55;'}` }));
+    const tzText = tzN >= 6 ? `🎉 今仔日已經完成 ${tzN} 个遊戲，三組通關碼攏提著矣！` : `今仔日已經完成 ${tzN} 个遊戲`;
     const data = [
       { label: '基礎挑戰', pic: 'images/icons3d/seedling.webp', icon: '🌱', hint: '先暖身，一關一關過', isBasic: true },
       { label: '進階綜合挑戰', pic: 'images/icons3d/rocket.webp', icon: '🚀', hint: '基礎練熟矣，來挑戰 Boss', isAdvanced: true },
@@ -440,6 +454,7 @@ class Component extends DCLogic {
     });
 
     return {
+      tzText, tzSteps,
       tabs,
       groups,
       advLevels,

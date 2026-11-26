@@ -309,7 +309,7 @@ function progMark(game, item, goal) {
     if (!g.done.includes(String(item))) g.done.push(String(item));
     g.goal = goal; d[game] = g;
     localStorage.setItem(PROG_KEY, JSON.stringify(d));
-    if (!was && g.done.length >= goal) import('./pass-code.js').then(() => window.YJPass && window.YJPass.award('TZ', game + '　收著 ⭐')).catch(() => {});
+    import('./pass-code.js').then(() => window.YJPass && window.YJPass.tzGame && window.YJPass.tzGame(game, item, goal)).catch(() => {});
   } catch (e) {}
 }
 

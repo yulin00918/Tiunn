@@ -645,8 +645,8 @@ function finishRound(){
  if(miss.length){$("#dWeak").style.display="block";$("#dWeak").innerHTML="<b>這些音送去木人樁加強：</b><br>"+miss.map(([s,n])=>`${s}${pairOf(s)?`（容易和 ${pairOf(s)} 混）`:""} × ${n}`).join("<br>")}
  else $("#dWeak").style.display="none";
  const passOk=R.room==="daily"&&acc>=70;
- $("#dPass").textContent=R.room==="daily"?(passOk?"🎫 今日功課正確率 70% 以上，通關碼送你！":"🎫 今日功課正確率 70% 以上就有通關碼，閣練一擺！"):"🎫 完成「今日功課」、正確率 70% 以上，就有通關碼";
- if(passOk)yjAward("LG",`今日功課完成｜正確率 ${acc}%`);
+ $("#dPass").textContent=R.room==="daily"?(acc>=90?"🎫 今日功課正確率 90% 以上，兩組通關碼攏送你！":passOk?"🎫 正確率 70% 以上，通關碼送你！閣拚到 90%，閣有一組！":"🎫 今日功課正確率 70% 以上就有通關碼，閣練一擺！"):"🎫 完成「今日功課」：正確率 70%、90% 以上各有一組通關碼";
+ if(passOk){const det=`今日功課完成｜正確率 ${acc}%`;yjAward(acc>=90?[["LG",det],["LH",det]]:"LG",det);}
  R=null;show("done");
 }
 $("#stopBtn").onclick=()=>{if(R&&R.i>0)finishRound();else{clearInterval(timerId);R=null;renderHall();show("hall")}};

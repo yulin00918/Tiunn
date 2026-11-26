@@ -231,7 +231,7 @@ function makeQ(w, mode, pool) {
   return { w, mode, real, tiles: shuffle([...real.map((s, i) => ({ s, k: 'r' + i })), ...fakes.map((s, i) => ({ s, k: 'f' + i }))]) };
 }
 function readP() { try { return JSON.parse(localStorage.getItem(PROG_KEY) || '{}'); } catch (e) { return {}; } }
-function writeStar(name) { try { const d = readP(); d[name] = { done: ['1'], goal: 1 }; localStorage.setItem(PROG_KEY, JSON.stringify(d)); } catch (e) {} import('./pass-code.js').then(() => window.YJPass && window.YJPass.award('TZ', name + '　收著 ⭐')).catch(() => {}); }
+function writeStar(name) { try { const d = readP(); d[name] = { done: ['1'], goal: 1 }; localStorage.setItem(PROG_KEY, JSON.stringify(d)); } catch (e) {} import('./pass-code.js').then(() => window.YJPass && window.YJPass.award(name.indexOf('生存') >= 0 ? 'ZE' : 'ZD', name + '　收著 ⭐')).catch(() => {}); }
 function readBest() { try { return +(localStorage.getItem(BEST_KEY) || 0); } catch (e) { return 0; } }
 
 class Component extends DCLogic {

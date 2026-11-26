@@ -90,7 +90,7 @@
 </div></div>
 <div class="hero"><div class="hero-in">
   <span style="font-size:24px;transform:rotate(-8deg)">🧩</span>
-  <div class="bubble"><div class="tag">今日任務</div><div class="txt">看華語的意思，共台語詞卡排予著。一輪 5 句，排著 4 句以上就有通關碼！</div></div>
+  <div class="bubble"><div class="tag">今日任務</div><div class="txt">看華語的意思，共台語詞卡排予著。一輪 5 句，排著 4 句以上就有通關碼；入門、進階各一組！</div></div>
 </div></div>
 
 <main>
@@ -212,7 +212,7 @@
     $('rev').innerHTML=log.map(x=>`<div>${x.ok?'✅':'❌'} <b>${esc(x.q[0].map(t=>t[0]).join('')+x.q[1])}</b><span>${esc(x.q[3])}</span><small class="muted">${esc(x.q[2])}</small></div>`).join('');
     const pass=score>=4;
     $('pass').textContent=pass?'🎫 排著 4 句以上，通關碼送你！':'🎫 一輪排著 4 句以上就有通關碼，閣拚一擺！';
-    if(pass){const go=()=>setTimeout(()=>window.YJPass&&YJPass.award('PK',`${level==='easy'?'入門':'進階'}　排著 ${score} / ${set.length} 句`),600);
+    if(pass){const go=()=>setTimeout(()=>window.YJPass&&YJPass.award(level==='easy'?'PK':'PL',`${level==='easy'?'入門':'進階'}　排著 ${score} / ${set.length} 句`),600);
       if(window.YJPass)go();else{const s=document.createElement('script');s.src='./pass-code.js';s.onload=go;document.head.appendChild(s)}}
   }
   $('start').onclick=start;$('again').onclick=start;$('back').onclick=()=>show('home');

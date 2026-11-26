@@ -228,7 +228,7 @@ class Component extends DCLogic {
     const key = (siann || '') + un + tiau;
     const matches = lookup ? lookup[key] : null;
     this.setState({ result: { key, matches: matches || null } });
-    if (matches) import('./pass-code.js').then(() => { window.YJPass && window.YJPass.track('TL', key, 10, '今仔日組出 10 個無仝的音節'); this.setState({ tick: Date.now() }); });
+    if (matches) import('./pass-code.js').then(() => { if (window.YJPass) { YJPass.track('TL', key, 10, '今仔日組出 10 個無仝的音節'); YJPass.track('TM', key, 20, '今仔日組出 20 個無仝的音節'); YJPass.track('TN', key, 30, '今仔日組出 30 個無仝的音節'); } this.setState({ tick: Date.now() }); });
   }
   renderVals() {
     const { siann, un, tiau, result } = this.state;
@@ -282,8 +282,9 @@ class Component extends DCLogic {
     const submitDisabled = un === null || tiau === null;
 
     let passN = 0;
-    try { const d = new Date(); const day = d.getFullYear()*10000 + (d.getMonth()+1)*100 + d.getDate(); const t = (JSON.parse(localStorage.getItem('yjtg-pass-track-v1') || '{}') || {}).TL; if (t && Number(t.day) === day) passN = Math.min(10, (t.items || []).length); } catch (e) {}
+    try { const d = new Date(); const day = d.getFullYear()*10000 + (d.getMonth()+1)*100 + d.getDate(); const all = JSON.parse(localStorage.getItem('yjtg-pass-track-v1') || '{}') || {}; ['TL','TM','TN'].forEach(k => { const t = all[k]; if (t && Number(t.day) === day) passN = Math.max(passN, (t.items || []).length); }); passN = Math.min(30, passN); } catch (e) {}
     const passDone = passN >= 10;
+    const passNext = passN < 10 ? 10 : passN < 20 ? 20 : 30;
     const matches = result && result.matches ? result.matches.map(m => { const ok = !NO_AUDIO.has(m.id); return { hanji: m.hanji, lomaji: m.lomaji, hasAudio: ok, noAudio: !ok, play: ok ? () => playFile(m.id) : null }; }) : [];
 
     return {
@@ -299,9 +300,9 @@ class Component extends DCLogic {
       noMatch: !!result && matches.length === 0,
       noMatchKey: result ? result.key : '',
       passDone,
-      passText: passDone ? '🎉 今仔日已經組出 10 / 10 個音節，通關碼已經提供！' : `今仔日已經組出 ${passN} / 10 個音節，組滿 10 個就有通關碼！`,
-      passBarStyle: `height:100%;width:${passN*10}%;border-radius:999px;background:linear-gradient(90deg,#F0A35E,#DA753B);transition:width .4s;`,
-      showPass: () => import('./pass-code.js').then(() => window.YJPass && window.YJPass.award('TL', '今仔日組出 10 個無仝的音節')),
+      passText: passN >= 30 ? `🎉 今仔日已經組出 30 個音節，三組通關碼攏提著矣！` : `今仔日已經組出 ${passN} 個音節｜組滿 ${passNext} 個就有${passN >= 10 ? '下一組' : ''}通關碼（10／20／30 各一組）`,
+      passBarStyle: `height:100%;width:${Math.round(passN/30*100)}%;border-radius:999px;background:linear-gradient(90deg,#F0A35E,#DA753B);transition:width .4s;`,
+      showPass: () => import('./pass-code.js').then(() => window.YJPass && (window.YJPass.recall ? window.YJPass.recall() : window.YJPass.award('TL', '今仔日組出 10 個無仝的音節'))),
       dictUrl: result ? `https://sutian.moe.edu.tw/zh-hant/tshiau/?lui=tai_su&tsha=${encodeURIComponent(result.key)}` : '',
     };
   }

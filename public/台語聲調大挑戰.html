@@ -358,7 +358,8 @@ function loadSet(k){
   curSet=k; const S=SETS[k];
   [...setsBar.children].forEach(b=>b.classList.toggle('active',b.dataset.set===k));
   chant.innerHTML='口訣：'+S.items.map(a=>`<b>${a.han}</b>${a.tone===6&&k==='tong'?'':' '+a.lo}`).join('・')
-    +`<br><span class="src">${S.hint}</span>`;
+    +`<br><span class="src">${S.hint}</span><br><span class="src" id="seProg" style="color:#B15F2A;font-weight:800">🎫 兩組口訣 16 張卡攏點來聽，就有第一關通關碼</span>`;
+  seShow();
   grid.innerHTML='';
   S.items.forEach((a,i)=>{
     const b=document.createElement('button');
@@ -370,7 +371,9 @@ function loadSet(k){
   });
   select(0,false);
 }
+function seShow(r){const el=document.getElementById('seProg');if(!el)return;let n=r?r.count:0;if(!r){try{const d=JSON.parse(localStorage.getItem('yjtg-pass-track-v1')||'{}').SE,t=new Date(),day=t.getFullYear()*10000+(t.getMonth()+1)*100+t.getDate();if(d&&d.day===day)n=Math.min(16,d.items.length)}catch(e){}}el.textContent=n>=16?'🎫 16 張卡攏聽過矣，第一關通關碼提著矣！':`🎫 兩組口訣 16 張卡攏點來聽，就有第一關通關碼（今仔日 ${n} / 16）`}
 function select(i,sound){
+  if(sound){const k=curSet+':'+i;const go=()=>{if(window.YJPass)seShow(YJPass.track('SE',k,16,'兩組口訣 16 張卡攏聽過'))};if(window.YJPass)go();else{const sc=document.createElement('script');sc.src='./pass-code.js';sc.onload=go;document.head.appendChild(sc)}}
   const S=SETS[curSet], a=S.items[i], t=real(a), T=TONES[t], six=a.tone===6;
   [...grid.children].forEach((c,j)=>c.classList.toggle('sel',j===i));
   const kind = sound ? play(a) : (AUDIO[a.id]?'real':'synth');
